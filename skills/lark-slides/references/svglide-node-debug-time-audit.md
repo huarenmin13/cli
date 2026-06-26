@@ -107,7 +107,7 @@ Status conventions:
 |---|---|---|---|
 | Composite `plan_gate` output path mismatch | Fixed in code; test gap | Align composite `plan_gate` output list with the real `02-plan/strategy-review.json` output instead of nonexistent `06-check/strategy-review.json`. | `svglide_project_runner.py`; needs composite output existence test. |
 | Composite gate stale ownership | Fixed in code for stale child rerun; broader ownership open | Composite gates now rerun stale child substages instead of failing the parent gate. Broader long-term work remains for richer stale diagnostics and all child-output ownership edge cases. | `svglide_project_runner.py`; `svglide_project_runner_test.py` covers stale legacy child rerun. |
-| `generate_svg` repeated reruns | Partially fixed in code | `generate_svg` now records the real generation input boundary in `input_hashes` and explicitly excludes downstream quality receipts. Full render-cache reuse by renderer/template source hash is still open. | `svglide_project_runner.py`; `svglide_project_runner_test.py` covers downstream quality-gate isolation and changed-plan invalidation. |
+| `generate_svg` repeated reruns | Fixed for current receipt reuse; broader renderer dependency hashing open | `generate_svg` now records the real generation input boundary in `input_hashes`, explicitly excludes downstream quality receipts, and reuses a current passed `generate_svg` receipt when a stage record was pruned but generation inputs/outputs are unchanged. | `svglide_project_runner.py`; `svglide_project_runner_test.py` covers downstream quality-gate isolation, changed-plan invalidation, and cache reuse after stage-record pruning. |
 | Page-family role collapse to `content` | Mitigated for this run; generic guard open | Prefer explicit `canvas_spec.page_role` over weak top-level `page_type`. Ensure selected page-family decks preserve `page_role` / `page_variant_id`. | `svglide_project_runner.py`; current deck roles passed page-family smoke. |
 | `template_fidelity` used as strict publishing blocker | Fixed in code for current-deck publish; promotion split still needs UI/docs cleanup | If page-family smoke passes and only soft screenshot issues remain above `warn_min`, mark template fidelity as `passed_with_warnings` and write separate `current-deck-visual-integrity` evidence. Quality gate now requires that current-deck evidence for warning-based publish, while template promotion still requires true fidelity pass. | `svglide_project_runner.py`, `svglide_quality_gate.py`; tests in `svglide_project_runner_test.py`, `svglide_quality_gate_test.py`. |
 | `text_decoration_policy` missing in role consumption | Fixed in code | If `text_style_roles` exist but no explicit decoration policy exists, record renderer default absent policy instead of leaving receipt incomplete. | `beautiful_template_fidelity_check.py`; test in `beautiful_template_fidelity_check_test.py`. |
@@ -129,7 +129,7 @@ Status conventions:
 ### Still Open For Long-Term Speed
 
 - Composite gate child stale ownership is less risky after stale-child rerun support, but richer diagnostics and child-output ownership tests are still needed.
-- `generate_svg` has a clearer input boundary now; full cache reuse and renderer/template dependency hashing remain open.
+- `generate_svg` can reuse a current receipt after stage-record pruning; broader renderer/template source dependency hashing remains open.
 - Preflight needs a broader false-positive fixture suite.
 - Debug-time audit now separates runner time from between-event gaps; automatic agent bucket capture is still open.
 - Template promotion fidelity and current deck publish fidelity now have separate receipts for the warning path; remaining work is naming/docs cleanup and any UI/report surfacing.
@@ -166,7 +166,9 @@ Green:
 
 - Store generation input hash set separately from upstream gate receipts.
 - Let `generate_svg` reuse existing raw/contract/prepared outputs when generation inputs are unchanged.
-- Completed first slice: `generate_svg` receipt `input_hashes` now records plan, lock, source evidence, source receipt, assets, and asset manifest, while excluding downstream quality receipts.
+- Completed slices:
+  - `generate_svg` receipt `input_hashes` now records plan, lock, source evidence, source receipt, assets, and asset manifest, while excluding downstream quality receipts.
+  - If the `generate_svg` stage record was pruned but the existing passed receipt and generated outputs are still current, runner records a `cache_hit` and reuses the existing output instead of rerunning generation.
 
 Validation:
 

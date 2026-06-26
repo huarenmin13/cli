@@ -2175,6 +2175,30 @@ class SVGlideProjectRunnerTest(unittest.TestCase):
             self.assertNotIn("06-check/quality-gate.json", receipt["input_hashes"])
             self.assertTrue((project_root / "04-svg/page-001.receipt.json").exists())
 
+    def test_generate_svg_reuses_current_receipt_after_stage_record_pruned(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            plan_root = Path(tmpdir) / ".lark-slides/plan"
+            result = runner.init_project("smoke", "Smoke", plan_root=plan_root)
+            project_root = Path(result["project_root"])
+            self.write_plan(project_root)
+            self.run_source(project_root)
+            runner.run_stage(project_root, "package-check")
+            runner.run_stage(project_root, "assets")
+            for page in range(1, 4):
+                (project_root / f"04-svg/page-{page:03d}.svg").write_text("<svg></svg>", encoding="utf-8")
+            runner.run_stage(project_root, "generate-svg")
+            state = runner.load_state(project_root)
+            state["stages"].pop("generate_svg")
+            runner.write_state(project_root, state)
+
+            receipt = runner.run_generate_svg_stage(project_root, runner.load_state(project_root))
+
+            self.assertEqual(receipt["status"], "passed")
+            self.assertTrue(receipt["cache_hit"])
+            updated = runner.load_state(project_root)
+            self.assertEqual(updated["stages"]["generate_svg"]["status"], "passed")
+            self.assertTrue(updated["timing_events"][-1]["cache_hit"])
+
     def test_generate_svg_injects_file_backed_cover_asset(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             plan_root = Path(tmpdir) / ".lark-slides/plan"

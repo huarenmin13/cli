@@ -2617,6 +2617,33 @@ def validate_generator_receipt(project_root: Path, receipt: dict[str, Any]) -> l
     return issues
 
 
+def try_reuse_generate_svg_receipt(project_root: Path, state: dict[str, Any], *, started_at: str) -> dict[str, Any] | None:
+    path = receipt_path(project_root, "generate_svg")
+    receipt = read_json_optional(path)
+    if receipt.get("status") != "passed":
+        return None
+    try:
+        require_generated_svg_current(project_root)
+    except RunnerError:
+        return None
+    cached = dict(receipt)
+    cached["cache_hit"] = True
+    cached["cache_reason"] = "generate inputs and generated visual outputs are current"
+    record_stage(state, "generate_svg", "passed", path)
+    record_timing_event(
+        state,
+        stage="generate_svg",
+        status="passed",
+        started_at=started_at,
+        ended_at=now_iso(),
+        wall_time_seconds=0.0,
+        cache_hit=True,
+    )
+    write_state(project_root, state)
+    write_timing_report(project_root, state)
+    return cached
+
+
 def run_generate_svg_stage(
     project_root: Path,
     state: dict[str, Any],
@@ -2627,6 +2654,9 @@ def run_generate_svg_stage(
     require_source_current(project_root)
     require_assets_current(project_root)
     started_at = now_iso()
+    cached = try_reuse_generate_svg_receipt(project_root, state, started_at=started_at)
+    if cached:
+        return cached
     generation_mode = plan_generation_mode(project_root)
     command = svg_generator_command(project_root)
     artboard_result: dict[str, Any] = {}
