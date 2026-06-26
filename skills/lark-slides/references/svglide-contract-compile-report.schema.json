@@ -8,6 +8,13 @@
     "source",
     "semantic_map",
     "output",
+    "compiler_mode",
+    "lowering_source",
+    "visual_retention",
+    "support_node_retention",
+    "unsupported_support_nodes",
+    "loss_notes",
+    "text_style_manifest_items",
     "status",
     "summary",
     "compiled",
@@ -25,6 +32,30 @@
     "source": {"type": "string", "minLength": 1},
     "semantic_map": {"type": "string", "minLength": 1},
     "output": {"type": "string", "minLength": 1},
+    "compiler_mode": {"enum": ["raw_satori_lowering", "semantic_fallback", "legacy_passthrough"]},
+    "lowering_source": {"type": "string", "minLength": 1},
+    "visual_retention": {
+      "type": "object",
+      "required": ["raw_counts", "output_counts"],
+      "additionalProperties": true,
+      "properties": {
+        "raw_counts": {"type": "object", "required": ["text", "shape", "path", "image"], "additionalProperties": true},
+        "output_counts": {"type": "object", "required": ["text", "shape", "path", "image"], "additionalProperties": true},
+        "ratios": {"type": "object"}
+      }
+    },
+    "support_node_retention": {
+      "type": "object",
+      "required": ["raw_counts", "output_counts"],
+      "additionalProperties": true,
+      "properties": {
+        "raw_counts": {"type": "object"},
+        "output_counts": {"type": "object"}
+      }
+    },
+    "unsupported_support_nodes": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "loss_notes": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "text_style_manifest_items": {"type": "integer", "minimum": 0},
     "status": {"enum": ["passed", "passed_with_warnings", "failed"]},
     "summary": {
       "type": "object",

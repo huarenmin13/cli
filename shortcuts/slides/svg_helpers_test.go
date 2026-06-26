@@ -318,6 +318,10 @@ func TestValidateSVGlideSVGRecursiveChildren(t *testing.T) {
 			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><image slide:role="image" xlink:href="@./hero.png" x="0" y="0" width="100" height="60"/></svg>`,
 		},
 		{
+			name: "supported editable line role",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><line slide:role="line" x1="0" y1="0" x2="100" y2="60" stroke="#123456"/></svg>`,
+		},
+		{
 			name: "supported path commands",
 			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><path slide:role="shape" d="M1e-3 0 L80 0 H120 V40 C120 60 100 80 80 80 Q40 80 20 40 Z" fill="#123456"/></svg>`,
 		},
@@ -369,12 +373,12 @@ func TestValidateSVGlideSVGRecursiveChildren(t *testing.T) {
 		{
 			name:    "root child missing role",
 			svg:     `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><rect x="0" y="0" width="100" height="60"/></svg>`,
-			wantErr: `<rect> must include slide:role="shape" or slide:role="image"`,
+			wantErr: `<rect> must include slide:role="shape", slide:role="image", slide:role="line", or slide:role="text"`,
 		},
 		{
 			name:    "group child missing role is rejected",
 			svg:     `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><g><rect x="0" y="0" width="100" height="60"/></g></svg>`,
-			wantErr: `<rect> must include slide:role="shape" or slide:role="image"`,
+			wantErr: `<rect> must include slide:role="shape", slide:role="image", slide:role="line", or slide:role="text"`,
 		},
 		{
 			name:    "unsupported text element remains rejected",
@@ -417,9 +421,8 @@ func TestValidateSVGlideSVGRecursiveChildren(t *testing.T) {
 			wantErr: `unsupported path command or character "S"`,
 		},
 		{
-			name:    "plain metadata remains rejected",
-			svg:     `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><metadata><desc>not transport metadata</desc></metadata></svg>`,
-			wantErr: `<metadata> must include slide:role="shape" or slide:role="image"`,
+			name: "plain metadata support node is ignored",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide"><metadata><desc>not transport metadata</desc></metadata></svg>`,
 		},
 		{
 			name:    "whiteboard role is explicitly rejected",

@@ -10,11 +10,11 @@
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/vellum.html",
     "render_status": "missing_smoke",
-    "sha256": "b08a538e66e77640fffabdbf333ec84fd95e27961df8fdbd2ba8b0bf4989a5eb"
+    "sha256": "79fa52a820912c0ff693993524ce06d48e1491c879433a54960ad348f12530d1"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "b08a538e66e77640fffabdbf333ec84fd95e27961df8fdbd2ba8b0bf4989a5eb",
+    "contact_sheet": "79fa52a820912c0ff693993524ce06d48e1491c879433a54960ad348f12530d1",
     "fidelity_receipt": "3152f66c029a0f4be72c43d417b2aec470b483239a8070136e5b87993e57ae68",
     "reference_screenshot": "8c99c96677fec3c94235098b8fe36b9beeefd31ebfd173989f0ce358d91c4b73",
     "smoke_receipt": null,
@@ -24,6 +24,9 @@
   "fidelity": {
     "receipt_path": "skills/lark-slides/references/receipts/template-fidelity/vellum.vellum-scholar-brief.json",
     "receipt_sha256": "3152f66c029a0f4be72c43d417b2aec470b483239a8070136e5b87993e57ae68",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum-scholar-brief.preview.png",
+    "render_screenshot_sha256": "d625b7b8a59851e7234c465694374b183fa0122306b130407db2f4bc10d2dcb6",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum-scholar-brief.preview.png",
     "score": 0.9885,
     "status": "passed",
     "threshold": 0.72
@@ -41,6 +44,21 @@
     "selector_gate_missing",
     "source_core_roles_missing"
   ],
+  "legacy_renderer_fixture_sample": {
+    "artifact_kind": "legacy_renderer_fixture_sample",
+    "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum-scholar-brief.canvas-spec.json",
+    "golden_spec_sha256": "604de36c9b9e1e04098bd5e25134f187767937ceeda8daf535cc9d3aa4297d88",
+    "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
+    "reference_screenshot_sha256": "8c99c96677fec3c94235098b8fe36b9beeefd31ebfd173989f0ce358d91c4b73",
+    "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum-scholar-brief.preview.png",
+    "render_screenshot_sha256": "d625b7b8a59851e7234c465694374b183fa0122306b130407db2f4bc10d2dcb6",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum-scholar-brief.preview.png",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/vellum-scholar-brief.mjs",
+    "runtime_template_id": "vellum-scholar-brief",
+    "status": "available"
+  },
   "missing_roles": [
     "process_or_timeline"
   ],
@@ -51,6 +69,32 @@
     "status": "missing"
   },
   "page_family_promotion_gate_status": "missing",
+  "page_family_representative_sample": {
+    "artifact_kind": "page_family_representative_sample",
+    "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.png",
+    "current_deck_browser_preview_kind": "resvg_png",
+    "current_deck_browser_preview_sha256": "7f9e937bf114eb705725fb1912a92452d7a7df222cbf14d1ddb8ab1b1044be08",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.svg",
+    "current_deck_render_sha256": "5a6f552a55acc2c57ac8cb03426336353acfcddbeb56b1e024d0a4e5dbd9ec29",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.svg",
+    "family_id": "vellum",
+    "golden_spec": null,
+    "golden_spec_sha256": null,
+    "page": 1,
+    "page_role": "cover",
+    "page_variant_id": "cover",
+    "role_group": "cover",
+    "runtime_template_id": "vellum-scholar-brief",
+    "smoke_receipt": null,
+    "smoke_receipt_sha256": null,
+    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg",
+    "source_screenshot_sha256": "cff53c7a100b15fc7ec65405fcfcb9fcd5e59c82e680105a33bc029d28559602",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg",
+    "source_slide_index": 1,
+    "status": "available"
+  },
   "page_variant_count": 9,
   "page_variant_coverage": {
     "agenda": {
@@ -357,8 +401,32 @@
       "page_role": "cover",
       "page_variant_id": "cover",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "7f9e937bf114eb705725fb1912a92452d7a7df222cbf14d1ddb8ab1b1044be08",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.svg",
+          "sha256": "5a6f552a55acc2c57ac8cb03426336353acfcddbeb56b1e024d0a4e5dbd9ec29",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -379,13 +447,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
+        "bytes": 54861,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": "8c99c96677fec3c94235098b8fe36b9beeefd31ebfd173989f0ce358d91c4b73",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png"
+        "sha256": "cff53c7a100b15fc7ec65405fcfcb9fcd5e59c82e680105a33bc029d28559602",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg"
       },
       "source_slide_index": 1
     },
@@ -398,8 +468,32 @@
       "page_role": "agenda",
       "page_variant_id": "statement",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "2ef28882e163701d54eec0b4b1df8e5057943282c8f4edab03c68ec934ef9700",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.svg",
+          "sha256": "0dec0e66b059c05bc0e351cfeb6a716070d1456fe810948e6be5d415ec1010bf",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -419,14 +513,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-2.png",
+        "bytes": 67392,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/002-statement.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/002-statement.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "1d785448c74cea09a8144d40ac31acd804b3d44be1eb43e1ee8db925ba4326a4",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/002-statement.jpg"
       },
       "source_slide_index": 2
     },
@@ -439,8 +534,32 @@
       "page_role": "content",
       "page_variant_id": "text",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "34aae42ea865bf4b77405569ec7146490152baa7b59434680433689216326c72",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.svg",
+          "sha256": "76f9e06d8e2fea3ed4e744696ad2ea163c0d9beb3403172029230961235b709b",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -462,14 +581,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-3.png",
+        "bytes": 70011,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/003-text.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/003-text.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "8dc3204a2b65f744abee8ba391f248dd1bd90db7b1c6acb126603ab88d567b8f",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/003-text.jpg"
       },
       "source_slide_index": 3
     },
@@ -482,8 +602,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "stats",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "9a44b73754b3ab5cb6f27b44337917b552755268ec4f8a92e0162be3f71bdbeb",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.svg",
+          "sha256": "b2aaa4c84f6c1f34406fd47ef186b58b5f45320a33c3d05ee56548e49420c5a3",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -503,13 +647,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-4.png",
+        "bytes": 64028,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/004-stats.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-4.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/004-stats.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": "14779d9340e406e11762d2ab8e095cddcd9570541a1d999374ae6ba7dfb79be9",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-4.png"
+        "sha256": "93cd80a14b0075987a90f26fb2386cfd7196bcc37f128211d755b109a4230681",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/004-stats.jpg"
       },
       "source_slide_index": 4
     },
@@ -522,8 +668,32 @@
       "page_role": "content",
       "page_variant_id": "list",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "487b6b9d8fda7323104fb1207d298db1cb58363019df0f5ac564b257cc52ea10",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.svg",
+          "sha256": "69c6ce831c41adce4044eb66afe061d5f92b85570803cecf40599db1354ecd2c",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -544,14 +714,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-5.png",
+        "bytes": 66764,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/005-list.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/005-list.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "8e1dd0081501e603b1bdcb9cc3a92d60beb4c47ed049374d6af94655a76bf997",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/005-list.jpg"
       },
       "source_slide_index": 5
     },
@@ -564,8 +735,32 @@
       "page_role": "quote_or_emphasis",
       "page_variant_id": "quote",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "d7ba48aeb3f223a16f981b5bcc6d9ed9cc077b62f9c0f87d1513857d206ec270",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.svg",
+          "sha256": "21992cae71904521b79b2e30d8955b5d45df1f20007a306789274e2d492d74f4",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -584,14 +779,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-6.png",
+        "bytes": 50485,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/006-quote.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/006-quote.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "597c4e4cb71cf44f728baf90d4218bee5c0f7870026cd12b15a339d65f0e95c4",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/006-quote.jpg"
       },
       "source_slide_index": 6
     },
@@ -604,8 +800,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "compare",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "a9b80c0a6c4ce13fdac6ef0768675868a883583b55584f92f424fc5a70e59e46",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.svg",
+          "sha256": "a1321ffd434758e237855aaf9f753eefe7825a024ba5b8a5f69f229a34752331",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -627,14 +847,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-7.png",
+        "bytes": 86826,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/007-compare.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/007-compare.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "5964a683f8e9059af3f946d775113215f180c086c19817c61044688c90282e3d",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/007-compare.jpg"
       },
       "source_slide_index": 7
     },
@@ -647,8 +868,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "chart",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "948150c9f53532f217beefb1e1486f35c6b5035589643ec9f6505e6eaf4802de",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.svg",
+          "sha256": "1ed48c083976b9880864a2812c3f90904aa423895fab70b7a4cea57ff3579480",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -667,13 +912,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-8.png",
+        "bytes": 55443,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/008-chart.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-8.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/008-chart.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": "59454db1dbde92ae7013570ab8b06ec669deab66b017dfe786c15ffa05eb05be",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-8.png"
+        "sha256": "3afad771f035d1bd108eaffa56d4ae17770d2dc48d4aa601c70adab29843b062",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/008-chart.jpg"
       },
       "source_slide_index": 8
     },
@@ -686,8 +933,32 @@
       "page_role": "closing",
       "page_variant_id": "end",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "83432a8d709444c40e12886b2353e77fdc547bb363a8248d8ed726b9a3ca8326",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+          "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.svg",
+          "sha256": "98058666bd08bdfe8389babfa43ace4293110524e1be95b187ef593574dde350",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -707,14 +978,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-9.png",
+        "bytes": 72720,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/009-end.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/009-end.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "bd9be7c1b3915c2c65bcbd61d486e361821738f5f08f63fa1973c461d2186513",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/009-end.jpg"
       },
       "source_slide_index": 9
     }
@@ -842,8 +1114,32 @@
         "page_role": "cover",
         "page_variant_id": "cover",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "7f9e937bf114eb705725fb1912a92452d7a7df222cbf14d1ddb8ab1b1044be08",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.svg",
+            "sha256": "5a6f552a55acc2c57ac8cb03426336353acfcddbeb56b1e024d0a4e5dbd9ec29",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-001-cover.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -864,13 +1160,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
+          "bytes": 54861,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": "8c99c96677fec3c94235098b8fe36b9beeefd31ebfd173989f0ce358d91c4b73",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png"
+          "sha256": "cff53c7a100b15fc7ec65405fcfcb9fcd5e59c82e680105a33bc029d28559602",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/001-cover.jpg"
         },
         "source_slide_index": 1
       },
@@ -883,8 +1181,32 @@
         "page_role": "agenda",
         "page_variant_id": "statement",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "2ef28882e163701d54eec0b4b1df8e5057943282c8f4edab03c68ec934ef9700",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.svg",
+            "sha256": "0dec0e66b059c05bc0e351cfeb6a716070d1456fe810948e6be5d415ec1010bf",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-002-statement.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -904,14 +1226,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-2.png",
+          "bytes": 67392,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/002-statement.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/002-statement.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "1d785448c74cea09a8144d40ac31acd804b3d44be1eb43e1ee8db925ba4326a4",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/002-statement.jpg"
         },
         "source_slide_index": 2
       },
@@ -924,8 +1247,32 @@
         "page_role": "content",
         "page_variant_id": "text",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "34aae42ea865bf4b77405569ec7146490152baa7b59434680433689216326c72",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.svg",
+            "sha256": "76f9e06d8e2fea3ed4e744696ad2ea163c0d9beb3403172029230961235b709b",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-003-text.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -947,14 +1294,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-3.png",
+          "bytes": 70011,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/003-text.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/003-text.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "8dc3204a2b65f744abee8ba391f248dd1bd90db7b1c6acb126603ab88d567b8f",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/003-text.jpg"
         },
         "source_slide_index": 3
       },
@@ -967,8 +1315,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "stats",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "9a44b73754b3ab5cb6f27b44337917b552755268ec4f8a92e0162be3f71bdbeb",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.svg",
+            "sha256": "b2aaa4c84f6c1f34406fd47ef186b58b5f45320a33c3d05ee56548e49420c5a3",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-004-stats.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -988,13 +1360,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-4.png",
+          "bytes": 64028,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/004-stats.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-4.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/004-stats.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": "14779d9340e406e11762d2ab8e095cddcd9570541a1d999374ae6ba7dfb79be9",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-4.png"
+          "sha256": "93cd80a14b0075987a90f26fb2386cfd7196bcc37f128211d755b109a4230681",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/004-stats.jpg"
         },
         "source_slide_index": 4
       },
@@ -1007,8 +1381,32 @@
         "page_role": "content",
         "page_variant_id": "list",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "487b6b9d8fda7323104fb1207d298db1cb58363019df0f5ac564b257cc52ea10",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.svg",
+            "sha256": "69c6ce831c41adce4044eb66afe061d5f92b85570803cecf40599db1354ecd2c",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-005-list.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1029,14 +1427,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-5.png",
+          "bytes": 66764,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/005-list.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/005-list.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "8e1dd0081501e603b1bdcb9cc3a92d60beb4c47ed049374d6af94655a76bf997",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/005-list.jpg"
         },
         "source_slide_index": 5
       },
@@ -1049,8 +1448,32 @@
         "page_role": "quote_or_emphasis",
         "page_variant_id": "quote",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "d7ba48aeb3f223a16f981b5bcc6d9ed9cc077b62f9c0f87d1513857d206ec270",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.svg",
+            "sha256": "21992cae71904521b79b2e30d8955b5d45df1f20007a306789274e2d492d74f4",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-006-quote.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1069,14 +1492,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-6.png",
+          "bytes": 50485,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/006-quote.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/006-quote.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "597c4e4cb71cf44f728baf90d4218bee5c0f7870026cd12b15a339d65f0e95c4",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/006-quote.jpg"
         },
         "source_slide_index": 6
       },
@@ -1089,8 +1513,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "compare",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "a9b80c0a6c4ce13fdac6ef0768675868a883583b55584f92f424fc5a70e59e46",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.svg",
+            "sha256": "a1321ffd434758e237855aaf9f753eefe7825a024ba5b8a5f69f229a34752331",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-007-compare.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1112,14 +1560,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-7.png",
+          "bytes": 86826,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/007-compare.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/007-compare.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "5964a683f8e9059af3f946d775113215f180c086c19817c61044688c90282e3d",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/007-compare.jpg"
         },
         "source_slide_index": 7
       },
@@ -1132,8 +1581,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "chart",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "948150c9f53532f217beefb1e1486f35c6b5035589643ec9f6505e6eaf4802de",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.svg",
+            "sha256": "1ed48c083976b9880864a2812c3f90904aa423895fab70b7a4cea57ff3579480",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-008-chart.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1152,13 +1625,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-8.png",
+          "bytes": 55443,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/008-chart.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-8.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/008-chart.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": "59454db1dbde92ae7013570ab8b06ec669deab66b017dfe786c15ffa05eb05be",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-8.png"
+          "sha256": "3afad771f035d1bd108eaffa56d4ae17770d2dc48d4aa601c70adab29843b062",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/008-chart.jpg"
         },
         "source_slide_index": 8
       },
@@ -1171,8 +1646,32 @@
         "page_role": "closing",
         "page_variant_id": "end",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "83432a8d709444c40e12886b2353e77fdc547bb363a8248d8ed726b9a3ca8326",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/manifest.json",
+            "manifest_sha256": "624f4259adac221e6e1a3aa39eeae6d84bc270601850e3b5c440c3f45bc2d412",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.svg",
+            "sha256": "98058666bd08bdfe8389babfa43ace4293110524e1be95b187ef593574dde350",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/vellum/page-009-end.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1192,14 +1691,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-9.png",
+          "bytes": 72720,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/009-end.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/009-end.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/vellum-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "bd9be7c1b3915c2c65bcbd61d486e361821738f5f08f63fa1973c461d2186513",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/vellum/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/vellum/009-end.jpg"
         },
         "source_slide_index": 9
       }

@@ -333,6 +333,15 @@ def role_consumption_from_canvas_spec_payload(payload: dict[str, Any], *, source
     font_roles = typography.get("font_roles") if isinstance(typography.get("font_roles"), dict) else {}
     typography_roles = typography.get("role_tokens") if isinstance(typography.get("role_tokens"), dict) else {}
     text_style_roles = typography.get("text_style_roles") if isinstance(typography.get("text_style_roles"), dict) else {}
+    if text_style_roles and not isinstance(text_style_roles.get("text_decoration_policy"), dict):
+        text_style_roles = {
+            **text_style_roles,
+            "text_decoration_policy": {
+                "underline": {"style": "none", "color": "currentColor", "thickness": "0px"},
+                "line_through": {"style": "none", "color": "currentColor", "thickness": "0px"},
+                "source": "renderer_default_absent_policy",
+            },
+        }
     if not font_roles and not typography_roles and not text_style_roles:
         return None
     return {

@@ -97,8 +97,8 @@ Do not create a separate SVG-only plan root. The SVG route extends the common `.
 | `06-check/template-fit.json` | when using `artboard_satori` | template fit check | quality gate |
 | `06-check/theme-productization.json` | when using theme productization | `theme_productization` optional stage | audit and review |
 | `06-check/chart-verify.json` | yes before quality gate | chart_verify stage | quality gate |
-| `06-check/semantic-review.json` | yes before quality gate | semantic_review stage | quality gate |
-| `06-check/text-inventory.json` | yes before quality gate | semantic_review stage | quality gate and generator provenance audit |
+| `06-check/semantic-review.json` | optional legacy diagnostic | semantic_review script | human review only |
+| `06-check/text-inventory.json` | optional legacy diagnostic | semantic_review script | human review only |
 | `06-check/runtime-review.json` | yes before quality gate | runtime_review stage | quality gate |
 | `06-check/semantic-advisory.json` | optional advisory | semantic advisory script | human review |
 | `06-check/ppt-master-inventory.json` | optional migration governance | ppt-master inventory script | human review |
@@ -127,7 +127,7 @@ Do not create a separate SVG-only plan root. The SVG route extends the common `.
 - `03-assets/asset-manifest.json` must bind current plan/lock/assets/source receipt hashes before `generate_svg`.
 - Raw visual artifacts must not change after `receipts/generate_svg.json`; canonical SVG files under `04-svg/page-###.svg` must not change after `receipts/contract_compile.json`; rerun `generate_svg` or `contract_compile` before `prepare` according to the stale input.
 - SVG image placeholders should use local `@./assets/...` paths or file tokens. HTTP(S) and data image hrefs are not valid `slides +create-svg` inputs.
-- Every check record must include the same `plan_path`, relevant input paths, summary counts, and final action. `semantic-review.json` must bind current plan/evidence/prepared SVG hashes; `quality-gate.json` must consume current generator, chart, semantic, runtime, preflight, preview, and aesthetic receipts.
+- Every check record must include the same `plan_path`, relevant input paths, summary counts, and final action. `quality-gate.json` must consume current generator, chart, runtime, preflight, preview, aesthetic, theme, and visual receipts. Legacy `semantic-review.json` is advisory and must not block quality gate.
 - Project theme registries may bind productized themes to local templates through `template_bindings.supported_template_ids`; `theme_validate` still rejects unknown templates and unbound themes.
 - Artboard receipts must bind `semantic-map/v1` with `input_semantic_hash`; measured node layout maps must record observation source and drift status.
 - `07-create/ppe-proof.json` must bind current quality gate, dry-run, and proof input hashes before live create.

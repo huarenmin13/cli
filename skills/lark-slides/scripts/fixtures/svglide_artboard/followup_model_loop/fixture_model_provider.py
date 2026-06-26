@@ -65,6 +65,8 @@ def canvas_spec_for(
 ) -> dict[str, object]:
     normalized_content = dict(content)
     normalized_content.setdefault("metrics", ["Starlink", "Launch", "Risk"])
+    if page_variant_id == "dashboard" and "stats" not in normalized_content:
+        normalized_content["stats"] = normalized_content.get("metrics") or normalized_content.get("metric_labels") or []
     return {
         "version": "svglide-canvas-spec/v1",
         "canvas": {"width": 960, "height": 540, "viewBox": "0 0 960 540"},

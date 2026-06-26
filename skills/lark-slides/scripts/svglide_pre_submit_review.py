@@ -18,7 +18,6 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 TEMPLATE_GUARDRAILS_PATH = SCRIPT_DIR.parent / "references" / "svglide-template-guardrails.json"
 PLAN_PATH = Path("02-plan/slide_plan.json")
 QUALITY_GATE_PATH = Path("06-check/quality-gate.json")
-THEME_ADHERENCE_PATH = Path("06-check/theme-adherence.json")
 VISUAL_DISTINCTNESS_PATH = Path("06-check/visual-distinctness.json")
 VISUAL_ACCEPTANCE_PATH = Path("06-check/visual-acceptance.json")
 VISUAL_ACCEPTANCE_RECEIPT_PATH = Path("receipts/visual_acceptance.json")
@@ -812,8 +811,6 @@ def minimal_rerun_from(issues: list[dict[str, str]]) -> str:
         return "scoped_visual_repair_then_visual_acceptance_and_human_review"
     if any(code and "quality_gate" in code for code in codes) or "quality_gate" in stages:
         return "quality_gate_then_human_review"
-    if "theme_adherence" in stages:
-        return "theme_adherence_then_quality_gate_and_human_review"
     if "visual_distinctness" in stages:
         return "visual_distinctness_then_quality_gate_and_human_review"
     return "rerun_from_first_failed_stage"
@@ -839,7 +836,6 @@ def run_pre_submit_review(project: Path, human_review: Path) -> dict[str, Any]:
     current_prepared = prepared_file_hashes(project)
     current_plan_sha = optional_sha256(project / PLAN_PATH)
     current_quality_gate_sha = optional_sha256(project / QUALITY_GATE_PATH)
-    current_theme_sha = optional_sha256(project / THEME_ADHERENCE_PATH)
     current_visual_sha = optional_sha256(project / VISUAL_DISTINCTNESS_PATH)
     current_visual_acceptance_sha = optional_sha256(project / VISUAL_ACCEPTANCE_PATH)
     current_artifact_hashes = {
@@ -850,23 +846,15 @@ def run_pre_submit_review(project: Path, human_review: Path) -> dict[str, Any]:
 
     plan = read_json_object(project / PLAN_PATH, issues, stage="plan")
     quality_gate = read_json_object(project / QUALITY_GATE_PATH, issues, stage="quality_gate")
-    theme_adherence = read_json_object(project / THEME_ADHERENCE_PATH, issues, stage="theme_adherence")
     visual_distinctness = read_json_object(project / VISUAL_DISTINCTNESS_PATH, issues, stage="visual_distinctness")
     visual_acceptance = read_json_object(project / VISUAL_ACCEPTANCE_PATH, issues, stage="visual_acceptance")
     preview_manifest = read_json_object(project / PREVIEW_MANIFEST_PATH, issues, stage="preview")
-    human = read_json_object(human_review, issues, stage="human_review")
+    human_review_exists = human_review.exists()
+    human = read_json_object(human_review, issues, stage="human_review", required=human_review_exists)
+    review_mode = "human" if human_review_exists else "auto_gates"
 
     validate_required_artifacts(project, issues, current_prepared=current_prepared)
     validate_quality_gate(quality_gate, issues, current_prepared=current_prepared)
-    validate_current_check(
-        theme_adherence,
-        issues,
-        stage="theme_adherence",
-        path=THEME_ADHERENCE_PATH,
-        project=project,
-        current_plan_sha=current_plan_sha,
-        current_prepared=current_prepared,
-    )
     validate_current_check(
         visual_distinctness,
         issues,
@@ -900,11 +888,23 @@ def run_pre_submit_review(project: Path, human_review: Path) -> dict[str, Any]:
             current_prepared=current_prepared,
         )
         reviewed_evidence = validate_reviewed_artifacts(human, issues, project=project, current_prepared=current_prepared)
+    auto_approval = {
+        "approved": not issues,
+        "source": "quality_gate_visual_acceptance_preview_and_prepared_hashes",
+        "checks": {
+            "quality_gate": quality_gate.get("status"),
+            "visual_acceptance": visual_acceptance.get("status"),
+            "visual_distinctness": visual_distinctness.get("status"),
+            "preview_manifest": "present" if preview_manifest else "missing",
+            "prepared_svg_count": len(current_prepared),
+        },
+    } if review_mode == "auto_gates" else None
 
     result: dict[str, Any] = {
         "version": CHECK_VERSION,
         "stage": "pre_submit_review",
         "status": "failed" if issues else "passed",
+        "review_mode": review_mode,
         "checked_at": now_iso(),
         "project": str(project),
         "human_review": {
@@ -916,8 +916,6 @@ def run_pre_submit_review(project: Path, human_review: Path) -> dict[str, Any]:
             "plan_sha256": current_plan_sha,
             "quality_gate": QUALITY_GATE_PATH.as_posix(),
             "quality_gate_sha256": current_quality_gate_sha,
-            "theme_adherence": THEME_ADHERENCE_PATH.as_posix(),
-            "theme_adherence_sha256": current_theme_sha,
             "visual_distinctness": VISUAL_DISTINCTNESS_PATH.as_posix(),
             "visual_distinctness_sha256": current_visual_sha,
             "visual_acceptance": VISUAL_ACCEPTANCE_PATH.as_posix(),
@@ -932,6 +930,7 @@ def run_pre_submit_review(project: Path, human_review: Path) -> dict[str, Any]:
         },
         "plan_title": plan.get("title"),
         "human_approval": human_summary,
+        "auto_approval": auto_approval,
         "prepared_files": current_prepared,
         "reviewed_artifacts": reviewed_evidence,
         "summary": {

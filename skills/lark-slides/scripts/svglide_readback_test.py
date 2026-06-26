@@ -55,7 +55,7 @@ class SVGlideReadbackTest(unittest.TestCase):
         self.assertIsNotNone(result["input_binding"]["live_create_sha256"])
         self.assertTrue((project / "08-readback/readback-check.json").exists())
 
-    def test_readback_uses_live_create_request_headers_with_raw_api(self) -> None:
+    def test_readback_records_live_create_request_headers_but_does_not_replay_them(self) -> None:
         project = self.make_project()
         write_json(project / "02-plan/slide_plan.json", {"slides": [{"page": 1}]})
         write_json(
@@ -86,15 +86,44 @@ class SVGlideReadbackTest(unittest.TestCase):
         self.assertEqual(result["status"], "passed")
         self.assertEqual(result["input_binding"]["revision_id"], 2)
         self.assertEqual(commands[0][:4], ["lark-cli", "api", "GET", "/open-apis/slides_ai/v1/xml_presentations/xml_1"])
-        self.assertIn("--request-header", commands[0])
-        self.assertIn("Env=Pre_release", commands[0])
-        self.assertIn("x-tt-env=ppe_pure_svg", commands[0])
-        self.assertIn("x-use-ppe=1", commands[0])
+        self.assertNotIn("--request-header", commands[0])
         raw = json.loads((project / "08-readback/xml-presentations-get.json").read_text(encoding="utf-8"))
         self.assertEqual(
             raw["request_headers"],
             {"Env": "Pre_release", "x-tt-env": "ppe_pure_svg", "x-use-ppe": "1"},
         )
+
+    def test_readback_avoids_ppe_headers_that_trigger_openapi_3350005(self) -> None:
+        project = self.make_project()
+        write_json(project / "02-plan/slide_plan.json", {"slides": [{"page": 1}]})
+        write_json(
+            project / "07-create/live-create.json",
+            {
+                "json": {
+                    "data": {
+                        "xml_presentation_id": "xml_1",
+                        "revision_id": 2,
+                        "slide_ids": ["s1"],
+                        "request_headers": {
+                            "Env": "Pre_release",
+                            "x-tt-env": "ppe_pure_svg",
+                            "x-use-ppe": "1",
+                        },
+                    }
+                }
+            },
+        )
+
+        def fake_runner(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+            if "--request-header" in command:
+                return self.completed({"code": 3350005, "msg": "server internal error"}, returncode=1)
+            return self.completed({"data": {"xml_presentation": {"content": '<presentation><slide id="s1"></slide></presentation>'}}})
+
+        result = svglide_readback.run_readback(project, command_runner=fake_runner)
+
+        self.assertEqual(result["status"], "passed")
+        raw = json.loads((project / "08-readback/xml-presentations-get.json").read_text(encoding="utf-8"))
+        self.assertNotIn("--request-header", raw["command"])
 
     def test_readback_rejects_unsupported_request_header(self) -> None:
         project = self.make_project()
@@ -143,6 +172,84 @@ class SVGlideReadbackTest(unittest.TestCase):
         self.assertEqual(result["status"], "passed")
         self.assertEqual(result["checks"]["page_count"]["status"], "passed")
         self.assertEqual(result["checks"]["slide_order"]["status"], "passed")
+        self.assertEqual(result["checks"]["core_visible_text"]["status"], "passed")
+
+    def test_readback_accepts_text_split_across_service_shapes(self) -> None:
+        project = self.make_project()
+        write_json(
+            project / "02-plan/slide_plan.json",
+            {
+                "slides": [
+                    {"page": 1, "canvas_spec": {"content": {"title": "悉尼大学\n学术地标", "subtitle": "从 1850 年创校"}}}
+                ],
+                "business_claims": [{"claim": "悉尼大学创立于 1850 年，是澳大利亚第一所大学"}],
+            },
+        )
+        write_json(project / "07-create/live-create.json", {"xml_presentation_id": "xml_1", "slide_ids": ["s1"]})
+
+        result = svglide_readback.run_readback(
+            project,
+            command_runner=lambda *args, **kwargs: self.completed(
+                {
+                    "data": {
+                        "xml_presentation": {
+                            "content": (
+                                '<presentation><slide id="s1">'
+                                '<shape type="text"><content><p><span>悉</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>尼</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>大</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>学</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>学</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>术</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>地</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>标</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>从</span><span>1850</span><span>年</span><span>创校</span></p></content></shape>'
+                                '<shape type="text"><content><p><span>澳大利亚</span><span>第一所大学</span></p></content></shape>'
+                                "</slide></presentation>"
+                            )
+                        }
+                    }
+                }
+            ),
+        )
+
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["checks"]["business_claims"]["status"], "passed")
+        self.assertEqual(result["checks"]["core_visible_text"]["status"], "passed")
+
+    def test_readback_core_text_uses_submitted_svg_not_unrendered_plan_metadata(self) -> None:
+        project = self.make_project()
+        write_json(
+            project / "02-plan/slide_plan.json",
+            {
+                "slides": [
+                    {
+                        "page": 1,
+                        "canvas_spec": {
+                            "content": {
+                                "title": "真正提交的标题",
+                                "meta_note": "未渲染的内部备注",
+                            }
+                        },
+                    }
+                ]
+            },
+        )
+        (project / "04-svg/prepared").mkdir(parents=True, exist_ok=True)
+        (project / "04-svg/prepared/page-001.svg").write_text(
+            '<svg><text x="0" y="20">真正提交的标题</text></svg>',
+            encoding="utf-8",
+        )
+        write_json(project / "07-create/live-create.json", {"xml_presentation_id": "xml_1", "slide_ids": ["s1"]})
+
+        result = svglide_readback.run_readback(
+            project,
+            command_runner=lambda *args, **kwargs: self.completed(
+                {"data": {"xml_presentation": {"content": '<presentation><slide id="s1"><shape><content>真正提交的标题</content></shape></slide></presentation>'}}}
+            ),
+        )
+
+        self.assertEqual(result["status"], "passed")
         self.assertEqual(result["checks"]["core_visible_text"]["status"], "passed")
 
     def test_readback_fails_on_xml_slide_order_mismatch(self) -> None:
@@ -246,6 +353,34 @@ class SVGlideReadbackTest(unittest.TestCase):
 
         self.assertEqual(result["status"], "failed")
         self.assertEqual(result["checks"]["business_claims"]["status"], "failed")
+
+    def test_readback_business_claims_ignore_unsubmitted_plan_metadata_when_prepared_svg_exists(self) -> None:
+        project = self.make_project()
+        write_json(
+            project / "02-plan/slide_plan.json",
+            {
+                "slides": [{"page": 1}],
+                "business_claims": [
+                    {"fragment": "Revenue 130.5B"},
+                    {"fragment": "Unrendered forecast should stay metadata only"},
+                ],
+            },
+        )
+        write_json(project / "07-create/live-create.json", {"xml_presentation_id": "xml_1", "slide_ids": ["s1"]})
+        (project / "04-svg/prepared").mkdir(parents=True, exist_ok=True)
+        (project / "04-svg/prepared/page-001.svg").write_text(
+            '<svg><text slide:role="text">Revenue 130.5B</text></svg>',
+            encoding="utf-8",
+        )
+
+        result = svglide_readback.run_readback(
+            project,
+            command_runner=lambda *args, **kwargs: self.completed({"data": {"slides": [{"id": "s1", "text": "Revenue 130.5B"}]}}),
+        )
+
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["checks"]["business_claims"]["status"], "passed")
+        self.assertEqual(result["checks"]["business_claims"]["missing"], [])
 
     def test_readback_fails_when_text_overflow_marker_is_present(self) -> None:
         project = self.make_project()

@@ -10,11 +10,11 @@
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/cobalt-grid.html",
     "render_status": "missing_smoke",
-    "sha256": "bf24db9ea3f62efbbde0f0cdf3bf769aeb9c98818cc5f07c3866e48437984c9e"
+    "sha256": "a8ebf758f1157b8c6df1710970e010145fac55971406a7abf796b056022132b3"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "bf24db9ea3f62efbbde0f0cdf3bf769aeb9c98818cc5f07c3866e48437984c9e",
+    "contact_sheet": "a8ebf758f1157b8c6df1710970e010145fac55971406a7abf796b056022132b3",
     "fidelity_receipt": "fd2b394777733364723f20d0d732a346f93edba0a748628ce9a1e5596726cb02",
     "reference_screenshot": "e85989914eb7ca3bb279e03cc792df19c5d06f8d3ba0e59515211164fca5ae2d",
     "smoke_receipt": null,
@@ -24,6 +24,9 @@
   "fidelity": {
     "receipt_path": "skills/lark-slides/references/receipts/template-fidelity/cobalt-grid.trend-grid-report.json",
     "receipt_sha256": "fd2b394777733364723f20d0d732a346f93edba0a748628ce9a1e5596726cb02",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/trend-grid-report.preview.png",
+    "render_screenshot_sha256": "863063b77fb16e68b389315d9a259ef44a83ba852a64d3487743b9f04d6a806b",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/trend-grid-report.preview.png",
     "score": 0.9296,
     "status": "passed",
     "threshold": 0.72
@@ -41,6 +44,21 @@
     "selector_gate_missing",
     "source_core_roles_missing"
   ],
+  "legacy_renderer_fixture_sample": {
+    "artifact_kind": "legacy_renderer_fixture_sample",
+    "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/trend-grid-report.canvas-spec.json",
+    "golden_spec_sha256": "916419a1caaf284c67d35db0b30ce57ebe254a2cec6b1599dcf4ad679b671095",
+    "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
+    "reference_screenshot_sha256": "e85989914eb7ca3bb279e03cc792df19c5d06f8d3ba0e59515211164fca5ae2d",
+    "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/trend-grid-report.preview.png",
+    "render_screenshot_sha256": "863063b77fb16e68b389315d9a259ef44a83ba852a64d3487743b9f04d6a806b",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/trend-grid-report.preview.png",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/trend-grid-report.mjs",
+    "runtime_template_id": "trend-grid-report",
+    "status": "available"
+  },
   "missing_roles": [
     "comparison_or_split",
     "process_or_timeline",
@@ -53,6 +71,32 @@
     "status": "missing"
   },
   "page_family_promotion_gate_status": "missing",
+  "page_family_representative_sample": {
+    "artifact_kind": "page_family_representative_sample",
+    "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.png",
+    "current_deck_browser_preview_kind": "resvg_png",
+    "current_deck_browser_preview_sha256": "808282a2b40eb5035846ad1e61e8ffb69c1e7f39613946ad153deafd307a4fa8",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.svg",
+    "current_deck_render_sha256": "e31de767c5ad82efa153113d803f62d66cece3290a22f4100d287a43db4dc256",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.svg",
+    "family_id": "cobalt-grid",
+    "golden_spec": null,
+    "golden_spec_sha256": null,
+    "page": 1,
+    "page_role": "cover",
+    "page_variant_id": "cover",
+    "role_group": "cover",
+    "runtime_template_id": "trend-grid-report",
+    "smoke_receipt": null,
+    "smoke_receipt_sha256": null,
+    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg",
+    "source_screenshot_sha256": "4fa48c6b8d0d4063d76279ea1e70655ced4c144fb1f7a3d03f2ceceb1007f896",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg",
+    "source_slide_index": 1,
+    "status": "available"
+  },
   "page_variant_count": 8,
   "page_variant_coverage": {
     "agenda": {
@@ -329,8 +373,32 @@
       "page_role": "cover",
       "page_variant_id": "cover",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "808282a2b40eb5035846ad1e61e8ffb69c1e7f39613946ad153deafd307a4fa8",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.svg",
+          "sha256": "e31de767c5ad82efa153113d803f62d66cece3290a22f4100d287a43db4dc256",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -352,13 +420,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
+        "bytes": 140805,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": "e85989914eb7ca3bb279e03cc792df19c5d06f8d3ba0e59515211164fca5ae2d",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png"
+        "sha256": "4fa48c6b8d0d4063d76279ea1e70655ced4c144fb1f7a3d03f2ceceb1007f896",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg"
       },
       "source_slide_index": 1
     },
@@ -371,8 +441,32 @@
       "page_role": "agenda",
       "page_variant_id": "manifesto",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "d2bb76c5e2aebcd28732baf9afd7c379536bb1cd3972470d8333e325b166e4b4",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.svg",
+          "sha256": "6087b33a1634f39dc79fc3dadf5abfb14e146f1cfee37ac222e8540c6b07c460",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -391,14 +485,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-2.png",
+        "bytes": 131486,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/002-manifesto.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/002-manifesto.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "e5c576cde108fcde1af56cc18c52b72608540a7fad103b2c69661b4d000f3dfd",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/002-manifesto.jpg"
       },
       "source_slide_index": 2
     },
@@ -411,8 +506,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "index",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "c86b5a3b1ad9eeaa3cd515130aba210edaceb326f3f4e56f3319842bbd5a9479",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.svg",
+          "sha256": "2c6052c9d056a68b1da136705d5501167352c2786f1f2192244dc7c934064227",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -432,13 +551,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-3.png",
+        "bytes": 142615,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/003-index.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-3.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/003-index.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": "835573ec7f08c1df8734fe3511486d171c3a55e489f371becaf4d67cd4bf1dc4",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-3.png"
+        "sha256": "ec7e5e9485ea9e5256038018be9fbf0c8f01918043ab25a739706aeb4aa8b313",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/003-index.jpg"
       },
       "source_slide_index": 3
     },
@@ -451,8 +572,32 @@
       "page_role": "content",
       "page_variant_id": "chapter",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "86b808a55bf817b5270a97d11a25a4738f5e027ce6053962dc05e0c41a4f36c3",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.svg",
+          "sha256": "3686b85341f1fa174717dd342769fd0e556d5aece8dd2056000fd9d3226a062f",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -473,14 +618,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-4.png",
+        "bytes": 170236,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/004-chapter.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/004-chapter.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "d8a0eb9d03f64faff7293b86fc15182b2e6ed57fe56175dc57e91b205306cc9f",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/004-chapter.jpg"
       },
       "source_slide_index": 4
     },
@@ -493,8 +639,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "data",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "68b5d25aa925acc800a6b7d20b793f3b659cede5780287e74dedc7d338484aff",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.svg",
+          "sha256": "a95fb768aadf4f66cb0ae07c87594ea9a4a620be7ee88b1e775c730f717c8543",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -514,13 +684,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-5.png",
+        "bytes": 153277,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/005-data.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-5.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/005-data.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": "652d10972a8c198393e1ea3d8b0f857d50b2c496c3cd0d5da0b01eb0153e8ee4",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-5.png"
+        "sha256": "99aa21c1f3a3800f52b2a3e40b411cbd20b4363ad8468bfae0d795fc31744d6d",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/005-data.jpg"
       },
       "source_slide_index": 5
     },
@@ -533,8 +705,32 @@
       "page_role": "quote_or_emphasis",
       "page_variant_id": "quote",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "a41ae645152b185b66466aff9a5ea7f2fe1579944fd18be170bc6723c9a4ad22",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.svg",
+          "sha256": "10a0d8fcf123ee5e4a67df65d6fa35702e3e66600a99b8e2ff0a82e50204db09",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -555,14 +751,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-6.png",
+        "bytes": 172499,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/006-quote.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/006-quote.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "fc072c087ff8d64442aa71c362013a174582ccef926eb84dd972d97d8240578d",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/006-quote.jpg"
       },
       "source_slide_index": 6
     },
@@ -575,8 +772,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "table",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "4528f2df910af511f99bf8ae14dfe711a4dfb5a5f84d367869322b5b80fe7fbb",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.svg",
+          "sha256": "5200a58af9f2a9dbf671e74fd3d258f29d40d0a20e3044d67eecd7e304a2d5d6",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -595,14 +816,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-7.png",
+        "bytes": 148381,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/007-table.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/007-table.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "85dbe4df0d921cb58b111aeae481e349a072d37259a823bc7bfec218865bede3",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/007-table.jpg"
       },
       "source_slide_index": 7
     },
@@ -615,8 +837,32 @@
       "page_role": "content",
       "page_variant_id": "colophon",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "51ced8440458dbdf9b5b330412aaf1823b639e631fa6635c24e039df62b7f4df",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+          "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.svg",
+          "sha256": "213d4e53491c625ab6b7fe381dbb95f65496eacc4f48972f1fcbba00d2a31a76",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -637,14 +883,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-8.png",
+        "bytes": 147009,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/008-colophon.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/008-colophon.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "0a480c565b2e3da0cd070656d68bf5f640bc3f330623ee144ee29ccbb722d33d",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/008-colophon.jpg"
       },
       "source_slide_index": 8
     }
@@ -768,8 +1015,32 @@
         "page_role": "cover",
         "page_variant_id": "cover",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "808282a2b40eb5035846ad1e61e8ffb69c1e7f39613946ad153deafd307a4fa8",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.svg",
+            "sha256": "e31de767c5ad82efa153113d803f62d66cece3290a22f4100d287a43db4dc256",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-001-cover.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -791,13 +1062,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
+          "bytes": 140805,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": "e85989914eb7ca3bb279e03cc792df19c5d06f8d3ba0e59515211164fca5ae2d",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png"
+          "sha256": "4fa48c6b8d0d4063d76279ea1e70655ced4c144fb1f7a3d03f2ceceb1007f896",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/001-cover.jpg"
         },
         "source_slide_index": 1
       },
@@ -810,8 +1083,32 @@
         "page_role": "agenda",
         "page_variant_id": "manifesto",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "d2bb76c5e2aebcd28732baf9afd7c379536bb1cd3972470d8333e325b166e4b4",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.svg",
+            "sha256": "6087b33a1634f39dc79fc3dadf5abfb14e146f1cfee37ac222e8540c6b07c460",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-002-manifesto.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -830,14 +1127,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-2.png",
+          "bytes": 131486,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/002-manifesto.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/002-manifesto.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "e5c576cde108fcde1af56cc18c52b72608540a7fad103b2c69661b4d000f3dfd",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/002-manifesto.jpg"
         },
         "source_slide_index": 2
       },
@@ -850,8 +1148,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "index",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "c86b5a3b1ad9eeaa3cd515130aba210edaceb326f3f4e56f3319842bbd5a9479",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.svg",
+            "sha256": "2c6052c9d056a68b1da136705d5501167352c2786f1f2192244dc7c934064227",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-003-index.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -871,13 +1193,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-3.png",
+          "bytes": 142615,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/003-index.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-3.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/003-index.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": "835573ec7f08c1df8734fe3511486d171c3a55e489f371becaf4d67cd4bf1dc4",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-3.png"
+          "sha256": "ec7e5e9485ea9e5256038018be9fbf0c8f01918043ab25a739706aeb4aa8b313",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/003-index.jpg"
         },
         "source_slide_index": 3
       },
@@ -890,8 +1214,32 @@
         "page_role": "content",
         "page_variant_id": "chapter",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "86b808a55bf817b5270a97d11a25a4738f5e027ce6053962dc05e0c41a4f36c3",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.svg",
+            "sha256": "3686b85341f1fa174717dd342769fd0e556d5aece8dd2056000fd9d3226a062f",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-004-chapter.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -912,14 +1260,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-4.png",
+          "bytes": 170236,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/004-chapter.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/004-chapter.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "d8a0eb9d03f64faff7293b86fc15182b2e6ed57fe56175dc57e91b205306cc9f",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/004-chapter.jpg"
         },
         "source_slide_index": 4
       },
@@ -932,8 +1281,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "data",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "68b5d25aa925acc800a6b7d20b793f3b659cede5780287e74dedc7d338484aff",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.svg",
+            "sha256": "a95fb768aadf4f66cb0ae07c87594ea9a4a620be7ee88b1e775c730f717c8543",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-005-data.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -953,13 +1326,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-5.png",
+          "bytes": 153277,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/005-data.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-5.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/005-data.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": "652d10972a8c198393e1ea3d8b0f857d50b2c496c3cd0d5da0b01eb0153e8ee4",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-5.png"
+          "sha256": "99aa21c1f3a3800f52b2a3e40b411cbd20b4363ad8468bfae0d795fc31744d6d",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/005-data.jpg"
         },
         "source_slide_index": 5
       },
@@ -972,8 +1347,32 @@
         "page_role": "quote_or_emphasis",
         "page_variant_id": "quote",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "a41ae645152b185b66466aff9a5ea7f2fe1579944fd18be170bc6723c9a4ad22",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.svg",
+            "sha256": "10a0d8fcf123ee5e4a67df65d6fa35702e3e66600a99b8e2ff0a82e50204db09",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-006-quote.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -994,14 +1393,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-6.png",
+          "bytes": 172499,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/006-quote.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/006-quote.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "fc072c087ff8d64442aa71c362013a174582ccef926eb84dd972d97d8240578d",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/006-quote.jpg"
         },
         "source_slide_index": 6
       },
@@ -1014,8 +1414,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "table",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "4528f2df910af511f99bf8ae14dfe711a4dfb5a5f84d367869322b5b80fe7fbb",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.svg",
+            "sha256": "5200a58af9f2a9dbf671e74fd3d258f29d40d0a20e3044d67eecd7e304a2d5d6",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-007-table.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1034,14 +1458,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-7.png",
+          "bytes": 148381,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/007-table.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/007-table.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "85dbe4df0d921cb58b111aeae481e349a072d37259a823bc7bfec218865bede3",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/007-table.jpg"
         },
         "source_slide_index": 7
       },
@@ -1054,8 +1479,32 @@
         "page_role": "content",
         "page_variant_id": "colophon",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "51ced8440458dbdf9b5b330412aaf1823b639e631fa6635c24e039df62b7f4df",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/manifest.json",
+            "manifest_sha256": "b29dc7fbd42b946d8316abdc035fee2d515c16140369ba911dadb6f14497f340",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.svg",
+            "sha256": "213d4e53491c625ab6b7fe381dbb95f65496eacc4f48972f1fcbba00d2a31a76",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cobalt-grid/page-008-colophon.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1076,14 +1525,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-8.png",
+          "bytes": 147009,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/008-colophon.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/008-colophon.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cobalt-grid-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "0a480c565b2e3da0cd070656d68bf5f640bc3f330623ee144ee29ccbb722d33d",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cobalt-grid/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cobalt-grid/008-colophon.jpg"
         },
         "source_slide_index": 8
       }

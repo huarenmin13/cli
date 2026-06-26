@@ -228,6 +228,76 @@ class SvgPreflightTest(unittest.TestCase):
         self.assertIn("root_contract_version_mismatch", codes)
         self.assertEqual(result["summary"]["error_count"], 1)
 
+    def test_lint_svg_accepts_text_role_with_text_style_manifest(self) -> None:
+        text_manifest = {
+            "version": "svglide-satori-text-style/v1",
+            "source": "cli-artboard-satori",
+            "items": {
+                "txt_001": {
+                    "role": "display",
+                    "content_hash": "sha256:test",
+                    "font_family": "Source Sans Pro",
+                    "font_size": 48,
+                    "font_weight": 800,
+                    "font_style": "normal",
+                    "line_height": 1.1,
+                    "letter_spacing": 1.2,
+                    "text_transform": "uppercase",
+                    "color": "#123456",
+                    "decoration": {"line": "none", "style": "solid", "color": "#123456", "thickness": "1px"},
+                    "wrap": "nowrap",
+                    "source_contract": {},
+                    "loss_notes": [],
+                }
+            },
+        }
+        svg = f"""
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             slide:contract-version="svglide-authoring-contract/v1"
+             width="960" height="540" viewBox="0 0 960 540">
+          <metadata id="svglide-text-style-manifest" type="application/json">{json.dumps(text_manifest)}</metadata>
+          <rect slide:role="shape" x="0" y="0" width="960" height="540" fill="#f8fafc" />
+          <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
+                x="80" y="96" width="560" height="72"
+                font-family="Source Sans Pro" font-size="48" font-weight="800"
+                letter-spacing="1.2" fill="#123456">SVGLIDE</text>
+        </svg>
+        """
+
+        result = svg_preflight.lint_svg(svg)
+
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertNotIn("unsupported_text_element", codes)
+        self.assertNotIn("unsupported_role", codes)
+        self.assertIn("typography", result["visual_primitives"]["present"])
+        self.assertEqual(result["summary"]["error_count"], 0)
+
+    def test_lint_svg_rejects_invalid_text_role_shapes(self) -> None:
+        base = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             slide:contract-version="svglide-authoring-contract/v1"
+             width="960" height="540" viewBox="0 0 960 540">
+          <rect slide:role="shape" x="0" y="0" width="960" height="540" fill="#f8fafc" />
+          {text}
+        </svg>
+        """
+        cases = {
+            "missing_text_role": '<text id="bad-role" x="80" y="96" width="200" height="40" font-family="Arial" font-size="24" font-weight="700">Title</text>',
+            "missing_text_position": '<text id="bad-position" slide:role="text" width="200" height="40" font-family="Arial" font-size="24" font-weight="700">Title</text>',
+            "empty_text_content": '<text id="bad-content" slide:role="text" x="80" y="96" width="200" height="40" font-family="Arial" font-size="24" font-weight="700">   </text>',
+            "missing_text_typography": '<text id="bad-type" slide:role="text" x="80" y="96" width="200" height="40">Title</text>',
+        }
+
+        for expected_code, text in cases.items():
+            with self.subTest(expected_code=expected_code):
+                result = svg_preflight.lint_svg(base.format(text=text))
+                codes = [issue["code"] for issue in result.get("issues", [])]
+                self.assertIn(expected_code, codes)
+
     def test_parse_args_accepts_contract_manifest(self) -> None:
         options = svg_preflight.parse_args(["--input", "page.svg", "--contract-manifest", "manifest.json"])
 
@@ -312,7 +382,67 @@ class SvgPreflightTest(unittest.TestCase):
             self.assertEqual(result["contract_compile"]["summary"]["error_count"], 1)
             self.assertEqual(result["contract_compile"]["issues"][0]["code"], "contract_output_hash_mismatch")
 
-    def test_contract_manifest_prepared_hash_mismatch_blocks_preflight(self) -> None:
+    def test_contract_manifest_allows_prepared_input_when_prepare_receipt_matches(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            compiled_path = project / "04-svg/page-001.svg"
+            prepared_path = project / "04-svg/prepared/page-001.svg"
+            manifest_path = project / "04-svg/contract/manifest.json"
+            prepare_receipt_path = project / "receipts/prepare.json"
+            prepared_path.parent.mkdir(parents=True)
+            manifest_path.parent.mkdir(parents=True)
+            prepare_receipt_path.parent.mkdir(parents=True)
+            compiled_path.write_text(VALID_SVG, encoding="utf-8")
+            prepared_path.write_text(VALID_SVG.replace("#f8fafc", "#f1f5f9"), encoding="utf-8")
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "version": "svglide-contract-compile-manifest/v1",
+                        "stage": "contract_compile",
+                        "status": "passed",
+                        "pages": [
+                            {
+                                "page": 1,
+                                "source": "04-artboard/raw/page-001.visual.svg",
+                                "semantic_map": "04-artboard/raw/page-001.semantic-map.json",
+                                "output": "04-svg/page-001.svg",
+                                "report": "04-svg/contract/page-001.report.json",
+                                "status": "passed",
+                                "input_sha256": "raw",
+                                "semantic_map_sha256": "semantic",
+                                "output_sha256": svg_preflight.file_sha256(compiled_path),
+                            }
+                        ],
+                        "summary": {"pages": 1, "blocking_issues": 0, "degraded_elements": 0, "rasterized_regions": 0, "dropped_decorations": 0},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prepare_receipt_path.write_text(
+                json.dumps(
+                    {
+                        "stage": "prepare",
+                        "status": "passed",
+                        "prepared_files": [
+                            {
+                                "source": "04-svg/page-001.svg",
+                                "prepared": "04-svg/prepared/page-001.svg",
+                                "sha256": svg_preflight.file_sha256(prepared_path),
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = svg_preflight.lint_files([prepared_path.as_posix()], contract_manifest_path=manifest_path.as_posix())
+
+            codes = [issue["code"] for issue in result["contract_compile"]["issues"]]
+            self.assertNotIn("contract_prepared_hash_mismatch", codes)
+            self.assertNotIn("contract_output_hash_mismatch", codes)
+            self.assertEqual(result["contract_compile"]["summary"]["error_count"], 0)
+
+    def test_contract_manifest_prepared_input_requires_prepare_receipt(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             compiled_path = project / "04-svg/page-001.svg"
@@ -321,7 +451,7 @@ class SvgPreflightTest(unittest.TestCase):
             prepared_path.parent.mkdir(parents=True)
             manifest_path.parent.mkdir(parents=True)
             compiled_path.write_text(VALID_SVG, encoding="utf-8")
-            prepared_path.write_text(VALID_SVG.replace("#f8fafc", "#f1f5f9"), encoding="utf-8")
+            prepared_path.write_text(VALID_SVG, encoding="utf-8")
             manifest_path.write_text(
                 json.dumps(
                     {
@@ -350,7 +480,178 @@ class SvgPreflightTest(unittest.TestCase):
             result = svg_preflight.lint_files([prepared_path.as_posix()], contract_manifest_path=manifest_path.as_posix())
 
             codes = [issue["code"] for issue in result["contract_compile"]["issues"]]
-            self.assertIn("contract_prepared_hash_mismatch", codes)
+            self.assertIn("prepare_receipt_missing", codes)
+
+    def test_contract_manifest_accepts_prepare_stage_receipt_without_prepared_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            compiled_path = project / "04-svg/page-001.svg"
+            prepared_path = project / "04-svg/prepared/page-001.svg"
+            manifest_path = project / "04-svg/contract/manifest.json"
+            prepare_receipt_path = project / "receipts/prepare.json"
+            prepared_path.parent.mkdir(parents=True)
+            manifest_path.parent.mkdir(parents=True)
+            prepare_receipt_path.parent.mkdir(parents=True)
+            compiled_path.write_text(VALID_SVG, encoding="utf-8")
+            prepared_path.write_text(VALID_SVG, encoding="utf-8")
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "version": "svglide-contract-compile-manifest/v1",
+                        "stage": "contract_compile",
+                        "status": "passed",
+                        "pages": [
+                            {
+                                "page": 1,
+                                "source": "04-artboard/raw/page-001.visual.svg",
+                                "semantic_map": "04-artboard/raw/page-001.semantic-map.json",
+                                "output": "04-svg/page-001.svg",
+                                "report": "04-svg/contract/page-001.report.json",
+                                "status": "passed",
+                                "input_sha256": "raw",
+                                "semantic_map_sha256": "semantic",
+                                "output_sha256": svg_preflight.file_sha256(compiled_path),
+                            }
+                        ],
+                        "summary": {"pages": 1, "blocking_issues": 0, "degraded_elements": 0, "rasterized_regions": 0, "dropped_decorations": 0},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prepare_receipt_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "svglide-stage-receipt/v1",
+                        "stage": "prepare",
+                        "status": "passed",
+                        "outputs": ["04-svg/prepared", "receipts/prepare.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = svg_preflight.lint_files([prepared_path.as_posix()], contract_manifest_path=manifest_path.as_posix())
+
+            codes = [issue["code"] for issue in result["contract_compile"]["issues"]]
+            self.assertNotIn("prepare_receipt_prepared_files_missing", codes)
+            self.assertNotIn("prepare_prepared_input_missing", codes)
+            self.assertEqual(result["contract_compile"]["summary"]["error_count"], 0)
+
+    def test_contract_manifest_prepared_hash_mismatch_uses_prepare_receipt(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            compiled_path = project / "04-svg/page-001.svg"
+            prepared_path = project / "04-svg/prepared/page-001.svg"
+            manifest_path = project / "04-svg/contract/manifest.json"
+            prepare_receipt_path = project / "receipts/prepare.json"
+            prepared_path.parent.mkdir(parents=True)
+            manifest_path.parent.mkdir(parents=True)
+            prepare_receipt_path.parent.mkdir(parents=True)
+            compiled_path.write_text(VALID_SVG, encoding="utf-8")
+            prepared_path.write_text(VALID_SVG.replace("#f8fafc", "#f1f5f9"), encoding="utf-8")
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "version": "svglide-contract-compile-manifest/v1",
+                        "stage": "contract_compile",
+                        "status": "passed",
+                        "pages": [
+                            {
+                                "page": 1,
+                                "source": "04-artboard/raw/page-001.visual.svg",
+                                "semantic_map": "04-artboard/raw/page-001.semantic-map.json",
+                                "output": "04-svg/page-001.svg",
+                                "report": "04-svg/contract/page-001.report.json",
+                                "status": "passed",
+                                "input_sha256": "raw",
+                                "semantic_map_sha256": "semantic",
+                                "output_sha256": svg_preflight.file_sha256(compiled_path),
+                            }
+                        ],
+                        "summary": {"pages": 1, "blocking_issues": 0, "degraded_elements": 0, "rasterized_regions": 0, "dropped_decorations": 0},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prepare_receipt_path.write_text(
+                json.dumps(
+                    {
+                        "stage": "prepare",
+                        "status": "passed",
+                        "prepared_files": [
+                            {
+                                "source": "04-svg/page-001.svg",
+                                "prepared": "04-svg/prepared/page-001.svg",
+                                "sha256": "stale",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = svg_preflight.lint_files([prepared_path.as_posix()], contract_manifest_path=manifest_path.as_posix())
+
+            codes = [issue["code"] for issue in result["contract_compile"]["issues"]]
+            self.assertIn("prepare_prepared_hash_mismatch", codes)
+
+    def test_contract_manifest_prepared_input_still_blocks_stale_compiled_svg(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            compiled_path = project / "04-svg/page-001.svg"
+            prepared_path = project / "04-svg/prepared/page-001.svg"
+            manifest_path = project / "04-svg/contract/manifest.json"
+            prepare_receipt_path = project / "receipts/prepare.json"
+            prepared_path.parent.mkdir(parents=True)
+            manifest_path.parent.mkdir(parents=True)
+            prepare_receipt_path.parent.mkdir(parents=True)
+            compiled_path.write_text(VALID_SVG, encoding="utf-8")
+            prepared_path.write_text(VALID_SVG, encoding="utf-8")
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "version": "svglide-contract-compile-manifest/v1",
+                        "stage": "contract_compile",
+                        "status": "passed",
+                        "pages": [
+                            {
+                                "page": 1,
+                                "source": "04-artboard/raw/page-001.visual.svg",
+                                "semantic_map": "04-artboard/raw/page-001.semantic-map.json",
+                                "output": "04-svg/page-001.svg",
+                                "report": "04-svg/contract/page-001.report.json",
+                                "status": "passed",
+                                "input_sha256": "raw",
+                                "semantic_map_sha256": "semantic",
+                                "output_sha256": "stale",
+                            }
+                        ],
+                        "summary": {"pages": 1, "blocking_issues": 0, "degraded_elements": 0, "rasterized_regions": 0, "dropped_decorations": 0},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prepare_receipt_path.write_text(
+                json.dumps(
+                    {
+                        "stage": "prepare",
+                        "status": "passed",
+                        "prepared_files": [
+                            {
+                                "source": "04-svg/page-001.svg",
+                                "prepared": "04-svg/prepared/page-001.svg",
+                                "sha256": svg_preflight.file_sha256(prepared_path),
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = svg_preflight.lint_files([prepared_path.as_posix()], contract_manifest_path=manifest_path.as_posix())
+
+            codes = [issue["code"] for issue in result["contract_compile"]["issues"]]
+            self.assertIn("contract_output_hash_mismatch", codes)
 
     def test_lint_svg_warns_external_image_and_reports_font_shorthand(self) -> None:
         svg = """
@@ -517,6 +818,22 @@ class SvgPreflightTest(unittest.TestCase):
         self.assertIn("stroke_dasharray_key_path", codes)
         self.assertEqual(result["summary"]["error_count"], 1)
 
+    def test_lint_svg_rejects_raw_satori_arc_path_commands(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <path id="raw-arc" slide:role="shape" data-svglide-semantic-role="raw-satori-path"
+                d="M120 240 A80 80 0 0 1 280 240 A80 80 0 0 1 120 240"
+                fill="none" stroke="#111827" />
+        </svg>
+        """
+        result = svg_preflight.lint_svg(with_contract(svg))
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertIn("unsupported_path_command", codes)
+        self.assertEqual(result["summary"]["error_count"], 1)
+
     def test_lint_svg_reports_canvas_error_and_safe_area_warning(self) -> None:
         svg = """
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -570,6 +887,26 @@ class SvgPreflightTest(unittest.TestCase):
         result = svg_preflight.lint_svg(with_contract(svg))
         self.assertEqual(result["summary"]["error_count"], 1)
         self.assertEqual(result["issues"][0]["code"], "text_bbox_overlap")
+
+    def test_lint_svg_accepts_satori_text_compat_fragments(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <foreignObject id="a" data-svglide-compat-source="native-text" slide:role="shape" slide:shape-type="text" x="80" y="80" width="18" height="12">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:24px;font-weight:900;color:#111;">A</div>
+          </foreignObject>
+          <foreignObject id="b" data-svglide-compat-source="native-text" slide:role="shape" slide:shape-type="text" x="88" y="84" width="18" height="12">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:24px;font-weight:900;color:#111;">B</div>
+          </foreignObject>
+        </svg>
+        """
+        result = svg_preflight.lint_svg(with_contract(svg))
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertNotIn("text_bbox_overlap", codes)
+        self.assertNotIn("text_container_overflow", codes)
+        self.assertEqual(result["summary"]["error_count"], 0)
 
     def test_lint_svg_reports_badge_headline_overlap(self) -> None:
         svg = """
@@ -1139,6 +1476,151 @@ class SvgPreflightTest(unittest.TestCase):
             result = svg_preflight.lint_files([str(svg_path)], str(plan_path))
         codes = [issue["code"] for issue in result["plan"]["issues"]]
         self.assertIn("plan_recipe_required_primitives_not_found", codes)
+
+    def test_lint_svg_rejects_full_page_raster_image_only(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <image id="flat-page" slide:role="image"
+                 href="@./page-001.png"
+                 x="0" y="0" width="960" height="540" />
+        </svg>
+        """
+
+        result = svg_preflight.lint_svg(with_contract(svg))
+
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertIn("full_page_raster_image_only", codes)
+        self.assertTrue(result["full_page_raster"])
+        self.assertTrue(result["full_page_raster_submission"])
+        self.assertEqual(result["editable_node_count"], 0)
+        self.assertEqual(result["summary"]["error_count"], 1)
+
+    def test_lint_svg_accepts_local_raster_island_with_editable_text(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
+                x="80" y="96" width="520" height="72"
+                font-family="Source Sans Pro" font-size="48" font-weight="800">Title</text>
+          <image id="decor-island" slide:role="image"
+                 data-svglide-raster-island="true"
+                 data-svglide-raster-reason="unsupported-filter"
+                 href="@./04-svg/rasterized/page-001/island-001.png"
+                 x="120" y="220" width="180" height="80" />
+        </svg>
+        """
+
+        result = svg_preflight.lint_svg(with_contract(svg))
+
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertNotIn("full_page_raster_image_only", codes)
+        self.assertNotIn("residual_unsupported_svg_effect", codes)
+        self.assertEqual(result["summary"]["error_count"], 0)
+
+    def test_lint_svg_rejects_residual_hard_effect_attrs(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
+                x="80" y="96" width="520" height="72"
+                font-family="Source Sans Pro" font-size="48" font-weight="800"
+                clip-path="url(#clip)">Title</text>
+        </svg>
+        """
+
+        result = svg_preflight.lint_svg(with_contract(svg))
+
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertIn("residual_unsupported_svg_effect", codes)
+
+    def test_lint_svg_accepts_rotate_and_decomposable_matrix_transforms(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <rect slide:role="shape" x="10" y="20" width="120" height="48" fill="#111827" transform="rotate(4)" />
+          <rect slide:role="shape" x="24" y="60" width="120" height="48" fill="#1f2937" transform="rotate(90 24 60)" />
+          <text slide:role="text" x="120" y="160" width="320" height="90" font-size="80"
+                transform="matrix(1,-0.07,0.07,1,-14.4,29.7)">DANCE</text>
+        </svg>
+        """
+
+        result = svg_preflight.lint_svg(with_contract(svg))
+
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertNotIn("unsupported_transform", codes)
+        self.assertNotIn("unsupported_transform_matrix", codes)
+
+    def test_lint_svg_rejects_non_decomposable_matrix_transform(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <rect slide:role="shape" x="10" y="20" width="120" height="48" fill="#111827"
+                transform="matrix(1,0.3,0.2,1,0,0)" />
+        </svg>
+        """
+
+        result = svg_preflight.lint_svg(with_contract(svg))
+
+        codes = [issue["code"] for issue in result.get("issues", [])]
+        self.assertIn("unsupported_transform_matrix", codes)
+
+    def test_lint_files_rejects_full_page_raster_submission_wrapper(self) -> None:
+        svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             width="960" height="540" viewBox="0 0 960 540">
+          <image id="page-001-full-page-raster" slide:role="image"
+                 data-svglide-prepared-source="04-svg/page-001.svg"
+                 data-svglide-raster-source="04-artboard/raw/page-001.visual.png"
+                 href="@./04-artboard/raw/page-001.visual.png"
+                 x="0" y="0" width="960" height="540" />
+        </svg>
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            svg_path = tmp / "page-001.svg"
+            plan_path = tmp / "slide_plan.json"
+            svg_path.write_text(with_contract(svg), encoding="utf-8")
+            plan = {
+                "route": "svglide-svg",
+                "page_count": 1,
+                **style_plan_fields(),
+                "svg_files": [{"page": 1, "path": "page-001.svg"}],
+                "slides": [
+                    {
+                        "page": 1,
+                        "renderer_id": "route_story",
+                        "layout_family": "hero",
+                        "density": "medium",
+                        "title": "Route",
+                        **recipe_fields("hero_typography", ["foreignObject", "geometric_shape", "typography"]),
+                    }
+                ],
+            }
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+            result = svg_preflight.lint_files([str(svg_path)], str(plan_path))
+        file_codes = [issue["code"] for issue in result["files"][0].get("issues", [])]
+        self.assertIn("full_page_raster_image_only", file_codes)
+        self.assertTrue(result["files"][0]["full_page_raster"])
+        self.assertTrue(result["files"][0]["full_page_raster_submission"])
+        self.assertEqual(result["files"][0]["editable_node_count"], 0)
+        self.assertEqual(result["summary"]["error_count"], 1)
+        codes = [issue["code"] for issue in result["plan"].get("issues", [])]
+        self.assertNotIn("plan_recipe_required_primitives_not_found", codes)
+        self.assertNotIn("plan_svg_primitives_not_found", codes)
+        self.assertNotIn("plan_svg_effect_not_found", codes)
 
     def test_lint_files_reports_svg_source_business_claim_uncovered(self) -> None:
         svg = """

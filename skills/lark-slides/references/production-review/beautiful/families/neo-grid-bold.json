@@ -10,11 +10,11 @@
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/neo-grid-bold.html",
     "render_status": "missing_smoke",
-    "sha256": "4d48702088a0d550be284edfef1535ec301ab12a6dcc107641a25b34468cc6a7"
+    "sha256": "eddd750be9246e1e7c0dc0f88f67126b77e5c860fa1a5f2a5eb84369cd579a0e"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "4d48702088a0d550be284edfef1535ec301ab12a6dcc107641a25b34468cc6a7",
+    "contact_sheet": "eddd750be9246e1e7c0dc0f88f67126b77e5c860fa1a5f2a5eb84369cd579a0e",
     "fidelity_receipt": "9d0ced3d64a642e028edf86ff6457c36def39175b3079fff6a4c97b645803228",
     "reference_screenshot": "c53ba5da0f1b85b23ad1975da65edafaee84f029f06c468b2fbd036031ce15e5",
     "smoke_receipt": null,
@@ -24,6 +24,9 @@
   "fidelity": {
     "receipt_path": "skills/lark-slides/references/receipts/template-fidelity/neo-grid-bold.dense-panel-grid.json",
     "receipt_sha256": "9d0ced3d64a642e028edf86ff6457c36def39175b3079fff6a4c97b645803228",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/dense-panel-grid.preview.png",
+    "render_screenshot_sha256": "f9ca6342773d7a150ebdabe0a5ba09dad3a30ceced371e8e501e7c79ebb78c25",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/dense-panel-grid.preview.png",
     "score": 0.8085,
     "status": "passed",
     "threshold": 0.72
@@ -41,6 +44,21 @@
     "selector_gate_missing",
     "source_core_roles_missing"
   ],
+  "legacy_renderer_fixture_sample": {
+    "artifact_kind": "legacy_renderer_fixture_sample",
+    "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/dense-panel-grid.canvas-spec.json",
+    "golden_spec_sha256": "8ad49c1d8aea850bf4665c9e706baa839db2ac5d15121d181df6098309e2014b",
+    "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
+    "reference_screenshot_sha256": "c53ba5da0f1b85b23ad1975da65edafaee84f029f06c468b2fbd036031ce15e5",
+    "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/dense-panel-grid.preview.png",
+    "render_screenshot_sha256": "f9ca6342773d7a150ebdabe0a5ba09dad3a30ceced371e8e501e7c79ebb78c25",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/dense-panel-grid.preview.png",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/dense-panel-grid.mjs",
+    "runtime_template_id": "dense-panel-grid",
+    "status": "available"
+  },
   "missing_roles": [
     "comparison_or_split"
   ],
@@ -51,6 +69,32 @@
     "status": "missing"
   },
   "page_family_promotion_gate_status": "missing",
+  "page_family_representative_sample": {
+    "artifact_kind": "page_family_representative_sample",
+    "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.png",
+    "current_deck_browser_preview_kind": "resvg_png",
+    "current_deck_browser_preview_sha256": "4edd9ea8a29f6ffdeb09b8083ccbe40da37ca74ce87191c30dead94a0ebf2964",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.svg",
+    "current_deck_render_sha256": "f545936164613eb3382fa21cfcd2f7cea2f0fd0ad95b3b3ac3bc5254d55e5bf0",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.svg",
+    "family_id": "neo-grid-bold",
+    "golden_spec": null,
+    "golden_spec_sha256": null,
+    "page": 1,
+    "page_role": "cover",
+    "page_variant_id": "cover",
+    "role_group": "cover",
+    "runtime_template_id": "dense-panel-grid",
+    "smoke_receipt": null,
+    "smoke_receipt_sha256": null,
+    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg",
+    "source_screenshot_sha256": "ffb1538fc949e8c351ed556124b2506f2f4a7a0b3426096cffe22591952bc892",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg",
+    "source_slide_index": 1,
+    "status": "available"
+  },
   "page_variant_count": 12,
   "page_variant_coverage": {
     "agenda": {
@@ -432,8 +476,32 @@
       "page_role": "cover",
       "page_variant_id": "cover",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "4edd9ea8a29f6ffdeb09b8083ccbe40da37ca74ce87191c30dead94a0ebf2964",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.svg",
+          "sha256": "f545936164613eb3382fa21cfcd2f7cea2f0fd0ad95b3b3ac3bc5254d55e5bf0",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -452,13 +520,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
+        "bytes": 73061,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": "c53ba5da0f1b85b23ad1975da65edafaee84f029f06c468b2fbd036031ce15e5",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png"
+        "sha256": "ffb1538fc949e8c351ed556124b2506f2f4a7a0b3426096cffe22591952bc892",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg"
       },
       "source_slide_index": 1
     },
@@ -471,8 +541,32 @@
       "page_role": "agenda",
       "page_variant_id": "toc",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "81704eed15161f2f7a1bdbed46fcba3aeb884b263e1072de99f25960c7975574",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.svg",
+          "sha256": "d1db5dc1d429275595e1afaba4f565f96e3b49b778ea255fcc93f6fcd80c5566",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -493,14 +587,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-2.png",
+        "bytes": 109551,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/002-toc.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/002-toc.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "128a460b3d0aa499f9f1bab39c7de44e027004adf803d37d3cd474394ae55ef7",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/002-toc.jpg"
       },
       "source_slide_index": 2
     },
@@ -513,8 +608,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "stats",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "e3f003f2154897402a830b182c8faaa1e8cceb8b9e0877ccf275770a390b2c88",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.svg",
+          "sha256": "96cb1faac0565a1ae4da087283b4f75eab6d84f18c0a7560ca9cf613f7e443fe",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -535,13 +654,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-3.png",
+        "bytes": 130562,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/003-stats.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-3.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/003-stats.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": "c591b469d9709f7689a22f23a34af1b2f8e1ad403b4651dfbfb98f3618ecca1a",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-3.png"
+        "sha256": "76ef0f6816cbd74725bdffcf91a2eaed6c1272b845a3a1d5c008096208eeb5e0",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/003-stats.jpg"
       },
       "source_slide_index": 3
     },
@@ -554,8 +675,32 @@
       "page_role": "detail",
       "page_variant_id": "features",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "9d6643ba95bdde54c4696443e855a77b43ad8161d1380fe9db1ff7e5631630e1",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.svg",
+          "sha256": "c4f105a90a6a46beb1214b01a48c893f2d03354ebbeb7ffe8b2fa0c3e020a27d",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -575,14 +720,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-4.png",
+        "bytes": 112689,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/004-features.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/004-features.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "26ea573703a869a64c285fb6e6212b9a0b47e4bd128c434bfed418230209d9b3",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/004-features.jpg"
       },
       "source_slide_index": 4
     },
@@ -595,8 +741,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "chart",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "caa2f9c197c8caac0f3af1b82b05d5f4e0a2bc6d4950c2dd4b74bb31901f58f3",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.svg",
+          "sha256": "00abbfdef275ab969b9d2ad043100a70ffbeea12637473721e2631cdc4affa48",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -616,14 +786,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-5.png",
+        "bytes": 92284,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/005-chart.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/005-chart.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "056f3577428defd383c47a8215570c08778b4f738b782f4efe1833f6220a8caa",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/005-chart.jpg"
       },
       "source_slide_index": 5
     },
@@ -636,8 +807,32 @@
       "page_role": "content",
       "page_variant_id": "section",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "2d58ac8a5251abb835059182c10011a4452c33df794a3de43069c2d9ef8dde74",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.svg",
+          "sha256": "7c3904a70e0ea2d4850208594a64e5893813490cfddf80f8867f791c338311dd",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -658,14 +853,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-6.png",
+        "bytes": 103764,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/006-section.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/006-section.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "0c3466c180eca6532c5a40ef41f0ad801ec729309c420d6f1d41c417b983488f",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/006-section.jpg"
       },
       "source_slide_index": 6
     },
@@ -678,8 +874,32 @@
       "page_role": "quote_or_emphasis",
       "page_variant_id": "quote",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "892e6c91d0107eb2447f22212a6f2af65cc24b20858b31bbd95366eaa1dd3ce9",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.svg",
+          "sha256": "0a21a8d3844dd5ff75d935fcd59d3740cbfc387bf859918c0a6261bbea711b58",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -698,14 +918,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-7.png",
+        "bytes": 68664,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/007-quote.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/007-quote.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "9615018b98402b7d9c5767db07081a28711abf7e714fb2b6d39501fd26132f16",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/007-quote.jpg"
       },
       "source_slide_index": 7
     },
@@ -718,8 +939,32 @@
       "page_role": "detail",
       "page_variant_id": "cta",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "60453f64946798fc111b0f70acf20e8f2f151bb10bfcc53667880be1ec4f24e5",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.svg",
+          "sha256": "0342b863bbdc790bd4d9bc301cc5dbb500dd68eab957fe057c6904071aa8aa93",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -739,13 +984,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-8.png",
+        "bytes": 116681,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/008-cta.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-8.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/008-cta.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": "bfddba44fd59b4dc5f462fb226308623c2b23fce71d4deec94c1e4f8c9be329c",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-8.png"
+        "sha256": "509734cf6907323d4cc404f7dd1a18090ac08d35d8a217c918e7c91659846436",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/008-cta.jpg"
       },
       "source_slide_index": 8
     },
@@ -758,8 +1005,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "consult",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "7420ccba67a55c69a0663f167ef11abbfc2e0876b8b3a1e553d9a8e6eb9ebf60",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.svg",
+          "sha256": "135a448a0c61137b50a4e091ce8c10a4efbbac91fbc2a47e6bb9a4e599cdc20f",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -781,14 +1052,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-9.png",
+        "bytes": 235590,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/009-consult.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/009-consult.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "24a9beb9fc8759e90e32034469b82b9fba5a085e959b5cedc4b2f99dc6dd6a03",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/009-consult.jpg"
       },
       "source_slide_index": 9
     },
@@ -801,8 +1073,32 @@
       "page_role": "closing",
       "page_variant_id": "chart2",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "ad7df44d6754e1f58210db550e7de960db08488f30caf58312726df8d961099e",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.svg",
+          "sha256": "a8695f3d828f45beebb80d966b4226def08f2af6d0f90a24832f0afab223df83",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -822,14 +1118,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-10.png",
+        "bytes": 123539,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/010-chart2.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/010-chart2.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "c03486365da8917063f312e0a9aa56cdac676445ca94c7bac678f80c82ff9294",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/010-chart2.jpg"
       },
       "source_slide_index": 10
     },
@@ -842,8 +1139,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "process2",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "6058f9d828b2cc212e3b7329778660ced372f7c8f71286859e0bfba750b0ed91",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.svg",
+          "sha256": "a754dd65c9c99f8d34d4b56d9938ba29622fdf9bd0143a8674596e94652eaf1a",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -865,14 +1186,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-11.png",
+        "bytes": 130810,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/011-process2.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/011-process2.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "98516eabe1c262983a5e3fae39b7ab67a701e0906303cfa95f98481fec8d3d0c",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/011-process2.jpg"
       },
       "source_slide_index": 11
     },
@@ -885,8 +1207,32 @@
       "page_role": "content",
       "page_variant_id": "matrix2",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "73e2958d60cfee727ad3d6c2fde504d6f651b97a35ec262b44af8ac05d1dce3b",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+          "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.svg",
+          "sha256": "cba7f0b8c2a869869d8993a48409db21ae66355a6cdce473ca49bbef5c1fb53e",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -905,14 +1251,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-12.png",
+        "bytes": 104739,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/012-matrix2.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/012-matrix2.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "e7431ae1724869764f8df7a2ad8427097b6b0aa2317cfeb94c97816b8eef3434",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/012-matrix2.jpg"
       },
       "source_slide_index": 12
     }
@@ -1046,8 +1393,32 @@
         "page_role": "cover",
         "page_variant_id": "cover",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "4edd9ea8a29f6ffdeb09b8083ccbe40da37ca74ce87191c30dead94a0ebf2964",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.svg",
+            "sha256": "f545936164613eb3382fa21cfcd2f7cea2f0fd0ad95b3b3ac3bc5254d55e5bf0",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-001-cover.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1066,13 +1437,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
+          "bytes": 73061,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": "c53ba5da0f1b85b23ad1975da65edafaee84f029f06c468b2fbd036031ce15e5",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png"
+          "sha256": "ffb1538fc949e8c351ed556124b2506f2f4a7a0b3426096cffe22591952bc892",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/001-cover.jpg"
         },
         "source_slide_index": 1
       },
@@ -1085,8 +1458,32 @@
         "page_role": "agenda",
         "page_variant_id": "toc",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "81704eed15161f2f7a1bdbed46fcba3aeb884b263e1072de99f25960c7975574",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.svg",
+            "sha256": "d1db5dc1d429275595e1afaba4f565f96e3b49b778ea255fcc93f6fcd80c5566",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-002-toc.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1107,14 +1504,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-2.png",
+          "bytes": 109551,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/002-toc.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/002-toc.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "128a460b3d0aa499f9f1bab39c7de44e027004adf803d37d3cd474394ae55ef7",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/002-toc.jpg"
         },
         "source_slide_index": 2
       },
@@ -1127,8 +1525,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "stats",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "e3f003f2154897402a830b182c8faaa1e8cceb8b9e0877ccf275770a390b2c88",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.svg",
+            "sha256": "96cb1faac0565a1ae4da087283b4f75eab6d84f18c0a7560ca9cf613f7e443fe",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-003-stats.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1149,13 +1571,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-3.png",
+          "bytes": 130562,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/003-stats.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-3.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/003-stats.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": "c591b469d9709f7689a22f23a34af1b2f8e1ad403b4651dfbfb98f3618ecca1a",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-3.png"
+          "sha256": "76ef0f6816cbd74725bdffcf91a2eaed6c1272b845a3a1d5c008096208eeb5e0",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/003-stats.jpg"
         },
         "source_slide_index": 3
       },
@@ -1168,8 +1592,32 @@
         "page_role": "detail",
         "page_variant_id": "features",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "9d6643ba95bdde54c4696443e855a77b43ad8161d1380fe9db1ff7e5631630e1",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.svg",
+            "sha256": "c4f105a90a6a46beb1214b01a48c893f2d03354ebbeb7ffe8b2fa0c3e020a27d",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-004-features.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1189,14 +1637,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-4.png",
+          "bytes": 112689,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/004-features.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/004-features.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "26ea573703a869a64c285fb6e6212b9a0b47e4bd128c434bfed418230209d9b3",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/004-features.jpg"
         },
         "source_slide_index": 4
       },
@@ -1209,8 +1658,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "chart",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "caa2f9c197c8caac0f3af1b82b05d5f4e0a2bc6d4950c2dd4b74bb31901f58f3",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.svg",
+            "sha256": "00abbfdef275ab969b9d2ad043100a70ffbeea12637473721e2631cdc4affa48",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-005-chart.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1230,14 +1703,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-5.png",
+          "bytes": 92284,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/005-chart.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/005-chart.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "056f3577428defd383c47a8215570c08778b4f738b782f4efe1833f6220a8caa",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/005-chart.jpg"
         },
         "source_slide_index": 5
       },
@@ -1250,8 +1724,32 @@
         "page_role": "content",
         "page_variant_id": "section",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "2d58ac8a5251abb835059182c10011a4452c33df794a3de43069c2d9ef8dde74",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.svg",
+            "sha256": "7c3904a70e0ea2d4850208594a64e5893813490cfddf80f8867f791c338311dd",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-006-section.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1272,14 +1770,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-6.png",
+          "bytes": 103764,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/006-section.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/006-section.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "0c3466c180eca6532c5a40ef41f0ad801ec729309c420d6f1d41c417b983488f",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/006-section.jpg"
         },
         "source_slide_index": 6
       },
@@ -1292,8 +1791,32 @@
         "page_role": "quote_or_emphasis",
         "page_variant_id": "quote",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "892e6c91d0107eb2447f22212a6f2af65cc24b20858b31bbd95366eaa1dd3ce9",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.svg",
+            "sha256": "0a21a8d3844dd5ff75d935fcd59d3740cbfc387bf859918c0a6261bbea711b58",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-007-quote.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1312,14 +1835,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-7.png",
+          "bytes": 68664,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/007-quote.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/007-quote.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "9615018b98402b7d9c5767db07081a28711abf7e714fb2b6d39501fd26132f16",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/007-quote.jpg"
         },
         "source_slide_index": 7
       },
@@ -1332,8 +1856,32 @@
         "page_role": "detail",
         "page_variant_id": "cta",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "60453f64946798fc111b0f70acf20e8f2f151bb10bfcc53667880be1ec4f24e5",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.svg",
+            "sha256": "0342b863bbdc790bd4d9bc301cc5dbb500dd68eab957fe057c6904071aa8aa93",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-008-cta.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1353,13 +1901,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-8.png",
+          "bytes": 116681,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/008-cta.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-8.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/008-cta.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": "bfddba44fd59b4dc5f462fb226308623c2b23fce71d4deec94c1e4f8c9be329c",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-8.png"
+          "sha256": "509734cf6907323d4cc404f7dd1a18090ac08d35d8a217c918e7c91659846436",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/008-cta.jpg"
         },
         "source_slide_index": 8
       },
@@ -1372,8 +1922,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "consult",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "7420ccba67a55c69a0663f167ef11abbfc2e0876b8b3a1e553d9a8e6eb9ebf60",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.svg",
+            "sha256": "135a448a0c61137b50a4e091ce8c10a4efbbac91fbc2a47e6bb9a4e599cdc20f",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-009-consult.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1395,14 +1969,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-9.png",
+          "bytes": 235590,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/009-consult.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/009-consult.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "24a9beb9fc8759e90e32034469b82b9fba5a085e959b5cedc4b2f99dc6dd6a03",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/009-consult.jpg"
         },
         "source_slide_index": 9
       },
@@ -1415,8 +1990,32 @@
         "page_role": "closing",
         "page_variant_id": "chart2",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "ad7df44d6754e1f58210db550e7de960db08488f30caf58312726df8d961099e",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.svg",
+            "sha256": "a8695f3d828f45beebb80d966b4226def08f2af6d0f90a24832f0afab223df83",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-010-chart2.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1436,14 +2035,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-10.png",
+          "bytes": 123539,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/010-chart2.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/010-chart2.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "c03486365da8917063f312e0a9aa56cdac676445ca94c7bac678f80c82ff9294",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/010-chart2.jpg"
         },
         "source_slide_index": 10
       },
@@ -1456,8 +2056,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "process2",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "6058f9d828b2cc212e3b7329778660ced372f7c8f71286859e0bfba750b0ed91",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.svg",
+            "sha256": "a754dd65c9c99f8d34d4b56d9938ba29622fdf9bd0143a8674596e94652eaf1a",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-011-process2.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1479,14 +2103,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-11.png",
+          "bytes": 130810,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/011-process2.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/011-process2.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "98516eabe1c262983a5e3fae39b7ab67a701e0906303cfa95f98481fec8d3d0c",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/011-process2.jpg"
         },
         "source_slide_index": 11
       },
@@ -1499,8 +2124,32 @@
         "page_role": "content",
         "page_variant_id": "matrix2",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "73e2958d60cfee727ad3d6c2fde504d6f651b97a35ec262b44af8ac05d1dce3b",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/manifest.json",
+            "manifest_sha256": "51332db6b97a473a890470df32e37f6acc037a6ad18617f8417e7fd9a9355290",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.svg",
+            "sha256": "cba7f0b8c2a869869d8993a48409db21ae66355a6cdce473ca49bbef5c1fb53e",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/neo-grid-bold/page-012-matrix2.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1519,14 +2168,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-12.png",
+          "bytes": 104739,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/012-matrix2.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/012-matrix2.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/neo-grid-bold-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "e7431ae1724869764f8df7a2ad8427097b6b0aa2317cfeb94c97816b8eef3434",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/neo-grid-bold/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/neo-grid-bold/012-matrix2.jpg"
         },
         "source_slide_index": 12
       }

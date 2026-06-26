@@ -119,6 +119,96 @@
       ]
     },
     {
+      "id": "artboard_satori.executive-dashboard.cover",
+      "status": "active",
+      "family": "cover",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.agenda",
+      "status": "active",
+      "family": "agenda",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.metrics",
+      "status": "active",
+      "family": "metrics",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.timeline",
+      "status": "active",
+      "family": "timeline",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.dashboard",
+      "status": "active",
+      "family": "dashboard",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.detail",
+      "status": "active",
+      "family": "detail",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.bars",
+      "status": "active",
+      "family": "bars",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.split",
+      "status": "active",
+      "family": "split",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.quote",
+      "status": "active",
+      "family": "quote",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
+      "id": "artboard_satori.executive-dashboard.closing",
+      "status": "active",
+      "family": "closing",
+      "runtime_module": "svglide_artboard_renderer.py",
+      "allowed_style_presets": [
+        "*"
+      ]
+    },
+    {
       "id": "artboard_satori.image-feature",
       "status": "active",
       "family": "image_text",

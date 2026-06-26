@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -47,6 +48,15 @@ def prepare_project(root: Path, brief: str) -> None:
 def write_json(path: Path, payload: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+
+def matrix_runtime_template_ids() -> set[str]:
+    matrix = json.loads((Path(__file__).resolve().parent.parent / "references/beautiful-template-executable-matrix.json").read_text(encoding="utf-8"))
+    return {
+        str(row.get("runtime_template_id") or row.get("template_id"))
+        for row in matrix["candidates"]
+        if row.get("runtime_template_id") or row.get("template_id")
+    }
 
 
 def production_template_record(template_id: str, *, score_terms: list[str], required_assets: list[str] | None = None, executable: bool = True) -> dict[str, object]:
@@ -94,6 +104,38 @@ def production_template_record(template_id: str, *, score_terms: list[str], requ
                 },
             }
         )
+        if template_id == "executive-dashboard":
+            variants = ["cover", "agenda", "metrics", "dashboard", "split", "bars", "quote", "timeline", "detail", "closing"]
+            record.update(
+                {
+                    "family_id": "blue-professional",
+                    "source_family": "blue-professional",
+                    "implemented_page_variants": variants,
+                    "page_family": {
+                        "source_slide_count": 10,
+                        "production_minimum_roles": ["cover", "agenda", "content", "data", "comparison", "quote", "process", "detail", "closing"],
+                    },
+                    "page_variants": {variant: {"page_role": variant} for variant in variants},
+                    "page_family_content_key_guidance": {
+                        "cover": ["title", "subtitle"],
+                        "agenda": ["title", "agenda"],
+                        "dashboard": ["title", "stats"],
+                    },
+                    "required_content_by_variant": {
+                        "cover": ["title", "subtitle"],
+                        "agenda": ["title", "agenda"],
+                        "dashboard": ["title", "stats"],
+                    },
+                    "page_variant_golden_specs": {
+                        variant: f"skills/lark-slides/scripts/fixtures/svglide_artboard/golden/blue-professional.{variant}.canvas-spec.json"
+                        for variant in variants
+                    },
+                    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/blue-professional.json",
+                    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/blue-professional.executive-dashboard.json",
+                    "page_family_promotion_gate": {"status": "passed"},
+                    "production_review_receipt": "skills/lark-slides/references/receipts/production-review/blue-professional.executive-dashboard.json",
+                }
+            )
     return record
 
 
@@ -176,15 +218,12 @@ class ThemeTemplateSelectorTest(unittest.TestCase):
 
         self.assertEqual("executive-dashboard", result["selected_template_id"])
         self.assertEqual("blue-professional", result["selected_family_id"])
-        self.assertEqual(
-            {
-                "family_id": "blue-professional",
-                "runtime_template_id": "executive-dashboard",
-                "supported_page_variants": ["cover", "metrics", "closing"],
-                "variant_usage_policy": {"singletons": ["cover", "closing"], "repeatable": ["metrics"]},
-            },
-            result["selected_page_family"],
-        )
+        self.assertEqual("blue-professional", result["selected_page_family"]["family_id"])
+        self.assertEqual("executive-dashboard", result["selected_page_family"]["runtime_template_id"])
+        self.assertEqual(template["implemented_page_variants"], result["selected_page_family"]["supported_page_variants"])
+        self.assertEqual({"singletons": ["cover", "closing"], "repeatable": ["metrics"]}, result["selected_page_family"]["variant_usage_policy"])
+        self.assertIn("page_family_content_key_guidance", result["selected_page_family"])
+        self.assertIn("required_content_by_variant", result["selected_page_family"])
 
     def test_selector_filters_templates_missing_renderer_or_fidelity_contract(self) -> None:
         original_template_registry = selector.load_template_registry
@@ -404,6 +443,30 @@ class ThemeTemplateSelectorTest(unittest.TestCase):
                 if expected_template_id in evaluation_only_ids:
                     self.assertNotEqual(result["selected_template_id"], expected_template_id)
                     self.assertNotIn(expected_template_id, candidate_ids)
+
+    def test_review_selection_env_allows_all_beautiful_candidates_without_production_promotion(self) -> None:
+        old_value = os.environ.get(beautiful_template_runtime.BEAUTIFUL_REVIEW_SELECTION_ENV)
+        os.environ[beautiful_template_runtime.BEAUTIFUL_REVIEW_SELECTION_ENV] = "1"
+        try:
+            with tempfile.TemporaryDirectory() as tmpdir:
+                root = Path(tmpdir)
+                brief = "retro gaming hackathon demo deck with pixel stats, console dashboard, cyberpunk developer tools"
+                prepare_project(root, brief)
+                result = selector.select_theme_template(root, brief, top_k=40)
+        finally:
+            if old_value is None:
+                os.environ.pop(beautiful_template_runtime.BEAUTIFUL_REVIEW_SELECTION_ENV, None)
+            else:
+                os.environ[beautiful_template_runtime.BEAUTIFUL_REVIEW_SELECTION_ENV] = old_value
+
+        candidates = {item["template_id"]: item for item in result["template_candidates"]}
+        self.assertTrue(matrix_runtime_template_ids() <= set(candidates))
+        self.assertEqual("pixel-orbit-console", result["selected_template_id"])
+        review_candidate = candidates["pixel-orbit-console"]
+        self.assertEqual("review_candidate", review_candidate["asset_status"])
+        self.assertEqual("online_test", review_candidate["selection_scope"])
+        self.assertTrue(review_candidate["review_selectable"])
+        self.assertNotEqual("production", review_candidate.get("promotion_status"))
 
     def test_write_selection_writes_receipt(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

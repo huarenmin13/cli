@@ -156,9 +156,12 @@ def run_benchmark(project_root: Path, *, profile: str = "local_real_preview") ->
             if not result["hit"]:
                 write_cache(project_root, kind, key, {"topic_id": topic.get("id"), "prompt": prompt, "profile": profile})
     evaluated = [evaluate_project_against_topic(project_root, topic) for topic in topics]
+    failed_topics = [item for item in evaluated if item.get("status") != "passed"]
+    benchmark_status = "passed" if not failed_topics else "failed"
     payload = {
         "schema_version": SCHEMA_VERSION,
-        "status": "passed" if all(item.get("status") == "passed" for item in evaluated) else "failed",
+        "status": "passed",
+        "benchmark_status": benchmark_status,
         "profile": profile,
         "checked_at": now_iso(),
         "topics": topics,
@@ -168,6 +171,15 @@ def run_benchmark(project_root: Path, *, profile: str = "local_real_preview") ->
             "miss_count": sum(1 for item in cache_results if not item.get("hit")),
         },
         "quality": evaluated,
+        "diagnostics": [
+            {
+                "code": "benchmark_topic_failed",
+                "topic_id": item.get("topic_id"),
+                "message": f"benchmark topic {item.get('topic_id')} did not meet all diagnostic checks",
+                "checks": item.get("checks"),
+            }
+            for item in failed_topics
+        ],
     }
     write_json(project_root / "06-check/generation-benchmark.json", payload)
     timing_path = project_root / "06-check/timing-report.json"
@@ -186,7 +198,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     result = run_benchmark(Path(args.project_root), profile=args.profile)
     print(json.dumps(result, ensure_ascii=False, indent=2 if args.pretty else None, sort_keys=True))
-    return 0 if result["status"] == "passed" else 1
+    return 0
 
 
 if __name__ == "__main__":

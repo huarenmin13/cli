@@ -1,0 +1,80 @@
+{
+  "claim_boundary": "source page-family implementation smoke deck; not production/default_selectable evidence",
+  "family_id": "bold-poster",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "hero",
+      "title": "Hero"
+    },
+    {
+      "page": 2,
+      "page_role": "quote",
+      "page_variant_id": "red",
+      "title": "Red"
+    },
+    {
+      "page": 3,
+      "page_role": "agenda",
+      "page_variant_id": "summary",
+      "title": "Summary"
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "financial",
+      "title": "Financial"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stat",
+      "title": "Stat"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "services",
+      "title": "Services"
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "roadmap",
+      "title": "Roadmap"
+    },
+    {
+      "page": 8,
+      "page_role": "comparison",
+      "page_variant_id": "pillars",
+      "title": "Pillars"
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "global",
+      "title": "Global"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "close",
+      "title": "Close"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "template_id": "poster-stat-punch",
+  "theme_id": "bold-poster"
+}

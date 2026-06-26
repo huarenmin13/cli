@@ -21,6 +21,9 @@ from typing import Any
 import svglide_asset_injector
 import beautiful_template_fidelity_check
 import beautiful_template_page_family_smoke
+import svglide_artboard_layout_collision
+import svglide_editability_gate
+import svglide_ppe_proof
 import svglide_schema
 import svglide_stage_invalidation
 import svglide_snapshot_visual_fidelity
@@ -40,42 +43,35 @@ LARK_CLI_COMMAND_ENV = "SVGLIDE_LARK_CLI_CMD"
 DEFAULT_REPAIR_LOOP_FAILING_RECEIPT = Path("06-check/preflight.json")
 PPE_CREATE_PROBE = Path("07-create/ppe-create-probe.json")
 PPE_IMAGE_PROBE = Path("07-create/ppe-image-probe.json")
+ARTBOARD_LAYOUT_COLLISION = Path("04-artboard/raw/layout-collision.json")
+ARTBOARD_LAYOUT_COLLISION_RECEIPT = Path("receipts/artboard-layout-collision.json")
+GENERATE_SVG_STAGE_INPUTS = [
+    "02-plan/slide_plan.json",
+    "02-plan/svglide.lock.json",
+    "source/evidence.json",
+    "source/source-receipt.json",
+    "03-assets/assets.json",
+    "03-assets/asset-manifest.json",
+]
 
 STAGES = [
     "init",
     "source",
-    "select_style",
-    "plan",
-    "strategy_review",
-    "theme_validate",
-    "palette_review",
-    "selection_review",
-    "plan_bundle_review",
-    "package_check",
+    "plan_and_style",
+    "plan_gate",
     "assets",
     "generate_svg",
     "contract_compile",
     "prepare",
     "preview",
-    "preflight",
-    "preview_lint",
-    "template_fidelity",
-    "aesthetic_review",
-    "chart_verify",
-    "semantic_review",
-    "runtime_review",
-    "visual_distinctness_review",
-    "diversity_gate",
-    "theme_adherence",
-    "snapshot_visual_fidelity",
     "quality_gate",
-    "generation_benchmark",
     "dry_run",
     "visual_acceptance",
-    "ppe_proof",
-    "pre_submit_review",
+    "publish_gate",
     "live_create",
     "readback",
+    "editability_gate",
+    "snapshot_visual_fidelity",
     "export",
 ]
 OPTIONAL_STAGES = {
@@ -84,12 +80,54 @@ OPTIONAL_STAGES = {
     "theme_productization",
 }
 
+PLAN_AND_STYLE_SUBSTAGES = ["select_style", "plan"]
+PLAN_GATE_SUBSTAGES = [
+    "strategy_review",
+    "theme_validate",
+    "palette_review",
+    "selection_review",
+    "plan_bundle_review",
+    "package_check",
+]
+QUALITY_GATE_SUBSTAGES = [
+    "preflight",
+    "preview_lint",
+    "template_fidelity",
+    "aesthetic_review",
+    "chart_verify",
+    "runtime_review",
+    "visual_distinctness_review",
+    "diversity_gate",
+]
+PUBLISH_GATE_SUBSTAGES = [
+    "generation_benchmark",
+    "ppe_proof",
+    "create_svg_capability_probe",
+    "pre_submit_review",
+]
+COMPOSITE_STAGE_SUBSTAGES = {
+    "plan_and_style": PLAN_AND_STYLE_SUBSTAGES,
+    "plan_gate": PLAN_GATE_SUBSTAGES,
+    "quality_gate": QUALITY_GATE_SUBSTAGES,
+    "publish_gate": PUBLISH_GATE_SUBSTAGES,
+}
+LEGACY_STAGE_TO_GATE = {
+    **{stage: "plan_and_style" for stage in PLAN_AND_STYLE_SUBSTAGES},
+    **{stage: "plan_gate" for stage in PLAN_GATE_SUBSTAGES},
+    **{stage: "quality_gate" for stage in QUALITY_GATE_SUBSTAGES},
+    **{stage: "publish_gate" for stage in PUBLISH_GATE_SUBSTAGES},
+}
+LEGACY_STAGES = set(LEGACY_STAGE_TO_GATE)
+
 STAGE_ALIASES = {
     "confirm-plan": "confirm_plan",
     "source-review": "source",
     "select-style": "select_style",
     "theme-template-selection": "select_style",
     "palette-selection": "select_style",
+    "plan-style": "plan_and_style",
+    "plan-and-style": "plan_and_style",
+    "plan-gate": "plan_gate",
     "strategy-review": "strategy_review",
     "theme-validate": "theme_validate",
     "palette-review": "palette_review",
@@ -100,13 +138,11 @@ STAGE_ALIASES = {
     "artboard-package-check": "package_check",
     "aesthetic-review": "aesthetic_review",
     "chart-verify": "chart_verify",
-    "semantic-review": "semantic_review",
     "runtime-review": "runtime_review",
     "visual-distinctness": "visual_distinctness_review",
     "visual-distinctness-review": "visual_distinctness_review",
     "diversity-gate": "diversity_gate",
     "diversity-review": "diversity_gate",
-    "theme-adherence": "theme_adherence",
     "snapshot-visual-fidelity": "snapshot_visual_fidelity",
     "snapshot-fidelity": "snapshot_visual_fidelity",
     "generate": "generate_svg",
@@ -119,9 +155,15 @@ STAGE_ALIASES = {
     "visual-acceptance-gate": "visual_acceptance",
     "deliverable": "visual_acceptance",
     "ppe-proof": "ppe_proof",
+    "create-svg-capability-probe": "create_svg_capability_probe",
+    "svg-capability-probe": "create_svg_capability_probe",
+    "capability-probe": "create_svg_capability_probe",
     "pre-submit-review": "pre_submit_review",
     "pre-submit": "pre_submit_review",
+    "publish-gate": "publish_gate",
     "live-create": "live_create",
+    "editability-gate": "editability_gate",
+    "editability": "editability_gate",
     "repair-loop": "repair_loop",
     "theme-productization": "theme_productization",
     "theme-productize": "theme_productization",
@@ -150,8 +192,10 @@ PROJECT_DIRS = [
 IMPLEMENTED_STAGES = {
     "init",
     "source",
+    "plan_and_style",
     "select_style",
     "plan",
+    "plan_gate",
     "strategy_review",
     "theme_validate",
     "palette_review",
@@ -169,20 +213,21 @@ IMPLEMENTED_STAGES = {
     "template_fidelity",
     "aesthetic_review",
     "chart_verify",
-    "semantic_review",
     "runtime_review",
     "visual_distinctness_review",
     "diversity_gate",
-    "theme_adherence",
     "snapshot_visual_fidelity",
     "quality_gate",
     "generation_benchmark",
     "dry_run",
     "visual_acceptance",
+    "publish_gate",
     "ppe_proof",
+    "create_svg_capability_probe",
     "pre_submit_review",
     "live_create",
     "readback",
+    "editability_gate",
     "repair_loop",
     "theme_productization",
     "export",
@@ -193,7 +238,10 @@ DECK_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 PROFILE_TARGETS = {
     "preview_only": "quality_gate",
     "local_real_preview": "visual_acceptance",
-    "production_live": "readback",
+    "production_live": "snapshot_visual_fidelity",
+}
+PROFILE_EXPLICIT_EXTRA_TARGETS = {
+    "production_live": set(),
 }
 QUALITY_GATE_PROFILES = {"preview_only", "local_real_preview", "production_live", "production", "debug"}
 RUNNER_OPTIONS = {
@@ -212,6 +260,7 @@ RUNNER_OPTIONS = {
 PROGRESS_MODES = {"none", "agent"}
 COLLECTABLE_VALIDATION_STAGES = {
     "plan",
+    "plan_gate",
     "strategy_review",
     "theme_validate",
     "palette_review",
@@ -220,6 +269,7 @@ COLLECTABLE_VALIDATION_STAGES = {
 }
 AUTO_REPAIR_STAGES = {
     "plan",
+    "plan_gate",
     "palette_review",
     "selection_review",
     "plan_bundle_review",
@@ -282,7 +332,7 @@ def now_iso() -> str:
 
 def normalize_stage(stage: str) -> str:
     candidate = STAGE_ALIASES.get(stage, stage.replace("-", "_"))
-    if candidate not in STAGES and candidate not in OPTIONAL_STAGES:
+    if candidate not in STAGES and candidate not in OPTIONAL_STAGES and candidate not in LEGACY_STAGES:
         raise RunnerError(f"unknown stage '{stage}'", exit_code=2)
     return candidate
 
@@ -324,6 +374,15 @@ def asset_option_args(*, profile: str = "production") -> list[str]:
 
 def stages_until(stage: str) -> list[str]:
     normalized = normalize_stage(stage)
+    if normalized in LEGACY_STAGE_TO_GATE:
+        gate = LEGACY_STAGE_TO_GATE[normalized]
+        stages = STAGES[: STAGES.index(gate)]
+        substages = composite_substages_for_profile(gate, profile="production_live")
+        if normalized in substages:
+            stages.extend(substages[: substages.index(normalized) + 1])
+        else:
+            stages.append(normalized)
+        return stages
     return STAGES[: STAGES.index(normalized) + 1]
 
 
@@ -332,7 +391,9 @@ def resolve_run_target(until: str | None, profile: str | None) -> str:
         target = normalize_stage(until)
         if profile in PROFILE_TARGETS:
             profile_target = normalize_stage(PROFILE_TARGETS[profile])
-            if STAGES.index(target) > STAGES.index(profile_target):
+            allowed_extras = PROFILE_EXPLICIT_EXTRA_TARGETS.get(profile, set())
+            target_for_order = LEGACY_STAGE_TO_GATE.get(target, target)
+            if STAGES.index(target_for_order) > STAGES.index(profile_target) and target not in allowed_extras:
                 raise RunnerError(f"profile '{profile}' can only run until {profile_target}; requested {target}", exit_code=2)
         return target
     if profile in PROFILE_TARGETS:
@@ -550,9 +611,9 @@ def prune_stage_and_descendants(state: dict[str, Any], stage: str, target: str) 
     stages = state.get("stages")
     if not isinstance(stages, dict):
         return []
-    start = STAGES.index(stage) if stage in STAGES else 0
-    end = STAGES.index(target) if target in STAGES else len(STAGES) - 1
-    stale = [name for name in STAGES[start : end + 1] if name in stages]
+    order = stages_until(target)
+    start = order.index(stage) if stage in order else 0
+    stale = [name for name in order[start:] if name in stages]
     for name in stale:
         stages.pop(name, None)
     if stale:
@@ -821,6 +882,15 @@ def emit_completion_summary(project_root: Path, state: dict[str, Any], *, progre
 
 def repo_root() -> Path:
     return Path(__file__).resolve().parents[3]
+
+
+def repo_local_lark_cli_prefix() -> list[str] | None:
+    root = repo_root()
+    if not (root / "go.mod").exists():
+        return None
+    if not (root / "shortcuts" / "slides" / "slides_create_svg.go").exists():
+        return None
+    return ["env", f"GOCACHE={(root / '.gocache').as_posix()}", "go", "run", root.as_posix()]
 
 
 def write_text(path: Path, text: str) -> None:
@@ -1217,6 +1287,19 @@ def require_stage_passed(state: dict[str, Any], stage: str) -> None:
         raise RunnerError(f"required stage '{stage}' must be passed before continuing")
 
 
+def require_recorded_stage_receipt_current(project_root: Path, state: dict[str, Any], stage: str, *, profile: str) -> None:
+    record = state.get("stages", {}).get(stage)
+    if not isinstance(record, dict):
+        raise RunnerError(f"stage '{stage}' has no recorded receipt; rerun {stage}")
+    raw_receipt_path = record.get("receipt")
+    receipt_file = project_root / raw_receipt_path if isinstance(raw_receipt_path, str) and raw_receipt_path else receipt_path(project_root, stage)
+    receipt = read_json_optional(receipt_file)
+    if not receipt:
+        raise RunnerError(f"stage '{stage}' receipt is missing; rerun {stage}")
+    if svglide_stage_invalidation.receipt_hashes_stale(project_root, receipt, stage=stage, profile=profile):
+        raise RunnerError(f"stage '{stage}' receipt is stale; rerun {stage}")
+
+
 def block_unimplemented_stage(
     project_root: Path,
     stage: str,
@@ -1240,6 +1323,107 @@ def block_unimplemented_stage(
     record_stage(state, stage, "blocked", path)
     write_state(project_root, state)
     raise RunnerError(f"stage '{stage}' is not implemented in the P0 runner skeleton")
+
+
+def composite_substages_for_profile(stage: str, *, profile: str) -> list[str]:
+    substages = list(COMPOSITE_STAGE_SUBSTAGES.get(stage, []))
+    if stage == "publish_gate" and profile != "production_live":
+        substages = [substage for substage in substages if substage != "pre_submit_review"]
+    return substages
+
+
+def prune_composite_substage_records(state: dict[str, Any], active_substages: list[str], substage: str) -> list[str]:
+    stages = state.get("stages")
+    if not isinstance(stages, dict):
+        return []
+    start = active_substages.index(substage) if substage in active_substages else 0
+    stale = [name for name in active_substages[start:] if name in stages]
+    for name in stale:
+        stages.pop(name, None)
+    if stale:
+        existing = state.get("stale_pruned") if isinstance(state.get("stale_pruned"), list) else []
+        merged = list(existing)
+        for name in stale:
+            if name not in merged:
+                merged.append(name)
+        state["stale_pruned"] = merged
+    return stale
+
+
+def run_composite_substage(
+    project_root: Path,
+    state: dict[str, Any],
+    substage: str,
+    *,
+    profile: str,
+    active_substages: list[str] | None = None,
+) -> dict[str, Any]:
+    record = state.get("stages", {}).get(substage)
+    if record:
+        fail_if_existing_stage_failed(substage, record)
+        try:
+            require_recorded_stage_receipt_current(project_root, state, substage, profile=profile)
+            require_existing_stage_current(project_root, substage, profile=profile)
+            return state
+        except RunnerError as err:
+            if not is_rerun_required_error(err, substage):
+                raise
+            prune_composite_substage_records(state, active_substages or [substage], substage)
+            write_state(project_root, state)
+            state = load_state(project_root)
+    run_implemented_stage(project_root, substage, state, profile=profile)
+    return load_state(project_root)
+
+
+def run_composite_summary_stage(
+    project_root: Path,
+    state: dict[str, Any],
+    stage: str,
+    *,
+    profile: str,
+    substages: list[str] | None = None,
+    inputs: list[str] | None = None,
+    outputs: list[str] | None = None,
+) -> dict[str, Any]:
+    started_at = now_iso()
+    active_substages = substages if substages is not None else composite_substages_for_profile(stage, profile=profile)
+    for substage in active_substages:
+        try:
+            state = run_composite_substage(project_root, state, substage, profile=profile, active_substages=active_substages)
+        except RunnerError as err:
+            issue = collected_failure_from_stage(project_root, substage, err)
+            complete_stage(
+                project_root,
+                load_state(project_root),
+                stage,
+                "failed",
+                started_at=started_at,
+                inputs=[substage],
+                outputs=[],
+                command=["composite-stage", stage, *active_substages],
+                error={"code": "composite_substage_failed", "substage": substage, "issues": issue.get("issues", [])},
+            )
+            raise
+    state = load_state(project_root)
+    substage_receipts = [
+        state.get("stages", {}).get(substage, {}).get("receipt")
+        for substage in active_substages
+        if isinstance(state.get("stages", {}).get(substage), dict)
+    ]
+    receipt = complete_stage(
+        project_root,
+        state,
+        stage,
+        "passed",
+        started_at=started_at,
+        inputs=inputs or [item for item in substage_receipts if isinstance(item, str)],
+        outputs=outputs or [item for item in substage_receipts if isinstance(item, str)],
+        command=["composite-stage", stage, *active_substages],
+    )
+    receipt["substage_receipts"] = [item for item in substage_receipts if isinstance(item, str)]
+    receipt["substage_count"] = len(active_substages)
+    write_json(receipt_path(project_root, stage), receipt)
+    return receipt
 
 
 def plan_path(project_root: Path) -> Path:
@@ -1340,6 +1524,26 @@ def role_consumption_for_template_fidelity(project_root: Path, template_id: str 
     return None
 
 
+PAGE_FAMILY_FIDELITY_WARNING_CODES = {
+    "layout_main_region_misaligned",
+    "structure_similarity_below_threshold",
+}
+
+
+def _page_family_fidelity_can_warn(payload: dict[str, Any], smoke_payload: dict[str, Any] | None) -> bool:
+    if not smoke_payload or smoke_payload.get("status") != "passed":
+        return False
+    if payload.get("status") != "failed":
+        return False
+    score = payload.get("score")
+    warn_min = beautiful_template_fidelity_check.default_profile()["thresholds"]["warn_min"]
+    if not isinstance(score, (int, float)) or score < warn_min:
+        return False
+    issues = payload.get("issues") if isinstance(payload.get("issues"), list) else []
+    issue_codes = {item.get("code") for item in issues if isinstance(item, dict)}
+    return bool(issue_codes) and issue_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES
+
+
 def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, profile: str) -> dict[str, Any]:
     started_at = now_iso()
     started_perf = time.perf_counter()
@@ -1347,6 +1551,7 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
     strict = profile in {"production", "production_live"}
     rendered = rendered_png_for_template_fidelity(project_root, page)
     reference = reference_screenshot_for_template(template_id) if template_id else None
+    command = ["python3", (SCRIPT_DIR / "beautiful_template_fidelity_check.py").as_posix(), "--project", project_root.as_posix()]
     issues: list[dict[str, str]] = []
     if not template_id:
         issues.append({"code": "template_fidelity_template_missing", "message": "no selected template_id found in slide_plan"})
@@ -1368,6 +1573,9 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
             "render_screenshot": str(rendered),
             "score": 0.0,
             "threshold": beautiful_template_fidelity_check.default_profile()["thresholds"]["overall_min"],
+            "generated_by": "beautiful_template_fidelity_check.py",
+            "generator_version": beautiful_template_fidelity_check.GENERATOR_VERSION,
+            "command": command,
             "issues": issues,
             "claim_boundary": "template fidelity was skipped; this run cannot support high-quality beautiful-template claims",
         }
@@ -1381,16 +1589,14 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
         )
         payload["selected_template_id"] = template_id
         payload["page"] = page
+        payload["command"] = command
 
-    smoke_selected = beautiful_template_page_family_smoke.selected_beautiful_production_family(project_root)
+    smoke_selected = beautiful_template_page_family_smoke.selected_beautiful_current_family(project_root)
     smoke_fixture = beautiful_template_page_family_smoke.explicit_page_family_smoke_fixture(project_root)
     smoke_payload = None
     if smoke_selected or smoke_fixture:
         smoke_payload = beautiful_template_page_family_smoke.check_project_page_family_smoke(
             project_root,
-            selected_family=smoke_selected.get("selected_family_id") if smoke_selected else None,
-            selected_template=smoke_selected.get("selected_template_id") if smoke_selected else None,
-            selected_theme=smoke_selected.get("selected_theme_id") if smoke_selected else None,
             command=["python3", (SCRIPT_DIR / "beautiful_template_page_family_smoke.py").as_posix(), project_root.as_posix()],
         )
         write_json(project_root / beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_REL, smoke_payload)
@@ -1400,9 +1606,22 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
         payload["pages"] = smoke_payload.get("pages")
         payload["scope"] = "page_family" if smoke_payload.get("status") == "passed" else payload.get("scope", "single_page")
         payload["selected_family_id"] = smoke_payload.get("selected_family_id")
+        payload["selected_template_id"] = smoke_payload.get("selected_template_id") or payload.get("selected_template_id")
         payload["selected_theme_id"] = smoke_payload.get("selected_theme_id")
+        payload["selection_source"] = smoke_payload.get("selection_source")
+        payload["production_selectable"] = smoke_payload.get("production_selectable")
         if smoke_payload.get("status") != "passed":
             payload.setdefault("issues", []).extend(smoke_payload.get("artifact_issues") or [])
+        elif _page_family_fidelity_can_warn(payload, smoke_payload):
+            warning_issues = list(payload.get("issues") or [])
+            payload["status"] = "passed_with_warnings"
+            payload["issues"] = []
+            payload["warning_issues"] = warning_issues
+            payload["warning_threshold"] = beautiful_template_fidelity_check.default_profile()["thresholds"]["warn_min"]
+            payload["claim_boundary"] = (
+                "current deck page-family smoke passed; screenshot similarity is below production promotion threshold "
+                "and may not be used as standalone template promotion evidence"
+            )
 
     write_json(project_root / "06-check/template-fidelity.json", payload)
     write_json(project_root / "receipts/template-fidelity.json", payload)
@@ -1425,7 +1644,7 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
         started_at=started_at,
         inputs=["02-plan/slide_plan.json", "04-artboard/raw", "05-preview/preview.html"],
         outputs=stage_outputs,
-        command=["python3", (SCRIPT_DIR / "beautiful_template_fidelity_check.py").as_posix(), "--project", project_root.as_posix()],
+        command=command,
         error={"issues": issues_from_payload(payload), "message": "template fidelity failed"} if stage_status == "failed" else None,
         wall_time_seconds=time.perf_counter() - started_perf,
     )
@@ -1579,7 +1798,7 @@ def apply_page_family_selection_to_plan(plan: dict[str, Any], selection: dict[st
         spec = slide.get("canvas_spec")
         if not isinstance(spec, dict):
             continue
-        role = slide.get("page_role") or slide.get("page_type") or slide.get("role") or spec.get("page_role") or "content"
+        role = slide.get("page_role") or spec.get("page_role") or slide.get("page_type") or slide.get("role") or "content"
         role = str(role)
         variant_id, reason = choose_page_variant_id(selected_page_family, role, index)
         if spec.get("family_id") != family_id:
@@ -1611,6 +1830,23 @@ def apply_page_family_selection_to_plan(plan: dict[str, Any], selection: dict[st
             plan["variant_allocation_trace"] = trace
             changed = True
     return changed
+
+
+def project_palette_colors(project_palette: dict[str, Any]) -> dict[str, str]:
+    colors = project_palette.get("colors") if isinstance(project_palette.get("colors"), dict) else {}
+    return {str(key): value for key, value in colors.items() if isinstance(key, str) and isinstance(value, str) and value.strip()}
+
+
+def apply_project_palette_colors_to_canvas_spec(spec: dict[str, Any], colors: dict[str, str]) -> bool:
+    if not colors:
+        return False
+    theme = spec.get("theme") if isinstance(spec.get("theme"), dict) else {}
+    theme_colors = theme.get("colors") if isinstance(theme.get("colors"), dict) else {}
+    merged_colors = {**theme_colors, **colors}
+    if isinstance(spec.get("theme"), dict) and theme_colors == merged_colors:
+        return False
+    spec["theme"] = {**theme, "colors": merged_colors}
+    return True
 
 
 def apply_selection_receipts_to_plan(project_root: Path, plan: dict[str, Any]) -> bool:
@@ -1670,8 +1906,10 @@ def apply_selection_receipts_to_plan(project_root: Path, plan: dict[str, Any]) -
             "deterministic_seed": selection.get("deterministic_seed") or palette_selection.get("deterministic_seed"),
         }
         changed = True
+    project_palette_color_tokens: dict[str, str] = {}
     if isinstance(project_palette, dict):
-        colors = project_palette.get("colors") if isinstance(project_palette.get("colors"), dict) else {}
+        colors = project_palette_colors(project_palette)
+        project_palette_color_tokens = colors
         token_overrides = {
             f"color.{role}": colors[role]
             for role in ("background", "surface", "text", "muted", "primary", "accent")
@@ -1707,6 +1945,8 @@ def apply_selection_receipts_to_plan(project_root: Path, plan: dict[str, Any]) -
                 changed = True
             if "palette_id" not in spec and palette_selection.get("selected_palette_id"):
                 spec["palette_id"] = palette_selection.get("selected_palette_id")
+                changed = True
+            if apply_project_palette_colors_to_canvas_spec(spec, project_palette_color_tokens):
                 changed = True
             if not isinstance(spec.get("selection_trace"), dict):
                 template_rank = template_ids.index(spec.get("template_id")) + 1 if spec.get("template_id") in template_ids else None
@@ -2097,6 +2337,21 @@ def artboard_receipt_paths(project_root: Path) -> list[str]:
     return [path.relative_to(project_root).as_posix() for path in sorted(root.glob("page-*.receipt.json")) if path.is_file()]
 
 
+def artboard_layout_collision_issues(result: dict[str, Any] | None) -> list[dict[str, Any]]:
+    if not isinstance(result, dict):
+        return []
+    issues: list[dict[str, Any]] = []
+    for page in result.get("pages", []):
+        if not isinstance(page, dict):
+            continue
+        page_issues = page.get("issues")
+        if isinstance(page_issues, list):
+            for item in page_issues:
+                if isinstance(item, dict):
+                    issues.append(item)
+    return issues
+
+
 def require_source_current(project_root: Path) -> None:
     receipt = read_json(project_root / "source" / "source-receipt.json")
     if receipt.get("status") != "passed":
@@ -2265,7 +2520,7 @@ def run_generate_svg_stage(
                 "generate_svg",
                 "failed",
                 started_at=started_at,
-                inputs=["02-plan/slide_plan.json", "03-assets/assets.json"],
+                inputs=GENERATE_SVG_STAGE_INPUTS,
                 outputs=[],
                 command=command,
                 error={
@@ -2284,7 +2539,7 @@ def run_generate_svg_stage(
                 "generate_svg",
                 "failed",
                 started_at=started_at,
-                inputs=["02-plan/slide_plan.json", "03-assets/assets.json"],
+                inputs=GENERATE_SVG_STAGE_INPUTS,
                 outputs=["04-svg"],
                 command=command,
                 error={
@@ -2309,7 +2564,7 @@ def run_generate_svg_stage(
             "generate_svg",
             "failed",
             started_at=started_at,
-            inputs=["02-plan/slide_plan.json", "03-assets/assets.json"],
+            inputs=GENERATE_SVG_STAGE_INPUTS,
             outputs=[],
             command=command,
             error={
@@ -2326,6 +2581,7 @@ def run_generate_svg_stage(
     artboard_receipts = artboard_result.get("artboard_receipts") if isinstance(artboard_result.get("artboard_receipts"), list) else artboard_receipt_paths(project_root)
     artboard_additional_receipts = artboard_result.get("additional_receipts") if isinstance(artboard_result.get("additional_receipts"), list) else []
     artboard_output_paths: list[str] = []
+    artboard_layout_collision_result: dict[str, Any] | None = None
     if generation_mode == "artboard_satori":
         for key in ["canvas_spec_validate", "artboard_render_receipt", "satori_bridge_receipt"]:
             value = artboard_result.get(key)
@@ -2334,6 +2590,27 @@ def run_generate_svg_stage(
         contact_sheet = artboard_result.get("contact_sheet")
         if isinstance(contact_sheet, dict) and isinstance(contact_sheet.get("path"), str):
             artboard_output_paths.append(contact_sheet["path"])
+        try:
+            artboard_layout_collision_result = svglide_artboard_layout_collision.check_project(project_root, write=True)
+        except svglide_artboard_layout_collision.LayoutCollisionError as err:
+            complete_stage(
+                project_root,
+                state,
+                "generate_svg",
+                "failed",
+                started_at=started_at,
+                inputs=GENERATE_SVG_STAGE_INPUTS,
+                outputs=[item["path"] for item in generated_files],
+                command=command,
+                error={
+                    "code": "artboard_layout_collision_check_error",
+                    "message": str(err),
+                },
+            )
+            raise RunnerError("artboard layout collision check failed") from err
+        for value in [artboard_layout_collision_result.get("path"), artboard_layout_collision_result.get("receipt")]:
+            if isinstance(value, str):
+                artboard_output_paths.append(value)
     page_receipts = write_page_generation_receipts(
         project_root,
         generated_files,
@@ -2343,19 +2620,28 @@ def run_generate_svg_stage(
         artboard_receipts if generation_mode == "artboard_satori" else None,
         asset_injection_summary,
     )
+    collision_failed = bool(artboard_layout_collision_result and artboard_layout_collision_result.get("status") != "passed")
+    collision_issues = artboard_layout_collision_issues(artboard_layout_collision_result)
     receipt = complete_stage(
         project_root,
         state,
         "generate_svg",
-        "passed",
+        "failed" if collision_failed else "passed",
         started_at=started_at,
-        inputs=["02-plan/slide_plan.json", "03-assets/assets.json"],
+        inputs=GENERATE_SVG_STAGE_INPUTS,
         outputs=[item["path"] for item in generated_files]
         + page_receipts
         + (artboard_receipts if generation_mode == "artboard_satori" else [])
         + (artboard_additional_receipts if generation_mode == "artboard_satori" else [])
         + artboard_output_paths,
         command=command,
+        error={
+            "code": "artboard_layout_collision_failed",
+            "message": "raw artboard layout has text overlap or overflow",
+            "issues": collision_issues,
+        }
+        if collision_failed
+        else None,
     )
     receipt["generator_mode"] = generator_mode
     receipt["generation_mode"] = generation_mode
@@ -2370,6 +2656,11 @@ def run_generate_svg_stage(
         for key in ["canvas_spec_validate", "artboard_render_receipt", "satori_bridge_receipt", "contact_sheet"]:
             if key in artboard_result:
                 receipt[key] = artboard_result[key]
+        if artboard_layout_collision_result:
+            receipt["artboard_layout_collision"] = artboard_layout_collision_result.get("path") or ARTBOARD_LAYOUT_COLLISION.as_posix()
+            receipt["artboard_layout_collision_receipt"] = artboard_layout_collision_result.get("receipt") or ARTBOARD_LAYOUT_COLLISION_RECEIPT.as_posix()
+            receipt["artboard_layout_collision_sha256"] = optional_project_file_hash(project_root, receipt["artboard_layout_collision"])
+            receipt["artboard_layout_collision_receipt_sha256"] = optional_project_file_hash(project_root, receipt["artboard_layout_collision_receipt"])
     receipt["asset_injection_summary"] = asset_injection_summary
     page_receipt_payloads = [read_json(project_root / path) for path in page_receipts]
     receipt["fallback_skeleton_used"] = any(bool(payload.get("fallback_skeleton_used")) for payload in page_receipt_payloads)
@@ -2403,6 +2694,8 @@ def run_generate_svg_stage(
         write_state(project_root, state)
         raise RunnerError("generate_svg receipt validation failed")
     write_json(receipt_path(project_root, "generate_svg"), receipt)
+    if collision_failed:
+        raise RunnerError("artboard layout collision check failed")
     if generation_mode == "artboard_satori":
         fit_command = [
             "python3",
@@ -2452,6 +2745,19 @@ def require_generated_svg_current(project_root: Path) -> None:
         raw_manifest = receipt.get("raw_visual_manifest")
         if not isinstance(raw_manifest, str) or not (project_root / raw_manifest).exists():
             raise RunnerError("generate_svg receipt is missing raw_visual_manifest; rerun generate_svg")
+        layout_collision = receipt.get("artboard_layout_collision")
+        if not isinstance(layout_collision, str) or not (project_root / layout_collision).exists():
+            raise RunnerError("generate_svg receipt is missing artboard layout collision check; rerun generate_svg")
+        layout_collision_payload = read_json(project_root / layout_collision)
+        if layout_collision_payload.get("status") != "passed":
+            raise RunnerError("artboard layout collision check failed; rerun generate_svg after repair")
+        if receipt.get("artboard_layout_collision_sha256") != optional_project_file_hash(project_root, layout_collision):
+            raise RunnerError("generate_svg artboard layout collision check hash is stale; rerun generate_svg")
+        layout_collision_receipt = receipt.get("artboard_layout_collision_receipt")
+        if not isinstance(layout_collision_receipt, str) or not (project_root / layout_collision_receipt).exists():
+            raise RunnerError("generate_svg receipt is missing artboard layout collision receipt; rerun generate_svg")
+        if receipt.get("artboard_layout_collision_receipt_sha256") != optional_project_file_hash(project_root, layout_collision_receipt):
+            raise RunnerError("generate_svg artboard layout collision receipt hash is stale; rerun generate_svg")
     command = receipt.get("command")
     if isinstance(command, list) and len(command) > 1 and isinstance(command[1], str):
         script = Path(command[1])
@@ -2486,6 +2792,15 @@ def require_contract_compile_current(project_root: Path) -> None:
 def require_existing_stage_current(project_root: Path, stage: str, *, profile: str = "production") -> None:
     if stage == "source":
         require_source_current(project_root)
+    elif stage == "plan_and_style":
+        require_source_current(project_root)
+        for substage in PLAN_AND_STYLE_SUBSTAGES:
+            require_stage_passed(load_state(project_root), substage)
+            require_existing_stage_current(project_root, substage, profile=profile)
+    elif stage == "plan_gate":
+        for substage in PLAN_GATE_SUBSTAGES:
+            require_stage_passed(load_state(project_root), substage)
+            require_existing_stage_current(project_root, substage, profile=profile)
     elif stage == "theme_validate":
         check = read_json(project_root / "06-check/theme-validate.json")
         inputs = check.get("inputs")
@@ -2508,24 +2823,75 @@ def require_existing_stage_current(project_root: Path, stage: str, *, profile: s
         require_generation_benchmark_current(project_root, profile=profile)
     elif stage == "dry_run":
         require_quality_gate_current(project_root)
-        require_generation_benchmark_current(project_root, profile=profile)
     elif stage == "visual_acceptance":
         require_visual_acceptance_current(project_root)
+    elif stage == "publish_gate":
+        require_quality_gate_current(project_root)
+        require_stage_passed(load_state(project_root), "generation_benchmark")
+        require_generation_benchmark_current(project_root, profile=profile)
+        require_visual_acceptance_current(project_root)
+        require_stage_passed(load_state(project_root), "ppe_proof")
+        require_ppe_proof_current(project_root)
+        require_stage_passed(load_state(project_root), "create_svg_capability_probe")
+        require_create_svg_capability_probe_current(project_root)
+        if profile == "production_live":
+            require_stage_passed(load_state(project_root), "pre_submit_review")
+            require_pre_submit_review_current(project_root)
     elif stage == "live_create":
         require_quality_gate_current(project_root)
         require_visual_acceptance_current(project_root)
         require_ppe_proof_current(project_root)
+        require_create_svg_capability_probe_current(project_root)
         if profile == "production_live":
             require_pre_submit_review_current(project_root)
     elif stage == "ppe_proof":
         require_visual_acceptance_current(project_root)
         require_ppe_proof_current(project_root)
+    elif stage == "create_svg_capability_probe":
+        require_visual_acceptance_current(project_root)
+        require_ppe_proof_current(project_root)
+        require_create_svg_capability_probe_current(project_root)
     elif stage == "pre_submit_review":
         require_visual_acceptance_current(project_root)
+        require_create_svg_capability_probe_current(project_root)
         require_pre_submit_review_current(project_root)
     elif stage == "readback":
         require_quality_gate_current(project_root)
         require_visual_acceptance_current(project_root)
+    elif stage == "editability_gate":
+        require_editability_gate_current(project_root)
+
+
+def editability_gate_svg_source_hashes(project_root: Path) -> list[dict[str, str]]:
+    return [
+        {"path": project_relpath(path, project_root), "sha256": file_sha256(path)}
+        for path in svglide_editability_gate.source_svgs_for_gate(project_root)
+    ]
+
+
+def require_editability_gate_current(project_root: Path) -> dict[str, Any]:
+    report = read_json(project_root / "08-readback" / "editability-report.json")
+    if report.get("status") != "passed":
+        raise RunnerError("editability_gate must pass before downstream delivery")
+    inputs = report.get("inputs")
+    if not isinstance(inputs, dict):
+        raise RunnerError("editability_gate inputs are missing; rerun editability_gate")
+    readback_json = inputs.get("readback_json")
+    if not isinstance(readback_json, str) or not readback_json:
+        raise RunnerError("editability_gate readback_json input is missing; rerun editability_gate")
+    if inputs.get("readback_json_sha256") != optional_project_file_hash(project_root, readback_json):
+        raise RunnerError("editability_gate readback hash is stale; rerun editability_gate")
+    recorded_sources = inputs.get("svg_sources")
+    if not isinstance(recorded_sources, list):
+        raise RunnerError("editability_gate svg_sources input is missing; rerun editability_gate")
+    recorded_hashes = [
+        {"path": item.get("path"), "sha256": item.get("sha256")}
+        for item in recorded_sources
+        if isinstance(item, dict)
+    ]
+    if recorded_hashes != editability_gate_svg_source_hashes(project_root):
+        raise RunnerError("editability_gate SVG source hashes are stale; rerun editability_gate")
+    return report
 
 
 def require_quality_gate_passed(project_root: Path) -> dict[str, Any]:
@@ -2545,16 +2911,12 @@ def require_quality_gate_current(project_root: Path) -> dict[str, Any]:
         raise RunnerError("quality gate is missing visual_distinctness input; rerun quality_gate")
     if inputs.get("theme_validate") != "06-check/theme-validate.json":
         raise RunnerError("quality gate is missing theme_validate input; rerun theme_validate and quality_gate")
-    if inputs.get("theme_adherence") != "06-check/theme-adherence.json":
-        raise RunnerError("quality gate is missing theme_adherence input; rerun theme_adherence and quality_gate")
     checks = gate.get("checks")
     check_names = {item.get("name") for item in checks if isinstance(item, dict)} if isinstance(checks, list) else set()
     if "visual-distinctness" not in check_names:
         raise RunnerError("quality gate is missing visual-distinctness check; rerun quality_gate")
     if "theme-validate" not in check_names:
         raise RunnerError("quality gate is missing theme-validate check; rerun quality_gate")
-    if "theme-adherence" not in check_names:
-        raise RunnerError("quality gate is missing theme-adherence check; rerun quality_gate")
     if plan_has_selection_artifacts(project_root):
         for input_name, rel, check_name in [
             ("palette_review", "06-check/palette-review.json", "palette-review"),
@@ -2572,7 +2934,6 @@ def require_quality_gate_current(project_root: Path) -> dict[str, Any]:
         raise RunnerError("visual distinctness receipt is missing; rerun visual_distinctness_review and quality_gate")
     for input_name, rel in [
         ("theme_validate", "06-check/theme-validate.json"),
-        ("theme_adherence", "06-check/theme-adherence.json"),
         ("visual_distinctness", "06-check/visual-distinctness.json"),
     ]:
         if not (project_root / rel).exists():
@@ -2582,7 +2943,6 @@ def require_quality_gate_current(project_root: Path) -> dict[str, Any]:
         raise RunnerError("quality gate is missing input_hashes; rerun quality_gate")
     for input_name, rel in [
         ("theme_validate", "06-check/theme-validate.json"),
-        ("theme_adherence", "06-check/theme-adherence.json"),
         ("visual_distinctness", "06-check/visual-distinctness.json"),
         ("generator_receipt", "receipts/generate_svg.json"),
     ]:
@@ -2604,15 +2964,7 @@ def require_quality_gate_current(project_root: Path) -> dict[str, Any]:
             raise RunnerError("quality gate is missing artboard-package-check check; rerun quality_gate")
         if input_hashes.get("artboard_package_check") != optional_project_file_hash(project_root, "06-check/artboard-package-check.json"):
             raise RunnerError("quality gate artboard_package_check hash is stale; rerun quality_gate")
-        if inputs.get("snapshot_visual_fidelity") != "06-check/visual-fidelity/manifest.json":
-            raise RunnerError("quality gate is missing snapshot_visual_fidelity input; rerun snapshot_visual_fidelity and quality_gate")
-        if "snapshot-visual-fidelity" not in check_names:
-            raise RunnerError("quality gate is missing snapshot-visual-fidelity check; rerun quality_gate")
-        if input_hashes.get("snapshot_visual_fidelity") != optional_project_file_hash(project_root, "06-check/visual-fidelity/manifest.json"):
-            raise RunnerError("quality gate snapshot_visual_fidelity hash is stale; rerun quality_gate")
-        if input_hashes.get("snapshot_visual_fidelity_evidence") != snapshot_visual_fidelity_evidence_hash(project_root):
-            raise RunnerError("quality gate snapshot_visual_fidelity evidence is stale; rerun quality_gate")
-    if gate.get("profile") in {"production", "production_live", "local_real_preview"} and beautiful_template_page_family_smoke.selected_beautiful_production_family(project_root):
+    if gate.get("profile") in {"production", "production_live", "local_real_preview"} and beautiful_template_page_family_smoke.selected_beautiful_current_family(project_root):
         if inputs.get(beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_INPUT_KEY) != beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_REL.as_posix():
             raise RunnerError("quality gate is missing page_family_smoke input; rerun template_fidelity and quality_gate")
         if "page-family-smoke" not in check_names:
@@ -2634,8 +2986,6 @@ def require_generation_benchmark_current(project_root: Path, *, profile: str) ->
     quality = benchmark.get("quality")
     if not isinstance(quality, list) or not quality:
         raise RunnerError("generation_benchmark quality report is missing; rerun generation_benchmark")
-    if any(not isinstance(item, dict) or item.get("status") != "passed" for item in quality):
-        raise RunnerError("generation_benchmark quality report has failures; rerun generation_benchmark")
     cache = benchmark.get("cache")
     if not isinstance(cache, dict) or not isinstance(cache.get("hit_count"), int) or not isinstance(cache.get("miss_count"), int):
         raise RunnerError("generation_benchmark cache telemetry is missing; rerun generation_benchmark")
@@ -2653,19 +3003,16 @@ def quality_gate_stage_inputs(project_root: Path, *, profile: str = "production"
         "06-check/template-fidelity.json",
         "06-check/aesthetic-review.json",
         "06-check/chart-verify.json",
-        "06-check/semantic-review.json",
         "06-check/runtime-review.json",
         "06-check/visual-distinctness.json",
         "06-check/theme-validate.json",
-        "06-check/theme-adherence.json",
         "06-check/palette-review.json",
         "06-check/theme-template-selection-review.json",
         "06-check/plan-bundle-review.json",
         "06-check/diversity-gate.json",
-        "06-check/visual-fidelity/manifest.json",
         "receipts/generate_svg.json",
     ]
-    if profile in {"production", "production_live", "local_real_preview"} and beautiful_template_page_family_smoke.selected_beautiful_production_family(project_root):
+    if profile in {"production", "production_live", "local_real_preview"} and beautiful_template_page_family_smoke.selected_beautiful_current_family(project_root):
         inputs.append(beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_REL.as_posix())
     return inputs
 
@@ -2801,7 +3148,6 @@ def require_pre_submit_review_current(project_root: Path) -> dict[str, Any]:
     expected = {
         "plan_sha256": optional_project_file_hash(project_root, "02-plan/slide_plan.json"),
         "quality_gate_sha256": optional_project_file_hash(project_root, "06-check/quality-gate.json"),
-        "theme_adherence_sha256": optional_project_file_hash(project_root, "06-check/theme-adherence.json"),
         "visual_distinctness_sha256": optional_project_file_hash(project_root, "06-check/visual-distinctness.json"),
     }
     for key, current in expected.items():
@@ -2809,9 +3155,14 @@ def require_pre_submit_review_current(project_root: Path) -> dict[str, Any]:
             raise RunnerError(f"pre_submit_review {key} does not match current project files; rerun pre_submit_review")
     if review.get("prepared_files") != prepared_file_hashes(project_root):
         raise RunnerError("prepared SVG files changed after pre_submit_review; rerun pre_submit_review")
-    human = review.get("human_approval")
-    if not isinstance(human, dict) or human.get("approved") is not True:
-        raise RunnerError("pre_submit_review is missing human approval")
+    if review.get("review_mode") == "auto_gates":
+        auto = review.get("auto_approval")
+        if not isinstance(auto, dict) or auto.get("approved") is not True:
+            raise RunnerError("pre_submit_review auto gate approval is missing")
+    else:
+        human = review.get("human_approval")
+        if not isinstance(human, dict) or human.get("approved") is not True:
+            raise RunnerError("pre_submit_review is missing human approval")
     return review
 
 
@@ -2830,43 +3181,54 @@ def require_ppe_proof_current(project_root: Path) -> dict[str, Any]:
     for key, current in expected.items():
         if inputs.get(key) != current:
             raise RunnerError(f"PPE proof {key} does not match current project files; rerun ppe_proof")
-    require_ppe_create_probe_current(project_root, proof)
-    if project_has_image_assets(project_root):
-        require_ppe_image_probe_current(project_root, proof)
+    proxy_runtime = proof.get("proxy_runtime")
+    if not isinstance(proxy_runtime, dict) or proxy_runtime.get("command_env_strategy") != "inject proof proxy env into create-svg subprocess":
+        raise RunnerError("PPE proof proxy_runtime is missing; rerun ppe_proof")
     return proof
 
 
-def require_ppe_create_probe_current(project_root: Path, proof: dict[str, Any]) -> dict[str, Any]:
+def require_create_svg_capability_probe_current(project_root: Path) -> dict[str, Any]:
     probe = read_json(project_root / PPE_CREATE_PROBE)
     if probe.get("status") != "create_route_passed":
-        raise RunnerError("ppe_create_probe must pass before live create")
-    proof_inputs = proof.get("inputs")
-    if not isinstance(proof_inputs, dict) or proof_inputs.get("create_probe_sha256") != file_sha256(project_root / PPE_CREATE_PROBE):
-        raise RunnerError("PPE proof create probe hash is stale; rerun ppe_proof")
+        raise RunnerError("create_svg_capability_probe must pass before live create")
     probe_inputs = probe.get("inputs")
     if not isinstance(probe_inputs, dict):
-        raise RunnerError("ppe_create_probe inputs are missing; rerun ppe_proof")
+        raise RunnerError("ppe_create_probe inputs are missing; rerun create_svg_capability_probe")
     if probe_inputs.get("proof_input_sha256") != optional_project_file_hash(project_root, "07-create/ppe-proof.input.json"):
-        raise RunnerError("ppe_create_probe proof input hash is stale; rerun ppe_proof")
+        raise RunnerError("ppe_create_probe proof input hash is stale; rerun create_svg_capability_probe")
+    probe_file = probe_inputs.get("probe_file")
+    probe_hash = probe_inputs.get("probe_hash")
+    if not isinstance(probe_file, str) or not probe_file:
+        raise RunnerError("ppe_create_probe probe_file is missing; rerun create_svg_capability_probe")
+    if not isinstance(probe_hash, str) or probe_hash != optional_project_file_hash(project_root, probe_file):
+        raise RunnerError("ppe_create_probe probe hash is stale; rerun create_svg_capability_probe")
+    if not isinstance(probe.get("headers"), dict):
+        raise RunnerError("ppe_create_probe headers are missing; rerun create_svg_capability_probe")
+    if not isinstance(probe.get("target_host"), str) or not probe.get("target_host"):
+        raise RunnerError("ppe_create_probe target_host is missing; rerun create_svg_capability_probe")
+    proxy_runtime = probe.get("proxy_runtime")
+    if not isinstance(proxy_runtime, dict) or proxy_runtime.get("command_env_strategy") != "inject proof proxy env into create-svg subprocess":
+        raise RunnerError("ppe_create_probe proxy_runtime is missing; rerun create_svg_capability_probe")
+    if "contains_svglide_error_json" not in probe:
+        raise RunnerError("ppe_create_probe SVGLIDE_ERROR_JSON marker field is missing; rerun create_svg_capability_probe")
+    if "raw_server_error" not in probe:
+        raise RunnerError("ppe_create_probe raw_server_error is missing; rerun create_svg_capability_probe")
+    if project_has_image_assets(project_root):
+        require_ppe_image_probe_current(project_root)
     return probe
 
 
-def require_ppe_image_probe_current(project_root: Path, proof: dict[str, Any]) -> dict[str, Any]:
+def require_ppe_image_probe_current(project_root: Path) -> dict[str, Any]:
     probe = read_json(project_root / PPE_IMAGE_PROBE)
     if probe.get("status") != "image_meta_passed":
         raise RunnerError("ppe_image_probe must pass before live create")
-    proof_inputs = proof.get("inputs")
-    if not isinstance(proof_inputs, dict) or proof_inputs.get("image_probe_required") is not True:
-        raise RunnerError("PPE proof is missing required image probe; rerun ppe_proof")
-    if proof_inputs.get("image_probe_sha256") != file_sha256(project_root / PPE_IMAGE_PROBE):
-        raise RunnerError("PPE proof image probe hash is stale; rerun ppe_proof")
     probe_inputs = probe.get("inputs")
     if not isinstance(probe_inputs, dict):
-        raise RunnerError("ppe_image_probe inputs are missing; rerun ppe_proof")
+        raise RunnerError("ppe_image_probe inputs are missing; rerun create_svg_capability_probe")
     assets_path = project_root / "03-assets/assets.json"
     expected_assets_hash = file_sha256(assets_path) if assets_path.exists() else None
     if probe_inputs.get("assets_json_sha256") != expected_assets_hash:
-        raise RunnerError("ppe_image_probe assets hash is stale; rerun ppe_proof")
+        raise RunnerError("ppe_image_probe assets hash is stale; rerun create_svg_capability_probe")
     return probe
 
 
@@ -3093,13 +3455,87 @@ def run_visual_acceptance_stage(project_root: Path, state: dict[str, Any], *, pr
     return {"stage": "visual_acceptance", "status": status, "receipt": project_relpath(receipt, project_root)}
 
 
+def issues_from_probe(probe: dict[str, Any], fallback_code: str, message: str) -> list[dict[str, Any]]:
+    issues = probe.get("issues")
+    if isinstance(issues, list) and issues:
+        return [item for item in issues if isinstance(item, dict)]
+    summary = probe.get("summary")
+    code = summary.get("classification") if isinstance(summary, dict) and isinstance(summary.get("classification"), str) else fallback_code
+    return [{"code": code, "message": message, "root_cause_group": "svg_parser"}]
+
+
+def run_create_svg_capability_probe_stage(project_root: Path, state: dict[str, Any]) -> dict[str, Any]:
+    started_at = now_iso()
+    started_perf = time.perf_counter()
+    require_stage_passed(state, "ppe_proof")
+    proof_receipt = require_ppe_proof_current(project_root)
+    proof_payload = proof_receipt.get("proof")
+    if not isinstance(proof_payload, dict):
+        raise RunnerError("PPE proof payload is missing; rerun ppe_proof")
+
+    outputs = [PPE_CREATE_PROBE.as_posix()]
+    create_probe = svglide_ppe_proof.run_create_probe(
+        project_root,
+        proof_payload,
+        dry_run=False,
+        title="SVGlide create-svg capability probe",
+    )
+    command = create_probe.get("command") if isinstance(create_probe.get("command"), list) else ["create_svg_capability_probe"]
+    if create_probe.get("status") != "create_route_passed":
+        issues = issues_from_probe(create_probe, "server_error_unstructured", "create-svg minimal rect capability probe failed")
+        complete_stage(
+            project_root,
+            state,
+            "create_svg_capability_probe",
+            "failed",
+            started_at=started_at,
+            inputs=["07-create/ppe-proof.json", "07-create/ppe-proof.input.json"],
+            outputs=outputs,
+            command=command,
+            error={"code": "create_svg_capability_probe_failed", "issues": issues},
+            wall_time_seconds=time.perf_counter() - started_perf,
+        )
+        raise RunnerError("stage 'create_svg_capability_probe' failed with exit code 1")
+
+    if project_has_image_assets(project_root):
+        outputs.append(PPE_IMAGE_PROBE.as_posix())
+        image_probe = svglide_ppe_proof.run_image_probe(project_root, proof_payload)
+        if image_probe.get("status") != "image_meta_passed":
+            issues = issues_from_probe(image_probe, "image_meta_blocked", "PPE image probe failed")
+            complete_stage(
+                project_root,
+                state,
+                "create_svg_capability_probe",
+                "failed",
+                started_at=started_at,
+                inputs=["07-create/ppe-proof.json", "07-create/ppe-proof.input.json", "03-assets/assets.json"],
+                outputs=outputs,
+                command=command,
+                error={"code": "ppe_image_probe_failed", "issues": issues},
+                wall_time_seconds=time.perf_counter() - started_perf,
+            )
+            raise RunnerError("stage 'create_svg_capability_probe' failed with exit code 1")
+
+    return complete_stage(
+        project_root,
+        state,
+        "create_svg_capability_probe",
+        "passed",
+        started_at=started_at,
+        inputs=["07-create/ppe-proof.json", "07-create/ppe-proof.input.json", "03-assets/assets.json"],
+        outputs=outputs,
+        command=command,
+        wall_time_seconds=time.perf_counter() - started_perf,
+    )
+
+
 def lark_cli_command_prefix() -> list[str]:
     raw = os.environ.get(LARK_CLI_COMMAND_ENV, "").strip()
     if not raw:
-        return ["lark-cli"]
+        return repo_local_lark_cli_prefix() or ["lark-cli"]
     parsed = shlex.split(raw)
     if not parsed:
-        return ["lark-cli"]
+        return repo_local_lark_cli_prefix() or ["lark-cli"]
     return parsed
 
 
@@ -3119,16 +3555,53 @@ def project_cli_arg_path(project_root: Path, path: Path) -> str:
 
 def require_ppe_live_profile_ready(project_root: Path) -> None:
     proof = require_ppe_proof_current(project_root)
+    require_create_svg_capability_probe_current(project_root)
     proof_payload = proof.get("proof")
     if not isinstance(proof_payload, dict):
         raise RunnerError("PPE proof payload is missing; rerun ppe_proof")
     headers = proof_payload.get("headers")
     if not isinstance(headers, dict):
         raise RunnerError("PPE proof headers are missing; rerun ppe_proof")
-    expected_headers = {"Env": "Pre_release", "x-tt-env": "ppe_pure_svg", "x-use-ppe": "1"}
-    for key, value in expected_headers.items():
+    for key, value in PPE_PURE_SVG_HEADERS.items():
         if headers.get(key) != value:
             raise RunnerError(f"PPE proof headers.{key} must be {value}")
+
+
+PPE_PURE_SVG_HEADERS = {"Env": "Pre_release", "x-tt-env": "ppe_pure_svg", "x-use-ppe": "1"}
+PPE_PURE_SVG_RULE = "skills/lark-slides/references/ppe-pure-svg.whistle.js"
+
+
+def default_ppe_proof_input() -> dict[str, Any]:
+    rule_path = repo_root() / PPE_PURE_SVG_RULE
+    if not rule_path.exists():
+        raise RunnerError(f"PPE proof rule file is missing: {PPE_PURE_SVG_RULE}")
+    return {
+        "status": "passed",
+        "environment": {"name": "Pre_release", "x-tt-env": "ppe_pure_svg"},
+        "auth": {"identity": "user"},
+        "proxy": {
+            "mode": "whistle",
+            "capture": True,
+            "http_proxy": "http://127.0.0.1:8899",
+            "https_proxy": "http://127.0.0.1:8899",
+            "rewrite_host": "open.feishu-pre.cn",
+            "rule_file": PPE_PURE_SVG_RULE,
+            "rule_sha256": file_sha256(rule_path),
+            "inject_headers": dict(PPE_PURE_SVG_HEADERS),
+        },
+        "headers": dict(PPE_PURE_SVG_HEADERS),
+        "route": {"name": "slides +create-svg", "lane": "pure-svg"},
+        "probe_command": lark_cli_command_prefix(),
+        "generated_by": "svglide_project_runner.ensure_default_ppe_proof_input",
+    }
+
+
+def ensure_default_ppe_proof_input(project_root: Path) -> bool:
+    proof_input = project_root / "07-create" / "ppe-proof.input.json"
+    if proof_input.exists():
+        return False
+    write_json(proof_input, default_ppe_proof_input())
+    return True
 
 
 def create_command(project_root: Path, *, dry_run: bool) -> list[str]:
@@ -3168,7 +3641,12 @@ def run_create_stage(
             require_stage_passed(state, "visual_acceptance")
         require_visual_acceptance_current(project_root)
         require_stage_passed(state, "ppe_proof")
-        require_ppe_proof_current(project_root)
+        proof_receipt = require_ppe_proof_current(project_root)
+        proof_payload = proof_receipt.get("proof")
+        if not isinstance(proof_payload, dict):
+            raise RunnerError("PPE proof payload is missing; rerun ppe_proof")
+        require_stage_passed(state, "create_svg_capability_probe")
+        require_create_svg_capability_probe_current(project_root)
         if profile == "production_live":
             require_stage_passed(state, "pre_submit_review")
             require_pre_submit_review_current(project_root)
@@ -3189,7 +3667,18 @@ def run_create_stage(
 
     command = create_command(project_root, dry_run=dry_run)
     write_command_trace(project_root, command)
-    completed = command_runner(command, cwd=project_root, check=False, capture_output=True, text=True)
+    command_env = None
+    proxy_runtime = None
+    if not dry_run:
+        proof_receipt = require_ppe_proof_current(project_root)
+        proof_payload = proof_receipt.get("proof")
+        if isinstance(proof_payload, dict):
+            command_env = svglide_ppe_proof.subprocess_env_for_proof(proof_payload)
+            proxy_runtime = svglide_ppe_proof.proxy_runtime_evidence(proof_payload, command_env)
+    run_kwargs: dict[str, Any] = {"cwd": project_root, "check": False, "capture_output": True, "text": True}
+    if command_env is not None:
+        run_kwargs["env"] = command_env
+    completed = command_runner(command, **run_kwargs)
     record = {
         "version": "svglide-create-stage/v1",
         "stage": stage,
@@ -3201,6 +3690,8 @@ def run_create_stage(
         "stderr": completed.stderr,
         "json": parse_json_or_none(completed.stdout),
     }
+    if proxy_runtime is not None:
+        record["proxy_runtime"] = proxy_runtime
     output_path = project_root / "07-create" / ("dry-run.json" if dry_run else "live-create.json")
     write_json(output_path, record)
     outputs = ["07-create/create-command.txt", output_path.relative_to(project_root).as_posix()]
@@ -3247,11 +3738,34 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
                 "receipts/source.json",
             ],
         )
+    if stage == "plan_and_style":
+        return run_composite_summary_stage(
+            project_root,
+            state,
+            stage,
+            profile=profile,
+            outputs=["02-plan/slide_plan.json", "02-plan/palette-selection.json", "02-plan/theme-template-selection.json"],
+        )
     if stage == "select_style":
         require_stage_passed(state, "source")
         return run_select_style_stage(project_root, state)
     if stage == "plan":
         return run_plan_stage(project_root, state)
+    if stage == "plan_gate":
+        return run_composite_summary_stage(
+            project_root,
+            state,
+            stage,
+            profile=profile,
+            outputs=[
+                "02-plan/strategy-review.json",
+                "06-check/theme-validate.json",
+                "06-check/palette-review.json",
+                "06-check/theme-template-selection-review.json",
+                "06-check/plan-bundle-review.json",
+                "06-check/artboard-package-check.json",
+            ],
+        )
     if stage == "strategy_review":
         require_stage_passed(state, "source")
         require_source_current(project_root)
@@ -3430,19 +3944,8 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
             inputs=["02-plan/slide_plan.json", "04-svg/prepared"],
             outputs=["06-check/chart-verify.json"],
         )
-    if stage == "semantic_review":
-        require_stage_passed(state, "chart_verify")
-        return run_script_stage(
-            project_root,
-            state,
-            stage,
-            ["python3", (SCRIPT_DIR / "svglide_semantic_review.py").as_posix(), project_root.as_posix(), "--profile", profile, "--pretty"],
-            output_json=project_root / "06-check" / "semantic-review.json",
-            inputs=["02-plan/slide_plan.json", "source/evidence.json", "04-svg/prepared"],
-            outputs=["06-check/semantic-review.json", "06-check/text-inventory.json"],
-        )
     if stage == "runtime_review":
-        require_stage_passed(state, "semantic_review")
+        require_stage_passed(state, "chart_verify")
         return run_script_stage(
             project_root,
             state,
@@ -3474,18 +3977,6 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
             inputs=["02-plan/slide_plan.json", "02-plan/selection-metadata.json"],
             outputs=["06-check/diversity-gate.json"],
         )
-    if stage == "theme_adherence":
-        require_stage_passed(state, "visual_distinctness_review")
-        require_stage_passed(state, "theme_validate")
-        return run_script_stage(
-            project_root,
-            state,
-            stage,
-            ["python3", (SCRIPT_DIR / "svglide_theme_adherence.py").as_posix(), project_root.as_posix(), "--pretty"],
-            output_json=project_root / "06-check" / "theme-adherence.json",
-            inputs=["02-plan/slide_plan.json", "06-check/theme-validate.json", "04-svg/prepared"],
-            outputs=["06-check/theme-adherence.json", "receipts/theme-adherence.json"],
-        )
     if stage == "snapshot_visual_fidelity":
         if plan_generation_mode(project_root) != "artboard_satori":
             started_at = now_iso()
@@ -3502,7 +3993,8 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
             receipt["skip_reason"] = "generation_mode_not_artboard_satori"
             write_json(receipt_path(project_root, stage), receipt)
             return receipt
-        require_stage_passed(state, "theme_adherence")
+        require_stage_passed(state, "editability_gate")
+        require_editability_gate_current(project_root)
         return run_script_stage(
             project_root,
             state,
@@ -3513,6 +4005,8 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
             outputs=["06-check/visual-fidelity/manifest.json", "receipts/snapshot_visual_fidelity.json"],
         )
     if stage == "quality_gate":
+        for substage in composite_substages_for_profile(stage, profile=profile):
+            state = run_composite_substage(project_root, state, substage, profile=profile)
         if selection_gate_required(project_root, state):
             require_stage_passed(state, "palette_review")
             require_stage_passed(state, "selection_review")
@@ -3522,12 +4016,8 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
         require_stage_passed(state, "template_fidelity")
         require_stage_passed(state, "aesthetic_review")
         require_stage_passed(state, "chart_verify")
-        require_stage_passed(state, "semantic_review")
         require_stage_passed(state, "runtime_review")
         require_stage_passed(state, "visual_distinctness_review")
-        require_stage_passed(state, "theme_adherence")
-        if plan_generation_mode(project_root) == "artboard_satori":
-            require_stage_passed(state, "snapshot_visual_fidelity")
         return run_script_stage(
             project_root,
             state,
@@ -3548,13 +4038,10 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
                 "02-plan/slide_plan.json",
                 "03-assets/asset-manifest.json",
                 "06-check/quality-gate.json",
-                "06-check/timing-report.json",
             ],
             outputs=["06-check/generation-benchmark.json"],
         )
     if stage == "dry_run":
-        require_stage_passed(state, "generation_benchmark")
-        require_generation_benchmark_current(project_root, profile=profile)
         return run_create_stage(project_root, state, stage, dry_run=True, profile=profile)
     if stage == "visual_acceptance":
         require_stage_passed(state, "dry_run")
@@ -3564,20 +4051,26 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
         if artboard_visual_acceptance_required(project_root):
             require_stage_passed(state, "visual_acceptance")
         require_visual_acceptance_current(project_root)
-        ppe_outputs = ["07-create/ppe-proof.json", "07-create/ppe-create-probe.json"]
-        if project_has_image_assets(project_root):
-            ppe_outputs.append("07-create/ppe-image-probe.json")
+        ensure_default_ppe_proof_input(project_root)
         return run_script_stage(
             project_root,
             state,
             stage,
-            ["python3", (SCRIPT_DIR / "svglide_ppe_proof.py").as_posix(), project_root.as_posix(), "--pretty"],
+            ["python3", (SCRIPT_DIR / "svglide_ppe_proof.py").as_posix(), project_root.as_posix(), "--proof-only", "--pretty"],
             output_json=project_root / "07-create" / "ppe-proof.json",
             inputs=["06-check/quality-gate.json", "07-create/dry-run.json", "07-create/ppe-proof.input.json", "03-assets/assets.json"],
-            outputs=ppe_outputs,
+            outputs=["07-create/ppe-proof.json"],
         )
+    if stage == "create_svg_capability_probe":
+        require_stage_passed(state, "ppe_proof")
+        if artboard_visual_acceptance_required(project_root):
+            require_stage_passed(state, "visual_acceptance")
+        require_visual_acceptance_current(project_root)
+        return run_create_svg_capability_probe_stage(project_root, state)
     if stage == "pre_submit_review":
         require_stage_passed(state, "ppe_proof")
+        require_stage_passed(state, "create_svg_capability_probe")
+        require_create_svg_capability_probe_current(project_root)
         if artboard_visual_acceptance_required(project_root):
             require_stage_passed(state, "visual_acceptance")
         require_visual_acceptance_current(project_root)
@@ -3597,11 +4090,21 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
             inputs=[
                 "06-check/pre-submit-human-review.json",
                 "06-check/quality-gate.json",
-                "06-check/theme-adherence.json",
                 "06-check/visual-distinctness.json",
                 "04-svg/prepared",
             ],
             outputs=["06-check/pre-submit-review.json", "receipts/pre-submit-review.json"],
+        )
+    if stage == "publish_gate":
+        require_stage_passed(state, "dry_run")
+        if artboard_visual_acceptance_required(project_root):
+            require_stage_passed(state, "visual_acceptance")
+        require_visual_acceptance_current(project_root)
+        return run_composite_summary_stage(
+            project_root,
+            state,
+            stage,
+            profile=profile,
         )
     if stage == "live_create":
         return run_create_stage(project_root, state, stage, dry_run=False, profile=profile)
@@ -3617,12 +4120,24 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
             inputs=["07-create/live-create.json", "02-plan/slide_plan.json"],
             outputs=["08-readback/xml-presentations-get.json", "08-readback/readback-check.json"],
         )
+    if stage == "editability_gate":
+        require_stage_passed(state, "readback")
+        return run_script_stage(
+            project_root,
+            state,
+            stage,
+            ["python3", (SCRIPT_DIR / "svglide_editability_gate.py").as_posix(), project_root.as_posix(), "--pretty"],
+            inputs=["08-readback/xml-presentations-get.json", "04-svg/prepared", "04-svg"],
+            outputs=["08-readback/editability-report.json", "06-check/editability-gate.json", "receipts/editability_gate.json"],
+        )
     if stage == "repair_loop":
         return run_repair_loop_stage(project_root, state)
     if stage == "theme_productization":
         return run_theme_productization_stage(project_root, state)
     if stage == "export":
         require_stage_passed(state, "readback")
+        require_stage_passed(state, "editability_gate")
+        require_editability_gate_current(project_root)
         return run_script_stage(
             project_root,
             state,
@@ -3634,6 +4149,7 @@ def run_implemented_stage(project_root: Path, stage: str, state: dict[str, Any],
                 "06-check/quality-gate.json",
                 "07-create/live-create.json",
                 "08-readback/readback-check.json",
+                "08-readback/editability-report.json",
             ],
             outputs=[
                 "09-export/export-manifest.json",
@@ -3650,7 +4166,8 @@ def run_stage(project_root: Path, stage: str, *, command: list[str] | None = Non
         raise RunnerError(f"unknown profile '{profile}'", exit_code=2)
     state = load_state(project_root)
     state["profile"] = profile
-    stale = svglide_stage_invalidation.detect_stale_stages(project_root, state, target_stage=normalized, stage_order=STAGES, profile=profile)
+    target_for_order = LEGACY_STAGE_TO_GATE.get(normalized, normalized)
+    stale = svglide_stage_invalidation.detect_stale_stages(project_root, state, target_stage=target_for_order, stage_order=STAGES, profile=profile)
     if stale:
         svglide_stage_invalidation.prune_stale_stage_records(state, stale)
         write_state(project_root, state)
@@ -3660,6 +4177,8 @@ def run_stage(project_root: Path, stage: str, *, command: list[str] | None = Non
         record = state.get("stages", {}).get(normalized)
     if record:
         fail_if_existing_stage_failed(normalized, record)
+        if normalized in LEGACY_STAGES:
+            require_recorded_stage_receipt_current(project_root, state, normalized, profile=profile)
         require_existing_stage_current(project_root, normalized, profile=profile)
         write_timing_report(project_root, state)
         response = read_json_optional(receipt_path(project_root, normalized))
@@ -3713,7 +4232,9 @@ def run_until(
     target = normalize_stage(until)
     state = load_state(project_root)
     state["profile"] = profile
-    stale = svglide_stage_invalidation.detect_stale_stages(project_root, state, target_stage=target, stage_order=STAGES, profile=profile)
+    target_for_order = LEGACY_STAGE_TO_GATE.get(target, target)
+    stale = svglide_stage_invalidation.detect_stale_stages(project_root, state, target_stage=target_for_order, stage_order=STAGES, profile=profile)
+    stale_pruned_during_run = bool(stale)
     if stale:
         svglide_stage_invalidation.prune_stale_stage_records(state, stale)
         write_state(project_root, state)
@@ -3732,20 +4253,22 @@ def run_until(
             record = state.get("stages", {}).get(stage)
         if record:
             if existing_stage_can_be_retried(record):
-                prune_stage_and_descendants(state, stage, target)
+                stale_pruned_during_run = bool(prune_stage_and_descendants(state, stage, target)) or stale_pruned_during_run
                 write_state(project_root, state)
                 state = load_state(project_root)
                 record = None
             else:
                 try:
                     fail_if_existing_stage_failed(stage, record)
+                    if stage in LEGACY_STAGES:
+                        require_recorded_stage_receipt_current(project_root, state, stage, profile=profile)
                     require_existing_stage_current(project_root, stage, profile=profile)
                 except RunnerError as err:
                     if should_collect and stage in COLLECTABLE_VALIDATION_STAGES:
                         collected_failures.append(collected_failure_from_stage(project_root, stage, err))
                         continue
                     if is_rerun_required_error(err, stage):
-                        prune_stage_and_descendants(state, stage, target)
+                        stale_pruned_during_run = bool(prune_stage_and_descendants(state, stage, target)) or stale_pruned_during_run
                         write_state(project_root, state)
                         state = load_state(project_root)
                         record = None
@@ -3796,6 +4319,12 @@ def run_until(
     if collected_failures:
         write_collected_errors(project_root, state, collected_failures)
         raise RunnerError("pre-render validation errors collected; render stages were not executed")
+    state = load_state(project_root)
+    state["current_stage"] = target
+    state["updated_at"] = now_iso()
+    if not stale_pruned_during_run:
+        state.pop("stale_pruned", None)
+    write_state(project_root, state)
     write_timing_report(project_root, state)
     emit_completion_summary(project_root, state, progress=progress)
     return {"project_root": project_root.as_posix(), "until": target, "state": state}

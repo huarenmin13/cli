@@ -379,8 +379,18 @@ class BeautifulTemplateKnowledgeAbsorptionTest(unittest.TestCase):
                 self.assertTrue(template.get("supported_page_types"))
                 self.assertTrue(template.get("visual_contract"))
                 self.assertEqual("passed", template.get("fidelity_gate", {}).get("status"))
+                self.assertTrue(template.get("page_family"))
+                self.assertTrue(template.get("page_variants"))
+                self.assertTrue(template.get("implemented_page_variants"))
+                self.assertTrue(template.get("page_family_content_key_guidance"))
+                self.assertTrue(template.get("required_content_by_variant"))
+                self.assertTrue(template.get("page_variant_golden_specs"))
+                self.assertEqual("passed", template.get("page_family_promotion_gate", {}).get("status"))
                 assert_real_evidence_file(self, template.get("renderer_module"), "renderer_module")
                 assert_real_evidence_file(self, template.get("golden_spec"), "golden_spec")
+                assert_real_evidence_file(self, template.get("page_family_smoke_deck"), "page_family_smoke_deck")
+                assert_real_evidence_file(self, template.get("page_family_smoke_receipt"), "page_family_smoke_receipt")
+                assert_real_evidence_file(self, template.get("production_review_receipt"), "production_review_receipt")
                 assert_real_fidelity_receipt(
                     self,
                     template.get("fidelity_receipt") or template.get("fidelity_gate", {}).get("receipt_path"),
@@ -429,27 +439,28 @@ class BeautifulTemplateKnowledgeAbsorptionTest(unittest.TestCase):
                 }
             )
         )
-        self.assertTrue(
-            beautiful_template_runtime.is_runtime_selectable(
-                {
-                    "id": "executive-dashboard",
-                    "status": "active",
-                    "asset_status": "production",
-                    "quality_tier": "trusted",
-                    "default_selectable": True,
-                    "selection_scope": "production",
-                    "renderer_id": "artboard_satori.executive-dashboard",
-                    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/executive-dashboard.mjs",
-                    "renderer_executable": True,
-                    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/executive-dashboard.canvas-spec.json",
-                    "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/blue-professional.executive-dashboard.json",
-                    "supported_page_types": ["cover", "content"],
-                    "visual_contract": {"motifs": ["report grid"]},
-                    "fidelity_gate": {"status": "passed", "score": 0.9},
-                    "selection_metadata": {"content_shapes": ["report"]},
-                }
-            )
-        )
+        weak_without_page_family = {
+            "id": "executive-dashboard",
+            "status": "active",
+            "asset_status": "production",
+            "quality_tier": "trusted",
+            "default_selectable": True,
+            "selection_scope": "production",
+            "renderer_id": "artboard_satori.executive-dashboard",
+            "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/executive-dashboard.mjs",
+            "renderer_executable": True,
+            "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/executive-dashboard.canvas-spec.json",
+            "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/blue-professional.executive-dashboard.json",
+            "supported_page_types": ["cover", "content"],
+            "visual_contract": {"motifs": ["report grid"]},
+            "fidelity_gate": {"status": "passed", "score": 0.9},
+            "selection_metadata": {"content_shapes": ["report"]},
+        }
+        self.assertFalse(beautiful_template_runtime.is_runtime_selectable(weak_without_page_family))
+
+        registry = beautiful_template_runtime.template_registry()
+        executive = next(item for item in registry["templates"] if item["id"] == "executive-dashboard")
+        self.assertTrue(beautiful_template_runtime.is_runtime_selectable(executive))
 
     def test_runtime_selectable_rejects_stale_fidelity_receipt_hash(self) -> None:
         registry = beautiful_template_runtime.template_registry()
@@ -625,8 +636,15 @@ class BeautifulTemplateKnowledgeAbsorptionTest(unittest.TestCase):
             "cjk_policy_summary",
             "extension_grammar_summary",
             "benchmark_roles",
+            "page_family",
+            "page_variants",
+            "page_family_content_key_guidance",
+            "required_content_by_variant",
+            "page_family_smoke_receipt",
         ]:
             self.assertIn(key, sample)
+        self.assertIn("agenda", sample["page_family_content_key_guidance"])
+        self.assertIn("agenda", sample["required_content_by_variant"])
         family_context = svglide_prompt_planner.template_family_policy_context_bundle()
         self.assertEqual(len(family_context), 34)
 

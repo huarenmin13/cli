@@ -51,11 +51,34 @@ async function readFontManifest() {
   return JSON.parse(await fs.readFile(manifestUrl, 'utf8'))
 }
 
+function roleFontLoadOverrides(spec = {}) {
+  const typography = spec?.theme?.typography
+  const candidates = typography?.font_role_candidates && typeof typography.font_role_candidates === 'object'
+    ? typography.font_role_candidates
+    : {}
+  const weights = typography?.font_role_weights && typeof typography.font_role_weights === 'object'
+    ? typography.font_role_weights
+    : {}
+  const styles = typography?.font_role_styles && typeof typography.font_role_styles === 'object'
+    ? typography.font_role_styles
+    : {}
+  const result = {}
+  for (const role of REQUIRED_FONT_ROLES) {
+    result[role] = {
+      candidates: Array.isArray(candidates[role]) ? candidates[role].filter((item) => typeof item === 'string' && item) : null,
+      weight: typeof weights[role] === 'number' ? weights[role] : null,
+      style: typeof styles[role] === 'string' && styles[role] ? styles[role] : null
+    }
+  }
+  return result
+}
+
 async function loadFonts(spec = {}) {
   const manifest = await readFontManifest()
   const manifestRoles = manifest.roles || {}
   const themeRoles = fontRolesFromTheme(spec)
   const requestedRoles = fontRoleAliasesFromTheme(spec)
+  const roleOverrides = roleFontLoadOverrides(spec)
   const fonts = []
   const seen = new Set()
   const resolvedRoles = {}
@@ -77,11 +100,14 @@ async function loadFonts(spec = {}) {
   for (const role of REQUIRED_FONT_ROLES) {
     const manifestRole = manifestRoles[role] || {}
     const themeRole = themeRoles[role] || {}
+    const loadOverride = roleOverrides[role] || {}
     await addFont({
       family: themeRole.family || manifestRole.family || DEFAULT_FONT_FAMILY,
-      weight: typeof manifestRole.weight === 'number' ? manifestRole.weight : 400,
-      style: manifestRole.style || 'normal',
-      candidates: Array.isArray(manifestRole.candidates) ? manifestRole.candidates : DEFAULT_FONT_CANDIDATES,
+      weight: typeof loadOverride.weight === 'number' ? loadOverride.weight : (typeof manifestRole.weight === 'number' ? manifestRole.weight : 400),
+      style: loadOverride.style || manifestRole.style || 'normal',
+      candidates: Array.isArray(loadOverride.candidates) && loadOverride.candidates.length
+        ? loadOverride.candidates
+        : (Array.isArray(manifestRole.candidates) ? manifestRole.candidates : DEFAULT_FONT_CANDIDATES),
       role,
       source: requestedRoles[role] ? 'theme.typography.font_roles' : 'manifest'
     })

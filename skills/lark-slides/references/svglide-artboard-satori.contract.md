@@ -6,7 +6,8 @@ This mode is intentionally narrow:
 
 - `CanvasSpec` is the planning and template input.
 - Raw Satori SVG is the final compiler input for SVGlide private SVG.
-- The semantic map remains an audit/readability artifact derived from the rendered Satori output; it is not the final compiler input.
+- `contract_compile` lowers raw Satori DOM to SVGlide protocol SVG. It must not repaint the visual result from `semantic_map.elements[]`.
+- The semantic map remains an audit/readability/source-ref artifact derived from the rendered Satori output; it is not the visual compiler input.
 - `SVGLIDE_ARTBOARD_USE_NODE_SATORI=1` enables the Node adapter. Published skills must use the bundled adapter at `skills/lark-slides/scripts/artboard_renderer/dist/render.mjs`.
 - Published CLI/skill resources must not require a sibling Satori source checkout; Satori is bundled into `dist/render.mjs`.
 - The native `@resvg/resvg-js` package is still a runtime dependency and must be installed from the locked skill subpackage before `artboard_satori` runs.
@@ -37,8 +38,8 @@ CanvasSpec
   -> bundled Satori runtime
   -> 04-svg/artboard/raw/page-xxx.satori.svg
   -> resvg PNG preview
-  -> raw Satori SVG becomes compiler input
-  -> compile_satori_svg_to_svglide
+  -> raw Satori SVG becomes contract_compile input
+  -> raw_satori_lowering
   -> 04-svg/page-xxx.svg
 ```
 
@@ -102,13 +103,21 @@ Runtime rules:
 - If Node or resvg dependencies are missing, fail before live create and run `pnpm --dir skills/lark-slides/scripts/artboard_renderer install --frozen-lockfile`, then rerun `node skills/lark-slides/scripts/artboard_renderer/dist/render.mjs --check-runtime`.
 - If no usable system font exists, set `SVGLIDE_SATORI_FONT_PATH` to a local `.ttf` or `.otf` font.
 
-P0 native output surface:
+Current contract_compile lowering output surface:
 
-- `rect slide:role="shape"`
-- `circle slide:role="shape"`
-- `foreignObject slide:role="shape" slide:shape-type="text"`
+- root: plain `<svg>`, never `<svg:svg>`, with `xmlns:slide="https://slides.bytedance.com/ns"`, `slide:role="slide"`, and `slide:contract-version="svglide-authoring-contract/v1"`;
+- text: `<text slide:role="text" data-svglide-text-style-id="...">` plus `metadata#svglide-text-style-manifest`, manifest version `svglide-satori-text-style/v1`;
+- shapes: `rect`, `circle`, `ellipse`, `path`, `polygon`, and `polyline` with `slide:role="shape"`;
+- line: kept as `<line slide:role="shape">` to match the current CLI/server compatibility path;
+- image: `<image slide:role="image">`;
+- `g`: ordinary groups are containers only and keep transform/grouping structure without leaf roles;
+- chart marker: only chart marker groups may use `g slide:role="chart"`, and only with chart metadata plus preparedCharts evidence from the existing chart path. This contract_compile update does not add a new chart protocol.
 
-P0 Gate 4 certifies text/shape mapping only. Image asset binding and
+Support nodes `defs`, `style`, `clipPath`, `mask`, `filter`, and `metadata` may be
+preserved. contract_compile must report support-node retention and record
+unsupported or lossy support nodes in `unsupported_support_nodes` or `loss_notes`.
+
+P0 Gate 4 certifies text/shape/image lowering only. Image asset binding and
 `svglide-chart-spec-v1` chart markers remain separate Gate 8/P0c proof items and
 must not be claimed as complete from Gate 4 evidence.
 
@@ -117,13 +126,13 @@ P0 fail-fast surface for final SVGlide output:
 - remote assets
 - remote fonts
 - WOFF2 fonts
-- `filter` / `fe*`
-- `mask`
-- `clipPath`
+- unreported `filter` / `fe*` loss
+- unreported `mask` loss
+- unreported `clipPath` loss
 - `pattern`
 - CSS animation / transition
 - `%`, `em`, `rem`, or `calc(...)` geometry
-- root-level SVG text in final SVGlide output
+- root-level SVG text without `slide:role="text"` and `data-svglide-text-style-id`
 
 ## Required Receipts
 
@@ -148,6 +157,19 @@ Each per-page artboard receipt must bind:
 - compiler mode (`RawSatoriSVG` / `compiler_input`)
 - semantic map hash
 - node layout map hash
+- contract compiler mode; current artboard/Satori success path must be `raw_satori_lowering`
 - final SVGlide SVG hash
 
 `quality_gate` rejects missing, failed, or stale artboard receipts.
+
+## TDD Lock For Raw Satori Lowering
+
+Red tests must cover:
+
+- raw Satori fixture with text, transform, path, rect, clipPath, mask, and filter;
+- `<text slide:role="text">`, `data-svglide-text-style-id`, and text-style manifest version `svglide-satori-text-style/v1`;
+- polygon, polyline, line, and image retention;
+- ordinary `g` preserved only as a container, never as a leaf block;
+- `semantic_map` records such as `content-panel` and `content-card` do not appear in the default output;
+- `svg_preflight.py` accepts valid text-role SVG text and rejects text without role, coordinates, content, or base typography;
+- quality gate rejects `semantic_fallback`, low raw-text retention, and stale hashes in new artboard/Satori projects.

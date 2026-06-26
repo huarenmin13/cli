@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -80,7 +81,153 @@ class SVGlidePPEProofTest(unittest.TestCase):
             self.assertEqual(result["ppe_create_probe"]["status"], "create_route_passed")
             self.assertIn("--ppe-profile", commands[0])
             self.assertIn("ppe_pure_svg", commands[0])
+            self.assertIn("--dry-run", commands[0])
             self.assertNotIn("--request-header", commands[0])
+
+    def test_create_probe_receipt_records_route_evidence_and_structured_error_marker(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            proof = self.complete_proof_input(project)
+            write_json(project / "07-create/ppe-proof.input.json", proof)
+
+            def fake(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+                return self.completed(
+                    command,
+                    returncode=1,
+                    stderr='nodeServer invalid param SVGLIDE_ERROR_JSON:{"type":"unsupported_element","tag_name":"svg"}',
+                )
+
+            result = svglide_ppe_proof.run_create_probe(project, proof, command_runner=fake)
+
+            self.assertEqual(result["status"], "create_route_blocked")
+            self.assertEqual(result["summary"]["classification"], "svg_parser_protocol_rejected")
+            self.assertEqual(result["issues"][0]["code"], "svg_parser_protocol_rejected")
+            self.assertEqual(result["headers"], proof["headers"])
+            self.assertEqual(result["target_host"], "open.feishu-pre.cn")
+            self.assertTrue(result["contains_svglide_error_json"])
+            self.assertIn("SVGLIDE_ERROR_JSON", result["raw_server_error"])
+            self.assertEqual(result["probe_hash"], result["inputs"]["probe_hash"])
+            self.assertRegex(result["probe_hash"], r"^[0-9a-f]{64}$")
+
+    def test_create_probe_injects_proxy_env_from_ppe_proof(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            proof = self.complete_proof_input(project)
+            write_json(project / "07-create/ppe-proof.input.json", proof)
+            captured_env: dict[str, str] = {}
+
+            def fake(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+                env = kwargs.get("env")
+                self.assertIsInstance(env, dict)
+                captured_env.update(env)  # type: ignore[arg-type]
+                return self.completed(command)
+
+            result = svglide_ppe_proof.run_create_probe(project, proof, command_runner=fake)
+
+            self.assertEqual(result["status"], "create_route_passed")
+            self.assertEqual(captured_env["HTTP_PROXY"], "http://127.0.0.1:8899")
+            self.assertEqual(captured_env["HTTPS_PROXY"], "http://127.0.0.1:8899")
+            self.assertEqual(result["proxy_runtime"]["target_host"], "open.feishu-pre.cn")
+            self.assertEqual(result["inputs"]["proxy_runtime"]["command_env_strategy"], "inject proof proxy env into create-svg subprocess")
+
+    def test_unstructured_nodeserver_invalid_param_classifies_as_ppe_route_unverified(self) -> None:
+        completed = subprocess.CompletedProcess(
+            ["lark-cli"],
+            1,
+            stdout="",
+            stderr="nodeServer invalid param",
+        )
+
+        status, detail = svglide_ppe_proof.classify_create_probe(completed)
+
+        self.assertEqual(status, "create_route_blocked")
+        self.assertEqual(detail["classification"], "ppe_route_unverified")
+
+    def test_proxy_connection_failure_classifies_as_proxy_unreachable(self) -> None:
+        completed = subprocess.CompletedProcess(
+            ["lark-cli"],
+            1,
+            stdout="",
+            stderr="proxyconnect tcp: dial tcp 127.0.0.1:8899: connect: connection refused",
+        )
+
+        status, detail = svglide_ppe_proof.classify_create_probe(completed)
+
+        self.assertEqual(status, "create_route_blocked")
+        self.assertEqual(detail["classification"], "ppe_proxy_unreachable")
+
+    def test_xml_lowering_success_is_diagnostic_not_create_svg_success(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            proof = self.complete_proof_input(project)
+            write_json(project / "07-create/ppe-proof.input.json", proof)
+
+            def fake(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+                return self.completed(command, {"route": "xml_lowering", "xml_presentation_id": "xml_1"})
+
+            result = svglide_ppe_proof.run_create_probe(project, proof, command_runner=fake)
+
+            self.assertEqual(result["status"], "create_route_blocked")
+            self.assertEqual(result["summary"]["classification"], "svg_parser_protocol_rejected")
+            self.assertEqual(result["summary"]["diagnostic_only"], "xml_lowering_fallback_detected")
+            self.assertEqual(result["issues"][0]["code"], "svg_parser_protocol_rejected")
+
+    def test_ppe_proof_defaults_to_repo_local_create_svg(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            self.write_inputs(project)
+            write_json(project / "07-create/ppe-proof.input.json", self.complete_proof_input(project))
+            previous = os.environ.get(svglide_ppe_proof.LARK_CLI_COMMAND_ENV)
+            os.environ.pop(svglide_ppe_proof.LARK_CLI_COMMAND_ENV, None)
+            commands: list[list[str]] = []
+
+            def fake(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+                commands.append(command)
+                return self.completed(command)
+
+            try:
+                result = svglide_ppe_proof.run_ppe_proof(project, command_runner=fake)
+            finally:
+                if previous is None:
+                    os.environ.pop(svglide_ppe_proof.LARK_CLI_COMMAND_ENV, None)
+                else:
+                    os.environ[svglide_ppe_proof.LARK_CLI_COMMAND_ENV] = previous
+
+            self.assertEqual(result["status"], "passed")
+            self.assertEqual(
+                commands[0][:5],
+                [
+                    "env",
+                    f"GOCACHE={(svglide_ppe_proof.repo_root() / '.gocache').as_posix()}",
+                    "go",
+                    "run",
+                    svglide_ppe_proof.repo_root().as_posix(),
+                ],
+            )
+            self.assertIn("+create-svg", commands[0])
+
+    def test_image_probe_uses_dry_run(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            self.write_inputs(project)
+            write_json(project / "07-create/ppe-proof.input.json", self.complete_proof_input(project))
+            write_json(project / "03-assets/assets.json", {"@./hero.png": "boxcn_hero"})
+            prepared = project / "04-svg/prepared/page-001.svg"
+            prepared.parent.mkdir(parents=True, exist_ok=True)
+            prepared.write_text('<svg><image href="@./hero.png"/></svg>', encoding="utf-8")
+            commands: list[list[str]] = []
+
+            def fake(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+                commands.append(command)
+                return self.completed(command)
+
+            result = svglide_ppe_proof.run_ppe_proof(project, command_runner=fake)
+
+            self.assertEqual(result["status"], "passed")
+            self.assertEqual(len(commands), 2)
+            self.assertIn("--dry-run", commands[0])
+            self.assertIn("--dry-run", commands[1])
+            self.assertIn("--assets", commands[1])
 
     def test_ppe_proof_rejects_missing_proxy_capture(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

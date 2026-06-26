@@ -23,7 +23,12 @@
           "status",
           "input_sha256",
           "semantic_map_sha256",
-          "output_sha256"
+          "output_sha256",
+          "compiler_mode",
+          "lowering_source",
+          "visual_retention",
+          "support_node_retention",
+          "text_style_manifest_items"
         ],
         "additionalProperties": true,
         "properties": {
@@ -35,20 +40,37 @@
           "status": {"enum": ["passed", "passed_with_warnings", "failed"]},
           "input_sha256": {"type": "string", "minLength": 1},
           "semantic_map_sha256": {"type": "string", "minLength": 1},
-          "output_sha256": {"type": "string", "minLength": 1}
+          "output_sha256": {"type": "string", "minLength": 1},
+          "compiler_mode": {"enum": ["raw_satori_lowering", "semantic_fallback", "legacy_passthrough"]},
+          "lowering_source": {"type": "string", "minLength": 1},
+          "visual_retention": {
+            "type": "object",
+            "required": ["raw_counts", "output_counts"],
+            "additionalProperties": true
+          },
+          "support_node_retention": {
+            "type": "object",
+            "required": ["raw_counts", "output_counts"],
+            "additionalProperties": true
+          },
+          "text_style_manifest_items": {"type": "integer", "minimum": 0}
         }
       }
     },
     "summary": {
       "type": "object",
-      "required": ["pages", "blocking_issues", "degraded_elements", "rasterized_regions", "dropped_decorations"],
+      "required": ["pages", "blocking_issues", "degraded_elements", "rasterized_regions", "dropped_decorations", "compiler_modes", "raw_text_count", "output_text_count", "text_style_manifest_items"],
       "additionalProperties": true,
       "properties": {
         "pages": {"type": "integer", "minimum": 1},
         "blocking_issues": {"type": "integer", "minimum": 0},
         "degraded_elements": {"type": "integer", "minimum": 0},
         "rasterized_regions": {"type": "integer", "minimum": 0},
-        "dropped_decorations": {"type": "integer", "minimum": 0}
+        "dropped_decorations": {"type": "integer", "minimum": 0},
+        "compiler_modes": {"type": "array", "items": {"type": "string"}},
+        "raw_text_count": {"type": "integer", "minimum": 0},
+        "output_text_count": {"type": "integer", "minimum": 0},
+        "text_style_manifest_items": {"type": "integer", "minimum": 0}
       }
     }
   }

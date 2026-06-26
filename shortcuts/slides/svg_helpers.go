@@ -57,6 +57,16 @@ type RewrittenSVGPage struct {
 	Assets  []svgAssetMeta
 }
 
+type svgPageProof struct {
+	Page            int    `json:"page"`
+	SourcePath      string `json:"source_path,omitempty"`
+	ContentRoot     string `json:"content_root"`
+	HasSlideRole    bool   `json:"has_slide_role"`
+	SlideRole       string `json:"slide_role,omitempty"`
+	ContractVersion string `json:"contract_version,omitempty"`
+	ContentBytes    int    `json:"content_bytes"`
+}
+
 type svgRasterizeMode string
 
 const (
@@ -195,6 +205,7 @@ var (
 		"line":          {"x1", "y1", "x2", "y2"},
 		"path":          {"d"},
 		"rect":          {"x", "y", "width", "height"},
+		"text":          {"x", "y"},
 	}
 	svgGeometryAttrsByTag = map[string][]string{
 		"circle":        {"cx", "cy", "r"},
@@ -203,14 +214,18 @@ var (
 		"image":         {"x", "y", "width", "height"},
 		"line":          {"x1", "y1", "x2", "y2"},
 		"rect":          {"x", "y", "width", "height"},
+		"text":          {"x", "y"},
 	}
 	svgContainerTags = map[string]bool{
 		"g":   true,
 		"svg": true,
 	}
 	svgIgnoredSubtreeTags = map[string]bool{
-		"defs":  true,
-		"style": true,
+		"clipPath": true,
+		"defs":     true,
+		"filter":   true,
+		"mask":     true,
+		"style":    true,
 	}
 )
 
@@ -898,6 +913,9 @@ func validateSVGlideElement(path, tagName, attrs string) (svgValidationMode, err
 	if tagName == "metadata" && isSVGlideAssetsMetadata(attrs) {
 		return svgValidationSkipSubtree, nil
 	}
+	if tagName == "metadata" {
+		return svgValidationSkipSubtree, nil
+	}
 	if err := validateSVGlideTransform(path, tagName, attrs); err != nil {
 		return svgValidationStop, err
 	}
@@ -913,16 +931,32 @@ func validateSVGlideElement(path, tagName, attrs string) (svgValidationMode, err
 	}
 
 	if role == "" {
-		return svgValidationStop, output.ErrValidation("--file %s: <%s> must include slide:role=\"shape\" or slide:role=\"image\" for SVGlide", path, tagName)
+		return svgValidationStop, output.ErrValidation("--file %s: <%s> must include slide:role=\"shape\", slide:role=\"image\", slide:role=\"line\", or slide:role=\"text\" for SVGlide", path, tagName)
 	}
 
 	switch role {
+	case "line":
+		if tagName != "line" {
+			return svgValidationStop, output.ErrValidation("--file %s: <%s slide:role=\"line\"> is not supported by SVGlide; use <line>", path, tagName)
+		}
+		if err := validateSVGlideRequiredAttrs(path, tagName, role, attrs); err != nil {
+			return svgValidationStop, err
+		}
+		return svgValidationSkipSubtree, nil
 	case "shape":
 		if !svgShapeTags[tagName] {
 			return svgValidationStop, output.ErrValidation("--file %s: <%s slide:role=\"shape\"> is not supported by SVGlide; use rect, ellipse, circle, line, path, or foreignObject", path, tagName)
 		}
 		if tagName == "foreignObject" && !hasXMLAttr(attrs, "slide:shape-type", "text") {
 			return svgValidationStop, output.ErrValidation("--file %s: <foreignObject slide:role=\"shape\"> must include slide:shape-type=\"text\"", path)
+		}
+		if err := validateSVGlideRequiredAttrs(path, tagName, role, attrs); err != nil {
+			return svgValidationStop, err
+		}
+		return svgValidationSkipSubtree, nil
+	case "text":
+		if tagName != "text" {
+			return svgValidationStop, output.ErrValidation("--file %s: <%s slide:role=\"text\"> is not supported by SVGlide; use <text>", path, tagName)
 		}
 		if err := validateSVGlideRequiredAttrs(path, tagName, role, attrs); err != nil {
 			return svgValidationStop, err
@@ -947,7 +981,7 @@ func validateSVGlideElement(path, tagName, attrs string) (svgValidationMode, err
 		}
 		return svgValidationSkipSubtree, nil
 	default:
-		return svgValidationStop, output.ErrValidation("--file %s: <%s> has unsupported slide:role=%q; use \"shape\" or \"image\"", path, tagName, role)
+		return svgValidationStop, output.ErrValidation("--file %s: <%s> has unsupported slide:role=%q; use \"shape\", \"image\", \"line\", or \"text\"", path, tagName, role)
 	}
 }
 
@@ -1687,6 +1721,31 @@ func buildCreateSVGBody(svg string) map[string]interface{} {
 	return map[string]interface{}{
 		"slide": map[string]interface{}{"content": svg},
 	}
+}
+
+func summarizeSVGPageContent(sourcePath string, page int, content string) svgPageProof {
+	proof := svgPageProof{
+		Page:         page,
+		SourcePath:   sourcePath,
+		ContentBytes: len(content),
+	}
+	m := svgRootOpenTagRegex.FindStringSubmatchIndex(content)
+	if m == nil {
+		return proof
+	}
+	proof.ContentRoot = content[m[4]:m[5]]
+	attrs := content[m[6]:m[7]]
+	proof.SlideRole = xmlAttrValue(attrs, "slide:role")
+	proof.HasSlideRole = proof.SlideRole != ""
+	proof.ContractVersion = xmlAttrValue(attrs, "slide:contract-version")
+	return proof
+}
+
+func svgSourcePath(paths []string, index int) string {
+	if index >= 0 && index < len(paths) {
+		return paths[index]
+	}
+	return ""
 }
 
 func extractSVGlideErrorJSON(err error) map[string]interface{} {

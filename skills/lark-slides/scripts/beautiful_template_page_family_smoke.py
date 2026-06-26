@@ -134,6 +134,24 @@ def _matrix_rows() -> list[dict[str, Any]]:
     return [row for row in rows if isinstance(row, dict)]
 
 
+def _match_matrix_row(families: set[str], templates: set[str]) -> dict[str, Any] | None:
+    for row in _matrix_rows():
+        row_family = _as_text(row.get("family_id"))
+        row_template = _as_text(row.get("template_id"))
+        row_runtime = _as_text(row.get("runtime_template_id"))
+        if (row_family and row_family in families) or (row_template and row_template in templates) or (row_runtime and row_runtime in templates):
+            return row
+    return None
+
+
+def _first_sorted(values: set[str]) -> str | None:
+    return next(iter(sorted(values)), None)
+
+
+def _is_production_selectable(row: dict[str, Any] | None) -> bool:
+    return bool(row and row.get("promotion_status") == "production" and row.get("default_selectable") is True)
+
+
 def selected_beautiful_production_family(project: Path) -> dict[str, Any] | None:
     plan = read_json_optional(project / "02-plan/slide_plan.json")
     selection = read_json_optional(project / "02-plan/theme-template-selection.json")
@@ -168,6 +186,69 @@ def explicit_page_family_smoke_fixture(project: Path) -> Path | None:
     return None
 
 
+def selected_beautiful_current_family(
+    project: Path,
+    *,
+    selected_family: str | None = None,
+    selected_template: str | None = None,
+    selected_theme: str | None = None,
+) -> dict[str, Any] | None:
+    families: set[str] = set()
+    templates: set[str] = set()
+    themes: set[str] = set()
+    selection_source = "none"
+    if selected_family or selected_template or selected_theme:
+        if selected_family:
+            families.add(selected_family)
+        if selected_template:
+            templates.add(selected_template)
+        if selected_theme:
+            themes.add(selected_theme)
+        selection_source = "explicit_args"
+    else:
+        fixture_path = explicit_page_family_smoke_fixture(project)
+        fixture = read_json_optional(fixture_path) if fixture_path else {}
+        if fixture:
+            fixture_families, fixture_templates, fixture_themes = _collect_selection_values(fixture)
+            families.update(fixture_families)
+            templates.update(fixture_templates)
+            themes.update(fixture_themes)
+            if families or templates or themes:
+                selection_source = "explicit_fixture"
+        if not families and not templates:
+            plan = read_json_optional(project / "02-plan/slide_plan.json")
+            selection = read_json_optional(project / "02-plan/theme-template-selection.json")
+            plan_families, plan_templates, plan_themes = _collect_selection_values(plan)
+            selection_families, selection_templates, selection_themes = _collect_selection_values(selection)
+            families.update(plan_families)
+            templates.update(plan_templates)
+            themes.update(plan_themes)
+            families.update(selection_families)
+            templates.update(selection_templates)
+            themes.update(selection_themes)
+            if families or templates or themes:
+                selection_source = "plan_selection"
+    row = _match_matrix_row(families, templates)
+    if not row:
+        return None
+    row_family = _as_text(row.get("family_id")) if row else None
+    row_template = _as_text(row.get("template_id")) if row else None
+    row_runtime = _as_text(row.get("runtime_template_id")) if row else None
+    family_id = selected_family or _first_sorted(families) or row_family
+    template_id = selected_template or _first_sorted(templates) or row_template or row_runtime
+    theme_id = selected_theme or _first_sorted(themes) or family_id
+    if not family_id and not template_id:
+        return None
+    return {
+        **(row or {}),
+        "selected_family_id": family_id,
+        "selected_template_id": template_id,
+        "selected_theme_id": theme_id,
+        "selection_source": selection_source,
+        "production_selectable": _is_production_selectable(row),
+    }
+
+
 def _normalize_role(raw_values: list[Any]) -> str | None:
     tokens: list[str] = []
     for raw in raw_values:
@@ -182,8 +263,55 @@ def _normalize_role(raw_values: list[Any]) -> str | None:
     return None
 
 
+def _page_variant_role_map(project: Path) -> dict[str, str]:
+    selection = read_json_optional(project / "02-plan/theme-template-selection.json")
+    page_family = selection.get("selected_page_family")
+    if not isinstance(page_family, dict):
+        return {}
+    variants = page_family.get("page_variants")
+    role_map: dict[str, str] = {}
+    if isinstance(variants, dict):
+        iterator = variants.items()
+    elif isinstance(variants, list):
+        iterator = []
+        for item in variants:
+            if isinstance(item, dict):
+                variant_id = _as_text(item.get("page_variant_id")) or _as_text(item.get("variant_id")) or _as_text(item.get("id"))
+                if variant_id:
+                    iterator.append((variant_id, item))
+    else:
+        return {}
+    for variant_id, payload in iterator:
+        if not isinstance(variant_id, str) or not isinstance(payload, dict):
+            continue
+        role = _normalize_role([payload.get("page_role"), payload.get("role")])
+        if role:
+            role_map[variant_id] = role
+    return role_map
+
+
+def _page_role(spec: dict[str, Any], item: dict[str, Any], variant: str, variant_roles: dict[str, str]) -> str:
+    explicit = _normalize_role([spec.get("page_role")]) or _normalize_role([item.get("page_role")])
+    if explicit:
+        return explicit
+    if variant_roles.get(variant):
+        return variant_roles[variant]
+    inferred = _normalize_role(
+        [
+            spec.get("page_variant_id"),
+            item.get("page_variant_id"),
+            item.get("template_variant"),
+            item.get("page_type"),
+            item.get("role"),
+            variant,
+        ]
+    )
+    return inferred or "unknown"
+
+
 def _page_records(project: Path, deck: dict[str, Any]) -> list[dict[str, Any]]:
     plan = read_json_optional(project / "02-plan/slide_plan.json")
+    variant_roles = _page_variant_role_map(project)
     raw_pages = plan.get("slides") if isinstance(plan.get("slides"), list) else None
     if not raw_pages:
         raw_pages = deck.get("pages") if isinstance(deck.get("pages"), list) else []
@@ -199,21 +327,11 @@ def _page_records(project: Path, deck: dict[str, Any]) -> list[dict[str, Any]]:
             or _as_text(item.get("page_type"))
             or f"page-{index:03d}"
         )
-        role = _normalize_role(
-            [
-                spec.get("page_role"),
-                spec.get("page_variant_id"),
-                item.get("page_role"),
-                item.get("page_type"),
-                item.get("role"),
-                item.get("template_variant"),
-                variant,
-            ]
-        )
+        role = _page_role(spec, item, variant, variant_roles)
         pages.append(
             {
                 "page": int(item.get("page") or index),
-                "page_role": role or "unknown",
+                "page_role": role,
                 "page_variant_id": variant,
                 "template_id": _as_text(spec.get("template_id")) or _as_text(item.get("template_id")),
                 "family_id": _as_text(spec.get("family_id")) or _as_text(item.get("family_id")),
@@ -248,10 +366,15 @@ def check_project_page_family_smoke(
     command: list[str] | None = None,
 ) -> dict[str, Any]:
     project = project.resolve()
-    selected = selected_beautiful_production_family(project) or {}
-    family_id = selected_family or _as_text(selected.get("selected_family_id"))
-    template_id = selected_template or _as_text(selected.get("selected_template_id"))
-    theme_id = selected_theme or _as_text(selected.get("selected_theme_id")) or family_id
+    selected = selected_beautiful_current_family(
+        project,
+        selected_family=selected_family,
+        selected_template=selected_template,
+        selected_theme=selected_theme,
+    ) or {}
+    family_id = _as_text(selected.get("selected_family_id"))
+    template_id = _as_text(selected.get("selected_template_id"))
+    theme_id = _as_text(selected.get("selected_theme_id")) or family_id
     deck = _load_smoke_deck(family_id)
     pages = _page_records(project, deck)
     role_pages: dict[str, list[int]] = {role: [] for role in PRODUCTION_MINIMUM_ROLES}
@@ -320,10 +443,13 @@ def check_project_page_family_smoke(
     input_paths = {
         "slide_plan": Path("02-plan/slide_plan.json"),
         "generator_receipt": Path("receipts/generate_svg.json"),
-        "template_fidelity": Path("06-check/template-fidelity.json"),
         "template_registry": Path("02-plan/template-registry.json"),
         "theme_registry": Path("02-plan/theme-registry.json"),
     }
+    if (project / "02-plan/theme-template-selection.json").is_file():
+        input_paths["theme_template_selection"] = Path("02-plan/theme-template-selection.json")
+    if fixture_path := explicit_page_family_smoke_fixture(project):
+        input_paths["smoke_fixture"] = fixture_path.relative_to(project)
     if family_id:
         input_paths["smoke_deck"] = Path(relpath(SMOKE_DECK_DIR / f"{family_id}.json", project))
     golden_specs = selected.get("page_variant_golden_specs") if isinstance(selected.get("page_variant_golden_specs"), dict) else {}
@@ -343,6 +469,9 @@ def check_project_page_family_smoke(
         "selected_family_id": family_id,
         "selected_template_id": template_id,
         "selected_theme_id": theme_id,
+        "selection_source": selected.get("selection_source") or "none",
+        "production_selectable": bool(selected.get("production_selectable")),
+        "promotion_status": selected.get("promotion_status"),
         "rendered_pages": len(pages),
         "pages": pages,
         "production_minimum_roles": PRODUCTION_MINIMUM_ROLES,
@@ -366,6 +495,7 @@ def check_project_page_family_smoke(
         "provenance": {
             "matrix": relpath(MATRIX_PATH, project),
             "smoke_deck": relpath(SMOKE_DECK_DIR / f"{family_id}.json", project) if family_id else None,
+            "smoke_fixture": relpath(explicit_page_family_smoke_fixture(project), project) if explicit_page_family_smoke_fixture(project) else None,
             "project": str(project),
         },
         "summary": {

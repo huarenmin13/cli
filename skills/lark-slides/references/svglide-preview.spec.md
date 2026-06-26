@@ -38,7 +38,7 @@ Required output shape:
 
 Any preview lint error sets `action` to `repair_and_rerun` and blocks live create.
 
-Save the lint output as `06-check/preview-lint.json`. It is only one input to `quality_gate`; `svglide_semantic_review.py` must also pass before create.
+Save the lint output as `06-check/preview-lint.json`. It is one input to `quality_gate`; `svglide_semantic_review.py` is an optional legacy diagnostic and must not block create.
 
 ## Review Contract
 
@@ -55,4 +55,4 @@ The review must inspect every page for blank output, clipping, text overlap, ima
 
 ## Boundary
 
-Preview can catch local layout problems. It does not validate Chinese delivery quality, page type structure, content depth, source refs, or generator text provenance; those belong to `svglide_semantic_review.py`. Readback is still required because the server conversion can change text boxes, image tokens, path bounds, and supported SVG effects.
+Preview can catch local layout problems. It does not validate Chinese delivery quality, page type structure, content depth, source refs, or generator text provenance. Those concerns are handled by planning/source review, aesthetic review, runtime review, and optional human or semantic diagnostics. Readback is still required because the server conversion can change text boxes, image tokens, path bounds, and supported SVG effects.

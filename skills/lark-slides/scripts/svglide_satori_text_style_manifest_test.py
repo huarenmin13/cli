@@ -19,6 +19,7 @@ SVG_NS = "http://www.w3.org/2000/svg"
 SLIDE_NS = "https://slides.bytedance.com/ns"
 TEXT_STYLE_MANIFEST_ID = "svglide-text-style-manifest"
 TEXT_STYLE_MANIFEST_VERSION = "svglide-satori-text-style/v1"
+MINIMAL_PNG = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\rIDATx\x9cc\xf8\xcf\xc0\xf0\x1f\x00\x05\x00\x01\xff\x89\x99=\x1d\x00\x00\x00\x00IEND\xaeB`\x82"
 
 SOURCE_SVG = """\
 <svg xmlns="http://www.w3.org/2000/svg"
@@ -156,6 +157,9 @@ class SVGlideSatoriTextStyleManifestTest(unittest.TestCase):
         }
         write_json(project / "04-svg" / "contract" / "page-001.report.json", report)
         write_json(project / "04-svg" / "contract" / "manifest.json", manifest)
+        raw_dir = project / "04-artboard" / "raw"
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        (raw_dir / "page-001.visual.png").write_bytes(MINIMAL_PNG)
 
     def prepare_fixture_project(self, tmpdir: str) -> tuple[Path, dict[str, object]]:
         project = Path(tmpdir) / ".lark-slides" / "plan" / "text-style-manifest"
@@ -175,45 +179,34 @@ class SVGlideSatoriTextStyleManifestTest(unittest.TestCase):
         return None
 
     def managed_text_nodes(self, root: ElementTree.Element) -> list[ElementTree.Element]:
-        return [element for element in root.iter(f"{{{SVG_NS}}}text") if element.attrib.get(f"{{{SLIDE_NS}}}role") == "text"]
+        nodes: list[ElementTree.Element] = []
+        for element in root.iter():
+            tag = element.tag.split("}", 1)[-1]
+            role = element.attrib.get(f"{{{SLIDE_NS}}}role")
+            shape_type = element.attrib.get(f"{{{SLIDE_NS}}}shape-type")
+            if tag == "text" and role == "text":
+                nodes.append(element)
+            elif tag == "foreignObject" and role == "shape" and shape_type == "text":
+                nodes.append(element)
+        return nodes
 
-    def test_prepare_injects_text_style_manifest_into_prepared_svg(self) -> None:
+    def test_prepare_records_text_style_manifest_before_full_page_raster_submission(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
-            project, _receipt = self.prepare_fixture_project(tmpdir)
+            project, receipt = self.prepare_fixture_project(tmpdir)
 
             prepared = project / "04-svg" / "prepared" / "page-001.svg"
             root = ElementTree.fromstring(prepared.read_text(encoding="utf-8"))
             metadata = self.manifest_metadata(root)
 
-            self.assertIsNotNone(metadata, "prepared SVG must include <metadata id=\"svglide-text-style-manifest\">")
-            manifest = json.loads(metadata.text or "{}") if metadata is not None else {}
-            self.assertEqual(manifest.get("version"), TEXT_STYLE_MANIFEST_VERSION)
-            self.assertEqual(manifest.get("source"), "cli-artboard-satori")
-            items = manifest.get("items")
-            self.assertIsInstance(items, dict)
-
-            text_nodes = self.managed_text_nodes(root)
-            self.assertGreaterEqual(len(text_nodes), 2)
-            self.assertEqual(len(items), len(text_nodes))
-            required_item_fields = {
-                "role",
-                "font_family",
-                "font_size",
-                "font_weight",
-                "line_height",
-                "letter_spacing",
-                "text_transform",
-                "color",
-                "decoration",
-                "source_contract",
-                "loss_notes",
-            }
-            for text_node in text_nodes:
-                text_style_id = text_node.attrib.get("data-svglide-text-style-id")
-                self.assertTrue(text_style_id, "managed text nodes must be bound to a manifest item")
-                item = items.get(text_style_id) if isinstance(items, dict) else None
-                self.assertIsInstance(item, dict)
-                self.assertTrue(required_item_fields.issubset(item))
+            self.assertIsNone(metadata, "live prepared SVG should not expose unsupported native text metadata")
+            self.assertEqual(len(self.managed_text_nodes(root)), 0)
+            images = [element for element in root.iter(f"{{{SVG_NS}}}image")]
+            self.assertEqual(len(images), 1)
+            self.assertEqual(images[0].attrib.get(f"{{{SLIDE_NS}}}role"), "image")
+            self.assertEqual(images[0].attrib.get("href"), "@./04-artboard/raw/page-001.visual.png")
+            self.assertEqual(receipt["text_style_manifest_count"], 2)
+            self.assertEqual(receipt["text_style_manifest_bound_count"], 2)
+            self.assertEqual(receipt["submission_compatibility"]["mode"], "full_page_raster_submission")
 
     def test_prepare_receipt_records_text_style_manifest_counts(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -225,6 +218,9 @@ class SVGlideSatoriTextStyleManifestTest(unittest.TestCase):
             self.assertGreaterEqual(receipt["text_style_manifest_count"], 2)
             self.assertEqual(receipt["text_style_manifest_bound_count"], receipt["text_style_manifest_count"])
             self.assertEqual(receipt["text_style_manifest_loss_count"], 0)
+            self.assertEqual(receipt["text_compatibility"]["mode"], "full_page_raster_submission")
+            self.assertEqual(receipt["text_compatibility"]["native_text_nodes_lowered"], 0)
+            self.assertEqual(receipt["text_compatibility"]["loss_count"], 0)
 
 
 if __name__ == "__main__":

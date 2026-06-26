@@ -1,0 +1,258 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "date": "2026",
+    "eyebrow": "Q2 Strategy Overview / Field Notes",
+    "pillars": [
+      "Financial performance",
+      "Regional expansion",
+      "Operating discipline"
+    ],
+    "pillars_full": [
+      {
+        "bullets": [
+          "Clear DRI assigned to every initiative",
+          "Public dashboards with real-time metrics",
+          "Decision logs published within 24 hours",
+          "Weekly all-hands with open Q&A",
+          "Written strategy docs preferred over decks",
+          "OKRs visible to all employees"
+        ],
+        "lead": "Every decision is documented, traceable, and communicated with context.",
+        "number": "01",
+        "title": "Clarity"
+      },
+      {
+        "bullets": [
+          "Two-week sprints with retrospectives",
+          "CI/CD with production deploys every day",
+          "Feature flags for gradual rollouts",
+          "Direct customer feedback every cycle",
+          "Bi-weekly demos open to stakeholders",
+          "Automated testing at 94% coverage"
+        ],
+        "lead": "Speed comes from focus and tooling, not from working longer hours.",
+        "number": "02",
+        "title": "Velocity"
+      },
+      {
+        "bullets": [
+          "Real-time uptime dashboards shared externally",
+          "Quarterly business reviews with all clients",
+          "Security reports published proactively",
+          "90-day exit clauses in every contract",
+          "Named account engineers for enterprise tier",
+          "Open API status page with incident history"
+        ],
+        "lead": "Radical transparency with partners, employees, and the market.",
+        "number": "03",
+        "title": "Trust"
+      }
+    ],
+    "stat": "ANNUAL REPORT",
+    "subtitle": "A loud editorial poster page for an executive claim, campaign lead, or one-page company story.",
+    "title": "Apex Group Ltd."
+  },
+  "family_id": "bold-poster",
+  "page_family_source": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "family_id": "bold-poster",
+    "review_render_scope": "current_renderer_deck",
+    "source_class": "slide-pillars",
+    "source_slide_index": 8,
+    "source_template_html": "beautiful-html-templates/templates/bold-poster/template.html"
+  },
+  "page_role": "comparison",
+  "page_variant_id": "pillars",
+  "quality_constraints": {
+    "max_title_lines": 3,
+    "min_font_size": 15,
+    "safe_area": {
+      "height": 460,
+      "width": 864,
+      "x": 48,
+      "y": 40
+    }
+  },
+  "renderer_variant_id": "pillars",
+  "review_only_current_deck_render": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "degraded": false,
+    "degraded_reason": null,
+    "page": 8,
+    "schema_version": "svglide-beautiful-current-deck-render/v1"
+  },
+  "safe_area": {
+    "height": 460,
+    "width": 864,
+    "x": 48,
+    "y": 40
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 132,
+        "width": 760,
+        "x": 56,
+        "y": 70
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "poster-stat-punch",
+  "theme": {
+    "colors": {
+      "accent": "#1C1410",
+      "background": "#FFFFFF",
+      "muted": "#7B706A",
+      "panel": "#FFFFFF",
+      "primary": "#D8000F",
+      "surface": "#F5F2EF",
+      "text": "#1C1410"
+    },
+    "typography": {
+      "font_roles": {
+        "display": "SVGlideBoldPosterDisplay",
+        "body": "SVGlideBoldPosterBody",
+        "label": "SVGlideBoldPosterLabel",
+        "metric": "SVGlideBoldPosterDisplay"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 20,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Space Grotesk",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 88,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Shrikhand",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 12,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "Shrikhand",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 56,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "Shrikhand",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/bold-poster.poster-stat-punch.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      },
+      "font_role_candidates": {
+        "display": [
+          "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+          "/System/Library/Fonts/Supplemental/Georgia.ttf",
+          "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
+        ],
+        "body": [
+          "/System/Library/Fonts/Supplemental/Georgia.ttf",
+          "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
+        ],
+        "label": [
+          "/System/Library/Fonts/Supplemental/Trebuchet MS Bold.ttf",
+          "/System/Library/Fonts/Supplemental/Trebuchet MS.ttf",
+          "/System/Library/Fonts/Supplemental/Arial.ttf"
+        ],
+        "metric": [
+          "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+          "/System/Library/Fonts/Supplemental/Georgia.ttf",
+          "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
+        ]
+      },
+      "font_role_weights": {
+        "display": 900,
+        "body": 400,
+        "label": 700,
+        "metric": 900
+      }
+    }
+  },
+  "theme_id": "swiss-red",
+  "version": "svglide-canvas-spec/v1"
+}

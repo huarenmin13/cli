@@ -72,11 +72,35 @@ class GenerationBenchmarkTest(unittest.TestCase):
             self.assertEqual(first["cache"]["hit_count"], 0)
             self.assertGreater(second["cache"]["hit_count"], 0)
             self.assertEqual(len(second["quality"]), 4)
+            self.assertEqual(second["status"], "passed")
+            self.assertEqual(second["benchmark_status"], "passed")
             self.assertTrue(all(item["status"] == "passed" for item in second["quality"]))
             self.assertTrue(all("palette_consistency_ok" in item["checks"] for item in second["quality"]))
             timing = json.loads((root / "06-check/timing-report.json").read_text(encoding="utf-8"))
             self.assertEqual(timing["cache"]["hit_count"], 12)
             self.assertTrue((root / "06-check/generation-benchmark.json").exists())
+
+    def test_benchmark_topic_failures_are_diagnostic_not_blocking(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_plan(root)
+            (root / "06-check").mkdir(parents=True)
+            (root / "03-assets").mkdir(parents=True)
+            (root / "03-assets/asset-manifest.json").write_text(
+                json.dumps({"summary": {"asset_acquired_count": 0, "asset_fallback_count": 0}}),
+                encoding="utf-8",
+            )
+            (root / "06-check/quality-gate.json").write_text(
+                json.dumps({"summary": {"asset_real_coverage": 0, "asset_fallback_count": 0}}),
+                encoding="utf-8",
+            )
+
+            result = benchmark.run_benchmark(root, profile="production_live")
+
+            self.assertEqual(result["status"], "passed")
+            self.assertEqual(result["benchmark_status"], "failed")
+            self.assertTrue(result["diagnostics"])
+            self.assertTrue(any(item["status"] == "failed" for item in result["quality"]))
 
 
 if __name__ == "__main__":

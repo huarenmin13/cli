@@ -35,6 +35,7 @@ TEXT_CONTAINER_TOLERANCE = 2.0
 
 NUMBER_RE = re.compile(r"^[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?(?:px)?$")
 PATH_NUMBER_RE = re.compile(r"[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?")
+TRANSFORM_RE = re.compile(r"([A-Za-z]+)\(([^)]*)\)")
 BASE64URL_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 SHA256_HASH_RE = re.compile(r"^sha256:[0-9a-fA-F]{64}$")
 FONT_SHORTHAND_RE = re.compile(r"(^|;)\s*font\s*:", re.IGNORECASE)
@@ -103,9 +104,9 @@ DESIGN_ASSET_SELECTION_REQUIRED_FIELDS = [
     "style_lock",
 ]
 
-SUPPORTED_SHAPES = {"rect", "ellipse", "circle", "line", "path", "foreignObject"}
+SUPPORTED_SHAPES = {"rect", "ellipse", "circle", "line", "path", "polygon", "polyline", "foreignObject"}
 RENDERABLE_TAGS = SUPPORTED_SHAPES | {"image", "text", "polygon", "polyline"}
-IGNORED_SUBTREES = {"defs", "style"}
+IGNORED_SUBTREES = {"defs", "style", "clipPath", "mask", "filter", "metadata"}
 
 VISUAL_RECIPE_CATALOG: dict[str, dict[str, Any]] = {
     "hero_typography": {
@@ -491,25 +492,35 @@ def validate_roles_and_attrs(elements: list[ET.Element]) -> list[dict[str, Any]]
         name = local_name(element.tag)
         role = svg_role(element)
         if name == "text":
-            issues.append(
-                issue(
-                    "error",
-                    "unsupported_text_element",
-                    'root-level <text> is not supported; use foreignObject slide:role="shape" slide:shape-type="text"',
-                    element,
+            if role != "text":
+                issues.append(issue("error", "missing_text_role", '<text> must include slide:role="text"', element))
+                continue
+            if parse_required_number(element, "x") is None or parse_required_number(element, "y") is None:
+                issues.append(issue("error", "missing_text_position", '<text slide:role="text"> must include numeric x and y', element))
+            if not "".join(element.itertext()).strip():
+                issues.append(issue("error", "empty_text_content", '<text slide:role="text"> must include visible text content', element))
+            style = parse_style_props(get_attr(element, "style"))
+            has_font_family = bool(get_attr(element, "font-family") or style.get("font-family"))
+            has_font_size = parse_number(get_attr(element, "font-size") or style.get("font-size")) is not None
+            has_font_weight = bool(get_attr(element, "font-weight") or style.get("font-weight"))
+            if not (has_font_family and has_font_size and has_font_weight):
+                issues.append(
+                    issue(
+                        "error",
+                        "missing_text_typography",
+                        '<text slide:role="text"> must include font-family, font-size, and font-weight',
+                        element,
+                    )
                 )
-            )
-            continue
-        if name in {"polygon", "polyline"}:
-            issues.append(
-                issue(
-                    "error",
-                    "unsupported_shape_element",
-                    f"<{name}> is not supported by SVGlide MVP",
-                    element,
-                    "Use path with M/L/H/V/C/Q/Z commands, or use rect/line/circle/ellipse.",
+            if not get_attr(element, "data-svglide-text-style-id"):
+                issues.append(
+                    issue(
+                        "warning",
+                        "missing_text_style_id",
+                        '<text slide:role="text"> should include data-svglide-text-style-id for Satori typography metadata',
+                        element,
+                    )
                 )
-            )
             continue
         if name not in {"image"} | SUPPORTED_SHAPES:
             continue
@@ -717,6 +728,27 @@ def bbox_for_element(element: ET.Element) -> dict[str, float] | None:
         if None in {x, y, width, height}:
             return None
         return {"x": x or 0.0, "y": y or 0.0, "width": width or 0.0, "height": height or 0.0}
+    if name == "path":
+        x = parse_required_number(element, "x")
+        y = parse_required_number(element, "y")
+        width = parse_required_number(element, "width")
+        height = parse_required_number(element, "height")
+        if None not in {x, y, width, height}:
+            return {"x": x or 0.0, "y": y or 0.0, "width": width or 0.0, "height": height or 0.0}
+        return None
+    if name == "text":
+        x = parse_required_number(element, "x")
+        y = parse_required_number(element, "y")
+        if None in {x, y}:
+            return None
+        width = parse_required_number(element, "width")
+        height = parse_required_number(element, "height")
+        if width is None or height is None:
+            font_size = parse_number(get_attr(element, "font-size") or parse_style_props(get_attr(element, "style")).get("font-size")) or 16.0
+            text = "".join(element.itertext()).strip()
+            width = max(font_size * 0.58 * len(text), font_size)
+            height = font_size * 1.2
+        return {"x": x or 0.0, "y": y or 0.0, "width": width or 0.0, "height": height or 0.0}
     if name == "circle":
         cx = parse_required_number(element, "cx")
         cy = parse_required_number(element, "cy")
@@ -742,6 +774,14 @@ def bbox_for_element(element: ET.Element) -> dict[str, float] | None:
         min_x = min(x1 or 0.0, x2 or 0.0)
         min_y = min(y1 or 0.0, y2 or 0.0)
         return {"x": min_x, "y": min_y, "width": abs((x2 or 0.0) - (x1 or 0.0)), "height": abs((y2 or 0.0) - (y1 or 0.0))}
+    if name in {"polygon", "polyline"}:
+        points = get_attr(element, "points") or ""
+        values = [float(value) for value in PATH_NUMBER_RE.findall(points)]
+        if len(values) < 4:
+            return None
+        xs = values[0::2]
+        ys = values[1::2]
+        return {"x": min(xs), "y": min(ys), "width": max(xs) - min(xs), "height": max(ys) - min(ys)}
     return None
 
 
@@ -883,6 +923,9 @@ def relative_luminance(color: tuple[float, float, float, float]) -> float:
 
 
 def text_color(element: ET.Element) -> tuple[float, float, float, float] | None:
+    direct = parse_color(get_attr(element, "fill") or get_attr(element, "color") or parse_style_props(get_attr(element, "style")).get("color"))
+    if direct is not None:
+        return direct
     for child in element.iter():
         props = parse_style_props(get_attr(child, "style"))
         color = parse_color(props.get("color"))
@@ -953,14 +996,22 @@ def validate_geometry(elements: list[ET.Element], canvas_width: float, canvas_he
         if name == "foreignObject" and svg_role(element) == "shape" and svg_shape_type(element) == "text":
             text = "".join(element.itertext()).strip()
             if text:
-                text_boxes.append({"element": element, "bbox": bbox, "text": text})
+                text_boxes.append({"element": element, "bbox": bbox, "text": text, "raw_satori_text": is_satori_text_compat_box(element)})
+        elif name == "text" and svg_role(element) == "text":
+            text = "".join(element.itertext()).strip()
+            if text:
+                text_boxes.append({"element": element, "bbox": bbox, "text": text, "raw_satori_text": True})
     return issues, text_boxes
 
 
 def validate_text_overlap(text_boxes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
     for left_index, left in enumerate(text_boxes):
+        if left.get("raw_satori_text"):
+            continue
         for right in text_boxes[left_index + 1 :]:
+            if right.get("raw_satori_text"):
+                continue
             if intersects(left["bbox"], right["bbox"]):
                 left_id = get_attr(left["element"], "id") or local_name(left["element"].tag)
                 right_id = get_attr(right["element"], "id") or local_name(right["element"].tag)
@@ -991,6 +1042,22 @@ def text_line_height(element: ET.Element, font_size: float) -> float:
         except ValueError:
             continue
     return font_size * 1.25
+
+
+def is_raw_satori_text_box(item: dict[str, Any]) -> bool:
+    element = item.get("element")
+    if not isinstance(element, ET.Element):
+        return False
+    return (local_name(element.tag) == "text" and svg_role(element) == "text") or is_satori_text_compat_box(element)
+
+
+def is_satori_text_compat_box(element: ET.Element) -> bool:
+    return (
+        local_name(element.tag) == "foreignObject"
+        and svg_role(element) == "shape"
+        and svg_shape_type(element) == "text"
+        and get_attr(element, "data-svglide-compat-source") == "native-text"
+    )
 
 
 def text_width_units(text: str) -> float:
@@ -1080,7 +1147,8 @@ def validate_layout_pressure(
     bboxes = [(element, bbox_for_element(element)) for element in elements]
     shaped = [(element, bbox) for element, bbox in bboxes if bbox is not None]
     badges = [(element, bbox) for element, bbox in shaped if is_top_badge(element, bbox)]
-    headlines = [item for item in text_boxes if is_headline_text(item)]
+    layout_text_boxes = [item for item in text_boxes if not is_raw_satori_text_box(item)]
+    headlines = [item for item in layout_text_boxes if is_headline_text(item)]
 
     for headline in headlines:
         headline_bbox = headline["bbox"]
@@ -1102,7 +1170,7 @@ def validate_layout_pressure(
                 break
 
     containers = [(element, bbox) for element, bbox in shaped if is_visible_container_rect(element, bbox, canvas_width, canvas_height)]
-    for item in text_boxes:
+    for item in layout_text_boxes:
         element = item["element"]
         bbox = item["bbox"]
         text = textify(item.get("text")).strip()
@@ -1211,6 +1279,9 @@ def element_identifier_text(element: ET.Element) -> str:
 
 
 def text_font_size(element: ET.Element) -> float | None:
+    direct = parse_number(get_attr(element, "font-size") or parse_style_props(get_attr(element, "style")).get("font-size"))
+    if direct is not None:
+        return direct
     for child in element.iter():
         style = get_attr(child, "style") or ""
         match = FONT_SIZE_RE.search(style)
@@ -1313,7 +1384,7 @@ def summarize_visual_primitives(root: ET.Element, elements: list[ET.Element], te
         primitives.add("gradient")
     if filters or filter_refs:
         primitives.add("spotlight")
-    if large_text:
+    if text_boxes:
         primitives.add("typography")
     if counts["bar_like_rect"] >= 3 or re.search(r"(chart|metric|score|kpi|bar)", root_identifiers):
         primitives.add("micro_chart")
@@ -1413,14 +1484,26 @@ def validate_visual_quality(elements: list[ET.Element]) -> list[dict[str, Any]]:
         if role == "shape" and name in {"circle", "ellipse"} and 16 <= bbox["width"] <= 140 and 16 <= bbox["height"] <= 140:
             node_containers.append({"element": element, "bbox": bbox})
 
-        if name != "foreignObject" or role != "shape" or svg_shape_type(element) != "text":
+        is_text_box = (name == "foreignObject" and role == "shape" and svg_shape_type(element) == "text") or (name == "text" and role == "text")
+        if not is_text_box:
             continue
         if not "".join(element.itertext()).strip():
             continue
 
         color = text_color(element)
         if color is not None and is_light_text_color(color):
-            if not any(bbox_contains(backing["bbox"], bbox) for backing in dark_backings):
+            def has_dark_backing(backing: dict[str, Any]) -> bool:
+                backing_bbox = backing["bbox"]
+                if bbox_contains(backing_bbox, bbox, tolerance=TEXT_CONTAINER_TOLERANCE * 3):
+                    return True
+                center_x, center_y = bbox_center(bbox)
+                return (
+                    point_in_bbox(center_x, center_y, backing_bbox)
+                    and bbox["width"] <= backing_bbox["width"] + TEXT_CONTAINER_TOLERANCE * 4
+                    and bbox["height"] <= backing_bbox["height"] + TEXT_CONTAINER_TOLERANCE * 4
+                )
+
+            if not any(has_dark_backing(backing) for backing in dark_backings):
                 issues.append(
                     issue(
                         "error",
@@ -1567,6 +1650,98 @@ def validate_paths(elements: list[ET.Element]) -> list[dict[str, Any]]:
             break
         if not has_command:
             issues.append(issue("error", "missing_path_command", 'path attribute "d" must include M/L/H/V/C/Q/Z commands', element))
+    return issues
+
+
+def parse_transform_values(raw: str) -> list[float]:
+    values: list[float] = []
+    for part in re.split(r"[,\s]+", raw.strip()):
+        if not part:
+            continue
+        try:
+            values.append(float(part))
+        except ValueError:
+            values.append(math.nan)
+    return values
+
+
+def is_decomposable_matrix(values: list[float]) -> bool:
+    if len(values) != 6 or any(not math.isfinite(value) for value in values):
+        return False
+    a, b, c, d, _e, _f = values
+    scale_x = math.hypot(a, b)
+    scale_y = math.hypot(c, d)
+    if scale_x <= 0 or scale_y <= 0:
+        return False
+    dot = a * c + b * d
+    determinant = a * d - b * c
+    return abs(scale_x - scale_y) <= 0.01 and abs(dot) <= 0.01 and determinant > 0
+
+
+def is_valid_transform_args(name: str, values: list[float]) -> bool:
+    if any(not math.isfinite(value) for value in values):
+        return False
+    if name in {"translate", "scale"}:
+        return len(values) in {1, 2}
+    if name == "rotate":
+        return len(values) in {1, 3}
+    return True
+
+
+def validate_transforms(elements: list[ET.Element]) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    allowed = {"translate", "scale", "rotate", "matrix"}
+    for element in elements:
+        transform = get_attr(element, "transform")
+        if not transform:
+            continue
+        matches = list(TRANSFORM_RE.finditer(transform))
+        if not matches:
+            issues.append(
+                issue(
+                    "error",
+                    "unsupported_transform_syntax",
+                    f"unsupported transform syntax: {transform}",
+                    element,
+                    "Use translate/scale/rotate or decomposable matrix transforms.",
+                )
+            )
+            continue
+        for match in matches:
+            name = match.group(1).lower()
+            if name not in allowed:
+                issues.append(
+                    issue(
+                        "error",
+                        "unsupported_transform",
+                        f"unsupported transform: {name}",
+                        element,
+                        "Slide parser supports translate/scale/rotate and decomposable matrix transforms.",
+                    )
+                )
+                continue
+            values = parse_transform_values(match.group(2))
+            if not is_valid_transform_args(name, values):
+                issues.append(
+                    issue(
+                        "error",
+                        "unsupported_transform_syntax",
+                        f"unsupported {name} transform arguments: {match.group(2)}",
+                        element,
+                        "Use translate(x[,y]), scale(x[,y]), rotate(angle[,cx,cy]), or decomposable matrix(a,b,c,d,e,f).",
+                    )
+                )
+                continue
+            if name == "matrix" and not is_decomposable_matrix(values):
+                issues.append(
+                    issue(
+                        "error",
+                        "unsupported_transform_matrix",
+                        "matrix transform cannot be decomposed into rotation + uniform scale + translation",
+                        element,
+                        "Rasterize the local element or simplify the transform before live create.",
+                    )
+                )
     return issues
 
 
@@ -3489,6 +3664,8 @@ def lint_plan_svg_alignment(plan: dict[str, Any], files: list[dict[str, Any]]) -
         recipe = normalize_name(visual_plan.get("visual_recipe"))
         source_primitives = set(file.get("visual_primitives", {}).get("present", []))
         source_effects = set(file.get("visual_primitives", {}).get("effects", []))
+        if file.get("full_page_raster_submission") is True:
+            continue
         required_slots = required_image_slots(visual_plan)
         required_image_count = len(required_slots)
         detected_image_count = int(file.get("visual_primitives", {}).get("counts", {}).get("image", 0))
@@ -3569,6 +3746,55 @@ def lint_plan_svg_alignment(plan: dict[str, Any], files: list[dict[str, Any]]) -
     return issues
 
 
+def is_full_page_raster_submission(root: ET.Element, canvas_width: float, canvas_height: float) -> bool:
+    renderable = walk_renderable(root)
+    if len(renderable) != 1:
+        return False
+    image = renderable[0]
+    if local_name(image.tag) != "image" or svg_role(image) != "image":
+        return False
+    bbox = bbox_for_element(image)
+    return bool(bbox and is_background_bbox(bbox, canvas_width, canvas_height))
+
+
+def validate_full_page_raster(full_page_raster_submission: bool) -> list[dict[str, Any]]:
+    if not full_page_raster_submission:
+        return []
+    return [
+        issue(
+            "error",
+            "full_page_raster_image_only",
+            "full-page raster image-only SVG is not allowed for editable/production SVGlide preflight",
+            None,
+            "Retain editable SVG text/vector nodes instead of replacing the page with one full-canvas bitmap.",
+        )
+    ]
+
+
+def validate_residual_hard_effects(root: ET.Element) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    for element in walk_renderable(root):
+        attrs = []
+        for attr_name in ["filter", "mask", "clip-path"]:
+            if get_attr(element, attr_name):
+                attrs.append(attr_name)
+        style = parse_style_props(get_attr(element, "style"))
+        for prop in ["filter", "mask", "clip-path"]:
+            if style.get(prop):
+                attrs.append(prop)
+        if attrs:
+            issues.append(
+                issue(
+                    "error",
+                    "residual_unsupported_svg_effect",
+                    f"renderable SVG node still contains unsupported effect attrs: {', '.join(sorted(set(attrs)))}",
+                    element,
+                    "Use contract_compile local raster island for decorative effects, or remove redundant Satori layout clips from editable text.",
+                )
+            )
+    return issues
+
+
 def lint_svg(svg: str, path: str = "<svg>") -> dict[str, Any]:
     result: dict[str, Any] = {"path": path, "issues": []}
     try:
@@ -3591,12 +3817,14 @@ def lint_svg(svg: str, path: str = "<svg>") -> dict[str, Any]:
     marker_issues = validate_chart_markers(root)
     geometry_issues, text_boxes = validate_geometry(elements, width, height)
     primitive_summary = summarize_visual_primitives(root, elements, text_boxes, width, height)
+    full_page_raster_submission = is_full_page_raster_submission(root, width, height)
     issues = (
         root_issues
         + role_issues
         + marker_issues
         + validate_styles(root)
         + validate_paths(elements)
+        + validate_transforms(elements)
         + validate_decorative_primitive_ownership(elements)
         + geometry_issues
         + validate_text_overlap(text_boxes)
@@ -3604,13 +3832,19 @@ def lint_svg(svg: str, path: str = "<svg>") -> dict[str, Any]:
         + validate_visible_svg_text_leaks(text_boxes)
         + validate_visual_quality(elements)
         + validate_xml_like_layout(elements, text_boxes, primitive_summary)
+        + validate_full_page_raster(full_page_raster_submission)
+        + validate_residual_hard_effects(root)
     )
 
     result["width"] = width
     result["height"] = height
     result["element_count"] = len(elements)
+    result["editable_node_count"] = sum(1 for element in elements if local_name(element.tag) != "image")
     result["text_box_count"] = len(text_boxes)
     result["visual_primitives"] = primitive_summary
+    if full_page_raster_submission:
+        result["full_page_raster"] = True
+        result["full_page_raster_submission"] = True
     result["business_claim_fragments"] = business_claim_fragments_from_text(" ".join(textify(item.get("text")) for item in text_boxes))
     result["issues"] = issues
     result["summary"] = {
@@ -3649,6 +3883,36 @@ def validate_contract_manifest(manifest_path: str, input_paths: list[str]) -> di
         issues.append({"level": "error", "code": "contract_manifest_pages_missing", "message": "contract manifest must include pages"})
         pages = []
     base = path.parent.parent.parent
+    resolved_inputs = [Path(raw_input).resolve() for raw_input in input_paths]
+    has_prepared_inputs = any(input_path.parent.name == "prepared" for input_path in resolved_inputs)
+    prepare_receipt: dict[str, Any] | None = None
+    prepare_by_prepared: dict[str, dict[str, Any]] = {}
+    prepare_receipt_has_prepared_files = False
+    if has_prepared_inputs:
+        prepare_receipt_path = base / "receipts" / "prepare.json"
+        try:
+            payload = json.loads(prepare_receipt_path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict):
+                prepare_receipt = payload
+            else:
+                issues.append({"level": "error", "code": "prepare_receipt_invalid", "message": f"prepare receipt must be an object: {prepare_receipt_path}"})
+        except FileNotFoundError:
+            issues.append({"level": "error", "code": "prepare_receipt_missing", "message": f"prepared SVG input requires prepare receipt: {prepare_receipt_path}"})
+        except json.JSONDecodeError as exc:
+            issues.append({"level": "error", "code": "prepare_receipt_invalid", "message": f"invalid prepare receipt: {prepare_receipt_path}: {exc}"})
+        if prepare_receipt is not None:
+            if prepare_receipt.get("status") != "passed":
+                issues.append({"level": "error", "code": "prepare_receipt_failed", "message": f"prepare receipt status is not passed: {prepare_receipt_path}"})
+            prepared_files = prepare_receipt.get("prepared_files")
+            prepare_receipt_has_prepared_files = isinstance(prepared_files, list)
+            if not prepare_receipt_has_prepared_files:
+                prepared_files = []
+            for item in prepared_files:
+                if not isinstance(item, dict):
+                    continue
+                prepared = item.get("prepared")
+                if isinstance(prepared, str) and prepared:
+                    prepare_by_prepared[(base / prepared).resolve().as_posix()] = item
     by_output: dict[str, dict[str, Any]] = {}
     for page in pages:
         if not isinstance(page, dict):
@@ -3658,23 +3922,47 @@ def validate_contract_manifest(manifest_path: str, input_paths: list[str]) -> di
             by_output[(base / output).resolve().as_posix()] = page
         if page.get("status") == "failed":
             issues.append({"level": "error", "code": "contract_page_failed", "message": f"contract compile page failed: {output}"})
-    for raw_input in input_paths:
-        input_path = Path(raw_input).resolve()
+    for raw_input, input_path in zip(input_paths, resolved_inputs):
         key = input_path.as_posix()
         page = by_output.get(key)
         compiled_candidate: Path | None = None
-        if page is None and input_path.parent.name == "prepared":
+        is_prepared_input = input_path.parent.name == "prepared"
+        if page is None and is_prepared_input:
             compiled_candidate = input_path.parent.parent / input_path.name
             page = by_output.get(compiled_candidate.resolve().as_posix())
         if page is None:
             issues.append({"level": "error", "code": "contract_input_missing", "message": f"input SVG is not listed in contract manifest: {raw_input}"})
             continue
         expected_hash = page.get("output_sha256")
-        if isinstance(expected_hash, str) and input_path.exists() and file_sha256(input_path) != expected_hash:
-            code = "contract_prepared_hash_mismatch" if input_path.parent.name == "prepared" else "contract_output_hash_mismatch"
-            issues.append({"level": "error", "code": code, "message": f"contract manifest hash does not match input SVG: {raw_input}"})
-        if isinstance(expected_hash, str) and compiled_candidate is not None and compiled_candidate.exists() and file_sha256(compiled_candidate) != expected_hash:
-            issues.append({"level": "error", "code": "contract_output_hash_mismatch", "message": f"contract manifest hash does not match compiled SVG: {compiled_candidate}"})
+        if is_prepared_input:
+            if compiled_candidate is None:
+                compiled_candidate = input_path.parent.parent / input_path.name
+            if not compiled_candidate.exists():
+                issues.append({"level": "error", "code": "contract_output_missing", "message": f"compiled SVG listed by contract manifest is missing: {compiled_candidate}"})
+            elif isinstance(expected_hash, str) and file_sha256(compiled_candidate) != expected_hash:
+                issues.append({"level": "error", "code": "contract_output_hash_mismatch", "message": f"contract manifest hash does not match compiled SVG: {compiled_candidate}"})
+            prepare_item = prepare_by_prepared.get(key)
+            if prepare_receipt is not None and prepare_receipt_has_prepared_files and prepare_item is None:
+                issues.append({"level": "error", "code": "prepare_prepared_input_missing", "message": f"prepared SVG is not listed in prepare receipt: {raw_input}"})
+            elif isinstance(prepare_item, dict):
+                source = prepare_item.get("source")
+                if isinstance(source, str) and source:
+                    prepared_source = (base / source).resolve()
+                    if prepared_source != compiled_candidate.resolve():
+                        issues.append(
+                            {
+                                "level": "error",
+                                "code": "prepare_source_mismatch",
+                                "message": f"prepare receipt source does not match contract compiled SVG: {raw_input}",
+                            }
+                        )
+                prepared_hash = prepare_item.get("sha256")
+                if not isinstance(prepared_hash, str) or not prepared_hash:
+                    issues.append({"level": "error", "code": "prepare_prepared_hash_missing", "message": f"prepare receipt is missing prepared sha256: {raw_input}"})
+                elif input_path.exists() and file_sha256(input_path) != prepared_hash:
+                    issues.append({"level": "error", "code": "prepare_prepared_hash_mismatch", "message": f"prepare receipt hash does not match prepared SVG: {raw_input}"})
+        elif isinstance(expected_hash, str) and input_path.exists() and file_sha256(input_path) != expected_hash:
+            issues.append({"level": "error", "code": "contract_output_hash_mismatch", "message": f"contract manifest hash does not match input SVG: {raw_input}"})
     summary_payload = manifest.get("summary") if isinstance(manifest.get("summary"), dict) else {}
     blocking = int(summary_payload.get("blocking_issues") or 0)
     if blocking:

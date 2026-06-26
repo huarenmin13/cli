@@ -78,6 +78,10 @@ def is_hidden_element(attrs: dict[str, str]) -> bool:
     return False
 
 
+def is_satori_text_compat(attrs: dict[str, str]) -> bool:
+    return attrs.get("data-svglide-compat-source") == "native-text"
+
+
 def css_class_value(raw_html: str) -> str:
     match = re.search(r"\bclass\s*=\s*([\"'])(.*?)\1", raw_html, re.IGNORECASE | re.DOTALL)
     return html.unescape(match.group(2)) if match else ""
@@ -194,12 +198,16 @@ def lint_svg_block(svg: str, page: int) -> tuple[list[dict[str, Any]], list[dict
         text = visible_text(raw_inner)
         if not text:
             continue
+        is_compat_text = is_satori_text_compat(attrs)
         font_size = font_size_for(raw_inner)
         line_height = line_height_for(raw_inner, font_size)
         estimated_height, estimated_width, estimated_lines = estimate_text_box(text, box["width"], font_size, line_height)
-        text_boxes.append(box)
+        if not is_compat_text:
+            text_boxes.append(box)
         if box["width"] <= 0 or box["height"] <= 0:
             issues.append(issue("error", "preview_text_box_non_positive", page, "foreignObject text box has non-positive size", box=box))
+            continue
+        if is_compat_text:
             continue
         if estimated_height + 4 > box["height"]:
             issues.append(

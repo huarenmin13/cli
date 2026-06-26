@@ -13,6 +13,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import svglide_prepare
 
 
+MINIMAL_PNG = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\rIDATx\x9cc\xf8\xcf\xc0\xf0\x1f\x00\x05\x00\x01\xff\x89\x99=\x1d\x00\x00\x00\x00IEND\xaeB`\x82"
+
+
 SIMPLE_SVG = """
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:slide="https://slides.bytedance.com/ns"
@@ -32,6 +35,22 @@ TEXT_STYLE_SVG = """
   <foreignObject slide:role="shape" slide:shape-type="text" slide:id="title" x="80" y="96" width="640" height="72">
     <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:48px;font-weight:800;line-height:1.08;color:#123456">SVGlide</div>
   </foreignObject>
+</svg>
+"""
+
+NATIVE_TEXT_STYLE_SVG = """
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:slide="https://slides.bytedance.com/ns"
+     slide:role="slide"
+     slide:contract-version="svglide-authoring-contract/v1"
+     width="960" height="540" viewBox="0 0 960 540">
+  <metadata id="svglide-text-style-manifest" type="application/json">{"version":"stale","items":{}}</metadata>
+  <text id="title" data-node-id="title" slide:role="text" data-source-ref="canvas_spec.content.title"
+        transform="matrix(1.00,-0.07,0.07,1.00,-14.40,29.70)"
+        x="80" y="96" width="520" height="68" font-family="svglideboldposterdisplay"
+        font-size="48" font-weight="900" line-height="1.08" letter-spacing="-1"
+        fill="#123456" clip-path="url(#clip)">SVGlide</text>
+  <path id="outline" slide:role="shape" d="M60,120 A0,0 0 0 1 60,120 h300 a0,0 0 0 1 0,0 v120" fill="none" stroke="#123456" />
 </svg>
 """
 
@@ -92,6 +111,9 @@ class SVGlidePrepareTest(unittest.TestCase):
             "summary": {"pages": 1, "blocking_issues": 0, "degraded_elements": 0, "rasterized_regions": 0, "dropped_decorations": 0},
         }
         (project / "04-svg" / "contract" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        raw_dir = project / "04-artboard" / "raw"
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        (raw_dir / "page-001.visual.png").write_bytes(MINIMAL_PNG)
         return manifest
 
     def write_render_metadata(self, project: Path) -> None:
@@ -157,7 +179,7 @@ class SVGlidePrepareTest(unittest.TestCase):
         self.assertEqual(receipt["contract_manifest"]["status"], "passed")
         self.assertEqual(receipt["contract_manifest"]["pages"][0]["output"], "04-svg/page-001.svg")
 
-    def test_prepare_injects_text_style_manifest_for_artboard_satori(self) -> None:
+    def test_prepare_records_text_style_manifest_and_writes_editable_protocol_svg_for_artboard_satori(self) -> None:
         project = self.make_project()
         self.write_artboard_generator_receipt(project)
         (project / "04-svg" / "page-001.svg").write_text(TEXT_STYLE_SVG, encoding="utf-8")
@@ -167,11 +189,86 @@ class SVGlidePrepareTest(unittest.TestCase):
         receipt = svglide_prepare.prepare_project(project)
 
         prepared = (project / "04-svg" / "prepared" / "page-001.svg").read_text(encoding="utf-8")
+        self.assertNotIn('<image id="page-001-full-page-raster"', prepared)
         self.assertIn('id="svglide-text-style-manifest"', prepared)
-        self.assertIn('data-svglide-text-style-id=', prepared)
+        self.assertIn("<foreignObject", prepared)
         self.assertEqual(receipt["text_style_manifest"]["item_count"], 1)
         self.assertEqual(receipt["text_style_manifest"]["bound_count"], 1)
         self.assertEqual(receipt["text_style_manifest"]["loss_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["mode"], "editable_protocol_svg")
+        self.assertEqual(receipt["submission_compatibility"]["rasterized_page_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["full_page_raster_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["editable_protocol_node_counts"]["text"], 1)
+        self.assertEqual(receipt["submission_compatibility"]["editable_protocol_node_counts"]["shape"], 1)
+        self.assertEqual(receipt["prepared_files"][0]["protocol_node_counts"]["text"], 1)
+
+    def test_prepare_preserves_native_slide_text_for_artboard_satori(self) -> None:
+        project = self.make_project()
+        self.write_artboard_generator_receipt(project)
+        (project / "04-svg" / "page-001.svg").write_text(NATIVE_TEXT_STYLE_SVG, encoding="utf-8")
+        self.write_contract_manifest(project)
+        self.write_render_metadata(project)
+
+        receipt = svglide_prepare.prepare_project(project)
+
+        prepared = (project / "04-svg" / "prepared" / "page-001.svg").read_text(encoding="utf-8")
+        self.assertNotIn('<image id="page-001-full-page-raster"', prepared)
+        self.assertIn('<text id="title"', prepared)
+        self.assertIn('slide:role="text"', prepared)
+        self.assertIn('id="svglide-text-style-manifest"', prepared)
+        self.assertNotIn("<foreignObject", prepared)
+        self.assertNotIn('data-svglide-compat-source="native-text"', prepared)
+        self.assertNotIn("A0,0", prepared)
+        self.assertNotIn("a0,0", prepared)
+        self.assertEqual(receipt["text_style_manifest"]["deduped_count"], 1)
+        self.assertEqual(receipt["text_compatibility"]["mode"], "editable_protocol_svg")
+        self.assertEqual(receipt["text_compatibility"]["native_text_nodes_lowered"], 0)
+        self.assertEqual(receipt["text_compatibility"]["loss_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["rasterized_page_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["full_page_raster_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["editable_protocol_node_counts"]["text"], 1)
+        self.assertEqual(receipt["submission_compatibility"]["editable_protocol_node_counts"]["shape"], 1)
+
+    def test_prepare_records_local_raster_island_stats(self) -> None:
+        project = self.make_project()
+        self.write_artboard_generator_receipt(project)
+        raster = project / "04-svg" / "rasterized" / "page-001" / "island-001.png"
+        raster.parent.mkdir(parents=True)
+        raster.write_bytes(MINIMAL_PNG)
+        svg = NATIVE_TEXT_STYLE_SVG.replace(
+            "</svg>",
+            '<image slide:role="image" data-svglide-raster-island="true" data-svglide-raster-reason="unsupported-filter" '
+            'href="@./04-svg/rasterized/page-001/island-001.png" x="120" y="220" width="180" height="80" /></svg>',
+        )
+        (project / "04-svg" / "page-001.svg").write_text(svg, encoding="utf-8")
+        self.write_contract_manifest(project)
+        self.write_render_metadata(project)
+
+        receipt = svglide_prepare.prepare_project(project)
+
+        self.assertEqual(receipt["submission_compatibility"]["mode"], "editable_protocol_svg")
+        self.assertEqual(receipt["submission_compatibility"]["full_page_raster_count"], 0)
+        self.assertEqual(receipt["submission_compatibility"]["local_raster_island_count"], 1)
+        self.assertGreater(receipt["submission_compatibility"]["local_raster_area_ratio"], 0)
+        self.assertEqual(receipt["prepared_files"][0]["protocol_node_counts"]["local_raster_island"], 1)
+
+    def test_prepare_full_page_raster_requires_explicit_visual_fallback(self) -> None:
+        project = self.make_project()
+        self.write_artboard_generator_receipt(project)
+        (project / "04-svg" / "page-001.svg").write_text(NATIVE_TEXT_STYLE_SVG, encoding="utf-8")
+        self.write_contract_manifest(project)
+        self.write_render_metadata(project)
+
+        receipt = svglide_prepare.prepare_project(project, allow_visual_fallback=True)
+
+        prepared = (project / "04-svg" / "prepared" / "page-001.svg").read_text(encoding="utf-8")
+        self.assertIn('<image id="page-001-full-page-raster"', prepared)
+        self.assertIn('slide:role="image"', prepared)
+        self.assertIn('href="@./04-artboard/raw/page-001.visual.png"', prepared)
+        self.assertEqual(receipt["submission_compatibility"]["mode"], "full_page_raster_submission")
+        self.assertEqual(receipt["submission_compatibility"]["rasterized_page_count"], 1)
+        self.assertEqual(receipt["submission_compatibility"]["full_page_raster_count"], 1)
+        self.assertEqual(receipt["submission_compatibility"]["files"][0]["raster"], "04-artboard/raw/page-001.visual.png")
 
     def test_prepare_rejects_stale_contract_manifest_output_hash(self) -> None:
         project = self.make_project()

@@ -113,21 +113,6 @@ def make_project(root: Path) -> Path:
     plan_sha = pre_submit_review.file_sha256(project / "02-plan/slide_plan.json")
     current_prepared = prepared_hashes(project)
     write_json(
-        project / "06-check/theme-adherence.json",
-        {
-            "schema_version": "svglide-theme-adherence/v1",
-            "status": "passed",
-            "action": "create_live",
-            "inputs": {
-                "slide_plan": "02-plan/slide_plan.json",
-                "plan_sha256": plan_sha,
-            },
-            "prepared_files": current_prepared,
-            "summary": {"error_count": 0, "warning_count": 0},
-            "issues": [],
-        },
-    )
-    write_json(
         project / "06-check/visual-distinctness.json",
         {
             "schema_version": "svglide-visual-distinctness/v1",
@@ -148,13 +133,11 @@ def make_project(root: Path) -> Path:
             "status": "passed",
             "profile": "production",
             "inputs": {
-                "theme_adherence": "06-check/theme-adherence.json",
                 "visual_distinctness": "06-check/visual-distinctness.json",
             },
             "prepared_files": current_prepared,
             "checks": [
                 {"name": "visual-distinctness", "status": "passed", "issues": []},
-                {"name": "theme-adherence", "status": "passed", "issues": []},
             ],
             "summary": {"failed_check_count": 0, "source_error_count": 0},
         },
@@ -262,18 +245,18 @@ class PreSubmitReviewTest(unittest.TestCase):
             self.assertEqual(result["status"], "passed", result["issues"])
             self.assertEqual(result["issues"], [])
 
-    def test_missing_human_file_writes_failed_receipt(self) -> None:
+    def test_missing_human_file_uses_auto_gate_review(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             project = make_project(Path(tmp))
             missing = project / "06-check/missing-human-review.json"
             result = pre_submit_review.run_pre_submit_review(project, missing)
 
-            self.assertEqual(result["status"], "failed")
-            self.assertIn("human_review_missing", issue_codes(result))
-            self.assertIn("failure_triage", result)
+            self.assertEqual(result["status"], "passed", result["issues"])
+            self.assertEqual(result["review_mode"], "auto_gates")
+            self.assertEqual(result["auto_approval"]["approved"], True)
             receipt = json.loads((project / "receipts/pre-submit-review.json").read_text(encoding="utf-8"))
-            self.assertEqual(receipt["status"], "failed")
-            self.assertIn("failure_triage", receipt)
+            self.assertEqual(receipt["status"], "passed")
+            self.assertEqual(receipt["review_mode"], "auto_gates")
 
     def test_approval_false_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

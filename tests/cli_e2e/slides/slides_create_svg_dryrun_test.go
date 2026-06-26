@@ -7,6 +7,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -54,7 +55,14 @@ func TestSlidesCreateSVGDryRunRequestShape(t *testing.T) {
 	require.Equal(t, "/open-apis/slides_ai/v1/xml_presentations/<xml_presentation_id>/slide", gjson.Get(out, "api.1.url").String(), "stdout:\n%s", out)
 	require.Equal(t, "POST", gjson.Get(out, "api.2.method").String(), "stdout:\n%s", out)
 	require.Equal(t, "/open-apis/slides_ai/v1/xml_presentations/<xml_presentation_id>/slide", gjson.Get(out, "api.2.url").String(), "stdout:\n%s", out)
+	require.Equal(t, "svg", gjson.Get(out, "svg_pages.0.content_root").String(), "stdout:\n%s", out)
+	require.True(t, gjson.Get(out, "svg_pages.0.has_slide_role").Bool(), "stdout:\n%s", out)
+	require.Equal(t, "svglide-authoring-contract/v1", gjson.Get(out, "svg_pages.0.contract_version").String(), "stdout:\n%s", out)
+	require.Equal(t, "svg", gjson.Get(out, "svg_pages.1.content_root").String(), "stdout:\n%s", out)
+	require.True(t, gjson.Get(out, "svg_pages.1.has_slide_role").Bool(), "stdout:\n%s", out)
+	require.Equal(t, "svglide-authoring-contract/v1", gjson.Get(out, "svg_pages.1.contract_version").String(), "stdout:\n%s", out)
 	require.Contains(t, gjson.Get(out, "api.1.body.slide.content").String(), `<rect slide:role="shape"`, "stdout:\n%s", out)
+	require.True(t, strings.HasPrefix(strings.TrimSpace(gjson.Get(out, "api.1.body.slide.content").String()), "<svg"), "stdout:\n%s", out)
 	require.Contains(t, gjson.Get(out, "api.1.body.slide.content").String(), `<g transform="translate(20 30)">`, "stdout:\n%s", out)
 	require.Contains(t, gjson.Get(out, "api.1.body.slide.content").String(), `<style>.primary`, "stdout:\n%s", out)
 	require.Contains(t, gjson.Get(out, "api.1.body.slide.content").String(), `<feDropShadow`, "stdout:\n%s", out)
@@ -83,7 +91,7 @@ func TestSlidesCreateSVGDryRunRejectsMissingChildRole(t *testing.T) {
 	require.NoError(t, err)
 	result.AssertExitCode(t, 0)
 	require.Empty(t, gjson.Get(result.Stdout, "api").Array(), "stdout:\n%s", result.Stdout)
-	require.Contains(t, gjson.Get(result.Stdout, "error").String(), `<rect> must include slide:role="shape" or slide:role="image"`)
+	require.Contains(t, gjson.Get(result.Stdout, "error").String(), `<rect> must include slide:role="shape", slide:role="image", slide:role="line", or slide:role="text"`)
 }
 
 func TestSlidesCreateSVGDryRunRejectsMissingRequiredAttribute(t *testing.T) {
@@ -138,7 +146,7 @@ func TestSlidesCreateSVGDryRunRejectsUnsupportedPathCommand(t *testing.T) {
 	setSlidesDryRunEnv(t)
 
 	dir := t.TempDir()
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "bad.svg"), []byte(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 1280 720"><path slide:role="shape" d="M0 0 A10 10 0 0 1 20 20"/></svg>`), 0o644))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "bad.svg"), []byte(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 1280 720"><path slide:role="shape" d="M0 0 S10 10 20 20"/></svg>`), 0o644))
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	t.Cleanup(cancel)
@@ -155,5 +163,5 @@ func TestSlidesCreateSVGDryRunRejectsUnsupportedPathCommand(t *testing.T) {
 	require.NoError(t, err)
 	result.AssertExitCode(t, 0)
 	require.Empty(t, gjson.Get(result.Stdout, "api").Array(), "stdout:\n%s", result.Stdout)
-	require.Contains(t, gjson.Get(result.Stdout, "error").String(), `unsupported path command or character "A"`)
+	require.Contains(t, gjson.Get(result.Stdout, "error").String(), `unsupported path command or character "S"`)
 }

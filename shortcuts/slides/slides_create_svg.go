@@ -103,6 +103,7 @@ var SlidesCreateSVG = common.Shortcut{
 		if err := validateSVGRasterAssetConflicts(assets, prepareReport); err != nil {
 			return common.NewDryRunAPI().Set("error", err.Error())
 		}
+		inputPaths := runtime.StrArray("file")
 		pages, uploadPaths, err := dryRunRewriteSVGImagePlaceholders(runtime, svgs, assets)
 		if err != nil {
 			return common.NewDryRunAPI().Set("error", err.Error())
@@ -136,6 +137,7 @@ var SlidesCreateSVG = common.Shortcut{
 		}
 
 		slideStepStart := createSteps + len(uploadPaths) + 1
+		pageProofs := make([]svgPageProof, 0, len(pages))
 		for i, page := range pages {
 			content := page.Content
 			if fontFamily != "" {
@@ -145,6 +147,7 @@ var SlidesCreateSVG = common.Shortcut{
 			if injectErr != nil {
 				return common.NewDryRunAPI().Set("error", injectErr.Error())
 			}
+			pageProofs = append(pageProofs, summarizeSVGPageContent(svgSourcePath(inputPaths, i), i+1, content))
 			dry.POST(fmt.Sprintf("/open-apis/slides_ai/v1/xml_presentations/%s/slide", presentationID)).
 				Desc(fmt.Sprintf("[%d/%d] Add SVG page %d", slideStepStart+i, total, i+1)).
 				Params(map[string]interface{}{"revision_id": runtime.Int("revision-id")}).
@@ -166,6 +169,7 @@ var SlidesCreateSVG = common.Shortcut{
 		if appendID != "" {
 			dry.Set("append_to_presentation", appendID)
 		}
+		dry.Set("svg_pages", pageProofs)
 		return dry.Set("title", title)
 	},
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
@@ -197,6 +201,7 @@ var SlidesCreateSVG = common.Shortcut{
 		if err := validateSVGRasterAssetConflicts(assets, prepareReport); err != nil {
 			return err
 		}
+		inputPaths := runtime.StrArray("file")
 
 		presentationID := appendID
 		revisionID := runtime.Int("revision-id")
@@ -246,6 +251,7 @@ var SlidesCreateSVG = common.Shortcut{
 			validate.EncodePathSegment(presentationID),
 		)
 		var slideIDs []string
+		pageProofs := make([]svgPageProof, 0, len(pages))
 		for i, page := range pages {
 			content := page.Content
 			if fontFamily != "" {
@@ -261,6 +267,7 @@ var SlidesCreateSVG = common.Shortcut{
 					"page %d/%d failed before API call: %v (presentation %s %s; %d slide(s) added; slide_ids=%s)",
 					i+1, len(pages), err, presentationID, action, len(slideIDs), strings.Join(slideIDs, ","))
 			}
+			proof := summarizeSVGPageContent(svgSourcePath(inputPaths, i), i+1, content)
 			slideData, err := runtime.CallAPIWithHeaders(
 				"POST",
 				slideURL,
@@ -280,6 +287,7 @@ var SlidesCreateSVG = common.Shortcut{
 			if sid := common.GetString(slideData, "slide_id"); sid != "" {
 				slideIDs = append(slideIDs, sid)
 			}
+			pageProofs = append(pageProofs, proof)
 			if latest := common.GetFloat(slideData, "revision_id"); latest > 0 {
 				revisionID = int(latest)
 				result["revision_id"] = revisionID
@@ -288,6 +296,7 @@ var SlidesCreateSVG = common.Shortcut{
 
 		result["slide_ids"] = slideIDs
 		result["slides_added"] = len(slideIDs)
+		result["svg_pages"] = pageProofs
 		fillPresentationResult(runtime, presentationID, result)
 		runtime.Out(result, nil)
 		return nil

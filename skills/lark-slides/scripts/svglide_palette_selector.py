@@ -22,6 +22,7 @@ INSTRUCTION_PATH = Path("00-input/instruction.json")
 PALETTE_SELECTION_PATH = Path("02-plan/palette-selection.json")
 PALETTE_RECEIPT_PATH = Path("receipts/palette_selection.json")
 DESIGN_SELECTION_PATH = Path("02-plan/selection-metadata.json")
+PLAN_PATH = Path("02-plan/slide_plan.json")
 STYLE_PACK_PALETTE_TOKENS = {
     "corporate_blue_data": {
         "colors": {"background": "#F8FAFF", "surface": "#EEF3FF", "panel": "#FFFFFF", "primary": "#1E3A8A", "accent": "#2563EB", "text": "#111827", "muted": "#64748B", "border": "#CBD5E1", "success": "#059669", "warning": "#D97706", "danger": "#DC2626"},
@@ -107,6 +108,70 @@ def load_design_selection(project_root: Path) -> dict[str, Any]:
         return read_json(path)
     except (OSError, json.JSONDecodeError, ValueError):
         return {}
+
+
+def load_plan(project_root: Path) -> dict[str, Any]:
+    path = project_root / PLAN_PATH
+    if not path.exists():
+        return {}
+    try:
+        return read_json(path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return {}
+
+
+def direct_svg_project_palette_result(
+    plan: dict[str, Any],
+    brief: str,
+    signals: dict[str, Any],
+) -> dict[str, Any] | None:
+    project_palette = plan.get("project_palette") if isinstance(plan.get("project_palette"), dict) else {}
+    if plan.get("generation_mode") != "direct_svg":
+        return None
+    if project_palette.get("source") != "direct_svg_project_theme":
+        return None
+    palette_id = str(project_palette.get("palette_id") or "direct_svg_project_theme")
+    colors = dict(project_palette.get("colors") if isinstance(project_palette.get("colors"), dict) else {})
+    data_series = list(project_palette.get("data_series") if isinstance(project_palette.get("data_series"), list) else [])
+    selected_palette = {
+        **project_palette,
+        "palette_id": palette_id,
+        "source": "direct_svg_project_theme",
+        "confidence": project_palette.get("confidence") or "high",
+        "selection_receipt": PALETTE_SELECTION_PATH.as_posix(),
+        "colors": colors,
+        "data_series": data_series,
+    }
+    brand_resolution = {
+        "source": "direct_svg_project_theme",
+        "confidence": selected_palette["confidence"],
+        "palette_id": palette_id,
+        "colors": colors,
+        "reason": "direct SVG plan declared a project palette that must match generated SVG colors",
+        "evidence": [PLAN_PATH.as_posix()],
+    }
+    candidate = {
+        "palette_id": palette_id,
+        "score": 100,
+        "matched_signals": ["generation_mode:direct_svg", "project_palette:declared"],
+        "missed_signals": [],
+        "selection_reason": ["generation_mode:direct_svg", "project_palette:declared"],
+        "rejection_reasons": [],
+    }
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "stage": "palette_selection",
+        "created_at": now_iso(),
+        "brief_signals": signals,
+        "selected_palette_id": palette_id,
+        "confidence": selected_palette["confidence"],
+        "fallback_policy": "not_used",
+        "deterministic_seed": stable_seed({"brief": brief, "signals": signals, "palette_id": palette_id}),
+        "brand_resolution": brand_resolution,
+        "palette_candidates": [candidate],
+        "candidate_palette_ids_considered": [palette_id],
+        "project_palette": selected_palette,
+    }
 
 
 def selected_style_pack(design_selection: dict[str, Any]) -> dict[str, Any]:
@@ -320,6 +385,9 @@ def project_palette_from_selection(palette: dict[str, Any], brand_resolution: di
 def select_palette(project_root: Path, brief: str, *, top_k: int = 5, evidence: dict[str, Any] | None = None) -> dict[str, Any]:
     registry = load_palette_registry()
     signals = semantic_matcher.infer_brief_signals(brief)
+    direct_svg_result = direct_svg_project_palette_result(load_plan(project_root), brief, signals)
+    if direct_svg_result is not None:
+        return direct_svg_result
     brand_resolution = brand_resolver.resolve_brand_palette(project_root, brief, evidence)
     if brand_resolution.get("source") not in {"brand_registry", "user_provided"}:
         style_pack_result = style_pack_palette_result(

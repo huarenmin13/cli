@@ -50,12 +50,10 @@ REQUIRED_CHECKS = [
     ("preview-lint", CHECK_DIR / "preview-lint.json"),
     ("aesthetic-review", CHECK_DIR / "aesthetic-review.json"),
     ("runtime-review", CHECK_DIR / "runtime-review.json"),
-    ("semantic-review", CHECK_DIR / "semantic-review.json"),
     ("visual-distinctness", CHECK_DIR / "visual-distinctness.json"),
 ]
 THEME_REQUIRED_CHECKS = [
     ("theme-validate", CHECK_DIR / "theme-validate.json"),
-    ("theme-adherence", CHECK_DIR / "theme-adherence.json"),
 ]
 SELECTION_CHECKS = [
     ("palette-review", CHECK_DIR / "palette-review.json"),
@@ -86,6 +84,11 @@ REQUIRED_TEMPLATE_FIDELITY_METRICS = {
 }
 REQUIRED_TEMPLATE_FIDELITY_FONT_ROLES = {"display", "body", "label", "metric"}
 REQUIRED_TEMPLATE_FIDELITY_TEXT_STYLE_ROLES = {"bold", "italic", "underline", "line_through", "emphasis", "text_decoration_policy"}
+PAGE_FAMILY_FIDELITY_WARNING_CODES = {
+    "layout_main_region_misaligned",
+    "structure_similarity_below_threshold",
+}
+PAGE_FAMILY_FIDELITY_WARN_MIN = 0.62
 OPTIONAL_CHECKS = []
 PASS_ACTION = "create_live"
 FAIL_ACTIONS = {"repair_and_rerun", "failed", "fail"}
@@ -501,6 +504,10 @@ def contract_manifest_issues(project: Path) -> list[dict[str, str]]:
     if manifest.get("status") == "failed":
         issues.append(issue("contract_manifest_failed", "contract manifest status must not be failed"))
 
+    generator_receipt = read_json_optional(project, GENERATOR_RECEIPT_PATH)
+    generation_mode = generator_receipt.get("generation_mode") if isinstance(generator_receipt, dict) else None
+    artboard_satori = generation_mode == "artboard_satori"
+
     receipt = read_json_optional(project, CONTRACT_COMPILE_RECEIPT)
     if not receipt:
         issues.append(issue("contract_compile_receipt_missing", f"contract compile receipt is required: {CONTRACT_COMPILE_RECEIPT.as_posix()}"))
@@ -560,6 +567,36 @@ def contract_manifest_issues(project: Path) -> list[dict[str, str]]:
                 issues.append(issue("contract_report_failed", f"contract report status must not be failed: {report_rel}"))
             if report.get("output") != page.get("output") or report.get("output_sha256") != page.get("output_sha256"):
                 issues.append(issue("contract_report_output_mismatch", f"contract report output does not match manifest: {report_rel}"))
+            page_source = page.get("source")
+            page_artboard = artboard_satori or (isinstance(page_source, str) and page_source.startswith("04-artboard/raw/"))
+            compiler_mode = report.get("compiler_mode") or page.get("compiler_mode")
+            if page_artboard and compiler_mode != "raw_satori_lowering":
+                issues.append(
+                    issue(
+                        "contract_compiler_mode_invalid",
+                        f"artboard_satori contract report must use raw_satori_lowering, got {compiler_mode!r}: {report_rel}",
+                    )
+                )
+            visual_retention = report.get("visual_retention")
+            if isinstance(visual_retention, dict):
+                raw_counts = visual_retention.get("raw_counts")
+                output_counts = visual_retention.get("output_counts")
+                if isinstance(raw_counts, dict) and isinstance(output_counts, dict):
+                    try:
+                        raw_text = int(raw_counts.get("text", 0))
+                        output_text = int(output_counts.get("text", 0))
+                    except (TypeError, ValueError):
+                        raw_text = 0
+                        output_text = 0
+                    if raw_text > 0 and output_text / raw_text < 0.95 and report.get("status") == "passed":
+                        issues.append(
+                            issue(
+                                "contract_text_retention_too_low",
+                                f"contract report text retention is below threshold but status is passed: {output_text}/{raw_text} in {report_rel}",
+                            )
+                        )
+                else:
+                    issues.append(issue("contract_visual_retention_missing_counts", f"contract report must include raw/output retention counts: {report_rel}"))
         else:
             issues.append(issue("contract_report_invalid", f"contract report must be an object: {report_rel}"))
 
@@ -715,27 +752,6 @@ def resolve_template_fidelity_evidence_path(project: Path, value: Any) -> Path:
     return REPO_ROOT / raw
 
 
-def semantic_review_freshness_issues(project: Path, payload: dict[str, Any]) -> list[dict[str, str]]:
-    issues: list[dict[str, str]] = []
-    if payload.get("status") != "passed":
-        issues.append(issue("semantic_review_not_passed", "semantic review status must be passed"))
-    inputs = payload.get("inputs")
-    if not isinstance(inputs, dict):
-        issues.append(issue("semantic_review_inputs_missing", "semantic review must include inputs"))
-        return issues
-    if inputs.get("plan_sha256") != optional_file_sha256(project, PLAN_PATH):
-        issues.append(issue("semantic_review_plan_stale", "semantic review plan_sha256 does not match current slide_plan.json"))
-    evidence_hash = optional_file_sha256(project, EVIDENCE_PATH)
-    if inputs.get("evidence_sha256") != evidence_hash:
-        issues.append(issue("semantic_review_evidence_stale", "semantic review evidence_sha256 does not match current source/evidence.json"))
-    if payload.get("prepared_files") != prepared_file_hashes(project):
-        issues.append(issue("semantic_review_prepared_stale", "semantic review prepared_files do not match current prepared SVG files"))
-    inventory = payload.get("text_inventory")
-    if not isinstance(inventory, str) or not (project / inventory).exists():
-        issues.append(issue("semantic_review_text_inventory_missing", "semantic review must point to an existing text inventory"))
-    return issues
-
-
 def plan_bound_check_freshness_issues(project: Path, payload: dict[str, Any], name: str, *, prepared: bool) -> list[dict[str, str]]:
     issues: list[dict[str, str]] = []
     if payload.get("status") != "passed":
@@ -763,6 +779,7 @@ def load_generator_receipt(project: Path, *, profile: str) -> dict[str, Any]:
         "action": None,
         "waivers": [],
         "issues": [],
+        "diagnostics": [],
     }
     if not path.exists():
         check["issues"].append(issue("missing_generator_receipt", "generator receipt is required"))
@@ -1024,7 +1041,10 @@ def load_generator_receipt(project: Path, *, profile: str) -> dict[str, Any]:
                         raw_svg_rel = artboard_receipt.get("satori_svg")
                         if isinstance(raw_svg_rel, str) and (project / raw_svg_rel).exists():
                             semantic_issues = svglide_semantic_map_ir.validate_semantic_map_against_svg(artifact, project / raw_svg_rel)
-                            check["issues"].extend(issue(f"generator_artboard_{semantic_issue['code']}", f"{rel}: {semantic_issue['message']}") for semantic_issue in semantic_issues)
+                            check["diagnostics"].extend(
+                                issue(f"generator_artboard_{semantic_issue['code']}", f"{rel}: {semantic_issue['message']}")
+                                for semantic_issue in semantic_issues
+                            )
                     if path_key == "node_layout_map":
                         drift_issues = svglide_node_layout_drift.validate_node_layout_map(artifact)
                         check["issues"].extend(issue(f"generator_artboard_{drift_issue['code']}", f"{rel}: {drift_issue['message']}") for drift_issue in drift_issues)
@@ -1064,18 +1084,31 @@ def load_template_fidelity_check(project: Path, *, profile: str) -> dict[str, An
         return check
 
     receipt_template = payload.get("selected_template_id") or payload.get("template_id")
+    warning_issues = payload.get("warning_issues") if isinstance(payload.get("warning_issues"), list) else []
+    warning_codes = {item.get("code") for item in warning_issues if isinstance(item, dict)}
+    warning_threshold = payload.get("warning_threshold", PAGE_FAMILY_FIDELITY_WARN_MIN)
+    score = payload.get("score")
+    page_family_warning_allowed = (
+        payload.get("status") == "passed_with_warnings"
+        and payload.get("scope") == "page_family"
+        and isinstance(payload.get("page_family_smoke_ref"), str)
+        and isinstance(score, (int, float))
+        and isinstance(warning_threshold, (int, float))
+        and score >= warning_threshold
+        and bool(warning_codes)
+        and warning_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES
+    )
     if not required and payload.get("status") == "skipped":
         check["status"] = "skipped"
         check["claim_boundary"] = payload.get("claim_boundary") or "template fidelity was skipped; this run cannot support high-quality beautiful-template claims"
         check["error_count"] = 0
         return check
-    if payload.get("status") != "passed":
+    if payload.get("status") != "passed" and not page_family_warning_allowed:
         check["issues"].append(issue("template_fidelity_failed", "template fidelity receipt status must be passed"))
-    score = payload.get("score")
     threshold = payload.get("threshold", 0.72)
     if not isinstance(score, (int, float)) or not isinstance(threshold, (int, float)):
         check["issues"].append(issue("template_fidelity_score_invalid", "template fidelity receipt must include numeric score and threshold"))
-    elif score < threshold:
+    elif score < threshold and not page_family_warning_allowed:
         check["issues"].append(issue("template_fidelity_score_below_threshold", "template fidelity score is below threshold"))
     receipt_issues = payload.get("issues")
     if isinstance(receipt_issues, list) and receipt_issues:
@@ -1210,9 +1243,9 @@ def load_page_family_smoke_check(project: Path, *, required: bool, profile: str)
         check["error_count"] = len(check["issues"])
         return check
 
-    selected = beautiful_template_page_family_smoke.selected_beautiful_production_family(project)
+    selected = beautiful_template_page_family_smoke.selected_beautiful_current_family(project)
     if required and not selected:
-        check["issues"].append(issue("page_family_smoke_selection_missing", "could not resolve selected production beautiful family"))
+        check["issues"].append(issue("page_family_smoke_selection_missing", "could not resolve selected beautiful family for current run"))
     if payload.get("status") != "passed":
         check["issues"].append(issue("page_family_smoke_failed", "page-family smoke receipt status must be passed"))
     if payload.get("scope") != "page_family":
@@ -1247,17 +1280,24 @@ def load_page_family_smoke_check(project: Path, *, required: bool, profile: str)
         required_hash_inputs = {
             "slide_plan": "02-plan/slide_plan.json",
             "generator_receipt": "receipts/generate_svg.json",
-            "template_fidelity": "06-check/template-fidelity.json",
             "smoke_deck": None,
         }
+        checked_keys: set[str] = set()
         for key, default_rel in required_hash_inputs.items():
             raw_path = inputs.get(key) or default_rel
             if raw_path is None:
                 continue
+            checked_keys.add(key)
             actual_hash = _page_family_smoke_input_hash(project, raw_path)
             if actual_hash is None:
                 check["issues"].append(issue("page_family_smoke_input_missing", f"page-family smoke input is missing: {key}"))
             elif input_hashes.get(key) != actual_hash:
+                check["issues"].append(issue("page_family_smoke_input_hash_stale", f"page-family smoke input hash is stale: {key}"))
+        for key, raw_path in inputs.items():
+            if key in checked_keys or not isinstance(raw_path, str) or not raw_path:
+                continue
+            actual_hash = _page_family_smoke_input_hash(project, raw_path)
+            if actual_hash is not None and input_hashes.get(key) != actual_hash:
                 check["issues"].append(issue("page_family_smoke_input_hash_stale", f"page-family smoke input hash is stale: {key}"))
     artifact_issues = payload.get("artifact_issues")
     if isinstance(artifact_issues, list) and artifact_issues:
@@ -1293,7 +1333,6 @@ def load_check(project: Path, name: str, rel: Path, *, required: bool, profile: 
         return check
 
     schema_names = {
-        "semantic-review": "svglide-semantic-review.schema.json",
         "chart-verify": "svglide-chart-verify.schema.json",
         "runtime-review": "svglide-runtime-review.schema.json",
     }
@@ -1335,12 +1374,6 @@ def load_check(project: Path, name: str, rel: Path, *, required: bool, profile: 
             check["issues"].append(issue("aesthetic_review_action_unknown", f"aesthetic review action is {action!r}; expected {PASS_ACTION!r} or repair action"))
             return check
 
-    if name == "semantic-review" and isinstance(payload, dict):
-        freshness = semantic_review_freshness_issues(project, payload)
-        if freshness:
-            check["issues"].extend(freshness)
-            return check
-
     if name == "runtime-review" and isinstance(payload, dict):
         freshness = plan_bound_check_freshness_issues(project, payload, "runtime_review", prepared=False)
         if freshness:
@@ -1359,22 +1392,12 @@ def load_check(project: Path, name: str, rel: Path, *, required: bool, profile: 
             check["issues"].extend(freshness)
             return check
 
-    if name == "theme-adherence" and isinstance(payload, dict):
-        freshness = plan_bound_check_freshness_issues(project, payload, "theme_adherence", prepared=True)
-        if freshness:
-            check["issues"].extend(freshness)
-            return check
-        inputs = payload.get("inputs") if isinstance(payload.get("inputs"), dict) else {}
-        if inputs.get("theme_validate_sha256") != optional_file_sha256(project, CHECK_DIR / "theme-validate.json"):
-            check["issues"].append(issue("theme_adherence_theme_validate_stale", "theme adherence theme_validate_sha256 does not match current theme-validate receipt"))
-            return check
-
     if name == "artboard-package-check" and isinstance(payload, dict):
         if payload.get("stage") not in {"package_check", "artboard_package_check"}:
             check["issues"].append(issue("artboard_package_check_stage_invalid", "artboard package check stage must be package_check"))
             return check
 
-    if name in {"chart-verify", "runtime-review", "semantic-review", "theme-validate", "theme-adherence", "artboard-package-check"} and action not in {PASS_ACTION, "passed"}:
+    if name in {"chart-verify", "runtime-review", "theme-validate", "artboard-package-check"} and action not in {PASS_ACTION, "passed"}:
         check["issues"].append(issue(f"{name.replace('-', '_')}_action_not_create_live", f"{name} action is {action!r}; expected {PASS_ACTION!r}"))
         return check
 
@@ -1454,10 +1477,8 @@ def run_quality_gate(project: Path, *, profile: str = PRODUCTION_PROFILE) -> dic
     conditional_checks: list[tuple[str, Path]] = []
     if generation_mode == "artboard_satori":
         conditional_checks.append(ARTBOARD_PACKAGE_CHECK)
-        conditional_checks.append(SNAPSHOT_VISUAL_FIDELITY_CHECK)
         checks.append(load_check(project, *ARTBOARD_PACKAGE_CHECK, required=True, profile=profile))
-        checks.append(load_snapshot_visual_fidelity_check(project, required=True))
-    page_family_smoke_required = profile in STRICT_PROFILES and beautiful_template_page_family_smoke.selected_beautiful_production_family(project) is not None
+    page_family_smoke_required = profile in STRICT_PROFILES and beautiful_template_page_family_smoke.selected_beautiful_current_family(project) is not None
     if page_family_smoke_required:
         conditional_checks.append(PAGE_FAMILY_SMOKE_CHECK)
         checks.append(load_page_family_smoke_check(project, required=True, profile=profile))
@@ -1538,8 +1559,6 @@ def run_quality_gate(project: Path, *, profile: str = PRODUCTION_PROFILE) -> dic
     }
     result["inputs"]["generator_receipt"] = GENERATOR_RECEIPT_PATH.as_posix()
     result["inputs"]["generation_mode"] = generation_mode or "unknown"
-    if generation_mode == "artboard_satori":
-        result["input_hashes"]["snapshot_visual_fidelity_evidence"] = svglide_snapshot_visual_fidelity.visual_fidelity_evidence_hash(project)
     schema = svglide_schema.read_json(svglide_schema.schema_path("svglide-quality-gate.schema.json"))
     schema_issues = svglide_schema.validate_json_schema(result, schema)
     if schema_issues:

@@ -11,8 +11,10 @@ from typing import Any
 
 
 INVALIDATION_RULES: dict[str, list[str]] = {
-    "00-input/instruction.json": ["select_style", "plan", "palette_review", "selection_review", "plan_bundle_review"],
+    "00-input/instruction.json": ["plan_and_style", "plan_gate", "select_style", "plan", "palette_review", "selection_review", "plan_bundle_review"],
     "02-plan/slide_plan.json": [
+        "plan_and_style",
+        "plan_gate",
         "plan",
         "strategy_review",
         "theme_validate",
@@ -23,20 +25,22 @@ INVALIDATION_RULES: dict[str, list[str]] = {
         "generate_svg",
         "prepare",
         "preview",
+        "quality_gate",
         "preflight",
         "preview_lint",
     ],
-    "02-plan/palette-selection.json": ["palette_review", "selection_review", "plan_bundle_review", "plan"],
-    "02-plan/theme-template-selection.json": ["selection_review", "plan_bundle_review", "plan"],
-    "source/evidence.json": ["plan_bundle_review", "semantic_review"],
-    "03-assets/asset-manifest.json": ["assets", "prepare", "preflight"],
-    "skills/lark-slides/scripts/svglide_artboard_renderer.py": ["generate_svg", "prepare", "preview", "preflight", "preview_lint"],
+    "02-plan/palette-selection.json": ["plan_and_style", "plan_gate", "quality_gate", "palette_review", "selection_review", "plan_bundle_review", "plan"],
+    "02-plan/theme-template-selection.json": ["plan_and_style", "plan_gate", "quality_gate", "selection_review", "plan_bundle_review", "plan"],
+    "source/evidence.json": ["plan_gate", "plan_bundle_review", "semantic_review"],
+    "03-assets/asset-manifest.json": ["assets", "prepare", "quality_gate", "preflight"],
+    "skills/lark-slides/scripts/svglide_artboard_renderer.py": ["generate_svg", "prepare", "preview", "quality_gate", "preflight", "preview_lint"],
 }
 PROFILE_SENSITIVE_STAGES = {
     "assets",
     "quality_gate",
     "generation_benchmark",
     "visual_acceptance",
+    "publish_gate",
     "pre_submit_review",
     "live_create",
     "readback",

@@ -31,6 +31,9 @@ class RasterRenderer(Protocol):
     def render_full_page(self, svg: str, output_png: Path, scale: int) -> dict[str, object]:
         ...
 
+    def render_region(self, svg: str, output_png: Path, scale: int, bbox: list[float]) -> dict[str, object]:
+        ...
+
 
 def viewport_size_from_svg(svg: str) -> tuple[int, int]:
     # P0 keeps the SVGlide root contract fixed. Go-side validation enforces the
@@ -74,6 +77,52 @@ class PlaywrightRasterRenderer:
         return {
             "output_png": str(output_png),
             "bbox": [0.0, 0.0, float(width), float(height)],
+            "scale": scale,
+            "bytes": output_png.stat().st_size,
+            "render_ms": int((time.monotonic() - started) * 1000),
+            "alpha_crop": False,
+        }
+
+    def render_region(self, svg: str, output_png: Path, scale: int, bbox: list[float]) -> dict[str, object]:
+        if scale < 2:
+            raise RasterRenderError("svg raster scale must be >= 2")
+        if len(bbox) != 4:
+            raise RasterRenderError("raster island bbox must have four numbers")
+        x, y, width, height = [float(value) for value in bbox]
+        if width <= 0 or height <= 0:
+            raise RasterRenderError("raster island bbox must have positive width and height")
+        started = time.monotonic()
+        output_png.parent.mkdir(parents=True, exist_ok=True)
+        viewport_width, viewport_height = viewport_size_from_svg(svg)
+        html = self._preview_html(svg, viewport_width, viewport_height)
+        try:
+            from playwright.sync_api import sync_playwright
+        except ImportError as error:
+            raise RasterRenderError(
+                "python package playwright is required for SVG rasterization; install it and run `python3 -m playwright install chromium`"
+            ) from error
+
+        try:
+            with sync_playwright() as playwright:
+                browser = playwright.chromium.launch()
+                context = browser.new_context(
+                    viewport={"width": viewport_width, "height": viewport_height},
+                    device_scale_factor=scale,
+                    java_script_enabled=False,
+                    bypass_csp=False,
+                )
+                page = context.new_page()
+                page.route("**/*", lambda route: route.abort())
+                page.set_content(html, wait_until="load")
+                page.screenshot(path=str(output_png), clip={"x": x, "y": y, "width": width, "height": height}, omit_background=False)
+                browser.close()
+        except Exception as error:  # pragma: no cover - depends on local Chromium.
+            raise RasterRenderError(f"Chromium SVG rasterization failed: {error}") from error
+
+        validate_png(output_png, require_nontransparent=True)
+        return {
+            "output_png": str(output_png),
+            "bbox": [x, y, width, height],
             "scale": scale,
             "bytes": output_png.stat().st_size,
             "render_ms": int((time.monotonic() - started) * 1000),
@@ -126,10 +175,17 @@ def render_islands(
     renderer = renderer or PlaywrightRasterRenderer()
     rendered: list[dict[str, object]] = []
     for index, island in enumerate(islands, start=1):
-        if island.get("kind") != "full-page":
-            raise RasterRenderError("only full-page raster islands are implemented in P0")
-        output_png = asset_dir / f"page-001-island-{index:03d}.png"
-        result = dict(renderer.render_full_page(svg, output_png, scale))
+        output_png = asset_dir / f"{str(island.get('id') or f'page-001-island-{index:03d}')}.png"
+        if island.get("kind") == "full-page":
+            result = dict(renderer.render_full_page(svg, output_png, scale))
+        else:
+            raw_bbox = island.get("bbox")
+            if not isinstance(raw_bbox, list) or len(raw_bbox) != 4:
+                raise RasterRenderError("local raster island requires bbox=[x,y,width,height]")
+            result = dict(renderer.render_region(svg, output_png, scale, [float(value) for value in raw_bbox]))
+            result["kind"] = str(island.get("kind") or "local")
+            result["reason"] = str(island.get("reason") or "unsupported-local-effect")
+            result["source_node_ids"] = list(island.get("source_node_ids") or [])
         validate_png(Path(str(result["output_png"])), require_nontransparent=True)
         rendered.append(result)
     return rendered

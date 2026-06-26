@@ -1,0 +1,245 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "manual-targeted-bold-poster-implementation-smoke"
+  ],
+  "covered_implemented_page_variants": [
+    "hero",
+    "red",
+    "summary",
+    "financial",
+    "stat",
+    "services",
+    "roadmap",
+    "pillars",
+    "global",
+    "close"
+  ],
+  "degraded": false,
+  "generated_by": "svglide-template-page-family-implementer",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "hero",
+    "red",
+    "summary",
+    "financial",
+    "stat",
+    "services",
+    "roadmap",
+    "pillars",
+    "global",
+    "close"
+  ],
+  "input_hashes": {
+    "golden_spec.close": "9612632dc7ac806c37cccd3d4b5fb1e3987e05de00264c4bc369d3a443b63640",
+    "golden_spec.financial": "f88392c7919128faa0189fd7f2e5dd112c684bf6d87ad0d262953ac1cc0b12d4",
+    "golden_spec.global": "19fd454e2d37822cb451083e81f2b1ddbbbe933924309722c9b195dda607481a",
+    "golden_spec.hero": "7070162ff5e15e5232fd0c319041eb708ea7b0c345162bde99e104e19f0c9c21",
+    "golden_spec.pillars": "6010e4e2a6e0f3d7e020f0be320a8e46c7d3d21ee2e27a970eefb235dd1b7806",
+    "golden_spec.red": "99aa8f95f29d0da19857330b81c85db7138ae0b4d3bfc053b1f8eb51abcac953",
+    "golden_spec.roadmap": "8e4fd4f5ca2c7031fa9fc060aeff1774de2d5c2ae83b7e78161708cf87a0bf3e",
+    "golden_spec.services": "652b0c2935f21198cb63b68d8eaec9ece50452bc9d2d13b4598a14d742935875",
+    "golden_spec.stat": "f8bed33a767ed709bc922283919b1b9b819d9ff898af3a9c302d41bd57f12cff",
+    "golden_spec.summary": "d08648ef6fcfadeaf11bbeb7fa40c1cf7be003fd62273bccdb334573b365ab8a",
+    "smoke_deck": "45a414107dd0788bead264cb74ed0e62062fb92983994e392a28e9d2232ce6aa"
+  },
+  "inputs": {
+    "golden_spec.close": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json",
+    "golden_spec.financial": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+    "golden_spec.global": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+    "golden_spec.hero": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+    "golden_spec.pillars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+    "golden_spec.red": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+    "golden_spec.roadmap": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+    "golden_spec.services": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+    "golden_spec.stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+    "golden_spec.summary": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/bold-poster.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "summary"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "close"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "pillars"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "financial"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "hero"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "stat"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "global"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6,
+        7
+      ],
+      "variants": [
+        "services",
+        "roadmap"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "red"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "hero"
+    },
+    {
+      "page": 2,
+      "page_role": "quote",
+      "page_variant_id": "red"
+    },
+    {
+      "page": 3,
+      "page_role": "agenda",
+      "page_variant_id": "summary"
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "financial"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stat"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "services"
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "roadmap"
+    },
+    {
+      "page": 8,
+      "page_role": "comparison",
+      "page_variant_id": "pillars"
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "global"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "close"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "provenance": {
+    "claim_boundary": "reference smoke receipt hashes repo smoke deck and golden specs; not production/default_selectable promotion evidence",
+    "golden_specs": {
+      "close": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json",
+      "financial": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+      "global": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+      "hero": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+      "pillars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+      "red": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+      "roadmap": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+      "services": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+      "stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+      "summary": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json"
+    },
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/bold-poster.json"
+  },
+  "rendered_pages": 10,
+  "reuse_count": 0,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "bold-poster",
+  "selected_template_id": "poster-stat-punch",
+  "selected_theme_id": "bold-poster",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 10,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 10,
+    "page_count": 10,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": []
+}

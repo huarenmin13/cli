@@ -27,6 +27,7 @@ class TextStyleManifestResult:
     bound_count: int
     loss_count: int
     losses: list[dict[str, Any]]
+    deduped_count: int
 
 
 def _style_declarations(style: str | None) -> dict[str, str]:
@@ -121,6 +122,12 @@ def _manifest_item(element: ElementTree.Element, item_id: str, index: int) -> di
 
 def inject_text_style_manifest(svg_text: str) -> TextStyleManifestResult:
     root = ElementTree.fromstring(svg_text)
+    deduped_count = 0
+    for child in list(root):
+        tag = child.tag.split("}", 1)[-1]
+        if tag == "metadata" and child.attrib.get("id") == TEXT_STYLE_MANIFEST_ID:
+            root.remove(child)
+            deduped_count += 1
     managed = [element for element in root.iter() if _is_managed_text(element)]
     items: dict[str, dict[str, Any]] = {}
     losses: list[dict[str, Any]] = []
@@ -142,4 +149,5 @@ def inject_text_style_manifest(svg_text: str) -> TextStyleManifestResult:
         bound_count=len(items),
         loss_count=len(losses),
         losses=losses,
+        deduped_count=deduped_count,
     )

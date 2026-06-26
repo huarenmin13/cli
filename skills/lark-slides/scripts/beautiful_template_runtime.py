@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -128,13 +129,79 @@ TEMPLATE_OVERRIDES: dict[str, dict[str, Any]] = {
     "summary-final": {"required_content": ["title"], "max_items": {"takeaways": 3}, "text_budget": {"title": 34, "subtitle": 76, "takeaways": 24}},
 }
 
+PAGE_FAMILY_CONTENT_KEY_GUIDANCE: dict[str, dict[str, list[str]]] = {
+    "executive-dashboard": {
+        "cover": ["eyebrow", "title", "subtitle", "meta", "footer"],
+        "agenda": ["eyebrow", "tag", "title", "agenda"],
+        "metrics": ["eyebrow", "tag", "title", "subtitle", "metrics"],
+        "dashboard": ["eyebrow", "tag", "title", "subtitle", "stats"],
+        "split": ["eyebrow", "tag", "title", "left_points", "quote", "author", "mini_stats", "note"],
+        "bars": ["eyebrow", "tag", "title", "bars"],
+        "quote": ["quote", "author"],
+        "timeline": ["eyebrow", "tag", "title", "timeline"],
+        "detail": ["eyebrow", "tag", "title", "details"],
+        "closing": ["eyebrow", "title", "subtitle", "cta", "contact", "takeaways"],
+    }
+}
+
+REQUIRED_CONTENT_BY_VARIANT: dict[str, dict[str, list[str]]] = {
+    "executive-dashboard": {
+        "cover": ["title", "subtitle"],
+        "agenda": ["title", "agenda"],
+        "metrics": ["title", "metrics"],
+        "dashboard": ["title", "stats"],
+        "split": ["title", "left_points", "quote"],
+        "bars": ["title", "bars"],
+        "quote": ["quote", "author"],
+        "timeline": ["title", "timeline"],
+        "detail": ["title", "details"],
+        "closing": ["title", "subtitle", "takeaways"],
+    }
+}
+
+MAX_ITEMS_BY_VARIANT: dict[str, dict[str, dict[str, int]]] = {
+    "executive-dashboard": {
+        "agenda": {"agenda": 6},
+        "metrics": {"metrics": 3},
+        "dashboard": {"stats": 6},
+        "split": {"left_points": 5, "mini_stats": 3},
+        "bars": {"bars": 7},
+        "timeline": {"timeline": 4},
+        "detail": {"details": 6},
+        "closing": {"takeaways": 3},
+    }
+}
+
+TEXT_BUDGET_BY_VARIANT: dict[str, dict[str, dict[str, int]]] = {
+    "executive-dashboard": {
+        "cover": {"title": 48, "subtitle": 150, "meta": 48, "footer": 40},
+        "agenda": {"title": 34, "agenda": 52},
+        "metrics": {"title": 46, "subtitle": 120, "metrics": 80},
+        "dashboard": {"title": 46, "subtitle": 120, "stats": 80},
+        "split": {"title": 48, "left_points": 72, "quote": 160, "note": 160},
+        "bars": {"title": 48, "bars": 44},
+        "quote": {"quote": 180, "author": 80},
+        "timeline": {"title": 48, "timeline": 72},
+        "detail": {"title": 52, "details": 90},
+        "closing": {"title": 34, "subtitle": 140, "takeaways": 40},
+    }
+}
+
 FORMALITY_VALUES = {"low", "medium", "medium-high", "high"}
 RUNTIME_STATUS_ACTIVE = "active"
 ASSET_STATUS_PRODUCTION = "production"
 ASSET_STATUS_LEGACY_DEBUG = "legacy_debug"
 ASSET_STATUS_DEPRECATED = "deprecated"
+ASSET_STATUS_REVIEW_CANDIDATE = "review_candidate"
 QUALITY_TIER_TRUSTED = "trusted"
 QUALITY_TIER_FIXTURE_ONLY = "fixture_only"
+QUALITY_TIER_REVIEW_ONLY = "review_only"
+SELECTION_SCOPE_PRODUCTION = "production"
+SELECTION_SCOPE_DEBUG = "debug"
+SELECTION_SCOPE_FIXTURE = "fixture"
+SELECTION_SCOPE_ONLINE_TEST = "online_test"
+BEAUTIFUL_REVIEW_SELECTION_ENV = "SVGLIDE_BEAUTIFUL_REVIEW_SELECTABLE"
+TRUTHY_ENV_VALUES = {"1", "true", "yes", "on"}
 PRODUCTION_THEME_IDS = frozenset(
     {
         "paper-research",
@@ -217,11 +284,13 @@ def _matrix_execution_metadata(row: dict[str, Any]) -> dict[str, Any]:
         "renderer_id",
         "renderer_module",
         "golden_spec",
+        "page_variant_golden_specs",
         "reference_screenshot",
         "fidelity_receipt",
         "fidelity_gate",
         "visual_contract",
         "visual_contract_path",
+        "production_review_receipt",
         "font_strategy",
         "typography_strategy",
         "text_style_strategy",
@@ -254,6 +323,19 @@ def merge_executable_matrix_metadata(record: dict[str, Any], row: dict[str, Any]
         if key == "source_trace" and record.get("source_trace"):
             continue
         record[key] = value
+    full_contract = _read_optional_json_file(record.get("visual_contract_path"))
+    if full_contract:
+        for key in ("page_family", "page_variants"):
+            if full_contract.get(key) and not record.get(key):
+                record[key] = full_contract[key]
+        if isinstance(record.get("visual_contract"), dict):
+            record["visual_contract"].setdefault("page_family_path", record.get("visual_contract_path"))
+    template_id = str(record.get("id") or record.get("template_id") or "")
+    if template_id in PAGE_FAMILY_CONTENT_KEY_GUIDANCE:
+        record.setdefault("page_family_content_key_guidance", PAGE_FAMILY_CONTENT_KEY_GUIDANCE[template_id])
+        record.setdefault("required_content_by_variant", REQUIRED_CONTENT_BY_VARIANT.get(template_id, {}))
+        record.setdefault("max_items_by_variant", MAX_ITEMS_BY_VARIANT.get(template_id, {}))
+        record.setdefault("text_budget_by_variant", TEXT_BUDGET_BY_VARIANT.get(template_id, {}))
     return record
 
 
@@ -264,7 +346,7 @@ def runtime_asset_metadata(asset_status: str) -> dict[str, Any]:
             "asset_status": ASSET_STATUS_PRODUCTION,
             "quality_tier": QUALITY_TIER_TRUSTED,
             "default_selectable": True,
-            "selection_scope": "production",
+            "selection_scope": SELECTION_SCOPE_PRODUCTION,
         }
     if asset_status == ASSET_STATUS_LEGACY_DEBUG:
         return {
@@ -272,7 +354,7 @@ def runtime_asset_metadata(asset_status: str) -> dict[str, Any]:
             "asset_status": ASSET_STATUS_LEGACY_DEBUG,
             "quality_tier": QUALITY_TIER_FIXTURE_ONLY,
             "default_selectable": False,
-            "selection_scope": "debug",
+            "selection_scope": SELECTION_SCOPE_DEBUG,
             "legacy_reason": "legacy theme retained for explicit fixture/debug compatibility",
         }
     return {
@@ -280,7 +362,29 @@ def runtime_asset_metadata(asset_status: str) -> dict[str, Any]:
         "asset_status": ASSET_STATUS_DEPRECATED,
         "quality_tier": QUALITY_TIER_FIXTURE_ONLY,
         "default_selectable": False,
-        "selection_scope": "fixture",
+        "selection_scope": SELECTION_SCOPE_FIXTURE,
+    }
+
+
+def beautiful_review_selection_enabled(environ: dict[str, str] | None = None) -> bool:
+    source = os.environ if environ is None else environ
+    return str(source.get(BEAUTIFUL_REVIEW_SELECTION_ENV, "")).strip().lower() in TRUTHY_ENV_VALUES
+
+
+def runtime_review_selection_metadata(row: dict[str, Any] | None = None) -> dict[str, Any]:
+    status = str((row or {}).get("promotion_status") or "needs_review")
+    return {
+        "status": RUNTIME_STATUS_ACTIVE,
+        "asset_status": ASSET_STATUS_REVIEW_CANDIDATE,
+        "quality_tier": QUALITY_TIER_REVIEW_ONLY,
+        "default_selectable": True,
+        "selection_scope": SELECTION_SCOPE_ONLINE_TEST,
+        "review_selectable": True,
+        "promotion_status": status,
+        "review_selection_reason": (
+            f"{BEAUTIFUL_REVIEW_SELECTION_ENV}=1 enables this beautiful candidate for online render testing only; "
+            "it is not a production/default promotion receipt."
+        ),
     }
 
 
@@ -324,6 +428,12 @@ def all_theme_ids(include_legacy: bool = False) -> list[str]:
 
 def all_template_ids(include_legacy: bool = False) -> list[str]:
     template_ids = set(promoted_template_ids())
+    if beautiful_review_selection_enabled():
+        template_ids.update(
+            str(row.get("runtime_template_id") or row.get("template_id"))
+            for row in executable_matrix_candidates()
+            if row.get("runtime_template_id") or row.get("template_id")
+        )
     if include_legacy:
         template_ids.update(PRODUCTION_TEMPLATE_IDS)
         template_ids.update(LEGACY_TEMPLATE_IDS)
@@ -339,7 +449,7 @@ def is_runtime_selectable(record: dict[str, Any], *, include_legacy_debug: bool 
     if (
         record.get("asset_status") == ASSET_STATUS_PRODUCTION
         and record.get("quality_tier") == QUALITY_TIER_TRUSTED
-        and record.get("selection_scope") == "production"
+        and record.get("selection_scope") == SELECTION_SCOPE_PRODUCTION
         and record.get("default_selectable") is True
     ):
         if _record_kind(record) == "template":
@@ -348,9 +458,18 @@ def is_runtime_selectable(record: dict[str, Any], *, include_legacy_debug: bool 
     if _record_kind(record) == "template" and (
         record.get("asset_status") == ASSET_STATUS_PRODUCTION
         or record.get("quality_tier") == QUALITY_TIER_TRUSTED
-        or record.get("selection_scope") == "production"
+        or record.get("selection_scope") == SELECTION_SCOPE_PRODUCTION
     ):
         return False
+    if (
+        record.get("status") == RUNTIME_STATUS_ACTIVE
+        and record.get("asset_status") == ASSET_STATUS_REVIEW_CANDIDATE
+        and record.get("quality_tier") == QUALITY_TIER_REVIEW_ONLY
+        and record.get("selection_scope") == SELECTION_SCOPE_ONLINE_TEST
+        and record.get("review_selectable") is True
+        and record.get("default_selectable") is True
+    ):
+        return True
     status = record.get("status")
     if status == ASSET_STATUS_LEGACY_DEBUG:
         return include_legacy_debug
@@ -509,6 +628,50 @@ def _has_template_runtime_contract(record: dict[str, Any]) -> bool:
         and bool(record.get("visual_contract"))
         and isinstance(fidelity_gate, dict)
         and fidelity_gate.get("status") == "passed"
+        and _has_page_family_runtime_contract(record)
+    )
+
+
+def _dict_paths_exist(value: Any) -> bool:
+    if not isinstance(value, dict) or not value:
+        return False
+    return all(isinstance(path, str) and bool(path.strip()) and _existing_file(path) for path in value.values())
+
+
+def _has_page_family_runtime_contract(record: dict[str, Any]) -> bool:
+    page_family = record.get("page_family")
+    page_variants = record.get("page_variants")
+    implemented = _non_empty_list(record.get("implemented_page_variants"))
+    smoke_deck = record.get("page_family_smoke_deck")
+    smoke_receipt = record.get("page_family_smoke_receipt")
+    promotion_gate = record.get("page_family_promotion_gate")
+    production_review_receipt = record.get("production_review_receipt")
+    page_variant_golden_specs = record.get("page_variant_golden_specs")
+    smoke_payload = _read_optional_json_file(smoke_receipt)
+    review_payload = _read_optional_json_file(production_review_receipt)
+    return (
+        isinstance(page_family, dict)
+        and bool(page_family.get("production_minimum_roles"))
+        and isinstance(page_variants, dict)
+        and bool(page_variants)
+        and bool(implemented)
+        and set(implemented).issubset(set(page_variants))
+        and _dict_paths_exist(page_variant_golden_specs)
+        and set(implemented).issubset(set(page_variant_golden_specs))
+        and _existing_file(smoke_deck)
+        and _existing_file(smoke_receipt)
+        and smoke_payload.get("status") == "passed"
+        and smoke_payload.get("selected_template_id") == record.get("id")
+        and not smoke_payload.get("missing_required_roles")
+        and isinstance(smoke_payload.get("rendered_pages"), int)
+        and smoke_payload.get("rendered_pages", 0) >= len(page_family.get("production_minimum_roles") or [])
+        and isinstance(promotion_gate, dict)
+        and promotion_gate.get("status") == "passed"
+        and _existing_file(production_review_receipt)
+        and review_payload.get("status") == "passed"
+        and review_payload.get("runtime_template_id") == record.get("id")
+        and (review_payload.get("review_decision") or {}).get("allow_default_selectable") is True
+        and (review_payload.get("checks") or {}).get("page_family_smoke_passed") is True
     )
 
 
@@ -933,7 +1096,10 @@ def template_registry(include_legacy: bool = False) -> dict[str, Any]:
                 }
             )
         record.update(TEMPLATE_OVERRIDES.get(template_id, {}))
-        merge_executable_matrix_metadata(record, matrix_by_template_id.get(template_id))
+        row = matrix_by_template_id.get(template_id)
+        merge_executable_matrix_metadata(record, row)
+        if beautiful_review_selection_enabled() and isinstance(row, dict):
+            record.update(runtime_review_selection_metadata(row))
         records.append(record)
     return {"version": "svglide-template-registry/generated-from-beautiful-family-v1", "include_legacy_debug": include_legacy, "templates": records}
 

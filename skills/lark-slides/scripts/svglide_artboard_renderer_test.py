@@ -508,7 +508,10 @@ process.exit(4)
             self.assertTrue((project / "04-svg/contract/manifest.json").exists())
             canonical_svg = (project / "04-svg/page-001.svg").read_text(encoding="utf-8")
             self.assertIn('slide:role="slide"', canonical_svg)
-            self.assertIn('slide:shape-type="text"', canonical_svg)
+            self.assertIn('slide:role="text"', canonical_svg)
+            self.assertIn('data-svglide-text-style-id="txt_001"', canonical_svg)
+            self.assertIn('id="svglide-text-style-manifest"', canonical_svg)
+            self.assertIn('"version": "svglide-satori-text-style/v1"', canonical_svg)
             receipt = json.loads((project / "04-artboard/raw/page-001.receipt.json").read_text(encoding="utf-8"))
             self.assertEqual(receipt["version"], "svglide-artboard-receipt/v1")
             self.assertEqual(receipt["status"], "passed")
@@ -701,6 +704,30 @@ process.exit(4)
             codes = {item["code"] for item in issues}
             self.assertIn("canvas_spec_page_variant_unsupported", codes)
             self.assertIn("canvas_spec_family_template_mismatch", codes)
+
+    def test_registry_binding_uses_variant_specific_required_content(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_legacy_fixture_registries(project)
+
+            cover = self.page_family_spec()
+            cover["page_variant_id"] = "cover"
+            cover["content"] = {"title": "Business Review", "subtitle": "Cover does not need metrics"}
+
+            cover_issues, _ = artboard.validate_registry_bindings(project, cover, page=1)
+            cover_messages = [item["message"] for item in cover_issues if item["code"] == "canvas_spec_template_required_content_missing"]
+            self.assertEqual([], cover_messages)
+
+            dashboard = self.page_family_spec()
+            dashboard["page_role"] = "data"
+            dashboard["page_variant_id"] = "dashboard"
+            dashboard["content"] = {"title": "Business Dashboard"}
+
+            dashboard_issues, _ = artboard.validate_registry_bindings(project, dashboard, page=2)
+
+            self.assertIn("canvas_spec_template_required_content_missing", {item["code"] for item in dashboard_issues})
+            self.assertIn("content.stats", " ".join(item["message"] for item in dashboard_issues))
+            self.assertNotIn("content.metrics", " ".join(item["message"] for item in dashboard_issues))
 
     def test_render_project_rejects_missing_required_content_and_card_overflow(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

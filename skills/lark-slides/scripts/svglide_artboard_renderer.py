@@ -366,7 +366,12 @@ def validate_registry_bindings(project: Path, spec: dict[str, Any], *, page: int
             issues.append({"code": "canvas_spec_theme_not_allowed", "message": f"page {page} template_id {template_id!r} does not allow theme_id {theme_id!r}"})
     if template_record:
         content = spec.get("content") if isinstance(spec.get("content"), dict) else {}
-        required = template_record.get("required_content")
+        variant_required = template_record.get("required_content_by_variant")
+        required = (
+            variant_required.get(page_variant_id)
+            if isinstance(variant_required, dict) and isinstance(page_variant_id, str) and isinstance(variant_required.get(page_variant_id), list)
+            else template_record.get("required_content")
+        )
         if isinstance(required, list):
             for key in required:
                 if not isinstance(key, str):
@@ -374,12 +379,22 @@ def validate_registry_bindings(project: Path, spec: dict[str, Any], *, page: int
                 value = content.get(key)
                 if value is None or value == "" or value == []:
                     issues.append({"code": "canvas_spec_template_required_content_missing", "message": f"page {page} template {template_id!r} requires content.{key}"})
-        max_items = template_record.get("max_items")
+        max_items_by_variant = template_record.get("max_items_by_variant")
+        max_items = (
+            max_items_by_variant.get(page_variant_id)
+            if isinstance(max_items_by_variant, dict) and isinstance(page_variant_id, str) and isinstance(max_items_by_variant.get(page_variant_id), dict)
+            else template_record.get("max_items")
+        )
         if isinstance(max_items, dict):
             for key, max_count in max_items.items():
                 if isinstance(key, str) and isinstance(max_count, int) and isinstance(content.get(key), list) and len(content[key]) > max_count:
                     issues.append({"code": "canvas_spec_template_too_many_items", "message": f"page {page} content.{key} exceeds template max_items {max_count}"})
-        text_budget = template_record.get("text_budget")
+        text_budget_by_variant = template_record.get("text_budget_by_variant")
+        text_budget = (
+            text_budget_by_variant.get(page_variant_id)
+            if isinstance(text_budget_by_variant, dict) and isinstance(page_variant_id, str) and isinstance(text_budget_by_variant.get(page_variant_id), dict)
+            else template_record.get("text_budget")
+        )
         if isinstance(text_budget, dict):
             for key, max_chars in text_budget.items():
                 if not isinstance(key, str) or not isinstance(max_chars, int):

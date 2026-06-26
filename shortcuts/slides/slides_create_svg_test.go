@@ -141,7 +141,18 @@ func TestSlidesCreateSVGExecuteCreatesSlidesInFileOrder(t *testing.T) {
 	if !ok || len(slideIDs) != 2 || slideIDs[0] != "slide_1" || slideIDs[1] != "slide_2" {
 		t.Fatalf("slide_ids = %v, want [slide_1 slide_2]", data["slide_ids"])
 	}
+	pages, ok := data["svg_pages"].([]interface{})
+	if !ok || len(pages) != 2 {
+		t.Fatalf("svg_pages = %#v, want 2 proof entries", data["svg_pages"])
+	}
+	firstProof, _ := pages[0].(map[string]interface{})
+	if firstProof["content_root"] != "svg" || firstProof["has_slide_role"] != true || firstProof["contract_version"] != svglideContractVersion {
+		t.Fatalf("first svg proof = %#v, want svg root, slide role, contract version", firstProof)
+	}
 
+	if content := slideCreateContent(t, slideStub1); !strings.HasPrefix(strings.TrimSpace(content), "<svg") {
+		t.Fatalf("slide 1 content should be raw svg, got: %s", content)
+	}
 	assertSlideCreateBodyContains(t, slideStub1, `slide:contract-version="svglide-authoring-contract/v1"`)
 	assertSlideCreateBodyContains(t, slideStub1, `<rect slide:role="shape" x="80" y="80" width="320" height="180"/>`)
 	assertSlideCreateBodyContains(t, slideStub2, `slide:contract-version="svglide-authoring-contract/v1"`)
@@ -249,6 +260,14 @@ func TestSlidesCreateSVGPPEProfilePassesFixedHeaders(t *testing.T) {
 		if headers[key] == nil {
 			t.Fatalf("request_headers = %#v, want %s", headers, key)
 		}
+	}
+	pages, _ := data["svg_pages"].([]interface{})
+	if len(pages) != 1 {
+		t.Fatalf("svg_pages = %#v, want one proof entry", data["svg_pages"])
+	}
+	proof, _ := pages[0].(map[string]interface{})
+	if proof["content_root"] != "svg" || proof["has_slide_role"] != true || proof["contract_version"] != svglideContractVersion {
+		t.Fatalf("svg proof = %#v, want svg root, slide role, contract version", proof)
 	}
 }
 
@@ -457,6 +476,53 @@ func TestSlidesCreateSVGFontFamilyDryRunReportsSelectedFamily(t *testing.T) {
 	if data["font_family"] != "Noto Serif SC" {
 		t.Fatalf("font_family = %v, want Noto Serif SC", data["font_family"])
 	}
+	pages, _ := data["svg_pages"].([]interface{})
+	if len(pages) != 1 {
+		t.Fatalf("svg_pages = %#v, want one proof entry", data["svg_pages"])
+	}
+	proof, _ := pages[0].(map[string]interface{})
+	if proof["content_root"] != "svg" || proof["has_slide_role"] != true || proof["contract_version"] != svglideContractVersion {
+		t.Fatalf("dry-run svg proof = %#v, want svg root, slide role, contract version", proof)
+	}
+}
+
+func TestSlidesCreateSVGDryRunReportsPPEHeadersAndSVGProof(t *testing.T) {
+	dir := t.TempDir()
+	withSlidesTestWorkingDir(t, dir)
+	if err := os.WriteFile("page.svg", []byte(testSVGlidePage1), 0o644); err != nil {
+		t.Fatalf("write page.svg: %v", err)
+	}
+
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+	err := runSlidesCreateSVGShortcut(t, f, stdout, []string{
+		"+create-svg",
+		"--file", "page.svg",
+		"--ppe-profile", "ppe_pure_svg",
+		"--dry-run",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	var data map[string]interface{}
+	if err := json.Unmarshal(stdout.Bytes(), &data); err != nil {
+		t.Fatalf("decode dry-run output: %v\nraw=%s", err, stdout.String())
+	}
+	headers, _ := data["request_headers"].(map[string]interface{})
+	for _, key := range []string{"Env", "x-tt-env", "x-use-ppe"} {
+		if headers[key] == nil {
+			t.Fatalf("request_headers = %#v, want %s", headers, key)
+		}
+	}
+	pages, _ := data["svg_pages"].([]interface{})
+	if len(pages) != 1 {
+		t.Fatalf("svg_pages = %#v, want one proof entry", data["svg_pages"])
+	}
+	proof, _ := pages[0].(map[string]interface{})
+	if proof["content_root"] != "svg" || proof["has_slide_role"] != true || proof["contract_version"] != svglideContractVersion {
+		t.Fatalf("dry-run svg proof = %#v, want svg root, slide role, contract version", proof)
+	}
 }
 
 func TestSlidesCreateSVGLocalImageDryRunUsesRealMetadata(t *testing.T) {
@@ -492,6 +558,45 @@ func TestSlidesCreateSVGLocalImageDryRunUsesRealMetadata(t *testing.T) {
 		fmt.Sprintf(`size="%d"`, len(png)),
 		`width="2"`,
 		`height="2"`,
+	} {
+		if !strings.Contains(content, want) {
+			t.Fatalf("dry-run slide content missing %s:\n%s", want, content)
+		}
+	}
+}
+
+func TestSlidesCreateSVGAllowsTextStyleManifestMetadata(t *testing.T) {
+	dir := t.TempDir()
+	withSlidesTestWorkingDir(t, dir)
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 1280 720">` +
+		`<metadata id="svglide-text-style-manifest" type="application/json">{"version":"svglide-satori-text-style/v1","items":{"txt_001":{"font_size":24}}}</metadata>` +
+		`<clipPath id="cp"><rect x="0" y="0" width="1280" height="720"/></clipPath>` +
+		`<mask id="mk"><rect x="0" y="0" width="1280" height="720" fill="#fff"/></mask>` +
+		`<text slide:role="text" x="80" y="96" font-size="24" fill="#111">hello</text>` +
+		`</svg>`
+	if err := os.WriteFile("page.svg", []byte(svg), 0o644); err != nil {
+		t.Fatalf("write page.svg: %v", err)
+	}
+
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+	err := runSlidesCreateSVGShortcut(t, f, stdout, []string{
+		"+create-svg",
+		"--file", "page.svg",
+		"--title", "metadata dry-run",
+		"--dry-run",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	content := dryRunSlideContent(t, stdout)
+	for _, want := range []string{
+		`<metadata id="svglide-text-style-manifest"`,
+		`svglide-satori-text-style/v1`,
+		`<clipPath id="cp">`,
+		`<mask id="mk">`,
+		`<text slide:role="text"`,
 	} {
 		if !strings.Contains(content, want) {
 			t.Fatalf("dry-run slide content missing %s:\n%s", want, content)
@@ -952,15 +1057,24 @@ func dryRunSlideContent(t *testing.T, stdout *bytes.Buffer) string {
 
 func assertSlideCreateBodyContains(t *testing.T, stub *httpmock.Stub, want string) {
 	t.Helper()
+	content := slideCreateContent(t, stub)
+	if !strings.Contains(content, want) {
+		t.Fatalf("slide content = %s\nwant to contain %s", content, want)
+	}
+}
+
+func slideCreateContent(t *testing.T, stub *httpmock.Stub) string {
+	t.Helper()
 	var body map[string]interface{}
 	if err := json.Unmarshal(stub.CapturedBody, &body); err != nil {
 		t.Fatalf("decode slide body: %v\nraw=%s", err, string(stub.CapturedBody))
 	}
 	slide, _ := body["slide"].(map[string]interface{})
 	content, _ := slide["content"].(string)
-	if !strings.Contains(content, want) {
-		t.Fatalf("slide content = %s\nwant to contain %s", content, want)
+	if content == "" {
+		t.Fatalf("slide content missing from body: %#v", body)
 	}
+	return content
 }
 
 func registerBatchQueryStub(_ *httpmock.Registry, _, _ string) {

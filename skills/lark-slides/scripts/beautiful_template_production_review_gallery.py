@@ -19,6 +19,7 @@ MATRIX_PATH = REFERENCES_DIR / "beautiful-template-executable-matrix.json"
 DEFAULT_OUTPUT_DIR = REFERENCES_DIR / "production-review" / "beautiful"
 DEFAULT_RECEIPT_PATH = REFERENCES_DIR / "receipts" / "production-review" / "beautiful-34-gallery.json"
 SOURCE_PAGE_SCREENSHOT_DIR = DEFAULT_OUTPUT_DIR / "source-page-screenshots"
+CURRENT_SVGLIDE_DECK_DIR = DEFAULT_OUTPUT_DIR / "current-svglide-decks"
 GENERATOR_VERSION = "svglide-beautiful-production-review-gallery/v2"
 REVIEW_BATCH_ID = "beautiful-34"
 HUMAN_REVIEW_STATUS = "pending"
@@ -117,6 +118,17 @@ def file_uri(path: Path | None) -> str | None:
     if path is None or not path.exists():
         return None
     return path.resolve().as_uri()
+
+
+def family_html_asset_uri(path_value: object) -> str | None:
+    path = resolve_path(path_value)
+    if path is None or not path.exists():
+        return None
+    try:
+        relative = path.resolve().relative_to(DEFAULT_OUTPUT_DIR.resolve()).as_posix()
+        return f"../{relative}"
+    except ValueError:
+        return path.resolve().as_uri()
 
 
 def slug(value: object) -> str:
@@ -292,10 +304,14 @@ def _fidelity_summary(row: dict[str, Any]) -> dict[str, Any]:
     gate = _as_dict(row.get("fidelity_gate"))
     receipt_path = resolve_path(row.get("fidelity_receipt") or gate.get("receipt_path"))
     receipt = read_json_optional(receipt_path)
+    render_screenshot = resolve_path(gate.get("render_screenshot") or gate.get("rendered"))
     return {
         "status": gate.get("status") or receipt.get("status") or "missing",
         "score": gate.get("score") if gate.get("score") is not None else receipt.get("score"),
         "threshold": gate.get("threshold") if gate.get("threshold") is not None else receipt.get("threshold"),
+        "render_screenshot": relpath(render_screenshot),
+        "render_screenshot_uri": file_uri(render_screenshot),
+        "render_screenshot_sha256": optional_sha256(render_screenshot),
         "receipt_path": row.get("fidelity_receipt") or gate.get("receipt_path"),
         "receipt_sha256": optional_sha256(receipt_path),
     }
@@ -356,7 +372,80 @@ def _source_screenshot_for_page(family_id: str, slide_index: object, variant_id:
     }
 
 
-def _page_render_evidence(row: dict[str, Any], variant_id: str, smoke: dict[str, Any]) -> dict[str, Any]:
+def _preview_for_canvas_spec(path: Path | None) -> Path | None:
+    if path is None or not path.is_file():
+        return None
+    name = path.name
+    if name.endswith(".canvas-spec.json"):
+        base = name[: -len(".canvas-spec.json")]
+    else:
+        base = path.stem
+    for suffix in (".preview.png", ".preview.svg"):
+        candidate = path.with_name(f"{base}{suffix}")
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def _render_preview_for_golden_spec(path: Path | None) -> dict[str, Any]:
+    preview = _preview_for_canvas_spec(path)
+    return {
+        "status": "available" if preview else "missing",
+        "path": relpath(preview),
+        "uri": file_uri(preview),
+        "sha256": optional_sha256(preview),
+        "expected_from_golden_spec": relpath(path),
+    }
+
+
+def _current_deck_render_for_page(family_id: str, slide_index: object, variant_id: object) -> dict[str, Any]:
+    family_manifest = read_json_optional(CURRENT_SVGLIDE_DECK_DIR / family_id / "manifest.json")
+    page_record = None
+    for item in _as_list(family_manifest.get("pages")):
+        if not isinstance(item, dict):
+            continue
+        if item.get("page_variant_id") == variant_id and item.get("source_slide_index") == slide_index:
+            page_record = item
+            break
+    if page_record is None and isinstance(slide_index, int):
+        expected = CURRENT_SVGLIDE_DECK_DIR / family_id / f"page-{slide_index:03d}-{slug(variant_id)}.svg"
+        expected_png = expected.with_suffix(".png")
+    else:
+        expected = resolve_path(page_record.get("svg")) if isinstance(page_record, dict) else None
+        expected_png = resolve_path(page_record.get("png") or page_record.get("browser_preview")) if isinstance(page_record, dict) else None
+        if expected_png is None and expected is not None:
+            expected_png = expected.with_suffix(".png")
+    status = str(page_record.get("render_status")) if isinstance(page_record, dict) else "missing"
+    if expected and expected.is_file() and status in {"passed", "missing"}:
+        status = "available"
+    preview_status = "available" if expected_png and expected_png.is_file() else "missing"
+    return {
+        "artifact_kind": "beautiful_current_svglide_deck_render_page",
+        "status": status,
+        "path": relpath(expected),
+        "uri": file_uri(expected),
+        "sha256": optional_sha256(expected),
+        "browser_preview": relpath(expected_png),
+        "browser_preview_uri": file_uri(expected_png),
+        "browser_preview_sha256": optional_sha256(expected_png),
+        "browser_preview_status": preview_status,
+        "browser_preview_kind": (
+            page_record.get("browser_preview_kind") if isinstance(page_record, dict) else None
+        ) or ("resvg_png" if preview_status == "available" else None),
+        "manifest": relpath(CURRENT_SVGLIDE_DECK_DIR / family_id / "manifest.json"),
+        "manifest_sha256": optional_sha256(CURRENT_SVGLIDE_DECK_DIR / family_id / "manifest.json"),
+        "degraded": bool(page_record.get("degraded")) if isinstance(page_record, dict) else None,
+        "degraded_reason": page_record.get("degraded_reason") if isinstance(page_record, dict) else None,
+        "claim_boundary": family_manifest.get("claim_boundary"),
+    }
+
+
+def _page_render_evidence(
+    row: dict[str, Any],
+    variant_id: str,
+    smoke: dict[str, Any],
+    slide_index: object,
+) -> dict[str, Any]:
     variant_golden = row.get("page_variant_golden_specs")
     golden_path = None
     if isinstance(variant_golden, dict):
@@ -370,8 +459,102 @@ def _page_render_evidence(row: dict[str, Any], variant_id: str, smoke: dict[str,
         "render_status": status,
         "golden_spec": relpath(golden_path),
         "golden_spec_sha256": optional_sha256(golden_path),
+        "render_preview": _render_preview_for_golden_spec(golden_path),
+        "current_deck_render": _current_deck_render_for_page(str(row.get("family_id") or ""), slide_index, variant_id),
         "smoke_receipt": smoke.get("receipt_path"),
         "smoke_receipt_sha256": smoke.get("receipt_sha256"),
+    }
+
+
+def _legacy_renderer_fixture_sample(row: dict[str, Any], fidelity: dict[str, Any]) -> dict[str, Any]:
+    golden_path = resolve_path(row.get("golden_spec"))
+    preview = resolve_path(fidelity.get("render_screenshot")) or _preview_for_canvas_spec(golden_path)
+    reference = resolve_path(row.get("reference_screenshot"))
+    return {
+        "artifact_kind": "legacy_renderer_fixture_sample",
+        "status": "available" if preview and preview.is_file() else "missing",
+        "runtime_template_id": row.get("runtime_template_id") or row.get("template_id"),
+        "renderer_module": row.get("renderer_module"),
+        "golden_spec": relpath(golden_path),
+        "golden_spec_sha256": optional_sha256(golden_path),
+        "render_screenshot": relpath(preview),
+        "render_screenshot_uri": file_uri(preview),
+        "render_screenshot_sha256": optional_sha256(preview),
+        "reference_screenshot": relpath(reference),
+        "reference_screenshot_uri": file_uri(reference),
+        "reference_screenshot_sha256": optional_sha256(reference),
+        "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    }
+
+
+def _representative_rank(page: dict[str, Any]) -> tuple[int, int]:
+    variant_id = str(page.get("page_variant_id") or "")
+    role_group = str(page.get("role_group") or "")
+    priority = {
+        "cover": 0,
+        "hero": 0,
+        "agenda": 1,
+        "table_of_contents": 1,
+        "dashboard": 2,
+        "metric": 2,
+        "data": 2,
+        "comparison_or_split": 3,
+        "content": 4,
+        "closing": 5,
+    }
+    return (priority.get(variant_id, priority.get(role_group, 9)), int(page.get("page") or 999))
+
+
+def _page_family_representative_sample(family: dict[str, Any]) -> dict[str, Any]:
+    pages = _as_list(family.get("pages"))
+    available = []
+    for page in pages:
+        if not isinstance(page, dict):
+            continue
+        source = page.get("source_screenshot") if isinstance(page.get("source_screenshot"), dict) else {}
+        evidence = page.get("render_evidence") if isinstance(page.get("render_evidence"), dict) else {}
+        current = evidence.get("current_deck_render") if isinstance(evidence.get("current_deck_render"), dict) else {}
+        if source.get("path") and current.get("path") and current.get("status") == "available":
+            available.append(page)
+    if not available:
+        return {
+            "artifact_kind": "page_family_representative_sample",
+            "status": "missing",
+            "family_id": family.get("family_id"),
+            "runtime_template_id": family.get("runtime_template_id"),
+            "missing_reason": "no page-family current deck render with source screenshot is available",
+            "claim_boundary": "current page-family representative requires source screenshot and current deck render",
+        }
+
+    page = sorted(available, key=_representative_rank)[0]
+    source = page.get("source_screenshot") if isinstance(page.get("source_screenshot"), dict) else {}
+    evidence = page.get("render_evidence") if isinstance(page.get("render_evidence"), dict) else {}
+    current = evidence.get("current_deck_render") if isinstance(evidence.get("current_deck_render"), dict) else {}
+    return {
+        "artifact_kind": "page_family_representative_sample",
+        "status": "available",
+        "family_id": family.get("family_id"),
+        "runtime_template_id": family.get("runtime_template_id"),
+        "page": page.get("page"),
+        "page_variant_id": page.get("page_variant_id"),
+        "page_role": page.get("page_role"),
+        "role_group": page.get("role_group"),
+        "source_slide_index": page.get("source_slide_index"),
+        "source_screenshot": source.get("path"),
+        "source_screenshot_uri": source.get("uri"),
+        "source_screenshot_sha256": source.get("sha256"),
+        "current_deck_render": current.get("path"),
+        "current_deck_render_uri": current.get("uri"),
+        "current_deck_render_sha256": current.get("sha256"),
+        "current_deck_browser_preview": current.get("browser_preview"),
+        "current_deck_browser_preview_uri": current.get("browser_preview_uri"),
+        "current_deck_browser_preview_sha256": current.get("browser_preview_sha256"),
+        "current_deck_browser_preview_kind": current.get("browser_preview_kind"),
+        "golden_spec": evidence.get("golden_spec"),
+        "golden_spec_sha256": evidence.get("golden_spec_sha256"),
+        "smoke_receipt": evidence.get("smoke_receipt"),
+        "smoke_receipt_sha256": evidence.get("smoke_receipt_sha256"),
+        "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
     }
 
 
@@ -393,7 +576,7 @@ def _source_smoke_deck(row: dict[str, Any], variants: list[dict[str, Any]], smok
     pages: list[dict[str, Any]] = []
     for page_number, variant in enumerate(variants, start=1):
         variant_id = str(variant.get("page_variant_id") or f"page-{page_number}")
-        evidence = _page_render_evidence(row, variant_id, smoke)
+        evidence = _page_render_evidence(row, variant_id, smoke, variant.get("source_slide_index"))
         screenshot = _source_screenshot_for_page(family_id, variant.get("source_slide_index"), variant_id, row.get("reference_screenshot"))
         pages.append(
             {
@@ -479,7 +662,7 @@ def _family_review(row: dict[str, Any]) -> dict[str, Any]:
         "smoke_receipt": smoke.get("receipt_sha256"),
         "fidelity_receipt": fidelity.get("receipt_sha256"),
     }
-    return {
+    review = {
         "artifact_kind": "production_review_family_smoke_deck",
         "not_promotion_receipt": True,
         "family_id": family_id,
@@ -503,6 +686,7 @@ def _family_review(row: dict[str, Any]) -> dict[str, Any]:
         "smoke": smoke,
         "fidelity_status": fidelity["status"],
         "fidelity": fidelity,
+        "legacy_renderer_fixture_sample": _legacy_renderer_fixture_sample(row, fidelity),
         "page_family_promotion_gate_status": promotion_gate["status"],
         "page_family_promotion_gate": promotion_gate,
         "auto_gate_status": auto_gate_status,
@@ -520,6 +704,8 @@ def _family_review(row: dict[str, Any]) -> dict[str, Any]:
         "review_decision": "pending_review",
         "review_claim_boundary": "gallery_input_only_not_promotion_receipt",
     }
+    review["page_family_representative_sample"] = _page_family_representative_sample(review)
+    return review
 
 
 def build_gallery_manifest() -> dict[str, Any]:
@@ -620,6 +806,140 @@ def _review_decision_template(family: dict[str, Any]) -> dict[str, Any]:
         "source_gallery_receipt_path": _review_receipt_relpath(),
         "notes": "",
     }
+
+
+def _missing_render_reason(render_status: object, preview_status: object = None) -> str:
+    status = str(render_status or "missing")
+    if status == "missing_smoke":
+        return "page-family smoke missing or failed"
+    if status == "smoke_passed_without_variant_golden":
+        return "page-family smoke passed but this page variant has no golden spec"
+    if status == "passed" and preview_status != "available":
+        return "golden spec exists, but no preview PNG/SVG is attached to the review page"
+    return status
+
+
+def _source_thumb_html(page: dict[str, Any]) -> str:
+    screenshot = page.get("source_screenshot") if isinstance(page.get("source_screenshot"), dict) else {}
+    source_uri = family_html_asset_uri(screenshot.get("path"))
+    if source_uri:
+        return f'<img src="{html.escape(str(source_uri))}" alt="{html.escape(str(page["page_variant_id"]))} source" />'
+    expected = screenshot.get("expected_path") or "unknown"
+    return (
+        '<div class="missing-thumb source-missing">'
+        "<strong>source screenshot missing</strong>"
+        f"<small>{html.escape(str(expected))}</small>"
+        "</div>"
+    )
+
+
+def _svglide_render_thumb_html(page: dict[str, Any]) -> str:
+    evidence = page.get("render_evidence") if isinstance(page.get("render_evidence"), dict) else {}
+    current_render = evidence.get("current_deck_render") if isinstance(evidence.get("current_deck_render"), dict) else {}
+    preview_uri = family_html_asset_uri(current_render.get("browser_preview"))
+    if preview_uri:
+        return (
+            f'<img src="{html.escape(str(preview_uri))}" '
+            f'alt="{html.escape(str(page["page_variant_id"]))} current SVGlide deck PNG preview" />'
+        )
+    preview = evidence.get("render_preview") if isinstance(evidence.get("render_preview"), dict) else {}
+    if preview.get("uri"):
+        return f'<img src="{html.escape(str(preview["uri"]))}" alt="{html.escape(str(page["page_variant_id"]))} SVGlide render" />'
+    reason = _missing_render_reason(page.get("render_status"), preview.get("status"))
+    return (
+        '<div class="missing-thumb render-missing">'
+        "<strong>SVGlide render missing</strong>"
+        f"<small>{html.escape(reason)}</small>"
+        "</div>"
+    )
+
+
+def _render_evidence_lines(page: dict[str, Any]) -> str:
+    screenshot = page.get("source_screenshot") if isinstance(page.get("source_screenshot"), dict) else {}
+    evidence = page.get("render_evidence") if isinstance(page.get("render_evidence"), dict) else {}
+    preview = evidence.get("render_preview") if isinstance(evidence.get("render_preview"), dict) else {}
+    current_render = evidence.get("current_deck_render") if isinstance(evidence.get("current_deck_render"), dict) else {}
+    lines = [
+        f"render status: {html.escape(str(page.get('render_status') or 'missing'))}",
+        f"source screenshot: {html.escape(str(screenshot.get('status') or 'missing'))}",
+        f"review-only deck render: {html.escape(str(current_render.get('status') or 'missing'))}",
+        f"browser-safe preview: {html.escape(str(current_render.get('browser_preview_status') or 'missing'))}",
+        f"SVGlide preview: {html.escape(str(preview.get('status') or 'missing'))}",
+    ]
+    if current_render.get("browser_preview"):
+        lines.append(f"current deck png: <code>{html.escape(str(current_render['browser_preview']))}</code>")
+    if current_render.get("path"):
+        lines.append(f"current deck svg: <code>{html.escape(str(current_render['path']))}</code>")
+    if current_render.get("degraded"):
+        lines.append(
+            "current deck note: "
+            f"{_badge('degraded')} {html.escape(str(current_render.get('degraded_reason') or 'review-only'))}"
+        )
+    if evidence.get("golden_spec"):
+        lines.append(f"golden spec: <code>{html.escape(str(evidence['golden_spec']))}</code>")
+    if evidence.get("smoke_receipt"):
+        lines.append(f"smoke receipt: <code>{html.escape(str(evidence['smoke_receipt']))}</code>")
+    return "".join(f"<p>{line}</p>" for line in lines)
+
+
+def _page_family_representative_sample_html(family: dict[str, Any]) -> str:
+    sample = (
+        family.get("page_family_representative_sample")
+        if isinstance(family.get("page_family_representative_sample"), dict)
+        else {}
+    )
+    source_img = ""
+    source_sample_uri = family_html_asset_uri(sample.get("source_screenshot"))
+    if source_sample_uri:
+        source_img = (
+            f'<img src="{html.escape(str(source_sample_uri))}" '
+            f'alt="{html.escape(str(family["family_id"]))} source page" />'
+        )
+    else:
+        source_img = (
+            '<div class="missing-thumb source-missing">'
+            "<strong>source page missing</strong>"
+            f"<small>{html.escape(str(sample.get('missing_reason') or 'unknown'))}</small>"
+            "</div>"
+        )
+    render_sample_uri = family_html_asset_uri(sample.get("current_deck_browser_preview")) or family_html_asset_uri(
+        sample.get("current_deck_render")
+    )
+    if render_sample_uri:
+        render_img = (
+            f'<img src="{html.escape(str(render_sample_uri))}" '
+            f'alt="{html.escape(str(family["runtime_template_id"]))} current deck PNG preview" />'
+        )
+    else:
+        render_img = (
+            '<div class="missing-thumb render-missing">'
+            "<strong>page-family render missing</strong>"
+            f"<small>{html.escape(str(sample.get('missing_reason') or 'current deck render missing'))}</small>"
+            "</div>"
+        )
+    source_line = sample.get("source_screenshot") or sample.get("missing_reason") or ""
+    current_line = sample.get("current_deck_render") or sample.get("missing_reason") or ""
+    preview_line = sample.get("current_deck_browser_preview") or sample.get("missing_reason") or ""
+    return f"""<section class="sample-panel">
+      <h2>Current SVGlide page-family representative</h2>
+      <p>This sample uses the same source/current deck artifacts as the page-family smoke deck. Full deck review is below.</p>
+      <div class="compare-grid sample-grid">
+        <div class="compare-cell">
+          <div class="compare-label">beautiful source page</div>
+          <div class="thumb">{source_img}</div>
+        </div>
+        <div class="compare-cell">
+          <div class="compare-label">SVGlide current deck render</div>
+          <div class="thumb">{render_img}</div>
+        </div>
+      </div>
+      <p>{_badge(sample.get("status") or "missing")} <code>{html.escape(str(sample.get("claim_boundary") or ""))}</code></p>
+      <p>page: <code>{html.escape(str(sample.get("page") or ""))}</code> / variant: <code>{html.escape(str(sample.get("page_variant_id") or ""))}</code></p>
+      <p>source page: <code>{html.escape(str(source_line))}</code></p>
+      <p>current deck png: <code>{html.escape(str(preview_line))}</code></p>
+      <p>current deck svg: <code>{html.escape(str(current_line))}</code></p>
+      <p>golden spec: <code>{html.escape(str(sample.get("golden_spec") or ""))}</code></p>
+    </section>"""
 
 
 def _review_controls_html(family: dict[str, Any], *, include_snippet: bool = False) -> str:
@@ -792,25 +1112,21 @@ def _review_script_html() -> str:
 def _render_family_html(family: dict[str, Any]) -> str:
     pages = []
     for page in family["pages"]:
-        screenshot = page.get("source_screenshot") if isinstance(page.get("source_screenshot"), dict) else {}
-        img = ""
-        if screenshot.get("uri"):
-            img = f'<img src="{html.escape(str(screenshot["uri"]))}" alt="{html.escape(str(page["page_variant_id"]))}" />'
-        else:
-            expected = screenshot.get("expected_path") or "unknown"
-            img = (
-                '<div class="missing-thumb">'
-                "<strong>source screenshot missing</strong>"
-                f"<small>{html.escape(str(expected))}</small>"
-                "</div>"
-            )
         pages.append(
             "<section class=\"page\">"
-            f"<div class=\"thumb\">{img}</div>"
+            '<div class="compare-grid">'
+            '<div class="compare-cell">'
+            '<div class="compare-label">beautiful source</div>'
+            f'<div class="thumb source-thumb">{_source_thumb_html(page)}</div>'
+            "</div>"
+            '<div class="compare-cell">'
+            '<div class="compare-label">SVGlide current deck render</div>'
+            f'<div class="thumb render-thumb">{_svglide_render_thumb_html(page)}</div>'
+            "</div>"
+            "</div>"
             f"<h2>{html.escape(str(page['page']))}. {html.escape(str(page['page_variant_id']))}</h2>"
             f"<p>{html.escape(str(page.get('page_role') or 'unknown'))} / {html.escape(str(page.get('role_group') or 'unmapped'))}</p>"
-            f"<p>{_badge(page.get('render_status'))}</p>"
-            f"<p>source screenshot: {html.escape(str(screenshot.get('status') or 'missing'))}</p>"
+            f"{_render_evidence_lines(page)}"
             f"<p><code>{html.escape(str(page.get('source_class') or ''))}</code></p>"
             "</section>"
         )
@@ -823,18 +1139,24 @@ def _render_family_html(family: dict[str, Any]) -> str:
   <style>
     body {{ margin: 28px; background: #f6f7f9; color: #172033; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }}
     a {{ color: #1d4ed8; }}
-    header {{ max-width: 1200px; margin-bottom: 20px; }}
+    header {{ max-width: 1400px; margin-bottom: 20px; }}
     h1 {{ margin: 0 0 8px; font-size: 28px; }}
     .warning {{ padding: 10px 12px; border: 1px solid #d9b51d; background: #fff8d6; border-radius: 8px; }}
     .meta {{ display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 10px; margin: 16px 0; }}
     .metric {{ background: #fff; border: 1px solid #dfe5ee; border-radius: 8px; padding: 10px; }}
     .metric strong {{ display: block; font-size: 20px; }}
-    .deck {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }}
-    .page {{ background: #fff; border: 1px solid #dfe5ee; border-radius: 8px; padding: 10px; }}
+    .deck {{ display: flex; flex-direction: column; gap: 18px; max-width: 1320px; }}
+    .page {{ background: #fff; border: 1px solid #dfe5ee; border-radius: 8px; padding: 14px; }}
+    .compare-grid {{ display: grid; grid-template-columns: repeat(2, minmax(560px, 1fr)); gap: 14px; align-items: start; }}
+    .compare-cell {{ min-width: 0; }}
+    .compare-label {{ color: #172033; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 6px; }}
     .thumb {{ background: #eef2f7; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 6px; border: 1px solid #d8dee9; }}
     .thumb img {{ width: 100%; height: 100%; object-fit: contain; }}
     .missing-thumb {{ display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #7c2d12; background: #ffedd5; width: 100%; height: 100%; text-align: center; padding: 12px; box-sizing: border-box; }}
+    .render-missing {{ color: #991b1b; background: #fee2e2; }}
+    .source-missing {{ color: #7c2d12; background: #ffedd5; }}
     .missing-thumb small {{ color: #9a3412; word-break: break-all; }}
+    .render-missing small {{ color: #991b1b; }}
     h2 {{ margin: 10px 0 4px; font-size: 15px; }}
     p {{ margin: 5px 0; font-size: 12px; color: #536071; }}
     code {{ word-break: break-all; font-size: 11px; }}
@@ -845,6 +1167,8 @@ def _render_family_html(family: dict[str, Any]) -> str:
     .warn {{ color: #92400e; background: #fef3c7; }}
     .bad {{ color: #991b1b; background: #fee2e2; }}
     .review-panel, .review-handoff {{ background: #fff; border: 1px solid #dfe5ee; border-radius: 8px; padding: 14px; margin: 16px 0; }}
+    .sample-panel {{ background: #fff; border: 1px solid #dfe5ee; border-radius: 8px; padding: 14px; margin: 16px 0; max-width: 980px; }}
+    .sample-grid {{ margin-top: 10px; }}
     .decision-buttons {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }}
     .review-current {{ font-size: 12px; color: #536071; margin-bottom: 8px; }}
     .notes-label {{ display: block; color: #536071; font-size: 12px; }}
@@ -853,6 +1177,14 @@ def _render_family_html(family: dict[str, Any]) -> str:
     pre, textarea {{ width: 100%; box-sizing: border-box; border: 1px solid #c7d0df; border-radius: 6px; background: #f8fafc; color: #172033; }}
     pre {{ overflow: auto; padding: 10px; font-size: 12px; }}
     textarea {{ min-height: 180px; padding: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }}
+    @media (max-width: 720px) {{
+      body {{ margin: 16px; }}
+      .meta, .deck, .compare-grid {{ grid-template-columns: 1fr; }}
+    }}
+    @media (max-width: 1180px) {{
+      .compare-grid {{ grid-template-columns: 1fr; }}
+      .page {{ max-width: 960px; }}
+    }}
   </style>
 </head>
 <body>
@@ -871,6 +1203,7 @@ def _render_family_html(family: dict[str, Any]) -> str:
       {_review_controls_html(family, include_snippet=True)}
     </div>
     <p><strong>Known blockers:</strong> {html.escape(blockers)}</p>
+    {_page_family_representative_sample_html(family)}
   </header>
   {_review_handoff_html()}
   <main class="deck">

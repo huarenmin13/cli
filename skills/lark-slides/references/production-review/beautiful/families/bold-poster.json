@@ -9,59 +9,108 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/bold-poster.html",
-    "render_status": "missing_smoke",
-    "sha256": "b279dab961493a150e4572e98093f6e9295a9a2edf9aa3ffc3bbac2f4ec0100a"
+    "render_status": "passed",
+    "sha256": "9628752ac01c2e794e2c35d9470d9906f4fdb463c8c1af8a3bf0825012697c61"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "b279dab961493a150e4572e98093f6e9295a9a2edf9aa3ffc3bbac2f4ec0100a",
+    "contact_sheet": "9628752ac01c2e794e2c35d9470d9906f4fdb463c8c1af8a3bf0825012697c61",
     "fidelity_receipt": "5cb7f128615cbb801b3e66df177a5c1d61b3339c92cba3a04b9db00aadce0635",
     "reference_screenshot": "95a9351619463053bda29bdf472702ed4bc650a4510fa6b3cfcc34d5e3ba79b1",
-    "smoke_receipt": null,
-    "visual_contract": "7c8e40b48896fddcfa1d4340d2842c8f749f551aeec9d60c43daa0a50dbf2b7e"
+    "smoke_receipt": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1",
+    "visual_contract": "2bd38ee22cb01ea578f3e8d0a9a31fbada62e7ce7c8dce6fe972850c15b3d0fc"
   },
   "family_id": "bold-poster",
   "fidelity": {
     "receipt_path": "skills/lark-slides/references/receipts/template-fidelity/bold-poster.poster-stat-punch.json",
     "receipt_sha256": "5cb7f128615cbb801b3e66df177a5c1d61b3339c92cba3a04b9db00aadce0635",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/poster-stat-punch.preview.png",
+    "render_screenshot_sha256": "3517dc2bb7f69d3271d404982dde83a84957798bd3ee21ac2bf3469b71d2395a",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/poster-stat-punch.preview.png",
     "score": 0.9499,
     "status": "passed",
     "threshold": 0.72
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 10,
+  "implemented_page_variants": [
+    "hero",
+    "red",
+    "summary",
+    "financial",
+    "stat",
+    "services",
+    "roadmap",
+    "pillars",
+    "global",
+    "close"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
-    "selector_gate_missing",
-    "source_core_roles_missing"
+    "selector_gate_missing"
   ],
-  "missing_roles": [
-    "comparison_or_split",
-    "quote_or_emphasis"
-  ],
+  "legacy_renderer_fixture_sample": {
+    "artifact_kind": "legacy_renderer_fixture_sample",
+    "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/poster-stat-punch.canvas-spec.json",
+    "golden_spec_sha256": "16a5002ea7807823a6b4e2be61cae7ded05c25fcdec846f87bc58b93bf296f3c",
+    "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
+    "reference_screenshot_sha256": "95a9351619463053bda29bdf472702ed4bc650a4510fa6b3cfcc34d5e3ba79b1",
+    "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/poster-stat-punch.preview.png",
+    "render_screenshot_sha256": "3517dc2bb7f69d3271d404982dde83a84957798bd3ee21ac2bf3469b71d2395a",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/poster-stat-punch.preview.png",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/poster-stat-punch.mjs",
+    "runtime_template_id": "poster-stat-punch",
+    "status": "available"
+  },
+  "missing_roles": [],
   "not_promotion_receipt": true,
   "page_family_promotion_gate": {
-    "claim_boundary": null,
+    "claim_boundary": "page-family implementation evidence only; not a production/default_selectable promotion gate",
     "required_evidence": [],
-    "status": "missing"
+    "status": "not_requested"
   },
-  "page_family_promotion_gate_status": "missing",
+  "page_family_promotion_gate_status": "not_requested",
+  "page_family_representative_sample": {
+    "artifact_kind": "page_family_representative_sample",
+    "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.png",
+    "current_deck_browser_preview_kind": "resvg_png",
+    "current_deck_browser_preview_sha256": "dd0ecc6343a3de1754f12b8fb8b8422184462eeb0f9fcd8f3366e711c33582a4",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.svg",
+    "current_deck_render_sha256": "dcde21a22b30f08f13a730d65b2b32333d4a771412f5f0b0e48eab089404ba29",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.svg",
+    "family_id": "bold-poster",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+    "golden_spec_sha256": "6164d92a705ccb749ed44749278d21a4aef35f83e198316cd23ea45b3d13ca07",
+    "page": 1,
+    "page_role": "cover",
+    "page_variant_id": "hero",
+    "role_group": "cover",
+    "runtime_template_id": "poster-stat-punch",
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+    "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1",
+    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg",
+    "source_screenshot_sha256": "7b4433d7aa74b1989b3d3b87b69797dd8502a21189c0ef3803b68aefe3a9e6ae",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg",
+    "source_slide_index": 1,
+    "status": "available"
+  },
   "page_variant_count": 10,
   "page_variant_coverage": {
     "agenda": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "red"
+        "summary"
       ],
       "pages": [
-        2
+        3
       ]
     },
     "closing": {
@@ -75,21 +124,25 @@
       ]
     },
     "comparison_or_split": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "pillars"
+      ],
+      "pages": [
+        8
+      ]
     },
     "content": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "summary",
-        "financial"
+        "financial",
+        "global"
       ],
       "pages": [
-        3,
-        4
+        4,
+        9
       ]
     },
     "cover": {
@@ -106,14 +159,10 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "stat",
-        "pillars",
-        "global"
+        "stat"
       ],
       "pages": [
-        5,
-        8,
-        9
+        5
       ]
     },
     "process_or_timeline": {
@@ -129,10 +178,14 @@
       ]
     },
     "quote_or_emphasis": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "red"
+      ],
+      "pages": [
+        2
+      ]
     }
   },
   "page_variants": [
@@ -165,12 +218,12 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "agenda",
+      "page_role": "quote",
       "page_variant_id": "red",
       "required_slots": [
         "quote"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "slide-red",
       "source_refs": [
         {
@@ -187,12 +240,12 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "detail",
+      "page_role": "agenda",
       "page_variant_id": "summary",
       "required_slots": [
         "title"
       ],
-      "role_group": "content",
+      "role_group": "agenda",
       "source_class": "slide-summary",
       "source_refs": [
         {
@@ -231,7 +284,7 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "page_variant_id": "stat",
       "required_slots": [
         "metrics",
@@ -254,7 +307,7 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "page_variant_id": "services",
       "required_slots": [
         "title",
@@ -277,7 +330,7 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "page_variant_id": "roadmap",
       "required_slots": [
         "title",
@@ -301,14 +354,14 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "page_variant_id": "pillars",
       "required_slots": [
         "title",
         "metrics",
         "items"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "comparison_or_split",
       "source_class": "slide-pillars",
       "source_refs": [
         {
@@ -325,14 +378,14 @@
         "eyebrow",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "detail",
       "page_variant_id": "global",
       "required_slots": [
         "title",
         "metrics",
         "items"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "content",
       "source_class": "slide-global",
       "source_refs": [
         {
@@ -376,13 +429,37 @@
       "page_role": "cover",
       "page_variant_id": "hero",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "dd0ecc6343a3de1754f12b8fb8b8422184462eeb0f9fcd8f3366e711c33582a4",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.svg",
+          "sha256": "dcde21a22b30f08f13a730d65b2b32333d4a771412f5f0b0e48eab089404ba29",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+        "golden_spec_sha256": "6164d92a705ccb749ed44749278d21a4aef35f83e198316cd23ea45b3d13ca07",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.preview.png",
+          "sha256": "dd0ecc6343a3de1754f12b8fb8b8422184462eeb0f9fcd8f3366e711c33582a4",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "metrics"
@@ -397,13 +474,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
+        "bytes": 72321,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": "95a9351619463053bda29bdf472702ed4bc650a4510fa6b3cfcc34d5e3ba79b1",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png"
+        "sha256": "7b4433d7aa74b1989b3d3b87b69797dd8502a21189c0ef3803b68aefe3a9e6ae",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg"
       },
       "source_slide_index": 1
     },
@@ -413,20 +492,44 @@
         "decoration"
       ],
       "page": 2,
-      "page_role": "agenda",
+      "page_role": "quote",
       "page_variant_id": "red",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "28ce5a64c6dcef88f08d470e0f51b792df29bc480cf3ed3043511d77d096f1a9",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.svg",
+          "sha256": "df4df56981dc10246ec356c7baa6579a156512c12bc4db98b3a8bdc27a6fa099",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+        "golden_spec_sha256": "31620018c4097e67580c856f758479c27d3d481d408fd6a38fd04c8ac3f85728",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.preview.png",
+          "sha256": "28ce5a64c6dcef88f08d470e0f51b792df29bc480cf3ed3043511d77d096f1a9",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "quote"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "slide-red",
       "source_refs": [
         {
@@ -436,14 +539,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-2.png",
+        "bytes": 96552,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/002-red.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/002-red.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "00a475cb6a7435b09809580ee94928766150989c5b1eee5f562e0eb817eb5cca",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/002-red.jpg"
       },
       "source_slide_index": 2
     },
@@ -453,20 +557,44 @@
         "decoration"
       ],
       "page": 3,
-      "page_role": "detail",
+      "page_role": "agenda",
       "page_variant_id": "summary",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "2406b15b400d95e1d8fe0603856c70f36762dfdaef290cf8a67ced305c786364",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.svg",
+          "sha256": "34b4e537887ad95aeb7c21f91e872d9da695afbb20fdc5693bfff1ff0c49dd0c",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json",
+        "golden_spec_sha256": "3e2a0fb7fe210b628b2ff5e439ee22f5e96600b2e1bbe2692d771086cdb51560",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.preview.png",
+          "sha256": "2406b15b400d95e1d8fe0603856c70f36762dfdaef290cf8a67ced305c786364",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
-      "role_group": "content",
+      "role_group": "agenda",
       "source_class": "slide-summary",
       "source_refs": [
         {
@@ -476,14 +604,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-3.png",
+        "bytes": 133848,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/003-summary.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/003-summary.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "1dda072ef2fc8d17e8d601c9ff4f1bb93b9a6f0e3f3ef438c3ee1aff94a1669e",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/003-summary.jpg"
       },
       "source_slide_index": 3
     },
@@ -496,13 +625,37 @@
       "page_role": "content",
       "page_variant_id": "financial",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "6323c883f4e63651546e64122965e9a43535cb4f0f834b7df697606332a80d08",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.svg",
+          "sha256": "83b728812fc0930d0583bb25f525eee80338d6c7e6ad8202000b4814a4871027",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+        "golden_spec_sha256": "a1398041af75bff1069408db5e068dae9e1a9d8addf61e199217740993462879",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.preview.png",
+          "sha256": "6323c883f4e63651546e64122965e9a43535cb4f0f834b7df697606332a80d08",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "metrics"
       ],
@@ -516,13 +669,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-4.png",
+        "bytes": 111865,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/004-financial.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-4.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/004-financial.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": "d67e0d5b2107b2cbd2ce9b7e902e9533fc81349173c52a2533cc5934e18c37cc",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-4.png"
+        "sha256": "79110d703284db7da0de3c79fecc4312fb9e57356f8a460e5c4dabff5fd65903",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/004-financial.jpg"
       },
       "source_slide_index": 4
     },
@@ -532,16 +687,40 @@
         "decoration"
       ],
       "page": 5,
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "page_variant_id": "stat",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "4f8ec0ea4d6c3046bc7b9e9ed5b208998d7a1d2e7d3b35d1bb5708cde1c22b8f",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.svg",
+          "sha256": "d7643ebcf769232c6870b655d3dabf7bec88638e336a1d10794bebc503a286de",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+        "golden_spec_sha256": "73f66adb48c559628b344a6b7279e2893f10a5934c530a261fccc0f860b5762b",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.preview.png",
+          "sha256": "4f8ec0ea4d6c3046bc7b9e9ed5b208998d7a1d2e7d3b35d1bb5708cde1c22b8f",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "metrics",
         "items"
@@ -556,14 +735,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-5.png",
+        "bytes": 63362,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/005-stat.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/005-stat.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "841eea7b24baba61f76544319825ed1cf7b880e54a99d9654ab9f70a79b9e71c",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/005-stat.jpg"
       },
       "source_slide_index": 5
     },
@@ -573,16 +753,40 @@
         "decoration"
       ],
       "page": 6,
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "page_variant_id": "services",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "4ee1c47cf21e71f6e758085c794418ad8c5f686b1e7861e31d4e37a1349d80dd",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.svg",
+          "sha256": "d20b34d8657a0eb1785ea54c19b66668b38e57a1532b5abe97d6b5d8d181a41d",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+        "golden_spec_sha256": "8a25acb4acfc2f983511cc9df9b696cf5f4de8200ddef1f57434450e5e979405",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.preview.png",
+          "sha256": "4ee1c47cf21e71f6e758085c794418ad8c5f686b1e7861e31d4e37a1349d80dd",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "items"
@@ -597,14 +801,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-6.png",
+        "bytes": 89197,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/006-services.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/006-services.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "b8db11bf3eecc2138eeb1ccaa6875a05ee6eb73beacd8ce32ba27f275363b0e9",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/006-services.jpg"
       },
       "source_slide_index": 6
     },
@@ -614,16 +819,40 @@
         "decoration"
       ],
       "page": 7,
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "page_variant_id": "roadmap",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "6855aac277da9afa880dc944ce4d975ffe372d9580981e33eef9751ec445438c",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.svg",
+          "sha256": "d1ebaa5ba34eeabe62428d5045283ed8dc209f9b564ad9b6f8e6efea771c5b6b",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+        "golden_spec_sha256": "c165bdb5e4a3fc450c08bf4470071ed3576468d572097d3eba3d88e59ddd1048",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.preview.png",
+          "sha256": "6855aac277da9afa880dc944ce4d975ffe372d9580981e33eef9751ec445438c",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "items",
@@ -639,14 +868,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-7.png",
+        "bytes": 99271,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/007-roadmap.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/007-roadmap.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "1e64ea947192fcf21c9d01de9188373fcaabc78a1308ab13cfdced323082fb2b",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/007-roadmap.jpg"
       },
       "source_slide_index": 7
     },
@@ -656,22 +886,46 @@
         "decoration"
       ],
       "page": 8,
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "page_variant_id": "pillars",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "45c143e315b71ddc570894ce0cea36f91fcc498d9463cfaab541355307f524cc",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.svg",
+          "sha256": "01d7ee4bc1093606c929fbf47922fd4f3eb8e7f00cc0ed3b451d628cd27d7c3b",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+        "golden_spec_sha256": "23057fd6b4c41ed5ecf301e7a6dda8650e8f8477005ff8ec4472ed8e3502eaec",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.preview.png",
+          "sha256": "45c143e315b71ddc570894ce0cea36f91fcc498d9463cfaab541355307f524cc",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "metrics",
         "items"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "comparison_or_split",
       "source_class": "slide-pillars",
       "source_refs": [
         {
@@ -681,13 +935,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-8.png",
+        "bytes": 94333,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/008-pillars.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-8.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/008-pillars.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": "d583ec8b42561dc3ba2f835a46913e7aa252fb8aa209ee5633bdbd73b379208e",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-8.png"
+        "sha256": "94be4f1ef9e3dfcc6a9afde1dfdd5c416a19e5a7c205b5f0dd431b031447088a",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/008-pillars.jpg"
       },
       "source_slide_index": 8
     },
@@ -697,22 +953,46 @@
         "decoration"
       ],
       "page": 9,
-      "page_role": "data_dashboard",
+      "page_role": "detail",
       "page_variant_id": "global",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "8494e6e79e71841407feb5fb9eaa2cd090a9e28da8319fba4f5403a531f12af3",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.svg",
+          "sha256": "894807263750f89a736a9c087231b5ace2a664949fc9146458c7626c653b6d31",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+        "golden_spec_sha256": "94c0cd8681c2736a51bca1f931b4bbbd606f1436a743724b180a084b81280d80",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.preview.png",
+          "sha256": "8494e6e79e71841407feb5fb9eaa2cd090a9e28da8319fba4f5403a531f12af3",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "metrics",
         "items"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "content",
       "source_class": "slide-global",
       "source_refs": [
         {
@@ -722,14 +1002,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-9.png",
+        "bytes": 92150,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/009-global.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/009-global.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "a164720d1c70b2e13a67914cd0cdf5ce38681be7a9edcb29791df93954309ea6",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/009-global.jpg"
       },
       "source_slide_index": 9
     },
@@ -742,13 +1023,37 @@
       "page_role": "closing",
       "page_variant_id": "close",
       "render_evidence": {
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "acecc4a1f6c5f01a5db5cc25687ae1d895c654a6e4b04f073f55d747106e6384",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+          "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.svg",
+          "sha256": "2b75901bd07352e1a047dce1c0767885183c97e1fbe9893913ccfb63faa17f5e",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json",
+        "golden_spec_sha256": "7b54b0816cf5c740d3806073c3250ac5427ea2c9d814448b10209a2747b88289",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json",
+          "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.preview.png",
+          "sha256": "68aaf45f7d44bb9eeaf0c5ae3dba8d2cd45c9153d6b6d52fd856985cccea0bd2",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.preview.png"
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+        "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -762,14 +1067,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-10.png",
+        "bytes": 69065,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/010-close.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/010-close.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "c6bd2f3d91bd78cac5dd01e3be8708c08ab16528f7a63ec798cf39c811989c0a",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/010-close.jpg"
       },
       "source_slide_index": 10
     }
@@ -784,37 +1090,152 @@
   "runtime_template_id": "poster-stat-punch",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "hero",
+      "red",
+      "summary",
+      "financial",
+      "stat",
+      "services",
+      "roadmap",
+      "pillars",
+      "global",
+      "close"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/bold-poster.json",
+    "deck_sha256": "45a414107dd0788bead264cb74ed0e62062fb92983994e392a28e9d2232ce6aa",
+    "degraded": false,
+    "implemented_page_variants": [
+      "hero",
+      "red",
+      "summary",
+      "financial",
+      "stat",
+      "services",
+      "roadmap",
+      "pillars",
+      "global",
+      "close"
+    ],
+    "input_hashes": {
+      "golden_spec.close": "9612632dc7ac806c37cccd3d4b5fb1e3987e05de00264c4bc369d3a443b63640",
+      "golden_spec.financial": "f88392c7919128faa0189fd7f2e5dd112c684bf6d87ad0d262953ac1cc0b12d4",
+      "golden_spec.global": "19fd454e2d37822cb451083e81f2b1ddbbbe933924309722c9b195dda607481a",
+      "golden_spec.hero": "7070162ff5e15e5232fd0c319041eb708ea7b0c345162bde99e104e19f0c9c21",
+      "golden_spec.pillars": "6010e4e2a6e0f3d7e020f0be320a8e46c7d3d21ee2e27a970eefb235dd1b7806",
+      "golden_spec.red": "99aa8f95f29d0da19857330b81c85db7138ae0b4d3bfc053b1f8eb51abcac953",
+      "golden_spec.roadmap": "8e4fd4f5ca2c7031fa9fc060aeff1774de2d5c2ae83b7e78161708cf87a0bf3e",
+      "golden_spec.services": "652b0c2935f21198cb63b68d8eaec9ece50452bc9d2d13b4598a14d742935875",
+      "golden_spec.stat": "f8bed33a767ed709bc922283919b1b9b819d9ff898af3a9c302d41bd57f12cff",
+      "golden_spec.summary": "d08648ef6fcfadeaf11bbeb7fa40c1cf7be003fd62273bccdb334573b365ab8a",
+      "smoke_deck": "45a414107dd0788bead264cb74ed0e62062fb92983994e392a28e9d2232ce6aa"
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "summary"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          10
+        ],
+        "variants": [
+          "close"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "pillars"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          4
+        ],
+        "variants": [
+          "financial"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "hero"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "stat"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "global"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          6,
+          7
+        ],
+        "variants": [
+          "services",
+          "roadmap"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "red"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+    "receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1",
+    "rendered_pages": 10,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
-    "missing_roles": [
-      "comparison_or_split",
-      "quote_or_emphasis"
-    ],
+    "missing_roles": [],
     "page_count": 10,
     "page_variant_coverage": {
       "agenda": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "red"
+          "summary"
         ],
         "pages": [
-          2
+          3
         ]
       },
       "closing": {
@@ -828,21 +1249,25 @@
         ]
       },
       "comparison_or_split": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "pillars"
+        ],
+        "pages": [
+          8
+        ]
       },
       "content": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "summary",
-          "financial"
+          "financial",
+          "global"
         ],
         "pages": [
-          3,
-          4
+          4,
+          9
         ]
       },
       "cover": {
@@ -859,14 +1284,10 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "stat",
-          "pillars",
-          "global"
+          "stat"
         ],
         "pages": [
-          5,
-          8,
-          9
+          5
         ]
       },
       "process_or_timeline": {
@@ -882,10 +1303,14 @@
         ]
       },
       "quote_or_emphasis": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "red"
+        ],
+        "pages": [
+          2
+        ]
       }
     },
     "pages": [
@@ -898,13 +1323,37 @@
         "page_role": "cover",
         "page_variant_id": "hero",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "dd0ecc6343a3de1754f12b8fb8b8422184462eeb0f9fcd8f3366e711c33582a4",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.svg",
+            "sha256": "dcde21a22b30f08f13a730d65b2b32333d4a771412f5f0b0e48eab089404ba29",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-001-hero.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+          "golden_spec_sha256": "6164d92a705ccb749ed44749278d21a4aef35f83e198316cd23ea45b3d13ca07",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.preview.png",
+            "sha256": "dd0ecc6343a3de1754f12b8fb8b8422184462eeb0f9fcd8f3366e711c33582a4",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "metrics"
@@ -919,13 +1368,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
+          "bytes": 72321,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": "95a9351619463053bda29bdf472702ed4bc650a4510fa6b3cfcc34d5e3ba79b1",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png"
+          "sha256": "7b4433d7aa74b1989b3d3b87b69797dd8502a21189c0ef3803b68aefe3a9e6ae",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/001-hero.jpg"
         },
         "source_slide_index": 1
       },
@@ -935,20 +1386,44 @@
           "decoration"
         ],
         "page": 2,
-        "page_role": "agenda",
+        "page_role": "quote",
         "page_variant_id": "red",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "28ce5a64c6dcef88f08d470e0f51b792df29bc480cf3ed3043511d77d096f1a9",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.svg",
+            "sha256": "df4df56981dc10246ec356c7baa6579a156512c12bc4db98b3a8bdc27a6fa099",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-002-red.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+          "golden_spec_sha256": "31620018c4097e67580c856f758479c27d3d481d408fd6a38fd04c8ac3f85728",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.preview.png",
+            "sha256": "28ce5a64c6dcef88f08d470e0f51b792df29bc480cf3ed3043511d77d096f1a9",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "quote"
         ],
-        "role_group": "agenda",
+        "role_group": "quote_or_emphasis",
         "source_class": "slide-red",
         "source_refs": [
           {
@@ -958,14 +1433,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-2.png",
+          "bytes": 96552,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/002-red.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/002-red.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "00a475cb6a7435b09809580ee94928766150989c5b1eee5f562e0eb817eb5cca",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/002-red.jpg"
         },
         "source_slide_index": 2
       },
@@ -975,20 +1451,44 @@
           "decoration"
         ],
         "page": 3,
-        "page_role": "detail",
+        "page_role": "agenda",
         "page_variant_id": "summary",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "2406b15b400d95e1d8fe0603856c70f36762dfdaef290cf8a67ced305c786364",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.svg",
+            "sha256": "34b4e537887ad95aeb7c21f91e872d9da695afbb20fdc5693bfff1ff0c49dd0c",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-003-summary.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json",
+          "golden_spec_sha256": "3e2a0fb7fe210b628b2ff5e439ee22f5e96600b2e1bbe2692d771086cdb51560",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.preview.png",
+            "sha256": "2406b15b400d95e1d8fe0603856c70f36762dfdaef290cf8a67ced305c786364",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
-        "role_group": "content",
+        "role_group": "agenda",
         "source_class": "slide-summary",
         "source_refs": [
           {
@@ -998,14 +1498,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-3.png",
+          "bytes": 133848,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/003-summary.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/003-summary.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "1dda072ef2fc8d17e8d601c9ff4f1bb93b9a6f0e3f3ef438c3ee1aff94a1669e",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/003-summary.jpg"
         },
         "source_slide_index": 3
       },
@@ -1018,13 +1519,37 @@
         "page_role": "content",
         "page_variant_id": "financial",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "6323c883f4e63651546e64122965e9a43535cb4f0f834b7df697606332a80d08",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.svg",
+            "sha256": "83b728812fc0930d0583bb25f525eee80338d6c7e6ad8202000b4814a4871027",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-004-financial.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+          "golden_spec_sha256": "a1398041af75bff1069408db5e068dae9e1a9d8addf61e199217740993462879",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.preview.png",
+            "sha256": "6323c883f4e63651546e64122965e9a43535cb4f0f834b7df697606332a80d08",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "metrics"
         ],
@@ -1038,13 +1563,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-4.png",
+          "bytes": 111865,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/004-financial.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-4.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/004-financial.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": "d67e0d5b2107b2cbd2ce9b7e902e9533fc81349173c52a2533cc5934e18c37cc",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-4.png"
+          "sha256": "79110d703284db7da0de3c79fecc4312fb9e57356f8a460e5c4dabff5fd65903",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/004-financial.jpg"
         },
         "source_slide_index": 4
       },
@@ -1054,16 +1581,40 @@
           "decoration"
         ],
         "page": 5,
-        "page_role": "data_dashboard",
+        "page_role": "data",
         "page_variant_id": "stat",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "4f8ec0ea4d6c3046bc7b9e9ed5b208998d7a1d2e7d3b35d1bb5708cde1c22b8f",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.svg",
+            "sha256": "d7643ebcf769232c6870b655d3dabf7bec88638e336a1d10794bebc503a286de",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-005-stat.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+          "golden_spec_sha256": "73f66adb48c559628b344a6b7279e2893f10a5934c530a261fccc0f860b5762b",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.preview.png",
+            "sha256": "4f8ec0ea4d6c3046bc7b9e9ed5b208998d7a1d2e7d3b35d1bb5708cde1c22b8f",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "metrics",
           "items"
@@ -1078,14 +1629,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-5.png",
+          "bytes": 63362,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/005-stat.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/005-stat.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "841eea7b24baba61f76544319825ed1cf7b880e54a99d9654ab9f70a79b9e71c",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/005-stat.jpg"
         },
         "source_slide_index": 5
       },
@@ -1095,16 +1647,40 @@
           "decoration"
         ],
         "page": 6,
-        "page_role": "process_or_timeline",
+        "page_role": "process",
         "page_variant_id": "services",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "4ee1c47cf21e71f6e758085c794418ad8c5f686b1e7861e31d4e37a1349d80dd",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.svg",
+            "sha256": "d20b34d8657a0eb1785ea54c19b66668b38e57a1532b5abe97d6b5d8d181a41d",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-006-services.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+          "golden_spec_sha256": "8a25acb4acfc2f983511cc9df9b696cf5f4de8200ddef1f57434450e5e979405",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.preview.png",
+            "sha256": "4ee1c47cf21e71f6e758085c794418ad8c5f686b1e7861e31d4e37a1349d80dd",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "items"
@@ -1119,14 +1695,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-6.png",
+          "bytes": 89197,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/006-services.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/006-services.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "b8db11bf3eecc2138eeb1ccaa6875a05ee6eb73beacd8ce32ba27f275363b0e9",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/006-services.jpg"
         },
         "source_slide_index": 6
       },
@@ -1136,16 +1713,40 @@
           "decoration"
         ],
         "page": 7,
-        "page_role": "process_or_timeline",
+        "page_role": "process",
         "page_variant_id": "roadmap",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "6855aac277da9afa880dc944ce4d975ffe372d9580981e33eef9751ec445438c",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.svg",
+            "sha256": "d1ebaa5ba34eeabe62428d5045283ed8dc209f9b564ad9b6f8e6efea771c5b6b",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-007-roadmap.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+          "golden_spec_sha256": "c165bdb5e4a3fc450c08bf4470071ed3576468d572097d3eba3d88e59ddd1048",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.preview.png",
+            "sha256": "6855aac277da9afa880dc944ce4d975ffe372d9580981e33eef9751ec445438c",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "items",
@@ -1161,14 +1762,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-7.png",
+          "bytes": 99271,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/007-roadmap.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/007-roadmap.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "1e64ea947192fcf21c9d01de9188373fcaabc78a1308ab13cfdced323082fb2b",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/007-roadmap.jpg"
         },
         "source_slide_index": 7
       },
@@ -1178,22 +1780,46 @@
           "decoration"
         ],
         "page": 8,
-        "page_role": "data_dashboard",
+        "page_role": "comparison",
         "page_variant_id": "pillars",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "45c143e315b71ddc570894ce0cea36f91fcc498d9463cfaab541355307f524cc",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.svg",
+            "sha256": "01d7ee4bc1093606c929fbf47922fd4f3eb8e7f00cc0ed3b451d628cd27d7c3b",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-008-pillars.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+          "golden_spec_sha256": "23057fd6b4c41ed5ecf301e7a6dda8650e8f8477005ff8ec4472ed8e3502eaec",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.preview.png",
+            "sha256": "45c143e315b71ddc570894ce0cea36f91fcc498d9463cfaab541355307f524cc",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "metrics",
           "items"
         ],
-        "role_group": "data_or_structured",
+        "role_group": "comparison_or_split",
         "source_class": "slide-pillars",
         "source_refs": [
           {
@@ -1203,13 +1829,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-8.png",
+          "bytes": 94333,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/008-pillars.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-8.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/008-pillars.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": "d583ec8b42561dc3ba2f835a46913e7aa252fb8aa209ee5633bdbd73b379208e",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-8.png"
+          "sha256": "94be4f1ef9e3dfcc6a9afde1dfdd5c416a19e5a7c205b5f0dd431b031447088a",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/008-pillars.jpg"
         },
         "source_slide_index": 8
       },
@@ -1219,22 +1847,46 @@
           "decoration"
         ],
         "page": 9,
-        "page_role": "data_dashboard",
+        "page_role": "detail",
         "page_variant_id": "global",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "8494e6e79e71841407feb5fb9eaa2cd090a9e28da8319fba4f5403a531f12af3",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.svg",
+            "sha256": "894807263750f89a736a9c087231b5ace2a664949fc9146458c7626c653b6d31",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-009-global.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+          "golden_spec_sha256": "94c0cd8681c2736a51bca1f931b4bbbd606f1436a743724b180a084b81280d80",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.preview.png",
+            "sha256": "8494e6e79e71841407feb5fb9eaa2cd090a9e28da8319fba4f5403a531f12af3",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "metrics",
           "items"
         ],
-        "role_group": "data_or_structured",
+        "role_group": "content",
         "source_class": "slide-global",
         "source_refs": [
           {
@@ -1244,14 +1896,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-9.png",
+          "bytes": 92150,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/009-global.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/009-global.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "a164720d1c70b2e13a67914cd0cdf5ce38681be7a9edcb29791df93954309ea6",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/009-global.jpg"
         },
         "source_slide_index": 9
       },
@@ -1264,13 +1917,37 @@
         "page_role": "closing",
         "page_variant_id": "close",
         "render_evidence": {
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "acecc4a1f6c5f01a5db5cc25687ae1d895c654a6e4b04f073f55d747106e6384",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/manifest.json",
+            "manifest_sha256": "2dfabe7f12db2625ff327bf1597b4f5b3f596558afd0017e55a99e7f00989dd7",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.svg",
+            "sha256": "2b75901bd07352e1a047dce1c0767885183c97e1fbe9893913ccfb63faa17f5e",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/bold-poster/page-010-close.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json",
+          "golden_spec_sha256": "7b54b0816cf5c740d3806073c3250ac5427ea2c9d814448b10209a2747b88289",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json",
+            "path": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.preview.png",
+            "sha256": "68aaf45f7d44bb9eeaf0c5ae3dba8d2cd45c9153d6b6d52fd856985cccea0bd2",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.preview.png"
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+          "smoke_receipt_sha256": "514db92a8ab0761c824a7daf7446cea876195a4be03e7be943503c9e9ff642c1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1284,24 +1961,25 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-10.png",
+          "bytes": 69065,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/010-close.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/010-close.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/bold-poster-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "c6bd2f3d91bd78cac5dd01e3be8708c08ab16528f7a63ec798cf39c811989c0a",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/bold-poster/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/bold-poster/010-close.jpg"
         },
         "source_slide_index": 10
       }
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 10,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "poster-stat-punch",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/bold-poster.poster-stat-punch.json",
-  "visual_contract_sha256": "7c8e40b48896fddcfa1d4340d2842c8f749f551aeec9d60c43daa0a50dbf2b7e"
+  "visual_contract_sha256": "2bd38ee22cb01ea578f3e8d0a9a31fbada62e7ce7c8dce6fe972850c15b3d0fc"
 }

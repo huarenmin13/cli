@@ -26,6 +26,8 @@ REQUIRED_FAMILY_FIELDS = {
     "smoke_status",
     "smoke_deck",
     "pages",
+    "page_family_representative_sample",
+    "legacy_renderer_fixture_sample",
     "contact_sheet",
     "not_promotion_receipt",
 }
@@ -48,6 +50,53 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
                 path = root / family["family_id"] / f"{int(slide_index):03d}-{gallery.slug(variant_id)}.jpg"
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(b"\xff\xd8" + (b"0" * 21_000) + b"\xff\xd9")
+        return root
+
+    def _install_fake_current_deck_render(self) -> Path:
+        original = gallery.CURRENT_SVGLIDE_DECK_DIR
+        tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(tmpdir.cleanup)
+        root = Path(tmpdir.name) / "current-svglide-decks"
+        gallery.CURRENT_SVGLIDE_DECK_DIR = root
+        self.addCleanup(setattr, gallery, "CURRENT_SVGLIDE_DECK_DIR", original)
+        family_dir = root / "8-bit-orbit"
+        family_dir.mkdir(parents=True, exist_ok=True)
+        svg = family_dir / "page-001-slide-1.svg"
+        png = family_dir / "page-001-slide-1.png"
+        svg.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>', encoding="utf-8")
+        png.write_bytes(b"\x89PNG\r\n\x1a\n" + (b"0" * 128))
+        (family_dir / "manifest.json").write_text(
+            json.dumps(
+                {
+                    "claim_boundary": "review-only current SVGlide renderer deck",
+                    "pages": [
+                        {
+                            "page": 1,
+                            "page_variant_id": "slide-1",
+                            "source_slide_index": 1,
+                            "svg": svg.as_posix(),
+                            "png": png.as_posix(),
+                            "browser_preview": png.as_posix(),
+                            "browser_preview_kind": "resvg_png",
+                            "render_status": "passed",
+                            "degraded": True,
+                            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+        return root
+
+    def _install_empty_current_deck_dir(self) -> Path:
+        original = gallery.CURRENT_SVGLIDE_DECK_DIR
+        tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(tmpdir.cleanup)
+        root = Path(tmpdir.name) / "current-svglide-decks"
+        root.mkdir(parents=True, exist_ok=True)
+        gallery.CURRENT_SVGLIDE_DECK_DIR = root
+        self.addCleanup(setattr, gallery, "CURRENT_SVGLIDE_DECK_DIR", original)
         return root
 
     def test_gallery_manifest_contains_all_34_candidates_with_review_fields(self) -> None:
@@ -118,6 +167,10 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
         self.assertTrue(all(page["render_status"] == "missing_smoke" for page in candidate["pages"]))
         self.assertIn("missing_smoke", candidate["known_blockers"])
         self.assertIn("production_review_pending", candidate["known_blockers"])
+        self.assertEqual("page_family_representative_sample", candidate["page_family_representative_sample"]["artifact_kind"])
+        self.assertEqual("legacy_renderer_fixture_sample", candidate["legacy_renderer_fixture_sample"]["artifact_kind"])
+        self.assertNotIn("single_page_render_sample", candidate)
+        self.assertIn("legacy renderer-level fixture", candidate["legacy_renderer_fixture_sample"]["claim_boundary"])
 
     def test_local_source_page_screenshots_cover_every_page_without_fallback(self) -> None:
         self._install_fake_source_page_screenshots()
@@ -160,12 +213,14 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
 
     def test_rendered_html_is_human_review_entrypoint_not_promotion_action(self) -> None:
         self._install_fake_source_page_screenshots()
+        self._install_empty_current_deck_dir()
         with tempfile.TemporaryDirectory() as tmpdir:
             result = gallery.write_gallery_artifacts(Path(tmpdir), Path(tmpdir) / "receipt.json")
             output_dir = Path(tmpdir)
 
             index_html = Path(result["html_path"]).read_text(encoding="utf-8")
             family_html = (output_dir / "families" / "blue-professional.html").read_text(encoding="utf-8")
+            missing_smoke_html = (output_dir / "families" / "8-bit-orbit.html").read_text(encoding="utf-8")
 
         for page_html in (index_html, family_html):
             self.assertIn('data-review-status="pass"', page_html)
@@ -179,7 +234,46 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
             self.assertIn("skills/lark-slides/references/receipts/production-review/beautiful-34-gallery.json", page_html)
             self.assertIn("apply script", page_html)
         self.assertNotIn("source screenshot missing", family_html)
+        self.assertIn("Current SVGlide page-family representative", family_html)
+        self.assertIn("beautiful source page", family_html)
+        self.assertIn("SVGlide current deck render", family_html)
+        self.assertIn("page-family render missing", family_html)
+        self.assertNotIn("Current SVGlide single-page sample", family_html)
+        self.assertNotIn("SVGlide single-page render", family_html)
+        self.assertNotIn("executive-dashboard.preview.png", family_html)
+        self.assertIn("beautiful source", family_html)
+        self.assertIn("SVGlide current deck render", family_html)
+        self.assertIn("SVGlide preview:", family_html)
+        self.assertIn("browser-safe preview:", family_html)
         self.assertIn("source screenshot: generated_from_template_html", family_html)
+        self.assertIn(".deck { display: flex; flex-direction: column;", family_html)
+        self.assertIn("repeat(2, minmax(560px, 1fr))", family_html)
+        self.assertIn("@media (max-width: 1180px)", family_html)
+        self.assertNotIn("auto-fill, minmax(520px", family_html)
+        self.assertNotIn("source screenshot missing", missing_smoke_html)
+        self.assertIn("Current SVGlide page-family representative", missing_smoke_html)
+        self.assertIn("page-family render missing", missing_smoke_html)
+        self.assertNotIn("pixel-orbit-console.preview.png", missing_smoke_html)
+        self.assertNotIn("single-page renderer sample only", missing_smoke_html)
+        self.assertIn("SVGlide render missing", missing_smoke_html)
+        self.assertIn("page-family smoke missing or failed", missing_smoke_html)
+
+    def test_rendered_html_uses_review_only_current_deck_render_when_available(self) -> None:
+        self._install_fake_source_page_screenshots()
+        self._install_fake_current_deck_render()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            gallery.write_gallery_artifacts(Path(tmpdir), Path(tmpdir) / "receipt.json")
+            family_html = (Path(tmpdir) / "families" / "8-bit-orbit.html").read_text(encoding="utf-8")
+
+        self.assertIn("SVGlide current deck render", family_html)
+        self.assertIn("Current SVGlide page-family representative", family_html)
+        self.assertIn("page-001-slide-1.png", family_html)
+        self.assertIn("page-001-slide-1.svg", family_html)
+        self.assertIn("current deck png:", family_html)
+        self.assertIn("browser-safe preview: available", family_html)
+        self.assertIn("review-only deck render: available", family_html)
+        self.assertIn("current deck note:", family_html)
+        self.assertIn("single dedicated sample renderer reused for source page variants", family_html)
 
 
 if __name__ == "__main__":

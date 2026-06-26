@@ -10,11 +10,11 @@
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/block-frame.html",
     "render_status": "missing_smoke",
-    "sha256": "e6a771b5544295f2383787659f2f8e4ceaad4928a5a2a5e8e017dc40bffb5fe3"
+    "sha256": "80f58ed09a0e51fcede0255e2b182a57ce9309d347e9255ec3983258372f4260"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "e6a771b5544295f2383787659f2f8e4ceaad4928a5a2a5e8e017dc40bffb5fe3",
+    "contact_sheet": "80f58ed09a0e51fcede0255e2b182a57ce9309d347e9255ec3983258372f4260",
     "fidelity_receipt": "e35a3eb5441b55568413e926f2275e9593c0b01d95a4345337995c995ffffd95",
     "reference_screenshot": "3fd1774d38f1bfbda05df46fc7f2b98a1780de45ced4d71f4925136bbf2460a0",
     "smoke_receipt": null,
@@ -24,6 +24,9 @@
   "fidelity": {
     "receipt_path": "skills/lark-slides/references/receipts/template-fidelity/block-frame.block-frame-grid.json",
     "receipt_sha256": "e35a3eb5441b55568413e926f2275e9593c0b01d95a4345337995c995ffffd95",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/block-frame-grid.preview.png",
+    "render_screenshot_sha256": "fd04f66d7c6b7abf89e9bdeb155b9868ad64c78c8a213849a1d7eda1e974daa9",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/block-frame-grid.preview.png",
     "score": 0.9716,
     "status": "passed",
     "threshold": 0.72
@@ -41,6 +44,21 @@
     "selector_gate_missing",
     "source_core_roles_missing"
   ],
+  "legacy_renderer_fixture_sample": {
+    "artifact_kind": "legacy_renderer_fixture_sample",
+    "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/block-frame-grid.canvas-spec.json",
+    "golden_spec_sha256": "1686203176269e6143a67805f771abf28e42e818397fbf556f1e79508c268f36",
+    "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
+    "reference_screenshot_sha256": "3fd1774d38f1bfbda05df46fc7f2b98a1780de45ced4d71f4925136bbf2460a0",
+    "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/block-frame-grid.preview.png",
+    "render_screenshot_sha256": "fd04f66d7c6b7abf89e9bdeb155b9868ad64c78c8a213849a1d7eda1e974daa9",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/block-frame-grid.preview.png",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/block-frame-grid.mjs",
+    "runtime_template_id": "block-frame-grid",
+    "status": "available"
+  },
   "missing_roles": [
     "content",
     "comparison_or_split"
@@ -52,6 +70,32 @@
     "status": "missing"
   },
   "page_family_promotion_gate_status": "missing",
+  "page_family_representative_sample": {
+    "artifact_kind": "page_family_representative_sample",
+    "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.png",
+    "current_deck_browser_preview_kind": "resvg_png",
+    "current_deck_browser_preview_sha256": "5622de26c8038181fd351f0bc3fa07271f96564844848e607621a6885776eb94",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.svg",
+    "current_deck_render_sha256": "6b077d737215e1a0e5d5dd36b476ad977cdfb67ab3ac18a6b385d7cbf1be8dec",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.svg",
+    "family_id": "block-frame",
+    "golden_spec": null,
+    "golden_spec_sha256": null,
+    "page": 1,
+    "page_role": "cover",
+    "page_variant_id": "cover",
+    "role_group": "cover",
+    "runtime_template_id": "block-frame-grid",
+    "smoke_receipt": null,
+    "smoke_receipt_sha256": null,
+    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg",
+    "source_screenshot_sha256": "cdb8ffd04b771e66d6b0b4afa299c2aa287a1036c35924fa790434cf7488ac5a",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg",
+    "source_slide_index": 1,
+    "status": "available"
+  },
   "page_variant_count": 10,
   "page_variant_coverage": {
     "agenda": {
@@ -388,8 +432,32 @@
       "page_role": "cover",
       "page_variant_id": "cover",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "5622de26c8038181fd351f0bc3fa07271f96564844848e607621a6885776eb94",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.svg",
+          "sha256": "6b077d737215e1a0e5d5dd36b476ad977cdfb67ab3ac18a6b385d7cbf1be8dec",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -409,13 +477,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
+        "bytes": 66304,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": "3fd1774d38f1bfbda05df46fc7f2b98a1780de45ced4d71f4925136bbf2460a0",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png"
+        "sha256": "cdb8ffd04b771e66d6b0b4afa299c2aa287a1036c35924fa790434cf7488ac5a",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg"
       },
       "source_slide_index": 1
     },
@@ -428,8 +498,32 @@
       "page_role": "agenda",
       "page_variant_id": "agenda",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "2fe88688b25c283fc3766f978a3b038e9f6752aae9ec8bf67e0c5b035844049f",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.svg",
+          "sha256": "e2e07979133221cabe95f885d82fe108c171f6f5b2441fa12015ae465c7e28af",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -451,14 +545,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-2.png",
+        "bytes": 110069,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/002-agenda.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/002-agenda.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "f60a24d96576dde811816b15f93b09096f51f201a36c5a7b28481d907671a826",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/002-agenda.jpg"
       },
       "source_slide_index": 2
     },
@@ -471,8 +566,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "data_dashboard",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "369bbe9a59a6c5d265fee4067babccce661893c51efdeedbe514a472e654ebe6",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.svg",
+          "sha256": "ce66f7c3f4a04f7eb6b29e9e7d82a35b11a8185e2672e8758b301beec58b8d49",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -494,14 +613,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-3.png",
+        "bytes": 68021,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/003-data-dashboard.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/003-data-dashboard.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "b921aea779e0025f41dd3c3bf5c2d82eeb3065cb5df56b055c100b4be14298c6",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/003-data-dashboard.jpg"
       },
       "source_slide_index": 3
     },
@@ -514,8 +634,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "data_dashboard-4",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "73e5d40e666b064606786eecf3b0f184b5b618f262f28c54e770654d7e493791",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.svg",
+          "sha256": "68bdfa52bed95112e9ee54fd53b84ac768ad83f668f7dfce0b0ea3ddd022c55f",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -537,13 +681,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-4.png",
+        "bytes": 76132,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/004-data-dashboard-4.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-4.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/004-data-dashboard-4.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": "088d74cdc720481ddbc0deafd10d8dfa718516684b9a23f889c48ba051dc6ffe",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-4.png"
+        "sha256": "82ba066b40b329118e3fe418305f58a471d6e04a22608cd916cca1c8af12f243",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/004-data-dashboard-4.jpg"
       },
       "source_slide_index": 4
     },
@@ -556,8 +702,32 @@
       "page_role": "quote_or_emphasis",
       "page_variant_id": "quote_or_emphasis",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "22bccc55bcaee28bee22039f97fb60581a491c37f107ecbe82019952959ca4e1",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.svg",
+          "sha256": "2c439341c61ffb2af9e6d3bf54f608587a7710acaf1034a0fdd2351efd293811",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -577,14 +747,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-5.png",
+        "bytes": 78540,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/005-quote-or-emphasis.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/005-quote-or-emphasis.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "4472f17512c9c472d7345c9f92c566326eba7f389dedb938df3213885d6e4567",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/005-quote-or-emphasis.jpg"
       },
       "source_slide_index": 5
     },
@@ -597,8 +768,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "process_or_timeline",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "a24e53ba07eb381b116fd4905c9e19f211f339e42d2dc2e1d14369b5dd9cf19c",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.svg",
+          "sha256": "5d19e1d30d7453ab8dbfaa5ba70735ecbf8f2da3cf060923b045d2396a45bd04",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -619,14 +814,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-6.png",
+        "bytes": 83518,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/006-process-or-timeline.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/006-process-or-timeline.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "6ecdf685d92d38bfd21615daf70019e48cd89a7da8eaab5fdec3a65203719ec0",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/006-process-or-timeline.jpg"
       },
       "source_slide_index": 6
     },
@@ -639,8 +835,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "process_or_timeline-7",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "25e80615b0d917f6ab139a8ca1ce10e01b2ca5b58c76681ed09224d8e8b607d0",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.svg",
+          "sha256": "7fb39c5e636623a6c36ebb90cb44dd90b5f0c1500a4037c676a124b69e833607",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -661,14 +881,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-7.png",
+        "bytes": 76130,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/007-process-or-timeline-7.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/007-process-or-timeline-7.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "2fbef9879389a8ffd21a712d801f8888b47000d49d3c6cc384d4405d12f242b2",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/007-process-or-timeline-7.jpg"
       },
       "source_slide_index": 7
     },
@@ -681,8 +902,32 @@
       "page_role": "data_dashboard",
       "page_variant_id": "data_dashboard-8",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "a84a262b29dc5082e5ace16dc4a5460baf3d59e39f75fde6924524b5051cd5f7",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.svg",
+          "sha256": "f07463d9eb21081976be6a84c22720ac67841f67887bc538794b2edbbfa2aa14",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -703,13 +948,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-8.png",
+        "bytes": 70798,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/008-data-dashboard-8.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-8.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/008-data-dashboard-8.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": "cdbf244bd61b8b36e39b65b2e34360bd1279bf2359d8700c6b8b862f637f8c1f",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-8.png"
+        "sha256": "55caf9b446d4db7848f450eb02eec8817fe48266186f178b58e172402c1a20a9",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/008-data-dashboard-8.jpg"
       },
       "source_slide_index": 8
     },
@@ -722,8 +969,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "process_or_timeline-9",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "2c5361aed67594ee9781f19a4e8397cf643fdec7426e91f64bcf8057cb6435d6",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.svg",
+          "sha256": "f5f4f6f210e2ad5b6d67d781d8daa52c4eb52798526b55eccb040f887188d531",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -745,14 +1016,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-9.png",
+        "bytes": 109926,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/009-process-or-timeline-9.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/009-process-or-timeline-9.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "2725e55b9d8b2679490f5ae2d2f23a66ff6a4344f9fde776890014b85e717ba6",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/009-process-or-timeline-9.jpg"
       },
       "source_slide_index": 9
     },
@@ -765,8 +1037,32 @@
       "page_role": "closing",
       "page_variant_id": "closing",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "1999553bfc1ea9bb668deb669bb056337aa5780bc9f9c6e31f3b65068de0c954",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+          "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.svg",
+          "sha256": "b804929171473c87a64e45d926ee166544c55973f003ff509b26a3061804fa48",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -786,14 +1082,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-10.png",
+        "bytes": 52583,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/010-closing.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/010-closing.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "1f6a7f36e77859b32d3d21b158e25cdb2909dec47b4c5a9a9f2089cb872c83d2",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/010-closing.jpg"
       },
       "source_slide_index": 10
     }
@@ -922,8 +1219,32 @@
         "page_role": "cover",
         "page_variant_id": "cover",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "5622de26c8038181fd351f0bc3fa07271f96564844848e607621a6885776eb94",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.svg",
+            "sha256": "6b077d737215e1a0e5d5dd36b476ad977cdfb67ab3ac18a6b385d7cbf1be8dec",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-001-cover.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -943,13 +1264,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
+          "bytes": 66304,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": "3fd1774d38f1bfbda05df46fc7f2b98a1780de45ced4d71f4925136bbf2460a0",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png"
+          "sha256": "cdb8ffd04b771e66d6b0b4afa299c2aa287a1036c35924fa790434cf7488ac5a",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/001-cover.jpg"
         },
         "source_slide_index": 1
       },
@@ -962,8 +1285,32 @@
         "page_role": "agenda",
         "page_variant_id": "agenda",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "2fe88688b25c283fc3766f978a3b038e9f6752aae9ec8bf67e0c5b035844049f",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.svg",
+            "sha256": "e2e07979133221cabe95f885d82fe108c171f6f5b2441fa12015ae465c7e28af",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-002-agenda.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -985,14 +1332,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-2.png",
+          "bytes": 110069,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/002-agenda.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/002-agenda.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "f60a24d96576dde811816b15f93b09096f51f201a36c5a7b28481d907671a826",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/002-agenda.jpg"
         },
         "source_slide_index": 2
       },
@@ -1005,8 +1353,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "data_dashboard",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "369bbe9a59a6c5d265fee4067babccce661893c51efdeedbe514a472e654ebe6",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.svg",
+            "sha256": "ce66f7c3f4a04f7eb6b29e9e7d82a35b11a8185e2672e8758b301beec58b8d49",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-003-data-dashboard.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1028,14 +1400,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-3.png",
+          "bytes": 68021,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/003-data-dashboard.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/003-data-dashboard.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "b921aea779e0025f41dd3c3bf5c2d82eeb3065cb5df56b055c100b4be14298c6",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/003-data-dashboard.jpg"
         },
         "source_slide_index": 3
       },
@@ -1048,8 +1421,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "data_dashboard-4",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "73e5d40e666b064606786eecf3b0f184b5b618f262f28c54e770654d7e493791",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.svg",
+            "sha256": "68bdfa52bed95112e9ee54fd53b84ac768ad83f668f7dfce0b0ea3ddd022c55f",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1071,13 +1468,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-4.png",
+          "bytes": 76132,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/004-data-dashboard-4.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-4.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/004-data-dashboard-4.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": "088d74cdc720481ddbc0deafd10d8dfa718516684b9a23f889c48ba051dc6ffe",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-4.png"
+          "sha256": "82ba066b40b329118e3fe418305f58a471d6e04a22608cd916cca1c8af12f243",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/004-data-dashboard-4.jpg"
         },
         "source_slide_index": 4
       },
@@ -1090,8 +1489,32 @@
         "page_role": "quote_or_emphasis",
         "page_variant_id": "quote_or_emphasis",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "22bccc55bcaee28bee22039f97fb60581a491c37f107ecbe82019952959ca4e1",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.svg",
+            "sha256": "2c439341c61ffb2af9e6d3bf54f608587a7710acaf1034a0fdd2351efd293811",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-005-quote-or-emphasis.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1111,14 +1534,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-5.png",
+          "bytes": 78540,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/005-quote-or-emphasis.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/005-quote-or-emphasis.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "4472f17512c9c472d7345c9f92c566326eba7f389dedb938df3213885d6e4567",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/005-quote-or-emphasis.jpg"
         },
         "source_slide_index": 5
       },
@@ -1131,8 +1555,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "process_or_timeline",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "a24e53ba07eb381b116fd4905c9e19f211f339e42d2dc2e1d14369b5dd9cf19c",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.svg",
+            "sha256": "5d19e1d30d7453ab8dbfaa5ba70735ecbf8f2da3cf060923b045d2396a45bd04",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-006-process-or-timeline.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1153,14 +1601,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-6.png",
+          "bytes": 83518,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/006-process-or-timeline.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/006-process-or-timeline.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "6ecdf685d92d38bfd21615daf70019e48cd89a7da8eaab5fdec3a65203719ec0",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/006-process-or-timeline.jpg"
         },
         "source_slide_index": 6
       },
@@ -1173,8 +1622,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "process_or_timeline-7",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "25e80615b0d917f6ab139a8ca1ce10e01b2ca5b58c76681ed09224d8e8b607d0",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.svg",
+            "sha256": "7fb39c5e636623a6c36ebb90cb44dd90b5f0c1500a4037c676a124b69e833607",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-007-process-or-timeline-7.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1195,14 +1668,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-7.png",
+          "bytes": 76130,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/007-process-or-timeline-7.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/007-process-or-timeline-7.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "2fbef9879389a8ffd21a712d801f8888b47000d49d3c6cc384d4405d12f242b2",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/007-process-or-timeline-7.jpg"
         },
         "source_slide_index": 7
       },
@@ -1215,8 +1689,32 @@
         "page_role": "data_dashboard",
         "page_variant_id": "data_dashboard-8",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "a84a262b29dc5082e5ace16dc4a5460baf3d59e39f75fde6924524b5051cd5f7",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.svg",
+            "sha256": "f07463d9eb21081976be6a84c22720ac67841f67887bc538794b2edbbfa2aa14",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-008-data-dashboard-8.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1237,13 +1735,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-8.png",
+          "bytes": 70798,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/008-data-dashboard-8.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-8.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/008-data-dashboard-8.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": "cdbf244bd61b8b36e39b65b2e34360bd1279bf2359d8700c6b8b862f637f8c1f",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-8.png"
+          "sha256": "55caf9b446d4db7848f450eb02eec8817fe48266186f178b58e172402c1a20a9",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/008-data-dashboard-8.jpg"
         },
         "source_slide_index": 8
       },
@@ -1256,8 +1756,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "process_or_timeline-9",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "2c5361aed67594ee9781f19a4e8397cf643fdec7426e91f64bcf8057cb6435d6",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.svg",
+            "sha256": "f5f4f6f210e2ad5b6d67d781d8daa52c4eb52798526b55eccb040f887188d531",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-009-process-or-timeline-9.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1279,14 +1803,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-9.png",
+          "bytes": 109926,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/009-process-or-timeline-9.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/009-process-or-timeline-9.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "2725e55b9d8b2679490f5ae2d2f23a66ff6a4344f9fde776890014b85e717ba6",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/009-process-or-timeline-9.jpg"
         },
         "source_slide_index": 9
       },
@@ -1299,8 +1824,32 @@
         "page_role": "closing",
         "page_variant_id": "closing",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "1999553bfc1ea9bb668deb669bb056337aa5780bc9f9c6e31f3b65068de0c954",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/manifest.json",
+            "manifest_sha256": "9f478be8877192064d668a458562033606555e961ea732a005165b1d5092f1a9",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.svg",
+            "sha256": "b804929171473c87a64e45d926ee166544c55973f003ff509b26a3061804fa48",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-010-closing.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1320,14 +1869,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-10.png",
+          "bytes": 52583,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/010-closing.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/010-closing.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/block-frame-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "1f6a7f36e77859b32d3d21b158e25cdb2909dec47b4c5a9a9f2089cb872c83d2",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/block-frame/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/block-frame/010-closing.jpg"
         },
         "source_slide_index": 10
       }

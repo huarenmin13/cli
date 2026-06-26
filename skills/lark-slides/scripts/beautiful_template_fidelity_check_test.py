@@ -389,6 +389,42 @@ class BeautifulTemplateFidelityCheckTest(unittest.TestCase):
         self.assertEqual(set(result["role_consumption"]["font_roles"]), {"display", "body", "label", "metric"})
         self.assertIn("text_decoration_policy", result["role_consumption"]["text_style_roles"])
 
+    def test_role_consumption_makes_absent_text_decoration_policy_explicit(self) -> None:
+        role_consumption = fidelity.role_consumption_from_canvas_spec_payload(
+            {
+                "theme": {
+                    "typography": {
+                        "font_roles": {
+                            "display": "SVGlideDisplay",
+                            "body": "SVGlideBody",
+                            "label": "SVGlideLabel",
+                            "metric": "SVGlideMetric",
+                        },
+                        "role_tokens": {
+                            "display": {"font_weight": 800},
+                            "body": {"font_weight": 400},
+                            "label": {"font_weight": 700},
+                            "metric": {"font_weight": 900},
+                        },
+                        "text_style_roles": {
+                            "bold": {"mapped_weight": {"display": 800}},
+                            "italic": {"mapped_style": "normal"},
+                            "underline": {"mapped_decoration": "none"},
+                            "line_through": {"mapped_decoration": "none"},
+                            "emphasis": {"weight_shift": "one role step"},
+                        },
+                    }
+                }
+            },
+            source="fixture.canvas-spec.json",
+        )
+
+        assert role_consumption is not None
+        policy = role_consumption["text_style_roles"]["text_decoration_policy"]
+        self.assertEqual(policy["source"], "renderer_default_absent_policy")
+        self.assertEqual(policy["underline"]["style"], "none")
+        self.assertEqual(policy["line_through"]["style"], "none")
+
     def test_normalizes_different_viewport_sizes_before_scoring(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

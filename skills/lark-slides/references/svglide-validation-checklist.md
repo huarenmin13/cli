@@ -12,10 +12,9 @@ Compatibility note: new runner-first check paths are defined in `svglide-checks.
 4. Build or inspect a local preview when practical, then run `svg_preview_lint.py` before live create.
 5. Record an aesthetic review following `svg-aesthetic-review.md`; this review cannot replace deterministic lint.
 6. Run `svglide_chart_verify.py` and `svglide_runtime_review.py` before `quality_gate`.
-7. Run `svglide_semantic_review.py` to block English plans, weak page structure, thin content, missing source refs, and SVG text that does not trace to plan/source.
-8. Run `slides +create-svg --dry-run` when command behavior is under review.
-9. Run `svglide_ppe_proof.py` before live create.
-10. After live create, use `xml_presentations.get` readback and record page count, blank-page, asset, bounds, and text-fit checks.
+7. Run `slides +create-svg --dry-run` when command behavior is under review.
+8. Run `svglide_ppe_proof.py` before live create.
+9. After live create, use `xml_presentations.get` readback and record page count, blank-page, asset, bounds, and text-fit checks.
 
 Treat the gate as a single chain:
 
@@ -28,7 +27,6 @@ route admission
 -> svg_preview_lint.py
 -> aesthetic review record
 -> chart_verify
--> semantic_review
 -> runtime_review
 -> quality_gate
 -> dry-run
@@ -119,16 +117,16 @@ Pass criteria:
 - Review records include preview path, score, threshold, issue ids, and action.
 - If independent review score is below the configured threshold, record `action: repair_and_rerun`; do not treat self-scoring as a gate.
 
-## Semantic Review
+## Optional Semantic Diagnostic
 
-Run semantic review before `quality_gate`:
+`svglide_semantic_review.py` is no longer part of the default create gate. Use it only as a manual diagnostic when investigating text provenance or source alignment:
 
 ```bash
 python3 skills/lark-slides/scripts/svglide_semantic_review.py \
   .lark-slides/plan/<deck-id> --profile preview_only --pretty
 ```
 
-Pass criteria:
+Advisory criteria:
 
 - `summary.error_count == 0`.
 - `language == zh-CN`, `audience` is non-empty, and `deck_structure` covers the required page types.

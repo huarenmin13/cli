@@ -79,6 +79,50 @@ def write_selected_beautiful_page_family_plan(project: Path) -> None:
     )
 
 
+def write_selected_bold_poster_fixture_plan(project: Path) -> None:
+    roles = [
+        ("cover", "hero"),
+        ("quote", "red"),
+        ("agenda", "summary"),
+        ("content", "financial"),
+        ("data", "stat"),
+        ("process", "services"),
+        ("process", "roadmap"),
+        ("comparison", "pillars"),
+        ("detail", "global"),
+        ("closing", "close"),
+    ]
+    write_json(
+        project / "02-plan/slide_plan.json",
+        {
+            "language": "zh-CN",
+            "slides": [
+                {
+                    "page": index,
+                    "page_type": "content",
+                    "title": f"{role} page",
+                    "canvas_spec": {
+                        "template_id": "poster-stat-punch",
+                        "theme_id": "bold-poster-explicit-tomato",
+                        "page_role": role,
+                        "page_variant_id": variant_id,
+                    },
+                }
+                for index, (role, variant_id) in enumerate(roles, start=1)
+            ],
+        },
+    )
+    write_json(
+        project / "02-plan/page-family-smoke-fixture.json",
+        {
+            "schema_version": "svglide-page-family-smoke-fixture/v1",
+            "family_id": "bold-poster",
+            "template_id": "poster-stat-punch",
+            "theme_id": "bold-poster-explicit-tomato",
+        },
+    )
+
+
 def write_template_fidelity_receipt(
     project: Path,
     *,
@@ -382,12 +426,36 @@ def attach_passing_artboard_receipt(project: Path) -> None:
         '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><rect width="960" height="540"/><text data-node-id="title" x="80" y="120">Title</text></svg>',
         encoding="utf-8",
     )
+    text_style_manifest = {
+        "version": "svglide-satori-text-style/v1",
+        "source": "cli-artboard-satori",
+        "items": {
+            "txt_001": {
+                "role": "display",
+                "content_hash": "sha256:test-title",
+                "font_family": "Source Sans Pro",
+                "font_size": 48,
+                "font_weight": 800,
+                "font_style": "normal",
+                "line_height": 1.1,
+                "letter_spacing": 0,
+                "text_transform": "none",
+                "color": "#111827",
+                "decoration": {"line": "none", "style": "solid", "color": "#111827", "thickness": "1px"},
+                "wrap": "nowrap",
+                "source_contract": {"source_ref": "canvas_spec.content.title"},
+                "loss_notes": [],
+            }
+        },
+    }
     (project / "04-svg/page-001.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" '
         'slide:contract-version="svglide-authoring-contract/v1" width="960" height="540" viewBox="0 0 960 540">'
-        '<foreignObject slide:role="shape" slide:shape-type="text" data-node-id="title" data-source-ref="canvas_spec.content.title" x="80" y="80" width="720" height="72">'
-        '<div xmlns="http://www.w3.org/1999/xhtml">Title</div>'
-        '</foreignObject>'
+        f'<metadata id="svglide-text-style-manifest" type="application/json">{json.dumps(text_style_manifest)}</metadata>'
+        '<rect id="background" slide:role="shape" x="0" y="0" width="960" height="540" fill="#ffffff"/>'
+        '<text id="title" slide:role="text" data-node-id="title" data-source-ref="canvas_spec.content.title" '
+        'data-svglide-text-style-id="txt_001" x="80" y="80" width="720" height="72" '
+        'font-family="Source Sans Pro" font-size="48" font-weight="800" fill="#111827">Title</text>'
         '</svg>',
         encoding="utf-8",
     )
@@ -529,12 +597,26 @@ def attach_passing_artboard_receipt(project: Path) -> None:
         "source": "04-artboard/raw/page-001.visual.svg",
         "semantic_map": "04-artboard/raw/page-001.semantic-map.json",
         "output": "04-svg/page-001.svg",
+        "compiler_mode": "raw_satori_lowering",
+        "lowering_source": "04-artboard/raw visual SVG",
+        "visual_retention": {
+            "raw_counts": {"text": 1, "shape": 1, "path": 0, "image": 0},
+            "output_counts": {"text": 1, "shape": 1, "path": 0, "image": 0},
+            "ratios": {"text_retention": 1.0, "shape_retention": 1.0, "path_retention": None, "image_retention": None},
+        },
+        "support_node_retention": {
+            "raw_counts": {"defs": 0, "style": 0, "clipPath": 0, "mask": 0, "filter": 0, "metadata": 0},
+            "output_counts": {"defs": 0, "style": 0, "clipPath": 0, "mask": 0, "filter": 0, "metadata": 1},
+        },
+        "unsupported_support_nodes": [],
+        "loss_notes": [],
+        "text_style_manifest_items": 1,
         "status": "passed",
         "summary": {
             "semantic_required": 1,
-            "visual_required": 0,
+            "visual_required": 1,
             "decorative_optional": 0,
-            "compiled_elements": 1,
+            "compiled_elements": 2,
             "degraded_elements": 0,
             "rasterized_regions": 0,
             "dropped_decorations": 0,
@@ -547,7 +629,7 @@ def attach_passing_artboard_receipt(project: Path) -> None:
                 "importance": "semantic_required",
                 "source_tag": "text",
                 "decision": "compiled",
-                "reason": "compiled to foreignObject text shape",
+                "reason": "lowered raw Satori text to slide text role with text style metadata",
                 "output_ref": "title",
             }
         ],
@@ -575,9 +657,31 @@ def attach_passing_artboard_receipt(project: Path) -> None:
                 "input_sha256": satori_hash,
                 "semantic_map_sha256": semantic_map_sha256,
                 "output_sha256": source_hash,
+                "compiler_mode": "raw_satori_lowering",
+                "lowering_source": "04-artboard/raw visual SVG",
+                "visual_retention": {
+                    "raw_counts": {"text": 1, "shape": 1, "path": 0, "image": 0},
+                    "output_counts": {"text": 1, "shape": 1, "path": 0, "image": 0},
+                    "ratios": {"text_retention": 1.0, "shape_retention": 1.0, "path_retention": None, "image_retention": None},
+                },
+                "support_node_retention": {
+                    "raw_counts": {"defs": 0, "style": 0, "clipPath": 0, "mask": 0, "filter": 0, "metadata": 0},
+                    "output_counts": {"defs": 0, "style": 0, "clipPath": 0, "mask": 0, "filter": 0, "metadata": 1},
+                },
+                "text_style_manifest_items": 1,
             }
         ],
-        "summary": {"pages": 1, "blocking_issues": 0, "degraded_elements": 0, "rasterized_regions": 0, "dropped_decorations": 0},
+        "summary": {
+            "pages": 1,
+            "blocking_issues": 0,
+            "degraded_elements": 0,
+            "rasterized_regions": 0,
+            "dropped_decorations": 0,
+            "compiler_modes": ["raw_satori_lowering"],
+            "raw_text_count": 1,
+            "output_text_count": 1,
+            "text_style_manifest_items": 1,
+        },
     }
     write_json(project / "04-svg/contract/manifest.json", contract_manifest)
     write_json(
@@ -850,7 +954,6 @@ def attach_passing_snapshot_visual_fidelity(project: Path) -> None:
     prepared_files = svglide_quality_gate.prepared_file_hashes(project)
     for rel in [
         "06-check/semantic-review.json",
-        "06-check/theme-adherence.json",
         "06-check/chart-verify.json",
     ]:
         receipt_path = project / rel
@@ -907,7 +1010,8 @@ class SVGlideQualityGateTest(unittest.TestCase):
             self.assertEqual(result["inputs"]["preflight"], "06-check/preflight.json")
             self.assertEqual(result["inputs"]["preview_lint"], "06-check/preview-lint.json")
             self.assertEqual(result["inputs"]["aesthetic_review"], "06-check/aesthetic-review.json")
-            self.assertEqual(result["inputs"]["semantic_review"], "06-check/semantic-review.json")
+            self.assertNotIn("semantic_review", result["inputs"])
+            self.assertNotIn("theme_adherence", result["inputs"])
             self.assertEqual(result["inputs"]["visual_distinctness"], "06-check/visual-distinctness.json")
             self.assertEqual(result["prepared_files"][0]["path"], "04-svg/prepared/page-001.svg")
             self.assertEqual(result["summary"]["failed_check_count"], 0)
@@ -937,7 +1041,7 @@ class SVGlideQualityGateTest(unittest.TestCase):
             self.assertNotIn("visual_acceptance", result["inputs"])
             self.assertNotIn("visual-acceptance", {check["name"] for check in result["checks"]})
 
-    def test_quality_gate_requires_theme_checks(self) -> None:
+    def test_quality_gate_ignores_legacy_theme_adherence_missing(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0, "warning_count": 1}})
@@ -948,10 +1052,9 @@ class SVGlideQualityGateTest(unittest.TestCase):
 
             result = svglide_quality_gate.run_quality_gate(project)
 
-            self.assertEqual(result["status"], "failed")
-            missing = [check for check in result["checks"] if check["name"] == "theme-adherence"][0]
-            self.assertEqual(missing["status"], "missing")
-            self.assertIn("theme_adherence", result["inputs"])
+            self.assertEqual(result["status"], "passed")
+            self.assertNotIn("theme-adherence", {check["name"] for check in result["checks"]})
+            self.assertNotIn("theme_adherence", result["inputs"])
 
     def test_quality_gate_requires_selection_reviews_for_svg_route(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -1034,6 +1137,21 @@ class SVGlideQualityGateTest(unittest.TestCase):
         smoke_check = {check["name"]: check for check in result["checks"]}["page-family-smoke"]
         self.assertIn("page_family_smoke_input_hash_stale", {item["code"] for item in smoke_check["issues"]})
 
+    def test_page_family_smoke_accepts_explicit_needs_review_current_run_selection(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_selected_bold_poster_fixture_plan(project)
+            write_json(project / "receipts/generate_svg.json", {"status": "passed", "generated_files": []})
+            write_page_family_smoke_receipt(project)
+
+            smoke_check = svglide_quality_gate.load_page_family_smoke_check(project, required=True, profile="production")
+            smoke_receipt = json.loads((project / "06-check/page-family-smoke.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(smoke_check["status"], "passed", smoke_check["issues"])
+        self.assertEqual(smoke_receipt["selection_source"], "explicit_fixture")
+        self.assertFalse(smoke_receipt["production_selectable"])
+        self.assertEqual(smoke_receipt["selected_family_id"], "bold-poster")
+
     def test_production_quality_gate_fails_when_template_fidelity_receipt_failed(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
@@ -1049,6 +1167,39 @@ class SVGlideQualityGateTest(unittest.TestCase):
         template_check = checks["template-fidelity"]
         self.assertEqual(template_check["status"], "failed")
         self.assertIn("template_fidelity_failed", {item["code"] for item in template_check["issues"]})
+
+    def test_production_quality_gate_accepts_page_family_fidelity_warning_with_smoke_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_selected_beautiful_page_family_plan(project)
+            self.write_minimal_passing_project(project)
+            write_template_fidelity_receipt(
+                project,
+                status="passed_with_warnings",
+                template_id="executive-dashboard",
+                selected_template_id="executive-dashboard",
+                score=0.69,
+            )
+            receipt_path = project / "06-check/template-fidelity.json"
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            receipt["scope"] = "page_family"
+            receipt["page_family_smoke_ref"] = "06-check/page-family-smoke.json"
+            receipt["warning_threshold"] = 0.62
+            receipt["warning_issues"] = [
+                {"code": "layout_main_region_misaligned", "message": "layout drift"},
+                {"code": "structure_similarity_below_threshold", "message": "below promotion threshold"},
+            ]
+            receipt["issues"] = []
+            write_json(receipt_path, receipt)
+            write_json(project / "receipts/template-fidelity.json", receipt)
+            write_page_family_smoke_receipt(project)
+
+            result = svglide_quality_gate.run_quality_gate(project, profile="production")
+
+        checks = {check["name"]: check for check in result["checks"]}
+        template_check = checks["template-fidelity"]
+        self.assertEqual(template_check["status"], "passed", template_check["issues"])
+        self.assertNotIn("template_fidelity_score_below_threshold", {item["code"] for item in template_check["issues"]})
 
     def test_production_quality_gate_fails_when_template_fidelity_receipt_template_mismatches(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -1277,26 +1428,23 @@ class SVGlideQualityGateTest(unittest.TestCase):
         self.assertIn("source_inventory_only_production_template", codes)
         self.assertIn("template_promotion_gate_not_passed", codes)
 
-    def test_quality_gate_fails_when_theme_adherence_theme_validate_is_stale(self) -> None:
+    def test_quality_gate_ignores_legacy_theme_adherence_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0, "warning_count": 1}})
             write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0, "warning_count": 0}, "action": "create_live"})
             write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0, "warning_count": 0}, "action": "create_live"})
             write_passing_semantic_review(project)
-            theme_validate = json.loads((project / "06-check/theme-validate.json").read_text(encoding="utf-8"))
-            theme_validate["checked_at"] = "2026-06-21T00:00:00+08:00"
-            write_json(project / "06-check/theme-validate.json", theme_validate)
+            theme_adherence = json.loads((project / "06-check/theme-adherence.json").read_text(encoding="utf-8"))
+            theme_adherence["status"] = "failed"
+            theme_adherence["issues"] = [{"code": "legacy_theme_adherence_failure"}]
+            write_json(project / "06-check/theme-adherence.json", theme_adherence)
 
             result = svglide_quality_gate.run_quality_gate(project)
 
-            self.assertEqual(result["status"], "failed")
-            failed_codes = {
-                issue["code"]
-                for check in result["checks"]
-                for issue in check["issues"]
-            }
-            self.assertIn("theme_adherence_theme_validate_stale", failed_codes)
+            self.assertEqual(result["status"], "passed")
+            self.assertNotIn("theme-adherence", {check["name"] for check in result["checks"]})
+            self.assertNotIn("theme_adherence", result["inputs"])
 
     def test_quality_gate_direct_svg_ignores_artboard_package_check(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -1341,7 +1489,98 @@ class SVGlideQualityGateTest(unittest.TestCase):
             self.assertEqual(result["inputs"]["generation_mode"], "artboard_satori")
             self.assertIn("artboard_package_check", result["inputs"])
 
-    def test_quality_gate_artboard_satori_requires_snapshot_visual_fidelity(self) -> None:
+    def test_contract_manifest_issues_rejects_semantic_fallback_for_artboard_satori(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            report_path = project / "04-svg/contract/page-001.report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["compiler_mode"] = "semantic_fallback"
+            write_json(report_path, report)
+            manifest_path = project / "04-svg/contract/manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["pages"][0]["compiler_mode"] = "semantic_fallback"
+            manifest["summary"]["compiler_modes"] = ["semantic_fallback"]
+            write_json(manifest_path, manifest)
+
+            issues = svglide_quality_gate.contract_manifest_issues(project)
+
+            self.assertIn("contract_compiler_mode_invalid", {item["code"] for item in issues})
+
+    def test_contract_manifest_issues_rejects_low_raw_text_retention(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            low_retention = {
+                "raw_counts": {"text": 10, "shape": 1, "path": 0, "image": 0},
+                "output_counts": {"text": 2, "shape": 1, "path": 0, "image": 0},
+                "ratios": {"text_retention": 0.2, "shape_retention": 1.0, "path_retention": None, "image_retention": None},
+            }
+            report_path = project / "04-svg/contract/page-001.report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["visual_retention"] = low_retention
+            write_json(report_path, report)
+            manifest_path = project / "04-svg/contract/manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["pages"][0]["visual_retention"] = low_retention
+            manifest["summary"]["raw_text_count"] = 10
+            manifest["summary"]["output_text_count"] = 2
+            write_json(manifest_path, manifest)
+
+            issues = svglide_quality_gate.contract_manifest_issues(project)
+
+            self.assertIn("contract_text_retention_too_low", {item["code"] for item in issues})
+
+    def test_quality_gate_records_semantic_map_visible_text_mismatch_as_diagnostic(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0, "warning_count": 1}})
+            write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0, "warning_count": 0}, "action": "create_live"})
+            write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0, "warning_count": 0}, "action": "create_live"})
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            semantic_map_path = project / "04-artboard/raw/page-001.semantic-map.json"
+            semantic_map = json.loads(semantic_map_path.read_text(encoding="utf-8"))
+            semantic_map["elements"][0]["text"] = "Missing Visible Text"
+            write_json(semantic_map_path, semantic_map)
+            semantic_sha = svglide_quality_gate.file_sha256(semantic_map_path)
+            artboard_receipt_path = project / "04-artboard/raw/page-001.receipt.json"
+            artboard_receipt = json.loads(artboard_receipt_path.read_text(encoding="utf-8"))
+            artboard_receipt["semantic_map_sha256"] = semantic_sha
+            write_json(artboard_receipt_path, artboard_receipt)
+            satori_bridge_path = project / "receipts/satori-bridge.json"
+            satori_bridge = json.loads(satori_bridge_path.read_text(encoding="utf-8"))
+            satori_bridge["pages"][0]["semantic_map_sha256"] = semantic_sha
+            write_json(satori_bridge_path, satori_bridge)
+            generate_receipt_path = project / "receipts/generate_svg.json"
+            generate_receipt = json.loads(generate_receipt_path.read_text(encoding="utf-8"))
+            generate_receipt["semantic_maps"][0]["sha256"] = semantic_sha
+            write_json(generate_receipt_path, generate_receipt)
+            generate_sha = svglide_quality_gate.file_sha256(generate_receipt_path)
+            for rel in ["receipts/template-fit-check.json", "06-check/template-fit.json"]:
+                template_fit_path = project / rel
+                template_fit = json.loads(template_fit_path.read_text(encoding="utf-8"))
+                template_fit["inputs"]["generator_receipt_sha256"] = generate_sha
+                write_json(template_fit_path, template_fit)
+            manifest_path = project / "04-svg/contract/manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["pages"][0]["semantic_map_sha256"] = semantic_sha
+            write_json(manifest_path, manifest)
+
+            result = svglide_quality_gate.run_quality_gate(project)
+
+            self.assertEqual(result["status"], "passed", result["checks"])
+            generator_check = [check for check in result["checks"] if check["name"] == "generator-receipt"][0]
+            self.assertEqual(generator_check["status"], "passed")
+            self.assertEqual(generator_check["issues"], [])
+            self.assertIn(
+                "generator_artboard_semantic_map_visible_text_mismatch",
+                {item["code"] for item in generator_check["diagnostics"]},
+            )
+
+    def test_quality_gate_artboard_satori_defers_snapshot_visual_fidelity_until_readback(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_selected_beautiful_page_family_plan(project)
@@ -1349,21 +1588,19 @@ class SVGlideQualityGateTest(unittest.TestCase):
             write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0, "warning_count": 0}, "action": "create_live"})
             write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0, "warning_count": 0}, "action": "create_live"})
             write_passing_semantic_review(project)
-            write_template_fidelity_receipt(project, template_id="executive-dashboard", selected_template_id="executive-dashboard")
             attach_passing_artboard_receipt(project)
+            write_template_fidelity_receipt(project, template_id="executive-dashboard", selected_template_id="executive-dashboard")
             write_page_family_smoke_receipt(project)
 
             result = svglide_quality_gate.run_quality_gate(project)
 
-            self.assertEqual(result["status"], "failed")
-            visual_check = [check for check in result["checks"] if check["name"] == "snapshot-visual-fidelity"][0]
-            self.assertEqual(visual_check["status"], "failed")
+            self.assertEqual(result["status"], "passed", result["checks"])
+            self.assertNotIn("snapshot-visual-fidelity", {check["name"] for check in result["checks"]})
             smoke_check = [check for check in result["checks"] if check["name"] == "page-family-smoke"][0]
             self.assertEqual(smoke_check["status"], "passed")
-            self.assertEqual(visual_check["action"], "structure_only_partial")
-            self.assertIn("snapshot_visual_fidelity", result["inputs"])
+            self.assertNotIn("snapshot_visual_fidelity", result["inputs"])
+            self.assertNotIn("snapshot_visual_fidelity_evidence", result["input_hashes"])
             self.assertIn("page_family_smoke", result["inputs"])
-            self.assertIn("visual_fidelity_manifest_missing", {issue["code"] for issue in visual_check["issues"]})
 
     def test_quality_gate_artboard_satori_allows_precreate_partial_visual_fidelity(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -1446,14 +1683,10 @@ class SVGlideQualityGateTest(unittest.TestCase):
             result = svglide_quality_gate.run_quality_gate(project)
 
             self.assertEqual(result["status"], "passed")
-            visual_check = [check for check in result["checks"] if check["name"] == "snapshot-visual-fidelity"][0]
-            self.assertEqual(visual_check["status"], "skipped")
-            self.assertEqual(visual_check["action"], "create_live")
-            self.assertEqual(visual_check["visual_fidelity_status"], "structure_only_partial")
-            self.assertEqual(visual_check["allowed_claim"], "snapshot_structure_fidelity_only")
-            self.assertIn("slide_render_png_unavailable", {issue["code"] for issue in visual_check["issues"]})
+            self.assertNotIn("snapshot-visual-fidelity", {check["name"] for check in result["checks"]})
+            self.assertNotIn("snapshot_visual_fidelity", result["inputs"])
 
-    def test_quality_gate_artboard_satori_rejects_empty_visual_fidelity_manifest(self) -> None:
+    def test_quality_gate_artboard_satori_ignores_pre_live_visual_fidelity_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0, "warning_count": 1}})
@@ -1474,15 +1707,11 @@ class SVGlideQualityGateTest(unittest.TestCase):
 
             result = svglide_quality_gate.run_quality_gate(project)
 
-            self.assertEqual(result["status"], "failed")
-            visual_check = [check for check in result["checks"] if check["name"] == "snapshot-visual-fidelity"][0]
-            self.assertEqual(visual_check["status"], "failed")
-            self.assertTrue(
-                {"baseline_render_receipts_empty", "slide_render_receipts_empty", "visual_fidelity_receipts_empty"}
-                <= {issue["code"] for issue in visual_check["issues"]}
-            )
+            self.assertEqual(result["status"], "passed")
+            self.assertNotIn("snapshot-visual-fidelity", {check["name"] for check in result["checks"]})
+            self.assertNotIn("snapshot_visual_fidelity", result["inputs"])
 
-    def test_quality_gate_artboard_satori_passes_with_snapshot_visual_fidelity(self) -> None:
+    def test_quality_gate_artboard_satori_does_not_require_passing_snapshot_visual_fidelity(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0, "warning_count": 1}})
@@ -1495,13 +1724,9 @@ class SVGlideQualityGateTest(unittest.TestCase):
             result = svglide_quality_gate.run_quality_gate(project)
 
             self.assertEqual(result["status"], "passed")
-            visual_check = [check for check in result["checks"] if check["name"] == "snapshot-visual-fidelity"][0]
-            self.assertEqual(visual_check["status"], "passed")
-            self.assertEqual(visual_check["action"], "create_live")
-            self.assertEqual(visual_check["visual_fidelity_status"], "passed")
-            self.assertEqual(visual_check["error_count"], 0)
-            self.assertEqual(result["inputs"]["snapshot_visual_fidelity"], "06-check/visual-fidelity/manifest.json")
-            self.assertIn("snapshot_visual_fidelity_evidence", result["input_hashes"])
+            self.assertNotIn("snapshot-visual-fidelity", {check["name"] for check in result["checks"]})
+            self.assertNotIn("snapshot_visual_fidelity", result["inputs"])
+            self.assertNotIn("snapshot_visual_fidelity_evidence", result["input_hashes"])
 
     def test_user_visible_profiles_reject_local_preview_asset_metadata(self) -> None:
         for profile in ["preview_only", "local_real_preview", "production_live", "production"]:
@@ -1891,83 +2116,7 @@ class SVGlideQualityGateTest(unittest.TestCase):
             }
             self.assertIn("production_waiver_not_allowed", failed_codes)
 
-    def test_quality_gate_fails_when_semantic_review_is_stale(self) -> None:
-        with tempfile.TemporaryDirectory() as tmpdir:
-            project = Path(tmpdir)
-            write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0}})
-            write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_passing_semantic_review(project)
-            (project / "04-svg/prepared/page-001.svg").write_text("<svg><rect /></svg>", encoding="utf-8")
-
-            result = svglide_quality_gate.run_quality_gate(project)
-
-            self.assertEqual(result["status"], "failed")
-            failed_codes = {
-                issue["code"]
-                for check in result["checks"]
-                for issue in check["issues"]
-            }
-            self.assertIn("semantic_review_prepared_stale", failed_codes)
-
-    def test_quality_gate_fails_when_semantic_review_plan_is_stale(self) -> None:
-        with tempfile.TemporaryDirectory() as tmpdir:
-            project = Path(tmpdir)
-            write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0}})
-            write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_passing_semantic_review(project)
-            write_json(project / "02-plan/slide_plan.json", {"language": "zh-CN", "slides": [{"page": 1}]})
-
-            result = svglide_quality_gate.run_quality_gate(project)
-
-            self.assertEqual(result["status"], "failed")
-            failed_codes = {
-                issue["code"]
-                for check in result["checks"]
-                for issue in check["issues"]
-            }
-            self.assertIn("semantic_review_plan_stale", failed_codes)
-
-    def test_quality_gate_fails_when_semantic_review_evidence_is_stale(self) -> None:
-        with tempfile.TemporaryDirectory() as tmpdir:
-            project = Path(tmpdir)
-            write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0}})
-            write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_passing_semantic_review(project)
-            write_json(project / "source/evidence.json", {"schema_version": "svglide-evidence/v1", "source_status": "ready", "items": [{"id": "item-001", "text": "新的证据内容足够长，应该让旧 semantic receipt 失效"}]})
-
-            result = svglide_quality_gate.run_quality_gate(project)
-
-            self.assertEqual(result["status"], "failed")
-            failed_codes = {
-                issue["code"]
-                for check in result["checks"]
-                for issue in check["issues"]
-            }
-            self.assertIn("semantic_review_evidence_stale", failed_codes)
-
-    def test_quality_gate_fails_when_semantic_review_text_inventory_is_missing(self) -> None:
-        with tempfile.TemporaryDirectory() as tmpdir:
-            project = Path(tmpdir)
-            write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0}})
-            write_json(project / "06-check/preview-lint.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_json(project / "06-check/aesthetic-review.json", {"summary": {"error_count": 0}, "action": "create_live"})
-            write_passing_semantic_review(project)
-            (project / "06-check/text-inventory.json").unlink()
-
-            result = svglide_quality_gate.run_quality_gate(project)
-
-            self.assertEqual(result["status"], "failed")
-            failed_codes = {
-                issue["code"]
-                for check in result["checks"]
-                for issue in check["issues"]
-            }
-            self.assertIn("semantic_review_text_inventory_missing", failed_codes)
-
-    def test_quality_gate_fails_when_semantic_review_status_is_failed(self) -> None:
+    def test_quality_gate_ignores_legacy_semantic_review_receipt(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_json(project / "06-check/preflight.json", {"summary": {"error_count": 0}})
@@ -1977,16 +2126,18 @@ class SVGlideQualityGateTest(unittest.TestCase):
             semantic = json.loads((project / "06-check/semantic-review.json").read_text(encoding="utf-8"))
             semantic["status"] = "failed"
             write_json(project / "06-check/semantic-review.json", semantic)
+            (project / "06-check/text-inventory.json").unlink()
 
             result = svglide_quality_gate.run_quality_gate(project)
 
-            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["status"], "passed")
+            self.assertNotIn("semantic_review", result["inputs"])
             failed_codes = {
                 issue["code"]
                 for check in result["checks"]
                 for issue in check["issues"]
             }
-            self.assertIn("semantic_review_not_passed", failed_codes)
+            self.assertFalse(any(code.startswith("semantic_review") for code in failed_codes))
 
     def test_quality_gate_fails_when_generator_receipt_is_missing(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

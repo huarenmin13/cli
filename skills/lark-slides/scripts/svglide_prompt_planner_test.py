@@ -74,6 +74,36 @@ class SVGlidePromptPlannerTest(unittest.TestCase):
         self.assertEqual([], [item for item in layout_records if item.get("status") == "legacy_debug"])
         self.assertNotIn("architecture-blueprint", {item.get("id") for item in layout_records})
 
+    def test_canvas_prompt_uses_page_family_slots_and_does_not_force_images(self) -> None:
+        instruction = prompt_planner.instruction_payload(
+            prompt="生成一份内部经营会数据报告，以图表、指标卡和结论为主，图片不是重点",
+            language="zh-CN",
+            target_slide_count=12,
+            audience="企业经营会",
+        )
+        context = prompt_planner.load_context()
+        deck_plan = {
+            "schema_version": "svglide-deck-plan/v1",
+            "topic": "内部经营会数据报告",
+            "audience": "企业经营会",
+            "target_slide_count": 12,
+            "slides": [],
+        }
+        slide_plan = {"schema_version": "svglide-slide-plan/v1", "slides": []}
+
+        prompt = prompt_planner.build_canvas_prompt(instruction, deck_plan, slide_plan, context)
+
+        self.assertIn('"executive-dashboard"', prompt)
+        self.assertIn('"page_family_content_key_guidance"', prompt)
+        self.assertIn('"required_content_by_variant"', prompt)
+        self.assertIn('"dashboard"', prompt)
+        self.assertIn('"stats"', prompt)
+        self.assertIn('"agenda"', prompt)
+        self.assertIn('"timeline"', prompt)
+        self.assertIn("data/report decks may use svg_native_data_visualization with required false", prompt)
+        self.assertNotIn("minimum_visual_asset_count at least 3", prompt)
+        self.assertNotIn("asset_contracts as an array of at least 3", prompt)
+
     def fake_provider(self, tmpdir: str) -> Path:
         provider = Path(tmpdir) / "fake_provider.py"
         provider.write_text(

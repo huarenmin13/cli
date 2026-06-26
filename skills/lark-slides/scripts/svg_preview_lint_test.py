@@ -73,6 +73,24 @@ class SvgPreviewLintTest(unittest.TestCase):
         self.assertGreaterEqual(result["summary"]["error_count"], 1)
         self.assertEqual(result["action"], "repair_and_rerun")
 
+    def test_accepts_satori_text_compat_fragments(self) -> None:
+        html = """
+        <svg width="960" height="540" viewBox="0 0 960 540">
+          <foreignObject data-svglide-compat-source="native-text" x="100" y="100" width="18" height="10">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:32px;line-height:1.2;">A</div>
+          </foreignObject>
+          <foreignObject data-svglide-compat-source="native-text" x="108" y="104" width="18" height="10">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:32px;line-height:1.2;">B</div>
+          </foreignObject>
+        </svg>
+        """
+        result = svg_preview_lint.lint_text(html, "preview.html")
+        codes = [issue["code"] for issue in result["page_issues"]]
+        self.assertNotIn("preview_text_overflow_risk", codes)
+        self.assertNotIn("preview_big_number_box_tight", codes)
+        self.assertNotIn("preview_text_box_overlap", codes)
+        self.assertEqual(result["summary"]["error_count"], 0)
+
     def test_reports_no_svg_pages(self) -> None:
         result = svg_preview_lint.lint_text("<html><body>No slides</body></html>", "preview.html")
         codes = [issue["code"] for issue in result["page_issues"]]

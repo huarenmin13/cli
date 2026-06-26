@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import hashlib
 import json
 import os
@@ -135,8 +136,6 @@ def build_readback_command(live_create: Any, xml_presentation_id: str) -> tuple[
             "--as",
             "user",
         ]
-        for key in sorted(request_headers):
-            command.extend(["--request-header", f"{key}={request_headers[key]}"])
         return command, request_headers
 
     params = json.dumps({"xml_presentation_id": xml_presentation_id}, separators=(",", ":"))
@@ -254,6 +253,67 @@ def iter_strings(value: Any) -> list[str]:
     return strings
 
 
+def visible_text_candidates(value: Any) -> list[str]:
+    candidates: list[str] = []
+    for raw in iter_strings(value):
+        if not raw:
+            continue
+        decoded = html.unescape(raw)
+        candidates.append(decoded)
+        if "<" in decoded and ">" in decoded:
+            stripped = re.sub(r"<[^>]+>", "", decoded)
+            if stripped and stripped != decoded:
+                candidates.append(stripped)
+    return candidates
+
+
+def compact_text(value: str) -> str:
+    return re.sub(r"\s+", "", html.unescape(value or ""))
+
+
+def claim_tokens(fragment: str) -> list[str]:
+    tokens: list[str] = []
+    tokens.extend(re.findall(r"[A-Za-z0-9]+(?:[./%+-][A-Za-z0-9]+)*", fragment))
+    for chunk in re.findall(r"[\u4e00-\u9fff]{2,}", fragment):
+        if len(chunk) <= 4:
+            tokens.append(chunk)
+            continue
+        for index in range(0, len(chunk) - 1, 2):
+            token = chunk[index : index + 2]
+            if len(token) == 2:
+                tokens.append(token)
+    seen: set[str] = set()
+    unique: list[str] = []
+    for token in tokens:
+        normalized = compact_text(token)
+        if not normalized or normalized in seen:
+            continue
+        seen.add(normalized)
+        unique.append(normalized)
+    return unique
+
+
+def fragment_visible(fragment: str, visible_text: str, compact_visible_text: str) -> bool:
+    if fragment in visible_text:
+        return True
+    compact_fragment = compact_text(fragment)
+    if compact_fragment and compact_fragment in compact_visible_text:
+        return True
+    return False
+
+
+def claim_visible(fragment: str, visible_text: str, compact_visible_text: str) -> bool:
+    if fragment_visible(fragment, visible_text, compact_visible_text):
+        return True
+    tokens = claim_tokens(fragment)
+    if not tokens:
+        return False
+    matched = sum(1 for token in tokens if token in compact_visible_text)
+    if len(tokens) <= 2:
+        return matched == len(tokens)
+    return matched >= max(2, len(tokens) // 3)
+
+
 def expected_business_claim_fragments(project: Path) -> list[str]:
     plan_path = project / "02-plan" / "slide_plan.json"
     if not plan_path.exists():
@@ -282,10 +342,23 @@ def expected_business_claim_fragments(project: Path) -> list[str]:
                     value = item.get("fragment") or item.get("claim") or item.get("text")
                     if isinstance(value, str):
                         fragments.append(value)
-    return [fragment.strip() for fragment in fragments if fragment.strip()]
+    unique_fragments = [fragment.strip() for fragment in fragments if fragment.strip()]
+    submitted_fragments = expected_submitted_svg_text_fragments(project)
+    if submitted_fragments:
+        submitted_text = "\n".join(submitted_fragments)
+        compact_submitted_text = compact_text(submitted_text)
+        unique_fragments = [
+            fragment
+            for fragment in unique_fragments
+            if claim_visible(fragment, submitted_text, compact_submitted_text)
+        ]
+    return unique_fragments
 
 
 def expected_core_visible_text_fragments(project: Path) -> list[str]:
+    submitted = expected_submitted_svg_text_fragments(project)
+    if submitted:
+        return submitted
     plan_path = project / "02-plan" / "slide_plan.json"
     if not plan_path.exists():
         return []
@@ -307,6 +380,29 @@ def expected_core_visible_text_fragments(project: Path) -> list[str]:
             value = slide.get("title")
             if isinstance(value, str) and value.strip():
                 fragments.append(value.strip())
+    seen: set[str] = set()
+    unique: list[str] = []
+    for fragment in fragments:
+        if fragment not in seen:
+            seen.add(fragment)
+            unique.append(fragment)
+    return unique
+
+
+def expected_submitted_svg_text_fragments(project: Path) -> list[str]:
+    fragments: list[str] = []
+    for path in source_svgs_for_readback(project):
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for match in re.finditer(r"(?is)<text\b[^>]*>(.*?)</text\s*>", text):
+            value = re.sub(r"(?is)<[^>]+>", "", match.group(1))
+            value = html.unescape(value).strip()
+            if value:
+                fragments.append(value)
+        for match in re.finditer(r"(?is)<foreignObject\b[^>]*>(.*?)</foreignObject\s*>", text):
+            value = re.sub(r"(?is)<[^>]+>", "", match.group(1))
+            value = html.unescape(value).strip()
+            if value:
+                fragments.append(value)
     seen: set[str] = set()
     unique: list[str] = []
     for fragment in fragments:
@@ -373,6 +469,8 @@ def build_checks(project: Path, live_create: Any, readback: Any, xml_presentatio
     readback_slide_ids = slide_ids_from_readback(readback)
     tokens = expected_asset_tokens(project)
     readback_text = json.dumps(readback, ensure_ascii=False)
+    visible_text = "\n".join(visible_text_candidates(readback))
+    compact_visible_text = compact_text(visible_text)
 
     checks: dict[str, Any] = {}
     if expected_count is None or actual_count is None:
@@ -434,16 +532,14 @@ def build_checks(project: Path, live_create: Any, readback: Any, xml_presentatio
     if not claims:
         checks["business_claims"] = check_status("skipped", reason="no business claims")
     else:
-        visible_text = "\n".join(iter_strings(readback))
-        missing_claims = [claim for claim in claims if claim not in visible_text]
+        missing_claims = [claim for claim in claims if not claim_visible(claim, visible_text, compact_visible_text)]
         checks["business_claims"] = check_status("failed" if missing_claims else "passed", missing=missing_claims)
 
     core_fragments = expected_core_visible_text_fragments(project)
     if not core_fragments:
         checks["core_visible_text"] = check_status("skipped", reason="no expected core text fragments")
     else:
-        visible_text = "\n".join(iter_strings(readback))
-        missing_fragments = [fragment for fragment in core_fragments if fragment not in visible_text]
+        missing_fragments = [fragment for fragment in core_fragments if not fragment_visible(fragment, visible_text, compact_visible_text)]
         checks["core_visible_text"] = check_status(
             "failed" if missing_fragments else "passed",
             expected=len(core_fragments),

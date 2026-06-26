@@ -1389,7 +1389,7 @@
     "red": {
       "source_class": "slide-red",
       "source_slide_index": 2,
-      "page_role": "agenda",
+      "page_role": "quote",
       "required_slots": [
         "quote"
       ],
@@ -1409,7 +1409,7 @@
     "summary": {
       "source_class": "slide-summary",
       "source_slide_index": 3,
-      "page_role": "detail",
+      "page_role": "agenda",
       "required_slots": [
         "title"
       ],
@@ -1449,7 +1449,7 @@
     "stat": {
       "source_class": "slide-stat",
       "source_slide_index": 5,
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "required_slots": [
         "metrics",
         "items"
@@ -1470,7 +1470,7 @@
     "services": {
       "source_class": "slide-services",
       "source_slide_index": 6,
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "required_slots": [
         "title",
         "items"
@@ -1491,7 +1491,7 @@
     "roadmap": {
       "source_class": "slide-roadmap",
       "source_slide_index": 7,
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "required_slots": [
         "title",
         "items",
@@ -1513,7 +1513,7 @@
     "pillars": {
       "source_class": "slide-pillars",
       "source_slide_index": 8,
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "required_slots": [
         "title",
         "metrics",
@@ -1535,7 +1535,7 @@
     "global": {
       "source_class": "slide-global",
       "source_slide_index": 9,
-      "page_role": "data_dashboard",
+      "page_role": "detail",
       "required_slots": [
         "title",
         "metrics",

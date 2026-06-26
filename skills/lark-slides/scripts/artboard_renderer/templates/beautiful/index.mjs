@@ -33,6 +33,7 @@ import { renderRetroZineSpread, rendererContract as retroZineSpreadContract } fr
 import { renderStickyWorkshopBoard, rendererContract as stickyWorkshopBoardContract } from './sticky-workshop-board.mjs'
 import { renderStencilFieldManual, rendererContract as stencilFieldManualContract } from './stencil-field-manual.mjs'
 import { renderVellumScholarBrief, rendererContract as vellumScholarBriefContract } from './vellum-scholar-brief.mjs'
+import { renderReviewOnlyPageFamilyVariant } from './review-page-family-renderer.mjs'
 
 const DEDICATED_RENDERERS = new Map([
   [
@@ -301,6 +302,9 @@ export function renderBeautifulTemplate(spec = {}) {
   const templateId = spec.template_id
   const dedicated = DEDICATED_RENDERERS.get(templateId)
   if (dedicated) {
+    if (spec.review_only_current_deck_render?.degraded && dedicated.contract?.renderer_stage === 'dedicated_sample') {
+      return renderReviewOnlyPageFamilyVariant(spec)
+    }
     return dedicated.render(spec)
   }
   const evaluation = EVALUATION_RENDERERS.get(templateId)

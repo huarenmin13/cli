@@ -174,10 +174,19 @@ def template_registry_bundle() -> list[dict[str, Any]]:
                 "renderer_id": item.get("renderer_id"),
                 "layout_family": item.get("layout_family"),
                 "required_content": item.get("required_content"),
+                "required_content_by_variant": item.get("required_content_by_variant"),
                 "optional_content": item.get("optional_content"),
                 "max_items": item.get("max_items"),
+                "max_items_by_variant": item.get("max_items_by_variant"),
                 "text_budget": item.get("text_budget"),
+                "text_budget_by_variant": item.get("text_budget_by_variant"),
                 "supported_theme_ids": item.get("supported_theme_ids"),
+                "page_family": item.get("page_family"),
+                "page_variants": item.get("page_variants"),
+                "implemented_page_variants": item.get("implemented_page_variants"),
+                "page_family_content_key_guidance": item.get("page_family_content_key_guidance"),
+                "page_family_smoke_receipt": item.get("page_family_smoke_receipt"),
+                "page_family_promotion_gate": item.get("page_family_promotion_gate"),
                 "source_template_id": item.get("source_template_id"),
                 "claim_level": item.get("claim_level"),
                 "family_usage_policy_summary": item.get("family_usage_policy_summary"),
@@ -333,6 +342,26 @@ def build_slide_prompt(instruction: dict[str, Any], deck_plan: dict[str, Any], c
 
 def build_canvas_prompt(instruction: dict[str, Any], deck_plan: dict[str, Any], slide_plan: dict[str, Any], context: dict[str, Any]) -> str:
     base = repo_path(PROMPT_PATHS["canvas-planner"]).read_text(encoding="utf-8")
+    content_key_guidance = {
+        "cover-hero": ["eyebrow", "title", "subtitle", "chips"],
+        "section-title": ["eyebrow", "title", "subtitle"],
+        "agenda-list": ["title", "items"],
+        "comparison-cards": ["title", "left_title", "right_title", "left_points", "right_points", "conclusion"],
+        "timeline-steps": ["title", "events"],
+        "process-flow": ["title", "steps"],
+        "metric-dashboard": ["title", "metrics"],
+        "risk-alert": ["title", "risks", "severity", "summary"],
+        "image-feature": ["title", "subtitle", "points", "image_label", "caption"],
+        "data-story": ["eyebrow", "title", "subtitle", "metrics", "metric_labels", "milestones", "callout"],
+        "summary-final": ["eyebrow", "title", "subtitle", "takeaways"],
+    }
+    for template in context.get("templates", []):
+        if not isinstance(template, dict):
+            continue
+        template_id = template.get("id")
+        guidance = template.get("page_family_content_key_guidance")
+        if isinstance(template_id, str) and isinstance(guidance, dict) and guidance:
+            content_key_guidance[template_id] = guidance
     bundle = {
         "instruction": instruction,
         "deck_plan": deck_plan,
@@ -351,19 +380,7 @@ def build_canvas_prompt(instruction: dict[str, Any], deck_plan: dict[str, Any], 
             "component_selection",
             "asset_strategy",
         ],
-        "content_key_guidance": {
-            "cover-hero": ["eyebrow", "title", "subtitle", "chips"],
-            "section-title": ["eyebrow", "title", "subtitle"],
-            "agenda-list": ["title", "items"],
-            "comparison-cards": ["title", "left_title", "right_title", "left_points", "right_points", "conclusion"],
-            "timeline-steps": ["title", "events"],
-            "process-flow": ["title", "steps"],
-            "metric-dashboard": ["title", "metrics"],
-            "risk-alert": ["title", "risks", "severity", "summary"],
-            "image-feature": ["title", "subtitle", "points", "image_label", "caption"],
-            "data-story": ["eyebrow", "title", "subtitle", "metrics", "metric_labels", "milestones", "callout"],
-            "summary-final": ["eyebrow", "title", "subtitle", "takeaways"],
-        },
+        "content_key_guidance": content_key_guidance,
     }
     return "\n\n".join(
         [
@@ -374,11 +391,10 @@ def build_canvas_prompt(instruction: dict[str, Any], deck_plan: dict[str, Any], 
             "For ordinary user prompts, set deck_intent to full_deck, target_slide_count/page_count to the instruction target, and produce that many slides.",
             "Do not produce a 4-page sample unless instruction.deck_intent is sample/single_page/fixture.",
             "The top-level plan must include theme_policy with scope deck and allow_multi_theme false unless the user explicitly asks for multiple theme chapters.",
-            "The top-level plan must include asset_policy with required true and minimum_visual_asset_count at least 3.",
-            "It must include top-level asset_contracts as an array of at least 3 objects for real visual acquisition.",
-            "Each asset contract must include id, page or usage_page, placement_role, query, required true, safe_text_zones, and crop_hint.",
-            "Use placement_role cover for page 1, body_visual for image-feature pages, and closing for the final page.",
-            "For body_visual assets, choose image-feature pages so the generated SVG has an asset slot.",
+            "The top-level plan must include asset_policy. Set asset_policy.required true only when real images are requested or necessary for the chosen page family; data/report decks may use svg_native_data_visualization with required false.",
+            "When asset_policy.required is true, include top-level asset_contracts for real visual acquisition. When it is false, asset_contracts may be empty and slides should use SVG-native charts, tables, matrices, timelines, or metric cards.",
+            "Each asset contract, when present, must include id, page or usage_page, placement_role, query, required, safe_text_zones, and crop_hint.",
+            "Do not force image-feature pages merely to satisfy an asset count. Use image-feature pages only when the deck actually needs image slots.",
             "Use generation_mode artboard_satori and route svglide-svg.",
             "The top-level plan must include project_palette, project_theme, palette_selection_receipt, and selection_receipt from selection_context.",
             "The top-level plan must include language, audience, deck_structure, and visual_identity before plan confirmation is written.",
@@ -390,7 +406,7 @@ def build_canvas_prompt(instruction: dict[str, Any], deck_plan: dict[str, Any], 
             "deck_structure must include at least cover, content, and closing. Do not output a single-slide poster plan.",
             "visual_identity must include theme_archetype, design_dna.palette, design_dna.layout_motif, design_dna.shape_language, design_dna.image_treatment, design_dna.component_bias, at least 3 theme_visual_anchors, forbidden_reuse, and distinctness_target.",
             "Every slide must include page_type, section, role, body_points, and source_refs; content slides need at least 2 body_points and source_refs.",
-            "For each selected template, provide every visible content key listed in content_key_guidance. Do not rely on renderer fallback/default text.",
+            "For each selected template and page_variant_id, provide every visible content key listed in content_key_guidance. For page-family templates, use content_key_guidance[template_id][page_variant_id] and required_content_by_variant; do not rely on renderer fallback/default text.",
             "For data-story, metrics must be a list of short strings, not objects; metric_labels and milestones must be explicit visible string lists.",
             "If component_selection includes a chart component, include chart_contract with type, source_refs, encoding, and claims.",
             "Canvas specs must use 960x540 canvas, safe_area x=48 y=40 width=864 height=460, and at least one semantic element bbox inside safe_area.",

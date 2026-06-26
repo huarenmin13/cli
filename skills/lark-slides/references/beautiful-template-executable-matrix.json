@@ -4210,6 +4210,37 @@
         "source_design_md": "beautiful-html-templates/templates/bold-poster/design.md",
         "source_template_json": "beautiful-html-templates/templates/bold-poster/template.json",
         "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
+      },
+      "implemented_page_variants": [
+        "hero",
+        "red",
+        "summary",
+        "financial",
+        "stat",
+        "services",
+        "roadmap",
+        "pillars",
+        "global",
+        "close"
+      ],
+      "page_variant_golden_specs": {
+        "hero": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.hero.canvas-spec.json",
+        "red": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.red.canvas-spec.json",
+        "summary": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.summary.canvas-spec.json",
+        "financial": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.financial.canvas-spec.json",
+        "stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.stat.canvas-spec.json",
+        "services": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.services.canvas-spec.json",
+        "roadmap": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.roadmap.canvas-spec.json",
+        "pillars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.pillars.canvas-spec.json",
+        "global": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.global.canvas-spec.json",
+        "close": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/bold-poster.close.canvas-spec.json"
+      },
+      "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/bold-poster.json",
+      "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/bold-poster.poster-stat-punch.json",
+      "page_family_promotion_gate": {
+        "status": "not_requested",
+        "required_evidence": [],
+        "claim_boundary": "page-family implementation evidence only; not a production/default_selectable promotion gate"
       }
     },
     {

@@ -49,6 +49,33 @@ def write_smoke_plan(project: Path, roles: list[tuple[str, str]]) -> None:
     write_json(project / "06-check/template-fidelity.json", {"status": "passed"})
 
 
+def write_bold_poster_fixture_plan(project: Path, roles: list[tuple[str, str]]) -> None:
+    slides = []
+    for index, (role, variant_id) in enumerate(roles, start=1):
+        slides.append(
+            {
+                "page": index,
+                "page_type": "content",
+                "title": f"{role} page",
+                "canvas_spec": {
+                    "page_role": role,
+                    "page_variant_id": variant_id,
+                },
+            }
+        )
+    write_json(project / "02-plan/slide_plan.json", {"slides": slides})
+    write_json(
+        project / "02-plan/page-family-smoke-fixture.json",
+        {
+            "schema_version": "svglide-page-family-smoke-fixture/v1",
+            "family_id": "bold-poster",
+            "template_id": "poster-stat-punch",
+            "theme_id": "bold-poster-explicit-tomato",
+        },
+    )
+    write_json(project / "receipts/generate_svg.json", {"status": "passed", "generated_files": []})
+
+
 class BeautifulTemplatePageFamilySmokeTest(unittest.TestCase):
     def test_blue_professional_smoke_receipt_covers_required_roles(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -124,6 +151,64 @@ class BeautifulTemplatePageFamilySmokeTest(unittest.TestCase):
         self.assertTrue(receipt["degraded"])
         self.assertIn("agenda", receipt["missing_required_roles"])
         self.assertGreater(receipt["summary"]["error_count"], 0)
+
+    def test_explicit_canvas_role_wins_over_weak_content_page_type(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            roles = [
+                ("cover", "hero"),
+                ("quote", "red"),
+                ("agenda", "summary"),
+                ("content", "financial"),
+                ("data", "stat"),
+                ("process", "services"),
+                ("process", "roadmap"),
+                ("comparison", "pillars"),
+                ("detail", "global"),
+                ("closing", "close"),
+            ]
+            write_bold_poster_fixture_plan(project, roles)
+
+            receipt = smoke.check_project_page_family_smoke(project)
+            production_selection = smoke.selected_beautiful_production_family(project)
+
+        self.assertEqual(receipt["status"], "passed", receipt["artifact_issues"])
+        self.assertEqual(receipt["selection_source"], "explicit_fixture")
+        self.assertEqual(receipt["selected_family_id"], "bold-poster")
+        self.assertEqual(receipt["selected_template_id"], "poster-stat-punch")
+        self.assertFalse(receipt["production_selectable"])
+        self.assertEqual(receipt["promotion_status"], "needs_review")
+        self.assertIsNone(production_selection)
+        page_roles = {page["page_variant_id"]: page["page_role"] for page in receipt["pages"]}
+        self.assertEqual(page_roles["red"], "quote")
+        self.assertEqual(page_roles["stat"], "data")
+        self.assertEqual(page_roles["pillars"], "comparison")
+        self.assertEqual(page_roles["global"], "detail")
+        self.assertEqual(receipt["missing_required_roles"], [])
+
+    def test_fixture_selection_cannot_fake_missing_role_coverage(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            roles = [
+                ("cover", "hero"),
+                ("quote", "red"),
+                ("agenda", "summary"),
+                ("content", "financial"),
+                ("data", "stat"),
+                ("process", "services"),
+                ("process", "roadmap"),
+                ("comparison", "pillars"),
+                ("closing", "close"),
+            ]
+            write_bold_poster_fixture_plan(project, roles)
+
+            receipt = smoke.check_project_page_family_smoke(project)
+
+        self.assertEqual(receipt["status"], "failed")
+        self.assertEqual(receipt["selection_source"], "explicit_fixture")
+        self.assertIn("detail", receipt["missing_required_roles"])
+        self.assertIn("global", receipt["missing_implemented_page_variants"])
+        self.assertIn("required_role_missing", {item["code"] for item in receipt["artifact_issues"]})
 
 
 if __name__ == "__main__":

@@ -16,7 +16,7 @@ import svg_safe_rewrite
 
 
 VERSION = "1"
-MODES = {"off", "auto", "strict", "force-page"}
+MODES = {"off", "auto", "strict", "force-page", "local-island"}
 
 
 class RasterizeError(RuntimeError):
@@ -52,6 +52,11 @@ def plan_raster_islands(mode: str, detections: list[classifier.EffectDetection])
         return []
     if mode == "force-page":
         return [whole_page_island("force-page")]
+    if mode == "local-island":
+        # Local island planning needs element bbox/source-node ownership from
+        # contract_compile. This script accepts the internal mode so callers can
+        # share report semantics, but it must not silently promote to full-page.
+        return []
     if not detections:
         return []
     reasons = sorted({detection.reason for detection in detections})

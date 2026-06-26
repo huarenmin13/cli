@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SVGlide 线上可编辑协议元素穿透报告</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f7f8fa; }
+    main { max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px; }
+    h1 { font-size: 34px; line-height: 1.2; margin: 0 0 12px; }
+    h2 { font-size: 22px; margin: 34px 0 12px; border-bottom: 1px solid #dfe3ea; padding-bottom: 8px; }
+    h3 { font-size: 17px; margin: 22px 0 8px; }
+    p, li { font-size: 15px; line-height: 1.7; }
+    code, pre { font-family: "SFMono-Regular", Consolas, monospace; }
+    code { background: #eef1f6; padding: 2px 5px; border-radius: 4px; }
+    pre { background: #111827; color: #e5e7eb; padding: 16px; border-radius: 8px; overflow-x: auto; line-height: 1.55; }
+    table { width: 100%; border-collapse: collapse; background: #fff; margin: 14px 0 22px; }
+    th, td { border: 1px solid #dfe3ea; padding: 10px 12px; text-align: left; vertical-align: top; font-size: 14px; }
+    th { background: #eef3ff; }
+    .meta { color: #5f6b7a; line-height: 1.8; margin-bottom: 24px; }
+    .callout { background: #fff8e6; border: 1px solid #f0d98c; border-radius: 8px; padding: 14px 16px; }
+    .ok { background: #ecfdf3; border: 1px solid #badbcc; border-radius: 8px; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>SVGlide 线上可编辑协议元素穿透报告</h1>
+  <div class="meta">
+    生成时间：2026-06-26<br>
+    CLI：<code>/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private</code><br>
+    slide：<code>/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/slide-svglide-chart-direct-snapshot</code>
+  </div>
+
+  <h2>目标</h2>
+  <p>把问题重新锚定在 <code>SVGlide +create-svg</code> 链路：确认 raw Satori / contract SVG 如何提交到 slide 后端，并定义如何从“视觉保真但全页图片”升级为“线上真正可编辑的协议元素”。XML 全页图片 fallback 只能作为诊断或临时视觉兜底，不是目标架构。</p>
+
+  <h2>团队设置</h2>
+  <table>
+    <tr><th>角色</th><th>职责</th><th>结论</th></tr>
+    <tr><td>CLI 契约审查者</td><td>检查 generate_svg 到 +create-svg</td><td><code>prepare</code> 当前把 artboard_satori 默认包成整页 PNG</td></tr>
+    <tr><td>slide parser 审查者</td><td>检查后端 direct SVG parser</td><td>确认 text、shape、line、image、chart marker 等可编辑路径存在</td></tr>
+    <tr><td>E2E 验收审查者</td><td>定义线上验收矩阵</td><td>必须新增 <code>editability_gate</code></td></tr>
+  </table>
+
+  <h2>当前事实</h2>
+  <pre>generate_svg
+  -> 04-artboard/raw/page-###.visual.svg
+  -> 04-artboard/raw/page-###.visual.png
+contract_compile
+  -> 04-svg/page-###.svg
+prepare
+  -> 04-svg/prepared/page-###.svg
++create-svg
+  -> slide 后端创建线上文档</pre>
+  <div class="callout">当前丢失线上可编辑性的直接节点是 <code>prepare</code>：它在 <code>artboard_satori</code> 模式下生成单个整页 <code>&lt;image slide:role="image"&gt;</code>，receipt 记录 <code>full_page_raster_submission</code> 和 <code>online text is not editable</code>。</div>
+
+  <h2>slide parser 支持面</h2>
+  <table>
+    <tr><th>输入协议元素</th><th>线上目标 block</th><th>备注</th></tr>
+    <tr><td><code>&lt;text slide:role="text"&gt;</code></td><td>Text shape</td><td>支持 Satori text style manifest</td></tr>
+    <tr><td><code>&lt;foreignObject slide:role="text"&gt;</code></td><td>Text shape</td><td>支持部分 HTML/CSS 抽取</td></tr>
+    <tr><td><code>rect/circle/ellipse/path/polygon/polyline</code></td><td>Shape block</td><td>path 只支持 MVP 命令</td></tr>
+    <tr><td><code>line</code></td><td>Line block</td><td>不应伪装成 leaf shape</td></tr>
+    <tr><td><code>image</code></td><td>Image block</td><td>必须有 file meta 或 assets metadata</td></tr>
+    <tr><td><code>g slide:role="chart"</code></td><td>Chart/embed block</td><td>需要 chart metadata 和 preparedCharts</td></tr>
+  </table>
+
+  <h2>核心结论</h2>
+  <ol>
+    <li>slide parser 已经有 direct editable SVG 路径。</li>
+    <li><code>contract_compile</code> 已经能做 raw Satori lowering。</li>
+    <li><code>prepare</code> 为了线上创建成功，把 artboard 输出改成了整页图片。</li>
+    <li>现有 gate 只证明能创建和视觉相似，没有证明线上可编辑。</li>
+    <li>需要恢复可编辑提交路径，并新增 readback 后的 <code>editability_gate</code>。</li>
+  </ol>
+
+  <h2>目标链路</h2>
+  <pre>用户需求 / 参考资产
+  -> planner / theme-template selection
+  -> canvas spec
+  -> raw Satori visual SVG
+  -> contract_compile: raw Satori lowering
+  -> prepare: asset token 注入 + 协议校验 + 必要局部降级
+  -> +create-svg: 提交 SVGlide protocol SVG
+  -> slide direct parser: 生成 editable text/shape/line/image/chart blocks
+  -> readback
+  -> editability_gate
+  -> snapshot_visual_fidelity</pre>
+
+  <h2>P0 防偏移原则</h2>
+  <ul>
+    <li>不把 XML 全页图片方案当作 SVGlide 目标方案。</li>
+    <li>不允许 <code>artboard_satori</code> 默认产物是 full-page raster submission。</li>
+    <li>不允许视觉 fidelity 通过来覆盖 editability 失败。</li>
+    <li>不允许没有 readback block type 证据就宣称线上可编辑。</li>
+    <li>不允许 unsupported nodes 静默消失。</li>
+  </ul>
+
+  <h2>必须新增的验收指标</h2>
+  <table>
+    <tr><th>指标</th><th>通过标准</th></tr>
+    <tr><td><code>full_page_raster_count</code></td><td>可编辑线上提交必须为 0</td></tr>
+    <tr><td><code>editable_text_count</code></td><td>有文本页面必须 >= 1</td></tr>
+    <tr><td><code>editable_shape_count</code></td><td>内容页建议 >= 2，fixture 用精确值</td></tr>
+    <tr><td><code>raster_area_ratio</code></td><td>无声明图片页 <= 0.05，有图片资产页建议 <= 0.20</td></tr>
+    <tr><td><code>image_only_page_count</code></td><td>可编辑提交必须为 0</td></tr>
+  </table>
+
+  <h2>执行计划</h2>
+  <ol>
+    <li>建立 <code>editable_online</code> profile，拒绝整页 raster。</li>
+    <li>统一文本协议路径，以 slide parser 当前真实支持路径为准。</li>
+    <li>修正 <code>prepare</code> 职责边界：只做 token、metadata、hash、局部降级，不重画整页。</li>
+    <li>新增 <code>editability_gate</code>，readback 统计 editable text/shape/line/image/chart。</li>
+    <li>建立最小线上可编辑 smoke deck，跑通 <code>+create-svg</code> live create、readback、visual fidelity。</li>
+  </ol>
+
+  <h2>下一步建议目标</h2>
+  <div class="ok">按 TDD 恢复 SVGlide artboard_satori 的线上可编辑提交路径：先建立 editable_online profile 和 editability_gate，再让 prepare 默认提交 contract SVG 而不是整页 raster，最后用最小 smoke deck 跑通 +create-svg live create、readback、editable block 统计和视觉对比。</div>
+</main>
+</body>
+</html>

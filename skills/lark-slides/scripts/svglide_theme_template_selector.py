@@ -191,6 +191,39 @@ def promoted_template_semantic_boost(prompt_norm: str, template: dict[str, Any])
     return min(score, PROMOTED_TEMPLATE_BOOST_CAP), matches[:8]
 
 
+def review_template_semantic_boost(prompt_norm: str, template: dict[str, Any]) -> tuple[int, list[str]]:
+    if template.get("review_selectable") is not True or template.get("selection_scope") != "online_test":
+        return 0, []
+    metadata = template.get("selection_metadata") if isinstance(template.get("selection_metadata"), dict) else {}
+    prompt_tokens = set(keyword_tokens(prompt_norm))
+    if not prompt_tokens:
+        return 0, []
+    score = 0
+    matches: list[str] = []
+    term_groups: list[tuple[str, list[str], int, int]] = [
+        ("asset_id", [str(template.get("id") or ""), str(template.get("source_template_id") or "")], 14, 32),
+        ("content_shapes", list_value(metadata.get("content_shapes")), 12, 36),
+        ("best_for", list_value(metadata.get("best_for")), 10, 56),
+        ("occasion_tags", list_value(metadata.get("occasion_tags")), 8, 40),
+        ("industry_tags", list_value(metadata.get("industry_tags")), 8, 32),
+        ("tone_tags", list_value(metadata.get("tone_tags")), 7, 28),
+        ("visual_signature", list_value(metadata.get("visual_signature")), 5, 24),
+    ]
+    for field, terms, weight, cap in term_groups:
+        field_score = 0
+        field_tokens: set[str] = set()
+        for term in terms:
+            overlap = prompt_tokens.intersection(keyword_tokens(term))
+            if not overlap:
+                continue
+            field_tokens.update(overlap)
+        if field_tokens:
+            field_score = min(cap, weight * len(field_tokens))
+            score += field_score
+            matches.append(f"review_template_semantic:{field}:{'_'.join(sorted(field_tokens)[:4])}")
+    return min(score, 160), matches[:8]
+
+
 def template_asset(template: dict[str, Any]) -> dict[str, Any]:
     metadata = template.get("selection_metadata") if isinstance(template.get("selection_metadata"), dict) else {}
     return {
@@ -388,6 +421,10 @@ def score_template(signals: dict[str, Any], template: dict[str, Any], *, brief: 
     if promoted_boost:
         score += promoted_boost
         scored["matched_signals"].extend(promoted_matches)
+    review_boost, review_matches = review_template_semantic_boost(prompt_norm, template)
+    if review_boost:
+        score += review_boost
+        scored["matched_signals"].extend(review_matches)
     required_assets = list_value(metadata.get("required_assets"))
     available_assets = set(list_value(signals.get("available_assets")))
     missing_assets = [item for item in required_assets if item not in available_assets]
@@ -415,6 +452,8 @@ def score_template(signals: dict[str, Any], template: dict[str, Any], *, brief: 
         "quality_tier",
         "default_selectable",
         "selection_scope",
+        "review_selectable",
+        "review_selection_reason",
         "renderer_module",
         "renderer_executable",
         "supported_page_types",
@@ -422,6 +461,14 @@ def score_template(signals: dict[str, Any], template: dict[str, Any], *, brief: 
         "implemented_page_variants",
         "variant_usage_policy",
         "page_variant_usage_policy",
+        "page_family",
+        "page_variants",
+        "page_family_content_key_guidance",
+        "required_content_by_variant",
+        "max_items_by_variant",
+        "text_budget_by_variant",
+        "page_family_smoke_receipt",
+        "page_family_promotion_gate",
         "visual_contract",
         "visual_contract_path",
         "fidelity_gate",
@@ -627,6 +674,19 @@ def selected_page_family(template: dict[str, Any] | None) -> dict[str, Any] | No
     usage = template.get("variant_usage_policy") or template.get("page_variant_usage_policy")
     if isinstance(usage, dict):
         result["variant_usage_policy"] = usage
+    for key in [
+        "page_family",
+        "page_variants",
+        "page_family_content_key_guidance",
+        "required_content_by_variant",
+        "max_items_by_variant",
+        "text_budget_by_variant",
+        "page_family_smoke_receipt",
+        "page_family_promotion_gate",
+    ]:
+        value = template.get(key)
+        if value not in (None, "", [], {}):
+            result[key] = value
     return result
 
 

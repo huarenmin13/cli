@@ -22,6 +22,9 @@ HARD_ATTRS = classifier.HARD_EFFECT_ATTRS
 HARD_STYLE_PROPS = classifier.HARD_STYLE_PROPS
 NUMBER_RE = re.compile(r"^[-+]?(?:\d+\.?\d*|\.\d+)(?:px)?$")
 
+ET.register_namespace("", SVG_NS)
+ET.register_namespace("slide", SLIDE_NS)
+
 
 class SafeRewriteError(ValueError):
     """Raised when a safe SVG cannot be produced or validated."""
@@ -87,6 +90,89 @@ def full_page_image_svg(original_svg: str, png_path: Path, base_dir: Path) -> st
     )
 
 
+def _slide_attr(name: str) -> str:
+    return f"{{{SLIDE_NS}}}{name}"
+
+
+def _node_id(element: ET.Element) -> str:
+    for key, value in element.attrib.items():
+        if classifier.local_name(key) in {"id", "data-node-id"} and value:
+            return value
+    return ""
+
+
+def _parent_map(root: ET.Element) -> dict[ET.Element, ET.Element]:
+    return {child: parent for parent in root.iter() for child in list(parent)}
+
+
+def _find_node(root: ET.Element, node_ids: list[str]) -> ET.Element | None:
+    wanted = {node_id for node_id in node_ids if node_id}
+    if not wanted:
+        return None
+    for element in root.iter():
+        if _node_id(element) in wanted:
+            return element
+    return None
+
+
+def _remove_hard_defs(root: ET.Element) -> None:
+    parent_map = _parent_map(root)
+    for element in list(root.iter()):
+        if classifier.local_name(element.tag) not in HARD_TAGS:
+            continue
+        parent = parent_map.get(element)
+        if parent is not None:
+            parent.remove(element)
+
+
+def _format_bbox_number(value: object) -> str:
+    try:
+        return _format_number(float(value))
+    except (TypeError, ValueError):
+        return "0"
+
+
+def local_island_image_element(island: dict[str, object], asset: dict[str, object], base_dir: Path) -> ET.Element:
+    bbox = island.get("bbox")
+    if not isinstance(bbox, list) or len(bbox) != 4:
+        raise SafeRewriteError("local raster island is missing bbox")
+    png_path = Path(str(asset.get("output_png") or ""))
+    href = href_for_asset(png_path, base_dir)
+    source_node_ids = [str(value) for value in (island.get("source_node_ids") or []) if str(value)]
+    image = ET.Element(f"{{{SVG_NS}}}image")
+    image.attrib[_slide_attr("role")] = "image"
+    image.attrib["href"] = href
+    image.attrib["x"] = _format_bbox_number(bbox[0])
+    image.attrib["y"] = _format_bbox_number(bbox[1])
+    image.attrib["width"] = _format_bbox_number(bbox[2])
+    image.attrib["height"] = _format_bbox_number(bbox[3])
+    image.attrib["data-svglide-raster-island"] = "true"
+    image.attrib["data-svglide-raster-reason"] = str(island.get("reason") or "unsupported-local-effect")
+    image.attrib["data-svglide-source-node-ids"] = ",".join(source_node_ids)
+    return image
+
+
+def rewrite_local_islands(root: ET.Element, islands: list[dict[str, object]], rendered_assets: list[dict[str, object]], base_dir: Path) -> None:
+    if len(islands) != len(rendered_assets):
+        raise SafeRewriteError("local raster island count does not match rendered asset count")
+    for island, asset in zip(islands, rendered_assets):
+        if island.get("kind") == "full-page":
+            continue
+        node = _find_node(root, [str(value) for value in (island.get("source_node_ids") or [])])
+        if node is None:
+            raise SafeRewriteError(f"raster island target not found: {island.get('source_node_ids')}")
+        parent_map = _parent_map(root)
+        parent = parent_map.get(node)
+        if parent is None:
+            raise SafeRewriteError("cannot replace SVG root with local raster island")
+        replacement = local_island_image_element(island, asset, base_dir)
+        children = list(parent)
+        index = children.index(node)
+        parent.remove(node)
+        parent.insert(index, replacement)
+    _remove_hard_defs(root)
+
+
 def _style_has_hard_props(style: str) -> bool:
     props = classifier.normalize_style(style)
     return any(classifier.is_hard_style_property(prop) for prop in props)
@@ -119,4 +205,8 @@ def rewrite_svg(svg: str, islands: list[dict[str, object]], rendered_assets: lis
         safe_svg = full_page_image_svg(svg, png_path, base_dir)
         validate_safe_subset_lightweight(safe_svg)
         return safe_svg
-    raise SafeRewriteError("only full-page safe rewrite is implemented in P0")
+    root = classifier.sanitize_or_reject(svg)
+    rewrite_local_islands(root, islands, rendered_assets, base_dir)
+    safe_svg = ET.tostring(root, encoding="unicode", short_empty_elements=True)
+    validate_safe_subset_lightweight(safe_svg)
+    return safe_svg

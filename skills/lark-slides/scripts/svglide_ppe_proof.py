@@ -27,6 +27,15 @@ CREATE_PROBE_OUTPUT = Path("07-create/ppe-create-probe.json")
 IMAGE_PROBE_OUTPUT = Path("07-create/ppe-image-probe.json")
 PROBE_DIR = Path("07-create/probes")
 LARK_CLI_COMMAND_ENV = "SVGLIDE_LARK_CLI_CMD"
+SVGLIDE_ERROR_MARKER = "SVGLIDE_ERROR_JSON"
+CREATE_PROBE_FAILURE_CLASSIFICATIONS = {
+    "ppe_proxy_unreachable",
+    "ppe_route_unverified",
+    "svg_parser_disabled",
+    "svg_parser_protocol_rejected",
+    "server_error_unstructured",
+}
+PPE_PROXY_ENV_KEYS = ("HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy")
 
 
 class PPEProofError(Exception):
@@ -70,6 +79,15 @@ def parse_json_or_none(text: str) -> Any:
 
 def repo_root() -> Path:
     return Path(__file__).resolve().parents[3]
+
+
+def repo_local_lark_cli_prefix() -> list[str] | None:
+    root = repo_root()
+    if not (root / "go.mod").exists():
+        return None
+    if not (root / "shortcuts" / "slides" / "slides_create_svg.go").exists():
+        return None
+    return ["env", f"GOCACHE={(root / '.gocache').as_posix()}", "go", "run", root.as_posix()]
 
 
 def resolve_declared_path(project: Path, raw_path: str) -> Path:
@@ -155,7 +173,7 @@ def lark_cli_command_prefix(proof: dict[str, Any]) -> list[str]:
         parsed = shlex.split(env_raw)
         if parsed:
             return parsed
-    return ["lark-cli"]
+    return repo_local_lark_cli_prefix() or ["lark-cli"]
 
 
 def ppe_profile_args() -> list[str]:
@@ -177,6 +195,15 @@ def probe_svg(role: str, *, image_href: str | None = None) -> str:
 </svg>'''
 
 
+def minimal_rect_probe_svg() -> str:
+    return '''<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" slide:contract-version="svglide-authoring-contract/v1" width="960" height="540" viewBox="0 0 960 540">
+  <metadata id="svglide-text-style-manifest" type="application/json">{"version":"svglide-satori-text-style/v1","items":{"probe-title":{"font_family":"Inter","font_size":28,"font_weight":700,"color":"#0F172A"}}}</metadata>
+  <rect slide:role="shape" x="72" y="72" width="240" height="160" fill="#38BDF8"/>
+  <line slide:role="line" x1="72" y1="264" x2="420" y2="264" stroke="#2563EB" stroke-width="4"/>
+  <text slide:role="text" data-svglide-text-style-id="probe-title" x="72" y="320" font-family="Inter" font-size="28" font-weight="700" fill="#0F172A">SVGlide create-svg probe</text>
+</svg>'''
+
+
 def write_probe_svg(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
@@ -186,13 +213,121 @@ def command_output_text(completed: subprocess.CompletedProcess[str]) -> str:
     return "\n".join(str(value or "") for value in [completed.stdout, completed.stderr])
 
 
+def proof_headers(proof: dict[str, Any]) -> dict[str, str]:
+    headers = proof.get("headers")
+    if not isinstance(headers, dict):
+        return {}
+    return {str(key): str(value) for key, value in headers.items() if isinstance(key, str) and isinstance(value, (str, int, float, bool))}
+
+
+def proof_target_host(proof: dict[str, Any]) -> str | None:
+    route = proof.get("route")
+    if isinstance(route, dict):
+        for key in ["target_host", "host"]:
+            value = route.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+    proxy = proof.get("proxy")
+    if isinstance(proxy, dict):
+        value = proxy.get("rewrite_host")
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return None
+
+
+def proof_proxy_urls(proof: dict[str, Any]) -> dict[str, str]:
+    proxy = proof.get("proxy")
+    if not isinstance(proxy, dict):
+        return {}
+    values: dict[str, str] = {}
+    http_proxy = proxy.get("http_proxy")
+    https_proxy = proxy.get("https_proxy")
+    if isinstance(http_proxy, str) and http_proxy.strip():
+        values["HTTP_PROXY"] = http_proxy.strip()
+        values["http_proxy"] = http_proxy.strip()
+    if isinstance(https_proxy, str) and https_proxy.strip():
+        values["HTTPS_PROXY"] = https_proxy.strip()
+        values["https_proxy"] = https_proxy.strip()
+    return values
+
+
+def subprocess_env_for_proof(proof: dict[str, Any], base: dict[str, str] | None = None) -> dict[str, str]:
+    env = dict(os.environ if base is None else base)
+    env.update(proof_proxy_urls(proof))
+    return env
+
+
+def proxy_runtime_evidence(proof: dict[str, Any], env: dict[str, str] | None = None) -> dict[str, Any]:
+    actual_env = os.environ if env is None else env
+    proxy_env = proof_proxy_urls(proof)
+    return {
+        "source": "ppe-proof.proxy",
+        "target_host": proof_target_host(proof),
+        "command_env_strategy": "inject proof proxy env into create-svg subprocess",
+        "proxy_env_overrides": {key: proxy_env[key] for key in PPE_PROXY_ENV_KEYS if key in proxy_env},
+        "ambient_proxy_env": {key: actual_env[key] for key in PPE_PROXY_ENV_KEYS if actual_env.get(key)},
+    }
+
+
+def contains_xml_lowering_marker(value: Any) -> bool:
+    if isinstance(value, dict):
+        for key, child in value.items():
+            lowered_key = str(key).lower()
+            if lowered_key in {"xml_lowering", "xml_fallback", "diagnostic_xml_lowering"} and child:
+                return True
+            if lowered_key in {"route", "mode", "lowering_mode", "fallback_route", "diagnostic_route"}:
+                if isinstance(child, str) and re.search(r"\b(xml_lowering|xml_fallback|sxsd_xml|xml_diagnostic)\b", child.lower()):
+                    return True
+            if contains_xml_lowering_marker(child):
+                return True
+    if isinstance(value, list):
+        return any(contains_xml_lowering_marker(item) for item in value)
+    if isinstance(value, str):
+        return bool(re.search(r"\b(xml_lowering|xml_fallback|sxsd_xml|xml diagnostic)\b", value.lower()))
+    return False
+
+
+def classify_create_probe_failure_text(text: str) -> str:
+    lower = text.lower()
+    if any(token in lower for token in ["connection refused", "proxyconnect", "failed to connect", "could not connect", "econnrefused"]):
+        return "ppe_proxy_unreachable"
+    if SVGLIDE_ERROR_MARKER.lower() in lower or "contract-version" in lower or "slide:role" in lower:
+        return "svg_parser_protocol_rejected"
+    if (
+        "svg parser disabled" in lower
+        or "svglide parser disabled" in lower
+        or "parser disabled" in lower
+        or "svg parser is disabled" in lower
+        or "unknown subcommand \"+create-svg\"" in lower
+        or "unknown command \"+create-svg\"" in lower
+    ):
+        return "svg_parser_disabled"
+    if (
+        "ppe route" in lower
+        or "ppe_profile" in lower
+        or "ppe profile" in lower
+        or "x-tt-env" in lower
+        or "x-use-ppe" in lower
+        or "pre_release" in lower
+        or "pre-release" in lower
+        or "whistle" in lower
+        or "nodeserver invalid param" in lower
+        or "invalid param" in lower
+    ):
+        return "ppe_route_unverified"
+    return "server_error_unstructured"
+
+
 def classify_create_probe(completed: subprocess.CompletedProcess[str]) -> tuple[str, dict[str, Any]]:
     text = command_output_text(completed)
-    if completed.returncode == 0:
+    parsed = parse_json_or_none(completed.stdout)
+    if completed.returncode == 0 and not contains_xml_lowering_marker(parsed) and not contains_xml_lowering_marker(text):
         return "create_route_passed", {"classification": "route_ok"}
-    detail: dict[str, Any] = {"classification": "create_route_error"}
-    if "5090000" in text:
-        detail["classification"] = "nodeserver_5090000"
+    detail: dict[str, Any] = {
+        "classification": "svg_parser_protocol_rejected" if completed.returncode == 0 else classify_create_probe_failure_text(text),
+    }
+    if completed.returncode == 0:
+        detail["diagnostic_only"] = "xml_lowering_fallback_detected"
     return "create_route_blocked", detail
 
 
@@ -256,25 +391,45 @@ def project_has_image_assets(project: Path) -> bool:
     return any("<image" in path.read_text(encoding="utf-8").lower() for path in prepared_dir.glob("*.svg"))
 
 
-def run_create_probe(project: Path, proof: dict[str, Any], *, command_runner=subprocess.run) -> dict[str, Any]:
+def run_create_probe(
+    project: Path,
+    proof: dict[str, Any],
+    *,
+    command_runner=subprocess.run,
+    dry_run: bool = True,
+    output: Path = CREATE_PROBE_OUTPUT,
+    title: str = "SVGlide PPE create probe",
+) -> dict[str, Any]:
     started_at = now_iso()
-    page_1 = project / PROBE_DIR / "ppe-create-page-001.svg"
-    page_2 = project / PROBE_DIR / "ppe-create-page-002.svg"
-    write_probe_svg(page_1, probe_svg("create route"))
-    write_probe_svg(page_2, probe_svg("append route"))
+    page = project / PROBE_DIR / "create-svg-capability-min-rect.svg"
+    write_probe_svg(page, minimal_rect_probe_svg())
+    probe_hash = file_sha256(page)
     command = (
         lark_cli_command_prefix(proof)
-        + ["slides", "+create-svg", "--as", "user", "--title", "SVGlide PPE create probe"]
+        + ["slides", "+create-svg", "--as", "user", "--title", title]
         + ppe_profile_args()
-        + ["--file", page_1.relative_to(project).as_posix(), "--file", page_2.relative_to(project).as_posix()]
+        + ["--file", page.relative_to(project).as_posix()]
     )
-    completed = command_runner(command, cwd=project, check=False, capture_output=True, text=True)
+    if dry_run:
+        command.append("--dry-run")
+    command_env = subprocess_env_for_proof(proof)
+    proxy_runtime = proxy_runtime_evidence(proof, command_env)
+    completed = command_runner(command, cwd=project, check=False, capture_output=True, text=True, env=command_env)
     status, detail = classify_create_probe(completed)
+    raw_server_error = command_output_text(completed)
+    classification = detail["classification"]
     result: dict[str, Any] = {
         "schema_version": "svglide-ppe-create-probe/v1",
         "status": status,
         "started_at": started_at,
         "ended_at": now_iso(),
+        "probe_kind": "minimal_rect",
+        "probe_hash": probe_hash,
+        "headers": proof_headers(proof),
+        "target_host": proof_target_host(proof),
+        "proxy_runtime": proxy_runtime,
+        "raw_server_error": raw_server_error,
+        "contains_svglide_error_json": SVGLIDE_ERROR_MARKER in raw_server_error,
         "command": command,
         "returncode": completed.returncode,
         "stdout": completed.stdout,
@@ -283,15 +438,21 @@ def run_create_probe(project: Path, proof: dict[str, Any], *, command_runner=sub
         "inputs": {
             "proof_input": PROOF_INPUT.as_posix(),
             "proof_input_sha256": file_sha256(project / PROOF_INPUT) if (project / PROOF_INPUT).exists() else None,
-            "probe_files": [page_1.relative_to(project).as_posix(), page_2.relative_to(project).as_posix()],
-            "probe_file_sha256": [file_sha256(page_1), file_sha256(page_2)],
+            "headers": proof_headers(proof),
+            "target_host": proof_target_host(proof),
+            "proxy_runtime": proxy_runtime,
+            "probe_file": page.relative_to(project).as_posix(),
+            "probe_hash": probe_hash,
+            "dry_run": dry_run,
+            "probe_files": [page.relative_to(project).as_posix()],
+            "probe_file_sha256": [probe_hash],
         },
         "summary": detail,
-        "issues": [] if status == "create_route_passed" else [issue(status, detail["classification"])],
+        "issues": [] if status == "create_route_passed" else [issue(classification, "create-svg minimal rect capability probe did not pass")],
     }
-    output = project / CREATE_PROBE_OUTPUT
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output_path = project / output
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return result
 
 
@@ -306,6 +467,7 @@ def run_image_probe(project: Path, proof: dict[str, Any], *, command_runner=subp
         command.extend(["--assets", assets_path.relative_to(project).as_posix()])
     command.extend(ppe_profile_args())
     command.extend(["--file", page.relative_to(project).as_posix()])
+    command.append("--dry-run")
     if not image_href:
         result: dict[str, Any] = {
             "schema_version": "svglide-ppe-image-probe/v1",
@@ -328,7 +490,9 @@ def run_image_probe(project: Path, proof: dict[str, Any], *, command_runner=subp
             "issues": [issue("image_meta_blocked", "image assets are present but no image href/token could be isolated")],
         }
     else:
-        completed = command_runner(command, cwd=project, check=False, capture_output=True, text=True)
+        command_env = subprocess_env_for_proof(proof)
+        proxy_runtime = proxy_runtime_evidence(proof, command_env)
+        completed = command_runner(command, cwd=project, check=False, capture_output=True, text=True, env=command_env)
         status, detail = classify_image_probe(completed)
         result = {
             "schema_version": "svglide-ppe-image-probe/v1",
@@ -340,6 +504,7 @@ def run_image_probe(project: Path, proof: dict[str, Any], *, command_runner=subp
             "stdout": completed.stdout,
             "stderr": completed.stderr,
             "json": parse_json_or_none(completed.stdout),
+            "proxy_runtime": proxy_runtime,
             "inputs": {
                 "assets_json": "03-assets/assets.json" if assets_path.exists() else None,
                 "assets_json_sha256": file_sha256(assets_path) if assets_path.exists() else None,
@@ -356,7 +521,13 @@ def run_image_probe(project: Path, proof: dict[str, Any], *, command_runner=subp
     return result
 
 
-def run_ppe_proof(project: Path, *, command_runner=subprocess.run) -> dict[str, Any]:
+def run_ppe_proof(
+    project: Path,
+    *,
+    command_runner=subprocess.run,
+    run_create_probe_check: bool = True,
+    run_image_probe_check: bool = True,
+) -> dict[str, Any]:
     project = project.resolve()
     started_at = now_iso()
     issues: list[dict[str, str]] = []
@@ -376,10 +547,15 @@ def run_ppe_proof(project: Path, *, command_runner=subprocess.run) -> dict[str, 
     create_probe: dict[str, Any] | None = None
     image_probe: dict[str, Any] | None = None
     image_probe_required = False
-    if not issues:
+    proxy_runtime = proxy_runtime_evidence(proof, subprocess_env_for_proof(proof)) if proof else {}
+    if not issues and run_create_probe_check:
         create_probe = run_create_probe(project, proof, command_runner=command_runner)
         if create_probe.get("status") != "create_route_passed":
-            issues.append(issue("ppe_create_probe_blocked", "ppe create probe did not pass"))
+            summary = create_probe.get("summary")
+            classification = summary.get("classification") if isinstance(summary, dict) else None
+            code = classification if classification in CREATE_PROBE_FAILURE_CLASSIFICATIONS else "server_error_unstructured"
+            issues.append(issue(code, "create-svg capability probe did not pass"))
+    if not issues and run_image_probe_check:
         image_probe_required = project_has_image_assets(project)
         if image_probe_required:
             image_probe = run_image_probe(project, proof, command_runner=command_runner)
@@ -405,6 +581,7 @@ def run_ppe_proof(project: Path, *, command_runner=subprocess.run) -> dict[str, 
             "image_probe_sha256": file_sha256(project / IMAGE_PROBE_OUTPUT) if (project / IMAGE_PROBE_OUTPUT).exists() else None,
         },
         "proof": proof,
+        "proxy_runtime": proxy_runtime,
         "ppe_create_probe": create_probe,
         "ppe_image_probe": image_probe,
         "summary": {"error_count": len(issues)},
@@ -426,6 +603,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Validate PPE/auth/proxy/header proof before SVGlide live create.")
     parser.add_argument("project")
     parser.add_argument("--pretty", action="store_true")
+    parser.add_argument("--proof-only", action="store_true", help="validate PPE proof inputs without running live-route probes")
     return parser
 
 
@@ -433,7 +611,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        result = run_ppe_proof(Path(args.project))
+        result = run_ppe_proof(
+            Path(args.project),
+            run_create_probe_check=not args.proof_only,
+            run_image_probe_check=not args.proof_only,
+        )
     except (OSError, PPEProofError) as error:
         print(f"svglide_ppe_proof: error: {error}", file=sys.stderr)
         return 2

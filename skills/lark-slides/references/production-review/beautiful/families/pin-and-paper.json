@@ -10,11 +10,11 @@
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/pin-and-paper.html",
     "render_status": "missing_smoke",
-    "sha256": "53d829d86d56b639ad226c0cac63c0809c47662796f9393128287b44d0017b72"
+    "sha256": "367d204e44ce8faf4f29dbe1a71bab1a60a55ff55ef688aafbb027d8f045491d"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "53d829d86d56b639ad226c0cac63c0809c47662796f9393128287b44d0017b72",
+    "contact_sheet": "367d204e44ce8faf4f29dbe1a71bab1a60a55ff55ef688aafbb027d8f045491d",
     "fidelity_receipt": "b6aa5696947e5fc7fcd633c340cea26e983956f97a0a54b72eb035818d6a3d76",
     "reference_screenshot": "35ff94a10d71d18318fa11e1c95fb6a32e2b1801ffff24ccc8e0f36afe187387",
     "smoke_receipt": null,
@@ -24,6 +24,9 @@
   "fidelity": {
     "receipt_path": "skills/lark-slides/references/receipts/template-fidelity/pin-and-paper.annotated-field-board.json",
     "receipt_sha256": "b6aa5696947e5fc7fcd633c340cea26e983956f97a0a54b72eb035818d6a3d76",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/annotated-field-board.preview.png",
+    "render_screenshot_sha256": "e2ee62867a84791a302b687db9be0a090326f31918cc6e86437f670778f52954",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/annotated-field-board.preview.png",
     "score": 0.8566,
     "status": "passed",
     "threshold": 0.72
@@ -41,6 +44,21 @@
     "selector_gate_missing",
     "source_core_roles_missing"
   ],
+  "legacy_renderer_fixture_sample": {
+    "artifact_kind": "legacy_renderer_fixture_sample",
+    "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/annotated-field-board.canvas-spec.json",
+    "golden_spec_sha256": "464efc4f161e8762018656dabedb60e5de0c03a61caa16e46fe0a72b9eb8d8f0",
+    "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
+    "reference_screenshot_sha256": "35ff94a10d71d18318fa11e1c95fb6a32e2b1801ffff24ccc8e0f36afe187387",
+    "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
+    "render_screenshot": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/annotated-field-board.preview.png",
+    "render_screenshot_sha256": "e2ee62867a84791a302b687db9be0a090326f31918cc6e86437f670778f52954",
+    "render_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/scripts/fixtures/svglide_artboard/golden/annotated-field-board.preview.png",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/annotated-field-board.mjs",
+    "runtime_template_id": "annotated-field-board",
+    "status": "available"
+  },
   "missing_roles": [
     "closing"
   ],
@@ -51,6 +69,32 @@
     "status": "missing"
   },
   "page_family_promotion_gate_status": "missing",
+  "page_family_representative_sample": {
+    "artifact_kind": "page_family_representative_sample",
+    "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.png",
+    "current_deck_browser_preview_kind": "resvg_png",
+    "current_deck_browser_preview_sha256": "7c17f632d29ac92c4ead74f3a2c2ac181f3267378ce31f4bcfd9922d6cba99dc",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.svg",
+    "current_deck_render_sha256": "32392de954510aa376f6bd67d8575f3495b1af1f0a9f8d963b99b7422cd095a5",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.svg",
+    "family_id": "pin-and-paper",
+    "golden_spec": null,
+    "golden_spec_sha256": null,
+    "page": 1,
+    "page_role": "cover",
+    "page_variant_id": "cover",
+    "role_group": "cover",
+    "runtime_template_id": "annotated-field-board",
+    "smoke_receipt": null,
+    "smoke_receipt_sha256": null,
+    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg",
+    "source_screenshot_sha256": "aae8270da87044d725a094ead51a6bd9ecca76866f397fcb02d2a55537f6e4a9",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg",
+    "source_slide_index": 1,
+    "status": "available"
+  },
   "page_variant_count": 11,
   "page_variant_coverage": {
     "agenda": {
@@ -416,8 +460,32 @@
       "page_role": "cover",
       "page_variant_id": "cover",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "7c17f632d29ac92c4ead74f3a2c2ac181f3267378ce31f4bcfd9922d6cba99dc",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.svg",
+          "sha256": "32392de954510aa376f6bd67d8575f3495b1af1f0a9f8d963b99b7422cd095a5",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -436,13 +504,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
+        "bytes": 75770,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": "35ff94a10d71d18318fa11e1c95fb6a32e2b1801ffff24ccc8e0f36afe187387",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png"
+        "sha256": "aae8270da87044d725a094ead51a6bd9ecca76866f397fcb02d2a55537f6e4a9",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg"
       },
       "source_slide_index": 1
     },
@@ -455,8 +525,32 @@
       "page_role": "agenda",
       "page_variant_id": "agenda",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "41bb5c34533ed0c2b137ce5b7f898da50c6000dd88434f307a1f0b9eb5db2bcc",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.svg",
+          "sha256": "00e2e1e20d6e260749717a5c74caf53a4157b12ea74a572d76f0dffa8065571c",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -477,14 +571,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-2.png",
+        "bytes": 100025,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/002-agenda.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/002-agenda.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "4066752f7b5b8eff33123ffc8d3282ba5a9ecd1787c70f8165f539ee67a2e122",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/002-agenda.jpg"
       },
       "source_slide_index": 2
     },
@@ -497,8 +592,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "notes",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "26a44696dbe66f51c75795b9c2865630beb89827c792beb89a6066e052c52a69",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.svg",
+          "sha256": "9275bfee91e87c85ee4fea5b12c5448c0ab570aff3d8f8fac2389a17daae4762",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -520,13 +639,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-3.png",
+        "bytes": 165732,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/003-notes.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-3.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/003-notes.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": "52f33f8157051935baccda101a653cfc946b69c4eb65c968e402284fd2411f80",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-3.png"
+        "sha256": "ee5f2ae0aa79914027e66280c528c13881f68896293d5c29c53b6a036377cad0",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/003-notes.jpg"
       },
       "source_slide_index": 3
     },
@@ -539,8 +660,32 @@
       "page_role": "content",
       "page_variant_id": "sec",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "a8ef8e0efbdd0617136f6e36537f192bc620ef9b2de3d7ae3a5254a63e8a75ec",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.svg",
+          "sha256": "392b910d9a343ccd3b6c6da5f9f9df0a62a9b260ce587a7102faec2f83e9b5d0",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -559,14 +704,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-4.png",
+        "bytes": 111583,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/004-sec.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/004-sec.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "5db592fd240e775fa0f705736b6f26d74d000e3b6993126d5f671bb2f71f3cd2",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/004-sec.jpg"
       },
       "source_slide_index": 4
     },
@@ -579,8 +725,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "notice",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "7f9d2160f4e5dd3c575257d8e2e707f3aa98c01d3f01ea2a77bf6628fa432a77",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.svg",
+          "sha256": "6f3ee69f10c824a266ec1c0fd5372965fbb3f1723f188ae448b5ebdd52cf78ad",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -603,14 +773,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-5.png",
+        "bytes": 253991,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/005-notice.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/005-notice.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "2291a9a54bde3e79a52ab84d0b1438f6eaef865a283ce10a9a3a4457d1cceb55",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/005-notice.jpg"
       },
       "source_slide_index": 5
     },
@@ -623,8 +794,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "chart",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "b97f3d57fcb8c75d458715c7e06f5f206477a8293a7a6fad804a42f11427c590",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.svg",
+          "sha256": "69d40b9c36319fe726df8e2c821c387d56cff14dd33c53f8beb9f15b9849ca55",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -645,14 +840,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-6.png",
+        "bytes": 161131,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/006-chart.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/006-chart.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "d674a1facacff18046a83ae0e8872b4c3419a47d739e6d1acd3c6dac6f248093",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/006-chart.jpg"
       },
       "source_slide_index": 6
     },
@@ -665,8 +861,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "process",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "a0714b2f1adad5348fe16a0c4b04e8a3b1d8df2f4c7930064ec8e52cbaaf4e26",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.svg",
+          "sha256": "a401707ecf6a8dae447ff3bf3a55e213ea71a8b1d4a364ae1f284099dbdcd15a",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -688,14 +908,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-7.png",
+        "bytes": 175356,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/007-process.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/007-process.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "06fb9a5a788c8f7b52a265dd07b64b9590b8559f8346fd3fc7cbb49c56af2817",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/007-process.jpg"
       },
       "source_slide_index": 7
     },
@@ -708,8 +929,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "matrix",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "12b67859de53e30d6d0c00bb54f868b9526fa2c4f691ab1bda07f90d87bb12a6",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.svg",
+          "sha256": "ed98840018749547b0a06cf2b1f7387745a3827816f725f22929c74bdd089ae8",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -730,14 +975,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-8.png",
+        "bytes": 145052,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/008-matrix.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/008-matrix.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "fea791aa70e4eb224937cebfe28d35f49fb9e55507e62bc3f038142dc08fee7c",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/008-matrix.jpg"
       },
       "source_slide_index": 8
     },
@@ -750,8 +996,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "stats",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "8a811c8ab4df2268e70894be2cd008db9d1376de4b62e864bbcf8bade5fe7855",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.svg",
+          "sha256": "1c7fde1c4804318c147460c47ca148e2776bd1361a9b73af007277ec2ad044b3",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -774,14 +1044,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-9.png",
+        "bytes": 144676,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/009-stats.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/009-stats.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "860877e5d48087de8a72c2b1a787720544d5ff8d2bdf8a263a60d13e650e340b",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/009-stats.jpg"
       },
       "source_slide_index": 9
     },
@@ -794,8 +1065,32 @@
       "page_role": "quote_or_emphasis",
       "page_variant_id": "quote",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "993d06cfa937d1bc2c4009caf1a9f35e0fc2d42613f5da120f31b2efe65f4a96",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.svg",
+          "sha256": "01769e2946aa96598ac0ca0a58225c25dc0c8455152382e8efa9803049eec5cd",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -815,14 +1110,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-10.png",
+        "bytes": 116469,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/010-quote.jpg",
         "fallback_used": false,
-        "missing_reason": "source_screenshot_missing_for_slide",
-        "path": null,
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/010-quote.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": null,
-        "status": "missing",
-        "uri": null
+        "sha256": "c774957ab41a41685c843b4c98a8a079bef0aba08bf0d60f9a41f09081816acf",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/010-quote.jpg"
       },
       "source_slide_index": 10
     },
@@ -835,8 +1131,32 @@
       "page_role": "process_or_timeline",
       "page_variant_id": "cta",
       "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "728fbedc86415295211d1e5e89a00604775ab0c0f2dcf1b9edbd5d635e028543",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": true,
+          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+          "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.svg",
+          "sha256": "38959d8ec8910ad8c04ed6f3b87564af686bc9ac5b6f96eaeddb4ae6cfbe6b3c",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.svg"
+        },
         "golden_spec": null,
         "golden_spec_sha256": null,
+        "render_preview": {
+          "expected_from_golden_spec": null,
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
         "render_status": "missing_smoke",
         "smoke_receipt": null,
         "smoke_receipt_sha256": null
@@ -858,13 +1178,15 @@
         }
       ],
       "source_screenshot": {
-        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-11.png",
+        "bytes": 148523,
+        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/011-cta.jpg",
         "fallback_used": false,
-        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-11.png",
+        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/011-cta.jpg",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-        "sha256": "0800cfca8ff446064ef7d07197aa6625320ee9ae30883a8a7f1ead5c5507dbe2",
-        "status": "exact",
-        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-11.png"
+        "sha256": "359569fd789f342db15d8cd470aa60d69236ea4cd81e39797d256d3808227e07",
+        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+        "status": "generated_from_template_html",
+        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/011-cta.jpg"
       },
       "source_slide_index": 11
     }
@@ -996,8 +1318,32 @@
         "page_role": "cover",
         "page_variant_id": "cover",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "7c17f632d29ac92c4ead74f3a2c2ac181f3267378ce31f4bcfd9922d6cba99dc",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.svg",
+            "sha256": "32392de954510aa376f6bd67d8575f3495b1af1f0a9f8d963b99b7422cd095a5",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-001-cover.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1016,13 +1362,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
+          "bytes": 75770,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": "35ff94a10d71d18318fa11e1c95fb6a32e2b1801ffff24ccc8e0f36afe187387",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png"
+          "sha256": "aae8270da87044d725a094ead51a6bd9ecca76866f397fcb02d2a55537f6e4a9",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/001-cover.jpg"
         },
         "source_slide_index": 1
       },
@@ -1035,8 +1383,32 @@
         "page_role": "agenda",
         "page_variant_id": "agenda",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "41bb5c34533ed0c2b137ce5b7f898da50c6000dd88434f307a1f0b9eb5db2bcc",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.svg",
+            "sha256": "00e2e1e20d6e260749717a5c74caf53a4157b12ea74a572d76f0dffa8065571c",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-002-agenda.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1057,14 +1429,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-2.png",
+          "bytes": 100025,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/002-agenda.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/002-agenda.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "4066752f7b5b8eff33123ffc8d3282ba5a9ecd1787c70f8165f539ee67a2e122",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/002-agenda.jpg"
         },
         "source_slide_index": 2
       },
@@ -1077,8 +1450,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "notes",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "26a44696dbe66f51c75795b9c2865630beb89827c792beb89a6066e052c52a69",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.svg",
+            "sha256": "9275bfee91e87c85ee4fea5b12c5448c0ab570aff3d8f8fac2389a17daae4762",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-003-notes.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1100,13 +1497,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-3.png",
+          "bytes": 165732,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/003-notes.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-3.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/003-notes.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": "52f33f8157051935baccda101a653cfc946b69c4eb65c968e402284fd2411f80",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-3.png"
+          "sha256": "ee5f2ae0aa79914027e66280c528c13881f68896293d5c29c53b6a036377cad0",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/003-notes.jpg"
         },
         "source_slide_index": 3
       },
@@ -1119,8 +1518,32 @@
         "page_role": "content",
         "page_variant_id": "sec",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "a8ef8e0efbdd0617136f6e36537f192bc620ef9b2de3d7ae3a5254a63e8a75ec",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.svg",
+            "sha256": "392b910d9a343ccd3b6c6da5f9f9df0a62a9b260ce587a7102faec2f83e9b5d0",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-004-sec.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1139,14 +1562,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-4.png",
+          "bytes": 111583,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/004-sec.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/004-sec.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "5db592fd240e775fa0f705736b6f26d74d000e3b6993126d5f671bb2f71f3cd2",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/004-sec.jpg"
         },
         "source_slide_index": 4
       },
@@ -1159,8 +1583,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "notice",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "7f9d2160f4e5dd3c575257d8e2e707f3aa98c01d3f01ea2a77bf6628fa432a77",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.svg",
+            "sha256": "6f3ee69f10c824a266ec1c0fd5372965fbb3f1723f188ae448b5ebdd52cf78ad",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-005-notice.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1183,14 +1631,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-5.png",
+          "bytes": 253991,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/005-notice.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/005-notice.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "2291a9a54bde3e79a52ab84d0b1438f6eaef865a283ce10a9a3a4457d1cceb55",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/005-notice.jpg"
         },
         "source_slide_index": 5
       },
@@ -1203,8 +1652,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "chart",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "b97f3d57fcb8c75d458715c7e06f5f206477a8293a7a6fad804a42f11427c590",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.svg",
+            "sha256": "69d40b9c36319fe726df8e2c821c387d56cff14dd33c53f8beb9f15b9849ca55",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-006-chart.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1225,14 +1698,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-6.png",
+          "bytes": 161131,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/006-chart.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/006-chart.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "d674a1facacff18046a83ae0e8872b4c3419a47d739e6d1acd3c6dac6f248093",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/006-chart.jpg"
         },
         "source_slide_index": 6
       },
@@ -1245,8 +1719,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "process",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "a0714b2f1adad5348fe16a0c4b04e8a3b1d8df2f4c7930064ec8e52cbaaf4e26",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.svg",
+            "sha256": "a401707ecf6a8dae447ff3bf3a55e213ea71a8b1d4a364ae1f284099dbdcd15a",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-007-process.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1268,14 +1766,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-7.png",
+          "bytes": 175356,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/007-process.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/007-process.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "06fb9a5a788c8f7b52a265dd07b64b9590b8559f8346fd3fc7cbb49c56af2817",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/007-process.jpg"
         },
         "source_slide_index": 7
       },
@@ -1288,8 +1787,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "matrix",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "12b67859de53e30d6d0c00bb54f868b9526fa2c4f691ab1bda07f90d87bb12a6",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.svg",
+            "sha256": "ed98840018749547b0a06cf2b1f7387745a3827816f725f22929c74bdd089ae8",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-008-matrix.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1310,14 +1833,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-8.png",
+          "bytes": 145052,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/008-matrix.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/008-matrix.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "fea791aa70e4eb224937cebfe28d35f49fb9e55507e62bc3f038142dc08fee7c",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/008-matrix.jpg"
         },
         "source_slide_index": 8
       },
@@ -1330,8 +1854,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "stats",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "8a811c8ab4df2268e70894be2cd008db9d1376de4b62e864bbcf8bade5fe7855",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.svg",
+            "sha256": "1c7fde1c4804318c147460c47ca148e2776bd1361a9b73af007277ec2ad044b3",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-009-stats.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1354,14 +1902,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-9.png",
+          "bytes": 144676,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/009-stats.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/009-stats.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "860877e5d48087de8a72c2b1a787720544d5ff8d2bdf8a263a60d13e650e340b",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/009-stats.jpg"
         },
         "source_slide_index": 9
       },
@@ -1374,8 +1923,32 @@
         "page_role": "quote_or_emphasis",
         "page_variant_id": "quote",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "993d06cfa937d1bc2c4009caf1a9f35e0fc2d42613f5da120f31b2efe65f4a96",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.svg",
+            "sha256": "01769e2946aa96598ac0ca0a58225c25dc0c8455152382e8efa9803049eec5cd",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-010-quote.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1395,14 +1968,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-10.png",
+          "bytes": 116469,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/010-quote.jpg",
           "fallback_used": false,
-          "missing_reason": "source_screenshot_missing_for_slide",
-          "path": null,
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/010-quote.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": null,
-          "status": "missing",
-          "uri": null
+          "sha256": "c774957ab41a41685c843b4c98a8a079bef0aba08bf0d60f9a41f09081816acf",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/010-quote.jpg"
         },
         "source_slide_index": 10
       },
@@ -1415,8 +1989,32 @@
         "page_role": "process_or_timeline",
         "page_variant_id": "cta",
         "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "728fbedc86415295211d1e5e89a00604775ab0c0f2dcf1b9edbd5d635e028543",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": true,
+            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/manifest.json",
+            "manifest_sha256": "95ba2c82c32a362e9617b29c7b64d9e98089458f151e9b6dd2c1187075d3d53d",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.svg",
+            "sha256": "38959d8ec8910ad8c04ed6f3b87564af686bc9ac5b6f96eaeddb4ae6cfbe6b3c",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pin-and-paper/page-011-cta.svg"
+          },
           "golden_spec": null,
           "golden_spec_sha256": null,
+          "render_preview": {
+            "expected_from_golden_spec": null,
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
           "render_status": "missing_smoke",
           "smoke_receipt": null,
           "smoke_receipt_sha256": null
@@ -1438,13 +2036,15 @@
           }
         ],
         "source_screenshot": {
-          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-11.png",
+          "bytes": 148523,
+          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/011-cta.jpg",
           "fallback_used": false,
-          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-11.png",
+          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/011-cta.jpg",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-1.png",
-          "sha256": "0800cfca8ff446064ef7d07197aa6625320ee9ae30883a8a7f1ead5c5507dbe2",
-          "status": "exact",
-          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/pin-and-paper-11.png"
+          "sha256": "359569fd789f342db15d8cd470aa60d69236ea4cd81e39797d256d3808227e07",
+          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/pin-and-paper/template.html",
+          "status": "generated_from_template_html",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pin-and-paper/011-cta.jpg"
         },
         "source_slide_index": 11
       }
