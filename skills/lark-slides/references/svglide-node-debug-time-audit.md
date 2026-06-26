@@ -114,7 +114,7 @@ Status conventions:
 | `preflight` bbox / text backing false positives | Partially fixed | Bbox extraction and light-text backing checks were adjusted. Needs broader fixture coverage for path, clip, mask, and backing cases. | `svg_preflight.py`; current deck preflight passed. |
 | `readback business_claims` checked unsubmitted metadata | Fixed in code | When prepared SVG exists, business claims are filtered to claims visible in submitted SVG text. `core_visible_text` remains the main visible-text guard. | `svglide_readback.py`; test in `svglide_readback_test.py`. |
 | PPE route and live create | Evidence passed; optimization open | `live_create` used `--ppe-profile ppe_pure_svg` and injected proxy env. Long-term optimization: cache successful capability probe by proof and probe-file hash. | `live-create.json`, `ppe-proof.input.json`; `create_svg_capability_probe` passed. |
-| Agent/debug time invisibility | Open | Add agent-side timing buckets for code inspection, patching, unit tests, state cleanup, approval wait, and rerun time. Runner timing alone underreports real time. | New instrumentation needed outside `state.json`. |
+| Agent/debug time invisibility | Partially fixed in code | Runner now writes `06-check/debug-time-audit.json` beside `timing-report.json`, separating runner execution time, between-event gaps, instrumented debug buckets, and still-uninstrumented gap time. Full automatic agent bucket capture remains open. | `svglide_project_runner.py`; `svglide_project_runner_test.py` covers gap separation. |
 
 ## Resolved vs Remaining
 
@@ -131,7 +131,7 @@ Status conventions:
 - Composite gate child stale ownership is less risky after stale-child rerun support, but richer diagnostics and child-output ownership tests are still needed.
 - `generate_svg` has a clearer input boundary now; full cache reuse and renderer/template dependency hashing remain open.
 - Preflight needs a broader false-positive fixture suite.
-- Agent/debug time is not directly instrumented.
+- Debug-time audit now separates runner time from between-event gaps; automatic agent bucket capture is still open.
 - Template promotion fidelity and current deck publish fidelity now have separate receipts for the warning path; remaining work is naming/docs cleanup and any UI/report surfacing.
 
 ## Recommended TDD Follow-Up
@@ -207,6 +207,7 @@ Green:
   - `approval_wait`
   - `rerun_wait`
 - Write them to a separate `debug-time-audit.json` so runtime receipts remain clean.
+- Completed first slice: `debug-time-audit.json` is generated from timing events and optional `debug_time_events`, with explicit uninstrumented gap accounting.
 
 Validation:
 

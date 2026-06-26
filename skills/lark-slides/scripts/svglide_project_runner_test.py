@@ -1375,6 +1375,48 @@ class SVGlideProjectRunnerTest(unittest.TestCase):
             self.assertEqual(report["schema_version"], "svglide-timing-report/v1")
             self.assertEqual(report["stage_attempts"]["plan"], 1)
             self.assertEqual(report["sla"]["profile"], "preview_only")
+            debug_audit = json.loads((project_root / "06-check/debug-time-audit.json").read_text(encoding="utf-8"))
+            self.assertEqual(debug_audit["schema_version"], "svglide-debug-time-audit/v1")
+            self.assertEqual(debug_audit["runner_total_wall_time_seconds"], report["total_wall_time_seconds"])
+            self.assertIn("runner timing is execution-only", debug_audit["claim_boundary"])
+
+    def test_debug_time_audit_separates_runner_time_from_between_event_gaps(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            plan_root = Path(tmpdir) / ".lark-slides/plan"
+            result = runner.init_project("smoke", "Smoke", plan_root=plan_root)
+            project_root = Path(result["project_root"])
+            state = runner.load_state(project_root)
+            state["profile"] = "preview_only"
+            state["timing_events"] = [
+                {
+                    "stage": "plan",
+                    "attempt": 1,
+                    "status": "passed",
+                    "started_at": "2026-06-27T10:00:00+08:00",
+                    "ended_at": "2026-06-27T10:00:02+08:00",
+                    "wall_time_seconds": 2.0,
+                },
+                {
+                    "stage": "quality_gate",
+                    "attempt": 1,
+                    "status": "passed",
+                    "started_at": "2026-06-27T10:00:32+08:00",
+                    "ended_at": "2026-06-27T10:00:35+08:00",
+                    "wall_time_seconds": 3.0,
+                },
+            ]
+            state["debug_time_events"] = [{"bucket": "patch", "wall_time_seconds": 5.0}]
+
+            report = runner.write_timing_report(project_root, state)
+
+            audit = json.loads((project_root / "06-check/debug-time-audit.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["total_wall_time_seconds"], 5.0)
+            self.assertEqual(audit["observed_runner_span_seconds"], 35.0)
+            self.assertEqual(audit["between_runner_event_gap_seconds"], 30.0)
+            self.assertEqual(audit["instrumented_debug_time_seconds"], 5.0)
+            self.assertEqual(audit["uninstrumented_gap_seconds"], 25.0)
+            self.assertEqual(audit["material_gaps"][0]["after_stage"], "plan")
+            self.assertEqual(audit["material_gaps"][0]["before_stage"], "quality_gate")
 
     def test_collect_errors_stops_before_render_and_writes_structured_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -636,6 +636,10 @@ def timing_receipt_path(project_root: Path) -> Path:
     return project_root / "receipts" / "timing.json"
 
 
+def debug_time_audit_path(project_root: Path) -> Path:
+    return project_root / "06-check" / "debug-time-audit.json"
+
+
 def stage_attempt(events: list[dict[str, Any]], stage: str) -> int:
     return sum(1 for event in events if event.get("stage") == stage) + 1
 
@@ -697,6 +701,63 @@ def build_script_hashes(command: list[str] | None) -> dict[str, str]:
     return hashes
 
 
+def write_debug_time_audit(project_root: Path, state: dict[str, Any], timing_report: dict[str, Any]) -> dict[str, Any]:
+    events = [event for event in state.get("timing_events", []) if isinstance(event, dict)]
+    parsed_events: list[tuple[datetime, datetime, dict[str, Any]]] = []
+    for event in events:
+        started = parse_iso_seconds(event.get("started_at") if isinstance(event.get("started_at"), str) else None)
+        ended = parse_iso_seconds(event.get("ended_at") if isinstance(event.get("ended_at"), str) else None)
+        if started and ended:
+            parsed_events.append((started, ended, event))
+    parsed_events.sort(key=lambda item: item[0])
+    gap_threshold = 10.0
+    material_gaps: list[dict[str, Any]] = []
+    total_gap = 0.0
+    observed_span = 0.0
+    if parsed_events:
+        observed_span = max(0.0, (max(item[1] for item in parsed_events) - min(item[0] for item in parsed_events)).total_seconds())
+        previous_end = parsed_events[0][1]
+        previous_stage = parsed_events[0][2].get("stage")
+        for started, ended, event in parsed_events[1:]:
+            gap = max(0.0, (started - previous_end).total_seconds())
+            total_gap += gap
+            if gap >= gap_threshold:
+                material_gaps.append(
+                    {
+                        "after_stage": previous_stage,
+                        "before_stage": event.get("stage"),
+                        "gap_seconds": round(gap, 3),
+                        "classification": "uninstrumented_between_runner_events",
+                    }
+                )
+            if ended > previous_end:
+                previous_end = ended
+                previous_stage = event.get("stage")
+    debug_events = [event for event in state.get("debug_time_events", []) if isinstance(event, dict)]
+    debug_buckets: dict[str, float] = {}
+    for event in debug_events:
+        bucket = event.get("bucket")
+        seconds = event.get("wall_time_seconds")
+        if isinstance(bucket, str) and isinstance(seconds, (int, float)):
+            debug_buckets[bucket] = round(debug_buckets.get(bucket, 0.0) + float(seconds), 3)
+    debug_total = round(sum(debug_buckets.values()), 3)
+    runner_total = float(timing_report.get("total_wall_time_seconds") or 0.0)
+    payload = {
+        "schema_version": "svglide-debug-time-audit/v1",
+        "runner_total_wall_time_seconds": round(runner_total, 3),
+        "observed_runner_span_seconds": round(observed_span, 3),
+        "between_runner_event_gap_seconds": round(total_gap, 3),
+        "instrumented_debug_time_seconds": debug_total,
+        "uninstrumented_gap_seconds": round(max(0.0, total_gap - debug_total), 3),
+        "gap_threshold_seconds": gap_threshold,
+        "debug_bucket_runtime_seconds": debug_buckets,
+        "material_gaps": material_gaps,
+        "claim_boundary": "runner timing is execution-only; between-event gaps may include agent inspection, patching, tests, approval wait, idle time, or context switching",
+    }
+    write_json(debug_time_audit_path(project_root), payload)
+    return payload
+
+
 def write_timing_report(project_root: Path, state: dict[str, Any]) -> dict[str, Any]:
     events = state.get("timing_events") if isinstance(state.get("timing_events"), list) else []
     stage_runtime: dict[str, float] = {}
@@ -740,6 +801,7 @@ def write_timing_report(project_root: Path, state: dict[str, Any]) -> dict[str, 
         payload["cache"] = cache
     write_json(timing_report_path(project_root), payload)
     write_json(timing_receipt_path(project_root), payload)
+    write_debug_time_audit(project_root, state, payload)
     return payload
 
 
