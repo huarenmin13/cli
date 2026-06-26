@@ -508,6 +508,13 @@ class SVGlideProjectRunnerTest(unittest.TestCase):
                 {"layout_main_region_misaligned", "structure_similarity_below_threshold"},
             )
             self.assertEqual(fidelity_receipt["scope"], "page_family")
+            current_deck_integrity = json.loads((project_root / "06-check/current-deck-visual-integrity.json").read_text(encoding="utf-8"))
+            self.assertEqual(current_deck_integrity["status"], "passed")
+            self.assertEqual(current_deck_integrity["scope"], "current_deck_publish")
+            self.assertEqual(current_deck_integrity["template_promotion_status"], "not_passed")
+            self.assertEqual(current_deck_integrity["template_promotion_fidelity_ref"], "06-check/template-fidelity.json")
+            self.assertEqual(current_deck_integrity["page_family_smoke_ref"], "06-check/page-family-smoke.json")
+            self.assertIn("not standalone evidence", current_deck_integrity["claim_boundary"])
 
     def test_quality_gate_stage_inputs_include_page_family_smoke_for_beautiful_default_family(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -64,6 +64,7 @@ SELECTION_CHECKS = [
 ARTBOARD_PACKAGE_CHECK = ("artboard-package-check", CHECK_DIR / "artboard-package-check.json")
 CHART_VERIFY_CHECK = ("chart-verify", CHECK_DIR / "chart-verify.json")
 TEMPLATE_FIDELITY_CHECK = ("template-fidelity", CHECK_DIR / "template-fidelity.json")
+CURRENT_DECK_VISUAL_INTEGRITY_CHECK = ("current-deck-visual-integrity", CHECK_DIR / "current-deck-visual-integrity.json")
 SNAPSHOT_VISUAL_FIDELITY_CHECK = ("snapshot-visual-fidelity", CHECK_DIR / "visual-fidelity/manifest.json")
 PAGE_FAMILY_SMOKE_CHECK = (
     beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_CHECK_NAME,
@@ -1208,6 +1209,77 @@ def load_template_fidelity_check(project: Path, *, profile: str) -> dict[str, An
     return check
 
 
+def template_fidelity_requires_current_deck_integrity(project: Path, *, profile: str) -> bool:
+    if profile not in STRICT_PROFILES:
+        return False
+    path = project / TEMPLATE_FIDELITY_CHECK[1]
+    if not path.exists():
+        return False
+    payload = read_json_optional(project, TEMPLATE_FIDELITY_CHECK[1])
+    return payload.get("status") == "passed_with_warnings"
+
+
+def load_current_deck_visual_integrity_check(project: Path, *, required: bool, profile: str) -> dict[str, Any]:
+    name, rel = CURRENT_DECK_VISUAL_INTEGRITY_CHECK
+    path = project / rel
+    check: dict[str, Any] = {
+        "name": name,
+        "path": rel.as_posix(),
+        "required": required,
+        "status": "missing" if not path.exists() else "failed",
+        "error_count": None,
+        "action": None,
+        "waivers": [],
+        "issues": [],
+    }
+    if not path.exists():
+        if required:
+            check["issues"].append(
+                issue(
+                    "current_deck_visual_integrity_missing",
+                    "template fidelity warning requires current deck visual integrity evidence",
+                )
+            )
+        else:
+            check["status"] = "skipped"
+            check["error_count"] = 0
+        return check
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        check["issues"].append(issue("current_deck_visual_integrity_invalid_json", f"could not read current deck visual integrity JSON: {error}"))
+        check["error_count"] = len(check["issues"])
+        return check
+    if payload.get("status") != "passed":
+        check["issues"].append(issue("current_deck_visual_integrity_failed", "current deck visual integrity receipt status must be passed"))
+    if payload.get("scope") != "current_deck_publish":
+        check["issues"].append(issue("current_deck_visual_integrity_scope_invalid", "current deck visual integrity scope must be current_deck_publish"))
+    template_ref = payload.get("template_promotion_fidelity_ref")
+    if not isinstance(template_ref, str) or not template_ref:
+        check["issues"].append(issue("current_deck_visual_integrity_template_ref_missing", "current deck visual integrity must reference template fidelity receipt"))
+    else:
+        actual = optional_file_sha256(project, Path(template_ref))
+        if actual is None:
+            check["issues"].append(issue("current_deck_visual_integrity_template_ref_missing", "template fidelity receipt referenced by current deck integrity is missing"))
+        elif payload.get("template_promotion_fidelity_sha256") != actual:
+            check["issues"].append(issue("current_deck_visual_integrity_template_ref_stale", "template fidelity hash in current deck integrity is stale"))
+    smoke_ref = payload.get("page_family_smoke_ref")
+    if not isinstance(smoke_ref, str) or not smoke_ref:
+        check["issues"].append(issue("current_deck_visual_integrity_smoke_ref_missing", "current deck visual integrity must reference page-family smoke receipt"))
+    else:
+        actual = optional_file_sha256(project, Path(smoke_ref))
+        if actual is None:
+            check["issues"].append(issue("current_deck_visual_integrity_smoke_ref_missing", "page-family smoke receipt referenced by current deck integrity is missing"))
+        elif payload.get("page_family_smoke_sha256") != actual:
+            check["issues"].append(issue("current_deck_visual_integrity_smoke_ref_stale", "page-family smoke hash in current deck integrity is stale"))
+    if payload.get("template_promotion_status") == "not_passed" and not payload.get("claim_boundary"):
+        check["issues"].append(issue("current_deck_visual_integrity_claim_boundary_missing", "non-promoted template must declare current deck claim boundary"))
+    check["error_count"] = len(check["issues"])
+    check["action"] = PASS_ACTION if not check["issues"] else "repair_and_rerun"
+    check["status"] = "failed" if check["issues"] else "passed"
+    return check
+
+
 def _page_family_smoke_input_hash(project: Path, raw: Any) -> str | None:
     if not isinstance(raw, str) or not raw:
         return None
@@ -1473,6 +1545,8 @@ def run_quality_gate(project: Path, *, profile: str = PRODUCTION_PROFILE) -> dic
     checks.extend(load_check(project, name, rel, required=selection_checks_required, profile=profile) for name, rel in SELECTION_CHECKS)
     template_fidelity_required = profile in STRICT_PROFILES and bool(selected_template_ids(project))
     checks.append(load_template_fidelity_check(project, profile=profile))
+    current_deck_visual_integrity_required = template_fidelity_requires_current_deck_integrity(project, profile=profile)
+    checks.append(load_current_deck_visual_integrity_check(project, required=current_deck_visual_integrity_required, profile=profile))
     generation_mode = generator_generation_mode(project)
     conditional_checks: list[tuple[str, Path]] = []
     if generation_mode == "artboard_satori":
@@ -1514,6 +1588,7 @@ def run_quality_gate(project: Path, *, profile: str = PRODUCTION_PROFILE) -> dic
         + THEME_REQUIRED_CHECKS
         + active_selection_checks
         + [TEMPLATE_FIDELITY_CHECK]
+        + ([CURRENT_DECK_VISUAL_INTEGRITY_CHECK] if current_deck_visual_integrity_required or (project / CURRENT_DECK_VISUAL_INTEGRITY_CHECK[1]).exists() else [])
         + conditional_checks
         + ([CHART_VERIFY_CHECK] if chart_required else [])
         + OPTIONAL_CHECKS
@@ -1523,6 +1598,8 @@ def run_quality_gate(project: Path, *, profile: str = PRODUCTION_PROFILE) -> dic
         required_input_names.update(item[0] for item in SELECTION_CHECKS)
     if template_fidelity_required:
         required_input_names.add(TEMPLATE_FIDELITY_CHECK[0])
+    if current_deck_visual_integrity_required:
+        required_input_names.add(CURRENT_DECK_VISUAL_INTEGRITY_CHECK[0])
     result = {
         "version": "svglide-quality-gate/v1",
         "project": str(project),

@@ -221,6 +221,37 @@ def write_page_family_smoke_receipt(
     write_json(project / "receipts/page-family-smoke.json", payload)
 
 
+def write_current_deck_visual_integrity_receipt(
+    project: Path,
+    *,
+    status: str = "passed",
+    template_promotion_status: str = "not_passed",
+) -> None:
+    payload = {
+        "schema_version": "svglide-current-deck-visual-integrity/v1",
+        "stage": "current_deck_visual_integrity",
+        "status": status,
+        "scope": "current_deck_publish",
+        "selected_family_id": "blue-professional",
+        "selected_template_id": "executive-dashboard",
+        "selected_theme_id": "blue-professional",
+        "production_selectable": False,
+        "page_family_smoke_ref": "06-check/page-family-smoke.json",
+        "page_family_smoke_sha256": svglide_quality_gate.file_sha256(project / "06-check/page-family-smoke.json"),
+        "template_promotion_fidelity_ref": "06-check/template-fidelity.json",
+        "template_promotion_fidelity_sha256": svglide_quality_gate.file_sha256(project / "06-check/template-fidelity.json"),
+        "template_promotion_status": template_promotion_status,
+        "score": 0.69,
+        "threshold": 0.72,
+        "warning_threshold": 0.62,
+        "warning_issues": [{"code": "structure_similarity_below_threshold", "message": "below promotion threshold"}],
+        "claim_boundary": "current deck publish evidence only; not template promotion evidence",
+        "issues": [],
+    }
+    write_json(project / "06-check/current-deck-visual-integrity.json", payload)
+    write_json(project / "receipts/current-deck-visual-integrity.json", payload)
+
+
 def write_passing_semantic_review(project: Path) -> None:
     (project / "02-plan").mkdir(parents=True, exist_ok=True)
     (project / "source").mkdir(parents=True, exist_ok=True)
@@ -1193,6 +1224,7 @@ class SVGlideQualityGateTest(unittest.TestCase):
             write_json(receipt_path, receipt)
             write_json(project / "receipts/template-fidelity.json", receipt)
             write_page_family_smoke_receipt(project)
+            write_current_deck_visual_integrity_receipt(project)
 
             result = svglide_quality_gate.run_quality_gate(project, profile="production")
 
@@ -1200,6 +1232,37 @@ class SVGlideQualityGateTest(unittest.TestCase):
         template_check = checks["template-fidelity"]
         self.assertEqual(template_check["status"], "passed", template_check["issues"])
         self.assertNotIn("template_fidelity_score_below_threshold", {item["code"] for item in template_check["issues"]})
+        self.assertEqual(checks["current-deck-visual-integrity"]["status"], "passed", checks["current-deck-visual-integrity"]["issues"])
+
+    def test_production_quality_gate_rejects_template_fidelity_warning_without_current_deck_integrity(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_selected_beautiful_page_family_plan(project)
+            self.write_minimal_passing_project(project)
+            write_template_fidelity_receipt(
+                project,
+                status="passed_with_warnings",
+                template_id="executive-dashboard",
+                selected_template_id="executive-dashboard",
+                score=0.69,
+            )
+            receipt_path = project / "06-check/template-fidelity.json"
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            receipt["scope"] = "page_family"
+            receipt["page_family_smoke_ref"] = "06-check/page-family-smoke.json"
+            receipt["warning_threshold"] = 0.62
+            receipt["warning_issues"] = [{"code": "structure_similarity_below_threshold", "message": "below promotion threshold"}]
+            receipt["issues"] = []
+            write_json(receipt_path, receipt)
+            write_json(project / "receipts/template-fidelity.json", receipt)
+            write_page_family_smoke_receipt(project)
+
+            result = svglide_quality_gate.run_quality_gate(project, profile="production")
+
+        checks = {check["name"]: check for check in result["checks"]}
+        integrity_check = checks["current-deck-visual-integrity"]
+        self.assertEqual(integrity_check["status"], "missing")
+        self.assertIn("current_deck_visual_integrity_missing", {item["code"] for item in integrity_check["issues"]})
 
     def test_production_quality_gate_fails_when_template_fidelity_receipt_template_mismatches(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

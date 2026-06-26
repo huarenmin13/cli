@@ -45,6 +45,8 @@ PPE_CREATE_PROBE = Path("07-create/ppe-create-probe.json")
 PPE_IMAGE_PROBE = Path("07-create/ppe-image-probe.json")
 ARTBOARD_LAYOUT_COLLISION = Path("04-artboard/raw/layout-collision.json")
 ARTBOARD_LAYOUT_COLLISION_RECEIPT = Path("receipts/artboard-layout-collision.json")
+CURRENT_DECK_VISUAL_INTEGRITY = Path("06-check/current-deck-visual-integrity.json")
+CURRENT_DECK_VISUAL_INTEGRITY_RECEIPT = Path("receipts/current-deck-visual-integrity.json")
 GENERATE_SVG_STAGE_INPUTS = [
     "02-plan/slide_plan.json",
     "02-plan/svglide.lock.json",
@@ -1544,6 +1546,54 @@ def _page_family_fidelity_can_warn(payload: dict[str, Any], smoke_payload: dict[
     return bool(issue_codes) and issue_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES
 
 
+def current_deck_visual_integrity_receipt(
+    project_root: Path,
+    template_payload: dict[str, Any],
+    smoke_payload: dict[str, Any],
+) -> dict[str, Any]:
+    template_status = template_payload.get("status")
+    score = template_payload.get("score")
+    threshold = template_payload.get("threshold")
+    warning_issues = template_payload.get("warning_issues") if isinstance(template_payload.get("warning_issues"), list) else []
+    promotion_passed = (
+        template_status == "passed"
+        and isinstance(score, (int, float))
+        and isinstance(threshold, (int, float))
+        and score >= threshold
+        and not template_payload.get("issues")
+    )
+    payload = {
+        "schema_version": "svglide-current-deck-visual-integrity/v1",
+        "stage": "current_deck_visual_integrity",
+        "status": "passed" if smoke_payload.get("status") == "passed" and template_status in {"passed", "passed_with_warnings"} else "failed",
+        "scope": "current_deck_publish",
+        "selected_family_id": smoke_payload.get("selected_family_id"),
+        "selected_template_id": smoke_payload.get("selected_template_id") or template_payload.get("selected_template_id") or template_payload.get("template_id"),
+        "selected_theme_id": smoke_payload.get("selected_theme_id"),
+        "production_selectable": smoke_payload.get("production_selectable"),
+        "page_family_smoke_ref": beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_REL.as_posix(),
+        "page_family_smoke_sha256": optional_project_file_hash(project_root, beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_REL.as_posix()),
+        "template_promotion_fidelity_ref": "06-check/template-fidelity.json",
+        "template_promotion_fidelity_sha256": optional_project_file_hash(project_root, "06-check/template-fidelity.json"),
+        "template_promotion_status": "passed" if promotion_passed else "not_passed",
+        "score": score,
+        "threshold": threshold,
+        "warning_threshold": template_payload.get("warning_threshold"),
+        "warning_issues": warning_issues,
+        "claim_boundary": (
+            "current deck publish integrity evidence; not standalone evidence that this template can be promoted "
+            "to production/default_selectable"
+        ),
+    }
+    if payload["status"] != "passed":
+        payload["issues"] = smoke_payload.get("artifact_issues") or template_payload.get("issues") or [
+            {"code": "current_deck_visual_integrity_failed", "message": "current deck visual integrity evidence is incomplete"}
+        ]
+    else:
+        payload["issues"] = []
+    return payload
+
+
 def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, profile: str) -> dict[str, Any]:
     started_at = now_iso()
     started_perf = time.perf_counter()
@@ -1625,6 +1675,11 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
 
     write_json(project_root / "06-check/template-fidelity.json", payload)
     write_json(project_root / "receipts/template-fidelity.json", payload)
+    current_deck_integrity = None
+    if smoke_payload and smoke_payload.get("status") == "passed" and payload.get("status") in {"passed", "passed_with_warnings"}:
+        current_deck_integrity = current_deck_visual_integrity_receipt(project_root, payload, smoke_payload)
+        write_json(project_root / CURRENT_DECK_VISUAL_INTEGRITY, current_deck_integrity)
+        write_json(project_root / CURRENT_DECK_VISUAL_INTEGRITY_RECEIPT, current_deck_integrity)
     stage_status = "failed" if payload.get("status") == "failed" and strict else "passed"
     if smoke_payload and smoke_payload.get("status") != "passed" and strict:
         stage_status = "failed"
@@ -1636,6 +1691,8 @@ def run_template_fidelity_stage(project_root: Path, state: dict[str, Any], *, pr
                 beautiful_template_page_family_smoke.PAGE_FAMILY_SMOKE_RECEIPT_REL.as_posix(),
             ]
         )
+    if current_deck_integrity:
+        stage_outputs.extend([CURRENT_DECK_VISUAL_INTEGRITY.as_posix(), CURRENT_DECK_VISUAL_INTEGRITY_RECEIPT.as_posix()])
     receipt = complete_stage(
         project_root,
         state,

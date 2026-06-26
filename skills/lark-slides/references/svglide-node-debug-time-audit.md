@@ -109,7 +109,7 @@ Status conventions:
 | Composite gate stale ownership | Fixed in code for stale child rerun; broader ownership open | Composite gates now rerun stale child substages instead of failing the parent gate. Broader long-term work remains for richer stale diagnostics and all child-output ownership edge cases. | `svglide_project_runner.py`; `svglide_project_runner_test.py` covers stale legacy child rerun. |
 | `generate_svg` repeated reruns | Partially fixed in code | `generate_svg` now records the real generation input boundary in `input_hashes` and explicitly excludes downstream quality receipts. Full render-cache reuse by renderer/template source hash is still open. | `svglide_project_runner.py`; `svglide_project_runner_test.py` covers downstream quality-gate isolation and changed-plan invalidation. |
 | Page-family role collapse to `content` | Mitigated for this run; generic guard open | Prefer explicit `canvas_spec.page_role` over weak top-level `page_type`. Ensure selected page-family decks preserve `page_role` / `page_variant_id`. | `svglide_project_runner.py`; current deck roles passed page-family smoke. |
-| `template_fidelity` used as strict publishing blocker | Fixed in code for current-deck publish; promotion split open | If page-family smoke passes and only soft screenshot issues remain above `warn_min`, mark as `passed_with_warnings`; keep strict screenshot fidelity for production template promotion. | `svglide_project_runner.py`, `svglide_quality_gate.py`; tests in `svglide_project_runner_test.py`, `svglide_quality_gate_test.py`. |
+| `template_fidelity` used as strict publishing blocker | Fixed in code for current-deck publish; promotion split still needs UI/docs cleanup | If page-family smoke passes and only soft screenshot issues remain above `warn_min`, mark template fidelity as `passed_with_warnings` and write separate `current-deck-visual-integrity` evidence. Quality gate now requires that current-deck evidence for warning-based publish, while template promotion still requires true fidelity pass. | `svglide_project_runner.py`, `svglide_quality_gate.py`; tests in `svglide_project_runner_test.py`, `svglide_quality_gate_test.py`. |
 | `text_decoration_policy` missing in role consumption | Fixed in code | If `text_style_roles` exist but no explicit decoration policy exists, record renderer default absent policy instead of leaving receipt incomplete. | `beautiful_template_fidelity_check.py`; test in `beautiful_template_fidelity_check_test.py`. |
 | `preflight` bbox / text backing false positives | Partially fixed | Bbox extraction and light-text backing checks were adjusted. Needs broader fixture coverage for path, clip, mask, and backing cases. | `svg_preflight.py`; current deck preflight passed. |
 | `readback business_claims` checked unsubmitted metadata | Fixed in code | When prepared SVG exists, business claims are filtered to claims visible in submitted SVG text. `core_visible_text` remains the main visible-text guard. | `svglide_readback.py`; test in `svglide_readback_test.py`. |
@@ -132,7 +132,7 @@ Status conventions:
 - `generate_svg` has a clearer input boundary now; full cache reuse and renderer/template dependency hashing remain open.
 - Preflight needs a broader false-positive fixture suite.
 - Agent/debug time is not directly instrumented.
-- Template promotion fidelity and current deck publish fidelity should be represented as separate named gates, not only as policy inside `template_fidelity`.
+- Template promotion fidelity and current deck publish fidelity now have separate receipts for the warning path; remaining work is naming/docs cleanup and any UI/report surfacing.
 
 ## Recommended TDD Follow-Up
 
@@ -183,6 +183,7 @@ Green:
 
 - Split receipts into `current_deck_visual_integrity`, `page_family_smoke`, and `template_promotion_fidelity`.
 - Keep `template_fidelity` as compatibility wrapper only if needed.
+- Completed first slice: `current-deck-visual-integrity.json` is written for current-deck warning passes, and quality gate requires it before accepting `template-fidelity` warnings.
 
 Validation:
 
