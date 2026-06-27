@@ -299,6 +299,71 @@ class SVGlideContractCompileTest(unittest.TestCase):
         self.assertEqual(report["visual_retention"]["output_counts"]["text"], 1)
         self.assertEqual(report["text_style_manifest_items"], 1)
 
+    def test_raw_text_baseline_is_converted_to_slide_text_box_top(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <text id="hero" x="66" y="164" width="488" height="99"
+                font-family="svglideboldposterdisplay" font-size="112" font-weight="900"
+                fill="#F6E5C3">DIABLO</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        root = svglide_contract_compile.ET.fromstring(svg)
+        text_nodes = [node for node in root.iter() if svglide_contract_compile.local_name(node.tag) == "text"]
+        self.assertEqual(len(text_nodes), 1)
+        node = text_nodes[0]
+        self.assertLess(float(node.attrib["y"]), 164)
+        self.assertEqual(node.attrib["data-svglide-baseline-y"], "164")
+        self.assertEqual(node.attrib["data-svglide-baseline-conversion"], "svg-baseline-to-slide-box")
+        self.assertNotIn('<text id="hero" x="66" y="74.4" width="488" height="134.4" font-family="svglideboldposterdisplay"', svg)
+        self.assertIn('font-family="思源黑体"', svg)
+        self.assertIn("baseline_conversion", json.dumps(report, ensure_ascii=False))
+
+    def test_raw_cjk_single_character_fragments_are_coalesced(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <text id="c1" x="58" y="105" width="52" height="52" font-family="svglideboldposterdisplay" font-size="52" font-weight="900" fill="#F6E5C3">怎</text>
+          <text id="c2" x="110" y="105" width="52" height="52" font-family="svglideboldposterdisplay" font-size="52" font-weight="900" fill="#F6E5C3">么</text>
+          <text id="c3" x="162" y="105" width="52" height="52" font-family="svglideboldposterdisplay" font-size="52" font-weight="900" fill="#F6E5C3">理</text>
+          <text id="c4" x="214" y="105" width="52" height="52" font-family="svglideboldposterdisplay" font-size="52" font-weight="900" fill="#F6E5C3">解</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        self.assertEqual(svg.count("<text"), 1)
+        self.assertIn("怎么理解", svg)
+        self.assertEqual(report["text_lowering"]["raw_text_fragments"], 4)
+        self.assertEqual(report["text_lowering"]["output_text_boxes"], 1)
+        self.assertGreater(report["text_lowering"]["coalesced_text_fragments"], 0)
+
+    def test_role_font_family_is_mapped_and_kept_only_as_source_metadata(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <text id="body" x="80" y="120" width="360" height="24"
+                font-family="svglideboldposterbody" font-size="18" font-weight="400"
+                fill="#F6E5C3">Readable body copy</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        self.assertNotIn('<text id="body" x="80" y="105.6" width="360" height="24" font-family="svglideboldposterbody"', svg)
+        self.assertIn('font-family="思源黑体"', svg)
+        self.assertIn('data-svglide-source-font-family="svglideboldposterbody"', svg)
+        self.assertIn('"source_font_family": "svglideboldposterbody"', svg)
+        self.assertIn('"slide_font_family": "思源黑体"', svg)
+
     def test_compile_raw_lowering_drops_whitespace_only_text_nodes(self) -> None:
         visual_svg = """
         <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">

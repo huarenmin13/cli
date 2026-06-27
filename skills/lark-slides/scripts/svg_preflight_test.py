@@ -260,6 +260,8 @@ class SvgPreflightTest(unittest.TestCase):
           <metadata id="svglide-text-style-manifest" type="application/json">{json.dumps(text_manifest)}</metadata>
           <rect slide:role="shape" x="0" y="0" width="960" height="540" fill="#f8fafc" />
           <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
+                data-svglide-baseline-conversion="svg-baseline-to-slide-box"
+                data-svglide-baseline-y="132" data-svglide-text-ascent="36" data-svglide-text-descent="18"
                 x="80" y="96" width="560" height="72"
                 font-family="Source Sans Pro" font-size="48" font-weight="800"
                 letter-spacing="1.2" fill="#123456">SVGLIDE</text>
@@ -290,6 +292,29 @@ class SvgPreflightTest(unittest.TestCase):
             "missing_text_position": '<text id="bad-position" slide:role="text" width="200" height="40" font-family="Arial" font-size="24" font-weight="700">Title</text>',
             "empty_text_content": '<text id="bad-content" slide:role="text" x="80" y="96" width="200" height="40" font-family="Arial" font-size="24" font-weight="700">   </text>',
             "missing_text_typography": '<text id="bad-type" slide:role="text" x="80" y="96" width="200" height="40">Title</text>',
+        }
+
+        for expected_code, text in cases.items():
+            with self.subTest(expected_code=expected_code):
+                result = svg_preflight.lint_svg(base.format(text=text))
+                codes = [issue["code"] for issue in result.get("issues", [])]
+                self.assertIn(expected_code, codes)
+
+    def test_lint_svg_rejects_bad_editable_satori_text_lowering(self) -> None:
+        base = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide"
+             slide:contract-version="svglide-authoring-contract/v1"
+             width="960" height="540" viewBox="0 0 960 540">
+          <rect slide:role="shape" x="0" y="0" width="960" height="540" fill="#f8fafc" />
+          {text}
+        </svg>
+        """
+        cases = {
+            "role_font_family_leaked": '<text id="role-font" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" x="80" y="96" width="200" height="40" font-family="svglideboldposterbody" font-size="24" font-weight="700">Title</text>',
+            "baseline_conversion_missing": '<text id="missing-baseline" slide:role="text" x="80" y="96" width="200" height="40" font-family="Source Sans Pro" font-size="24" font-weight="700">Title</text>',
+            "text_box_height_invalid": '<text id="bad-height" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" x="80" y="96" width="200" height="12" font-family="Source Sans Pro" font-size="24" font-weight="700">Title</text>',
         }
 
         for expected_code, text in cases.items():
@@ -1505,6 +1530,7 @@ class SvgPreflightTest(unittest.TestCase):
              slide:role="slide"
              width="960" height="540" viewBox="0 0 960 540">
           <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
+                data-svglide-baseline-conversion="svg-baseline-to-slide-box"
                 x="80" y="96" width="520" height="72"
                 font-family="Source Sans Pro" font-size="48" font-weight="800">Title</text>
           <image id="decor-island" slide:role="image"
@@ -1529,6 +1555,7 @@ class SvgPreflightTest(unittest.TestCase):
              slide:role="slide"
              width="960" height="540" viewBox="0 0 960 540">
           <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
+                data-svglide-baseline-conversion="svg-baseline-to-slide-box"
                 x="80" y="96" width="520" height="72"
                 font-family="Source Sans Pro" font-size="48" font-weight="800"
                 clip-path="url(#clip)">Title</text>
@@ -1548,7 +1575,8 @@ class SvgPreflightTest(unittest.TestCase):
              width="960" height="540" viewBox="0 0 960 540">
           <rect slide:role="shape" x="10" y="20" width="120" height="48" fill="#111827" transform="rotate(4)" />
           <rect slide:role="shape" x="24" y="60" width="120" height="48" fill="#1f2937" transform="rotate(90 24 60)" />
-          <text slide:role="text" x="120" y="160" width="320" height="90" font-size="80"
+          <text slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box"
+                x="120" y="160" width="320" height="90" font-family="Source Sans Pro" font-size="80" font-weight="800"
                 transform="matrix(1,-0.07,0.07,1,-14.4,29.7)">DANCE</text>
         </svg>
         """

@@ -226,22 +226,26 @@ def write_current_deck_visual_integrity_receipt(
     *,
     status: str = "passed",
     template_promotion_status: str = "not_passed",
+    selected_family_id: str = "blue-professional",
+    selected_template_id: str = "executive-dashboard",
+    selected_theme_id: str = "blue-professional",
+    score: float = 0.69,
 ) -> None:
     payload = {
         "schema_version": "svglide-current-deck-visual-integrity/v1",
         "stage": "current_deck_visual_integrity",
         "status": status,
         "scope": "current_deck_publish",
-        "selected_family_id": "blue-professional",
-        "selected_template_id": "executive-dashboard",
-        "selected_theme_id": "blue-professional",
+        "selected_family_id": selected_family_id,
+        "selected_template_id": selected_template_id,
+        "selected_theme_id": selected_theme_id,
         "production_selectable": False,
         "page_family_smoke_ref": "06-check/page-family-smoke.json",
         "page_family_smoke_sha256": svglide_quality_gate.file_sha256(project / "06-check/page-family-smoke.json"),
         "template_promotion_fidelity_ref": "06-check/template-fidelity.json",
         "template_promotion_fidelity_sha256": svglide_quality_gate.file_sha256(project / "06-check/template-fidelity.json"),
         "template_promotion_status": template_promotion_status,
-        "score": 0.69,
+        "score": score,
         "threshold": 0.72,
         "warning_threshold": 0.62,
         "warning_issues": [{"code": "structure_similarity_below_threshold", "message": "below promotion threshold"}],
@@ -1234,6 +1238,48 @@ class SVGlideQualityGateTest(unittest.TestCase):
         self.assertNotIn("template_fidelity_score_below_threshold", {item["code"] for item in template_check["issues"]})
         self.assertEqual(checks["current-deck-visual-integrity"]["status"], "passed", checks["current-deck-visual-integrity"]["issues"])
 
+    def test_production_quality_gate_accepts_explicit_current_deck_low_page_family_fidelity_warning(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_selected_bold_poster_fixture_plan(project)
+            self.write_minimal_passing_project(project)
+            write_template_fidelity_receipt(
+                project,
+                status="passed_with_warnings",
+                template_id="poster-stat-punch",
+                selected_template_id="poster-stat-punch",
+                score=0.38,
+            )
+            receipt_path = project / "06-check/template-fidelity.json"
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            receipt["scope"] = "page_family"
+            receipt["page_family_smoke_ref"] = "06-check/page-family-smoke.json"
+            receipt["warning_threshold"] = 0.62
+            receipt["warning_issues"] = [
+                {"code": "layout_main_region_misaligned", "message": "layout drift"},
+                {"code": "structure_similarity_below_threshold", "message": "below promotion threshold"},
+            ]
+            receipt["issues"] = []
+            write_json(receipt_path, receipt)
+            write_json(project / "receipts/template-fidelity.json", receipt)
+            write_page_family_smoke_receipt(project)
+            write_current_deck_visual_integrity_receipt(
+                project,
+                selected_family_id="bold-poster",
+                selected_template_id="poster-stat-punch",
+                selected_theme_id="bold-poster-explicit-tomato",
+                score=0.38,
+            )
+
+            result = svglide_quality_gate.run_quality_gate(project, profile="production")
+
+        checks = {check["name"]: check for check in result["checks"]}
+        template_check = checks["template-fidelity"]
+        self.assertEqual(template_check["status"], "passed", template_check["issues"])
+        self.assertNotIn("template_fidelity_failed", {item["code"] for item in template_check["issues"]})
+        self.assertNotIn("template_fidelity_score_below_threshold", {item["code"] for item in template_check["issues"]})
+        self.assertEqual(checks["current-deck-visual-integrity"]["status"], "passed", checks["current-deck-visual-integrity"]["issues"])
+
     def test_production_quality_gate_rejects_template_fidelity_warning_without_current_deck_integrity(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
@@ -1464,6 +1510,49 @@ class SVGlideQualityGateTest(unittest.TestCase):
         self.assertIn("legacy_debug_registry_enabled", codes)
         self.assertIn("legacy_asset_status", codes)
 
+    def test_quality_gate_waives_project_local_legacy_debug_for_explicit_current_deck_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_selected_bold_poster_fixture_plan(project)
+            self.write_minimal_passing_project(project)
+            write_template_fidelity_receipt(
+                project,
+                status="passed_with_warnings",
+                template_id="poster-stat-punch",
+                selected_template_id="poster-stat-punch",
+                score=0.38,
+            )
+            receipt_path = project / "06-check/template-fidelity.json"
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            receipt["scope"] = "page_family"
+            receipt["page_family_smoke_ref"] = "06-check/page-family-smoke.json"
+            receipt["warning_threshold"] = 0.62
+            receipt["warning_issues"] = [
+                {"code": "layout_main_region_misaligned", "message": "layout drift"},
+                {"code": "structure_similarity_below_threshold", "message": "below promotion threshold"},
+            ]
+            receipt["issues"] = []
+            write_json(receipt_path, receipt)
+            write_json(project / "receipts/template-fidelity.json", receipt)
+            write_json(project / "02-plan/template-registry.json", beautiful_template_runtime.template_registry(include_legacy=True))
+            write_json(project / "02-plan/theme-registry.json", beautiful_template_runtime.theme_registry(include_legacy=True))
+            write_page_family_smoke_receipt(project)
+            write_current_deck_visual_integrity_receipt(
+                project,
+                selected_family_id="bold-poster",
+                selected_template_id="poster-stat-punch",
+                selected_theme_id="bold-poster-explicit-tomato",
+                score=0.38,
+            )
+
+            result = svglide_quality_gate.run_quality_gate(project, profile="production")
+
+        self.assertEqual(result["status"], "passed_with_waiver")
+        legacy_check = [check for check in result["checks"] if check["name"] == "legacy-fallback-review"][0]
+        self.assertEqual(legacy_check["status"], "passed_with_waiver")
+        self.assertTrue(legacy_check["waived_issues"])
+        self.assertTrue(legacy_check["waivers"])
+
     def test_quality_gate_blocks_source_inventory_only_template_in_production_registry(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
@@ -1571,7 +1660,7 @@ class SVGlideQualityGateTest(unittest.TestCase):
 
             self.assertIn("contract_compiler_mode_invalid", {item["code"] for item in issues})
 
-    def test_contract_manifest_issues_rejects_low_raw_text_retention(self) -> None:
+    def test_contract_manifest_issues_allows_low_text_count_when_fragments_are_coalesced(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
             write_passing_semantic_review(project)
@@ -1584,6 +1673,14 @@ class SVGlideQualityGateTest(unittest.TestCase):
             report_path = project / "04-svg/contract/page-001.report.json"
             report = json.loads(report_path.read_text(encoding="utf-8"))
             report["visual_retention"] = low_retention
+            report["text_lowering"] = {
+                "raw_text_fragments": 10,
+                "output_text_boxes": 2,
+                "coalesced_text_fragments": 8,
+                "baseline_converted_count": 2,
+                "role_font_mapped_count": 0,
+                "single_character_text_boxes": 0,
+            }
             write_json(report_path, report)
             manifest_path = project / "04-svg/contract/manifest.json"
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -1594,7 +1691,53 @@ class SVGlideQualityGateTest(unittest.TestCase):
 
             issues = svglide_quality_gate.contract_manifest_issues(project)
 
-            self.assertIn("contract_text_retention_too_low", {item["code"] for item in issues})
+            self.assertNotIn("contract_text_content_lost", {item["code"] for item in issues})
+
+    def test_contract_manifest_issues_rejects_lost_or_fragmented_text_lowering(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            report_path = project / "04-svg/contract/page-001.report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["visual_retention"] = {
+                "raw_counts": {"text": 120, "shape": 1, "path": 0, "image": 0},
+                "output_counts": {"text": 110, "shape": 1, "path": 0, "image": 0},
+                "ratios": {"text_retention": 0.9167, "shape_retention": 1.0, "path_retention": None, "image_retention": None},
+            }
+            report["text_lowering"] = {
+                "raw_text_fragments": 120,
+                "output_text_boxes": 110,
+                "coalesced_text_fragments": 2,
+                "baseline_converted_count": 110,
+                "role_font_mapped_count": 0,
+                "single_character_text_boxes": 90,
+            }
+            write_json(report_path, report)
+
+            issues = svglide_quality_gate.contract_manifest_issues(project)
+
+            codes = {item["code"] for item in issues}
+            self.assertIn("text_fragment_ratio_too_high", codes)
+            self.assertIn("single_char_text_shape_excessive", codes)
+
+    def test_contract_manifest_issues_rejects_zero_output_text_when_raw_has_text(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            report_path = project / "04-svg/contract/page-001.report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["visual_retention"] = {
+                "raw_counts": {"text": 4, "shape": 1, "path": 0, "image": 0},
+                "output_counts": {"text": 0, "shape": 1, "path": 0, "image": 0},
+                "ratios": {"text_retention": 0.0, "shape_retention": 1.0, "path_retention": None, "image_retention": None},
+            }
+            write_json(report_path, report)
+
+            issues = svglide_quality_gate.contract_manifest_issues(project)
+
+            self.assertIn("contract_text_content_lost", {item["code"] for item in issues})
 
     def test_quality_gate_records_semantic_map_visible_text_mismatch_as_diagnostic(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

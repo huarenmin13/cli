@@ -90,6 +90,11 @@ PAGE_FAMILY_FIDELITY_WARNING_CODES = {
     "structure_similarity_below_threshold",
 }
 PAGE_FAMILY_FIDELITY_WARN_MIN = 0.62
+CURRENT_DECK_LEGACY_DEBUG_WAIVABLE_CODES = {
+    "legacy_debug_registry_enabled",
+    "legacy_asset_status",
+    "fixture_only_asset_used",
+}
 OPTIONAL_CHECKS = []
 PASS_ACTION = "create_live"
 FAIL_ACTIONS = {"repair_and_rerun", "failed", "fail"}
@@ -402,6 +407,25 @@ def legacy_fallback_review(project: Path, *, profile: str) -> dict[str, Any]:
             continue
         for marker in iter_legacy_markers(payload, rel.as_posix()):
             issues.append(marker)
+    issue_codes = {item["code"] for item in issues}
+    if issues and issue_codes <= CURRENT_DECK_LEGACY_DEBUG_WAIVABLE_CODES and has_explicit_nonproduction_current_deck_integrity(project):
+        return {
+            "name": "legacy-fallback-review",
+            "path": "receipts + 02-plan + 06-check",
+            "required": True,
+            "status": "passed_with_waiver",
+            "error_count": 0,
+            "action": PASS_ACTION,
+            "waivers": [
+                {
+                    "code": "explicit_nonproduction_current_deck_page_family",
+                    "message": "legacy_debug page-family assets are allowed only for this explicit current deck run; they are not production/default selectable evidence",
+                    "waived_issue_count": len(issues),
+                }
+            ],
+            "issues": [],
+            "waived_issues": issues,
+        }
     return {
         "name": "legacy-fallback-review",
         "path": "receipts + 02-plan + 06-check",
@@ -437,6 +461,37 @@ def read_json_optional(project: Path, rel: Path) -> dict[str, Any]:
     except (OSError, json.JSONDecodeError):
         return {}
     return payload if isinstance(payload, dict) else {}
+
+
+def has_explicit_nonproduction_current_deck_integrity(project: Path) -> bool:
+    integrity = read_json_optional(project, CURRENT_DECK_VISUAL_INTEGRITY_CHECK[1])
+    smoke = read_json_optional(project, PAGE_FAMILY_SMOKE_CHECK[1])
+    if integrity.get("status") != "passed" or integrity.get("scope") != "current_deck_publish":
+        return False
+    if integrity.get("production_selectable") is not False:
+        return False
+    if integrity.get("template_promotion_status") != "not_passed" or not integrity.get("claim_boundary"):
+        return False
+    template_ref = integrity.get("template_promotion_fidelity_ref")
+    template_hash = integrity.get("template_promotion_fidelity_sha256")
+    if not isinstance(template_ref, str) or optional_file_sha256(project, Path(template_ref)) != template_hash:
+        return False
+    smoke_ref = integrity.get("page_family_smoke_ref")
+    smoke_hash = integrity.get("page_family_smoke_sha256")
+    if not isinstance(smoke_ref, str) or optional_file_sha256(project, Path(smoke_ref)) != smoke_hash:
+        return False
+    if smoke.get("status") != "passed" or smoke.get("scope") != "page_family":
+        return False
+    if smoke.get("selection_source") != "explicit_fixture" or smoke.get("production_selectable") is not False:
+        return False
+    if smoke.get("degraded") is True:
+        return False
+    for key in ("selected_family_id", "selected_template_id", "selected_theme_id"):
+        integrity_value = integrity.get(key)
+        smoke_value = smoke.get(key)
+        if isinstance(integrity_value, str) and isinstance(smoke_value, str) and integrity_value != smoke_value:
+            return False
+    return True
 
 
 def generator_generation_mode(project: Path) -> str | None:
@@ -589,15 +644,38 @@ def contract_manifest_issues(project: Path) -> list[dict[str, str]]:
                     except (TypeError, ValueError):
                         raw_text = 0
                         output_text = 0
-                    if raw_text > 0 and output_text / raw_text < 0.95 and report.get("status") == "passed":
+                    if raw_text > 0 and output_text <= 0 and report.get("status") == "passed":
                         issues.append(
                             issue(
-                                "contract_text_retention_too_low",
-                                f"contract report text retention is below threshold but status is passed: {output_text}/{raw_text} in {report_rel}",
+                                "contract_text_content_lost",
+                                f"contract report lost all editable text but status is passed: {output_text}/{raw_text} in {report_rel}",
                             )
                         )
                 else:
                     issues.append(issue("contract_visual_retention_missing_counts", f"contract report must include raw/output retention counts: {report_rel}"))
+            text_lowering = report.get("text_lowering")
+            if isinstance(text_lowering, dict):
+                try:
+                    raw_fragments = int(text_lowering.get("raw_text_fragments", 0))
+                    output_boxes = int(text_lowering.get("output_text_boxes", 0))
+                    coalesced = int(text_lowering.get("coalesced_text_fragments", 0))
+                    single_char = int(text_lowering.get("single_character_text_boxes", 0))
+                except (TypeError, ValueError):
+                    raw_fragments = output_boxes = coalesced = single_char = 0
+                if raw_fragments >= 30 and output_boxes / max(raw_fragments, 1) > 0.8 and coalesced <= raw_fragments * 0.1:
+                    issues.append(
+                        issue(
+                            "text_fragment_ratio_too_high",
+                            f"contract report keeps too many raw text fragments as separate boxes: {output_boxes}/{raw_fragments} in {report_rel}",
+                        )
+                    )
+                if output_boxes >= 20 and single_char / max(output_boxes, 1) > 0.5:
+                    issues.append(
+                        issue(
+                            "single_char_text_shape_excessive",
+                            f"contract report has too many one-character editable text boxes: {single_char}/{output_boxes} in {report_rel}",
+                        )
+                    )
         else:
             issues.append(issue("contract_report_invalid", f"contract report must be an object: {report_rel}"))
 
@@ -1089,7 +1167,7 @@ def load_template_fidelity_check(project: Path, *, profile: str) -> dict[str, An
     warning_codes = {item.get("code") for item in warning_issues if isinstance(item, dict)}
     warning_threshold = payload.get("warning_threshold", PAGE_FAMILY_FIDELITY_WARN_MIN)
     score = payload.get("score")
-    page_family_warning_allowed = (
+    page_family_warning_allowed_by_threshold = (
         payload.get("status") == "passed_with_warnings"
         and payload.get("scope") == "page_family"
         and isinstance(payload.get("page_family_smoke_ref"), str)
@@ -1099,6 +1177,16 @@ def load_template_fidelity_check(project: Path, *, profile: str) -> dict[str, An
         and bool(warning_codes)
         and warning_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES
     )
+    page_family_warning_allowed_by_current_deck = (
+        payload.get("status") == "passed_with_warnings"
+        and payload.get("scope") == "page_family"
+        and isinstance(payload.get("page_family_smoke_ref"), str)
+        and isinstance(score, (int, float))
+        and bool(warning_codes)
+        and warning_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES
+        and has_explicit_nonproduction_current_deck_integrity(project)
+    )
+    page_family_warning_allowed = page_family_warning_allowed_by_threshold or page_family_warning_allowed_by_current_deck
     if not required and payload.get("status") == "skipped":
         check["status"] = "skipped"
         check["claim_boundary"] = payload.get("claim_boundary") or "template fidelity was skipped; this run cannot support high-quality beautiful-template claims"
@@ -1672,7 +1760,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     print(json.dumps(result, ensure_ascii=False, indent=2 if args.pretty else None))
-    return 0 if result["status"] == "passed" else 1
+    return 0 if result["status"] in {"passed", "passed_with_waiver"} else 1
 
 
 if __name__ == "__main__":

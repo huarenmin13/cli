@@ -216,6 +216,37 @@ class SVGlideReadbackTest(unittest.TestCase):
         self.assertEqual(result["status"], "passed")
         self.assertEqual(result["checks"]["business_claims"]["status"], "passed")
         self.assertEqual(result["checks"]["core_visible_text"]["status"], "passed")
+        self.assertEqual(result["readback_text_stats"]["text_shape_count"], 10)
+        self.assertEqual(result["readback_text_stats"]["single_char_text_shape_count"], 8)
+
+    def test_readback_records_online_text_fragment_and_role_font_stats(self) -> None:
+        project = self.make_project()
+        write_json(project / "02-plan/slide_plan.json", {"slides": [{"page": 1}]})
+        write_json(project / "07-create/live-create.json", {"xml_presentation_id": "xml_1", "slide_ids": ["s1"]})
+
+        result = svglide_readback.run_readback(
+            project,
+            command_runner=lambda *args, **kwargs: self.completed(
+                {
+                    "data": {
+                        "xml_presentation": {
+                            "content": (
+                                '<presentation><slide id="s1">'
+                                '<shape type="text"><content fontFamily="svglideboldposterbody">暗</content></shape>'
+                                '<shape type="text"><content fontFamily="svglideboldposterbody">黑</content></shape>'
+                                '<shape type="text"><content fontFamily="思源黑体">Diablo II</content></shape>'
+                                "</slide></presentation>"
+                            )
+                        }
+                    }
+                }
+            ),
+        )
+
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["readback_text_stats"]["text_shape_count"], 3)
+        self.assertEqual(result["readback_text_stats"]["single_char_text_shape_count"], 2)
+        self.assertEqual(result["readback_text_stats"]["role_font_family_count"], 2)
 
     def test_readback_core_text_uses_submitted_svg_not_unrendered_plan_metadata(self) -> None:
         project = self.make_project()

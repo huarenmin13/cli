@@ -10,6 +10,7 @@ import json
 import re
 import sys
 import xml.etree.ElementTree as ET
+from copy import deepcopy
 from html import escape
 from pathlib import Path
 from typing import Any, Sequence
@@ -48,6 +49,10 @@ SUPPORT_SUBTREE_TAGS = {
     "marker",
 }
 PRESERVED_CONTAINER_TAGS = {"svg", "g", *SUPPORT_SUBTREE_TAGS}
+SLIDE_DEFAULT_FONT_FAMILY = "思源黑体"
+ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
+CJK_RE = re.compile(r"^[\u3400-\u9fff\u3000-\u303f\uff00-\uffef]+$")
+ASCII_WORD_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9./%+_-]*$")
 
 ET.register_namespace("", contract.SVG_NS)
 ET.register_namespace("slide", contract.SLIDE_NS)
@@ -196,6 +201,83 @@ def numeric_style_value(value: str | None, default: float = 0.0) -> float:
     return number(value.strip(), default)
 
 
+def text_content(element: ET.Element) -> str:
+    return "".join(element.itertext())
+
+
+def is_cjk_text(value: str) -> bool:
+    compact = normalize_text(value).replace(" ", "")
+    return bool(compact) and bool(CJK_RE.match(compact))
+
+
+def is_ascii_word(value: str) -> bool:
+    return bool(ASCII_WORD_RE.match(normalize_text(value)))
+
+
+def source_font_family(element: ET.Element) -> str:
+    return style_or_attr(element, "font-family") or ""
+
+
+def slide_font_mapping(font_family: str) -> tuple[str, str | None]:
+    raw = (font_family or "").strip().strip("\"'")
+    if not raw:
+        return SLIDE_DEFAULT_FONT_FAMILY, "missing_source_font_family_use_slide_default"
+    if ROLE_FONT_RE.match(raw):
+        return SLIDE_DEFAULT_FONT_FAMILY, "role_font_family_mapped_to_slide_default"
+    return raw, None
+
+
+def line_height_multiplier(element: ET.Element) -> tuple[float, list[str]]:
+    raw = style_or_attr(element, "line-height")
+    if raw:
+        value = numeric_style_value(raw, 1.2)
+        if value > 8:
+            font_size = numeric_style_value(style_or_attr(element, "font-size"), 16)
+            return max(value / max(font_size, 1.0), 1.0), []
+        return max(value, 1.0), []
+    return 1.2, ["line_height_not_explicit_in_raw_svg"]
+
+
+def text_metrics(element: ET.Element) -> dict[str, float]:
+    font_size = numeric_style_value(style_or_attr(element, "font-size"), 16)
+    width = number(get_xml_attr(element, "width"), -1)
+    if width <= 0:
+        width = max(len(normalize_text(text_content(element))) * font_size * 0.58, font_size)
+    raw_height = number(get_xml_attr(element, "height"), -1)
+    line_height, _ = line_height_multiplier(element)
+    line_height_px = max(raw_height if raw_height > 0 else 0.0, font_size * line_height)
+    ascent = min(max(font_size * 0.8, font_size * 0.62), line_height_px * 0.9)
+    descent = max(line_height_px - ascent, font_size * 0.2)
+    return {
+        "font_size": font_size,
+        "width": width,
+        "raw_height": raw_height,
+        "line_height": line_height,
+        "line_height_px": max(ascent + descent, font_size),
+        "ascent": ascent,
+        "descent": descent,
+    }
+
+
+def convert_text_baseline_to_box(element: ET.Element) -> dict[str, Any]:
+    metrics = text_metrics(element)
+    baseline_y = number(get_xml_attr(element, "y"), 0.0)
+    box_top_y = baseline_y - metrics["ascent"]
+    element.attrib["y"] = scalar(box_top_y)
+    element.attrib["height"] = scalar(metrics["line_height_px"])
+    element.attrib["data-svglide-baseline-y"] = scalar(baseline_y)
+    element.attrib["data-svglide-baseline-conversion"] = "svg-baseline-to-slide-box"
+    element.attrib["data-svglide-text-ascent"] = scalar(metrics["ascent"])
+    element.attrib["data-svglide-text-descent"] = scalar(metrics["descent"])
+    return {
+        "baseline_y": baseline_y,
+        "box_top_y": box_top_y,
+        "ascent": metrics["ascent"],
+        "descent": metrics["descent"],
+        "line_height_px": metrics["line_height_px"],
+    }
+
+
 def parse_points(value: str | None) -> list[tuple[float, float]]:
     if not value:
         return []
@@ -285,6 +367,191 @@ def svg_element_bbox(element: ET.Element) -> dict[str, float] | None:
 
 def bbox_to_list(box: dict[str, float]) -> list[float]:
     return [round(box["x"], 4), round(box["y"], 4), round(box["width"], 4), round(box["height"], 4)]
+
+
+def text_fragment_record(element: ET.Element, index: int) -> dict[str, Any] | None:
+    text = text_content(element)
+    if not normalize_text(text):
+        return None
+    metrics = text_metrics(element)
+    x = number(get_xml_attr(element, "x"), 0.0)
+    baseline_y = number(get_xml_attr(element, "y"), 0.0)
+    width = metrics["width"]
+    height = metrics["line_height_px"]
+    font_family = source_font_family(element)
+    return {
+        "element": element,
+        "index": index,
+        "id": get_xml_attr(element, "id") or get_xml_attr(element, "data-node-id") or f"text-{index}",
+        "text": text,
+        "x": x,
+        "y": baseline_y,
+        "right": x + width,
+        "width": width,
+        "height": height,
+        "font_family": font_family,
+        "font_size": metrics["font_size"],
+        "font_weight": int(numeric_style_value(style_or_attr(element, "font-weight"), 400)),
+        "fill": style_or_attr(element, "fill") or style_or_attr(element, "color") or "#111827",
+        "opacity": style_or_attr(element, "opacity") or "1",
+        "letter_spacing": numeric_style_value(style_or_attr(element, "letter-spacing"), 0.0),
+    }
+
+
+def text_fragment_style_key(fragment: dict[str, Any]) -> tuple[Any, ...]:
+    return (
+        fragment["font_family"],
+        round(float(fragment["font_size"]), 2),
+        int(fragment["font_weight"]),
+        fragment["fill"],
+        fragment["opacity"],
+        round(float(fragment["letter_spacing"]), 2),
+    )
+
+
+def should_join_with_space(previous: dict[str, Any], current: dict[str, Any], gap: float) -> bool:
+    if gap <= max(float(previous["font_size"]) * 0.18, 3.0):
+        return False
+    previous_text = normalize_text(previous["text"])
+    current_text = normalize_text(current["text"])
+    if is_cjk_text(previous_text) or is_cjk_text(current_text):
+        return False
+    if is_ascii_word(previous_text) and is_ascii_word(current_text):
+        return True
+    return gap > max(float(previous["font_size"]) * 0.35, 5.0)
+
+
+def join_text_fragments(run: list[dict[str, Any]]) -> str:
+    parts: list[str] = []
+    previous: dict[str, Any] | None = None
+    for fragment in sorted(run, key=lambda item: (float(item["x"]), item["index"])):
+        value = normalize_text(fragment["text"])
+        if not value:
+            continue
+        if previous is not None and parts:
+            gap = float(fragment["x"]) - float(previous["right"])
+            if should_join_with_space(previous, fragment, gap):
+                parts.append(" ")
+        parts.append(value)
+        previous = fragment
+    return "".join(parts)
+
+
+def coalesced_text_element(run: list[dict[str, Any]]) -> ET.Element:
+    ordered = sorted(run, key=lambda item: (float(item["x"]), item["index"]))
+    first = ordered[0]
+    base = deepcopy(first["element"])
+    for child in list(base):
+        base.remove(child)
+    text = join_text_fragments(ordered)
+    min_x = min(float(item["x"]) for item in ordered)
+    max_right = max(float(item["right"]) for item in ordered)
+    baseline_y = sum(float(item["y"]) for item in ordered) / len(ordered)
+    height = max(float(item["height"]) for item in ordered)
+    ids = [str(item["id"]) for item in ordered]
+    base.text = text
+    base.attrib["x"] = scalar(min_x)
+    base.attrib["y"] = scalar(baseline_y)
+    base.attrib["width"] = scalar(max(max_right - min_x, float(first["font_size"])))
+    base.attrib["height"] = scalar(height)
+    base.attrib["id"] = str(first["id"])
+    base.attrib["data-node-id"] = str(first["id"])
+    base.attrib["data-svglide-coalesced-from"] = ",".join(ids)
+    base.attrib["data-svglide-coalesced-count"] = str(len(ordered))
+    return base
+
+
+def coalesce_direct_text_children(parent: ET.Element) -> dict[str, int]:
+    children = list(parent)
+    fragments = [
+        record
+        for index, child in enumerate(children)
+        if local_name(child.tag) == "text"
+        for record in [text_fragment_record(child, index)]
+        if record is not None
+    ]
+    stats = {"raw": len(fragments), "output": len(fragments), "coalesced": 0}
+    if len(fragments) < 2:
+        return stats
+    runs: list[list[dict[str, Any]]] = []
+    current: list[dict[str, Any]] = []
+    current_key: tuple[Any, ...] | None = None
+    current_y: float | None = None
+    current_right: float | None = None
+    for fragment in sorted(fragments, key=lambda item: (float(item["y"]), float(item["x"]), int(item["index"]))):
+        font_size = float(fragment["font_size"])
+        y_threshold = max(font_size * 0.22, 3.0)
+        gap_threshold = max(font_size * 0.9, 12.0)
+        key = text_fragment_style_key(fragment)
+        gap = 0.0 if current_right is None else float(fragment["x"]) - current_right
+        same_run = (
+            bool(current)
+            and key == current_key
+            and current_y is not None
+            and abs(float(fragment["y"]) - current_y) <= y_threshold
+            and gap <= gap_threshold
+            and gap >= -font_size * 0.2
+        )
+        if not same_run:
+            if current:
+                runs.append(current)
+            current = [fragment]
+            current_key = key
+            current_y = float(fragment["y"])
+            current_right = float(fragment["right"])
+            continue
+        current.append(fragment)
+        current_y = sum(float(item["y"]) for item in current) / len(current)
+        current_right = max(float(current_right or 0), float(fragment["right"]))
+    if current:
+        runs.append(current)
+
+    replacement_by_index: dict[int, ET.Element] = {}
+    remove_set: set[ET.Element] = set()
+    output_count = 0
+    coalesced = 0
+    for run in runs:
+        if len(run) == 1:
+            output_count += 1
+            continue
+        replacement = coalesced_text_element(run)
+        first_index = min(int(item["index"]) for item in run)
+        replacement_by_index[first_index] = replacement
+        remove_set.update(item["element"] for item in run)
+        output_count += 1
+        coalesced += len(run) - 1
+
+    if coalesced <= 0:
+        return stats
+    rebuilt: list[ET.Element] = []
+    for index, child in enumerate(children):
+        if index in replacement_by_index:
+            rebuilt.append(replacement_by_index[index])
+        if child in remove_set:
+            continue
+        rebuilt.append(child)
+    parent[:] = rebuilt
+    return {"raw": len(fragments), "output": output_count, "coalesced": coalesced}
+
+
+def coalesce_text_fragments(root: ET.Element, report: dict[str, Any]) -> None:
+    totals = {"raw": 0, "output": 0, "coalesced": 0}
+
+    def walk(parent: ET.Element, *, in_support: bool = False) -> None:
+        name = local_name(parent.tag)
+        next_in_support = in_support or (parent is not root and name in SUPPORT_SUBTREE_TAGS)
+        if not next_in_support:
+            stats = coalesce_direct_text_children(parent)
+            for key, value in stats.items():
+                totals[key] += value
+        for child in list(parent):
+            walk(child, in_support=next_in_support)
+
+    walk(root)
+    lowering = report.setdefault("text_lowering", {})
+    lowering["raw_text_fragments"] = totals["raw"]
+    lowering["output_text_boxes"] = totals["output"]
+    lowering["coalesced_text_fragments"] = totals["coalesced"]
 
 
 def area_ratio(box: dict[str, float], page_width: float, page_height: float) -> float:
@@ -640,17 +907,23 @@ def build_text_style_item(element: ET.Element, *, text_style_id: str, source_ref
     font_size = numeric_style_value(style_or_attr(element, "font-size"), 16)
     font_weight = int(numeric_style_value(style_or_attr(element, "font-weight"), 400))
     color = style_or_attr(element, "fill") or style_or_attr(element, "color") or "#111827"
-    line_height_raw = style_or_attr(element, "line-height")
-    loss_notes: list[str] = []
-    if line_height_raw:
-        line_height = numeric_style_value(line_height_raw, 1.0)
-    else:
-        line_height = 1.0
-        loss_notes.append("line_height_not_explicit_in_raw_svg")
+    line_height, loss_notes = line_height_multiplier(element)
+    source_font = get_xml_attr(element, "data-svglide-source-font-family") or style_or_attr(element, "font-family") or ""
+    slide_font = style_or_attr(element, "font-family") or ""
+    baseline_conversion = {
+        "mode": get_xml_attr(element, "data-svglide-baseline-conversion") or "",
+        "baseline_y": numeric_style_value(get_xml_attr(element, "data-svglide-baseline-y"), 0.0),
+        "box_top_y": numeric_style_value(get_xml_attr(element, "y"), 0.0),
+        "ascent": numeric_style_value(get_xml_attr(element, "data-svglide-text-ascent"), 0.0),
+        "descent": numeric_style_value(get_xml_attr(element, "data-svglide-text-descent"), 0.0),
+    }
     return {
         "role": "display" if font_size >= 40 or font_weight >= 800 else "body",
         "content_hash": content_hash(text),
-        "font_family": style_or_attr(element, "font-family") or "",
+        "font_family": slide_font,
+        "source_font_family": source_font,
+        "slide_font_family": slide_font,
+        "font_mapping_reason": get_xml_attr(element, "data-svglide-font-mapping-reason") or "source_font_family_preserved",
         "font_size": font_size,
         "font_weight": font_weight,
         "font_style": style_or_attr(element, "font-style", "normal") or "normal",
@@ -663,6 +936,7 @@ def build_text_style_item(element: ET.Element, *, text_style_id: str, source_ref
         "source_contract": {"source_ref": source_ref} if source_ref else {},
         "loss_notes": loss_notes,
         "text_style_id": text_style_id,
+        "baseline_conversion": baseline_conversion,
     }
 
 
@@ -688,6 +962,23 @@ def insert_text_style_manifest(root: ET.Element, items: dict[str, dict[str, Any]
         sort_keys=True,
     )
     root.insert(0, metadata)
+
+
+def apply_text_font_mapping(element: ET.Element) -> dict[str, Any]:
+    source_font = source_font_family(element)
+    slide_font, reason = slide_font_mapping(source_font)
+    style = parse_style_attr(get_xml_attr(element, "style"))
+    if style.get("font-family"):
+        style["font-family"] = slide_font
+        element.attrib["style"] = style_attr_from_dict(style)
+    element.attrib["font-family"] = slide_font
+    element.attrib["data-svglide-source-font-family"] = source_font
+    element.attrib["data-svglide-slide-font-family"] = slide_font
+    if reason:
+        element.attrib["data-svglide-font-mapping-reason"] = reason
+    else:
+        element.attrib["data-svglide-font-mapping-reason"] = "source_font_family_preserved"
+    return {"source_font_family": source_font, "slide_font_family": slide_font, "reason": reason}
 
 
 def iter_visible_elements(root: ET.Element) -> list[ET.Element]:
@@ -783,6 +1074,15 @@ def empty_report(source: str, semantic_map: str, output: str) -> dict[str, Any]:
         "support_node_retention": {"raw_counts": {key: 0 for key in SUPPORT_RETENTION_TAGS}, "output_counts": {key: 0 for key in SUPPORT_RETENTION_TAGS}},
         "unsupported_support_nodes": [],
         "loss_notes": [],
+        "text_lowering": {
+            "raw_text_fragments": 0,
+            "output_text_boxes": 0,
+            "coalesced_text_fragments": 0,
+            "baseline_converted_count": 0,
+            "role_font_mapped_count": 0,
+            "single_character_text_boxes": 0,
+            "baseline_conversions": [],
+        },
         "text_style_manifest_items": 0,
         "rasterized_regions": [],
         "rasterized_area_ratio": 0.0,
@@ -1040,6 +1340,7 @@ def raw_element_record(element: ET.Element, *, element_id: str, kind: str, impor
 
 def lower_raw_satori_svg(root: ET.Element, *, report: dict[str, Any], semantic_map: dict[str, Any], assets: dict[str, str]) -> None:
     source_refs = semantic_text_source_refs(semantic_map)
+    coalesce_text_fragments(root, report)
     text_style_items: dict[str, dict[str, Any]] = {}
     counters = {"text": 0, "shape": 0, "image": 0, "unsupported": 0}
 
@@ -1077,15 +1378,27 @@ def lower_raw_satori_svg(root: ET.Element, *, report: dict[str, Any], semantic_m
             source_ref = source_ref_for_text(text, source_refs)
             if source_ref:
                 element.attrib["data-source-ref"] = source_ref
+            font_mapping = apply_text_font_mapping(element)
+            if font_mapping.get("reason") == "role_font_family_mapped_to_slide_default":
+                report["text_lowering"]["role_font_mapped_count"] += 1
+            baseline_conversion = convert_text_baseline_to_box(element)
+            report["text_lowering"]["baseline_converted_count"] += 1
+            if len(normalize_text(text)) <= 1:
+                report["text_lowering"]["single_character_text_boxes"] += 1
             text_style_id = f"txt_{counters['text']:03d}"
             element.attrib["data-svglide-text-style-id"] = text_style_id
             text_style_items[text_style_id] = build_text_style_item(element, text_style_id=text_style_id, source_ref=source_ref)
+            if len(text) >= 24 or numeric_style_value(style_or_attr(element, "font-size"), 16) >= 48:
+                element.attrib.setdefault("data-svglide-text-kind", "decorative_text" if numeric_style_value(style_or_attr(element, "font-size"), 16) >= 96 else "text")
             record_decision(
                 report,
                 element=raw_element_record(element, element_id=node_id, kind="text", importance="semantic_required", source_ref=source_ref),
                 decision="compiled",
-                reason="lowered raw Satori text to slide text role with text style metadata",
+                reason="lowered raw Satori text to slide text role with coalescing, baseline conversion, and text style metadata",
                 output_ref=node_id,
+            )
+            report["text_lowering"]["baseline_conversions"].append(
+                {"element_id": node_id, **baseline_conversion}
             )
         elif name in VISIBLE_SHAPE_TAGS:
             counters["shape"] += 1
@@ -1151,6 +1464,9 @@ def lower_raw_satori_svg(root: ET.Element, *, report: dict[str, Any], semantic_m
     walk(root)
     insert_text_style_manifest(root, text_style_items, report["source"])
     report["text_style_manifest_items"] = len(text_style_items)
+    if report["text_lowering"]["raw_text_fragments"] == 0:
+        report["text_lowering"]["raw_text_fragments"] = counters["text"]
+        report["text_lowering"]["output_text_boxes"] = counters["text"]
 
 
 def compile_page(project: Path, page_entry: dict[str, Any], assets: dict[str, str]) -> dict[str, Any]:
@@ -1181,7 +1497,7 @@ def compile_page(project: Path, page_entry: dict[str, Any], assets: dict[str, st
     report["support_node_retention"] = {"raw_counts": raw_support_counts, "output_counts": output_support_counts}
     raw_text = raw_counts.get("text", 0)
     output_text = output_counts.get("text", 0)
-    if raw_text > 0 and output_text / raw_text < 0.95:
+    if raw_text > 0 and output_text <= 0:
         report["blocking_issues"].append(
             {
                 "element_id": f"page-{page:03d}-text-retention",
@@ -1189,7 +1505,7 @@ def compile_page(project: Path, page_entry: dict[str, Any], assets: dict[str, st
                 "importance": "semantic_required",
                 "source_tag": "text",
                 "decision": "blocked",
-                "reason": f"raw text retention below threshold: {output_text}/{raw_text}",
+                "reason": f"raw text content was lost during lowering: {output_text}/{raw_text}",
                 "output_ref": rel(project, output_path),
             }
         )

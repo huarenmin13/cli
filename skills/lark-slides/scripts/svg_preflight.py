@@ -42,6 +42,7 @@ FONT_SHORTHAND_RE = re.compile(r"(^|;)\s*font\s*:", re.IGNORECASE)
 FONT_STYLE_ITALIC_RE = re.compile(r"font-style\s*:\s*(italic|oblique)\b", re.IGNORECASE)
 LETTER_SPACING_RE = re.compile(r"letter-spacing\s*:\s*([^;]+)", re.IGNORECASE)
 REMOTE_FONT_DEPENDENCY_RE = re.compile(r"(@font-face|fonts\.googleapis\.com|fonts\.gstatic\.com|https?://)", re.IGNORECASE)
+ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
 STYLE_IMAGE_OPACITY_RE = re.compile(r"(^|;)\s*opacity\s*:", re.IGNORECASE)
 STYLE_STROKE_WIDTH_RE = re.compile(r"(^|;)\s*stroke-width\s*:", re.IGNORECASE)
 STYLE_STROKE_DASHARRAY_RE = re.compile(r"(^|;)\s*stroke-dasharray\s*:", re.IGNORECASE)
@@ -500,8 +501,11 @@ def validate_roles_and_attrs(elements: list[ET.Element]) -> list[dict[str, Any]]
             if not "".join(element.itertext()).strip():
                 issues.append(issue("error", "empty_text_content", '<text slide:role="text"> must include visible text content', element))
             style = parse_style_props(get_attr(element, "style"))
-            has_font_family = bool(get_attr(element, "font-family") or style.get("font-family"))
-            has_font_size = parse_number(get_attr(element, "font-size") or style.get("font-size")) is not None
+            font_family = get_attr(element, "font-family") or style.get("font-family") or ""
+            font_size = parse_number(get_attr(element, "font-size") or style.get("font-size"))
+            height = parse_number(get_attr(element, "height") or style.get("height"))
+            has_font_family = bool(font_family)
+            has_font_size = font_size is not None
             has_font_weight = bool(get_attr(element, "font-weight") or style.get("font-weight"))
             if not (has_font_family and has_font_size and has_font_weight):
                 issues.append(
@@ -509,6 +513,34 @@ def validate_roles_and_attrs(elements: list[ET.Element]) -> list[dict[str, Any]]
                         "error",
                         "missing_text_typography",
                         '<text slide:role="text"> must include font-family, font-size, and font-weight',
+                        element,
+                    )
+                )
+            normalized_font = font_family.strip().strip("'\"")
+            if normalized_font and ROLE_FONT_RE.match(normalized_font):
+                issues.append(
+                    issue(
+                        "error",
+                        "role_font_family_leaked",
+                        "<text slide:role=\"text\"> must use a real slide font-family, not an SVGlide role font",
+                        element,
+                    )
+                )
+            if get_attr(element, "data-svglide-baseline-conversion") != "svg-baseline-to-slide-box":
+                issues.append(
+                    issue(
+                        "error",
+                        "baseline_conversion_missing",
+                        '<text slide:role="text"> must record SVG baseline to slide text-box conversion',
+                        element,
+                    )
+                )
+            if font_size is not None and height is not None and height < font_size * 0.95:
+                issues.append(
+                    issue(
+                        "error",
+                        "text_box_height_invalid",
+                        '<text slide:role="text"> height must be large enough for its font size',
                         element,
                     )
                 )

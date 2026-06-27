@@ -86,10 +86,35 @@ class SVGlideEditabilityGateTest(unittest.TestCase):
         self.assertEqual(result["summary"]["editable_text_count"], 1)
         self.assertEqual(result["summary"]["editable_shape_count"], 1)
         self.assertEqual(result["summary"]["editable_line_count"], 1)
+        self.assertEqual(result["summary"]["single_char_text_shape_count"], 0)
+        self.assertEqual(result["summary"]["role_font_family_count"], 0)
         self.assertEqual(result["summary"]["image_only_page_count"], 0)
         self.assertEqual(result["summary"]["full_page_raster_count"], 0)
         self.assertEqual(result["summary"]["raster_area_ratio"], 0.0)
         self.assertTrue((project / "08-readback/editability-report.json").exists())
+
+    def test_gate_rejects_fragmented_online_text_shapes_and_role_fonts(self) -> None:
+        project = self.make_project()
+        (project / "04-svg/prepared/page-001.svg").write_text(EDITABLE_SVG, encoding="utf-8")
+        chars = "暗黑破坏神二重制版角色装备地下城符文之语刷宝指南全流程" * 2
+        fragmented = "".join(
+            f'<shape type="text" width="20" height="24" topLeftX="{80 + index * 2}" topLeftY="120">'
+            f'<content fontFamily="svglideboldposterbody"><p><span>{char}</span></p></content></shape>'
+            for index, char in enumerate(chars)
+        )
+        self.write_readback(
+            project,
+            f'<presentation width="960" height="540"><slide id="s1"><data>{fragmented}</data></slide></presentation>',
+        )
+
+        result = svglide_editability_gate.run_editability_gate(project)
+
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("readback_role_font_family", result["failed_checks"])
+        self.assertIn("readback_text_fragmentation", result["failed_checks"])
+        self.assertGreater(result["summary"]["single_char_text_shape_count"], 30)
+        self.assertGreater(result["summary"]["single_char_text_shape_ratio"], 0.9)
+        self.assertGreater(result["summary"]["role_font_family_count"], 30)
 
     def test_gate_rejects_prepared_full_page_raster(self) -> None:
         project = self.make_project()

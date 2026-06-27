@@ -13,6 +13,7 @@ import re
 import shlex
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import quote
@@ -24,6 +25,7 @@ LIVE_CREATE_NAME = "live-create.json"
 RAW_READBACK_NAME = "xml-presentations-get.json"
 READBACK_CHECK_NAME = "readback-check.json"
 LARK_CLI_COMMAND_ENV = "SVGLIDE_LARK_CLI_CMD"
+ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
 
 
 class ReadbackError(Exception):
@@ -228,6 +230,71 @@ def actual_page_count(readback: Any) -> int | None:
     if content:
         return len(slide_ids_from_content(content))
     return None
+
+
+def local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def element_visible_text(element: ET.Element) -> str:
+    return " ".join(text.strip() for text in element.itertext() if text.strip())
+
+
+def element_font_families(element: ET.Element) -> list[str]:
+    names: list[str] = []
+    for node in element.iter():
+        for key in ["fontFamily", "font-family", "font_family"]:
+            value = node.attrib.get(key)
+            if isinstance(value, str) and value.strip():
+                names.append(value.strip())
+    return names
+
+
+def readback_text_shape_stats(readback: Any) -> dict[str, Any]:
+    content = extract_presentation_content(readback)
+    stats = {
+        "mode": "xml_presentation_content" if content else "unavailable",
+        "page_count": 0,
+        "text_shape_count": 0,
+        "single_char_text_shape_count": 0,
+        "short_text_shape_count": 0,
+        "role_font_family_count": 0,
+        "text_shape_count_max_per_page": 0,
+        "single_char_text_shape_ratio": 0.0,
+        "short_text_shape_ratio": 0.0,
+    }
+    if not content:
+        return stats
+    try:
+        root = ET.fromstring(content)
+    except ET.ParseError as error:
+        stats["mode"] = "xml_parse_failed"
+        stats["parse_error"] = str(error)
+        return stats
+    for slide in [element for element in root.iter() if local_name(element.tag) == "slide"]:
+        stats["page_count"] += 1
+        page_text_shapes = 0
+        for element in slide.iter():
+            if local_name(element.tag) != "shape":
+                continue
+            text = element_visible_text(element)
+            shape_type = element.attrib.get("type", "").lower()
+            if not text and shape_type != "text":
+                continue
+            stats["text_shape_count"] += 1
+            page_text_shapes += 1
+            compact = compact_text(text)
+            if len(compact) == 1:
+                stats["single_char_text_shape_count"] += 1
+            if 0 < len(compact) <= 2:
+                stats["short_text_shape_count"] += 1
+            if any(ROLE_FONT_RE.match(font) for font in element_font_families(element)):
+                stats["role_font_family_count"] += 1
+        stats["text_shape_count_max_per_page"] = max(stats["text_shape_count_max_per_page"], page_text_shapes)
+    if stats["text_shape_count"] > 0:
+        stats["single_char_text_shape_ratio"] = round(stats["single_char_text_shape_count"] / stats["text_shape_count"], 6)
+        stats["short_text_shape_ratio"] = round(stats["short_text_shape_count"] / stats["text_shape_count"], 6)
+    return stats
 
 
 def expected_asset_tokens(project: Path) -> list[str]:
@@ -471,6 +538,7 @@ def build_checks(project: Path, live_create: Any, readback: Any, xml_presentatio
     readback_text = json.dumps(readback, ensure_ascii=False)
     visible_text = "\n".join(visible_text_candidates(readback))
     compact_visible_text = compact_text(visible_text)
+    text_shape_stats = readback_text_shape_stats(readback)
 
     checks: dict[str, Any] = {}
     if expected_count is None or actual_count is None:
@@ -552,6 +620,7 @@ def build_checks(project: Path, live_create: Any, readback: Any, xml_presentatio
         "status": "failed" if failed else "passed",
         "xml_presentation_id": xml_presentation_id,
         "input_binding": build_input_binding(project, live_create),
+        "readback_text_stats": text_shape_stats,
         "checks": checks,
         "failed_checks": failed,
     }

@@ -25,6 +25,9 @@ OUTPUT_CHECK = Path("06-check/editability-gate.json")
 OUTPUT_RECEIPT = Path("receipts/editability_gate.json")
 LOCAL_RASTER_PAGE_AREA_LIMIT = 0.25
 LOCAL_RASTER_DECK_AREA_LIMIT = 0.15
+ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
+TEXT_FRAGMENT_MIN_SHAPES = 30
+TEXT_FRAGMENT_RATIO_LIMIT = 0.5
 
 
 class EditabilityGateError(Exception):
@@ -56,6 +59,10 @@ def read_json(path: Path) -> Any:
 
 def local_name(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
+
+
+def compact_text(value: str) -> str:
+    return re.sub(r"\s+", "", value or "")
 
 
 def slide_attr(name: str) -> str:
@@ -95,6 +102,20 @@ def is_svg_text_node(element: ET.Element) -> bool:
     role = attr(element, "role")
     shape_type = attr(element, "shape-type")
     return tag == "text" or role == "text" or (tag == "foreignObject" and shape_type == "text")
+
+
+def element_visible_text(element: ET.Element) -> str:
+    return " ".join(text.strip() for text in element.itertext() if text.strip())
+
+
+def shape_font_families(element: ET.Element) -> list[str]:
+    names = []
+    for node in element.iter():
+        for key in ["fontFamily", "font-family", "font_family"]:
+            value = node.attrib.get(key)
+            if value:
+                names.append(value.strip())
+    return [name for name in names if name]
 
 
 def renderable_svg_nodes(root: ET.Element) -> list[ET.Element]:
@@ -232,6 +253,12 @@ def xml_block_stats(xml_text: str) -> dict[str, Any]:
         "image_only_page_count": 0,
         "raster_area_ratio_max": 0.0,
         "page_count": 0,
+        "single_char_text_shape_count": 0,
+        "short_text_shape_count": 0,
+        "role_font_family_count": 0,
+        "text_shape_count_max_per_page": 0,
+        "single_char_text_shape_ratio": 0.0,
+        "short_text_shape_ratio": 0.0,
     }
     for slide in [element for element in root.iter() if local_name(element.tag) == "slide"]:
         stats["page_count"] += 1
@@ -240,16 +267,25 @@ def xml_block_stats(xml_text: str) -> dict[str, Any]:
         slide_images = 0
         slide_non_image = 0
         slide_image_area = 0.0
+        slide_text_shapes = 0
         for element in slide.iter():
             name = local_name(element.tag)
             if element is slide or name in {"style", "data", "fill", "fillColor", "content"}:
                 continue
             if name == "shape":
                 slide_non_image += 1
-                content_text = " ".join(text.strip() for text in element.itertext() if text.strip())
+                content_text = element_visible_text(element)
                 shape_type = element.attrib.get("type", "").lower()
                 if content_text or shape_type == "text":
                     stats["editable_text_count"] += 1
+                    slide_text_shapes += 1
+                    compact = compact_text(content_text)
+                    if len(compact) == 1:
+                        stats["single_char_text_shape_count"] += 1
+                    if 0 < len(compact) <= 2:
+                        stats["short_text_shape_count"] += 1
+                    if any(ROLE_FONT_RE.match(font) for font in shape_font_families(element)):
+                        stats["role_font_family_count"] += 1
                 else:
                     stats["editable_shape_count"] += 1
             elif name == "line":
@@ -274,6 +310,16 @@ def xml_block_stats(xml_text: str) -> dict[str, Any]:
         page_area = page_width * page_height
         if page_area > 0:
             stats["raster_area_ratio_max"] = max(stats["raster_area_ratio_max"], slide_image_area / page_area)
+        stats["text_shape_count_max_per_page"] = max(stats["text_shape_count_max_per_page"], slide_text_shapes)
+    if stats["editable_text_count"] > 0:
+        stats["single_char_text_shape_ratio"] = round(
+            stats["single_char_text_shape_count"] / stats["editable_text_count"],
+            6,
+        )
+        stats["short_text_shape_ratio"] = round(
+            stats["short_text_shape_count"] / stats["editable_text_count"],
+            6,
+        )
     return stats
 
 
@@ -299,6 +345,12 @@ def json_block_stats(value: Any) -> dict[str, Any]:
         "image_only_page_count": 0,
         "raster_area_ratio_max": 0.0,
         "page_count": 0,
+        "single_char_text_shape_count": 0,
+        "short_text_shape_count": 0,
+        "role_font_family_count": len(re.findall(r"svglide[a-z0-9_-]*(?:display|body|label|metric|font)", text)),
+        "text_shape_count_max_per_page": 0,
+        "single_char_text_shape_ratio": 0.0,
+        "short_text_shape_ratio": 0.0,
     }
 
 
@@ -369,6 +421,27 @@ def run_editability_gate(project: Path) -> dict[str, Any]:
         source_text_count=prepared["totals"]["source_text_count"],
         editable_text_count=readback["editable_text_count"],
     )
+    checks["readback_role_font_family"] = check_status(
+        "passed" if readback["role_font_family_count"] == 0 else "failed",
+        role_font_family_count=readback["role_font_family_count"],
+    )
+    text_fragment_status = "passed"
+    if (
+        readback["editable_text_count"] >= TEXT_FRAGMENT_MIN_SHAPES
+        and readback["single_char_text_shape_ratio"] > TEXT_FRAGMENT_RATIO_LIMIT
+    ):
+        text_fragment_status = "failed"
+    checks["readback_text_fragmentation"] = check_status(
+        text_fragment_status,
+        editable_text_count=readback["editable_text_count"],
+        single_char_text_shape_count=readback["single_char_text_shape_count"],
+        single_char_text_shape_ratio=readback["single_char_text_shape_ratio"],
+        short_text_shape_count=readback["short_text_shape_count"],
+        short_text_shape_ratio=readback["short_text_shape_ratio"],
+        text_shape_count_max_per_page=readback["text_shape_count_max_per_page"],
+        min_shapes=TEXT_FRAGMENT_MIN_SHAPES,
+        ratio_limit=TEXT_FRAGMENT_RATIO_LIMIT,
+    )
 
     failed = [name for name, check in checks.items() if check.get("status") == "failed"]
     result = {
@@ -389,6 +462,12 @@ def run_editability_gate(project: Path) -> dict[str, Any]:
             "editable_text_count": readback["editable_text_count"],
             "editable_shape_count": readback["editable_shape_count"],
             "editable_line_count": readback["editable_line_count"],
+            "single_char_text_shape_count": readback["single_char_text_shape_count"],
+            "single_char_text_shape_ratio": readback["single_char_text_shape_ratio"],
+            "short_text_shape_count": readback["short_text_shape_count"],
+            "short_text_shape_ratio": readback["short_text_shape_ratio"],
+            "role_font_family_count": readback["role_font_family_count"],
+            "text_shape_count_max_per_page": readback["text_shape_count_max_per_page"],
             "image_only_page_count": readback["image_only_page_count"],
             "full_page_raster_count": readback["full_page_raster_count"],
             "raster_area_ratio": readback["raster_area_ratio_max"],
