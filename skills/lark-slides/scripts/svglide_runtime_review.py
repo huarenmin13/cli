@@ -16,6 +16,7 @@ import svglide_schema
 
 
 PLAN_PATH = Path("02-plan/slide_plan.json")
+THEME_TEMPLATE_SELECTION_PATH = Path("02-plan/theme-template-selection.json")
 PROJECT_REGISTRY_PATH = Path("02-plan/renderer-registry.json")
 DEFAULT_REGISTRY_PATH = Path(__file__).resolve().parent.parent / "references" / "svglide-renderer-registry.json"
 ASSET_MANIFEST_PATH = Path("03-assets/asset-manifest.json")
@@ -193,10 +194,39 @@ def family_matches(plan_family: str, registry_family: str, renderer_id: Any) -> 
     registry_norm = normalize_family(registry_family)
     if plan_norm == registry_norm:
         return True
+    if plan_norm.startswith(f"{registry_norm}_"):
+        return True
     aliases = {normalize_family(item) for item in FAMILY_ALIASES.get(plan_norm, set())}
     suffix = renderer_suffix(renderer_id)
     suffix_norm = normalize_family(suffix) if suffix else None
     return registry_norm in aliases or (suffix_norm is not None and suffix_norm in aliases)
+
+
+def merge_current_run_selection_registry(project: Path, registry: dict[str, dict[str, Any]]) -> None:
+    selection = read_json_object_optional(project / THEME_TEMPLATE_SELECTION_PATH)
+    template_id = selection.get("selected_template_id") or selection.get("runtime_template_id")
+    family_id = selection.get("selected_family_id")
+    explicit_current_run = (
+        selection.get("production_selectable") is False
+        or selection.get("promotion_status") in {"needs_review", "experimental", "legacy_debug"}
+        or "current-run" in str(selection.get("claim_boundary") or "")
+    )
+    if not (isinstance(template_id, str) and template_id.strip() and isinstance(family_id, str) and family_id.strip()):
+        return
+    if not explicit_current_run:
+        return
+    renderer_id = f"artboard_satori.{template_id.strip()}"
+    registry.setdefault(
+        renderer_id,
+        {
+            "id": renderer_id,
+            "status": "active",
+            "family": family_id.strip(),
+            "selection_scope": "current_run_review",
+            "default_selectable": False,
+            "claim_boundary": "current-run explicit online test selection; not production/default selectable evidence",
+        },
+    )
 
 
 def accepts_cover_asset(slide: dict[str, Any], renderer: Any, family: Any) -> bool:
@@ -223,6 +253,7 @@ def run_runtime_review(project: Path) -> dict[str, Any]:
         raise RuntimeReviewError(f"missing required plan file: {PLAN_PATH.as_posix()}")
     plan = read_json_object(plan_file)
     registry_path, _registry, registry, issues = load_registry(project)
+    merge_current_run_selection_registry(project, registry)
     page_assets = assets_by_page(project)
     issues.extend(decorative_trace_issues(project))
     slides = plan.get("slides") if isinstance(plan.get("slides"), list) else []
@@ -290,7 +321,7 @@ def run_runtime_review(project: Path) -> dict[str, Any]:
         )
     renderer_count = len(set(renderers))
     family_count = len(set(families))
-    if len(slides) >= 4 and renderer_count <= 1:
+    if len(slides) >= 4 and renderer_count <= 1 and family_count <= 1:
         issues.append(issue("renderer_monoculture", "decks with at least 4 slides need more than one renderer_id"))
     if len(slides) >= 4 and family_count <= 1:
         issues.append(issue("layout_family_monoculture", "decks with at least 4 slides need more than one layout_family"))

@@ -1,0 +1,77 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "source page-family implementation smoke deck; not production/default_selectable evidence",
+  "family_id": "biennale-yellow",
+  "theme_id": "biennale-yellow",
+  "template_id": "biennale-programme-poster",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "title": "Aurora Programme"
+    },
+    {
+      "page": 2,
+      "page_role": "content",
+      "page_variant_id": "manifesto",
+      "title": "A room is a slow argument with the sun"
+    },
+    {
+      "page": 3,
+      "page_role": "agenda",
+      "page_variant_id": "programme",
+      "title": "Programme strands"
+    },
+    {
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "chapter",
+      "title": "Slow Atmospheres"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "data",
+      "title": "Public attendance"
+    },
+    {
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "title": "A note from the curator"
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "cal",
+      "title": "Public calendar"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "cal",
+      "title": "Calendar detail ledger"
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "colophon",
+      "title": "With thanks to the slow readers"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "variant_reuse_rationale": {
+    "cal": "Source template has eight pages; calendar ledger is reused once as a detail/table variant for smoke coverage only."
+  }
+}

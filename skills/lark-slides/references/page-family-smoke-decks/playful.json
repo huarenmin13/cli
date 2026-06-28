@@ -1,0 +1,62 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for playful page-family coverage; not production/default selectable evidence.",
+  "family_id": "playful",
+  "runtime_template_id": "playful-indie-launch",
+  "selected_theme_id": "playful",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc"
+    },
+    {
+      "page": 3,
+      "page_role": "quote",
+      "page_variant_id": "statement"
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "chart"
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "team"
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "services"
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "timeline"
+    },
+    {
+      "page": 8,
+      "page_role": "data",
+      "page_variant_id": "stats"
+    },
+    {
+      "page": 9,
+      "page_role": "content",
+      "page_variant_id": "gallery"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing"
+    }
+  ],
+  "variant_reuse_rationale": "Playful source has 10 source-backed pages and covers all production minimum smoke roles without variant reuse. The second data role is intentional because the source contains both chart and stat pages."
+}

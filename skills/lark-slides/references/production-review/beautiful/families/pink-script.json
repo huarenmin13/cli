@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/pink-script.html",
-    "render_status": "missing_smoke",
-    "sha256": "4826a9fd47a338d326017e58e20b11edb73a6ced4b1e85d9005c810b7c987b74"
+    "render_status": "passed",
+    "sha256": "6ae26aae112e1f926460c42d9c5fc51064086b5be717a8f01a9e310f50427f80"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "4826a9fd47a338d326017e58e20b11edb73a6ced4b1e85d9005c810b7c987b74",
+    "contact_sheet": "6ae26aae112e1f926460c42d9c5fc51064086b5be717a8f01a9e310f50427f80",
     "fidelity_receipt": "ff075c2947f7c09785c47c57f68d995722873676d91251a822747e0b096b88bf",
     "reference_screenshot": "d39af58b620fe59ab0e28db0f070fd6e13214896115aa984be069369ef594ff7",
-    "smoke_receipt": null,
-    "visual_contract": "b6f6845aa9f78d5c98f51a3279c2afde366f68c0a88fee5521c2c146a3a6b971"
+    "smoke_receipt": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63",
+    "visual_contract": "f8d89981581aa76d70a5c0d03521d87d17843a336701b1a8cfbb03cda00b2b41"
   },
   "family_id": "pink-script",
   "fidelity": {
@@ -33,12 +33,20 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 9,
+  "implemented_page_variants": [
+    "cover",
+    "toc",
+    "stats",
+    "section",
+    "chart",
+    "process",
+    "matrix",
+    "quote",
+    "cta"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
     "selector_gate_missing",
@@ -65,31 +73,36 @@
   ],
   "not_promotion_receipt": true,
   "page_family_promotion_gate": {
-    "claim_boundary": null,
-    "required_evidence": [],
-    "status": "missing"
+    "claim_boundary": "page-family implementation and smoke evidence only; production/default selectable remains blocked until selector/gate/production review pass.",
+    "required_evidence": [
+      "selector_gate",
+      "quality_gate",
+      "human_production_review",
+      "screenshot_fidelity_pass"
+    ],
+    "status": "blocked"
   },
-  "page_family_promotion_gate_status": "missing",
+  "page_family_promotion_gate_status": "blocked",
   "page_family_representative_sample": {
     "artifact_kind": "page_family_representative_sample",
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
     "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "715c79a1a9ecbca20e2bd76e439968dd7d8863210eed157f04c52dcb2678619e",
+    "current_deck_browser_preview_sha256": "f0c8ddd6deb965c8315de5da8bee176654cede45a2de2e4c9ee39ece34bbe296",
     "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.png",
     "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.svg",
-    "current_deck_render_sha256": "2e2e12fe66233f3439838b7e89682a1a131d747db3e8a302aa5144eb5c8d23de",
+    "current_deck_render_sha256": "0b66c40be8f12bd57b942c835702ed3c075ac5b2eaf8402596eda48ea24c6e1f",
     "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.svg",
     "family_id": "pink-script",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
+    "golden_spec_sha256": "5847b92a786ee085aac3b039bc9014452af7878661a02cb942401163e8317e0d",
     "page": 1,
     "page_role": "cover",
     "page_variant_id": "cover",
     "role_group": "cover",
     "runtime_template_id": "pink-nocturne-feature",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+    "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63",
     "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pink-script/001-cover.jpg",
     "source_screenshot_sha256": "e3a831caa9d7720d74a36e78abddc56608bcc1336555888e4b10d771218ca2ed",
     "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/pink-script/001-cover.jpg",
@@ -403,33 +416,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "715c79a1a9ecbca20e2bd76e439968dd7d8863210eed157f04c52dcb2678619e",
+          "browser_preview_sha256": "f0c8ddd6deb965c8315de5da8bee176654cede45a2de2e4c9ee39ece34bbe296",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.svg",
-          "sha256": "2e2e12fe66233f3439838b7e89682a1a131d747db3e8a302aa5144eb5c8d23de",
+          "sha256": "0b66c40be8f12bd57b942c835702ed3c075ac5b2eaf8402596eda48ea24c6e1f",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
+        "golden_spec_sha256": "5847b92a786ee085aac3b039bc9014452af7878661a02cb942401163e8317e0d",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -468,33 +481,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "76715672e6f98a558695dedaad3e250250e75be28a5339f76fd00f751fc407de",
+          "browser_preview_sha256": "094adaa1ae4dbfde849f062edb99e414dbd549f80a529e54c56749f8366eb4e0",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.svg",
-          "sha256": "e6b43f883b2549ca2069e126fa6334958839d0ee4a4cbfdc9dbcd8dff1c650a1",
+          "sha256": "ad0f3b79862b12cb45ac231b532b2241025c3a93838ccbbdbc65d117ceb04454",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json",
+        "golden_spec_sha256": "f90519cb2cc801156388e7556f0ae6f1d137b8b37f71fd19c4353ffb4bc30c56",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "metrics"
@@ -534,33 +547,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "81b800138aad63b99ed21fd67bbaa045693c8867c191cb284525c4be4fa6ee12",
+          "browser_preview_sha256": "cf728ea94c39fdfa115e9d4438c452b35f5cd037efb30c92145fea0afb458da6",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.svg",
-          "sha256": "95a7a8748506b97d62cd1b3ac7b273492903e758facb29a6343b6987d72ded70",
+          "sha256": "124e4bf96dcca8fb4033ce0dbb6b1048661a1ca2cfc3a23e09dab0095f0a3477",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
+        "golden_spec_sha256": "e90552c1ef1979ac3e68334210b8783d1ac1cfd58ecf3c4fc67ad8aa92afb991",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -601,33 +614,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "79e6b60b05d325d68e49e13d7245eb7f1e1b8aa912de35e3352c63d8951da013",
+          "browser_preview_sha256": "6b1b18f206fa44b59ce8e8eaec793c4de6b45495e0c3f91ef43c59382f1d1378",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.svg",
-          "sha256": "f2cf72b1690b35b2f153d55315d61d8bd3394e1c3b4f7dd454a2459c99d22d1f",
+          "sha256": "ba5e2fb01d75774c08a184abcbf8be378f4b4ca6d7fe3f63a29baa906628c472",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
+        "golden_spec_sha256": "858d4f47a29c73156a4b4978d751a7d404f85ec1f404f96e5d848e3bd9319aa0",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle"
@@ -667,33 +680,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "50741fe676da5b3d3ebc1e52c43c83653c223a4c2d1efff0e0e14e57fb262b8c",
+          "browser_preview_sha256": "d32a8c3fd030fd21650b95db1c624955a32ce59ddd9227b6fa68b95aa63806a0",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.svg",
-          "sha256": "d89e6d3e57c6e39652f383f3c03aa1069362ae507e611a0185d77a5e4ba54d53",
+          "sha256": "20d1af2c07bf8a85413d3f0bcd23c725a1371b6dbb8b389d2d881aecea47110f",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
+        "golden_spec_sha256": "2f21daf7f51fe9eafc9169087263ada9329f18dbde4d020dd565f11761401796",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -734,33 +747,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "4f8c164ce6aa980cbfe43c0f5513ae64d76353f9a2a45022e5e197b4ca94c92e",
+          "browser_preview_sha256": "4efed1b1122afe4715a527012029cccfef3a2b3655797f4e988ec6bca999fbab",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.svg",
-          "sha256": "a0fe1ebcffd7ff1547022fae8e5c3a158ef363914feff7d6d43abc73d5b3987d",
+          "sha256": "2be830804896a1fa0f93eb4944af0649b9cc345eb1928905a84188d04d32bd9a",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
+        "golden_spec_sha256": "8604237580e99ef4702fad73306a5a77f2213bb0a00fb6e9ae1f77b360b18912",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -801,33 +814,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "86c3c48e2a06d740915fe97cb7c95080f8f2367180f3c603e777011137c5eccb",
+          "browser_preview_sha256": "537a6feb241ddd49fe540b0b18b6ac87d5404d606efd2e97020253bff199900a",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.svg",
-          "sha256": "811ae123733c922b5c4764e1aeb32cd54336fe06b7b85e39ce2455304b6a2978",
+          "sha256": "df32d7333340b5a61ab685865ff5bae4370d48a43976e20695ee379e96f728d4",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
+        "golden_spec_sha256": "e21274adff7b2206218b628f198d58345e4a4c388bcd16d8cd194b3e3b976f47",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "quote"
@@ -867,33 +880,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "f37d08bf15188170c7861442fe9939ebe839c9ccc757d576b3d0732032c78ef9",
+          "browser_preview_sha256": "faf62bc85d19b19622151fffc73bf175bb6feee51120a8b2866c2b7082a4d2a7",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.svg",
-          "sha256": "64810a9ecacdde33dcc91d62ca1bf78ac6347f0179dbd7ebcbf2794008359818",
+          "sha256": "38e30ff41eb4916a3ed184ac0d12eee8a5788325c81788f9129ac9af929ac346",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
+        "golden_spec_sha256": "f8cea652246616c4e7923cc259145ddd1cd9acacb82d1bbeba8b0ba3d766fc5f",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "quote"
       ],
@@ -932,33 +945,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "8f21b1991221e6d55153cee1271f7d13ec6ed742b87da920ce90c8769e314643",
+          "browser_preview_sha256": "e0f64b5b562daa2e7f773a7a80610e9880d0f25387321d8e500d31103c50dd9a",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-          "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+          "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.svg",
-          "sha256": "014ec677680f8280c611ee9608d41a136142ddd82f7e69345ec3174ff4dccc83",
+          "sha256": "b6d1eca0632e8e9fa3d874138ab952024dcaca1ac2a42394320e781c663b4f76",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json",
+        "golden_spec_sha256": "3fa6e4a1fa7370edb9edad6b561b95cfa37517d1a31e0ef85b30e66dc6b99a99",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+        "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -998,19 +1011,137 @@
   "runtime_template_id": "pink-nocturne-feature",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "cover",
+      "toc",
+      "stats",
+      "section",
+      "chart",
+      "process",
+      "matrix",
+      "quote",
+      "cta"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/pink-script.json",
+    "deck_sha256": "1365abde0813c9c72f57ee6d371150cad3f9b7505b604782a3141f655f0a70ca",
+    "degraded": false,
+    "implemented_page_variants": [
+      "cover",
+      "toc",
+      "stats",
+      "section",
+      "chart",
+      "process",
+      "matrix",
+      "quote",
+      "cta"
+    ],
+    "input_hashes": {
+      "generator_receipt": "7ff265ba75f85ffac0acb0baa1ada399ec27b9506119f0d14c83cb9d5250ced6",
+      "golden_spec.chart": "2f21daf7f51fe9eafc9169087263ada9329f18dbde4d020dd565f11761401796",
+      "golden_spec.cover": "5847b92a786ee085aac3b039bc9014452af7878661a02cb942401163e8317e0d",
+      "golden_spec.cta": "3fa6e4a1fa7370edb9edad6b561b95cfa37517d1a31e0ef85b30e66dc6b99a99",
+      "golden_spec.matrix": "e21274adff7b2206218b628f198d58345e4a4c388bcd16d8cd194b3e3b976f47",
+      "golden_spec.process": "8604237580e99ef4702fad73306a5a77f2213bb0a00fb6e9ae1f77b360b18912",
+      "golden_spec.quote": "f8cea652246616c4e7923cc259145ddd1cd9acacb82d1bbeba8b0ba3d766fc5f",
+      "golden_spec.section": "858d4f47a29c73156a4b4978d751a7d404f85ec1f404f96e5d848e3bd9319aa0",
+      "golden_spec.stats": "e90552c1ef1979ac3e68334210b8783d1ac1cfd58ecf3c4fc67ad8aa92afb991",
+      "golden_spec.toc": "f90519cb2cc801156388e7556f0ae6f1d137b8b37f71fd19c4353ffb4bc30c56",
+      "slide_plan": "1c08aa6664d3a08853325d9ae64b6bcfff3503c7e8da949f0d76d96419b26ddf",
+      "smoke_deck": "1365abde0813c9c72f57ee6d371150cad3f9b7505b604782a3141f655f0a70ca",
+      "smoke_fixture": "3c121648120d43af6f912d3daf307dbf8ae37f9a8d5672cd1ac088581d668881",
+      "template_registry": "3a93bf7b657519dbb1f827986deb8e270fe8a89bc441c859a6627225075189a3",
+      "theme_registry": "0742eac8c0e15ba077eb555437c9b623d4f57f817083bd23f253092af6e2ec6e"
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "toc"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "cta"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          7
+        ],
+        "variants": [
+          "matrix"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          4
+        ],
+        "variants": [
+          "section"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "cover"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "stats"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "chart"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "process"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "quote"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+    "receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63",
+    "rendered_pages": 9,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
@@ -1114,33 +1245,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "715c79a1a9ecbca20e2bd76e439968dd7d8863210eed157f04c52dcb2678619e",
+            "browser_preview_sha256": "f0c8ddd6deb965c8315de5da8bee176654cede45a2de2e4c9ee39ece34bbe296",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.svg",
-            "sha256": "2e2e12fe66233f3439838b7e89682a1a131d747db3e8a302aa5144eb5c8d23de",
+            "sha256": "0b66c40be8f12bd57b942c835702ed3c075ac5b2eaf8402596eda48ea24c6e1f",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-001-cover.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
+          "golden_spec_sha256": "5847b92a786ee085aac3b039bc9014452af7878661a02cb942401163e8317e0d",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1179,33 +1310,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "76715672e6f98a558695dedaad3e250250e75be28a5339f76fd00f751fc407de",
+            "browser_preview_sha256": "094adaa1ae4dbfde849f062edb99e414dbd549f80a529e54c56749f8366eb4e0",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.svg",
-            "sha256": "e6b43f883b2549ca2069e126fa6334958839d0ee4a4cbfdc9dbcd8dff1c650a1",
+            "sha256": "ad0f3b79862b12cb45ac231b532b2241025c3a93838ccbbdbc65d117ceb04454",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-002-toc.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json",
+          "golden_spec_sha256": "f90519cb2cc801156388e7556f0ae6f1d137b8b37f71fd19c4353ffb4bc30c56",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "metrics"
@@ -1245,33 +1376,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "81b800138aad63b99ed21fd67bbaa045693c8867c191cb284525c4be4fa6ee12",
+            "browser_preview_sha256": "cf728ea94c39fdfa115e9d4438c452b35f5cd037efb30c92145fea0afb458da6",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.svg",
-            "sha256": "95a7a8748506b97d62cd1b3ac7b273492903e758facb29a6343b6987d72ded70",
+            "sha256": "124e4bf96dcca8fb4033ce0dbb6b1048661a1ca2cfc3a23e09dab0095f0a3477",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-003-stats.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
+          "golden_spec_sha256": "e90552c1ef1979ac3e68334210b8783d1ac1cfd58ecf3c4fc67ad8aa92afb991",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1312,33 +1443,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "79e6b60b05d325d68e49e13d7245eb7f1e1b8aa912de35e3352c63d8951da013",
+            "browser_preview_sha256": "6b1b18f206fa44b59ce8e8eaec793c4de6b45495e0c3f91ef43c59382f1d1378",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.svg",
-            "sha256": "f2cf72b1690b35b2f153d55315d61d8bd3394e1c3b4f7dd454a2459c99d22d1f",
+            "sha256": "ba5e2fb01d75774c08a184abcbf8be378f4b4ca6d7fe3f63a29baa906628c472",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-004-section.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
+          "golden_spec_sha256": "858d4f47a29c73156a4b4978d751a7d404f85ec1f404f96e5d848e3bd9319aa0",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle"
@@ -1378,33 +1509,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "50741fe676da5b3d3ebc1e52c43c83653c223a4c2d1efff0e0e14e57fb262b8c",
+            "browser_preview_sha256": "d32a8c3fd030fd21650b95db1c624955a32ce59ddd9227b6fa68b95aa63806a0",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.svg",
-            "sha256": "d89e6d3e57c6e39652f383f3c03aa1069362ae507e611a0185d77a5e4ba54d53",
+            "sha256": "20d1af2c07bf8a85413d3f0bcd23c725a1371b6dbb8b389d2d881aecea47110f",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-005-chart.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
+          "golden_spec_sha256": "2f21daf7f51fe9eafc9169087263ada9329f18dbde4d020dd565f11761401796",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1445,33 +1576,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "4f8c164ce6aa980cbfe43c0f5513ae64d76353f9a2a45022e5e197b4ca94c92e",
+            "browser_preview_sha256": "4efed1b1122afe4715a527012029cccfef3a2b3655797f4e988ec6bca999fbab",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.svg",
-            "sha256": "a0fe1ebcffd7ff1547022fae8e5c3a158ef363914feff7d6d43abc73d5b3987d",
+            "sha256": "2be830804896a1fa0f93eb4944af0649b9cc345eb1928905a84188d04d32bd9a",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-006-process.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
+          "golden_spec_sha256": "8604237580e99ef4702fad73306a5a77f2213bb0a00fb6e9ae1f77b360b18912",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1512,33 +1643,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "86c3c48e2a06d740915fe97cb7c95080f8f2367180f3c603e777011137c5eccb",
+            "browser_preview_sha256": "537a6feb241ddd49fe540b0b18b6ac87d5404d606efd2e97020253bff199900a",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.svg",
-            "sha256": "811ae123733c922b5c4764e1aeb32cd54336fe06b7b85e39ce2455304b6a2978",
+            "sha256": "df32d7333340b5a61ab685865ff5bae4370d48a43976e20695ee379e96f728d4",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-007-matrix.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
+          "golden_spec_sha256": "e21274adff7b2206218b628f198d58345e4a4c388bcd16d8cd194b3e3b976f47",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "quote"
@@ -1578,33 +1709,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "f37d08bf15188170c7861442fe9939ebe839c9ccc757d576b3d0732032c78ef9",
+            "browser_preview_sha256": "faf62bc85d19b19622151fffc73bf175bb6feee51120a8b2866c2b7082a4d2a7",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.svg",
-            "sha256": "64810a9ecacdde33dcc91d62ca1bf78ac6347f0179dbd7ebcbf2794008359818",
+            "sha256": "38e30ff41eb4916a3ed184ac0d12eee8a5788325c81788f9129ac9af929ac346",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-008-quote.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
+          "golden_spec_sha256": "f8cea652246616c4e7923cc259145ddd1cd9acacb82d1bbeba8b0ba3d766fc5f",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "quote"
         ],
@@ -1643,33 +1774,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "8f21b1991221e6d55153cee1271f7d13ec6ed742b87da920ce90c8769e314643",
+            "browser_preview_sha256": "e0f64b5b562daa2e7f773a7a80610e9880d0f25387321d8e500d31103c50dd9a",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/manifest.json",
-            "manifest_sha256": "b87a8edc7bd6a93270015ec120814464b963387b2ddc314735201114f5778f38",
+            "manifest_sha256": "a4c5de6c6aa99eab291a8b849e57b14b0f11fccdda20feb878a1af838b2cc77e",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.svg",
-            "sha256": "014ec677680f8280c611ee9608d41a136142ddd82f7e69345ec3174ff4dccc83",
+            "sha256": "b6d1eca0632e8e9fa3d874138ab952024dcaca1ac2a42394320e781c663b4f76",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/pink-script/page-009-cta.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json",
+          "golden_spec_sha256": "3fa6e4a1fa7370edb9edad6b561b95cfa37517d1a31e0ef85b30e66dc6b99a99",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+          "smoke_receipt_sha256": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1701,10 +1832,10 @@
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 9,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "pink-nocturne-feature",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/pink-script.pink-nocturne-feature.json",
-  "visual_contract_sha256": "b6f6845aa9f78d5c98f51a3279c2afde366f68c0a88fee5521c2c146a3a6b971"
+  "visual_contract_sha256": "f8d89981581aa76d70a5c0d03521d87d17843a336701b1a8cfbb03cda00b2b41"
 }

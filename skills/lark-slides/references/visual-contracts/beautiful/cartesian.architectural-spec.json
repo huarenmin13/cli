@@ -1,145 +1,66 @@
 {
-  "version": "svglide-beautiful-template-visual-contract/v1",
-  "family_id": "cartesian",
-  "runtime_template_id": "architectural-spec",
-  "source": {
-    "source_template_html": "beautiful-html-templates/templates/cartesian/template.html",
-    "source_design_md": "beautiful-html-templates/templates/cartesian/design.md",
-    "source_template_json": "beautiful-html-templates/templates/cartesian/template.json",
-    "reference_screenshot": "beautiful-html-templates/screenshots/cartesian-1.png",
-    "source_screenshots": [
-      "beautiful-html-templates/screenshots/cartesian-1.png",
-      "beautiful-html-templates/screenshots/cartesian-4.png",
-      "beautiful-html-templates/screenshots/cartesian-8.png"
-    ],
-    "absorption_records": [
-      "skills/lark-slides/references/absorptions/beautiful-html-templates/cartesian.architectural-spec.json"
-    ],
-    "template_json_name": "Cartesian",
-    "template_json_slug": "cartesian"
-  },
-  "layout": {
-    "layout_family": null,
-    "density": "low",
-    "formality": "high",
-    "layout_rhythm": "cartesian: low density, high formality. Quiet warm-neutral palette with classical Playfair serifs; tasteful and unhurried.",
-    "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_y\": \"4vh\", \"pad_x\": \"4vw\", \"gap_xl\": \"6vw\", \"gap_lg\": \"5vw\", \"gap_md\": \"3vw\", \"gap_sm\": \"2vh\", \"card_pad\": \"4vh 2vw\"}",
-    "source_layout_classes": [],
-    "variant_ids": [
-      "cover",
-      "agenda",
-      "section_divider",
-      "context_overview",
-      "metric_dashboard",
-      "problem_analysis",
-      "cause_analysis",
-      "comparison",
+  "component": {
+    "component_candidates": [
+      "title_block",
+      "section_label",
+      "metric_card",
+      "finding_callout",
+      "evidence_table",
+      "comparison_matrix",
       "timeline",
-      "case_evidence",
-      "action_plan",
-      "risk_dependency",
-      "closing"
+      "process_flow",
+      "image_panel",
+      "logo_strip",
+      "mini_chart",
+      "qualitative_radar",
+      "action_list",
+      "risk_matrix",
+      "architecture_diagram"
+    ],
+    "component_grammar": [
+      "__font_body",
+      "__font_display",
+      "card",
+      "card-icon",
+      "cards-grid",
+      "chart_axis_tick_color",
+      "chart_comparison_dash",
+      "chart_grid_color",
+      "chart_stroke_comparison",
+      "chart_stroke_primary"
+    ],
+    "component_ids": [],
+    "content_shapes": [],
+    "html_component_classes": [
+      "agenda-list",
+      "card",
+      "card-icon",
+      "cards-grid",
+      "chart-container",
+      "chart-wrapper",
+      "quote-mark",
+      "slide-barchart",
+      "slide-cards",
+      "slide-linechart",
+      "slide-statement",
+      "slide-timeline",
+      "stat-item",
+      "stats",
+      "team-grid",
+      "timeline",
+      "timeline-item"
     ]
   },
-  "typography": {
-    "template_json_typography": {
-      "display": "Playfair Display",
-      "body": "Inter",
-      "style": "transitional serif headlines paired with a clean grotesk; reads like a Sunday newspaper essay"
-    },
-    "design_tokens_typography": {
-      "body": "Inter",
-      "display": "Playfair Display",
-      "style": "transitional serif headlines paired with a clean grotesk; reads like a Sunday newspaper essay"
-    },
-    "visual_dna_typography_roles": {
-      "body": "Inter",
-      "caption": "small caption -> system-sans-cjk-regular",
-      "display": "Playfair Display",
-      "label": "compact label -> system-sans-cjk-medium",
-      "metric": "display numeric emphasis -> system-sans-cjk-heavy"
-    },
-    "typography_role": "transitional serif headlines paired with a clean grotesk; reads like a Sunday newspaper essay",
-    "font_policy": {
-      "fallback_stack": "system-sans-cjk",
-      "font_role_map": {
-        "body": "system-sans-cjk-regular",
-        "display": "system-sans-cjk-heavy",
-        "label": "system-sans-cjk-medium",
-        "metric": "system-sans-cjk-heavy",
-        "mono": "system-mono"
-      },
-      "original_families": [
-        "Playfair Display",
-        "Inter"
-      ]
-    },
-    "cjk_policy": {
-      "body_font_cn": "Noto Serif SC",
-      "design_intent_font_pairing": [
-        "Noto Serif SC"
-      ],
-      "display_font_cn": "Noto Serif SC",
-      "emphasis_policy": "color_or_weight_only",
-      "italic_policy": "drop_italic",
-      "known_degradation": "Noto Serif SC is the only Hanzi serif loaded — there is no italic axis (Chinese type historically has no italic), so the rare italic Playfair `<em>` moment loses its emphasis when the body falls through to NSC. Substitute a single-character span colored in `{colors.accent}` (taupe), or wrap the emphasized phrase in faint brackets 「」, to recover emphasis. NSC",
-      "latin_accent_policy": "latin_only_allowed_when_semantic_annotation",
-      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
-      "mixed_run_spacing": "pangu_spacing",
-      "mono_font_policy": "latin_only_or_system_mono",
-      "runtime_font_policy": "system_font_only_no_remote_dependency",
-      "runtime_font_stack": [
-        "system-sans-cjk",
-        "system-sans-cjk-heavy",
-        "system-sans-cjk-regular",
-        "system-mono"
-      ],
-      "source_section_heading": "CJK & International Content",
-      "source_section_sha256": "e8e494632f44c006960e60b91217750deaa859ac9da28f96cc78faee86b621fe",
-      "strategy": "replace_family_whole_element"
-    }
-  },
-  "palette": {
-    "template_json_palette": {
-      "bg_primary": "#EDE8E0",
-      "bg_secondary": "#E2DBD1",
-      "text_primary": "#1A1A1A",
-      "text_secondary": "#5A5A5A",
-      "accent": "#8A8178",
-      "line": "#B8B0A4",
-      "description": "warm bone and stone neutrals only; no saturated color; the entire system runs on tonal contrast and typography"
-    },
-    "design_token_colors": {
-      "accent": "#8A8178",
-      "bg_primary": "#EDE8E0",
-      "bg_secondary": "#E2DBD1",
-      "line": "#B8B0A4",
-      "text_primary": "#1A1A1A",
-      "text_secondary": "#5A5A5A",
-      "white_overlay": "rgba(255, 255, 255, 0.3)"
-    },
-    "theme_token_colors": {},
-    "theme_token_semantic_colors": {},
-    "visual_dna_palette_roles": {
-      "accent": "#8A8178",
-      "background": "#EDE8E0",
-      "border": "#EDE8E0",
-      "muted": "#EDE8E0",
-      "negative": "#EDE8E0",
-      "positive": "#EDE8E0",
-      "primary": "#8A8178",
-      "surface": "#EDE8E0",
-      "text": "#EDE8E0"
-    },
-    "css_color_variables": {
-      "bg_primary": "#ede8e0",
-      "bg_secondary": "#e2dbd1",
-      "text_primary": "#1a1a1a",
-      "text_secondary": "#5a5a5a",
-      "accent": "#8a8178"
-    }
-  },
   "decorative": {
+    "chrome_rules": [
+      "agenda-number",
+      "image-label",
+      "label",
+      "nav-arrow",
+      "nav-arrows",
+      "nav-dot",
+      "nav-dots"
+    ],
     "decorative_motifs": [
       "grid",
       "accent line",
@@ -148,6 +69,22 @@
       "poster blocks",
       "quote mark"
     ],
+    "decorative_vocabulary": [
+      "grid",
+      "accent line",
+      "card panels",
+      "paper texture",
+      "poster blocks",
+      "quote mark"
+    ],
+    "forbidden_mutations": [
+      "new_palette",
+      "cross_family_components",
+      "fake_italic",
+      "new_decorative_motif",
+      "remote_font_dependency"
+    ],
+    "motif_budget": {},
     "visual_effects": [
       {
         "effect_id": "tinted_card",
@@ -179,119 +116,297 @@
         "lowering_policy": "native_svg",
         "notes": "Derived from beautiful-html-template source signal: bold_border."
       }
-    ],
-    "decorative_vocabulary": [
-      "grid",
-      "accent line",
-      "card panels",
-      "paper texture",
-      "poster blocks",
-      "quote mark"
-    ],
-    "chrome_rules": [
-      "agenda-number",
-      "image-label",
-      "label",
-      "nav-arrow",
-      "nav-arrows",
-      "nav-dot",
-      "nav-dots"
-    ],
-    "motif_budget": {},
-    "forbidden_mutations": [
-      "new_palette",
-      "cross_family_components",
-      "fake_italic",
-      "new_decorative_motif",
-      "remote_font_dependency"
     ]
   },
+  "do_not_simplify": [
+    "preserve_fonts_palette_grid_slide_classes_decorative_elements",
+    "do_not_recolor_without_explicit_brand_override",
+    "do_not_mix_template_families",
+    "extend_missing_layout_inside_same_family",
+    "do_not_strip_identity_decorations",
+    "new_palette",
+    "cross_family_components",
+    "fake_italic",
+    "new_decorative_motif",
+    "remote_font_dependency",
+    "do_not_replace_family_with_generic_card_shell",
+    "do_not_mark_production_without_renderer_golden_fidelity_receipt",
+    "do_not_strip_identity_decorations",
+    "do_not_recolor_without_explicit_brand_override"
+  ],
+  "extraction_receipt": {
+    "basis": [
+      "template.json",
+      "design.md",
+      "template.html",
+      "reference_screenshot",
+      "beautiful-html-template-families.json"
+    ],
+    "claim_boundary": "visual contract only; not a renderer implementation or fidelity pass",
+    "promotion_status": "needs_review"
+  },
+  "family_id": "cartesian",
+  "font_strategy": {
+    "adobe_or_embedded_fallback": [
+      "Source Serif Pro",
+      "Source Sans Pro",
+      "思源宋体",
+      "思源黑体"
+    ],
+    "cjk_fallback": "Noto Serif SC",
+    "extraction_confidence": {
+      "adobe_or_embedded_fallback": "inferred_from_layout",
+      "cjk_fallback": "inferred_from_layout",
+      "forbidden": "inferred_from_layout",
+      "mapping_reason": "inferred_from_layout",
+      "role_mapping.body": "inferred_from_layout",
+      "role_mapping.display": "inferred_from_layout",
+      "role_mapping.label": "inferred_from_layout",
+      "role_mapping.metric": "inferred_from_layout",
+      "slide_native_preferred": "inferred_from_layout",
+      "source_fonts": "css_extracted_from_template_html"
+    },
+    "forbidden": [
+      "remote_font_runtime_dependency",
+      "google_fonts_as_production_default_without_receipt",
+      "collapse_all_roles_to_unexplained_single_font",
+      "drop_cjk_fallback"
+    ],
+    "mapping_reason": "根据 design.md/template.html/template.json 中的 font-family 与 typography token 提取源字体；运行时按 Slide/系统/Adobe/思源可用字体降级。",
+    "role_mapping": {
+      "body": {
+        "cjk_font": "思源黑体",
+        "fallback_stack": [
+          "system-sans-cjk",
+          "SVGlideBody"
+        ],
+        "mapping_reason": "保留 Inter 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideBody",
+        "slide_font": "Source Sans Pro",
+        "source_font": "Inter",
+        "source_only": false
+      },
+      "display": {
+        "cjk_font": "思源宋体",
+        "fallback_stack": [
+          "system-serif-cjk",
+          "SVGlideDisplay"
+        ],
+        "mapping_reason": "保留 Playfair Display 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideDisplay",
+        "slide_font": "Source Serif Pro",
+        "source_font": "Playfair Display",
+        "source_only": false
+      },
+      "label": {
+        "cjk_font": "思源宋体",
+        "fallback_stack": [
+          "system-serif-cjk",
+          "SVGlideLabel"
+        ],
+        "mapping_reason": "保留 Playfair Display 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideLabel",
+        "slide_font": "Source Serif Pro",
+        "source_font": "Playfair Display",
+        "source_only": false
+      },
+      "metric": {
+        "cjk_font": "思源宋体",
+        "fallback_stack": [
+          "system-serif-cjk",
+          "SVGlideMetric"
+        ],
+        "mapping_reason": "保留 Playfair Display 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideMetric",
+        "slide_font": "Source Serif Pro",
+        "source_font": "Playfair Display",
+        "source_only": false
+      }
+    },
+    "slide_native_preferred": [
+      "system-serif-cjk",
+      "system-sans-cjk"
+    ],
+    "source_evidence": [
+      "beautiful-html-templates/templates/cartesian/design.md",
+      "beautiful-html-templates/templates/cartesian/template.html",
+      "beautiful-html-templates/templates/cartesian/template.json",
+      "beautiful-html-templates/screenshots/cartesian-1.png"
+    ],
+    "source_fonts": [
+      "Playfair Display",
+      "Inter"
+    ],
+    "source_refs": {
+      "adobe_or_embedded_fallback": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "cjk_fallback": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "forbidden": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "mapping_reason": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "role_mapping.body": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Inter",
+          "selector_or_token": "role_mapping.body.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.display": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Playfair Display",
+          "selector_or_token": "role_mapping.display.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.label": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Playfair Display",
+          "selector_or_token": "role_mapping.label.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.metric": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Playfair Display",
+          "selector_or_token": "role_mapping.metric.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "slide_native_preferred": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "source_fonts": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif",
+          "selector_or_token": "css.font-family"
+        }
+      ]
+    }
+  },
   "image": {
-    "strategy": "Preserve source image regions and screenshot-backed composition; runtime generation must use traceable online/approved image assets, not local decorative placeholders.",
+    "image_related_classes": [
+      "image-label",
+      "image-placeholder",
+      "member-photo"
+    ],
     "reference_screenshot": "beautiful-html-templates/screenshots/cartesian-1.png",
+    "required_assets": [],
     "source_screenshots": [
       "beautiful-html-templates/screenshots/cartesian-1.png",
       "beautiful-html-templates/screenshots/cartesian-4.png",
       "beautiful-html-templates/screenshots/cartesian-8.png"
     ],
-    "required_assets": [],
-    "image_related_classes": [
-      "image-label",
-      "image-placeholder",
-      "member-photo"
+    "strategy": "Preserve source image regions and screenshot-backed composition; runtime generation must use traceable online/approved image assets, not local decorative placeholders."
+  },
+  "layout": {
+    "density": "low",
+    "formality": "high",
+    "layout_family": null,
+    "layout_rhythm": "cartesian: low density, high formality. Quiet warm-neutral palette with classical Playfair serifs; tasteful and unhurried.",
+    "source_layout_classes": [],
+    "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_y\": \"4vh\", \"pad_x\": \"4vw\", \"gap_xl\": \"6vw\", \"gap_lg\": \"5vw\", \"gap_md\": \"3vw\", \"gap_sm\": \"2vh\", \"card_pad\": \"4vh 2vw\"}",
+    "variant_ids": [
+      "title",
+      "agenda",
+      "statement",
+      "barchart",
+      "twocol",
+      "cards",
+      "linechart",
+      "timeline",
+      "team",
+      "closing"
     ]
   },
-  "component": {
-    "component_candidates": [
-      "title_block",
-      "section_label",
-      "metric_card",
-      "finding_callout",
-      "evidence_table",
-      "comparison_matrix",
-      "timeline",
-      "process_flow",
-      "image_panel",
-      "logo_strip",
-      "mini_chart",
-      "qualitative_radar",
-      "action_list",
-      "risk_matrix",
-      "architecture_diagram"
+  "loss_notes": [
+    "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
+    "letter spacing is preserved for Latin labels and reset/softened for CJK"
+  ],
+  "page_family": {
+    "core_page_roles": [
+      "cover",
+      "agenda",
+      "content",
+      "data",
+      "quote",
+      "process",
+      "detail",
+      "comparison",
+      "closing"
     ],
-    "component_ids": [],
-    "component_grammar": [
-      "__font_body",
-      "__font_display",
-      "card",
-      "card-icon",
-      "cards-grid",
-      "chart_axis_tick_color",
-      "chart_comparison_dash",
-      "chart_grid_color",
-      "chart_stroke_comparison",
-      "chart_stroke_primary"
+    "production_minimum_roles": [
+      "cover",
+      "agenda",
+      "content",
+      "data",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
+      "closing"
     ],
-    "html_component_classes": [
-      "agenda-list",
-      "card",
-      "card-icon",
-      "cards-grid",
-      "chart-container",
-      "chart-wrapper",
-      "quote-mark",
-      "slide-barchart",
-      "slide-cards",
-      "slide-linechart",
-      "slide-statement",
-      "slide-timeline",
-      "stat-item",
-      "stats",
-      "team-grid",
-      "timeline",
-      "timeline-item"
-    ],
-    "content_shapes": []
+    "source_slide_count": 10
+  },
+  "page_family_source": {
+    "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status",
+    "extractor": "skills/lark-slides/scripts/beautiful_template_page_family_extract.py",
+    "source_design_md": "beautiful-html-templates/templates/cartesian/design.md",
+    "source_slide_count": 10,
+    "source_template_html": "beautiful-html-templates/templates/cartesian/template.html",
+    "source_template_json": "beautiful-html-templates/templates/cartesian/template.json"
   },
   "page_type": {
-    "source_slide_count": 10,
-    "supported_page_roles": [
-      "action_plan",
-      "agenda",
-      "business_review",
-      "case_evidence",
-      "cause_analysis",
-      "closing",
-      "comparison",
-      "context_overview",
-      "cover",
-      "metric_overview",
-      "problem_analysis",
-      "risk_dependency",
-      "roadmap",
-      "section",
-      "timeline"
-    ],
     "layout_variants": [
       {
         "component_candidates": [
@@ -596,16 +711,281 @@
         "variant_id": "closing"
       }
     ],
+    "optional_content": [],
     "required_content": [],
-    "optional_content": []
+    "source_slide_count": 10,
+    "supported_page_roles": [
+      "action_plan",
+      "agenda",
+      "business_review",
+      "case_evidence",
+      "cause_analysis",
+      "closing",
+      "comparison",
+      "context_overview",
+      "cover",
+      "metric_overview",
+      "problem_analysis",
+      "risk_dependency",
+      "roadmap",
+      "section",
+      "timeline"
+    ]
   },
+  "page_variants": {
+    "agenda": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "agenda",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "source_class": "slide-agenda",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-agenda",
+          "selector_or_token": ".slide-agenda"
+        }
+      ],
+      "source_slide_index": 2
+    },
+    "barchart": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "metrics"
+      ],
+      "source_class": "slide-barchart",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-barchart",
+          "selector_or_token": ".slide-barchart"
+        }
+      ],
+      "source_slide_index": 4
+    },
+    "cards": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "content",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "source_class": "slide-cards",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-cards",
+          "selector_or_token": ".slide-cards"
+        }
+      ],
+      "source_slide_index": 6
+    },
+    "closing": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "closing",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide-closing",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-closing",
+          "selector_or_token": ".slide-closing"
+        }
+      ],
+      "source_slide_index": 10
+    },
+    "linechart": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "metrics"
+      ],
+      "source_class": "slide-linechart",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-linechart",
+          "selector_or_token": ".slide-linechart"
+        }
+      ],
+      "source_slide_index": 7
+    },
+    "statement": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "quote",
+      "required_slots": [
+        "quote"
+      ],
+      "source_class": "slide-statement",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-statement",
+          "selector_or_token": ".slide-statement"
+        }
+      ],
+      "source_slide_index": 3
+    },
+    "team": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "comparison",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "source_class": "slide-team",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-team",
+          "selector_or_token": ".slide-team"
+        }
+      ],
+      "source_slide_index": 9
+    },
+    "timeline": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "process",
+      "required_slots": [
+        "title",
+        "timeline"
+      ],
+      "source_class": "slide-timeline",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-timeline",
+          "selector_or_token": ".slide-timeline"
+        }
+      ],
+      "source_slide_index": 8
+    },
+    "title": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "cover",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide-title",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-title",
+          "selector_or_token": ".slide-title"
+        }
+      ],
+      "source_slide_index": 1
+    },
+    "twocol": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "detail",
+      "required_slots": [
+        "title",
+        "subtitle",
+        "metrics"
+      ],
+      "source_class": "slide-twocol",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-twocol",
+          "selector_or_token": ".slide-twocol"
+        }
+      ],
+      "source_slide_index": 5
+    }
+  },
+  "palette": {
+    "css_color_variables": {
+      "accent": "#8a8178",
+      "bg_primary": "#ede8e0",
+      "bg_secondary": "#e2dbd1",
+      "text_primary": "#1a1a1a",
+      "text_secondary": "#5a5a5a"
+    },
+    "design_token_colors": {
+      "accent": "#8A8178",
+      "bg_primary": "#EDE8E0",
+      "bg_secondary": "#E2DBD1",
+      "line": "#B8B0A4",
+      "text_primary": "#1A1A1A",
+      "text_secondary": "#5A5A5A",
+      "white_overlay": "rgba(255, 255, 255, 0.3)"
+    },
+    "template_json_palette": {
+      "accent": "#8A8178",
+      "bg_primary": "#EDE8E0",
+      "bg_secondary": "#E2DBD1",
+      "description": "warm bone and stone neutrals only; no saturated color; the entire system runs on tonal contrast and typography",
+      "line": "#B8B0A4",
+      "text_primary": "#1A1A1A",
+      "text_secondary": "#5A5A5A"
+    },
+    "theme_token_colors": {},
+    "theme_token_semantic_colors": {},
+    "visual_dna_palette_roles": {
+      "accent": "#8A8178",
+      "background": "#EDE8E0",
+      "border": "#EDE8E0",
+      "muted": "#EDE8E0",
+      "negative": "#EDE8E0",
+      "positive": "#EDE8E0",
+      "primary": "#8A8178",
+      "surface": "#EDE8E0",
+      "text": "#EDE8E0"
+    }
+  },
+  "runtime_template_id": "architectural-spec",
   "satori": {
-    "runtime": "owned_satori_template",
-    "renderer_id": "artboard_satori.architectural-spec",
-    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/architectural-spec.mjs",
-    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/architectural-spec.canvas-spec.json",
-    "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/cartesian.architectural-spec.json",
-    "renderer_contract": {},
     "constraints": {
       "external_html_css_js": "forbidden",
       "generic_fallback_as_production": "forbidden",
@@ -615,228 +995,504 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/cartesian.architectural-spec.json",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
-    ]
+    ],
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/architectural-spec.canvas-spec.json",
+    "migration_status": "needs_dedicated_renderer",
+    "renderer_contract": {},
+    "renderer_id": "artboard_satori.architectural-spec",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/architectural-spec.mjs",
+    "runtime": "owned_satori_template"
   },
-  "do_not_simplify": [
-    "preserve_fonts_palette_grid_slide_classes_decorative_elements",
-    "do_not_recolor_without_explicit_brand_override",
-    "do_not_mix_template_families",
-    "extend_missing_layout_inside_same_family",
-    "do_not_strip_identity_decorations",
-    "new_palette",
-    "cross_family_components",
-    "fake_italic",
-    "new_decorative_motif",
-    "remote_font_dependency",
-    "do_not_replace_family_with_generic_card_shell",
-    "do_not_mark_production_without_renderer_golden_fidelity_receipt",
-    "do_not_strip_identity_decorations",
-    "do_not_recolor_without_explicit_brand_override"
-  ],
-  "extraction_receipt": {
-    "basis": [
-      "template.json",
-      "design.md",
-      "template.html",
-      "reference_screenshot",
-      "beautiful-html-template-families.json"
+  "source": {
+    "absorption_records": [
+      "skills/lark-slides/references/absorptions/beautiful-html-templates/cartesian.architectural-spec.json"
     ],
-    "claim_boundary": "visual contract only; not a renderer implementation or fidelity pass",
-    "promotion_status": "needs_review"
+    "reference_screenshot": "beautiful-html-templates/screenshots/cartesian-1.png",
+    "source_design_md": "beautiful-html-templates/templates/cartesian/design.md",
+    "source_screenshots": [
+      "beautiful-html-templates/screenshots/cartesian-1.png",
+      "beautiful-html-templates/screenshots/cartesian-4.png",
+      "beautiful-html-templates/screenshots/cartesian-8.png"
+    ],
+    "source_template_html": "beautiful-html-templates/templates/cartesian/template.html",
+    "source_template_json": "beautiful-html-templates/templates/cartesian/template.json",
+    "template_json_name": "Cartesian",
+    "template_json_slug": "cartesian"
   },
-  "font_strategy": {
-    "source_fonts": [
-      "Playfair Display",
-      "Inter"
-    ],
-    "slide_native_preferred": [
-      "system-serif-cjk",
-      "system-sans-cjk"
-    ],
-    "adobe_or_embedded_fallback": [
-      "Source Serif Pro",
-      "Source Sans Pro",
-      "思源宋体",
-      "思源黑体"
-    ],
-    "cjk_fallback": "Noto Serif SC",
-    "role_mapping": {
-      "display": {
-        "source_font": "Playfair Display",
-        "slide_font": "Source Serif Pro",
-        "runtime_alias": "SVGlideDisplay",
-        "cjk_font": "思源宋体",
-        "fallback_stack": [
-          "system-serif-cjk",
-          "SVGlideDisplay"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Playfair Display 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。"
+  "text_style_strategy": {
+    "bold": {
+      "allowed_roles": [
+        "display",
+        "label",
+        "metric"
+      ],
+      "mapped_weight": {
+        "display": 400,
+        "label": 700,
+        "metric": 900
       },
-      "body": {
-        "source_font": "Inter",
-        "slide_font": "Source Sans Pro",
-        "runtime_alias": "SVGlideBody",
-        "cjk_font": "思源黑体",
-        "fallback_stack": [
-          "system-sans-cjk",
-          "SVGlideBody"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Inter 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。"
-      },
-      "label": {
-        "source_font": "Playfair Display",
-        "slide_font": "Source Serif Pro",
-        "runtime_alias": "SVGlideLabel",
-        "cjk_font": "思源宋体",
-        "fallback_stack": [
-          "system-serif-cjk",
-          "SVGlideLabel"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Playfair Display 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。"
-      },
-      "metric": {
-        "source_font": "Playfair Display",
-        "slide_font": "Source Serif Pro",
-        "runtime_alias": "SVGlideMetric",
-        "cjk_font": "思源宋体",
-        "fallback_stack": [
-          "system-serif-cjk",
-          "SVGlideMetric"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Playfair Display 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。"
-      }
+      "source_usage": "source uses heavy display/label weights"
+    },
+    "emphasis": {
+      "color_shift": "use source accent color roles only",
+      "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+      "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+      "weight_shift": "increase one role step within font_weight_scale"
+    },
+    "extraction_confidence": {
+      "bold": "css_extracted_from_template_html",
+      "emphasis": "inferred_from_layout",
+      "forbidden": "inferred_from_layout",
+      "italic": "css_extracted_from_template_html",
+      "line_through": "absent_use_default",
+      "text_decoration_policy.line_through.color": "absent_use_default",
+      "text_decoration_policy.line_through.style": "absent_use_default",
+      "text_decoration_policy.line_through.thickness": "absent_use_default",
+      "text_decoration_policy.underline.color": "css_extracted_from_template_html",
+      "text_decoration_policy.underline.style": "css_extracted_from_template_html",
+      "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
+      "underline": "css_extracted_from_template_html"
     },
     "forbidden": [
-      "remote_font_runtime_dependency",
-      "google_fonts_as_production_default_without_receipt",
-      "collapse_all_roles_to_unexplained_single_font",
-      "drop_cjk_fallback"
+      "fake_cjk_italic",
+      "drop_source_text_transform",
+      "drop_source_letter_spacing_without_loss_note",
+      "use_cross_family_font_motif",
+      "remote_font_dependency_without_receipt"
     ],
-    "mapping_reason": "根据 design.md/template.html/template.json 中的 font-family 与 typography token 提取源字体；运行时按 Slide/系统/Adobe/思源可用字体降级。",
-    "source_evidence": [
-      "beautiful-html-templates/templates/cartesian/design.md",
-      "beautiful-html-templates/templates/cartesian/template.html",
-      "beautiful-html-templates/templates/cartesian/template.json",
-      "beautiful-html-templates/screenshots/cartesian-1.png"
-    ],
-    "extraction_confidence": {
-      "role_mapping.body": "inferred_from_layout",
-      "role_mapping.display": "inferred_from_layout",
-      "source_fonts": "css_extracted_from_template_html",
-      "adobe_or_embedded_fallback": "inferred_from_layout",
-      "cjk_fallback": "inferred_from_layout",
-      "role_mapping.metric": "inferred_from_layout",
-      "forbidden": "inferred_from_layout",
-      "slide_native_preferred": "inferred_from_layout",
-      "mapping_reason": "inferred_from_layout",
-      "role_mapping.label": "inferred_from_layout"
+    "italic": {
+      "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+      "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+      "mapped_style": "latin_only_when_source_requires_else_normal",
+      "source_usage": "source uses italic/font-style or italic-family tokens"
+    },
+    "line_through": {
+      "fallback_shape": "none",
+      "mapped_decoration": "none",
+      "source_usage": "not present in source; default no line-through"
     },
     "source_refs": {
-      "role_mapping.body": [
+      "bold": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.body.source_font",
-          "raw_value": "Inter"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
+          "raw_value": "400; 500",
+          "selector_or_token": "css.font-weight"
         }
       ],
-      "role_mapping.display": [
+      "emphasis": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.display.source_font",
-          "raw_value": "Playfair Display"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
-        }
-      ],
-      "source_fonts": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif"
-        }
-      ],
-      "adobe_or_embedded_fallback": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif"
-        }
-      ],
-      "cjk_fallback": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif"
-        }
-      ],
-      "role_mapping.metric": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.metric.source_font",
-          "raw_value": "Playfair Display"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
         }
       ],
       "forbidden": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif"
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
         }
       ],
-      "slide_native_preferred": [
+      "italic": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif"
+          "raw_value": "on a **two-face conversation**: `Playfair Display` (serif, weights 400/600/700, italic available) carries every headline, stat numeral, quote mark, card title, and team initial; `Inter` (sans, weights 300/400/500/600) carries every body, subtitle, label, attribution, and micro-text. There is no thir",
+          "selector_or_token": "css.font-style"
+        }
+      ],
+      "text_decoration_policy.underline.color": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "text_decoration_policy.underline.style": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "text_decoration_policy.underline.thickness": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "underline": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor",
+          "selector_or_token": "css.text-decoration"
+        }
+      ]
+    },
+    "text_decoration_policy": {
+      "line_through": {
+        "color": "currentColor",
+        "style": "none",
+        "thickness": "0px"
+      },
+      "underline": {
+        "color": "currentColor",
+        "style": "solid",
+        "thickness": "1px"
+      }
+    },
+    "underline": {
+      "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+      "mapped_decoration": "native underline only for actual text-decoration source usage",
+      "source_usage": "source uses underline/text-decoration or hairline emphasis"
+    }
+  },
+  "typography": {
+    "cjk_policy": {
+      "body_font_cn": "Noto Serif SC",
+      "design_intent_font_pairing": [
+        "Noto Serif SC"
+      ],
+      "display_font_cn": "Noto Serif SC",
+      "emphasis_policy": "color_or_weight_only",
+      "italic_policy": "drop_italic",
+      "known_degradation": "Noto Serif SC is the only Hanzi serif loaded — there is no italic axis (Chinese type historically has no italic), so the rare italic Playfair `<em>` moment loses its emphasis when the body falls through to NSC. Substitute a single-character span colored in `{colors.accent}` (taupe), or wrap the emphasized phrase in faint brackets 「」, to recover emphasis. NSC",
+      "latin_accent_policy": "latin_only_allowed_when_semantic_annotation",
+      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
+      "mixed_run_spacing": "pangu_spacing",
+      "mono_font_policy": "latin_only_or_system_mono",
+      "runtime_font_policy": "system_font_only_no_remote_dependency",
+      "runtime_font_stack": [
+        "system-sans-cjk",
+        "system-sans-cjk-heavy",
+        "system-sans-cjk-regular",
+        "system-mono"
+      ],
+      "source_section_heading": "CJK & International Content",
+      "source_section_sha256": "e8e494632f44c006960e60b91217750deaa859ac9da28f96cc78faee86b621fe",
+      "strategy": "replace_family_whole_element"
+    },
+    "design_tokens_typography": {
+      "body": "Inter",
+      "display": "Playfair Display",
+      "style": "transitional serif headlines paired with a clean grotesk; reads like a Sunday newspaper essay"
+    },
+    "font_policy": {
+      "fallback_stack": "system-sans-cjk",
+      "font_role_map": {
+        "body": "system-sans-cjk-regular",
+        "display": "system-sans-cjk-heavy",
+        "label": "system-sans-cjk-medium",
+        "metric": "system-sans-cjk-heavy",
+        "mono": "system-mono"
+      },
+      "original_families": [
+        "Playfair Display",
+        "Inter"
+      ]
+    },
+    "template_json_typography": {
+      "body": "Inter",
+      "display": "Playfair Display",
+      "style": "transitional serif headlines paired with a clean grotesk; reads like a Sunday newspaper essay"
+    },
+    "typography_role": "transitional serif headlines paired with a clean grotesk; reads like a Sunday newspaper essay",
+    "visual_dna_typography_roles": {
+      "body": "Inter",
+      "caption": "small caption -> system-sans-cjk-regular",
+      "display": "Playfair Display",
+      "label": "compact label -> system-sans-cjk-medium",
+      "metric": "display numeric emphasis -> system-sans-cjk-heavy"
+    }
+  },
+  "typography_strategy": {
+    "alignment": {
+      "fallback": "left/top aligned unless source screenshot is centered",
+      "primary": "follow source composition"
+    },
+    "cjk_typography_adjustment": {
+      "body_font_cn": "Noto Serif SC",
+      "display_font_cn": "Noto Serif SC",
+      "italic_policy": "drop_italic",
+      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
+      "mixed_run_spacing": "pangu_spacing"
+    },
+    "extraction_confidence": {
+      "alignment": "inferred_from_layout",
+      "cjk_typography_adjustment": "inferred_from_layout",
+      "font_size_scale": "css_extracted_from_template_html",
+      "font_weight_scale": "css_extracted_from_template_html",
+      "hierarchy_ratio": "inferred_from_layout",
+      "letter_spacing_scale": "css_extracted_from_template_html",
+      "line_height_scale": "css_extracted_from_template_html",
+      "mapping_reason": "inferred_from_layout",
+      "max_lines": "inferred_from_layout",
+      "measure": "inferred_from_layout",
+      "paragraph_spacing": "css_extracted_from_template_html",
+      "role_mapping.body": "inferred_from_layout",
+      "role_mapping.display": "inferred_from_layout",
+      "role_mapping.label": "inferred_from_layout",
+      "role_mapping.metric": "inferred_from_layout",
+      "source_typography_tokens": "css_extracted_from_template_html",
+      "text_direction": "css_extracted_from_template_html",
+      "text_transform_policy": "css_extracted_from_template_html",
+      "word_spacing": "absent_use_default",
+      "wrapping_policy": "inferred_from_layout",
+      "writing_mode": "absent_use_default"
+    },
+    "font_size_scale": {
+      "body": 20,
+      "display": 54,
+      "label": 12,
+      "metric": 42
+    },
+    "font_weight_scale": {
+      "body": 400,
+      "display": 400,
+      "label": 700,
+      "metric": 900
+    },
+    "hierarchy_ratio": 2.7,
+    "letter_spacing_scale": {
+      "body": 0,
+      "display": 0,
+      "label": 0.08,
+      "metric": 0
+    },
+    "line_height_scale": {
+      "body": 1.32,
+      "display": 0.96,
+      "label": 1.05,
+      "metric": 0.95
+    },
+    "mapping_reason": "按源模板字号/字重/行高/字距/大小写规则抽象到 960x540 Slide 画布的四个文本角色。",
+    "max_lines": {
+      "body": 5,
+      "display": 3,
+      "label": 1,
+      "metric": 2
+    },
+    "measure": {
+      "body": "40-70 characters or CJK equivalent",
+      "display": "0.55-0.78 canvas width",
+      "label": "short mono labels",
+      "metric": "short numeric/stat blocks"
+    },
+    "paragraph_spacing": {
+      "body_after": 12,
+      "display_after": 0,
+      "label_after": 0,
+      "metric_after": 0
+    },
+    "role_mapping": {
+      "body": {
+        "alignment": "source_layout_dependent",
+        "font_role": "body",
+        "font_size": 20,
+        "font_weight": 400,
+        "letter_spacing": 0,
+        "line_height": 1.32,
+        "max_lines": 5,
+        "runtime_alias": "SVGlideBody",
+        "source_font": "Inter",
+        "text_transform": "preserve_source_case"
+      },
+      "display": {
+        "alignment": "source_layout_dependent",
+        "font_role": "display",
+        "font_size": 54,
+        "font_weight": 400,
+        "letter_spacing": 0,
+        "line_height": 0.96,
+        "max_lines": 3,
+        "runtime_alias": "SVGlideDisplay",
+        "source_font": "Playfair Display",
+        "text_transform": "latin_uppercase_only"
+      },
+      "label": {
+        "alignment": "source_layout_dependent",
+        "font_role": "label",
+        "font_size": 12,
+        "font_weight": 700,
+        "letter_spacing": 0.08,
+        "line_height": 1.05,
+        "max_lines": 1,
+        "runtime_alias": "SVGlideLabel",
+        "source_font": "Playfair Display",
+        "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+      },
+      "metric": {
+        "alignment": "source_layout_dependent",
+        "font_role": "metric",
+        "font_size": 42,
+        "font_weight": 900,
+        "letter_spacing": 0,
+        "line_height": 0.95,
+        "max_lines": 2,
+        "runtime_alias": "SVGlideMetric",
+        "source_font": "Playfair Display",
+        "text_transform": "preserve_numbers_and_units"
+      }
+    },
+    "source_refs": {
+      "alignment": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "cjk_typography_adjustment": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "font_size_scale": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "0.75rem; 1.2rem; clamp(2.5rem, 5vw, 4.5rem); clamp(1.8rem, 3.5vw, 3rem); clamp(1.2rem, 2vw, 1.6rem); clamp(0.9rem, 1.2vw, 1.1rem); clamp(3rem, 6vw, 5.5rem); clamp(1rem, 1.5vw, 1.3rem); 1.5rem; 5rem; 0.85rem; 0.8rem; 2rem; 1rem; 1.3rem; 0.9rem",
+          "selector_or_token": "css.font_size_scale"
+        }
+      ],
+      "font_weight_scale": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "400; 500",
+          "selector_or_token": "css.font_weight_scale"
+        }
+      ],
+      "hierarchy_ratio": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "letter_spacing_scale": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "2px; 3px; 1px",
+          "selector_or_token": "css.letter_spacing_scale"
+        }
+      ],
+      "line_height_scale": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "1.1; 1.6; 1",
+          "selector_or_token": "css.line_height_scale"
         }
       ],
       "mapping_reason": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Inter', sans-serif; 'Playfair Display', serif"
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "max_lines": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "measure": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "paragraph_spacing": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "3vh; 2vh; 0.5vh; 6vh; 1vh; 4vh; 12px; 16px; 6vw; 2vw; 5vw; 3vw; 4vw; 3vh",
+          "selector_or_token": "css.paragraph_spacing"
+        }
+      ],
+      "role_mapping.body": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Inter",
+          "selector_or_token": "role_mapping.body.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.display": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Playfair Display",
+          "selector_or_token": "role_mapping.display.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
         }
       ],
       "role_mapping.label": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.label.source_font",
-          "raw_value": "Playfair Display"
+          "raw_value": "Playfair Display",
+          "selector_or_token": "role_mapping.label.source_font"
         },
         {
           "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.metric": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "Playfair Display",
+          "selector_or_token": "role_mapping.metric.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/cartesian/design.md",
+          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "source_typography_tokens": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "0.75rem; 1.2rem; clamp(2.5rem, 5vw, 4.5rem); clamp(1.8rem, 3.5vw, 3rem); clamp(1.2rem, 2vw, 1.6rem); clamp(0.9rem, 1.2vw, 1.1rem); clamp(3rem, 6vw, 5.5rem); clamp(1rem, 1.5vw, 1.3rem); 1.5rem; 5rem; 0.85rem; 0.8rem; 2rem; 1rem; 1.3rem; 0.9rem; 400; 500; 1.1; 1.6; 1; 2px; 3px; 1px; uppercase` on any label/attribution/micro when content is Hanzi — Chinese has no case; uppercase",
+          "selector_or_token": "css.source_typography_tokens"
+        }
+      ],
+      "text_direction": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "column",
+          "selector_or_token": "css.text_direction"
+        }
+      ],
+      "text_transform_policy": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "uppercase` on any label/attribution/micro when content is Hanzi — Chinese has no case; uppercase",
+          "selector_or_token": "css.text_transform_policy"
+        }
+      ],
+      "wrapping_policy": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;",
+          "selector_or_token": "template.css.typography"
         }
       ]
-    }
-  },
-  "typography_strategy": {
+    },
     "source_typography_tokens": {
       "font_families": [
         "Playfair Display",
@@ -858,6 +1514,11 @@
         "400",
         "500"
       ],
+      "letter_spacing": [
+        "2px",
+        "3px",
+        "1px"
+      ],
       "line_height": [
         "1.1",
         "1",
@@ -865,16 +1526,6 @@
         "1.5",
         "1.4"
       ],
-      "letter_spacing": [
-        "2px",
-        "3px",
-        "1px"
-      ],
-      "text_transform": [
-        "uppercase",
-        "uppercase` on any label/attribution/micro when content is Hanzi — Chinese has no case"
-      ],
-      "word_spacing": [],
       "paragraph_spacing": [
         "3vh",
         "2vh",
@@ -891,680 +1542,43 @@
         "4vw",
         "3vh"
       ],
+      "text_decoration": [],
       "text_direction": [
         "column"
       ],
-      "writing_mode": [],
-      "text_decoration": []
+      "text_transform": [
+        "uppercase",
+        "uppercase` on any label/attribution/micro when content is Hanzi — Chinese has no case"
+      ],
+      "word_spacing": [],
+      "writing_mode": []
     },
-    "role_mapping": {
-      "display": {
-        "font_role": "display",
-        "source_font": "Playfair Display",
-        "runtime_alias": "SVGlideDisplay",
-        "font_size": 54,
-        "font_weight": 400,
-        "line_height": 0.96,
-        "letter_spacing": 0,
-        "text_transform": "latin_uppercase_only",
-        "max_lines": 3,
-        "alignment": "source_layout_dependent"
-      },
-      "body": {
-        "font_role": "body",
-        "source_font": "Inter",
-        "runtime_alias": "SVGlideBody",
-        "font_size": 20,
-        "font_weight": 400,
-        "line_height": 1.32,
-        "letter_spacing": 0,
-        "text_transform": "preserve_source_case",
-        "max_lines": 5,
-        "alignment": "source_layout_dependent"
-      },
-      "label": {
-        "font_role": "label",
-        "source_font": "Playfair Display",
-        "runtime_alias": "SVGlideLabel",
-        "font_size": 12,
-        "font_weight": 700,
-        "line_height": 1.05,
-        "letter_spacing": 0.08,
-        "text_transform": "latin_uppercase_labels_reset_cjk_spacing",
-        "max_lines": 1,
-        "alignment": "source_layout_dependent"
-      },
-      "metric": {
-        "font_role": "metric",
-        "source_font": "Playfair Display",
-        "runtime_alias": "SVGlideMetric",
-        "font_size": 42,
-        "font_weight": 900,
-        "line_height": 0.95,
-        "letter_spacing": 0,
-        "text_transform": "preserve_numbers_and_units",
-        "max_lines": 2,
-        "alignment": "source_layout_dependent"
-      }
-    },
-    "font_size_scale": {
-      "display": 54,
-      "body": 20,
-      "label": 12,
-      "metric": 42
-    },
-    "font_weight_scale": {
-      "display": 400,
-      "body": 400,
-      "label": 700,
-      "metric": 900
-    },
-    "line_height_scale": {
-      "display": 0.96,
-      "body": 1.32,
-      "label": 1.05,
-      "metric": 0.95
-    },
-    "letter_spacing_scale": {
-      "display": 0,
-      "body": 0,
-      "label": 0.08,
-      "metric": 0
+    "text_direction": {
+      "cjk": "ltr",
+      "default": "column"
     },
     "text_transform_policy": {
-      "display": "latin_uppercase_only",
       "body": "preserve_source_case",
+      "display": "latin_uppercase_only",
       "label": "latin_uppercase_labels_reset_cjk_spacing",
       "metric": "preserve_numbers_and_units"
     },
-    "hierarchy_ratio": 2.7,
-    "max_lines": {
-      "display": 3,
-      "body": 5,
-      "label": 1,
-      "metric": 2
-    },
-    "measure": {
-      "display": "0.55-0.78 canvas width",
-      "body": "40-70 characters or CJK equivalent",
-      "label": "short mono labels",
-      "metric": "short numeric/stat blocks"
-    },
-    "alignment": {
-      "primary": "follow source composition",
-      "fallback": "left/top aligned unless source screenshot is centered"
-    },
-    "cjk_typography_adjustment": {
-      "display_font_cn": "Noto Serif SC",
-      "body_font_cn": "Noto Serif SC",
-      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
-      "mixed_run_spacing": "pangu_spacing",
-      "italic_policy": "drop_italic"
-    },
-    "mapping_reason": "按源模板字号/字重/行高/字距/大小写规则抽象到 960x540 Slide 画布的四个文本角色。",
     "word_spacing": {
-      "display": 0,
       "body": 0,
+      "display": 0,
       "label": 0,
       "metric": 0
     },
-    "paragraph_spacing": {
-      "display_after": 0,
-      "body_after": 12,
-      "label_after": 0,
-      "metric_after": 0
-    },
     "wrapping_policy": {
-      "display": "manual_break_or_balance",
       "body": "wrap_with_measure",
+      "display": "manual_break_or_balance",
       "label": "no_wrap_preferred",
       "metric": "no_wrap_preferred"
-    },
-    "text_direction": {
-      "default": "column",
-      "cjk": "ltr"
     },
     "writing_mode": {
       "default": "horizontal-tb",
       "vertical_roles": []
-    },
-    "extraction_confidence": {
-      "role_mapping.body": "inferred_from_layout",
-      "role_mapping.display": "inferred_from_layout",
-      "font_size_scale": "css_extracted_from_template_html",
-      "max_lines": "inferred_from_layout",
-      "writing_mode": "absent_use_default",
-      "text_direction": "css_extracted_from_template_html",
-      "alignment": "inferred_from_layout",
-      "role_mapping.label": "inferred_from_layout",
-      "paragraph_spacing": "css_extracted_from_template_html",
-      "text_transform_policy": "css_extracted_from_template_html",
-      "line_height_scale": "css_extracted_from_template_html",
-      "wrapping_policy": "inferred_from_layout",
-      "font_weight_scale": "css_extracted_from_template_html",
-      "source_typography_tokens": "css_extracted_from_template_html",
-      "word_spacing": "absent_use_default",
-      "role_mapping.metric": "inferred_from_layout",
-      "cjk_typography_adjustment": "inferred_from_layout",
-      "hierarchy_ratio": "inferred_from_layout",
-      "measure": "inferred_from_layout",
-      "mapping_reason": "inferred_from_layout",
-      "letter_spacing_scale": "css_extracted_from_template_html"
-    },
-    "source_refs": {
-      "role_mapping.body": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.body.source_font",
-          "raw_value": "Inter"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
-        }
-      ],
-      "role_mapping.display": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.display.source_font",
-          "raw_value": "Playfair Display"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
-        }
-      ],
-      "font_size_scale": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font_size_scale",
-          "raw_value": "0.75rem; 1.2rem; clamp(2.5rem, 5vw, 4.5rem); clamp(1.8rem, 3.5vw, 3rem); clamp(1.2rem, 2vw, 1.6rem); clamp(0.9rem, 1.2vw, 1.1rem); clamp(3rem, 6vw, 5.5rem); clamp(1rem, 1.5vw, 1.3rem); 1.5rem; 5rem; 0.85rem; 0.8rem; 2rem; 1rem; 1.3rem; 0.9rem"
-        }
-      ],
-      "max_lines": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "text_direction": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.text_direction",
-          "raw_value": "column"
-        }
-      ],
-      "alignment": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "role_mapping.label": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.label.source_font",
-          "raw_value": "Playfair Display"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
-        }
-      ],
-      "paragraph_spacing": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.paragraph_spacing",
-          "raw_value": "3vh; 2vh; 0.5vh; 6vh; 1vh; 4vh; 12px; 16px; 6vw; 2vw; 5vw; 3vw; 4vw; 3vh"
-        }
-      ],
-      "text_transform_policy": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.text_transform_policy",
-          "raw_value": "uppercase` on any label/attribution/micro when content is Hanzi — Chinese has no case; uppercase"
-        }
-      ],
-      "line_height_scale": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.line_height_scale",
-          "raw_value": "1.1; 1.6; 1"
-        }
-      ],
-      "wrapping_policy": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "font_weight_scale": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font_weight_scale",
-          "raw_value": "400; 500"
-        }
-      ],
-      "source_typography_tokens": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.source_typography_tokens",
-          "raw_value": "0.75rem; 1.2rem; clamp(2.5rem, 5vw, 4.5rem); clamp(1.8rem, 3.5vw, 3rem); clamp(1.2rem, 2vw, 1.6rem); clamp(0.9rem, 1.2vw, 1.1rem); clamp(3rem, 6vw, 5.5rem); clamp(1rem, 1.5vw, 1.3rem); 1.5rem; 5rem; 0.85rem; 0.8rem; 2rem; 1rem; 1.3rem; 0.9rem; 400; 500; 1.1; 1.6; 1; 2px; 3px; 1px; uppercase` on any label/attribution/micro when content is Hanzi — Chinese has no case; uppercase"
-        }
-      ],
-      "role_mapping.metric": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "role_mapping.metric.source_font",
-          "raw_value": "Playfair Display"
-        },
-        {
-          "path": "beautiful-html-templates/templates/cartesian/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ccent: \"#8A8178\" line: \"#B8B0A4\" white-overlay: \"rgba(255, 255, 255, 0.3)\" typography: display: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(3rem, 6vw, 5.5rem)\" fontWeight: 400 lineHeight: 1.1 h1: fontFamily: \"Playfair Display, serif\" fontSize: \"clamp(2.5re"
-        }
-      ],
-      "cjk_typography_adjustment": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "hierarchy_ratio": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "measure": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "mapping_reason": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "letter_spacing_scale": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.letter_spacing_scale",
-          "raw_value": "2px; 3px; 1px"
-        }
-      ]
     }
   },
-  "text_style_strategy": {
-    "bold": {
-      "source_usage": "source uses heavy display/label weights",
-      "mapped_weight": {
-        "display": 400,
-        "label": 700,
-        "metric": 900
-      },
-      "allowed_roles": [
-        "display",
-        "label",
-        "metric"
-      ]
-    },
-    "italic": {
-      "source_usage": "source uses italic/font-style or italic-family tokens",
-      "mapped_style": "latin_only_when_source_requires_else_normal",
-      "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
-      "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation."
-    },
-    "underline": {
-      "source_usage": "source uses underline/text-decoration or hairline emphasis",
-      "mapped_decoration": "native underline only for actual text-decoration source usage",
-      "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable"
-    },
-    "line_through": {
-      "source_usage": "not present in source; default no line-through",
-      "mapped_decoration": "none",
-      "fallback_shape": "none"
-    },
-    "emphasis": {
-      "color_shift": "use source accent color roles only",
-      "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
-      "weight_shift": "increase one role step within font_weight_scale",
-      "style_shift": "italic only when source_usage requires and CJK fallback is safe"
-    },
-    "text_decoration_policy": {
-      "underline": {
-        "style": "solid",
-        "color": "currentColor",
-        "thickness": "1px"
-      },
-      "line_through": {
-        "style": "none",
-        "color": "currentColor",
-        "thickness": "0px"
-      }
-    },
-    "forbidden": [
-      "fake_cjk_italic",
-      "drop_source_text_transform",
-      "drop_source_letter_spacing_without_loss_note",
-      "use_cross_family_font_motif",
-      "remote_font_dependency_without_receipt"
-    ],
-    "extraction_confidence": {
-      "text_decoration_policy.line_through.color": "absent_use_default",
-      "text_decoration_policy.underline.color": "css_extracted_from_template_html",
-      "text_decoration_policy.line_through.style": "absent_use_default",
-      "italic": "css_extracted_from_template_html",
-      "forbidden": "inferred_from_layout",
-      "emphasis": "inferred_from_layout",
-      "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
-      "underline": "css_extracted_from_template_html",
-      "text_decoration_policy.line_through.thickness": "absent_use_default",
-      "line_through": "absent_use_default",
-      "text_decoration_policy.underline.style": "css_extracted_from_template_html",
-      "bold": "css_extracted_from_template_html"
-    },
-    "source_refs": {
-      "text_decoration_policy.underline.color": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor"
-        }
-      ],
-      "italic": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-style",
-          "raw_value": "on a **two-face conversation**: `Playfair Display` (serif, weights 400/600/700, italic available) carries every headline, stat numeral, quote mark, card title, and team initial; `Inter` (sans, weights 300/400/500/600) carries every body, subtitle, label, attribution, and micro-text. There is no thir"
-        }
-      ],
-      "forbidden": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "emphasis": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "nt: #8a8178; --line: #b8b0a4; } body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow: hidden; } .presentation { width: 100vw;"
-        }
-      ],
-      "text_decoration_policy.underline.thickness": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor"
-        }
-      ],
-      "underline": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor"
-        }
-      ],
-      "text_decoration_policy.underline.style": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ody copy (Inter italic) — italic Playfair is loaded but reserved for rare uses. Underline is not used. Line-height stays open: headlines at 1.1, body at 1.6. The wide body line-height is part of the breathing-room aesthetic. ## Layout ### Canvas System The canvas is `100vw × 100vh` — full viewpor"
-        }
-      ],
-      "bold": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": "css.font-weight",
-          "raw_value": "400; 500"
-        }
-      ]
-    }
-  },
-  "loss_notes": [
-    "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
-    "letter spacing is preserved for Latin labels and reset/softened for CJK"
-  ],
-  "page_family": {
-    "source_slide_count": 9,
-    "core_page_roles": [
-      "agenda",
-      "data_dashboard",
-      "content",
-      "process_or_timeline",
-      "detail",
-      "closing"
-    ],
-    "production_minimum_roles": [
-      "cover",
-      "agenda",
-      "content",
-      "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
-      "closing"
-    ]
-  },
-  "page_variants": {
-    "agenda": {
-      "source_class": "slide-agenda",
-      "source_slide_index": 1,
-      "page_role": "agenda",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-agenda",
-          "raw_value": "<div class=\"slide slide-agenda\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "statement": {
-      "source_class": "slide-statement",
-      "source_slide_index": 2,
-      "page_role": "agenda",
-      "required_slots": [
-        "title",
-        "metrics",
-        "quote"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-statement",
-          "raw_value": "<div class=\"slide slide-statement\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "barchart": {
-      "source_class": "slide-barchart",
-      "source_slide_index": 3,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-barchart",
-          "raw_value": "<div class=\"slide slide-barchart\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "twocol": {
-      "source_class": "slide-twocol",
-      "source_slide_index": 4,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-twocol",
-          "raw_value": "<div class=\"slide slide-twocol\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "cards": {
-      "source_class": "slide-cards",
-      "source_slide_index": 5,
-      "page_role": "content",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-cards",
-          "raw_value": "<div class=\"slide slide-cards\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "linechart": {
-      "source_class": "slide-linechart",
-      "source_slide_index": 6,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-linechart",
-          "raw_value": "<div class=\"slide slide-linechart\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "timeline": {
-      "source_class": "slide-timeline",
-      "source_slide_index": 7,
-      "page_role": "process_or_timeline",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "items",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-timeline",
-          "raw_value": "<div class=\"slide slide-timeline\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "team": {
-      "source_class": "slide-team",
-      "source_slide_index": 8,
-      "page_role": "detail",
-      "required_slots": [
-        "title"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-team",
-          "raw_value": "<div class=\"slide slide-team\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "closing": {
-      "source_class": "slide-closing",
-      "source_slide_index": 9,
-      "page_role": "closing",
-      "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "selector_or_token": ".slide-closing",
-          "raw_value": "<div class=\"slide slide-closing\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    }
-  },
-  "page_family_source": {
-    "extractor": "skills/lark-slides/scripts/beautiful_template_page_family_extract.py",
-    "source_template_html": "beautiful-html-templates/templates/cartesian/template.html",
-    "source_design_md": "beautiful-html-templates/templates/cartesian/design.md",
-    "source_template_json": "beautiful-html-templates/templates/cartesian/template.json",
-    "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  "version": "svglide-beautiful-template-visual-contract/v1"
 }

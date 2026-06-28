@@ -1,0 +1,290 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "mat",
+  "selected_template_id": "mat-midcentury-board",
+  "selected_theme_id": "mat",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 10,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "statement",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "split",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "list",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "split",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "end",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "statement"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "list"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4,
+        9
+      ],
+      "variants": [
+        "chart",
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "compare"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "split"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "split"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "end"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "statement",
+    "split",
+    "stats",
+    "quote",
+    "list",
+    "compare",
+    "chart",
+    "end"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "statement",
+    "split",
+    "stats",
+    "quote",
+    "list",
+    "compare",
+    "chart",
+    "end"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "split",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/mat.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.chart.canvas-spec.json",
+    "golden_spec.compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.compare.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
+    "golden_spec.end": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.end.canvas-spec.json",
+    "golden_spec.list": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.list.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.quote.canvas-spec.json",
+    "golden_spec.split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.split.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.statement.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.stats.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "8b6c9167d49001888a5160bd0a14b13f0e6fd1f13f98f1783d09137ec64bece3",
+    "smoke_deck": "bf310ec3e0745b3c8d6f391ef21d892e89d1e053a7bcf5e4c9beb0fa88e64b73",
+    "golden_spec.chart": "89a706a96c8c5ccf5a8656837c2cbf1b3d44bf12a25ad06e9a3955374d74337e",
+    "golden_spec.compare": "6195d65ce42bc46795b809d38b9615130bf3cad96ffde75091c2ff7272e88b30",
+    "golden_spec.cover": "b8e2e507e6837a5982bbbbe10b51f548ca5bb960da1d1a4158416620d535a886",
+    "golden_spec.end": "b0f2a4b8a78367e28a0c5280cf40b48047db13544252ba353838e117e9ef05b1",
+    "golden_spec.list": "f02aeebdfaa6f91660091d2aa58a654db89ad7bfd90d612d3e83c44002207767",
+    "golden_spec.quote": "38b13935f5ba0d566864b89b85a98542f931e2381687865a6b702a78ffe05cd8",
+    "golden_spec.split": "e13cdcf65e235de544e78dc0a1583dc790e1b66d5dd15da6c0bdb650754c37fc",
+    "golden_spec.statement": "a72903bae1bed4fb2df8bde153a24b703f6dc843b0028687ceeb9c6c6714c6cd",
+    "golden_spec.stats": "af2ec5828b4e54c51729f094d5657793f62890ea52c7739293aff6bc513fad75"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/tmp_f2uudiw"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/mat.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/tmp_f2uudiw"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 10,
+    "covered_role_count": 9,
+    "implemented_variant_count": 9,
+    "covered_implemented_variant_count": 9
+  }
+}

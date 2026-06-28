@@ -1,0 +1,92 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "source page-family implementation smoke deck; not production/default_selectable evidence",
+  "family_id": "neo-grid-bold",
+  "template_id": "dense-panel-grid",
+  "theme_id": "neo-grid-bold",
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "title": "The future of data-driven finance"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc",
+      "title": "Contents"
+    },
+    {
+      "page": 3,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "title": "Digits in numbers"
+    },
+    {
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "features",
+      "title": "Key features"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "title": "Market penetration doubled"
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "section",
+      "title": "Build the engine of modern money"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "title": "Client voice"
+    },
+    {
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "cta",
+      "title": "Next steps"
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "consult",
+      "title": "The trust gap"
+    },
+    {
+      "page": 10,
+      "page_role": "data",
+      "page_variant_id": "chart2",
+      "title": "The curve bends at day three"
+    },
+    {
+      "page": 11,
+      "page_role": "process",
+      "page_variant_id": "process2",
+      "title": "From insight to default"
+    },
+    {
+      "page": 12,
+      "page_role": "comparison",
+      "page_variant_id": "matrix2",
+      "title": "Where each pilot earns its keep"
+    }
+  ]
+}

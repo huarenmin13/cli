@@ -24,21 +24,29 @@
     "formality": "low",
     "layout_rhythm": "daisy-days: medium density, low formality. Cheerful pastel deck with hand-drawn daisies, stars, and rainbows. Friendly, soft, and warm.",
     "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_slide\": \"40px 60px\", \"pad_card_lg\": \"48px 56px\", \"pad_card_md\": \"32px 40px\", \"pad_card_sm\": \"16px 24px\", \"gap_grid_lg\": \"28px\", \"gap_grid_md\": \"24px\", \"gap_grid_sm\": \"14px\", \"radius\": \"20px\", \"radius_lg\": \"28px\", \"",
-    "source_layout_classes": [],
+    "source_layout_classes": [
+      "slide-title",
+      "slide-welcome",
+      "slide-weekly",
+      "slide-timeline",
+      "slide-chart-bar",
+      "slide-cards",
+      "slide-quote",
+      "slide-team",
+      "slide-process",
+      "slide-donut"
+    ],
     "variant_ids": [
-      "cover",
-      "agenda",
-      "section_divider",
-      "context_overview",
-      "metric_dashboard",
-      "problem_analysis",
-      "cause_analysis",
-      "comparison",
+      "title",
+      "welcome",
+      "weekly",
       "timeline",
-      "case_evidence",
-      "action_plan",
-      "risk_dependency",
-      "closing"
+      "chart-bar",
+      "cards",
+      "quote",
+      "team",
+      "process",
+      "donut"
     ]
   },
   "typography": {
@@ -687,11 +695,24 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
-    ]
+    ],
+    "page_variant_golden_specs": {
+      "title": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
+      "welcome": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.welcome.canvas-spec.json",
+      "weekly": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.weekly.canvas-spec.json",
+      "timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.timeline.canvas-spec.json",
+      "chart-bar": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.chart-bar.canvas-spec.json",
+      "cards": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.cards.canvas-spec.json",
+      "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.quote.canvas-spec.json",
+      "team": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.team.canvas-spec.json",
+      "process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.process.canvas-spec.json",
+      "donut": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.donut.canvas-spec.json"
+    },
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json"
   },
   "do_not_simplify": [
     "preserve_fonts_palette_grid_slide_classes_decorative_elements",
@@ -1419,224 +1440,263 @@
     "letter spacing is preserved for Latin labels and reset/softened for CJK"
   ],
   "page_family": {
-    "source_slide_count": 9,
+    "claim_boundary": "page-family source contract and renderer implementation evidence; not production/default selectable evidence. Source has no dedicated closing slide; donut summary is mapped as closing for smoke coverage with explicit rationale.",
+    "source_slide_count": 10,
     "core_page_roles": [
       "cover",
       "agenda",
-      "process_or_timeline",
-      "data_dashboard",
+      "content",
+      "process",
+      "data",
+      "comparison",
+      "quote",
       "detail",
-      "quote_or_emphasis",
-      "content"
+      "closing"
     ],
     "production_minimum_roles": [
       "cover",
       "agenda",
       "content",
       "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
       "closing"
+    ],
+    "implemented_page_variants": [
+      "title",
+      "welcome",
+      "weekly",
+      "timeline",
+      "chart-bar",
+      "cards",
+      "quote",
+      "team",
+      "process",
+      "donut"
     ]
   },
   "page_variants": {
-    "welcome": {
-      "source_class": "slide-welcome",
+    "title": {
       "source_slide_index": 1,
+      "source_class": "slide-title",
       "page_role": "cover",
       "required_slots": [
         "title",
-        "subtitle",
+        "subtitle"
+      ],
+      "optional_slots": [
+        "decoration",
+        "counter",
+        "nav_dots"
+      ],
+      "extraction_confidence": "inferred_from_layout",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/daisy-days/template.html",
+          "selector_or_token": ".slide-title",
+          "raw_value": "<section class=\"slide slide-title\">"
+        }
+      ]
+    },
+    "welcome": {
+      "source_slide_index": 2,
+      "source_class": "slide-welcome",
+      "page_role": "agenda",
+      "required_slots": [
+        "title",
         "items"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-welcome",
-          "raw_value": "<section class=\"slide slide-welcome\" id=\"slide-2\">"
+          "raw_value": "<section class=\"slide slide-welcome\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "weekly": {
+      "source_slide_index": 3,
       "source_class": "slide-weekly",
-      "source_slide_index": 2,
-      "page_role": "agenda",
+      "page_role": "content",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "timeline"
+        "items"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-weekly",
-          "raw_value": "<section class=\"slide slide-weekly\" id=\"slide-3\">"
+          "raw_value": "<section class=\"slide slide-weekly\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "timeline": {
+      "source_slide_index": 4,
       "source_class": "slide-timeline",
-      "source_slide_index": 3,
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
         "timeline"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-timeline",
-          "raw_value": "<section class=\"slide slide-timeline\" id=\"slide-4\">"
+          "raw_value": "<section class=\"slide slide-timeline\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
-    "chart_bar": {
+    "chart-bar": {
+      "source_slide_index": 5,
       "source_class": "slide-chart-bar",
-      "source_slide_index": 4,
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "metrics"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-chart-bar",
-          "raw_value": "<section class=\"slide slide-chart-bar\" id=\"slide-5\">"
+          "raw_value": "<section class=\"slide slide-chart-bar\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "cards": {
+      "source_slide_index": 6,
       "source_class": "slide-cards",
-      "source_slide_index": 5,
-      "page_role": "detail",
+      "page_role": "comparison",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "quote"
+        "items"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-cards",
-          "raw_value": "<section class=\"slide slide-cards\" id=\"slide-6\">"
+          "raw_value": "<section class=\"slide slide-cards\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "quote": {
+      "source_slide_index": 7,
       "source_class": "slide-quote",
-      "source_slide_index": 6,
-      "page_role": "quote_or_emphasis",
+      "page_role": "quote",
       "required_slots": [
-        "subtitle",
-        "quote"
+        "quote",
+        "author"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-quote",
-          "raw_value": "<section class=\"slide slide-quote\" id=\"slide-7\">"
+          "raw_value": "<section class=\"slide slide-quote\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "team": {
+      "source_slide_index": 8,
       "source_class": "slide-team",
-      "source_slide_index": 7,
       "page_role": "detail",
       "required_slots": [
         "title",
-        "subtitle"
+        "items"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-team",
-          "raw_value": "<section class=\"slide slide-team\" id=\"slide-8\">"
+          "raw_value": "<section class=\"slide slide-team\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "process": {
+      "source_slide_index": 9,
       "source_class": "slide-process",
-      "source_slide_index": 8,
-      "page_role": "content",
+      "page_role": "process",
       "required_slots": [
         "title",
-        "subtitle"
+        "timeline"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-process",
-          "raw_value": "<section class=\"slide slide-process\" id=\"slide-9\">"
+          "raw_value": "<section class=\"slide slide-process\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     },
     "donut": {
+      "source_slide_index": 10,
       "source_class": "slide-donut",
-      "source_slide_index": 9,
-      "page_role": "data_dashboard",
+      "page_role": "closing",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "metrics"
       ],
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
+      "extraction_confidence": "inferred_from_layout",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
           "selector_or_token": ".slide-donut",
-          "raw_value": "<section class=\"slide slide-donut\" id=\"slide-10\">"
+          "raw_value": "<section class=\"slide slide-donut\">"
         }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      ]
     }
   },
   "page_family_source": {
@@ -1645,5 +1705,6 @@
     "source_design_md": "beautiful-html-templates/templates/daisy-days/design.md",
     "source_template_json": "beautiful-html-templates/templates/daisy-days/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  },
+  "template_id": "daisy-workshop-playbook"
 }

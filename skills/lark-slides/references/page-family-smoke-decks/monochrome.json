@@ -1,0 +1,116 @@
+{
+  "claim_boundary": "source page-family implementation smoke deck; not production/default_selectable evidence",
+  "family_id": "monochrome",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "title": "User Research Synthesis"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "chapter",
+      "title": "Why we went back to users"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "statement",
+      "title": "Primary Objective"
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "split",
+      "title": "First 48 Hours"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "title": "Data Readout"
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "list",
+      "title": "Recommendations"
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "title": "Current vs Proposed"
+    },
+    {
+      "page": 8,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "title": "Participant Voice"
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "dense",
+      "title": "Compounding Analysis"
+    },
+    {
+      "page": 10,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "title": "Retention Analysis"
+    },
+    {
+      "page": 11,
+      "page_role": "process",
+      "page_variant_id": "diagram",
+      "title": "Research Methodology"
+    },
+    {
+      "page": 12,
+      "page_role": "data",
+      "page_variant_id": "pie",
+      "title": "Participant Breakdown"
+    },
+    {
+      "page": 13,
+      "page_role": "process",
+      "page_variant_id": "vtimeline",
+      "title": "Research Timeline"
+    },
+    {
+      "page": 14,
+      "page_role": "process",
+      "page_variant_id": "cycle",
+      "title": "Design Thinking Cycle"
+    },
+    {
+      "page": 15,
+      "page_role": "closing",
+      "page_variant_id": "end",
+      "title": "Questions and Next Steps"
+    },
+    {
+      "page": 16,
+      "page_role": "detail",
+      "page_variant_id": "pyramid",
+      "title": "Analysis Hierarchy"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "template_id": "ledger-briefing",
+  "theme_id": "monochrome"
+}

@@ -1,0 +1,277 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "editorial-tri-tone",
+  "selected_template_id": "tritone-editorial-spread",
+  "selected_theme_id": "editorial-tri-tone",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 9,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "grid",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "stat",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "process",
+      "page_variant_id": "timeline",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "closer",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "grid"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "stat"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "chart"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "timeline"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "closer"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "grid",
+    "stat",
+    "timeline",
+    "chart",
+    "quote",
+    "closer"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "grid",
+    "stat",
+    "timeline",
+    "chart",
+    "quote",
+    "closer"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "manifesto",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/editorial-tri-tone.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.chart.canvas-spec.json",
+    "golden_spec.closer": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.closer.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.cover.canvas-spec.json",
+    "golden_spec.grid": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.grid.canvas-spec.json",
+    "golden_spec.manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.manifesto.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.quote.canvas-spec.json",
+    "golden_spec.stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.stat.canvas-spec.json",
+    "golden_spec.timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-tri-tone.timeline.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "69b8afba801cbd095328c78312d55e146dd1407be5fac48e3eb3f001a6518f09",
+    "smoke_deck": "515248d3e8c4966144574d8a1de8dfbbe5f6045d820e29bab73b9fe7ce1112c6",
+    "golden_spec.chart": "fb10149e8061d3c5bc2f530c44ebdc4f9591cc3b2d762ecbd253baf750aebac2",
+    "golden_spec.closer": "dbab7bd124e4727f301ac998805ddd358a04f868264290fd9b433e9c07849016",
+    "golden_spec.cover": "5366807d02296ed27f2e810961fbeea905cc709e6f19a90dba5353a17c84a257",
+    "golden_spec.grid": "6b7f1175994278231c28792fe93d8bb9b1e6bc0fcf79e6995dcd99eccc38b3aa",
+    "golden_spec.manifesto": "ef33311729e99df534e810c6ffdc05eeb493239da754e3e7a491df9021a71ff6",
+    "golden_spec.quote": "8f7378a854b6dca6483ad91ed33224d7422a2d9538a981b32ee709fa89178c15",
+    "golden_spec.stat": "45cf8d9fe5b6bc02d17dd26d1436fec8beac8354ece1990a74c40377ff4b5eb7",
+    "golden_spec.timeline": "f91b428c213f3cbbf133f722789a17a26b18199ae45dfbfb7f1bb527af93c08a"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-editorial-tri-tone-smoke-9qwuu8o8",
+    "--pretty"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/editorial-tri-tone.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/tmp/svglide-editorial-tri-tone-smoke-9qwuu8o8"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 9,
+    "covered_role_count": 9,
+    "implemented_variant_count": 8,
+    "covered_implemented_variant_count": 8
+  }
+}

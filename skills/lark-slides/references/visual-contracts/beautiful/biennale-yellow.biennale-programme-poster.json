@@ -1449,31 +1449,32 @@
       "source_slide_index": 1,
       "page_role": "cover",
       "required_slots": [
-        "title"
+        "title",
+        "date"
       ],
       "optional_slots": [
         "eyebrow",
+        "footer_items",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/biennale-yellow/template.html",
           "selector_or_token": ".s-cover",
-          "raw_value": "<section class=\"slide s-cover active\">"
+          "raw_value": "<section class=\"slide s-cover\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "manifesto": {
       "source_class": "s-manifesto",
       "source_slide_index": 2,
-      "page_role": "agenda",
+      "page_role": "content",
       "required_slots": [
-        "subtitle",
         "quote"
       ],
       "optional_slots": [
-        "eyebrow",
+        "author",
         "decoration"
       ],
       "source_refs": [
@@ -1483,18 +1484,19 @@
           "raw_value": "<section class=\"slide s-manifesto\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "programme": {
       "source_class": "s-programme",
       "source_slide_index": 3,
-      "page_role": "content",
+      "page_role": "agenda",
       "required_slots": [
         "title",
-        "subtitle"
+        "strands"
       ],
       "optional_slots": [
-        "eyebrow",
+        "kicker",
+        "meta",
         "decoration"
       ],
       "source_refs": [
@@ -1504,18 +1506,19 @@
           "raw_value": "<section class=\"slide s-programme\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "chapter": {
       "source_class": "s-chapter",
       "source_slide_index": 4,
-      "page_role": "closing",
+      "page_role": "process",
       "required_slots": [
+        "number",
         "title",
-        "subtitle"
+        "lede"
       ],
       "optional_slots": [
-        "eyebrow",
+        "rail",
         "decoration"
       ],
       "source_refs": [
@@ -1525,18 +1528,19 @@
           "raw_value": "<section class=\"slide s-chapter\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "data": {
       "source_class": "s-data",
       "source_slide_index": 5,
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "required_slots": [
-        "metrics",
-        "quote"
+        "title",
+        "stats",
+        "rows"
       ],
       "optional_slots": [
-        "eyebrow",
+        "label",
         "decoration"
       ],
       "source_refs": [
@@ -1546,18 +1550,20 @@
           "raw_value": "<section class=\"slide s-data\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "quote": {
       "source_class": "s-quote",
       "source_slide_index": 6,
-      "page_role": "quote_or_emphasis",
+      "page_role": "quote",
       "required_slots": [
-        "subtitle",
-        "quote"
+        "quote",
+        "who"
       ],
       "optional_slots": [
-        "eyebrow",
+        "kicker",
+        "role",
+        "mark",
         "decoration"
       ],
       "source_refs": [
@@ -1567,17 +1573,18 @@
           "raw_value": "<section class=\"slide s-quote\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "cal": {
       "source_class": "s-cal",
       "source_slide_index": 7,
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "required_slots": [
-        "title"
+        "title",
+        "rows"
       ],
       "optional_slots": [
-        "eyebrow",
+        "label",
         "decoration"
       ],
       "source_refs": [
@@ -1587,17 +1594,18 @@
           "raw_value": "<section class=\"slide s-cal\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     },
     "colophon": {
       "source_class": "s-colophon",
       "source_slide_index": 8,
       "page_role": "closing",
       "required_slots": [
-        "title"
+        "title",
+        "footer_items"
       ],
       "optional_slots": [
-        "eyebrow",
+        "kicker",
         "decoration"
       ],
       "source_refs": [
@@ -1607,7 +1615,7 @@
           "raw_value": "<section class=\"slide s-colophon\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "direct_from_design_md"
     }
   },
   "page_family_source": {

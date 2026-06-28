@@ -1433,13 +1433,52 @@
     "letter spacing is preserved for Latin labels and reset/softened for CJK"
   ],
   "page_family": {
+    "family_id": "vellum",
+    "runtime_template_id": "vellum-scholar-brief",
+    "renderer_stage": "page_family",
     "source_slide_count": 9,
+    "source_page_variants": [
+      "cover",
+      "statement",
+      "text",
+      "stats",
+      "list",
+      "quote",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "statement",
+      "text",
+      "stats",
+      "list",
+      "quote",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "supported_page_variants": [
+      "cover",
+      "statement",
+      "text",
+      "stats",
+      "list",
+      "quote",
+      "compare",
+      "chart",
+      "end"
+    ],
     "core_page_roles": [
       "cover",
       "agenda",
       "content",
-      "data_dashboard",
-      "quote_or_emphasis",
+      "detail",
+      "data",
+      "process",
+      "comparison",
+      "quote",
       "closing"
     ],
     "production_minimum_roles": [
@@ -1447,10 +1486,13 @@
       "agenda",
       "content",
       "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
       "closing"
-    ]
+    ],
+    "claim_boundary": "SVGlide renders 9 source-backed vellum/vellum-scholar-brief page variants for review. It remains needs_review/default_selectable=false until production review; editable protocol lowering issues belong to contract_compile/prepare, not this renderer."
   },
   "page_variants": {
     "cover": {

@@ -1,0 +1,62 @@
+{
+  "claim_boundary": "Explicit current-run smoke deck for coral page-family coverage; not production/default selectable evidence.",
+  "family_id": "coral",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "agenda"
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "detail"
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "data_dashboard"
+    },
+    {
+      "page": 5,
+      "page_role": "content",
+      "page_variant_id": "process_or_timeline"
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "data_dashboard-6"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote_or_emphasis"
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "process_or_timeline-8"
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "detail-9"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing"
+    }
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "runtime_template_id": "coral-magazine-feature",
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "selected_theme_id": "coral",
+  "variant_reuse_rationale": "No variant is reused. The source has 10 pages; slide 5 covers content, slide 6 covers comparison, and slide 9 remains an additional detail/team evidence page."
+}

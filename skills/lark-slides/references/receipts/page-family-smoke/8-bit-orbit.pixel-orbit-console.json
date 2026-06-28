@@ -1,0 +1,289 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-8bit-smoke-wikljw5r",
+    "--pretty"
+  ],
+  "covered_implemented_page_variants": [
+    "slide-1",
+    "slide-2",
+    "slide-3",
+    "slide-4",
+    "slide-5",
+    "slide-6",
+    "slide-7",
+    "slide-8",
+    "slide-9",
+    "slide-10"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "slide-1",
+    "slide-2",
+    "slide-3",
+    "slide-4",
+    "slide-5",
+    "slide-6",
+    "slide-7",
+    "slide-8",
+    "slide-9",
+    "slide-10"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.slide-1": "842140526e41a73d01cbecbb047b4bd57a89891b55c8948de56cc6c992c987af",
+    "golden_spec.slide-10": "6e8fd68414fd497b91ee6c6339fe249956ab9368f4d40e3c0da516605642cee6",
+    "golden_spec.slide-2": "d923740f39cbe2736a33291d6f823dcd6ab79093bc636e8b8428d13432233007",
+    "golden_spec.slide-3": "fce238502517c5ad9c2a447679857be95533e73c25895c6ef187d36230fef8c7",
+    "golden_spec.slide-4": "0a100d70a08bcf64f1aa13141b91db4197b05c5414ae8f8933def9458a5c734e",
+    "golden_spec.slide-5": "11da952471ab8da02f1ed912574e408d2f6816237b51d3eafe67bcc012103339",
+    "golden_spec.slide-6": "bb64e4c2de3ec3ff231960526de40d3adcafc8fd68628893a6d0976d20916936",
+    "golden_spec.slide-7": "ce418505e829f5bf0af9396d8420bbe81aac718d2fd91ed049db384525913e1b",
+    "golden_spec.slide-8": "a267117a2c229d88723325a57dd5da3d75a52f2260c0d380ce8278468e9130a0",
+    "golden_spec.slide-9": "e07f1c60863b3e6370faee5cb28faf9171bd049000b4d28b492eef7633fa2f23",
+    "slide_plan": null,
+    "smoke_deck": "f6a3e98dc09e57c5b6ae9e42f5e14ca5806c4843f518fd270e132d53fd0a1f53",
+    "smoke_fixture": "9ffb1cbc0b3923b2825efd05ee344c633bc12d78116524193fe797835e9e21b0",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.slide-1": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-1.canvas-spec.json",
+    "golden_spec.slide-10": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-10.canvas-spec.json",
+    "golden_spec.slide-2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-2.canvas-spec.json",
+    "golden_spec.slide-3": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-3.canvas-spec.json",
+    "golden_spec.slide-4": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-4.canvas-spec.json",
+    "golden_spec.slide-5": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-5.canvas-spec.json",
+    "golden_spec.slide-6": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-6.canvas-spec.json",
+    "golden_spec.slide-7": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-7.canvas-spec.json",
+    "golden_spec.slide-8": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-8.canvas-spec.json",
+    "golden_spec.slide-9": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/8-bit-orbit.slide-9.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/8-bit-orbit.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "slide-2"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "slide-10"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "slide-9"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "slide-3"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "slide-1"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4,
+        7
+      ],
+      "variants": [
+        "slide-4",
+        "slide-7"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "slide-5"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "slide-6"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "slide-8"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": null,
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "slide-1",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "slide-2",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "slide-3",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "slide-4",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "slide-5",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "slide-6",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "slide-7",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 8,
+      "page_role": "quote",
+      "page_variant_id": "slide-8",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "slide-9",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "slide-10",
+      "template_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/private/tmp/svglide-8bit-smoke-wikljw5r",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/8-bit-orbit.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json"
+  },
+  "rendered_pages": 10,
+  "reuse_count": 0,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "8-bit-orbit",
+  "selected_template_id": "pixel-orbit-console",
+  "selected_theme_id": "8-bit-orbit",
+  "selection_source": "explicit_args",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 10,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 10,
+    "page_count": 10,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "family_id": "studio",
+  "runtime_template_id": "type-mass-poster",
+  "theme_id": "studio",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "title": "studio cover",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "cover",
+        "page_variant_id": "cover"
+      }
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "chapter",
+      "title": "studio chapter",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "agenda",
+        "page_variant_id": "chapter"
+      }
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "statement",
+      "title": "studio statement",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "content",
+        "page_variant_id": "statement"
+      }
+    },
+    {
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "split",
+      "title": "studio split",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "detail",
+        "page_variant_id": "split"
+      }
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "title": "studio stats",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "data",
+        "page_variant_id": "stats"
+      }
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "list",
+      "title": "studio list",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "process",
+        "page_variant_id": "list"
+      }
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "title": "studio quote",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "quote",
+        "page_variant_id": "quote"
+      }
+    },
+    {
+      "page": 8,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "title": "studio compare",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "comparison",
+        "page_variant_id": "compare"
+      }
+    },
+    {
+      "page": 9,
+      "page_role": "agenda",
+      "page_variant_id": "chapter-9",
+      "title": "studio chapter-9",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "agenda",
+        "page_variant_id": "chapter-9"
+      }
+    },
+    {
+      "page": 10,
+      "page_role": "quote",
+      "page_variant_id": "statement-10",
+      "title": "studio statement-10",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "quote",
+        "page_variant_id": "statement-10"
+      }
+    },
+    {
+      "page": 11,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "title": "studio chart",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "data",
+        "page_variant_id": "chart"
+      }
+    },
+    {
+      "page": 12,
+      "page_role": "closing",
+      "page_variant_id": "end",
+      "title": "studio end",
+      "canvas_spec": {
+        "family_id": "studio",
+        "template_id": "type-mass-poster",
+        "theme_id": "studio",
+        "page_role": "closing",
+        "page_variant_id": "end"
+      }
+    }
+  ]
+}

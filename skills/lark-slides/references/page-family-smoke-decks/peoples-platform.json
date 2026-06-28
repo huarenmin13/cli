@@ -1,0 +1,62 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for peoples-platform page-family coverage; not production/default selectable evidence.",
+  "family_id": "peoples-platform",
+  "runtime_template_id": "people-platform-manifesto",
+  "selected_theme_id": "peoples-platform",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc"
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "manifesto"
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "pillars"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stat"
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "platform"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "timeline"
+    },
+    {
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "compare"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "close"
+    }
+  ],
+  "variant_reuse_rationale": "People's Platform source has 10 source-backed pages and covers all production minimum smoke roles without variant reuse. This smoke deck is review evidence only and does not promote the template."
+}

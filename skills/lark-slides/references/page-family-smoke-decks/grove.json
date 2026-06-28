@@ -1,0 +1,72 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for grove page-family coverage; not production/default selectable evidence.",
+  "family_id": "grove",
+  "runtime_template_id": "grove-organic-brief",
+  "selected_theme_id": "grove",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "chapter"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "statement"
+    },
+    {
+      "page": 4,
+      "page_role": "comparison",
+      "page_variant_id": "split"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stats"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "list"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "compare"
+    },
+    {
+      "page": 9,
+      "page_role": "content",
+      "page_variant_id": "chapter-9"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "statement-10"
+    },
+    {
+      "page": 11,
+      "page_role": "data",
+      "page_variant_id": "chart"
+    },
+    {
+      "page": 12,
+      "page_role": "closing",
+      "page_variant_id": "end"
+    }
+  ],
+  "variant_reuse_rationale": "Grove source has 12 distinct slides and all implemented variants are covered once. This smoke deck is review evidence only and does not promote the template."
+}

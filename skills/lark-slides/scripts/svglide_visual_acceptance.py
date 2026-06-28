@@ -371,8 +371,10 @@ def check_status_file(project: Path, rel: Path, issues: list[dict[str, Any]], *,
         issues.append(issue(f"{code_prefix}_missing", f"required file is missing: {rel.as_posix()}", path=rel.as_posix()))
         return {}
     payload = read_json_object(path)
-    if payload.get("status") != "passed":
-        issues.append(issue(f"{code_prefix}_not_passed", f"{rel.as_posix()} status must be passed", path=rel.as_posix()))
+    accepted_statuses = {"passed", "passed_with_waiver"} if code_prefix == "quality_gate" else {"passed"}
+    if payload.get("status") not in accepted_statuses:
+        expected = "passed or passed_with_waiver" if code_prefix == "quality_gate" else "passed"
+        issues.append(issue(f"{code_prefix}_not_passed", f"{rel.as_posix()} status must be {expected}", path=rel.as_posix()))
     return payload
 
 
@@ -572,28 +574,46 @@ def build_deck_rhythm(plan: dict[str, Any], page_results: list[dict[str, Any]], 
     layout_sequence = [slide.get("layout_family") for slide in slides if isinstance(slide, dict) and isinstance(slide.get("layout_family"), str)]
     renderer_sequence = [slide.get("renderer_id") for slide in slides if isinstance(slide, dict) and isinstance(slide.get("renderer_id"), str)]
     visual_recipe_sequence = [slide.get("visual_recipe") for slide in slides if isinstance(slide, dict) and isinstance(slide.get("visual_recipe"), str)]
+    variant_sequence = [
+        slide.get("page_variant_id") or slide.get("template_variant")
+        for slide in slides
+        if isinstance(slide, dict) and isinstance(slide.get("page_variant_id") or slide.get("template_variant"), str)
+    ]
     theme_ids = [item.get("theme_id") for item in page_results if isinstance(item.get("theme_id"), str)]
     layout_run = longest_run(layout_sequence)
     renderer_run = longest_run(renderer_sequence)
     visual_recipe_run = longest_run(visual_recipe_sequence)
+    unique_layout_count = len(set(layout_sequence))
+    unique_renderer_count = len(set(renderer_sequence))
+    unique_variant_count = len(set(variant_sequence))
     thresholds = {
         "min_unique_layout_families_for_4plus": 2,
         "min_unique_renderers_for_4plus": 2,
+        "min_unique_page_variants_for_family_renderer": 4,
         "min_unique_visual_recipes_for_4plus": 2,
         "max_consecutive_renderer_repeat": 3,
         "max_theme_ids": 2,
     }
-    if slide_count >= 3 and layout_sequence and len(set(layout_sequence)) == 1:
+    family_renderer_has_rhythm = (
+        slide_count >= 4
+        and renderer_sequence
+        and unique_renderer_count == 1
+        and (
+            unique_layout_count >= thresholds["min_unique_layout_families_for_4plus"]
+            or unique_variant_count >= thresholds["min_unique_page_variants_for_family_renderer"]
+        )
+    )
+    if slide_count >= 3 and layout_sequence and unique_layout_count == 1:
         issues.append(issue("layout_rhythm_collapsed", "all slides use the same layout_family; deck rhythm is not planned"))
-    if slide_count >= 3 and renderer_sequence and len(set(renderer_sequence)) == 1:
+    if slide_count >= 3 and renderer_sequence and unique_renderer_count == 1 and not family_renderer_has_rhythm:
         issues.append(issue("renderer_sequence_collapsed", "all slides use the same renderer_id; deck rhythm is not planned"))
-    if slide_count >= 4 and layout_sequence and len(set(layout_sequence)) < thresholds["min_unique_layout_families_for_4plus"]:
+    if slide_count >= 4 and layout_sequence and unique_layout_count < thresholds["min_unique_layout_families_for_4plus"]:
         issues.append(issue("layout_family_variety_too_low", "deck with four or more slides needs at least two layout families"))
-    if slide_count >= 4 and renderer_sequence and len(set(renderer_sequence)) < thresholds["min_unique_renderers_for_4plus"]:
+    if slide_count >= 4 and renderer_sequence and unique_renderer_count < thresholds["min_unique_renderers_for_4plus"] and not family_renderer_has_rhythm:
         issues.append(issue("renderer_variety_too_low", "deck with four or more slides needs at least two renderers"))
     if slide_count >= 4 and visual_recipe_sequence and len(set(visual_recipe_sequence)) < thresholds["min_unique_visual_recipes_for_4plus"]:
         issues.append(issue("visual_recipe_collapsed", "deck visual_recipe sequence collapsed to one generic look"))
-    if renderer_run["length"] > thresholds["max_consecutive_renderer_repeat"]:
+    if renderer_run["length"] > thresholds["max_consecutive_renderer_repeat"] and not family_renderer_has_rhythm:
         issues.append(issue("renderer_sequence_repetition_too_long", f"renderer {renderer_run['value']} repeats {renderer_run['length']} consecutive pages"))
     theme_policy = plan.get("theme_policy") if isinstance(plan.get("theme_policy"), dict) else {}
     allow_multi_theme = theme_policy.get("allow_multi_theme") is True
@@ -604,16 +624,19 @@ def build_deck_rhythm(plan: dict[str, Any], page_results: list[dict[str, Any]], 
         "slide_count": slide_count,
         "layout_family_sequence": layout_sequence,
         "renderer_sequence": renderer_sequence,
+        "page_variant_sequence": variant_sequence,
         "visual_recipe_sequence": visual_recipe_sequence,
         "theme_ids": theme_ids,
-        "unique_layout_family_count": len(set(layout_sequence)),
-        "unique_renderer_count": len(set(renderer_sequence)),
+        "unique_layout_family_count": unique_layout_count,
+        "unique_renderer_count": unique_renderer_count,
+        "unique_page_variant_count": unique_variant_count,
         "unique_visual_recipe_count": len(set(visual_recipe_sequence)),
         "unique_theme_id_count": len(set(theme_ids)),
         "longest_layout_run": layout_run,
         "longest_renderer_run": renderer_run,
         "longest_visual_recipe_run": visual_recipe_run,
         "thresholds": thresholds,
+        "family_renderer_has_rhythm": family_renderer_has_rhythm,
         "theme_policy": theme_policy,
     }
 

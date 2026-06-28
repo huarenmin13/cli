@@ -1,0 +1,57 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for editorial-tri-tone page-family coverage; not production/default selectable evidence.",
+  "family_id": "editorial-tri-tone",
+  "runtime_template_id": "tritone-editorial-spread",
+  "selected_theme_id": "editorial-tri-tone",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "grid"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "manifesto"
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "stat"
+    },
+    {
+      "page": 5,
+      "page_role": "process",
+      "page_variant_id": "timeline"
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "chart"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "manifesto"
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "closer"
+    }
+  ],
+  "variant_reuse_rationale": "Editorial Tri-Tone source has 8 pages while the production smoke role set has 9 roles. The manifesto page is reused once because it carries both editorial content and detail/deep-dive prose; this is review evidence only and does not promote the template."
+}

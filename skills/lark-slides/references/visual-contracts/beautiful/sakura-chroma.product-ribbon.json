@@ -604,7 +604,64 @@
     "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/product-ribbon.mjs",
     "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/product-ribbon.canvas-spec.json",
     "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/sakura-chroma.product-ribbon.json",
-    "renderer_contract": {},
+    "renderer_contract": {
+      "status": "needs_review",
+      "renderer_stage": "page_family",
+      "implemented_page_variants": [
+        "cover",
+        "manifesto",
+        "catalogue",
+        "stripe",
+        "data",
+        "quote",
+        "cal",
+        "colophon"
+      ],
+      "default_selectable": false,
+      "selection_scope": "experimental",
+      "claim_boundary": "page-family renderer evidence only; production/default selectable still requires selector/gate/production review.",
+      "text_budget_by_variant": {
+        "cover": {
+          "title": 16,
+          "subtitle": 80,
+          "brand": 32,
+          "edition": 32
+        },
+        "manifesto": {
+          "title": 120,
+          "eyebrow": 80
+        },
+        "catalogue": {
+          "title": 80,
+          "eyebrow": 80
+        },
+        "stripe": {
+          "title": 90,
+          "eyebrow": 80,
+          "author": 80
+        },
+        "data": {
+          "title": 60,
+          "eyebrow": 80
+        },
+        "quote": {
+          "quote": 180,
+          "eyebrow": 60,
+          "author": 60,
+          "meta": 100
+        },
+        "cal": {
+          "title": 60,
+          "eyebrow": 80
+        },
+        "colophon": {
+          "title": 80,
+          "eyebrow": 80,
+          "stamp": 24,
+          "seal": 16
+        }
+      }
+    },
     "constraints": {
       "external_html_css_js": "forbidden",
       "generic_fallback_as_production": "forbidden",
@@ -614,12 +671,24 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "distinctive display face may be approximated by Slide/Source/思源 fonts; preserve weight/size/case first",
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
-    ]
+    ],
+    "page_variant_golden_specs": {
+      "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
+      "manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
+      "catalogue": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
+      "stripe": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json",
+      "data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
+      "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
+      "cal": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
+      "colophon": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json"
+    },
+    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/sakura-chroma.json",
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json"
   },
   "do_not_simplify": [
     "preserve_fonts_palette_grid_slide_classes_decorative_elements",
@@ -1386,7 +1455,70 @@
       "quote_or_emphasis",
       "process_or_timeline",
       "closing"
-    ]
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "manifesto",
+      "catalogue",
+      "stripe",
+      "data",
+      "quote",
+      "cal",
+      "colophon"
+    ],
+    "page_variant_golden_specs": {
+      "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
+      "manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
+      "catalogue": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
+      "stripe": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json",
+      "data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
+      "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
+      "cal": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
+      "colophon": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json"
+    },
+    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/sakura-chroma.json",
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+    "text_budget_by_variant": {
+      "cover": {
+        "title": 16,
+        "subtitle": 80,
+        "brand": 32,
+        "edition": 32
+      },
+      "manifesto": {
+        "title": 120,
+        "eyebrow": 80
+      },
+      "catalogue": {
+        "title": 80,
+        "eyebrow": 80
+      },
+      "stripe": {
+        "title": 90,
+        "eyebrow": 80,
+        "author": 80
+      },
+      "data": {
+        "title": 60,
+        "eyebrow": 80
+      },
+      "quote": {
+        "quote": 180,
+        "eyebrow": 60,
+        "author": 60,
+        "meta": 100
+      },
+      "cal": {
+        "title": 60,
+        "eyebrow": 80
+      },
+      "colophon": {
+        "title": 80,
+        "eyebrow": 80,
+        "stamp": 24,
+        "seal": 16
+      }
+    }
   },
   "page_variants": {
     "cover": {

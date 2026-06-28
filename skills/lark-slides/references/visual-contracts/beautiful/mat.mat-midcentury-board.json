@@ -695,7 +695,21 @@
         "radialGradient"
       ],
       "python_generic_fallback": "forbidden",
-      "runtime": "owned_satori_template"
+      "runtime": "owned_satori_template",
+      "renderer_stage": "page_family",
+      "implemented_page_variants": [
+        "cover",
+        "statement",
+        "split",
+        "stats",
+        "quote",
+        "list",
+        "compare",
+        "chart",
+        "end"
+      ],
+      "promotion_status": "needs_review",
+      "default_selectable": false
     },
     "constraints": {
       "external_html_css_js": "forbidden",
@@ -706,7 +720,7 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
@@ -1467,7 +1481,69 @@
       "quote_or_emphasis",
       "process_or_timeline",
       "closing"
-    ]
+    ],
+    "claim_boundary": "page-family renderer execution evidence only; does not imply production/default selectable status.",
+    "source_page_variants": [
+      "cover",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "supported_page_variants": [
+      "cover",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "page_variant_golden_specs": {
+      "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
+      "statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.statement.canvas-spec.json",
+      "split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.split.canvas-spec.json",
+      "stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.stats.canvas-spec.json",
+      "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.quote.canvas-spec.json",
+      "list": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.list.canvas-spec.json",
+      "compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.compare.canvas-spec.json",
+      "chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.chart.canvas-spec.json",
+      "end": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.end.canvas-spec.json"
+    },
+    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/mat.json",
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+    "variant_usage_policy": {
+      "singletons": [
+        "cover",
+        "quote",
+        "end"
+      ],
+      "repeatable": [
+        "statement",
+        "split",
+        "stats",
+        "list",
+        "compare",
+        "chart"
+      ]
+    }
   },
   "page_variants": {
     "cover": {
@@ -1675,5 +1751,6 @@
     "source_design_md": "beautiful-html-templates/templates/mat/design.md",
     "source_template_json": "beautiful-html-templates/templates/mat/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  },
+  "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/mat-midcentury-board.mjs"
 }

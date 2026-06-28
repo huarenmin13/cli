@@ -1,0 +1,275 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "pink-script",
+  "selected_template_id": "pink-nocturne-feature",
+  "selected_theme_id": "pink-script",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 9,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "section",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "process",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "matrix",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "cta",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "toc"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "section"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "matrix"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "process"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "chart"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "cta"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "toc",
+    "stats",
+    "section",
+    "chart",
+    "process",
+    "matrix",
+    "quote",
+    "cta"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "toc",
+    "stats",
+    "section",
+    "chart",
+    "process",
+    "matrix",
+    "quote",
+    "cta"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/pink-script.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
+    "golden_spec.cta": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json",
+    "golden_spec.matrix": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
+    "golden_spec.process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
+    "golden_spec.section": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
+    "golden_spec.toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": "1c08aa6664d3a08853325d9ae64b6bcfff3503c7e8da949f0d76d96419b26ddf",
+    "generator_receipt": "7ff265ba75f85ffac0acb0baa1ada399ec27b9506119f0d14c83cb9d5250ced6",
+    "template_registry": "3a93bf7b657519dbb1f827986deb8e270fe8a89bc441c859a6627225075189a3",
+    "theme_registry": "0742eac8c0e15ba077eb555437c9b623d4f57f817083bd23f253092af6e2ec6e",
+    "smoke_fixture": "3c121648120d43af6f912d3daf307dbf8ae37f9a8d5672cd1ac088581d668881",
+    "smoke_deck": "1365abde0813c9c72f57ee6d371150cad3f9b7505b604782a3141f655f0a70ca",
+    "golden_spec.chart": "2f21daf7f51fe9eafc9169087263ada9329f18dbde4d020dd565f11761401796",
+    "golden_spec.cover": "5847b92a786ee085aac3b039bc9014452af7878661a02cb942401163e8317e0d",
+    "golden_spec.cta": "3fa6e4a1fa7370edb9edad6b561b95cfa37517d1a31e0ef85b30e66dc6b99a99",
+    "golden_spec.matrix": "e21274adff7b2206218b628f198d58345e4a4c388bcd16d8cd194b3e3b976f47",
+    "golden_spec.process": "8604237580e99ef4702fad73306a5a77f2213bb0a00fb6e9ae1f77b360b18912",
+    "golden_spec.quote": "f8cea652246616c4e7923cc259145ddd1cd9acacb82d1bbeba8b0ba3d766fc5f",
+    "golden_spec.section": "858d4f47a29c73156a4b4978d751a7d404f85ec1f404f96e5d848e3bd9319aa0",
+    "golden_spec.stats": "e90552c1ef1979ac3e68334210b8783d1ac1cfd58ecf3c4fc67ad8aa92afb991",
+    "golden_spec.toc": "f90519cb2cc801156388e7556f0ae6f1d137b8b37f71fd19c4353ffb4bc30c56"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "python3",
+    "skills/lark-slides/scripts/beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-pink-script-smoke-project"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/pink-script.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/tmp/svglide-pink-script-smoke-project"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 9,
+    "covered_role_count": 9,
+    "implemented_variant_count": 9,
+    "covered_implemented_variant_count": 9
+  }
+}

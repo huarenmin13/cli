@@ -1,0 +1,206 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "desc": "Every Long Table evening is by application. We read each one, and we usually answer within a week. The next room opens for Brooklyn on the seventeenth of January.",
+    "edition": "·",
+    "eyebrow": "come and sit with us",
+    "footer": [
+      {
+        "tag": "Founded",
+        "value": "2019 · Borrowed kitchen"
+      },
+      {
+        "tag": "Set",
+        "value": "Nine cities · one long room"
+      },
+      {
+        "tag": "Until then",
+        "value": "Keep the chair warm"
+      }
+    ],
+    "page": "08 / 08",
+    "pills": [
+      "long-table.co",
+      "Apply for Brooklyn"
+    ],
+    "title": "See you\nat the table."
+  },
+  "family_id": "long-table",
+  "page_family_source": {
+    "family_id": "long-table",
+    "runtime_template_id": "printed-program",
+    "source_class": "s-closing",
+    "source_slide_index": 8,
+    "source_template_html": "beautiful-html-templates/templates/long-table/template.html"
+  },
+  "page_role": "closing",
+  "page_variant_id": "closing",
+  "quality_constraints": {
+    "max_title_lines": 4,
+    "min_font_size": 8,
+    "safe_area": {
+      "height": 444,
+      "width": 864,
+      "x": 48,
+      "y": 48
+    }
+  },
+  "renderer_variant_id": "closing",
+  "safe_area": {
+    "height": 444,
+    "width": 864,
+    "x": 48,
+    "y": 48
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 120,
+        "width": 720,
+        "x": 64,
+        "y": 80
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    },
+    {
+      "bbox": {
+        "height": 28,
+        "width": 160,
+        "x": 64,
+        "y": 80
+      },
+      "element_id": "page_variant",
+      "kind": "metadata",
+      "role": "closing",
+      "source_ref": "long-table.closing"
+    }
+  ],
+  "template_id": "printed-program",
+  "theme": {
+    "colors": {
+      "accent": "#B53D2A",
+      "background": "#FAF1E2",
+      "muted": "#B53D2A",
+      "panel": "#F2E5CF",
+      "primary": "#B53D2A",
+      "text": "#8E2D1F"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 20,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Fraunces",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 88,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Bricolage Grotesque",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 12,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "Bricolage Grotesque",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 56,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "Bricolage Grotesque",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/long-table.printed-program.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "long-table",
+  "version": "svglide-canvas-spec/v1"
+}

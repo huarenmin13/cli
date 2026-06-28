@@ -1,0 +1,371 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "--selected-family",
+    "broadside"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "chapter",
+    "statement",
+    "split",
+    "stats",
+    "fadelist",
+    "list",
+    "quote",
+    "compare",
+    "chart",
+    "diagram",
+    "pie",
+    "pyramid",
+    "vtimeline",
+    "cycle",
+    "end"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "cover",
+    "chapter",
+    "statement",
+    "split",
+    "stats",
+    "fadelist",
+    "list",
+    "quote",
+    "compare",
+    "chart",
+    "diagram",
+    "pie",
+    "pyramid",
+    "vtimeline",
+    "cycle",
+    "end"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.chapter": "b22a6a951ce91be9d7e71c3c91bfecb6b47dc264c8282582aba14e5b945f4f8a",
+    "golden_spec.chart": "92f9b6efbd099dbb6bd9ac4ac3159c3d06ab7da46ecd341097dfc1db5e046574",
+    "golden_spec.compare": "44ba30efa652917fbc9be303d08e717038acc18de4fb305f1ca228aa0f6c132d",
+    "golden_spec.cover": "baa8f01f611118d448d9b6958409e79906486c8bcaa82253b4edc195ca00a439",
+    "golden_spec.cycle": "752488605ca7231909411cd3d600cd4075c9e26788e35dbe802941f87ae4af4e",
+    "golden_spec.diagram": "a4064cb199970706ba497a8211a426f97829d3b24f3d09a578be2abfb6855ea4",
+    "golden_spec.end": "13a4616844c909ed1bddb13edb8f22725cb72c15fca6f56429786d05d3788950",
+    "golden_spec.fadelist": "c1d258ba10f327ca6c0da7972f3f6a18a09002e465dec4c1f317659d5ce27ac9",
+    "golden_spec.list": "076ab94b2bd0f925865e2531823f8df73b2fc3ec2c55b08fd40c5e9c3f716c41",
+    "golden_spec.pie": "f7203525c6707f3f834f8faadc9640ace383f70fc26ac22bf8a0064174f24356",
+    "golden_spec.pyramid": "69609baa3da78f245e924a467f9f16044918a401a60d17ee275b46b58e63e184",
+    "golden_spec.quote": "405da83e3c9c7d56212a86f7e787d8b34ada8fb531963635020e035609e38234",
+    "golden_spec.split": "6877d98b5fa1fc2820c65e1d4b983635c3c23764a5fd468caa945eb42160f82b",
+    "golden_spec.statement": "4ac075acc1089e286c690a0db44c4280c9e475ee1a62a2c33b40c588f0f27148",
+    "golden_spec.stats": "f8822ee99191d19fd295b6aad10cff35a48bb7b99e04bb2fcc4a906600135aa7",
+    "golden_spec.vtimeline": "45e8b01f7ba1b7e0fa77d118e08f2b89b9acc7444fb9325e3e41ba6d53180139",
+    "slide_plan": null,
+    "smoke_deck": "2fbddad471d48c607f9519cd0f0b08669e2cb5697d6c500ef9e755c434370d5c",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.chapter": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.chapter.canvas-spec.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.chart.canvas-spec.json",
+    "golden_spec.compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.compare.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.cover.canvas-spec.json",
+    "golden_spec.cycle": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.cycle.canvas-spec.json",
+    "golden_spec.diagram": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.diagram.canvas-spec.json",
+    "golden_spec.end": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.end.canvas-spec.json",
+    "golden_spec.fadelist": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.fadelist.canvas-spec.json",
+    "golden_spec.list": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.list.canvas-spec.json",
+    "golden_spec.pie": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.pie.canvas-spec.json",
+    "golden_spec.pyramid": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.pyramid.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.quote.canvas-spec.json",
+    "golden_spec.split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.split.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.statement.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.stats.canvas-spec.json",
+    "golden_spec.vtimeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/broadside.vtimeline.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/broadside.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "chapter"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        16
+      ],
+      "variants": [
+        "end"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "compare"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3,
+        6,
+        7
+      ],
+      "variants": [
+        "fadelist",
+        "list",
+        "statement"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5,
+        10,
+        12
+      ],
+      "variants": [
+        "chart",
+        "pie",
+        "stats"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        4,
+        13
+      ],
+      "variants": [
+        "pyramid",
+        "split"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        11,
+        14,
+        15
+      ],
+      "variants": [
+        "cycle",
+        "diagram",
+        "vtimeline"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "quote"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": null,
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "chapter",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "statement",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "split",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "fadelist",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 7,
+      "page_role": "content",
+      "page_variant_id": "list",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 8,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 10,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 11,
+      "page_role": "process",
+      "page_variant_id": "diagram",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 12,
+      "page_role": "data",
+      "page_variant_id": "pie",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 13,
+      "page_role": "detail",
+      "page_variant_id": "pyramid",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 14,
+      "page_role": "process",
+      "page_variant_id": "vtimeline",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 15,
+      "page_role": "process",
+      "page_variant_id": "cycle",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 16,
+      "page_role": "closing",
+      "page_variant_id": "end",
+      "template_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/broadside.json",
+    "smoke_fixture": null
+  },
+  "rendered_pages": 16,
+  "reuse_count": 0,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "broadside",
+  "selected_template_id": "editorial-quote-chart",
+  "selected_theme_id": "broadside",
+  "selection_source": "explicit_args",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 16,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 16,
+    "page_count": 16,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

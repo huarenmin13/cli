@@ -1,0 +1,285 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "peoples-platform",
+  "selected_template_id": "people-platform-manifesto",
+  "selected_theme_id": "peoples-platform",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 10,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "pillars",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stat",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "platform",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "timeline",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "close",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "toc"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        4,
+        6
+      ],
+      "variants": [
+        "pillars",
+        "platform"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "stat"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "compare"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "timeline"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "close"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "toc",
+    "manifesto",
+    "pillars",
+    "stat",
+    "platform",
+    "quote",
+    "timeline",
+    "compare",
+    "close"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "toc",
+    "manifesto",
+    "pillars",
+    "stat",
+    "platform",
+    "quote",
+    "timeline",
+    "compare",
+    "close"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/peoples-platform.json",
+    "golden_spec.close": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.close.canvas-spec.json",
+    "golden_spec.compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.compare.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.cover.canvas-spec.json",
+    "golden_spec.manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.manifesto.canvas-spec.json",
+    "golden_spec.pillars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.pillars.canvas-spec.json",
+    "golden_spec.platform": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.platform.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.quote.canvas-spec.json",
+    "golden_spec.stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.stat.canvas-spec.json",
+    "golden_spec.timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.timeline.canvas-spec.json",
+    "golden_spec.toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.toc.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": "7e7edaa9c2fe9ee71f1fc6dbec1e9420925f6d62b1252064f83d2d6ca28b2d75",
+    "generator_receipt": "f2399401817acba2705c2759f631abbf9d46dc38217754b1b3b68227e206badd",
+    "template_registry": "c8efae7fd0b03aa49f65fbfd5fa409c7c5523edbaa292dea012ddb5602fc5372",
+    "theme_registry": "fbad6c03c4ba985efa3be380ab4d73baa1b340a77bfaf60f276a9f37e5299106",
+    "smoke_fixture": "a4f20d67a5d2c62ff326b2b229472b1e8835a2e5dded19afc1080324bb28e5e3",
+    "smoke_deck": "286a3cce9890a016cb20f2636d6bbe82d9a7f57f6842d308f7ba10208c5deca5",
+    "golden_spec.close": "39c7dc8f984ea8abccab03e70366c034f968438005f134ee41540ef1c9a4fe6c",
+    "golden_spec.compare": "374ddffb8d28de9051fd2a8b8c2ecc98ada99aea1618e0de153979b833294061",
+    "golden_spec.cover": "d587812f99580928ad59aa446ea2741bc241dbdad7c82c3ca307ae3d04fab399",
+    "golden_spec.manifesto": "9a10c329a8a7f18446c0b5f93dbb490e5d37dd896f5d726a7c86bbb777adf1fb",
+    "golden_spec.pillars": "4746aba1758d6e7a14eac890d2374bf78ef093a6ab197cd34d1709996ccaa37b",
+    "golden_spec.platform": "8a477f55de19c78689afe9e62f7619549fa09748cf7ced9b122055711379399f",
+    "golden_spec.quote": "30dd537c174aa349127709b78d007fa5fab007d5be4855c13e38ff7107589878",
+    "golden_spec.stat": "a25d113bdc24019562a10d9fdd7b9e87ad7c8709f1a2090a1867d9866ca61bdf",
+    "golden_spec.timeline": "924c78756b58bf009683ad027c64044be6bddbc1a1347c9d4a5514329adaa71c",
+    "golden_spec.toc": "7f961dded4b9ce66e820f89c2864ca977486a340b76b1e623e86ca4e63ac11a0"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/peoples-platform.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/tmp6w8zsbkn"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 10,
+    "covered_role_count": 9,
+    "implemented_variant_count": 10,
+    "covered_implemented_variant_count": 10
+  }
+}

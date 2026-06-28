@@ -1,0 +1,57 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for emerald-editorial page-family coverage; not production/default selectable evidence.",
+  "family_id": "emerald-editorial",
+  "runtime_template_id": "emerald-editorial-cover",
+  "selected_theme_id": "emerald-editorial",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "s1"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "s2"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "s3"
+    },
+    {
+      "page": 4,
+      "page_role": "comparison",
+      "page_variant_id": "s4"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "s5"
+    },
+    {
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "s4"
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "s6"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "s7"
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "s8"
+    }
+  ],
+  "variant_reuse_rationale": "Emerald Editorial source has 8 pages while the production smoke role set has 9 roles. The statement-and-three page s4 is reused once as quote/emphasis because the source has no dedicated quote page but does have an emphatic editorial statement layout; this is review evidence only and does not promote the template."
+}

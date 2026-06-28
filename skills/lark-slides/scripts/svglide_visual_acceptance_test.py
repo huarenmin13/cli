@@ -195,6 +195,20 @@ class VisualAcceptanceTest(unittest.TestCase):
                 json.loads((project / "receipts/visual_acceptance.json").read_text(encoding="utf-8")),
             )
 
+    def test_quality_gate_passed_with_waiver_still_allows_current_deck_visual_acceptance(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            project = make_project(Path(tmp))
+            gate_path = project / "06-check/quality-gate.json"
+            gate = json.loads(gate_path.read_text(encoding="utf-8"))
+            gate["status"] = "passed_with_waiver"
+            gate["waivers"] = [{"check": "legacy-fallback-review", "waivers": [{"code": "explicit_current_deck"}]}]
+            write_json(gate_path, gate)
+
+            result = visual_acceptance.run_visual_acceptance(project)
+
+            self.assertEqual(result["status"], "passed", result["issues"])
+            self.assertEqual(result["engineering_pass"]["quality_gate_status"], "passed_with_waiver")
+
     def test_visual_evidence_pages_include_hash_bound_preview(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             project = make_project(Path(tmp))
@@ -483,6 +497,26 @@ class VisualAcceptanceTest(unittest.TestCase):
         self.assertIn("visual_recipe_collapsed", codes)
         self.assertIn("renderer_sequence_repetition_too_long", codes)
         self.assertIn("theme_palette_too_fragmented", codes)
+
+    def test_deck_rhythm_allows_single_page_family_renderer_with_layout_variety(self) -> None:
+        plan = {
+            "slides": [
+                {"layout_family": "grove_cover", "renderer_id": "artboard_satori.grove-organic-brief", "page_variant_id": "cover"},
+                {"layout_family": "grove_chapter", "renderer_id": "artboard_satori.grove-organic-brief", "page_variant_id": "chapter"},
+                {"layout_family": "grove_split", "renderer_id": "artboard_satori.grove-organic-brief", "page_variant_id": "split"},
+                {"layout_family": "grove_stats", "renderer_id": "artboard_satori.grove-organic-brief", "page_variant_id": "stats"},
+            ]
+        }
+        page_results = [{"page": index + 1, "theme_id": "grove"} for index in range(4)]
+        issues: list[dict[str, object]] = []
+
+        rhythm = visual_acceptance.build_deck_rhythm(plan, page_results, issues)
+
+        codes = {item["code"] for item in issues}
+        self.assertTrue(rhythm["family_renderer_has_rhythm"])
+        self.assertNotIn("renderer_sequence_collapsed", codes)
+        self.assertNotIn("renderer_variety_too_low", codes)
+        self.assertNotIn("renderer_sequence_repetition_too_long", codes)
 
     def test_high_priority_text_overlap_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

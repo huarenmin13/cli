@@ -1,0 +1,304 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "retro-windows",
+  "selected_template_id": "retro-ui-dashboard",
+  "selected_theme_id": "retro-windows",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 11,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "slide-1",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "slide-2",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "slide-3",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "quote",
+      "page_variant_id": "slide-3",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "slide-4",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "detail",
+      "page_variant_id": "slide-5",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "slide-6",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "data",
+      "page_variant_id": "slide-7",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "slide-8",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "process",
+      "page_variant_id": "slide-9",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 11,
+      "page_role": "closing",
+      "page_variant_id": "slide-10",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "slide-1"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "slide-2"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "slide-3"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5,
+        7,
+        8
+      ],
+      "variants": [
+        "slide-4",
+        "slide-6",
+        "slide-7"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "slide-8"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "slide-3"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "slide-9"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "slide-5"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        11
+      ],
+      "variants": [
+        "slide-10"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "slide-1",
+    "slide-2",
+    "slide-3",
+    "slide-4",
+    "slide-5",
+    "slide-6",
+    "slide-7",
+    "slide-8",
+    "slide-9",
+    "slide-10"
+  ],
+  "covered_implemented_page_variants": [
+    "slide-1",
+    "slide-2",
+    "slide-3",
+    "slide-4",
+    "slide-5",
+    "slide-6",
+    "slide-7",
+    "slide-8",
+    "slide-9",
+    "slide-10"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "slide-3",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/retro-windows.json",
+    "golden_spec.slide-1": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-1.canvas-spec.json",
+    "golden_spec.slide-10": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-10.canvas-spec.json",
+    "golden_spec.slide-2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-2.canvas-spec.json",
+    "golden_spec.slide-3": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-3.canvas-spec.json",
+    "golden_spec.slide-4": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-4.canvas-spec.json",
+    "golden_spec.slide-5": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-5.canvas-spec.json",
+    "golden_spec.slide-6": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-6.canvas-spec.json",
+    "golden_spec.slide-7": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-7.canvas-spec.json",
+    "golden_spec.slide-8": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-8.canvas-spec.json",
+    "golden_spec.slide-9": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-9.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "00eb7e3d49c732f84ce0132bc25b9365ea1670952be2f0841b10ff4e9276d98a",
+    "smoke_deck": "246531bf297f14e3808793afa9af9b47fc907e526f1454c88eaafc1ce8b6041f",
+    "golden_spec.slide-1": "94ad5c6134a0da12f3e5810b5f8dd307f53cfba33857341c2b49fd22a8b4200b",
+    "golden_spec.slide-10": "724c38d485c89b86fa47878e61e4502f9b3edc8b97bf603848080c9044bd06ff",
+    "golden_spec.slide-2": "54ddd12cee467162f1069f1d6a5f4cbc63b57c0618736be83704e39dc765e5ea",
+    "golden_spec.slide-3": "03f575fb318c35e560749c0b9a6de41c18c2d0e193d2a7bf66fe927babef5015",
+    "golden_spec.slide-4": "193c094bd1ab42c1a82e0c6f46d50f0ed37483aeeae4c88f45207981b4781b5c",
+    "golden_spec.slide-5": "b07a7a42fe70a226847bc2908391e9cc846ae125f913769153e5fe627c5759d3",
+    "golden_spec.slide-6": "6017958146696bc5f8b6dac873a91bae84fb2e09c89fa0114bf4b3a9808faca4",
+    "golden_spec.slide-7": "f75ab61c8965b931a66fe0fe80eda807fd405b71432818770e9554f0795be07c",
+    "golden_spec.slide-8": "ec11cfadf70bb485b69394f19118200f87ae9d5f1e40247ed8b647b073f829ea",
+    "golden_spec.slide-9": "627fbc5db69a1448cf36fdbdb4e80ba56860b39d488e00a2d3af37ba6f99818b"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-retro-windows-smoke-project"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/retro-windows.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/tmp/svglide-retro-windows-smoke-project"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 11,
+    "covered_role_count": 9,
+    "implemented_variant_count": 10,
+    "covered_implemented_variant_count": 10
+  }
+}

@@ -262,6 +262,8 @@ class SvgPreflightTest(unittest.TestCase):
           <text id="title" slide:role="text" data-svglide-text-style-id="txt_001"
                 data-svglide-baseline-conversion="svg-baseline-to-slide-box"
                 data-svglide-baseline-y="132" data-svglide-text-ascent="36" data-svglide-text-descent="18"
+                data-svglide-width-compensation="slide-font-safe-width/v1"
+                data-svglide-letter-spacing-accounted="true"
                 x="80" y="96" width="560" height="72"
                 font-family="Source Sans Pro" font-size="48" font-weight="800"
                 letter-spacing="1.2" fill="#123456">SVGLIDE</text>
@@ -315,6 +317,10 @@ class SvgPreflightTest(unittest.TestCase):
             "role_font_family_leaked": '<text id="role-font" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" x="80" y="96" width="200" height="40" font-family="svglideboldposterbody" font-size="24" font-weight="700">Title</text>',
             "baseline_conversion_missing": '<text id="missing-baseline" slide:role="text" x="80" y="96" width="200" height="40" font-family="Source Sans Pro" font-size="24" font-weight="700">Title</text>',
             "text_box_height_invalid": '<text id="bad-height" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" x="80" y="96" width="200" height="12" font-family="Source Sans Pro" font-size="24" font-weight="700">Title</text>',
+            "role_font_mapped_without_width_compensation": '<text id="mapped-no-width" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" data-svglide-font-mapping-reason="role_font_family_mapped_to_slide_default" x="80" y="96" width="35" height="16" font-family="思源黑体" font-size="8.5" font-weight="800" letter-spacing="1">TRADING</text>',
+            "text_box_too_narrow_for_slide_font": '<text id="too-narrow" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" data-svglide-font-mapping-reason="role_font_family_mapped_to_slide_default" data-svglide-width-compensation="slide-font-safe-width/v1" x="80" y="96" width="35" height="16" font-family="思源黑体" font-size="8.5" font-weight="800" letter-spacing="1">TRADING</text>',
+            "letter_spacing_width_not_accounted": '<text id="spacing" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" data-svglide-font-mapping-reason="role_font_family_mapped_to_slide_default" data-svglide-width-compensation="slide-font-safe-width/v1" x="80" y="96" width="56" height="16" font-family="思源黑体" font-size="8.5" font-weight="800" letter-spacing="1">TRADING</text>',
+            "cjk_short_text_wrap_risk": '<text id="cjk" slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box" data-svglide-font-mapping-reason="role_font_family_mapped_to_slide_default" data-svglide-width-compensation="slide-font-safe-width/v1" x="80" y="96" width="99.6" height="46" font-family="思源黑体" font-size="39" font-weight="900">7职业</text>',
         }
 
         for expected_code, text in cases.items():

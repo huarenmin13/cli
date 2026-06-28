@@ -364,6 +364,65 @@ class SVGlideContractCompileTest(unittest.TestCase):
         self.assertIn('"source_font_family": "svglideboldposterbody"', svg)
         self.assertIn('"slide_font_family": "思源黑体"', svg)
 
+    def test_role_font_short_label_width_is_compensated_after_font_mapping(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <text id="label" x="80" y="120" width="35" height="12"
+                font-family="svglideboldposterlabel" font-size="8.5" font-weight="800"
+                letter-spacing="1" fill="#F6E5C3">TRADING</text>
+          <text id="cjk" x="80" y="180" width="99.6" height="46"
+                font-family="svglideboldposterdisplay" font-size="39" font-weight="900"
+                fill="#F6E5C3">7职业</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        root = svglide_contract_compile.ET.fromstring(svg)
+        nodes = {
+            node.attrib["id"]: node
+            for node in root.iter()
+            if svglide_contract_compile.local_name(node.tag) == "text"
+        }
+        self.assertGreater(float(nodes["label"].attrib["width"]), 35)
+        self.assertGreater(float(nodes["cjk"].attrib["width"]), 99.6)
+        self.assertEqual(nodes["label"].attrib["data-svglide-width-compensation"], "slide-font-safe-width/v1")
+        self.assertEqual(nodes["label"].attrib["data-svglide-letter-spacing-accounted"], "true")
+        self.assertEqual(nodes["cjk"].attrib["data-svglide-nowrap-risk"], "true")
+        self.assertGreater(report["text_lowering"]["width_compensated_count"], 0)
+        self.assertGreater(report["text_lowering"]["nowrap_risk_count"], 0)
+        self.assertIn("source_width", json.dumps(report["text_lowering"], ensure_ascii=False))
+        self.assertIn('"width_expansion_reason"', svg)
+
+    def test_role_font_body_width_compensation_respects_canvas_right_edge(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <text id="right-body" x="500" y="120" width="398" height="18"
+                font-family="svglideboldposterbody" font-size="13" font-weight="400"
+                fill="#F6E5C3">装备经济让每次掉落都有想象空间。</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        root = svglide_contract_compile.ET.fromstring(svg)
+        node = next(
+            node
+            for node in root.iter()
+            if svglide_contract_compile.local_name(node.tag) == "text"
+            and node.attrib.get("id") == "right-body"
+        )
+        self.assertLessEqual(float(node.attrib["x"]) + float(node.attrib["width"]), 960.0)
+        self.assertEqual(node.attrib["data-svglide-width-canvas-fit"], "cap_width")
+        self.assertIn("fit_canvas_right", node.attrib["data-svglide-width-expansion-reason"])
+        self.assertIn('"mode": "cap_width"', json.dumps(report["text_lowering"], ensure_ascii=False))
+
     def test_compile_raw_lowering_drops_whitespace_only_text_nodes(self) -> None:
         visual_svg = """
         <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
@@ -424,6 +483,113 @@ class SVGlideContractCompileTest(unittest.TestCase):
         self.assertEqual(report["support_node_retention"]["output_counts"]["filter"], 0)
         self.assertEqual(report["redundant_text_clip_removed_count"], 1)
         self.assertGreaterEqual(len(report["loss_notes"]), 1)
+
+    def test_compile_raw_satori_lowers_rounded_rect_path_to_rect(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <path id="satori-card" x="80" y="120" width="320" height="140"
+                d="M92 120 H388 A12 12 0 0 1 400 132 V248 A12 12 0 0 1 388 260 H92 A12 12 0 0 1 80 248 V132 A12 12 0 0 1 92 120 Z"
+                fill="#ffffff" stroke="#111827" stroke-width="2"/>
+          <text id="title" x="104" y="170" font-family="Source Sans Pro" font-size="32" font-weight="800">Card title</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        self.assertIn("<rect", svg)
+        self.assertIn('id="satori-card"', svg)
+        self.assertIn('data-svglide-path-lowered-as="rounded-rect"', svg)
+        self.assertNotIn('id="satori-card" d=', svg)
+        self.assertNotIn(' A12 ', svg)
+        self.assertTrue(any(note.get("reason") == "raw Satori rounded-rect path lowered to slide rect to avoid unsupported arc path commands" for note in report["loss_notes"]))
+
+    def test_compile_raw_satori_lowers_arc_blob_path_to_ellipse(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <path id="decor-blob" x="700" y="124" width="130" height="157"
+                d="M776,124 C820,126 840,158 828,192 A39,109.9 0 0 1 789,281 C724,286 690,244 698,202 A91,78.5 0 0 1 776,124 Z"
+                fill="#1A1A1A"/>
+          <text id="title" x="104" y="120" font-family="Source Sans Pro" font-size="32" font-weight="800">Blob title</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        self.assertIn("<ellipse", svg)
+        self.assertIn('id="decor-blob"', svg)
+        self.assertIn('data-svglide-path-lowered-as="ellipse-approximation"', svg)
+        self.assertNotIn('id="decor-blob" d=', svg)
+        self.assertTrue(any(note.get("reason") == "raw Satori arc/blob path approximated as slide ellipse to avoid unsupported arc path commands" for note in report["loss_notes"]))
+
+    def test_compile_raw_satori_lowers_thin_rect_to_line_primitive(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <rect id="rule" x="80" y="220" width="420" height="2" fill="#111827" opacity="0.7"/>
+          <text id="title" x="104" y="120" font-family="Source Sans Pro" font-size="32" font-weight="800">Rule title</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        self.assertIn("<line", svg)
+        self.assertIn('id="rule"', svg)
+        self.assertIn('data-svglide-rect-lowered-as="line"', svg)
+        self.assertIn('data-svglide-semantic-role="raw-satori-line"', svg)
+        self.assertTrue(any(note.get("reason") == "thin Satori rect lowered to slide line primitive" for note in report["loss_notes"]))
+
+    def test_compile_raw_satori_drops_shear_matrix_on_non_text_shape(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <rect id="skew-card" x="704" y="216" width="124" height="86"
+                transform="matrix(1.00,-0.14,0.00,1.00,0.00,107.65)"
+                fill="#FBD0E3"/>
+          <text id="title" x="104" y="120" font-family="Source Sans Pro" font-size="32" font-weight="800">Skew title</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+
+        svglide_contract_compile.compile_project(project)
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        self.assertIn('id="skew-card"', svg)
+        self.assertIn('data-svglide-transform-lowered="unsupported-matrix-dropped"', svg)
+        self.assertNotIn('transform="matrix(1.00,-0.14,0.00,1.00,0.00,107.65)"', svg)
+        self.assertTrue(any(note.get("reason") == "unsupported non-text matrix transform dropped during protocol lowering" for note in report["loss_notes"]))
+
+    def test_compile_raw_satori_rasterizes_small_unsupported_smooth_path(self) -> None:
+        visual_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+          <path id="decor-arc" x="100" y="140" width="220" height="120"
+                d="M120 240 C160 180 220 180 280 240 S360 310 420 260"
+                fill="none" stroke="#111827" stroke-width="4"/>
+          <text id="title" x="104" y="120" font-family="Source Sans Pro" font-size="32" font-weight="800">Arc title</text>
+        </svg>
+        """
+        project = self.make_project([], visual_svg=visual_svg)
+        original = svglide_contract_compile.svg_raster_renderer.render_islands
+        svglide_contract_compile.svg_raster_renderer.render_islands = self.stub_render_islands
+        try:
+            result = svglide_contract_compile.compile_project(project)
+        finally:
+            svglide_contract_compile.svg_raster_renderer.render_islands = original
+
+        svg = (project / "04-svg" / "page-001.svg").read_text(encoding="utf-8")
+        report = json.loads((project / "04-svg" / "contract" / "page-001.report.json").read_text(encoding="utf-8"))
+        self.assertEqual(result["status"], "passed_with_warnings")
+        self.assertIn('data-svglide-raster-island="true"', svg)
+        self.assertIn('data-svglide-raster-reason="unsupported-path-command"', svg)
+        self.assertNotIn("decor-arc\" slide:role=\"shape\"", svg)
+        self.assertEqual(report["summary"]["rasterized_regions"], 1)
 
     def test_compile_redundant_text_clip_keeps_editable_text_without_raster(self) -> None:
         visual_svg = """

@@ -1,0 +1,288 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    ".",
+    "--selected-family",
+    "retro-zine"
+  ],
+  "covered_implemented_page_variants": [
+    "hero",
+    "split",
+    "statement",
+    "grid",
+    "visual",
+    "editorial",
+    "numbers",
+    "collage",
+    "rsvp",
+    "closing"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "hero",
+    "split",
+    "statement",
+    "grid",
+    "visual",
+    "editorial",
+    "numbers",
+    "collage",
+    "rsvp",
+    "closing"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.closing": "5cd68d94803edabfae4d3c376bfe6832332a08985453f87f2128badbda4b461c",
+    "golden_spec.collage": "74cd9cb502f15584e5c3dd485cc7449b410c3f039d905410051c31c013474e05",
+    "golden_spec.editorial": "eb48bc8fcada04015176dcf6c35ba7f6a46441b5d119c2b04f353fcec01cc636",
+    "golden_spec.grid": "fa9582f53bdfb3f0e45242443199486eed568ec15685f1a02576630f0a86852c",
+    "golden_spec.hero": "d9b8d9ab95a5290f53ae66118e42c2c73fc5d26716000aa5d9b8faa8ea146c1c",
+    "golden_spec.numbers": "814be6c04f40c34782834ee0a0ee2fedf24744f9c6889557ede7bcfa79ce26e3",
+    "golden_spec.rsvp": "d36f338a0c751890ec7b866c10b850ed6010cf7cf0162bf7dee624a8314a3c34",
+    "golden_spec.split": "159cceb25c0bf6491ad8b3836000f513f2857b6391558aaf311ea466be4b3d0d",
+    "golden_spec.statement": "ded57e697727bc719e497402f645d722ddbc863634fb431c0420b26429fb6eae",
+    "golden_spec.visual": "7241641487392801c77c0b89e29f33524070dab35027cd536d186c3733d8ba1f",
+    "slide_plan": null,
+    "smoke_deck": "9904ea7e3641600251b508c1fc5ad27b8921f18cffd229b1ee79e9ebe56a2c83",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.closing.canvas-spec.json",
+    "golden_spec.collage": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.collage.canvas-spec.json",
+    "golden_spec.editorial": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.editorial.canvas-spec.json",
+    "golden_spec.grid": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.grid.canvas-spec.json",
+    "golden_spec.hero": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.hero.canvas-spec.json",
+    "golden_spec.numbers": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.numbers.canvas-spec.json",
+    "golden_spec.rsvp": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.rsvp.canvas-spec.json",
+    "golden_spec.split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.split.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.statement.canvas-spec.json",
+    "golden_spec.visual": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.visual.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/retro-zine.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "rsvp"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "closing"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "split"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "visual"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "hero"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "numbers"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "grid"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6,
+        8
+      ],
+      "variants": [
+        "collage",
+        "editorial"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "statement"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": null,
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "hero",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 2,
+      "page_role": "comparison",
+      "page_variant_id": "split",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 3,
+      "page_role": "quote",
+      "page_variant_id": "statement",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "grid",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 5,
+      "page_role": "content",
+      "page_variant_id": "visual",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "editorial",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "numbers",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "collage",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 9,
+      "page_role": "agenda",
+      "page_variant_id": "rsvp",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "template_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/retro-zine.json",
+    "smoke_fixture": null
+  },
+  "rendered_pages": 10,
+  "reuse_count": 0,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "retro-zine",
+  "selected_template_id": "retro-zine-spread",
+  "selected_theme_id": "retro-zine",
+  "selection_source": "explicit_args",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 10,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 10,
+    "page_count": 10,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

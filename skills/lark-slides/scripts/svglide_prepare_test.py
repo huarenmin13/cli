@@ -229,6 +229,29 @@ class SVGlidePrepareTest(unittest.TestCase):
         self.assertEqual(receipt["submission_compatibility"]["editable_protocol_node_counts"]["text"], 1)
         self.assertEqual(receipt["submission_compatibility"]["editable_protocol_node_counts"]["shape"], 1)
 
+    def test_prepare_preserves_compensated_native_text_width_metadata(self) -> None:
+        project = self.make_project()
+        self.write_artboard_generator_receipt(project)
+        svg = NATIVE_TEXT_STYLE_SVG.replace(
+            'width="520" height="68"',
+            'width="64" height="68" data-svglide-source-width="35" data-svglide-compiled-width="64" '
+            'data-svglide-width-expansion-ratio="1.8286" '
+            'data-svglide-width-expansion-reason="role_font_mapping,short_ascii_label,letter_spacing" '
+            'data-svglide-width-compensation="slide-font-safe-width/v1" '
+            'data-svglide-nowrap-risk="true" data-svglide-letter-spacing-accounted="true"',
+        )
+        (project / "04-svg" / "page-001.svg").write_text(svg, encoding="utf-8")
+        self.write_contract_manifest(project)
+        self.write_render_metadata(project)
+
+        svglide_prepare.prepare_project(project)
+
+        prepared = (project / "04-svg" / "prepared" / "page-001.svg").read_text(encoding="utf-8")
+        self.assertIn('width="64"', prepared)
+        self.assertIn('data-svglide-source-width="35"', prepared)
+        self.assertIn('data-svglide-width-compensation="slide-font-safe-width/v1"', prepared)
+        self.assertIn('data-svglide-nowrap-risk="true"', prepared)
+
     def test_prepare_records_local_raster_island_stats(self) -> None:
         project = self.make_project()
         self.write_artboard_generator_receipt(project)

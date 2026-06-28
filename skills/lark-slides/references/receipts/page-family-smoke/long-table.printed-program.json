@@ -1,0 +1,276 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/long-table-smoke-nvcixugc"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "index",
+    "featured",
+    "menu",
+    "quote",
+    "cal",
+    "closing"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "index",
+    "featured",
+    "menu",
+    "quote",
+    "cal",
+    "closing"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.cal": "63cc2b92382d97ee8a7c1f2c65f0831d1b1f4be820e60960ab24a8dbf2cb166a",
+    "golden_spec.closing": "0adec69049d0f7cc08c66fe3c1ee2d14e2207f280cedf59a9e804dc3c3f3d9e7",
+    "golden_spec.cover": "d586b3ee560282f8121b2ff3e061118bdef4c9bda67406875fef42d0a3722a26",
+    "golden_spec.featured": "859a431e373e6a643bab208ef0dcaddfc07938642c96c083fd987b8b2233c676",
+    "golden_spec.index": "27e4da8652ab2a8d01f4d7aad6cc0424e82a4908b3ae58056d7c765171892426",
+    "golden_spec.manifesto": "b92bea954178e7602d3ab3ba7636ea07a96883e1ac4afb2950f1f35ff4557210",
+    "golden_spec.menu": "1e1512d610a70f33d0f52e46a962e3ea7919e5d81a772cc93a9c20724176a8b0",
+    "golden_spec.quote": "8e77a7391c7dc9ea5fa7cb81f77c98ca0d77bfbed74b8116372888350d8afa1f",
+    "slide_plan": "63bde14db5d55d4c0cc6c9d0118fb8d653ac75873ebeb682230e35e8053e9cce",
+    "smoke_deck": "e0af63949bc668c55a73b267fae96638ad242b95135da87c4b34fa4577524a69",
+    "smoke_fixture": "92e3375131218cf3dd48cb5a896189de603b673b5337bc99eaebaaa146df089e",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.cal": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.cal.canvas-spec.json",
+    "golden_spec.closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.closing.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.cover.canvas-spec.json",
+    "golden_spec.featured": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.featured.canvas-spec.json",
+    "golden_spec.index": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.index.canvas-spec.json",
+    "golden_spec.manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.manifesto.canvas-spec.json",
+    "golden_spec.menu": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.menu.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/long-table.quote.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/long-table.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "closing"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "index"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "menu"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "index"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "featured"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "cal"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "quote"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": "long-table",
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "manifesto",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 3,
+      "page_role": "data",
+      "page_variant_id": "index",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "featured",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 5,
+      "page_role": "content",
+      "page_variant_id": "menu",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "cal",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    },
+    {
+      "family_id": "long-table",
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "index",
+      "template_id": "printed-program",
+      "theme_id": "long-table"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/long-table-smoke-nvcixugc",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/long-table.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json"
+  },
+  "rendered_pages": 9,
+  "reuse_count": 1,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "long-table",
+  "selected_template_id": "printed-program",
+  "selected_theme_id": "long-table",
+  "selection_source": "explicit_fixture",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 8,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 8,
+    "page_count": 9,
+    "warning_count": 1
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "index",
+      "reason": "duplicate_variant_in_smoke_deck",
+      "reuse_count": 2
+    }
+  ],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

@@ -32,13 +32,13 @@
     "page_variant_golden_specs.bars": "8f6bc2850326d4a0fbd489d83586694201b2d12eab75c5c959d17e81ff602952",
     "page_variant_golden_specs.closing": "3103fc98e5ce67c299f6e1d5fc6adae6c1bbb1cd76cefb83c606b8be3ae837ee",
     "page_variant_golden_specs.cover": "3dd3e57c24acaf47d17d9c658c7b905514362fba86231be5a6d16827c1665573",
-    "page_variant_golden_specs.dashboard": "9fdeaf7d2187a61b62803350eefac26dff135782ad3f93b06707b71e679bdb8b",
+    "page_variant_golden_specs.dashboard": "d7be8dd0e7af12a7321466a17fbcc31be034c968ac108939727bc8be9969cde1",
     "page_variant_golden_specs.detail": "a5168f94a81d44d9e945de36120bf024ab64acc250dd6f54448552ebfd691fb3",
-    "page_variant_golden_specs.metrics": "71b17aca5f64aaa653b4fdba9da63a56520b81f37dc3af15c9d096e103d5582b",
+    "page_variant_golden_specs.metrics": "f5c44e5e3cedeee90eb54edf557193d24a77c96ae46562f388a65d02b6b63919",
     "page_variant_golden_specs.quote": "2044ecea4449cb20761ff47516f17dfa2db0a2f99130ff8aac4a731588b4a717",
-    "page_variant_golden_specs.split": "a085125effb6489dd3d8737a280fa2debd638e286a6a47efb9b85e520a99e92e",
-    "page_variant_golden_specs.timeline": "e35a0efffd07c38e8319e2f986053df474ad513416556eca32b5177401145e8c",
-    "renderer_module": "a164a0f4942f372560c5222e8b8ebed7b5a9aa7a4ee82439d9bd767fc515dafa",
+    "page_variant_golden_specs.split": "d2e2cc84e599677de929d59a39dd9bdb8ad28620ed9a002e33aacbcf810140c1",
+    "page_variant_golden_specs.timeline": "75d8be34d6bcd6bfd05d66241f3cecbf87e50aa22d8594d144e86a3acc3b78e1",
+    "renderer_module": "565b5f2e6a88e4282ef1f03bb82a829b9729d6b33314f35cfd3271acc6ab3b90",
     "visual_contract_path": "1e1f13157126fdd67f9ce274df5b81419ea29e91e976890f8c099188c2af5a84"
   },
   "p0_guardrails": [

@@ -1,177 +1,78 @@
 {
-  "version": "svglide-beautiful-template-visual-contract/v1",
-  "family_id": "capsule",
-  "runtime_template_id": "capsule-card-system",
-  "source": {
-    "source_template_html": "beautiful-html-templates/templates/capsule/template.html",
-    "source_design_md": "beautiful-html-templates/templates/capsule/design.md",
-    "source_template_json": "beautiful-html-templates/templates/capsule/template.json",
-    "reference_screenshot": "beautiful-html-templates/screenshots/capsule-1.png",
-    "source_screenshots": [
-      "beautiful-html-templates/screenshots/capsule-1.png",
-      "beautiful-html-templates/screenshots/capsule-4.png",
-      "beautiful-html-templates/screenshots/capsule-8.png"
-    ],
-    "absorption_records": [
-      "skills/lark-slides/references/absorptions/beautiful-html-templates/capsule.capsule-card-system.json"
-    ],
-    "template_json_name": "Capsule",
-    "template_json_slug": "capsule"
-  },
-  "layout": {
-    "layout_family": "capsule_card_system",
-    "density": "medium",
-    "formality": "medium-low",
-    "layout_rhythm": "capsule: medium density, medium-low formality. Modular pill-shaped cards on warm bone with a full pastel-pop palette.",
-    "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_lg\": \"3rem 4rem\", \"pad_md\": \"2rem\", \"gap_xl\": \"4rem\", \"gap_lg\": \"3rem\", \"gap_md\": \"2rem\", \"gap_sm\": \"1.5rem\", \"gap_xs\": \"0.75rem\", \"card_pad\": \"2.5rem 2rem\", \"pill_pad_lg\": \"1.5rem 3.5rem\", \"pill_pad_md\": \"1rem 2.5",
-    "source_layout_classes": [],
-    "variant_ids": [
-      "cover",
-      "agenda",
-      "section_divider",
-      "context_overview",
-      "metric_dashboard",
-      "problem_analysis",
-      "cause_analysis",
-      "comparison",
+  "component": {
+    "component_candidates": [
+      "title_block",
+      "section_label",
+      "metric_card",
+      "finding_callout",
+      "evidence_table",
+      "comparison_matrix",
       "timeline",
-      "case_evidence",
-      "action_plan",
-      "risk_dependency",
-      "closing"
+      "process_flow",
+      "image_panel",
+      "logo_strip",
+      "mini_chart",
+      "qualitative_radar",
+      "action_list",
+      "risk_matrix",
+      "architecture_diagram"
+    ],
+    "component_grammar": [
+      "__font_body",
+      "__font_display",
+      "card-icon",
+      "cards-grid",
+      "stat-bar",
+      "stat-label",
+      "stat-number",
+      "stat-pill",
+      "statement-box",
+      "stats-grid"
+    ],
+    "component_ids": [
+      "title_block",
+      "metric_card",
+      "process_flow",
+      "action_list"
+    ],
+    "content_shapes": [
+      "capsule cards",
+      "modular steps",
+      "lifestyle launch"
+    ],
+    "html_component_classes": [
+      "card-icon",
+      "cards-grid",
+      "chart-bar-fill",
+      "chart-bar-track",
+      "chart-container",
+      "chart-label",
+      "chart-row",
+      "chart-value",
+      "pillar-card",
+      "quote-highlight",
+      "quote-mark",
+      "stat-bar",
+      "stat-label",
+      "stat-number",
+      "stat-pill",
+      "statement-box",
+      "stats-grid",
+      "timeline",
+      "timeline-step",
+      "timeline-track"
     ]
   },
-  "typography": {
-    "template_json_typography": {
-      "display": "Bodoni Moda",
-      "body": "Space Grotesk",
-      "style": "high-contrast didone serif paired with a friendly geometric sans"
-    },
-    "design_tokens_typography": {
-      "body": "Space Grotesk",
-      "display": "Bodoni Moda",
-      "style": "high-contrast didone serif paired with a friendly geometric sans"
-    },
-    "visual_dna_typography_roles": {
-      "body": "Space Grotesk",
-      "caption": "small caption -> system-sans-cjk-regular",
-      "display": "Bodoni Moda",
-      "label": "compact label -> system-sans-cjk-medium",
-      "metric": "display numeric emphasis -> system-sans-cjk-heavy"
-    },
-    "typography_role": "high-contrast didone serif paired with a friendly geometric sans",
-    "font_policy": {
-      "fallback_stack": "system-sans-cjk",
-      "font_role_map": {
-        "body": "system-sans-cjk-regular",
-        "display": "system-sans-cjk-heavy",
-        "label": "system-sans-cjk-medium",
-        "metric": "system-sans-cjk-heavy",
-        "mono": "system-mono"
-      },
-      "original_families": [
-        "Bodoni Moda",
-        "Space Grotesk"
-      ]
-    },
-    "cjk_policy": {
-      "body_font_cn": "ZCOOL XiaoWei",
-      "design_intent_font_pairing": [
-        "LXGW WenKai TC",
-        "ZCOOL XiaoWei",
-        "Yozai",
-        "悠哉字体 Yozai",
-        "站酷小薇体 ZCOOL XiaoWei"
-      ],
-      "display_font_cn": "LXGW WenKai TC",
-      "emphasis_policy": "color_or_weight_only",
-      "italic_policy": "weight_only_emphasis",
-      "known_degradation": "ZCOOL XiaoWei is a display face with limited weight axis (single weight) and a smaller glyph set than Noto family — exotic or technical Hanzi (rare surnames, classical characters, simplified-only variants outside GB2312) may fall back to system font. For Traditional Chinese decks, swap Yozai for `LXGW WenKai TC` (Google Fonts) which has fuller TC coverage an",
-      "latin_accent_policy": "latin_only_allowed_when_semantic_annotation",
-      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
-      "mixed_run_spacing": "pangu_spacing",
-      "mono_font_policy": "latin_only_or_system_mono",
-      "runtime_font_policy": "system_font_only_no_remote_dependency",
-      "runtime_font_stack": [
-        "system-sans-cjk",
-        "system-sans-cjk-heavy",
-        "system-sans-cjk-regular",
-        "system-mono"
-      ],
-      "source_section_heading": "CJK & International Content",
-      "source_section_sha256": "2f17e736d2e8ca2e42ea1611ac6356e6cadc9a7806eae1ebae9c2dcee98a4330",
-      "strategy": "replace_family_whole_element"
-    }
-  },
-  "palette": {
-    "template_json_palette": {
-      "bg": "#F5F5F0",
-      "fg": "#1A1A1A",
-      "coral": "#E85D4E",
-      "lime": "#C4D94E",
-      "lavender": "#C5B5E0",
-      "sky": "#8BB4F7",
-      "violet": "#A06CE8",
-      "yellow": "#F2D160",
-      "peach": "#F5B895",
-      "mint": "#A8E6CF",
-      "description": "warm bone background, ink-black structure, and a full pastel-pop palette (coral, lime, lavender, sky, violet, yellow, peach, mint) used as flat capsule shapes"
-    },
-    "design_token_colors": {
-      "coral": "#E85D4E",
-      "cream": "#F5F5F0",
-      "ink": "#1A1A1A",
-      "lavender": "#C5B5E0",
-      "lime": "#C4D94E",
-      "mint": "#A8E6CF",
-      "outline": "#1E1E1E",
-      "peach": "#F5B895",
-      "shadow": "rgba(26, 26, 26, 0.08)",
-      "sky": "#8BB4F7",
-      "violet": "#A06CE8",
-      "white": "#FFFFFF",
-      "yellow": "#F2D160"
-    },
-    "theme_token_colors": {
-      "accent": "#FF7AB6",
-      "background": "#F7E7FB",
-      "danger": "#EF4444",
-      "muted": "#6D607B",
-      "panel": "#FFE8A3",
-      "primary": "#6D5DF7",
-      "success": "#2FBF71",
-      "surface": "#FFFFFF",
-      "text": "#231942",
-      "warning": "#F59E0B"
-    },
-    "theme_token_semantic_colors": {
-      "brand.accent": "#FF7AB6",
-      "brand.primary": "#6D5DF7",
-      "canvas.background": "#F7E7FB",
-      "status.danger": "#EF4444",
-      "status.success": "#2FBF71",
-      "status.warning": "#F59E0B",
-      "surface.default": "#FFFFFF",
-      "surface.panel": "#FFE8A3",
-      "text.default": "#231942",
-      "text.muted": "#6D607B"
-    },
-    "visual_dna_palette_roles": {
-      "accent": "#F5F5F0",
-      "background": "#F5F5F0",
-      "border": "#1A1A1A",
-      "muted": "#F5F5F0",
-      "negative": "#F5F5F0",
-      "positive": "#F5F5F0",
-      "primary": "#1A1A1A",
-      "surface": "#F5F5F0",
-      "text": "#1A1A1A"
-    },
-    "css_color_variables": {
-      "bg": "#F5F5F0"
-    }
-  },
   "decorative": {
+    "chrome_rules": [
+      "chart-label",
+      "nav-dot",
+      "nav-dots",
+      "nav-hint",
+      "stat-label",
+      "stat-number",
+      "step-label"
+    ],
     "decorative_motifs": [
       "grid",
       "accent line",
@@ -181,6 +82,44 @@
       "quote mark",
       "sticker collage"
     ],
+    "decorative_vocabulary": [
+      "grid",
+      "accent line",
+      "card panels",
+      "paper texture",
+      "poster blocks",
+      "quote mark",
+      "sticker collage"
+    ],
+    "forbidden_mutations": [
+      "new_palette",
+      "cross_family_components",
+      "fake_italic",
+      "new_decorative_motif",
+      "remote_font_dependency"
+    ],
+    "motif_budget": {
+      "allowed": [
+        "grid",
+        "accent line",
+        "card panels",
+        "paper texture",
+        "poster blocks",
+        "quote mark"
+      ],
+      "density": "medium",
+      "forbidden": [
+        "cross_family_components",
+        "debug guide",
+        "fake_italic",
+        "new_decorative_motif",
+        "new_palette",
+        "random decorative lines",
+        "reference line",
+        "remote font dependency",
+        "remote_font_dependency"
+      ]
+    },
     "visual_effects": [
       {
         "effect_id": "tinted_card",
@@ -217,153 +156,293 @@
         "lowering_policy": "native_svg",
         "notes": "Derived from beautiful-html-template source signal: bold_border."
       }
-    ],
-    "decorative_vocabulary": [
-      "grid",
-      "accent line",
-      "card panels",
-      "paper texture",
-      "poster blocks",
-      "quote mark",
-      "sticker collage"
-    ],
-    "chrome_rules": [
-      "chart-label",
-      "nav-dot",
-      "nav-dots",
-      "nav-hint",
-      "stat-label",
-      "stat-number",
-      "step-label"
-    ],
-    "motif_budget": {
-      "allowed": [
-        "grid",
-        "accent line",
-        "card panels",
-        "paper texture",
-        "poster blocks",
-        "quote mark"
-      ],
-      "density": "medium",
-      "forbidden": [
-        "cross_family_components",
-        "debug guide",
-        "fake_italic",
-        "new_decorative_motif",
-        "new_palette",
-        "random decorative lines",
-        "reference line",
-        "remote font dependency",
-        "remote_font_dependency"
-      ]
-    },
-    "forbidden_mutations": [
-      "new_palette",
-      "cross_family_components",
-      "fake_italic",
-      "new_decorative_motif",
-      "remote_font_dependency"
     ]
   },
+  "do_not_simplify": [
+    "preserve_fonts_palette_grid_slide_classes_decorative_elements",
+    "do_not_recolor_without_explicit_brand_override",
+    "do_not_mix_template_families",
+    "extend_missing_layout_inside_same_family",
+    "do_not_strip_identity_decorations",
+    "new_palette",
+    "cross_family_components",
+    "fake_italic",
+    "new_decorative_motif",
+    "remote_font_dependency",
+    "do_not_replace_family_with_generic_card_shell",
+    "do_not_mark_production_without_renderer_golden_fidelity_receipt",
+    "do_not_strip_identity_decorations",
+    "do_not_recolor_without_explicit_brand_override"
+  ],
+  "extraction_receipt": {
+    "basis": [
+      "template.json",
+      "design.md",
+      "template.html",
+      "reference_screenshot",
+      "beautiful-html-template-families.json"
+    ],
+    "claim_boundary": "visual contract only; not a renderer implementation or fidelity pass",
+    "promotion_status": "needs_review"
+  },
+  "family_id": "capsule",
+  "font_strategy": {
+    "adobe_or_embedded_fallback": [
+      "Source Sans Pro",
+      "思源黑体"
+    ],
+    "cjk_fallback": "LXGW WenKai TC",
+    "extraction_confidence": {
+      "adobe_or_embedded_fallback": "inferred_from_layout",
+      "cjk_fallback": "inferred_from_layout",
+      "forbidden": "inferred_from_layout",
+      "mapping_reason": "inferred_from_layout",
+      "role_mapping.body": "inferred_from_layout",
+      "role_mapping.display": "inferred_from_layout",
+      "role_mapping.label": "inferred_from_layout",
+      "role_mapping.metric": "inferred_from_layout",
+      "slide_native_preferred": "inferred_from_layout",
+      "source_fonts": "css_extracted_from_template_html"
+    },
+    "forbidden": [
+      "remote_font_runtime_dependency",
+      "google_fonts_as_production_default_without_receipt",
+      "collapse_all_roles_to_unexplained_single_font",
+      "drop_cjk_fallback"
+    ],
+    "mapping_reason": "根据 design.md/template.html/template.json 中的 font-family 与 typography token 提取源字体；运行时按 Slide/系统/Adobe/思源可用字体降级。",
+    "role_mapping": {
+      "body": {
+        "cjk_font": "思源黑体",
+        "fallback_stack": [
+          "system-sans-cjk",
+          "SVGlideBody"
+        ],
+        "mapping_reason": "保留 Space Grotesk 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideBody",
+        "slide_font": "Source Sans Pro",
+        "source_font": "Space Grotesk",
+        "source_only": false
+      },
+      "display": {
+        "cjk_font": "思源黑体",
+        "fallback_stack": [
+          "system-sans-cjk",
+          "SVGlideDisplay"
+        ],
+        "mapping_reason": "保留 Bodoni Moda 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideDisplay",
+        "slide_font": "Source Sans Pro",
+        "source_font": "Bodoni Moda",
+        "source_only": false
+      },
+      "label": {
+        "cjk_font": "思源黑体",
+        "fallback_stack": [
+          "system-sans-cjk",
+          "SVGlideLabel"
+        ],
+        "mapping_reason": "保留 Bodoni Moda 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideLabel",
+        "slide_font": "Source Sans Pro",
+        "source_font": "Bodoni Moda",
+        "source_only": false
+      },
+      "metric": {
+        "cjk_font": "思源黑体",
+        "fallback_stack": [
+          "system-sans-cjk",
+          "SVGlideMetric"
+        ],
+        "mapping_reason": "保留 Bodoni Moda 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideMetric",
+        "slide_font": "Source Sans Pro",
+        "source_font": "Bodoni Moda",
+        "source_only": false
+      }
+    },
+    "same_role_font_justification": "源模板本身以单一 sans/system family 承担多数字体角色；通过 weight/size/line-height/uppercase 区分 display/body/label/metric。",
+    "slide_native_preferred": [
+      "system-sans-cjk"
+    ],
+    "source_evidence": [
+      "beautiful-html-templates/templates/capsule/design.md",
+      "beautiful-html-templates/templates/capsule/template.html",
+      "beautiful-html-templates/templates/capsule/template.json",
+      "beautiful-html-templates/screenshots/capsule-1.png"
+    ],
+    "source_fonts": [
+      "Bodoni Moda",
+      "Space Grotesk"
+    ],
+    "source_refs": {
+      "adobe_or_embedded_fallback": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "var(--font-body); var(--font-display)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "cjk_fallback": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "var(--font-body); var(--font-display)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "forbidden": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "var(--font-body); var(--font-display)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "mapping_reason": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "var(--font-body); var(--font-display)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "role_mapping.body": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Space Grotesk",
+          "selector_or_token": "role_mapping.body.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.display": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Bodoni Moda",
+          "selector_or_token": "role_mapping.display.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.label": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Bodoni Moda",
+          "selector_or_token": "role_mapping.label.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.metric": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Bodoni Moda",
+          "selector_or_token": "role_mapping.metric.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "slide_native_preferred": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "var(--font-body); var(--font-display)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "source_fonts": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "var(--font-body); var(--font-display)",
+          "selector_or_token": "css.font-family"
+        }
+      ]
+    }
+  },
   "image": {
-    "strategy": "Preserve source image regions and screenshot-backed composition; runtime generation must use traceable online/approved image assets, not local decorative placeholders.",
+    "image_related_classes": [
+      "right-visual",
+      "visual-frame",
+      "visual-side"
+    ],
     "reference_screenshot": "beautiful-html-templates/screenshots/capsule-1.png",
+    "required_assets": [],
     "source_screenshots": [
       "beautiful-html-templates/screenshots/capsule-1.png",
       "beautiful-html-templates/screenshots/capsule-4.png",
       "beautiful-html-templates/screenshots/capsule-8.png"
     ],
-    "required_assets": [],
-    "image_related_classes": [
-      "right-visual",
-      "visual-frame",
-      "visual-side"
+    "strategy": "Preserve source image regions and screenshot-backed composition; runtime generation must use traceable online/approved image assets, not local decorative placeholders."
+  },
+  "layout": {
+    "density": "medium",
+    "formality": "medium-low",
+    "layout_family": "capsule_card_system",
+    "layout_rhythm": "capsule: medium density, medium-low formality. Modular pill-shaped cards on warm bone with a full pastel-pop palette.",
+    "source_layout_classes": [],
+    "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_lg\": \"3rem 4rem\", \"pad_md\": \"2rem\", \"gap_xl\": \"4rem\", \"gap_lg\": \"3rem\", \"gap_md\": \"2rem\", \"gap_sm\": \"1.5rem\", \"gap_xs\": \"0.75rem\", \"card_pad\": \"2.5rem 2rem\", \"pill_pad_lg\": \"1.5rem 3.5rem\", \"pill_pad_md\": \"1rem 2.5",
+    "variant_ids": [
+      "cover",
+      "agenda",
+      "section_divider",
+      "context_overview",
+      "metric_dashboard",
+      "problem_analysis",
+      "cause_analysis",
+      "comparison",
+      "timeline",
+      "case_evidence",
+      "action_plan",
+      "risk_dependency",
+      "closing"
     ]
   },
-  "component": {
-    "component_candidates": [
-      "title_block",
-      "section_label",
-      "metric_card",
-      "finding_callout",
-      "evidence_table",
-      "comparison_matrix",
-      "timeline",
-      "process_flow",
-      "image_panel",
-      "logo_strip",
-      "mini_chart",
-      "qualitative_radar",
-      "action_list",
-      "risk_matrix",
-      "architecture_diagram"
+  "loss_notes": [
+    "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
+    "letter spacing is preserved for Latin labels and reset/softened for CJK"
+  ],
+  "page_family": {
+    "core_page_roles": [
+      "cover",
+      "agenda",
+      "data_dashboard",
+      "quote_or_emphasis",
+      "process_or_timeline",
+      "content",
+      "closing"
     ],
-    "component_ids": [
-      "title_block",
-      "metric_card",
-      "process_flow",
-      "action_list"
+    "production_minimum_roles": [
+      "cover",
+      "agenda",
+      "content",
+      "data",
+      "quote_or_emphasis",
+      "process_or_timeline",
+      "closing"
     ],
-    "component_grammar": [
-      "__font_body",
-      "__font_display",
-      "card-icon",
-      "cards-grid",
-      "stat-bar",
-      "stat-label",
-      "stat-number",
-      "stat-pill",
-      "statement-box",
-      "stats-grid"
-    ],
-    "html_component_classes": [
-      "card-icon",
-      "cards-grid",
-      "chart-bar-fill",
-      "chart-bar-track",
-      "chart-container",
-      "chart-label",
-      "chart-row",
-      "chart-value",
-      "pillar-card",
-      "quote-highlight",
-      "quote-mark",
-      "stat-bar",
-      "stat-label",
-      "stat-number",
-      "stat-pill",
-      "statement-box",
-      "stats-grid",
-      "timeline",
-      "timeline-step",
-      "timeline-track"
-    ],
-    "content_shapes": [
-      "capsule cards",
-      "modular steps",
-      "lifestyle launch"
-    ]
+    "source_slide_count": 10
+  },
+  "page_family_source": {
+    "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status",
+    "extractor": "skills/lark-slides/scripts/beautiful_template_page_family_extract.py",
+    "source_design_md": "beautiful-html-templates/templates/capsule/design.md",
+    "source_template_html": "beautiful-html-templates/templates/capsule/template.html",
+    "source_template_json": "beautiful-html-templates/templates/capsule/template.json"
   },
   "page_type": {
-    "source_slide_count": 10,
-    "supported_page_roles": [
-      "action_plan",
-      "agenda",
-      "business_review",
-      "case_evidence",
-      "cause_analysis",
-      "closing",
-      "comparison",
-      "context_overview",
-      "cover",
-      "metric_overview",
-      "problem_analysis",
-      "risk_dependency",
-      "roadmap",
-      "section",
-      "timeline"
-    ],
     "layout_variants": [
       {
         "component_candidates": [
@@ -668,23 +747,336 @@
         "variant_id": "closing"
       }
     ],
-    "required_content": [
-      "title",
-      "capsules"
-    ],
     "optional_content": [
       "eyebrow",
       "subtitle",
       "steps",
       "stat"
+    ],
+    "required_content": [
+      "title",
+      "capsules"
+    ],
+    "source_slide_count": 10,
+    "supported_page_roles": [
+      "action_plan",
+      "agenda",
+      "business_review",
+      "case_evidence",
+      "cause_analysis",
+      "closing",
+      "comparison",
+      "context_overview",
+      "cover",
+      "metric_overview",
+      "problem_analysis",
+      "risk_dependency",
+      "roadmap",
+      "section",
+      "timeline"
     ]
   },
+  "page_variants": {
+    "agenda": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "agenda",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide-2",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-2\" data-slide=\"2\">",
+          "selector_or_token": ".slide-2"
+        }
+      ],
+      "source_slide_index": 2
+    },
+    "closing": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "closing",
+      "required_slots": [
+        "title"
+      ],
+      "source_class": "slide-10",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-10\" data-slide=\"10\">",
+          "selector_or_token": ".slide-10"
+        }
+      ],
+      "source_slide_index": 10
+    },
+    "cover": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "cover",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide-1",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-1 active\" data-slide=\"1\">",
+          "selector_or_token": ".slide-1"
+        }
+      ],
+      "source_slide_index": 1
+    },
+    "data_dashboard": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "content",
+      "required_slots": [
+        "title",
+        "subtitle",
+        "metrics",
+        "items"
+      ],
+      "source_class": "slide-3",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-3\" data-slide=\"3\">",
+          "selector_or_token": ".slide-3"
+        }
+      ],
+      "source_slide_index": 3
+    },
+    "data_dashboard-4": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "metrics",
+        "quote"
+      ],
+      "source_class": "slide-4",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-4\" data-slide=\"4\">",
+          "selector_or_token": ".slide-4"
+        }
+      ],
+      "source_slide_index": 4
+    },
+    "data_dashboard-7": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "metrics"
+      ],
+      "source_class": "slide-7",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-7\" data-slide=\"7\">",
+          "selector_or_token": ".slide-7"
+        }
+      ],
+      "source_slide_index": 7
+    },
+    "process_or_timeline": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "process",
+      "required_slots": [
+        "title",
+        "metrics",
+        "timeline"
+      ],
+      "source_class": "slide-6",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-6\" data-slide=\"6\">",
+          "selector_or_token": ".slide-6"
+        }
+      ],
+      "source_slide_index": 6
+    },
+    "quote_or_emphasis": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "quote",
+      "required_slots": [
+        "metrics",
+        "quote",
+        "timeline"
+      ],
+      "source_class": "slide-5",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-5\" data-slide=\"5\">",
+          "selector_or_token": ".slide-5"
+        }
+      ],
+      "source_slide_index": 5
+    },
+    "slide-8": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "detail",
+      "required_slots": [
+        "title"
+      ],
+      "source_class": "slide-8",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-8\" data-slide=\"8\">",
+          "selector_or_token": ".slide-8"
+        }
+      ],
+      "source_slide_index": 8
+    },
+    "slide-9": {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "comparison",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide-9",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "<div class=\"slide slide-9\" data-slide=\"9\">",
+          "selector_or_token": ".slide-9"
+        }
+      ],
+      "source_slide_index": 9
+    }
+  },
+  "palette": {
+    "css_color_variables": {
+      "bg": "#F5F5F0"
+    },
+    "design_token_colors": {
+      "coral": "#E85D4E",
+      "cream": "#F5F5F0",
+      "ink": "#1A1A1A",
+      "lavender": "#C5B5E0",
+      "lime": "#C4D94E",
+      "mint": "#A8E6CF",
+      "outline": "#1E1E1E",
+      "peach": "#F5B895",
+      "shadow": "rgba(26, 26, 26, 0.08)",
+      "sky": "#8BB4F7",
+      "violet": "#A06CE8",
+      "white": "#FFFFFF",
+      "yellow": "#F2D160"
+    },
+    "template_json_palette": {
+      "bg": "#F5F5F0",
+      "coral": "#E85D4E",
+      "description": "warm bone background, ink-black structure, and a full pastel-pop palette (coral, lime, lavender, sky, violet, yellow, peach, mint) used as flat capsule shapes",
+      "fg": "#1A1A1A",
+      "lavender": "#C5B5E0",
+      "lime": "#C4D94E",
+      "mint": "#A8E6CF",
+      "peach": "#F5B895",
+      "sky": "#8BB4F7",
+      "violet": "#A06CE8",
+      "yellow": "#F2D160"
+    },
+    "theme_token_colors": {
+      "accent": "#FF7AB6",
+      "background": "#F7E7FB",
+      "danger": "#EF4444",
+      "muted": "#6D607B",
+      "panel": "#FFE8A3",
+      "primary": "#6D5DF7",
+      "success": "#2FBF71",
+      "surface": "#FFFFFF",
+      "text": "#231942",
+      "warning": "#F59E0B"
+    },
+    "theme_token_semantic_colors": {
+      "brand.accent": "#FF7AB6",
+      "brand.primary": "#6D5DF7",
+      "canvas.background": "#F7E7FB",
+      "status.danger": "#EF4444",
+      "status.success": "#2FBF71",
+      "status.warning": "#F59E0B",
+      "surface.default": "#FFFFFF",
+      "surface.panel": "#FFE8A3",
+      "text.default": "#231942",
+      "text.muted": "#6D607B"
+    },
+    "visual_dna_palette_roles": {
+      "accent": "#F5F5F0",
+      "background": "#F5F5F0",
+      "border": "#1A1A1A",
+      "muted": "#F5F5F0",
+      "negative": "#F5F5F0",
+      "positive": "#F5F5F0",
+      "primary": "#1A1A1A",
+      "surface": "#F5F5F0",
+      "text": "#1A1A1A"
+    }
+  },
+  "runtime_template_id": "capsule-card-system",
   "satori": {
-    "runtime": "owned_satori_template",
-    "renderer_id": "artboard_satori.capsule-card-system",
-    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/capsule-card-system.mjs",
-    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule-card-system.canvas-spec.json",
+    "constraints": {
+      "external_html_css_js": "forbidden",
+      "generic_fallback_as_production": "forbidden",
+      "production_requires": [
+        "dedicated_renderer",
+        "golden_spec",
+        "fidelity_receipt"
+      ]
+    },
     "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/capsule.capsule-card-system.json",
+    "font_and_typography_constraints": [
+      "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
+      "letter spacing is preserved for Latin labels and reset/softened for CJK"
+    ],
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule-card-system.canvas-spec.json",
+    "migration_status": "needs_dedicated_renderer",
     "renderer_contract": {
       "external_html_css_js": "forbidden",
       "forbidden_svg_features": [
@@ -699,235 +1091,500 @@
       "python_generic_fallback": "forbidden",
       "runtime": "owned_satori_template"
     },
-    "constraints": {
-      "external_html_css_js": "forbidden",
-      "generic_fallback_as_production": "forbidden",
-      "production_requires": [
-        "dedicated_renderer",
-        "golden_spec",
-        "fidelity_receipt"
-      ]
+    "renderer_id": "artboard_satori.capsule-card-system",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/capsule-card-system.mjs",
+    "runtime": "owned_satori_template"
+  },
+  "source": {
+    "absorption_records": [
+      "skills/lark-slides/references/absorptions/beautiful-html-templates/capsule.capsule-card-system.json"
+    ],
+    "reference_screenshot": "beautiful-html-templates/screenshots/capsule-1.png",
+    "source_design_md": "beautiful-html-templates/templates/capsule/design.md",
+    "source_screenshots": [
+      "beautiful-html-templates/screenshots/capsule-1.png",
+      "beautiful-html-templates/screenshots/capsule-4.png",
+      "beautiful-html-templates/screenshots/capsule-8.png"
+    ],
+    "source_template_html": "beautiful-html-templates/templates/capsule/template.html",
+    "source_template_json": "beautiful-html-templates/templates/capsule/template.json",
+    "template_json_name": "Capsule",
+    "template_json_slug": "capsule"
+  },
+  "text_style_strategy": {
+    "bold": {
+      "allowed_roles": [
+        "display",
+        "label",
+        "metric"
+      ],
+      "mapped_weight": {
+        "display": 900,
+        "label": 700,
+        "metric": 900
+      },
+      "source_usage": "source uses heavy display/label weights"
     },
-    "migration_status": "needs_dedicated_renderer",
-    "font_and_typography_constraints": [
-      "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
-      "letter spacing is preserved for Latin labels and reset/softened for CJK"
-    ]
-  },
-  "do_not_simplify": [
-    "preserve_fonts_palette_grid_slide_classes_decorative_elements",
-    "do_not_recolor_without_explicit_brand_override",
-    "do_not_mix_template_families",
-    "extend_missing_layout_inside_same_family",
-    "do_not_strip_identity_decorations",
-    "new_palette",
-    "cross_family_components",
-    "fake_italic",
-    "new_decorative_motif",
-    "remote_font_dependency",
-    "do_not_replace_family_with_generic_card_shell",
-    "do_not_mark_production_without_renderer_golden_fidelity_receipt",
-    "do_not_strip_identity_decorations",
-    "do_not_recolor_without_explicit_brand_override"
-  ],
-  "extraction_receipt": {
-    "basis": [
-      "template.json",
-      "design.md",
-      "template.html",
-      "reference_screenshot",
-      "beautiful-html-template-families.json"
-    ],
-    "claim_boundary": "visual contract only; not a renderer implementation or fidelity pass",
-    "promotion_status": "needs_review"
-  },
-  "font_strategy": {
-    "source_fonts": [
-      "Bodoni Moda",
-      "Space Grotesk"
-    ],
-    "slide_native_preferred": [
-      "system-sans-cjk"
-    ],
-    "adobe_or_embedded_fallback": [
-      "Source Sans Pro",
-      "思源黑体"
-    ],
-    "cjk_fallback": "LXGW WenKai TC",
-    "role_mapping": {
-      "display": {
-        "source_font": "Bodoni Moda",
-        "slide_font": "Source Sans Pro",
-        "runtime_alias": "SVGlideDisplay",
-        "cjk_font": "思源黑体",
-        "fallback_stack": [
-          "system-sans-cjk",
-          "SVGlideDisplay"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Bodoni Moda 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。"
-      },
-      "body": {
-        "source_font": "Space Grotesk",
-        "slide_font": "Source Sans Pro",
-        "runtime_alias": "SVGlideBody",
-        "cjk_font": "思源黑体",
-        "fallback_stack": [
-          "system-sans-cjk",
-          "SVGlideBody"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Space Grotesk 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。"
-      },
-      "label": {
-        "source_font": "Bodoni Moda",
-        "slide_font": "Source Sans Pro",
-        "runtime_alias": "SVGlideLabel",
-        "cjk_font": "思源黑体",
-        "fallback_stack": [
-          "system-sans-cjk",
-          "SVGlideLabel"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Bodoni Moda 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。"
-      },
-      "metric": {
-        "source_font": "Bodoni Moda",
-        "slide_font": "Source Sans Pro",
-        "runtime_alias": "SVGlideMetric",
-        "cjk_font": "思源黑体",
-        "fallback_stack": [
-          "system-sans-cjk",
-          "SVGlideMetric"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Bodoni Moda 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。"
-      }
+    "emphasis": {
+      "color_shift": "use source accent color roles only",
+      "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+      "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+      "weight_shift": "increase one role step within font_weight_scale"
+    },
+    "extraction_confidence": {
+      "bold": "css_extracted_from_template_html",
+      "emphasis": "inferred_from_layout",
+      "forbidden": "inferred_from_layout",
+      "italic": "css_extracted_from_template_html",
+      "line_through": "absent_use_default",
+      "text_decoration_policy.line_through.color": "absent_use_default",
+      "text_decoration_policy.line_through.style": "absent_use_default",
+      "text_decoration_policy.line_through.thickness": "absent_use_default",
+      "text_decoration_policy.underline.color": "css_extracted_from_template_html",
+      "text_decoration_policy.underline.style": "css_extracted_from_template_html",
+      "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
+      "underline": "css_extracted_from_template_html"
     },
     "forbidden": [
-      "remote_font_runtime_dependency",
-      "google_fonts_as_production_default_without_receipt",
-      "collapse_all_roles_to_unexplained_single_font",
-      "drop_cjk_fallback"
+      "fake_cjk_italic",
+      "drop_source_text_transform",
+      "drop_source_letter_spacing_without_loss_note",
+      "use_cross_family_font_motif",
+      "remote_font_dependency_without_receipt"
     ],
-    "mapping_reason": "根据 design.md/template.html/template.json 中的 font-family 与 typography token 提取源字体；运行时按 Slide/系统/Adobe/思源可用字体降级。",
-    "source_evidence": [
-      "beautiful-html-templates/templates/capsule/design.md",
-      "beautiful-html-templates/templates/capsule/template.html",
-      "beautiful-html-templates/templates/capsule/template.json",
-      "beautiful-html-templates/screenshots/capsule-1.png"
-    ],
-    "same_role_font_justification": "源模板本身以单一 sans/system family 承担多数字体角色；通过 weight/size/line-height/uppercase 区分 display/body/label/metric。",
-    "extraction_confidence": {
-      "role_mapping.body": "inferred_from_layout",
-      "role_mapping.display": "inferred_from_layout",
-      "source_fonts": "css_extracted_from_template_html",
-      "adobe_or_embedded_fallback": "inferred_from_layout",
-      "cjk_fallback": "inferred_from_layout",
-      "role_mapping.metric": "inferred_from_layout",
-      "forbidden": "inferred_from_layout",
-      "slide_native_preferred": "inferred_from_layout",
-      "mapping_reason": "inferred_from_layout",
-      "role_mapping.label": "inferred_from_layout"
+    "italic": {
+      "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+      "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+      "mapped_style": "latin_only_when_source_requires_else_normal",
+      "source_usage": "source uses italic/font-style or italic-family tokens"
+    },
+    "line_through": {
+      "fallback_shape": "none",
+      "mapped_decoration": "none",
+      "source_usage": "not present in source; default no line-through"
     },
     "source_refs": {
-      "role_mapping.body": [
+      "bold": [
         {
           "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.body.source_font",
-          "raw_value": "Space Grotesk"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
+          "raw_value": "500; 700; 800; 400; 600",
+          "selector_or_token": "css.font-weight"
         }
       ],
-      "role_mapping.display": [
+      "emphasis": [
         {
           "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.display.source_font",
-          "raw_value": "Bodoni Moda"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
-        }
-      ],
-      "source_fonts": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "var(--font-body); var(--font-display)"
-        }
-      ],
-      "adobe_or_embedded_fallback": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "var(--font-body); var(--font-display)"
-        }
-      ],
-      "cjk_fallback": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "var(--font-body); var(--font-display)"
-        }
-      ],
-      "role_mapping.metric": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.metric.source_font",
-          "raw_value": "Bodoni Moda"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
         }
       ],
       "forbidden": [
         {
           "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "var(--font-body); var(--font-display)"
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
         }
       ],
-      "slide_native_preferred": [
+      "italic": [
         {
           "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "var(--font-body); var(--font-display)"
+          "raw_value": "eadlines. An inline `<em>` inside a Bodoni headline keeps Bodoni and shifts to italic. A `quote-highlight` inside a Bodoni quote body switches the wrapped word to a pill (Space Grotesk uppercase pill text on a candy fill) for visual emphasis. ### Type Scale | Token | Size | Family | Weight | Use",
+          "selector_or_token": "css.font-style"
+        }
+      ],
+      "text_decoration_policy.underline.color": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "text_decoration_policy.underline.style": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "text_decoration_policy.underline.thickness": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "underline": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh",
+          "selector_or_token": "css.text-decoration"
+        }
+      ]
+    },
+    "text_decoration_policy": {
+      "line_through": {
+        "color": "currentColor",
+        "style": "none",
+        "thickness": "0px"
+      },
+      "underline": {
+        "color": "currentColor",
+        "style": "solid",
+        "thickness": "1px"
+      }
+    },
+    "underline": {
+      "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+      "mapped_decoration": "native underline only for actual text-decoration source usage",
+      "source_usage": "source uses underline/text-decoration or hairline emphasis"
+    }
+  },
+  "typography": {
+    "cjk_policy": {
+      "body_font_cn": "ZCOOL XiaoWei",
+      "design_intent_font_pairing": [
+        "LXGW WenKai TC",
+        "ZCOOL XiaoWei",
+        "Yozai",
+        "悠哉字体 Yozai",
+        "站酷小薇体 ZCOOL XiaoWei"
+      ],
+      "display_font_cn": "LXGW WenKai TC",
+      "emphasis_policy": "color_or_weight_only",
+      "italic_policy": "weight_only_emphasis",
+      "known_degradation": "ZCOOL XiaoWei is a display face with limited weight axis (single weight) and a smaller glyph set than Noto family — exotic or technical Hanzi (rare surnames, classical characters, simplified-only variants outside GB2312) may fall back to system font. For Traditional Chinese decks, swap Yozai for `LXGW WenKai TC` (Google Fonts) which has fuller TC coverage an",
+      "latin_accent_policy": "latin_only_allowed_when_semantic_annotation",
+      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
+      "mixed_run_spacing": "pangu_spacing",
+      "mono_font_policy": "latin_only_or_system_mono",
+      "runtime_font_policy": "system_font_only_no_remote_dependency",
+      "runtime_font_stack": [
+        "system-sans-cjk",
+        "system-sans-cjk-heavy",
+        "system-sans-cjk-regular",
+        "system-mono"
+      ],
+      "source_section_heading": "CJK & International Content",
+      "source_section_sha256": "2f17e736d2e8ca2e42ea1611ac6356e6cadc9a7806eae1ebae9c2dcee98a4330",
+      "strategy": "replace_family_whole_element"
+    },
+    "design_tokens_typography": {
+      "body": "Space Grotesk",
+      "display": "Bodoni Moda",
+      "style": "high-contrast didone serif paired with a friendly geometric sans"
+    },
+    "font_policy": {
+      "fallback_stack": "system-sans-cjk",
+      "font_role_map": {
+        "body": "system-sans-cjk-regular",
+        "display": "system-sans-cjk-heavy",
+        "label": "system-sans-cjk-medium",
+        "metric": "system-sans-cjk-heavy",
+        "mono": "system-mono"
+      },
+      "original_families": [
+        "Bodoni Moda",
+        "Space Grotesk"
+      ]
+    },
+    "template_json_typography": {
+      "body": "Space Grotesk",
+      "display": "Bodoni Moda",
+      "style": "high-contrast didone serif paired with a friendly geometric sans"
+    },
+    "typography_role": "high-contrast didone serif paired with a friendly geometric sans",
+    "visual_dna_typography_roles": {
+      "body": "Space Grotesk",
+      "caption": "small caption -> system-sans-cjk-regular",
+      "display": "Bodoni Moda",
+      "label": "compact label -> system-sans-cjk-medium",
+      "metric": "display numeric emphasis -> system-sans-cjk-heavy"
+    }
+  },
+  "typography_strategy": {
+    "alignment": {
+      "fallback": "left/top aligned unless source screenshot is centered",
+      "primary": "follow source composition"
+    },
+    "cjk_typography_adjustment": {
+      "body_font_cn": "ZCOOL XiaoWei",
+      "display_font_cn": "LXGW WenKai TC",
+      "italic_policy": "weight_only_emphasis",
+      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
+      "mixed_run_spacing": "pangu_spacing"
+    },
+    "extraction_confidence": {
+      "alignment": "inferred_from_layout",
+      "cjk_typography_adjustment": "inferred_from_layout",
+      "font_size_scale": "css_extracted_from_template_html",
+      "font_weight_scale": "css_extracted_from_template_html",
+      "hierarchy_ratio": "inferred_from_layout",
+      "letter_spacing_scale": "css_extracted_from_template_html",
+      "line_height_scale": "css_extracted_from_template_html",
+      "mapping_reason": "inferred_from_layout",
+      "max_lines": "inferred_from_layout",
+      "measure": "inferred_from_layout",
+      "paragraph_spacing": "css_extracted_from_template_html",
+      "role_mapping.body": "inferred_from_layout",
+      "role_mapping.display": "inferred_from_layout",
+      "role_mapping.label": "inferred_from_layout",
+      "role_mapping.metric": "inferred_from_layout",
+      "source_typography_tokens": "css_extracted_from_template_html",
+      "text_direction": "css_extracted_from_template_html",
+      "text_transform_policy": "css_extracted_from_template_html",
+      "word_spacing": "absent_use_default",
+      "wrapping_policy": "inferred_from_layout",
+      "writing_mode": "absent_use_default"
+    },
+    "font_size_scale": {
+      "body": 20,
+      "display": 54,
+      "label": 12,
+      "metric": 42
+    },
+    "font_weight_scale": {
+      "body": 400,
+      "display": 900,
+      "label": 700,
+      "metric": 900
+    },
+    "hierarchy_ratio": 2.7,
+    "letter_spacing_scale": {
+      "body": 0,
+      "display": 0,
+      "label": 0.08,
+      "metric": 0
+    },
+    "line_height_scale": {
+      "body": 1.32,
+      "display": 0.9,
+      "label": 1.05,
+      "metric": 0.95
+    },
+    "mapping_reason": "按源模板字号/字重/行高/字距/大小写规则抽象到 960x540 Slide 画布的四个文本角色。",
+    "max_lines": {
+      "body": 5,
+      "display": 3,
+      "label": 1,
+      "metric": 2
+    },
+    "measure": {
+      "body": "40-70 characters or CJK equivalent",
+      "display": "0.55-0.78 canvas width",
+      "label": "short mono labels",
+      "metric": "short numeric/stat blocks"
+    },
+    "paragraph_spacing": {
+      "body_after": 12,
+      "display_after": 0,
+      "label_after": 0,
+      "metric_after": 0
+    },
+    "role_mapping": {
+      "body": {
+        "alignment": "source_layout_dependent",
+        "font_role": "body",
+        "font_size": 20,
+        "font_weight": 400,
+        "letter_spacing": 0,
+        "line_height": 1.32,
+        "max_lines": 5,
+        "runtime_alias": "SVGlideBody",
+        "source_font": "Space Grotesk",
+        "text_transform": "preserve_source_case"
+      },
+      "display": {
+        "alignment": "source_layout_dependent",
+        "font_role": "display",
+        "font_size": 54,
+        "font_weight": 900,
+        "letter_spacing": 0,
+        "line_height": 0.9,
+        "max_lines": 3,
+        "runtime_alias": "SVGlideDisplay",
+        "source_font": "Bodoni Moda",
+        "text_transform": "latin_uppercase_only"
+      },
+      "label": {
+        "alignment": "source_layout_dependent",
+        "font_role": "label",
+        "font_size": 12,
+        "font_weight": 700,
+        "letter_spacing": 0.08,
+        "line_height": 1.05,
+        "max_lines": 1,
+        "runtime_alias": "SVGlideLabel",
+        "source_font": "Bodoni Moda",
+        "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+      },
+      "metric": {
+        "alignment": "source_layout_dependent",
+        "font_role": "metric",
+        "font_size": 42,
+        "font_weight": 900,
+        "letter_spacing": 0,
+        "line_height": 0.95,
+        "max_lines": 2,
+        "runtime_alias": "SVGlideMetric",
+        "source_font": "Bodoni Moda",
+        "text_transform": "preserve_numbers_and_units"
+      }
+    },
+    "source_refs": {
+      "alignment": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "cjk_typography_adjustment": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "font_size_scale": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "0.75rem; 0.65rem; clamp(3rem, 8vw, 7rem); clamp(0.8rem, 1.5vw, 1.1rem); 0.85rem; clamp(2rem, 4vw, 3.5rem); clamp(0.95rem, 1.2vw, 1.15rem); 2.5rem; clamp(1.8rem, 3.5vw, 3rem); 0.7rem; 1.5rem; 0.9rem; 8rem; clamp(1.6rem, 3.5vw, 3rem); 1.3rem; 0.8rem",
+          "selector_or_token": "css.font_size_scale"
+        }
+      ],
+      "font_weight_scale": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "500; 700; 800; 400; 600",
+          "selector_or_token": "css.font_weight_scale"
+        }
+      ],
+      "hierarchy_ratio": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "letter_spacing_scale": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "0.02em; 0.1em; 0.08em; 0.04em; -0.02em; 0.15em; 0.12em; 0.06em; -0.01em; -0.03em",
+          "selector_or_token": "css.letter_spacing_scale"
+        }
+      ],
+      "line_height_scale": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "0.9; 1.05; 1.6; 1.1; 1.55; 0; 1.35; 1.3; 1.4; 1; 0.95",
+          "selector_or_token": "css.line_height_scale"
         }
       ],
       "mapping_reason": [
         {
           "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "var(--font-body); var(--font-display)"
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "max_lines": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "measure": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "paragraph_spacing": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "2rem; 1rem; 0.5rem; 0.75rem; 4rem; 1.5rem; 3rem; 2rem; 1.25rem; 2.5rem; 1rem; 0; 0.6rem; 0.5rem",
+          "selector_or_token": "css.paragraph_spacing"
+        }
+      ],
+      "role_mapping.body": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Space Grotesk",
+          "selector_or_token": "role_mapping.body.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.display": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Bodoni Moda",
+          "selector_or_token": "role_mapping.display.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
         }
       ],
       "role_mapping.label": [
         {
           "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.label.source_font",
-          "raw_value": "Bodoni Moda"
+          "raw_value": "Bodoni Moda",
+          "selector_or_token": "role_mapping.label.source_font"
         },
         {
           "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.metric": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "Bodoni Moda",
+          "selector_or_token": "role_mapping.metric.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/capsule/design.md",
+          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "source_typography_tokens": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "0.75rem; 0.65rem; clamp(3rem, 8vw, 7rem); clamp(0.8rem, 1.5vw, 1.1rem); 0.85rem; clamp(2rem, 4vw, 3.5rem); clamp(0.95rem, 1.2vw, 1.15rem); 2.5rem; clamp(1.8rem, 3.5vw, 3rem); 0.7rem; 1.5rem; 0.9rem; 8rem; clamp(1.6rem, 3.5vw, 3rem); 1.3rem; 0.8rem; 500; 700; 800; 400; 600; 0.9; 1.05; 1.6; 1.1; 1.55; 0; 1.35; 1.3; 1.4; 1; 0.95; 0.02em; 0.1em; 0.08em; 0.04em; -0.02em; 0.15em; 0.12em; 0.06em; -0.01em; -0.03em; uppercase` on any pill/label/subtitle when content is Hanzi — Chinese has no case; upperc",
+          "selector_or_token": "css.source_typography_tokens"
+        }
+      ],
+      "text_direction": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "column",
+          "selector_or_token": "css.text_direction"
+        }
+      ],
+      "text_transform_policy": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "uppercase` on any pill/label/subtitle when content is Hanzi — Chinese has no case; uppercase",
+          "selector_or_token": "css.text_transform_policy"
+        }
+      ],
+      "wrapping_policy": [
+        {
+          "path": "beautiful-html-templates/templates/capsule/template.html",
+          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-",
+          "selector_or_token": "template.css.typography"
         }
       ]
-    }
-  },
-  "typography_strategy": {
+    },
     "source_typography_tokens": {
       "font_families": [
         "Bodoni Moda",
@@ -952,18 +1609,6 @@
         "400",
         "500"
       ],
-      "line_height": [
-        "0.9",
-        "0.95",
-        "1.05",
-        "1.35",
-        "1.1",
-        "1",
-        "1.6",
-        "1.55",
-        "1.4",
-        "0"
-      ],
       "letter_spacing": [
         "-0.02em",
         "-0.03em",
@@ -976,11 +1621,18 @@
         "0.04em",
         "0.06em"
       ],
-      "text_transform": [
-        "uppercase",
-        "uppercase` on any pill/label/subtitle when content is Hanzi — Chinese has no case"
+      "line_height": [
+        "0.9",
+        "0.95",
+        "1.05",
+        "1.35",
+        "1.1",
+        "1",
+        "1.6",
+        "1.55",
+        "1.4",
+        "0"
       ],
-      "word_spacing": [],
       "paragraph_spacing": [
         "2rem",
         "1rem",
@@ -997,695 +1649,43 @@
         "0.6rem",
         "0.5rem"
       ],
+      "text_decoration": [],
       "text_direction": [
         "column"
       ],
-      "writing_mode": [],
-      "text_decoration": []
+      "text_transform": [
+        "uppercase",
+        "uppercase` on any pill/label/subtitle when content is Hanzi — Chinese has no case"
+      ],
+      "word_spacing": [],
+      "writing_mode": []
     },
-    "role_mapping": {
-      "display": {
-        "font_role": "display",
-        "source_font": "Bodoni Moda",
-        "runtime_alias": "SVGlideDisplay",
-        "font_size": 54,
-        "font_weight": 900,
-        "line_height": 0.9,
-        "letter_spacing": 0,
-        "text_transform": "latin_uppercase_only",
-        "max_lines": 3,
-        "alignment": "source_layout_dependent"
-      },
-      "body": {
-        "font_role": "body",
-        "source_font": "Space Grotesk",
-        "runtime_alias": "SVGlideBody",
-        "font_size": 20,
-        "font_weight": 400,
-        "line_height": 1.32,
-        "letter_spacing": 0,
-        "text_transform": "preserve_source_case",
-        "max_lines": 5,
-        "alignment": "source_layout_dependent"
-      },
-      "label": {
-        "font_role": "label",
-        "source_font": "Bodoni Moda",
-        "runtime_alias": "SVGlideLabel",
-        "font_size": 12,
-        "font_weight": 700,
-        "line_height": 1.05,
-        "letter_spacing": 0.08,
-        "text_transform": "latin_uppercase_labels_reset_cjk_spacing",
-        "max_lines": 1,
-        "alignment": "source_layout_dependent"
-      },
-      "metric": {
-        "font_role": "metric",
-        "source_font": "Bodoni Moda",
-        "runtime_alias": "SVGlideMetric",
-        "font_size": 42,
-        "font_weight": 900,
-        "line_height": 0.95,
-        "letter_spacing": 0,
-        "text_transform": "preserve_numbers_and_units",
-        "max_lines": 2,
-        "alignment": "source_layout_dependent"
-      }
-    },
-    "font_size_scale": {
-      "display": 54,
-      "body": 20,
-      "label": 12,
-      "metric": 42
-    },
-    "font_weight_scale": {
-      "display": 900,
-      "body": 400,
-      "label": 700,
-      "metric": 900
-    },
-    "line_height_scale": {
-      "display": 0.9,
-      "body": 1.32,
-      "label": 1.05,
-      "metric": 0.95
-    },
-    "letter_spacing_scale": {
-      "display": 0,
-      "body": 0,
-      "label": 0.08,
-      "metric": 0
+    "text_direction": {
+      "cjk": "ltr",
+      "default": "column"
     },
     "text_transform_policy": {
-      "display": "latin_uppercase_only",
       "body": "preserve_source_case",
+      "display": "latin_uppercase_only",
       "label": "latin_uppercase_labels_reset_cjk_spacing",
       "metric": "preserve_numbers_and_units"
     },
-    "hierarchy_ratio": 2.7,
-    "max_lines": {
-      "display": 3,
-      "body": 5,
-      "label": 1,
-      "metric": 2
-    },
-    "measure": {
-      "display": "0.55-0.78 canvas width",
-      "body": "40-70 characters or CJK equivalent",
-      "label": "short mono labels",
-      "metric": "short numeric/stat blocks"
-    },
-    "alignment": {
-      "primary": "follow source composition",
-      "fallback": "left/top aligned unless source screenshot is centered"
-    },
-    "cjk_typography_adjustment": {
-      "display_font_cn": "LXGW WenKai TC",
-      "body_font_cn": "ZCOOL XiaoWei",
-      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
-      "mixed_run_spacing": "pangu_spacing",
-      "italic_policy": "weight_only_emphasis"
-    },
-    "mapping_reason": "按源模板字号/字重/行高/字距/大小写规则抽象到 960x540 Slide 画布的四个文本角色。",
     "word_spacing": {
-      "display": 0,
       "body": 0,
+      "display": 0,
       "label": 0,
       "metric": 0
     },
-    "paragraph_spacing": {
-      "display_after": 0,
-      "body_after": 12,
-      "label_after": 0,
-      "metric_after": 0
-    },
     "wrapping_policy": {
-      "display": "manual_break_or_balance",
       "body": "wrap_with_measure",
+      "display": "manual_break_or_balance",
       "label": "no_wrap_preferred",
       "metric": "no_wrap_preferred"
-    },
-    "text_direction": {
-      "default": "column",
-      "cjk": "ltr"
     },
     "writing_mode": {
       "default": "horizontal-tb",
       "vertical_roles": []
-    },
-    "extraction_confidence": {
-      "role_mapping.body": "inferred_from_layout",
-      "role_mapping.display": "inferred_from_layout",
-      "font_size_scale": "css_extracted_from_template_html",
-      "max_lines": "inferred_from_layout",
-      "writing_mode": "absent_use_default",
-      "text_direction": "css_extracted_from_template_html",
-      "alignment": "inferred_from_layout",
-      "role_mapping.label": "inferred_from_layout",
-      "paragraph_spacing": "css_extracted_from_template_html",
-      "text_transform_policy": "css_extracted_from_template_html",
-      "line_height_scale": "css_extracted_from_template_html",
-      "wrapping_policy": "inferred_from_layout",
-      "font_weight_scale": "css_extracted_from_template_html",
-      "source_typography_tokens": "css_extracted_from_template_html",
-      "word_spacing": "absent_use_default",
-      "role_mapping.metric": "inferred_from_layout",
-      "cjk_typography_adjustment": "inferred_from_layout",
-      "hierarchy_ratio": "inferred_from_layout",
-      "measure": "inferred_from_layout",
-      "mapping_reason": "inferred_from_layout",
-      "letter_spacing_scale": "css_extracted_from_template_html"
-    },
-    "source_refs": {
-      "role_mapping.body": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.body.source_font",
-          "raw_value": "Space Grotesk"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
-        }
-      ],
-      "role_mapping.display": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.display.source_font",
-          "raw_value": "Bodoni Moda"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
-        }
-      ],
-      "font_size_scale": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font_size_scale",
-          "raw_value": "0.75rem; 0.65rem; clamp(3rem, 8vw, 7rem); clamp(0.8rem, 1.5vw, 1.1rem); 0.85rem; clamp(2rem, 4vw, 3.5rem); clamp(0.95rem, 1.2vw, 1.15rem); 2.5rem; clamp(1.8rem, 3.5vw, 3rem); 0.7rem; 1.5rem; 0.9rem; 8rem; clamp(1.6rem, 3.5vw, 3rem); 1.3rem; 0.8rem"
-        }
-      ],
-      "max_lines": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "text_direction": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.text_direction",
-          "raw_value": "column"
-        }
-      ],
-      "alignment": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "role_mapping.label": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.label.source_font",
-          "raw_value": "Bodoni Moda"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
-        }
-      ],
-      "paragraph_spacing": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.paragraph_spacing",
-          "raw_value": "2rem; 1rem; 0.5rem; 0.75rem; 4rem; 1.5rem; 3rem; 2rem; 1.25rem; 2.5rem; 1rem; 0; 0.6rem; 0.5rem"
-        }
-      ],
-      "text_transform_policy": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.text_transform_policy",
-          "raw_value": "uppercase` on any pill/label/subtitle when content is Hanzi — Chinese has no case; uppercase"
-        }
-      ],
-      "line_height_scale": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.line_height_scale",
-          "raw_value": "0.9; 1.05; 1.6; 1.1; 1.55; 0; 1.35; 1.3; 1.4; 1; 0.95"
-        }
-      ],
-      "wrapping_policy": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "font_weight_scale": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font_weight_scale",
-          "raw_value": "500; 700; 800; 400; 600"
-        }
-      ],
-      "source_typography_tokens": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.source_typography_tokens",
-          "raw_value": "0.75rem; 0.65rem; clamp(3rem, 8vw, 7rem); clamp(0.8rem, 1.5vw, 1.1rem); 0.85rem; clamp(2rem, 4vw, 3.5rem); clamp(0.95rem, 1.2vw, 1.15rem); 2.5rem; clamp(1.8rem, 3.5vw, 3rem); 0.7rem; 1.5rem; 0.9rem; 8rem; clamp(1.6rem, 3.5vw, 3rem); 1.3rem; 0.8rem; 500; 700; 800; 400; 600; 0.9; 1.05; 1.6; 1.1; 1.55; 0; 1.35; 1.3; 1.4; 1; 0.95; 0.02em; 0.1em; 0.08em; 0.04em; -0.02em; 0.15em; 0.12em; 0.06em; -0.01em; -0.03em; uppercase` on any pill/label/subtitle when content is Hanzi — Chinese has no case; upperc"
-        }
-      ],
-      "role_mapping.metric": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "role_mapping.metric.source_font",
-          "raw_value": "Bodoni Moda"
-        },
-        {
-          "path": "beautiful-html-templates/templates/capsule/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "ft 6–12px offset shadow. The aesthetic is \"Memphis-meets-editorial\" — confident typography, generous bordered shapes, and decorative floating pills as atmospheric wallpaper. colors: cream: \"#F5F5F0\" ink: \"#1A1A1A\" outline: \"#1E1E1E\" white: \"#FFFFFF\" coral: \"#E85D4E\" lime: \"#C4D94E\" la"
-        }
-      ],
-      "cjk_typography_adjustment": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "hierarchy_ratio": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "measure": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "mapping_reason": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "letter_spacing_scale": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.letter_spacing_scale",
-          "raw_value": "0.02em; 0.1em; 0.08em; 0.04em; -0.02em; 0.15em; 0.12em; 0.06em; -0.01em; -0.03em"
-        }
-      ]
     }
   },
-  "text_style_strategy": {
-    "bold": {
-      "source_usage": "source uses heavy display/label weights",
-      "mapped_weight": {
-        "display": 900,
-        "label": 700,
-        "metric": 900
-      },
-      "allowed_roles": [
-        "display",
-        "label",
-        "metric"
-      ]
-    },
-    "italic": {
-      "source_usage": "source uses italic/font-style or italic-family tokens",
-      "mapped_style": "latin_only_when_source_requires_else_normal",
-      "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
-      "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation."
-    },
-    "underline": {
-      "source_usage": "source uses underline/text-decoration or hairline emphasis",
-      "mapped_decoration": "native underline only for actual text-decoration source usage",
-      "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable"
-    },
-    "line_through": {
-      "source_usage": "not present in source; default no line-through",
-      "mapped_decoration": "none",
-      "fallback_shape": "none"
-    },
-    "emphasis": {
-      "color_shift": "use source accent color roles only",
-      "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
-      "weight_shift": "increase one role step within font_weight_scale",
-      "style_shift": "italic only when source_usage requires and CJK fallback is safe"
-    },
-    "text_decoration_policy": {
-      "underline": {
-        "style": "solid",
-        "color": "currentColor",
-        "thickness": "1px"
-      },
-      "line_through": {
-        "style": "none",
-        "color": "currentColor",
-        "thickness": "0px"
-      }
-    },
-    "forbidden": [
-      "fake_cjk_italic",
-      "drop_source_text_transform",
-      "drop_source_letter_spacing_without_loss_note",
-      "use_cross_family_font_motif",
-      "remote_font_dependency_without_receipt"
-    ],
-    "extraction_confidence": {
-      "text_decoration_policy.line_through.color": "absent_use_default",
-      "text_decoration_policy.underline.color": "css_extracted_from_template_html",
-      "text_decoration_policy.line_through.style": "absent_use_default",
-      "italic": "css_extracted_from_template_html",
-      "forbidden": "inferred_from_layout",
-      "emphasis": "inferred_from_layout",
-      "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
-      "underline": "css_extracted_from_template_html",
-      "text_decoration_policy.line_through.thickness": "absent_use_default",
-      "line_through": "absent_use_default",
-      "text_decoration_policy.underline.style": "css_extracted_from_template_html",
-      "bold": "css_extracted_from_template_html"
-    },
-    "source_refs": {
-      "text_decoration_policy.underline.color": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh"
-        }
-      ],
-      "italic": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-style",
-          "raw_value": "eadlines. An inline `<em>` inside a Bodoni headline keeps Bodoni and shifts to italic. A `quote-highlight` inside a Bodoni quote body switches the wrapped word to a pill (Space Grotesk uppercase pill text on a candy fill) for visual emphasis. ### Type Scale | Token | Size | Family | Weight | Use"
-        }
-      ],
-      "forbidden": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "emphasis": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "h: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--fg); } /* Grain texture overlay */ .grain-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; mix-blend-"
-        }
-      ],
-      "text_decoration_policy.underline.thickness": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh"
-        }
-      ],
-      "underline": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh"
-        }
-      ],
-      "text_decoration_policy.underline.style": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "talic appears only inside pull-quote bodies via the `<em>` tag (Bodoni italic). Underline is not used. Pill-encapsulation is the system's primary emphasis mechanism: wrapping a phrase in a candy-filled pill is the equivalent of bold-italicizing it in a traditional editorial system. Line-height tigh"
-        }
-      ],
-      "bold": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": "css.font-weight",
-          "raw_value": "500; 700; 800; 400; 600"
-        }
-      ]
-    }
-  },
-  "loss_notes": [
-    "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
-    "letter spacing is preserved for Latin labels and reset/softened for CJK"
-  ],
-  "page_family": {
-    "source_slide_count": 10,
-    "core_page_roles": [
-      "cover",
-      "agenda",
-      "data_dashboard",
-      "quote_or_emphasis",
-      "process_or_timeline",
-      "content",
-      "closing"
-    ],
-    "production_minimum_roles": [
-      "cover",
-      "agenda",
-      "content",
-      "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
-      "closing"
-    ]
-  },
-  "page_variants": {
-    "cover": {
-      "source_class": "slide-1",
-      "source_slide_index": 1,
-      "page_role": "cover",
-      "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-1",
-          "raw_value": "<div class=\"slide slide-1 active\" data-slide=\"1\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "agenda": {
-      "source_class": "slide-2",
-      "source_slide_index": 2,
-      "page_role": "agenda",
-      "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-2",
-          "raw_value": "<div class=\"slide slide-2\" data-slide=\"2\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "data_dashboard": {
-      "source_class": "slide-3",
-      "source_slide_index": 3,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-3",
-          "raw_value": "<div class=\"slide slide-3\" data-slide=\"3\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "data_dashboard-4": {
-      "source_class": "slide-4",
-      "source_slide_index": 4,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics",
-        "quote"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-4",
-          "raw_value": "<div class=\"slide slide-4\" data-slide=\"4\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "quote_or_emphasis": {
-      "source_class": "slide-5",
-      "source_slide_index": 5,
-      "page_role": "quote_or_emphasis",
-      "required_slots": [
-        "metrics",
-        "quote",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-5",
-          "raw_value": "<div class=\"slide slide-5\" data-slide=\"5\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "process_or_timeline": {
-      "source_class": "slide-6",
-      "source_slide_index": 6,
-      "page_role": "process_or_timeline",
-      "required_slots": [
-        "title",
-        "metrics",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-6",
-          "raw_value": "<div class=\"slide slide-6\" data-slide=\"6\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "data_dashboard-7": {
-      "source_class": "slide-7",
-      "source_slide_index": 7,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-7",
-          "raw_value": "<div class=\"slide slide-7\" data-slide=\"7\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-8": {
-      "source_class": "slide-8",
-      "source_slide_index": 8,
-      "page_role": "content",
-      "required_slots": [
-        "title"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-8",
-          "raw_value": "<div class=\"slide slide-8\" data-slide=\"8\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-9": {
-      "source_class": "slide-9",
-      "source_slide_index": 9,
-      "page_role": "content",
-      "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-9",
-          "raw_value": "<div class=\"slide slide-9\" data-slide=\"9\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "closing": {
-      "source_class": "slide-10",
-      "source_slide_index": 10,
-      "page_role": "closing",
-      "required_slots": [
-        "title"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/capsule/template.html",
-          "selector_or_token": ".slide-10",
-          "raw_value": "<div class=\"slide slide-10\" data-slide=\"10\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    }
-  },
-  "page_family_source": {
-    "extractor": "skills/lark-slides/scripts/beautiful_template_page_family_extract.py",
-    "source_template_html": "beautiful-html-templates/templates/capsule/template.html",
-    "source_design_md": "beautiful-html-templates/templates/capsule/design.md",
-    "source_template_json": "beautiful-html-templates/templates/capsule/template.json",
-    "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  "version": "svglide-beautiful-template-visual-contract/v1"
 }

@@ -1,0 +1,316 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "studio",
+  "selected_template_id": "type-mass-poster",
+  "selected_theme_id": "studio",
+  "selection_source": "explicit_args",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 12,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "chapter",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "statement",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "split",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "list",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 8,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 9,
+      "page_role": "agenda",
+      "page_variant_id": "chapter-9",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 10,
+      "page_role": "quote",
+      "page_variant_id": "statement-10",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 11,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    },
+    {
+      "page": 12,
+      "page_role": "closing",
+      "page_variant_id": "end",
+      "template_id": "type-mass-poster",
+      "family_id": "studio",
+      "theme_id": "studio"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2,
+        9
+      ],
+      "variants": [
+        "chapter",
+        "chapter-9"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "statement"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5,
+        11
+      ],
+      "variants": [
+        "chart",
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "compare"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        7,
+        10
+      ],
+      "variants": [
+        "quote",
+        "statement-10"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "list"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "split"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        12
+      ],
+      "variants": [
+        "end"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "chapter",
+    "statement",
+    "split",
+    "stats",
+    "list",
+    "quote",
+    "compare",
+    "chapter-9",
+    "statement-10",
+    "chart",
+    "end"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "chapter",
+    "statement",
+    "split",
+    "stats",
+    "list",
+    "quote",
+    "compare",
+    "chapter-9",
+    "statement-10",
+    "chart",
+    "end"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/studio.json",
+    "golden_spec.chapter": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.chapter.canvas-spec.json",
+    "golden_spec.chapter-9": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.chapter-9.canvas-spec.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.chart.canvas-spec.json",
+    "golden_spec.compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.compare.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.cover.canvas-spec.json",
+    "golden_spec.end": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.end.canvas-spec.json",
+    "golden_spec.list": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.list.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.quote.canvas-spec.json",
+    "golden_spec.split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.split.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.statement.canvas-spec.json",
+    "golden_spec.statement-10": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.statement-10.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/studio.stats.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_deck": "35965c58e99f97d154fd68f6d397385fe1f396cf14d2a6aaefd21d35c69b7067",
+    "golden_spec.chapter": "a27a2b0c5d858177e2688b1b40f86e7f6a16388830a5bb4f6d9b2868936d8050",
+    "golden_spec.chapter-9": "5b8ede812b99501761e5e8e7e2e28812b81cd69f64e5d476a0915376dbeaaf8f",
+    "golden_spec.chart": "afad6a7f1cecb878d4fa69a5960f9a21b7dfdba8a9c3b0941e496c46de99924f",
+    "golden_spec.compare": "b375fec2ef0de7c30e6c461b09d94e4a4b8a4a05e9b1e3a9c4c234f5dab139ac",
+    "golden_spec.cover": "648e24e65c67cc75a37bc2fe6d086365a7201473ba01e6629ff5778240981813",
+    "golden_spec.end": "02e95641d10ad75d6c3c0503b8dc4f1b063cc56ebb1faa66eaac684a34391d5d",
+    "golden_spec.list": "97006780b2eddd6f57dcaea5647e94f693d7fa5759c645f94842dd4eaa266078",
+    "golden_spec.quote": "5cbb36daee04a170ae53463b0b3d3a752d1419f56858fa4f10e525bce7b526ea",
+    "golden_spec.split": "39fbddc615d77d107512f0fa5e334267fb7320c3022ddd4fa050be7ab432cbca",
+    "golden_spec.statement": "39905695a7242c718873071e3190be7137a28f72388c7c3ca5509e98e34576e1",
+    "golden_spec.statement-10": "3700cecb02ebb881514def7adf1441cf2be8b51c544ef0d0fd0d3c9991591c25",
+    "golden_spec.stats": "92ddca021875cd5469ec5753c87a1bcbc85399e366790c4c55044dae9e23a98b"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    ".",
+    "--selected-family",
+    "studio"
+  ],
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/studio.json",
+    "smoke_fixture": null,
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 12,
+    "covered_role_count": 9,
+    "implemented_variant_count": 12,
+    "covered_implemented_variant_count": 12
+  }
+}

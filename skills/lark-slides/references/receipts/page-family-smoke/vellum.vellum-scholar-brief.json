@@ -1,0 +1,274 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "vellum",
+  "selected_template_id": "vellum-scholar-brief",
+  "selected_theme_id": "vellum",
+  "selection_source": "explicit_args",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 9,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "statement",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "text",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 5,
+      "page_role": "process",
+      "page_variant_id": "list",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "compare",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 8,
+      "page_role": "content",
+      "page_variant_id": "chart",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "end",
+      "template_id": "vellum-scholar-brief",
+      "family_id": "vellum",
+      "theme_id": "vellum"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "statement"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "chart"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "compare"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "list"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "text"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "end"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "statement",
+    "text",
+    "stats",
+    "list",
+    "quote",
+    "compare",
+    "chart",
+    "end"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "statement",
+    "text",
+    "stats",
+    "list",
+    "quote",
+    "compare",
+    "chart",
+    "end"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/vellum.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.chart.canvas-spec.json",
+    "golden_spec.compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.compare.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.cover.canvas-spec.json",
+    "golden_spec.end": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.end.canvas-spec.json",
+    "golden_spec.list": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.list.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.quote.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.statement.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.stats.canvas-spec.json",
+    "golden_spec.text": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/vellum.text.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_deck": "9d7e2ab016a1b862c7ee4dfef1047b1c38920b673b2268de871a641aeb1d808f",
+    "golden_spec.chart": "2f76d2e0b38c13a2f6c626a6c7963afd610e909c1915aab647a85889d46e9bc7",
+    "golden_spec.compare": "cec2c49d2de044a6e5069bdbb6a05d62ab2a54ee61a9b5b50664e1b8ca3df624",
+    "golden_spec.cover": "9641cbb2aec0d4a0fae163df7ce83e3fface3066b1fc1742cacf79a618d8f8d8",
+    "golden_spec.end": "ebc4cdbb1744c84fa371a0b79c2cc37fa2c477d565a57eee932823a7b32e56da",
+    "golden_spec.list": "1813d5e8e645615f4d2816109bf943278ef764acc2210a266b5650cc13caff8d",
+    "golden_spec.quote": "c8c1a8cdf6d09fb72bc93c6d7ec08cb182ce877e0b712c30bdce13774e028f52",
+    "golden_spec.statement": "efa49c35798364bb3e1a603f382e1ab5f365fdeb3706718f65ea112e15309648",
+    "golden_spec.stats": "0470094634229e1858c457a9c2c094d143fb51259a9de1d281ca4d2652a6484b",
+    "golden_spec.text": "6728328d8ede7ca644e34af3737eaff184284df1d0403065c35537497f898afc"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    ".",
+    "--selected-family",
+    "vellum"
+  ],
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/vellum.json",
+    "smoke_fixture": null,
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 9,
+    "covered_role_count": 9,
+    "implemented_variant_count": 9,
+    "covered_implemented_variant_count": 9
+  }
+}

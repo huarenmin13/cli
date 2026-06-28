@@ -1,0 +1,274 @@
+{
+  "version": "svglide-canvas-spec/v1",
+  "canvas": {
+    "width": 960,
+    "height": 540,
+    "viewBox": "0 0 960 540"
+  },
+  "template_id": "daisy-workshop-playbook",
+  "family_id": "daisy-days",
+  "theme_id": "daisy-days",
+  "page_variant_id": "team",
+  "renderer_variant_id": "team",
+  "page_role": "detail",
+  "safe_area": {
+    "x": 48,
+    "y": 36,
+    "width": 864,
+    "height": 468
+  },
+  "quality_constraints": {
+    "safe_area": {
+      "x": 48,
+      "y": 36,
+      "width": 864,
+      "height": 468
+    },
+    "min_font_size": 9,
+    "max_title_lines": 3
+  },
+  "page_family_source": {
+    "claim_boundary": "page-family golden fixture; not production/default selectable evidence",
+    "family_id": "daisy-days",
+    "source_class": "slide-team",
+    "source_slide_index": 8,
+    "source_template_html": "beautiful-html-templates/templates/daisy-days/template.html"
+  },
+  "content": {
+    "title": "Our Team",
+    "people": [
+      {
+        "name": "Alex Rivera",
+        "role": "Lead Guide",
+        "tone": "pink"
+      },
+      {
+        "name": "Sam Chen",
+        "role": "Co-Teacher",
+        "tone": "yellow"
+      },
+      {
+        "name": "Jordan Park",
+        "role": "Specialist",
+        "tone": "lavender"
+      },
+      {
+        "name": "Taylor Kim",
+        "role": "Assistant",
+        "tone": "mint"
+      }
+    ]
+  },
+  "semantic_elements": [
+    {
+      "element_id": "team-primary",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "page_variants.team",
+      "bbox": {
+        "x": 48,
+        "y": 42,
+        "width": 864,
+        "height": 120
+      }
+    }
+  ],
+  "theme": {
+    "colors": {
+      "background": "#F5F0E6",
+      "text": "#2D2D2D",
+      "muted": "#6B6B6B",
+      "surface": "#FFFFFF",
+      "primary": "#7ECDC0",
+      "accent": "#F7C8D4",
+      "panel": "#FDE68A"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 20,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Quicksand",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 54,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Fredoka One",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 12,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "Fredoka One",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 42,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "Fredoka One",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "extraction_confidence": {
+          "bold": "css_extracted_from_template_html",
+          "emphasis": "inferred_from_layout",
+          "forbidden": "inferred_from_layout",
+          "italic": "css_extracted_from_template_html",
+          "line_through": "absent_use_default",
+          "text_decoration_policy.line_through.color": "absent_use_default",
+          "text_decoration_policy.line_through.style": "absent_use_default",
+          "text_decoration_policy.line_through.thickness": "absent_use_default",
+          "text_decoration_policy.underline.color": "css_extracted_from_template_html",
+          "text_decoration_policy.underline.style": "css_extracted_from_template_html",
+          "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
+          "underline": "css_extracted_from_template_html"
+        },
+        "forbidden": [
+          "fake_cjk_italic",
+          "drop_source_text_transform",
+          "drop_source_letter_spacing_without_loss_note",
+          "use_cross_family_font_motif",
+          "remote_font_dependency_without_receipt"
+        ],
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "source_refs": {
+          "bold": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "400; 600; 500; 700",
+              "selector_or_token": "css.font-weight"
+            }
+          ],
+          "emphasis": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "body:'Quicksand',sans-serif; } html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);color:var(--text-dark);background:var(--cream)} /* ---- Slide system ---- */ .slides-container{width:100vw;height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}",
+              "selector_or_token": "template.css.typography"
+            }
+          ],
+          "forbidden": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "body:'Quicksand',sans-serif; } html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);color:var(--text-dark);background:var(--cream)} /* ---- Slide system ---- */ .slides-container{width:100vw;height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}",
+              "selector_or_token": "template.css.typography"
+            }
+          ],
+          "italic": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "aphic identity. Fredoka One is a chunky single-weight display face — it has no italic, no lighter variants, no condensed cuts. The display weight reads as 400 by spec but visually behaves as a heavy weight because the letterforms are so rounded and full. Every headline, every title, every step numb",
+              "selector_or_token": "css.font-style"
+            }
+          ],
+          "text_decoration_policy.underline.color": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "Principles The size ladder is the rhythm. Fredoka One does not get italicized, underlined, or rendered in alternate weights — Fredoka has one weight, full stop. Quicksand stays inside the 500 / 600 / 700 ladder; do not introduce 400 or 800 even if available. Letter-spacing on Fredoka stays at the s",
+              "selector_or_token": "css.text-decoration"
+            }
+          ],
+          "text_decoration_policy.underline.style": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "Principles The size ladder is the rhythm. Fredoka One does not get italicized, underlined, or rendered in alternate weights — Fredoka has one weight, full stop. Quicksand stays inside the 500 / 600 / 700 ladder; do not introduce 400 or 800 even if available. Letter-spacing on Fredoka stays at the s",
+              "selector_or_token": "css.text-decoration"
+            }
+          ],
+          "text_decoration_policy.underline.thickness": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "Principles The size ladder is the rhythm. Fredoka One does not get italicized, underlined, or rendered in alternate weights — Fredoka has one weight, full stop. Quicksand stays inside the 500 / 600 / 700 ladder; do not introduce 400 or 800 even if available. Letter-spacing on Fredoka stays at the s",
+              "selector_or_token": "css.text-decoration"
+            }
+          ],
+          "underline": [
+            {
+              "path": "beautiful-html-templates/templates/daisy-days/template.html",
+              "raw_value": "Principles The size ladder is the rhythm. Fredoka One does not get italicized, underlined, or rendered in alternate weights — Fredoka has one weight, full stop. Quicksand stays inside the 500 / 600 / 700 ladder; do not introduce 400 or 800 even if available. Letter-spacing on Fredoka stays at the s",
+              "selector_or_token": "css.text-decoration"
+            }
+          ]
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/daisy-days.daisy-workshop-playbook.json"
+    }
+  }
+}

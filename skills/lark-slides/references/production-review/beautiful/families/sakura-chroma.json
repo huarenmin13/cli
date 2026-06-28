@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/sakura-chroma.html",
-    "render_status": "missing_smoke",
-    "sha256": "6ae315eafc05f29a2d09d523eab0f11451456065e1375dd6c6cb380f44cc6e8e"
+    "render_status": "passed",
+    "sha256": "2430d5125473734cc0f2439e5aae0660aaa226dc799526abd3ce6e9822c3b238"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "6ae315eafc05f29a2d09d523eab0f11451456065e1375dd6c6cb380f44cc6e8e",
+    "contact_sheet": "2430d5125473734cc0f2439e5aae0660aaa226dc799526abd3ce6e9822c3b238",
     "fidelity_receipt": "01ed753670341664ee282238d30060766dba929200e59bb279b31497ec8af736",
     "reference_screenshot": "92bae8fc25051d0dbbb648f931befbfb653cbc331e876ea5e5aaf76afbad0733",
-    "smoke_receipt": null,
-    "visual_contract": "103a2836d248d9e1db95b89c6cd25b60d6c7a7ad89b6327d6a7b3ae2e78cc5b8"
+    "smoke_receipt": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759",
+    "visual_contract": "2314eea505e9b4dce4a26c28791493469b15b378ba5df44933272686b418a039"
   },
   "family_id": "sakura-chroma",
   "fidelity": {
@@ -33,12 +33,19 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 8,
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "catalogue",
+    "stripe",
+    "data",
+    "quote",
+    "cal",
+    "colophon"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
     "selector_gate_missing",
@@ -60,6 +67,7 @@
     "status": "available"
   },
   "missing_roles": [
+    "agenda",
     "comparison_or_split",
     "process_or_timeline",
     "closing"
@@ -76,21 +84,21 @@
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
     "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "086d6f64ef267ed2a95d1f1b8e2dfbbea5b850eb2329bc6fb01bd1a631651108",
+    "current_deck_browser_preview_sha256": "23ded06cf8983af22e9313544ed85dc6705225c05c89b5d51e8f53642443feb1",
     "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.png",
     "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.svg",
-    "current_deck_render_sha256": "15cd7f3bc90949409a673ebf02840aa02865a6255f48d2f3254dd2e93b0f5480",
+    "current_deck_render_sha256": "72c0269c77d17ace710b06b52f01bc7975e1b36ff5ceaed8c5e60408b7b8f3bf",
     "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.svg",
     "family_id": "sakura-chroma",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
+    "golden_spec_sha256": "27e567e14665d9eff40de5835c5beec633d78700d01742be26d39773fe58fd21",
     "page": 1,
     "page_role": "cover",
     "page_variant_id": "cover",
     "role_group": "cover",
     "runtime_template_id": "product-ribbon",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+    "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759",
     "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/sakura-chroma/001-cover.jpg",
     "source_screenshot_sha256": "1b06b69079b653436387fe01d01c6352976222f2806ebead9884119ce3d2fb82",
     "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/sakura-chroma/001-cover.jpg",
@@ -100,14 +108,10 @@
   "page_variant_count": 8,
   "page_variant_coverage": {
     "agenda": {
-      "covered": true,
-      "missing_reason": null,
-      "page_variant_ids": [
-        "manifesto"
-      ],
-      "pages": [
-        2
-      ]
+      "covered": false,
+      "missing_reason": "source_page_variant_not_extracted_for_role",
+      "page_variant_ids": [],
+      "pages": []
     },
     "closing": {
       "covered": false,
@@ -165,10 +169,12 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
+        "manifesto",
         "stripe",
         "quote"
       ],
       "pages": [
+        2,
         4,
         6
       ]
@@ -208,7 +214,7 @@
       "required_slots": [
         "title"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "s-manifesto",
       "source_refs": [
         {
@@ -369,33 +375,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "086d6f64ef267ed2a95d1f1b8e2dfbbea5b850eb2329bc6fb01bd1a631651108",
+          "browser_preview_sha256": "23ded06cf8983af22e9313544ed85dc6705225c05c89b5d51e8f53642443feb1",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.svg",
-          "sha256": "15cd7f3bc90949409a673ebf02840aa02865a6255f48d2f3254dd2e93b0f5480",
+          "sha256": "72c0269c77d17ace710b06b52f01bc7975e1b36ff5ceaed8c5e60408b7b8f3bf",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
+        "golden_spec_sha256": "27e567e14665d9eff40de5835c5beec633d78700d01742be26d39773fe58fd21",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -434,37 +440,37 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "00ec9aa1391203a057d3953802a1e94ce49ae0da42b4c235c6c519fc5c4bda93",
+          "browser_preview_sha256": "4d797b3f35125d52fa3979d8019830a4ecadb4923d3a917de4830ac7466bf4ad",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.svg",
-          "sha256": "4e2b44155282f9309aa332535c1baf78c26a24135b981093b73cf28314a609e8",
+          "sha256": "d1846b759f9851e641f0978cd51c7773302db796f80df6f842bd71198344eda3",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
+        "golden_spec_sha256": "a4c1175cf1893061e3272dc02ef36ab1b0086887e7b42c82a74e87b37c0309b0",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "s-manifesto",
       "source_refs": [
         {
@@ -499,33 +505,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "2c89333c4f706cb80148b5eabb37260f5970541d36512e05cb53a63d6eb470df",
+          "browser_preview_sha256": "b3a5e7bce2cc4a5b7481913e7004ce720bb1fa52afbb9569266100e685082948",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.svg",
-          "sha256": "a30f61cf5817efa6e7adbce26c4d2005f777b0753ae2be2d66caca18f5e8a03c",
+          "sha256": "ceebe0b7ccb4af84a88b775043ceabc848d35701626433df5192bbf0040c042e",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
+        "golden_spec_sha256": "316fa7472471663a70145784b88f0eda5c9936204644a4b0c4bf2c024433aa54",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "items"
       ],
@@ -564,33 +570,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "34256e5a5df58805f8df94353f9bad44450fef9833b0df69841e15c0727b523e",
+          "browser_preview_sha256": "03055b4aee39c049706057c4100b74cc2870336582b08d3021ed953b1403fff2",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.svg",
-          "sha256": "fc0baefc0a503544044700b417517305bccfea143338c6b0e7c59858be0c3d07",
+          "sha256": "a5f0b29b795c1ba959b197b8487f663636d7bacdd335fbc133f83b7921edb30e",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json",
+        "golden_spec_sha256": "089f3687e7d15e9946d508f7ae00c3c1a3481dbc5a6fab0d42ad6f8e3534aefa",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "quote"
@@ -630,33 +636,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "d0cbcdffc74f0f2c665c65f5409373e047537eb57545b7a2a3048620e59627b5",
+          "browser_preview_sha256": "877b05d60607b1c0659b6346a0ab13cc30774f5e0d03c16741b201a5b674d14a",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.svg",
-          "sha256": "c5a841fb8b97508c89b1cec053b9e070f7b016c041aa7bc8f53174c918696a54",
+          "sha256": "8de9df83478e6b3db50c387793b33da8a7f7c13e2172882966afb191bf5d7b1b",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
+        "golden_spec_sha256": "20607b6a908574e6ed0eb459ff234ec9f1da2bfdaaa1a86afcb47675fefc3a56",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "metrics",
         "quote"
@@ -696,33 +702,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "4da3342ddc4dc9788babdc0071182dd390801f5139c7e38d39cddce579ce515e",
+          "browser_preview_sha256": "3655b82a599d91fc4bb7095abec2ab23b4a020e6265ddb665e301ab268b90fef",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.svg",
-          "sha256": "1fb0f68cc65a4c56357759b59fe38aa1123e92d0af10b757c9b8a5af0cb2a411",
+          "sha256": "6f5e36d9d417bfc00d33bcfeea3b482ea8440e7277c140728679132010a3c7f2",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
+        "golden_spec_sha256": "eab19b0bcda436fcf8371d907b6970e94a6e5cf63497d1836102394ceca98573",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "subtitle",
         "quote"
@@ -762,33 +768,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "d4849255f284aa36e992ab43495b93c77e9f834e4008ba312f1f05e38954cac1",
+          "browser_preview_sha256": "3a84aa8882a01e21a57e13edb2b23f09b9cf56c59a1684af79f7c0802fd85910",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.svg",
-          "sha256": "889cda71c0321a9563fc83d5c6c12c27fbc9082ad4b9254ceee4a5deb171332c",
+          "sha256": "326d8d870cb809ea4b543c62d4c5fbd7b8ae1bd6aa293d20d7607b8a63759c6f",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
+        "golden_spec_sha256": "4c763f2c89c16d9f351b332204306cf91abf7f50c5ef972d6d233da3ff0ca8f3",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -827,33 +833,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "e4e04c37226d2ab56adc941218b55250bcfb8a3f6e17079b050d80dfc7416a11",
+          "browser_preview_sha256": "ee0fb142f0ef3e4a8430913eb53f2089e509511cfdfe3acf23345fc9127a91c0",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-          "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+          "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.svg",
-          "sha256": "c2c788da6ae910f067490fdbd67614ccc7b4015cf01e83cc015076360577a11a",
+          "sha256": "dd2c268b02d2513fc321c9f55341a623d14f414c3abdbc56cf699874945f6831",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json",
+        "golden_spec_sha256": "f5f5602a12f6754f990846e3f24b5ac7a6974d7dc60aacf96fa1cb8a9e71ecf5",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+        "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -890,24 +896,140 @@
   "runtime_template_id": "product-ribbon",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "cover",
+      "manifesto",
+      "catalogue",
+      "stripe",
+      "data",
+      "quote",
+      "cal",
+      "colophon"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/sakura-chroma.json",
+    "deck_sha256": "a5455e02238a240bb285d0b1c9129d0b7687d0c6d03e63a4648f80b7c3242f9c",
+    "degraded": false,
+    "implemented_page_variants": [
+      "cover",
+      "manifesto",
+      "catalogue",
+      "stripe",
+      "data",
+      "quote",
+      "cal",
+      "colophon"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.cal": "4c763f2c89c16d9f351b332204306cf91abf7f50c5ef972d6d233da3ff0ca8f3",
+      "golden_spec.catalogue": "316fa7472471663a70145784b88f0eda5c9936204644a4b0c4bf2c024433aa54",
+      "golden_spec.colophon": "f5f5602a12f6754f990846e3f24b5ac7a6974d7dc60aacf96fa1cb8a9e71ecf5",
+      "golden_spec.cover": "27e567e14665d9eff40de5835c5beec633d78700d01742be26d39773fe58fd21",
+      "golden_spec.data": "20607b6a908574e6ed0eb459ff234ec9f1da2bfdaaa1a86afcb47675fefc3a56",
+      "golden_spec.manifesto": "a4c1175cf1893061e3272dc02ef36ab1b0086887e7b42c82a74e87b37c0309b0",
+      "golden_spec.quote": "eab19b0bcda436fcf8371d907b6970e94a6e5cf63497d1836102394ceca98573",
+      "golden_spec.stripe": "089f3687e7d15e9946d508f7ae00c3c1a3481dbc5a6fab0d42ad6f8e3534aefa",
+      "slide_plan": null,
+      "smoke_deck": "a5455e02238a240bb285d0b1c9129d0b7687d0c6d03e63a4648f80b7c3242f9c",
+      "smoke_fixture": "053c65ddb91d0c77222f26aeb457504dd03678eff55fc2ec77031633932119b8",
+      "template_registry": null,
+      "theme_registry": null
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "manifesto"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "colophon"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "catalogue"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "manifesto"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "cover"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "data"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "quote"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          7
+        ],
+        "variants": [
+          "cal"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          4
+        ],
+        "variants": [
+          "stripe"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+    "receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759",
+    "rendered_pages": 9,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
     "missing_roles": [
+      "agenda",
       "comparison_or_split",
       "process_or_timeline",
       "closing"
@@ -915,14 +1037,10 @@
     "page_count": 8,
     "page_variant_coverage": {
       "agenda": {
-        "covered": true,
-        "missing_reason": null,
-        "page_variant_ids": [
-          "manifesto"
-        ],
-        "pages": [
-          2
-        ]
+        "covered": false,
+        "missing_reason": "source_page_variant_not_extracted_for_role",
+        "page_variant_ids": [],
+        "pages": []
       },
       "closing": {
         "covered": false,
@@ -980,10 +1098,12 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
+          "manifesto",
           "stripe",
           "quote"
         ],
         "pages": [
+          2,
           4,
           6
         ]
@@ -1003,33 +1123,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "086d6f64ef267ed2a95d1f1b8e2dfbbea5b850eb2329bc6fb01bd1a631651108",
+            "browser_preview_sha256": "23ded06cf8983af22e9313544ed85dc6705225c05c89b5d51e8f53642443feb1",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.svg",
-            "sha256": "15cd7f3bc90949409a673ebf02840aa02865a6255f48d2f3254dd2e93b0f5480",
+            "sha256": "72c0269c77d17ace710b06b52f01bc7975e1b36ff5ceaed8c5e60408b7b8f3bf",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-001-cover.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
+          "golden_spec_sha256": "27e567e14665d9eff40de5835c5beec633d78700d01742be26d39773fe58fd21",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1068,37 +1188,37 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "00ec9aa1391203a057d3953802a1e94ce49ae0da42b4c235c6c519fc5c4bda93",
+            "browser_preview_sha256": "4d797b3f35125d52fa3979d8019830a4ecadb4923d3a917de4830ac7466bf4ad",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.svg",
-            "sha256": "4e2b44155282f9309aa332535c1baf78c26a24135b981093b73cf28314a609e8",
+            "sha256": "d1846b759f9851e641f0978cd51c7773302db796f80df6f842bd71198344eda3",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-002-manifesto.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
+          "golden_spec_sha256": "a4c1175cf1893061e3272dc02ef36ab1b0086887e7b42c82a74e87b37c0309b0",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
-        "role_group": "agenda",
+        "role_group": "quote_or_emphasis",
         "source_class": "s-manifesto",
         "source_refs": [
           {
@@ -1133,33 +1253,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "2c89333c4f706cb80148b5eabb37260f5970541d36512e05cb53a63d6eb470df",
+            "browser_preview_sha256": "b3a5e7bce2cc4a5b7481913e7004ce720bb1fa52afbb9569266100e685082948",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.svg",
-            "sha256": "a30f61cf5817efa6e7adbce26c4d2005f777b0753ae2be2d66caca18f5e8a03c",
+            "sha256": "ceebe0b7ccb4af84a88b775043ceabc848d35701626433df5192bbf0040c042e",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-003-catalogue.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
+          "golden_spec_sha256": "316fa7472471663a70145784b88f0eda5c9936204644a4b0c4bf2c024433aa54",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "items"
         ],
@@ -1198,33 +1318,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "34256e5a5df58805f8df94353f9bad44450fef9833b0df69841e15c0727b523e",
+            "browser_preview_sha256": "03055b4aee39c049706057c4100b74cc2870336582b08d3021ed953b1403fff2",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.svg",
-            "sha256": "fc0baefc0a503544044700b417517305bccfea143338c6b0e7c59858be0c3d07",
+            "sha256": "a5f0b29b795c1ba959b197b8487f663636d7bacdd335fbc133f83b7921edb30e",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-004-stripe.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json",
+          "golden_spec_sha256": "089f3687e7d15e9946d508f7ae00c3c1a3481dbc5a6fab0d42ad6f8e3534aefa",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "quote"
@@ -1264,33 +1384,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "d0cbcdffc74f0f2c665c65f5409373e047537eb57545b7a2a3048620e59627b5",
+            "browser_preview_sha256": "877b05d60607b1c0659b6346a0ab13cc30774f5e0d03c16741b201a5b674d14a",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.svg",
-            "sha256": "c5a841fb8b97508c89b1cec053b9e070f7b016c041aa7bc8f53174c918696a54",
+            "sha256": "8de9df83478e6b3db50c387793b33da8a7f7c13e2172882966afb191bf5d7b1b",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-005-data.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
+          "golden_spec_sha256": "20607b6a908574e6ed0eb459ff234ec9f1da2bfdaaa1a86afcb47675fefc3a56",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "metrics",
           "quote"
@@ -1330,33 +1450,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "4da3342ddc4dc9788babdc0071182dd390801f5139c7e38d39cddce579ce515e",
+            "browser_preview_sha256": "3655b82a599d91fc4bb7095abec2ab23b4a020e6265ddb665e301ab268b90fef",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.svg",
-            "sha256": "1fb0f68cc65a4c56357759b59fe38aa1123e92d0af10b757c9b8a5af0cb2a411",
+            "sha256": "6f5e36d9d417bfc00d33bcfeea3b482ea8440e7277c140728679132010a3c7f2",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-006-quote.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
+          "golden_spec_sha256": "eab19b0bcda436fcf8371d907b6970e94a6e5cf63497d1836102394ceca98573",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "subtitle",
           "quote"
@@ -1396,33 +1516,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "d4849255f284aa36e992ab43495b93c77e9f834e4008ba312f1f05e38954cac1",
+            "browser_preview_sha256": "3a84aa8882a01e21a57e13edb2b23f09b9cf56c59a1684af79f7c0802fd85910",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.svg",
-            "sha256": "889cda71c0321a9563fc83d5c6c12c27fbc9082ad4b9254ceee4a5deb171332c",
+            "sha256": "326d8d870cb809ea4b543c62d4c5fbd7b8ae1bd6aa293d20d7607b8a63759c6f",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-007-cal.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
+          "golden_spec_sha256": "4c763f2c89c16d9f351b332204306cf91abf7f50c5ef972d6d233da3ff0ca8f3",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1461,33 +1581,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "e4e04c37226d2ab56adc941218b55250bcfb8a3f6e17079b050d80dfc7416a11",
+            "browser_preview_sha256": "ee0fb142f0ef3e4a8430913eb53f2089e509511cfdfe3acf23345fc9127a91c0",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/manifest.json",
-            "manifest_sha256": "65ca32d10fd236bf68d9d4259ba1634922c29c23f8fe3297f8a0d4aed954aa20",
+            "manifest_sha256": "d16359dd12151185873579b385001a880f2e4c7c98789d8132515d32e57d6396",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.svg",
-            "sha256": "c2c788da6ae910f067490fdbd67614ccc7b4015cf01e83cc015076360577a11a",
+            "sha256": "dd2c268b02d2513fc321c9f55341a623d14f414c3abdbc56cf699874945f6831",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/sakura-chroma/page-008-colophon.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json",
+          "golden_spec_sha256": "f5f5602a12f6754f990846e3f24b5ac7a6974d7dc60aacf96fa1cb8a9e71ecf5",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/sakura-chroma.product-ribbon.json",
+          "smoke_receipt_sha256": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1516,10 +1636,10 @@
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 8,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "product-ribbon",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/sakura-chroma.product-ribbon.json",
-  "visual_contract_sha256": "103a2836d248d9e1db95b89c6cd25b60d6c7a7ad89b6327d6a7b3ae2e78cc5b8"
+  "visual_contract_sha256": "2314eea505e9b4dce4a26c28791493469b15b378ba5df44933272686b418a039"
 }

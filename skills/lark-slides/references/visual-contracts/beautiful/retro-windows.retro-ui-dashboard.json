@@ -605,7 +605,7 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
@@ -1373,21 +1373,24 @@
       "page_role": "cover",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "marquee",
+        "buttons"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-1",
-          "raw_value": "<div class=\"slide active\" id=\"slide-0\">"
+          "selector_or_token": "#slide-0.active",
+          "raw_value": "<div class=\"slide\" id=\"slide-0\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-2": {
       "source_class": "data-slide-2",
@@ -1395,44 +1398,49 @@
       "page_role": "agenda",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "primary",
+        "secondary"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-2",
+          "selector_or_token": "#slide-1",
           "raw_value": "<div class=\"slide\" id=\"slide-1\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-3": {
       "source_class": "data-slide-3",
       "source_slide_index": 3,
-      "page_role": "data_dashboard",
+      "page_role": "content",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics"
+        "body",
+        "boxes"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-3",
+          "selector_or_token": "#slide-2",
           "raw_value": "<div class=\"slide\" id=\"slide-2\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-4": {
       "source_class": "data-slide-4",
@@ -1440,43 +1448,49 @@
       "page_role": "data_dashboard",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "bars",
+        "highlights"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-4",
+          "selector_or_token": "#slide-3",
           "raw_value": "<div class=\"slide\" id=\"slide-3\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-5": {
       "source_class": "data-slide-5",
       "source_slide_index": 5,
-      "page_role": "data_dashboard",
+      "page_role": "detail",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics"
+        "modules",
+        "details"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-5",
+          "selector_or_token": "#slide-4",
           "raw_value": "<div class=\"slide\" id=\"slide-4\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-6": {
       "source_class": "data-slide-6",
@@ -1484,22 +1498,24 @@
       "page_role": "data_dashboard",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "segments",
+        "insight"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-6",
+          "selector_or_token": "#slide-5",
           "raw_value": "<div class=\"slide\" id=\"slide-5\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-7": {
       "source_class": "data-slide-7",
@@ -1507,45 +1523,49 @@
       "page_role": "data_dashboard",
       "required_slots": [
         "title",
-        "subtitle",
         "metrics",
-        "items"
+        "kpis"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-7",
+          "selector_or_token": "#slide-6",
           "raw_value": "<div class=\"slide\" id=\"slide-6\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-8": {
       "source_class": "data-slide-8",
       "source_slide_index": 8,
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "timeline"
+        "tree",
+        "rows"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-8",
+          "selector_or_token": "#slide-7",
           "raw_value": "<div class=\"slide\" id=\"slide-7\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-9": {
       "source_class": "data-slide-9",
@@ -1553,23 +1573,24 @@
       "page_role": "process_or_timeline",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items",
-        "timeline"
+        "quarters",
+        "progress"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-9",
+          "selector_or_token": "#slide-8",
           "raw_value": "<div class=\"slide\" id=\"slide-8\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     },
     "slide-10": {
       "source_class": "data-slide-10",
@@ -1577,21 +1598,24 @@
       "page_role": "closing",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "contacts",
+        "buttons"
       ],
       "optional_slots": [
-        "eyebrow",
+        "window_title",
+        "icon",
+        "footer",
+        "status",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/retro-windows/template.html",
-          "selector_or_token": ".data-slide-10",
+          "selector_or_token": "#slide-9",
           "raw_value": "<div class=\"slide\" id=\"slide-9\">"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "css_extracted_from_template_html"
     }
   },
   "page_family_source": {
@@ -1600,5 +1624,31 @@
     "source_design_md": "beautiful-html-templates/templates/retro-windows/design.md",
     "source_template_json": "beautiful-html-templates/templates/retro-windows/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  },
+  "implemented_page_variants": [
+    "slide-1",
+    "slide-2",
+    "slide-3",
+    "slide-4",
+    "slide-5",
+    "slide-6",
+    "slide-7",
+    "slide-8",
+    "slide-9",
+    "slide-10"
+  ],
+  "page_variant_golden_specs": {
+    "slide-1": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-1.canvas-spec.json",
+    "slide-2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-2.canvas-spec.json",
+    "slide-3": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-3.canvas-spec.json",
+    "slide-4": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-4.canvas-spec.json",
+    "slide-5": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-5.canvas-spec.json",
+    "slide-6": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-6.canvas-spec.json",
+    "slide-7": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-7.canvas-spec.json",
+    "slide-8": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-8.canvas-spec.json",
+    "slide-9": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-9.canvas-spec.json",
+    "slide-10": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-windows.slide-10.canvas-spec.json"
+  },
+  "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/retro-windows.json",
+  "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-windows.retro-ui-dashboard.json"
 }

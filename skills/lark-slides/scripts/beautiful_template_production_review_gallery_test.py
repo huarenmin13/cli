@@ -155,17 +155,18 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
         self.assertEqual("production_review_gallery", manifest["artifact_kind"])
         self.assertNotEqual("promotion_receipt", blue.get("artifact_kind"))
 
-    def test_non_smoke_families_remain_needs_review_and_missing_smoke(self) -> None:
+    def test_review_families_with_smoke_remain_needs_review_until_production_review(self) -> None:
         manifest = gallery.build_gallery_manifest()
-        candidate = next(item for item in manifest["families"] if item["family_id"] == "8-bit-orbit")
+        candidate = next(item for item in manifest["families"] if item["family_id"] == "vellum")
 
         self.assertEqual("needs_review", candidate["promotion_status"])
         self.assertFalse(candidate["default_selectable"])
-        self.assertEqual("missing", candidate["smoke_status"])
-        self.assertEqual("missing", candidate["smoke_deck"]["status"])
-        self.assertEqual("missing_smoke", candidate["contact_sheet"]["render_status"])
-        self.assertTrue(all(page["render_status"] == "missing_smoke" for page in candidate["pages"]))
-        self.assertIn("missing_smoke", candidate["known_blockers"])
+        self.assertEqual("passed", candidate["smoke_status"])
+        self.assertEqual("passed", candidate["smoke_deck"]["status"])
+        self.assertEqual("passed", candidate["contact_sheet"]["render_status"])
+        self.assertTrue(all(page["render_status"] == "passed" for page in candidate["pages"]))
+        self.assertNotIn("missing_smoke", candidate["known_blockers"])
+        self.assertIn("auto_gate_blocked", candidate["known_blockers"])
         self.assertIn("production_review_pending", candidate["known_blockers"])
         self.assertEqual("page_family_representative_sample", candidate["page_family_representative_sample"]["artifact_kind"])
         self.assertEqual("legacy_renderer_fixture_sample", candidate["legacy_renderer_fixture_sample"]["artifact_kind"])
@@ -182,7 +183,7 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
         agenda = next(page for page in blue["pages"] if page["page_variant_id"] == "agenda")
         bars = next(page for page in blue["pages"] if page["page_variant_id"] == "bars")
 
-        self.assertEqual(347, len(all_pages))
+        self.assertEqual(351, len(all_pages))
         self.assertTrue(all(page["source_screenshot"]["status"] == "generated_from_template_html" for page in all_pages))
         self.assertTrue(all(page["source_screenshot"]["path"] for page in all_pages))
         self.assertTrue(all(page["source_screenshot"]["uri"] for page in all_pages))
@@ -220,7 +221,7 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
 
             index_html = Path(result["html_path"]).read_text(encoding="utf-8")
             family_html = (output_dir / "families" / "blue-professional.html").read_text(encoding="utf-8")
-            missing_smoke_html = (output_dir / "families" / "8-bit-orbit.html").read_text(encoding="utf-8")
+            review_html = (output_dir / "families" / "vellum.html").read_text(encoding="utf-8")
 
         for page_html in (index_html, family_html):
             self.assertIn('data-review-status="pass"', page_html)
@@ -250,13 +251,14 @@ class BeautifulTemplateProductionReviewGalleryTest(unittest.TestCase):
         self.assertIn("repeat(2, minmax(560px, 1fr))", family_html)
         self.assertIn("@media (max-width: 1180px)", family_html)
         self.assertNotIn("auto-fill, minmax(520px", family_html)
-        self.assertNotIn("source screenshot missing", missing_smoke_html)
-        self.assertIn("Current SVGlide page-family representative", missing_smoke_html)
-        self.assertIn("page-family render missing", missing_smoke_html)
-        self.assertNotIn("pixel-orbit-console.preview.png", missing_smoke_html)
-        self.assertNotIn("single-page renderer sample only", missing_smoke_html)
-        self.assertIn("SVGlide render missing", missing_smoke_html)
-        self.assertIn("page-family smoke missing or failed", missing_smoke_html)
+        self.assertNotIn("source screenshot missing", review_html)
+        self.assertIn("Current SVGlide page-family representative", review_html)
+        self.assertIn("beautiful source page", review_html)
+        self.assertIn("SVGlide current deck render", review_html)
+        self.assertIn("page-family render missing", review_html)
+        self.assertNotIn("vellum-scholar-brief.preview.png", review_html)
+        self.assertNotIn("single-page renderer sample only", review_html)
+        self.assertIn("SVGlide render missing", review_html)
 
     def test_rendered_html_uses_review_only_current_deck_render_when_available(self) -> None:
         self._install_fake_source_page_screenshots()

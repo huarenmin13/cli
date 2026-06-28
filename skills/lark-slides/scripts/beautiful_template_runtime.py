@@ -304,6 +304,7 @@ def _matrix_execution_metadata(row: dict[str, Any]) -> dict[str, Any]:
         "page_family_smoke_deck",
         "page_family_smoke_receipt",
         "page_family_promotion_gate",
+        "text_budget_by_variant",
     ):
         _copy_if_present(metadata, row, key)
     family_id = row.get("family_id")

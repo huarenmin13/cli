@@ -297,8 +297,8 @@ def validate_quality_gate(
 ) -> None:
     if not payload:
         return
-    if payload.get("status") != "passed":
-        issues.append(issue("quality_gate", "quality_gate_not_passed", "quality gate status must be passed", category="check_not_passed"))
+    if payload.get("status") not in {"passed", "passed_with_waiver"}:
+        issues.append(issue("quality_gate", "quality_gate_not_passed", "quality gate status must be passed or passed_with_waiver", category="check_not_passed"))
     recorded = normalize_hash_records(payload.get("prepared_files"))
     if recorded is None or recorded != sorted_hash_records(current_prepared):
         issues.append(

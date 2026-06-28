@@ -1,0 +1,277 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "editorial-forest",
+  "selected_template_id": "serif-stat-editorial",
+  "selected_theme_id": "forest-editorial",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 9,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "agenda",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 3,
+      "page_role": "quote",
+      "page_variant_id": "statement",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 4,
+      "page_role": "comparison",
+      "page_variant_id": "two-col",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "data",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "framework",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 7,
+      "page_role": "content",
+      "page_variant_id": "framework",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "stats",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "summary",
+      "template_id": "serif-stat-editorial",
+      "family_id": "editorial-forest",
+      "theme_id": "forest-editorial"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "agenda"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "framework"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "data"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "two-col"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "statement"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "framework"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "stats"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "summary"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "agenda",
+    "statement",
+    "two-col",
+    "data",
+    "framework",
+    "stats",
+    "summary"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "agenda",
+    "statement",
+    "two-col",
+    "data",
+    "framework",
+    "stats",
+    "summary"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "framework",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/editorial-forest.json",
+    "golden_spec.agenda": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.agenda.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.cover.canvas-spec.json",
+    "golden_spec.data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.data.canvas-spec.json",
+    "golden_spec.framework": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.framework.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.statement.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.stats.canvas-spec.json",
+    "golden_spec.summary": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.summary.canvas-spec.json",
+    "golden_spec.two-col": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.two-col.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": "aaf8abc84b8e0346e3ecb161d87f4d5c6e78dd671611670b78122cf16d03f24b",
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "7855460ee1020c14571a3c1606f22dd0d63573e4a1f849ea1328533a811f6954",
+    "smoke_deck": "7855460ee1020c14571a3c1606f22dd0d63573e4a1f849ea1328533a811f6954",
+    "golden_spec.agenda": "d8e0b87ece86eacba59ca257dfed1df8af2d34168bbde1d9eb3da073f1cb4bda",
+    "golden_spec.cover": "3c4cdf8189e3a62ae1083f124b1d122c6b6d6f52508189218427f1bcfe99379f",
+    "golden_spec.data": "753f986c8b9b34e1bf8684276b6ca9098401fa2a9df53e95fbd795cc1637292f",
+    "golden_spec.framework": "7f1da38157303491370f826f820a64f0baaa10c6058cf0a980c33dc0c62341d6",
+    "golden_spec.statement": "42e68cf51fa95ed7e0f1420ad05a9cd413a8c5e4e6528129e4a57339ac1066da",
+    "golden_spec.stats": "04cac9beed9eb2df57f9e05499899b832d77142411a5e7f0cf877ed0b91df765",
+    "golden_spec.summary": "596cd6af7d308771d4f6cd9f5c14d42caf4dac87fa660ead26ae7c68aae3b3fe",
+    "golden_spec.two-col": "36e1fff153e1153d9cc2fdb7633094540d92bcfc80265da5b253d5afab55b5f4"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-editorial-forest-smoke-project",
+    "--pretty"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/editorial-forest.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/tmp/svglide-editorial-forest-smoke-project"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 9,
+    "covered_role_count": 9,
+    "implemented_variant_count": 8,
+    "covered_implemented_variant_count": 8
+  }
+}

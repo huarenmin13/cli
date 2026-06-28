@@ -1,0 +1,277 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "--selected-family",
+    "cobalt-grid"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "index",
+    "chapter",
+    "data",
+    "quote",
+    "table",
+    "colophon"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "index",
+    "chapter",
+    "data",
+    "quote",
+    "table",
+    "colophon"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.chapter": "45c11ec87ee7afff38b31b1c8c86bf3c6b61eca438c11bed645ebfbabe4ca97e",
+    "golden_spec.colophon": "af0185c876f4cfaf213e1d2add505ff21f6e1d3b5a5ef9efd4e86b7430466ff3",
+    "golden_spec.cover": "589979f27a54d1265ffc5ffa15c834f963885b6c242fcb84346f5a9850d08e11",
+    "golden_spec.data": "0742db215c8886b8c31ca41403bd45a15f04965a16d0791096c3eb1f08d1d6c8",
+    "golden_spec.index": "477bd90995078582cdc09c01bea0782e7e23e6ef85b82aafc53591670d1098ed",
+    "golden_spec.manifesto": "53bd87e746f44a1a08d0dfba3164ca1e6e35f4399a22ab24067128385879d0e8",
+    "golden_spec.quote": "b6e820830395d247f02ae575fd659eff7fd4c85863d6083ee615feb4df860e13",
+    "golden_spec.table": "556c4ce981c3b6ddb280a5eab95d320deec334bb35ac77ac9c9d36f8b807fc30",
+    "slide_plan": null,
+    "smoke_deck": "2b81e138ba59a9f24357c3d348da0cd31a886f5712b32a89771fc04e32f3a12e",
+    "smoke_fixture": "c2d2a672939139942977c1b77e15219c9a9bddc3a517e2062d4ca2bb12703753",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.chapter": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.chapter.canvas-spec.json",
+    "golden_spec.colophon": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.colophon.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.cover.canvas-spec.json",
+    "golden_spec.data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.data.canvas-spec.json",
+    "golden_spec.index": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.index.canvas-spec.json",
+    "golden_spec.manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.manifesto.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.quote.canvas-spec.json",
+    "golden_spec.table": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cobalt-grid.table.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/cobalt-grid.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "index"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "colophon"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "table"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "chapter"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "data"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "chapter"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "quote"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": null,
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 2,
+      "page_role": "detail",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 3,
+      "page_role": "agenda",
+      "page_variant_id": "index",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "chapter",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "data",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "table",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "colophon",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 9,
+      "page_role": "content",
+      "page_variant_id": "chapter",
+      "template_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/tmp9y217686",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/cobalt-grid.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json"
+  },
+  "rendered_pages": 9,
+  "reuse_count": 1,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "cobalt-grid",
+  "selected_template_id": "trend-grid-report",
+  "selected_theme_id": "cobalt-grid",
+  "selection_source": "explicit_fixture",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 8,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 8,
+    "page_count": 9,
+    "warning_count": 1
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "chapter",
+      "reason": "duplicate_variant_in_smoke_deck",
+      "reuse_count": 2
+    }
+  ],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -94,26 +95,26 @@ def svg_readability_font_issues(svg_path: Path) -> list[dict[str, object]]:
 
 class BeautifulTemplateCurrentDeckRenderTest(unittest.TestCase):
     def test_build_family_deck_writes_review_only_specs_without_promotion_claim(self) -> None:
-        row = next(item for item in current_deck.matrix_rows() if item["family_id"] == "grove")
+        row = next(item for item in current_deck.matrix_rows() if item["family_id"] == "pin-and-paper")
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir) / "current-svglide-decks"
             family = current_deck.build_family_deck(row, output_dir, render=False, pretty=True, workers=1)
 
-            manifest = json.loads((output_dir / "grove" / "manifest.json").read_text(encoding="utf-8"))
-            first_spec_path = output_dir / "grove" / "page-001-cover.canvas-spec.json"
+            manifest = json.loads((output_dir / "pin-and-paper" / "manifest.json").read_text(encoding="utf-8"))
+            first_spec_path = output_dir / "pin-and-paper" / "page-001-cover.canvas-spec.json"
             first_spec = json.loads(first_spec_path.read_text(encoding="utf-8"))
 
         self.assertEqual("beautiful_current_svglide_deck_render", family["artifact_kind"])
         self.assertTrue(family["review_only"])
         self.assertIn("not a production promotion receipt", family["claim_boundary"])
-        self.assertEqual(12, family["page_count"])
+        self.assertEqual(11, family["page_count"])
         self.assertEqual("not_rendered", family["pages"][0]["render_status"])
-        self.assertTrue(family["degraded"])
-        self.assertEqual("grove", manifest["family_id"])
-        self.assertEqual("grove-organic-brief", first_spec["template_id"])
-        self.assertEqual("grove", first_spec["family_id"])
+        self.assertFalse(family["degraded"])
+        self.assertEqual("pin-and-paper", manifest["family_id"])
+        self.assertEqual("annotated-field-board", first_spec["template_id"])
+        self.assertEqual("pin-and-paper", first_spec["family_id"])
         self.assertEqual("cover", first_spec["page_variant_id"])
-        self.assertTrue(first_spec["review_only_current_deck_render"]["degraded"])
+        self.assertFalse(first_spec["review_only_current_deck_render"]["degraded"])
         self.assertIn("review-only", first_spec["page_family_source"]["claim_boundary"])
 
     def test_build_all_decks_can_filter_to_one_family(self) -> None:
@@ -124,12 +125,25 @@ class BeautifulTemplateCurrentDeckRenderTest(unittest.TestCase):
                 pretty=False,
                 workers=1,
                 family_ids={"8-bit-orbit"},
-            )
+        )
 
         self.assertEqual(1, receipt["family_count"])
         self.assertEqual("failed", receipt["status"])
         self.assertEqual("8-bit-orbit", receipt["families"][0]["family_id"])
-        self.assertGreaterEqual(receipt["page_count"], 1)
+        self.assertEqual(10, receipt["page_count"])
+
+    def test_review_png_render_uses_embedded_font_preview_without_changing_svg_path(self) -> None:
+        completed = subprocess.CompletedProcess(args=["node"], returncode=0, stdout="", stderr="")
+        with mock.patch.object(current_deck.subprocess, "run", return_value=completed) as run:
+            current_deck.render_page_preview(Path("input.json"), Path("output.svg"), Path("output.png"))
+
+        kwargs = run.call_args.kwargs
+        self.assertEqual(current_deck.REPO_ROOT, kwargs["cwd"])
+        self.assertEqual("1", kwargs["env"]["SVGLIDE_SATORI_EMBED_FONT_FOR_PNG"])
+        self.assertEqual(
+            ["node", current_deck.RENDERER_PATH.as_posix(), "input.json", "output.svg", "output.png"],
+            run.call_args.args[0],
+        )
 
     def test_review_only_deck_render_uses_variant_aware_layouts(self) -> None:
         row = next(item for item in current_deck.matrix_rows() if item["family_id"] == "grove")
@@ -162,11 +176,12 @@ class BeautifulTemplateCurrentDeckRenderTest(unittest.TestCase):
             cover_text = cover_svg.read_text(encoding="utf-8")
             split_text = split_svg.read_text(encoding="utf-8")
 
-        self.assertIn("OPENING", cover_text)
-        self.assertNotIn("LEFT", cover_text)
-        self.assertIn("LEFT", split_text)
-        self.assertIn("RIGHT", split_text)
-        self.assertIn("TRACK", split_text)
+        self.assertIn("PRESENTATION", cover_text)
+        self.assertNotIn("IMAGE PLACEHOLDER", cover_text)
+        self.assertIn("AUDIENCES", split_text)
+        self.assertIn("IMAGE", split_text)
+        self.assertIn("PLACEHOLDER", split_text)
+        self.assertIn("RESEARCH", split_text)
         self.assertNotEqual(cover_text, split_text)
 
     def test_blue_professional_current_deck_has_no_text_overlap_or_canvas_escape(self) -> None:
@@ -269,6 +284,9 @@ class BeautifulTemplateCurrentDeckRenderTest(unittest.TestCase):
         combined = hero + red + summary + financial + stat + services + roadmap + pillars + global_page + close
         self.assertNotIn("BOLD POSTER", combined)
         self.assertNotIn("Generated for visual review", combined)
+        self.assertNotIn('font-family="svglideboldposter', combined)
+        self.assertIn('font-family="georgia"', combined)
+        self.assertIn('font-family="trebuchet ms"', combined)
 
 
 if __name__ == "__main__":

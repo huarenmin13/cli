@@ -1,0 +1,246 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "brand": "tape\ngarden",
+    "cards": [
+      {
+        "body": "A tape-saturation pedal voiced after late-70s cassette decks. Three knobs, one switch, and one warm output.",
+        "extra": "Hand-wired in Matsumoto, one batch at a time, with a cream rosette stamped on the bottom plate.",
+        "name": "SC-01\nBLOOM PEDAL",
+        "specs": [
+          "FORMAT 9V pedal",
+          "CHANNELS Mono TRS",
+          "CASE Steel",
+          "PRICE ¥38,000",
+          "SHIPS 14 Mar"
+        ],
+        "tone": "red"
+      },
+      {
+        "body": "A studio cassette deck reissued from our 1981 design with quartz-locked transport and switchable bias.",
+        "extra": "Each unit ships with a numbered plate, hand-cut sleeve, and a note about wearing it in slowly.",
+        "name": "SC-02\nCHROMA DECK",
+        "specs": [
+          "FORMAT Hardware",
+          "EDITION 320 units",
+          "FINISH Cream steel",
+          "PRICE ¥184,000",
+          "SHIPS 02 May"
+        ],
+        "tone": "pink"
+      },
+      {
+        "body": "Seven C-60 cassettes, each labelled with a colour, a season, and a side on cream printed stock.",
+        "extra": "Refill packs ship four times a year. Subscribers get a studio note with each delivery.",
+        "name": "SC-03\nSUPER TAPE",
+        "specs": [
+          "FORMAT 7 x C-60",
+          "EDITION Open",
+          "PACK Letterpress",
+          "PRICE ¥7,200",
+          "SHIPS 14 Jun"
+        ],
+        "tone": "orange"
+      },
+      {
+        "body": "A listening chair upholstered in cassette-loop fabric, woven from our own studio off-cuts.",
+        "extra": "Each chair is signed on the underside and dated to the day it left the workshop.",
+        "name": "SC-04\nMIX CHAIR",
+        "specs": [
+          "FORMAT Furniture",
+          "FRAME Solid ash",
+          "UPHOLSTERY Tape",
+          "PRICE ¥420,000",
+          "SHIPS 22 Aug"
+        ],
+        "tone": "blue"
+      }
+    ],
+    "edition": "CATALOGUE NO. 7",
+    "eyebrow": "Four products - spring & summer release",
+    "footer_left": "限定版  made in matsumoto     N.R. :  ■ ON   □ OFF",
+    "page": "01 / 08",
+    "stamp": "AS SEEN ON\nTG",
+    "subtitle": "SUPERCATALOG",
+    "title": "The 2026 Catalogue"
+  },
+  "family_id": "sakura-chroma",
+  "page_family_source": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "family_id": "sakura-chroma",
+    "review_render_scope": "current_renderer_deck",
+    "source_class": "s-catalogue",
+    "source_slide_index": 3,
+    "source_template_html": "beautiful-html-templates/templates/sakura-chroma/template.html"
+  },
+  "page_role": "data_dashboard",
+  "page_variant_id": "catalogue",
+  "quality_constraints": {
+    "max_title_lines": 3,
+    "min_font_size": 15,
+    "safe_area": {
+      "height": 460,
+      "width": 864,
+      "x": 48,
+      "y": 40
+    }
+  },
+  "renderer_variant_id": "catalogue",
+  "review_only_current_deck_render": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "degraded": true,
+    "degraded_reason": "single dedicated sample renderer reused for source page variants",
+    "page": 3,
+    "schema_version": "svglide-beautiful-current-deck-render/v1"
+  },
+  "safe_area": {
+    "height": 460,
+    "width": 864,
+    "x": 48,
+    "y": 40
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 140,
+        "width": 250,
+        "x": 48,
+        "y": 160
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "product-ribbon",
+  "theme": {
+    "colors": {
+      "accent": "#3D9F47",
+      "background": "#F1E6CB",
+      "blue": "#3F8BC4",
+      "green": "#3D9F47",
+      "muted": "#3A2516",
+      "orange": "#F09131",
+      "panel": "#F0BC2A",
+      "primary": "#E54489",
+      "red": "#E5392A",
+      "surface": "#FFFFFF",
+      "text": "#3A2516"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 20,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Albert Sans",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 88,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Big Shoulders Display",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 12,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "JetBrains Mono",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 56,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "JetBrains Mono",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/sakura-chroma.product-ribbon.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "swiss-red",
+  "version": "svglide-canvas-spec/v1"
+}

@@ -1,0 +1,233 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "cta": "Get Started",
+    "eyebrow": "Performance Data",
+    "page": "01 / 10",
+    "series": [
+      {
+        "label": "Revenue",
+        "values": [
+          42,
+          58,
+          73,
+          90,
+          100
+        ]
+      },
+      {
+        "label": "Users",
+        "values": [
+          28,
+          46,
+          67,
+          78,
+          94
+        ]
+      },
+      {
+        "label": "Retention",
+        "values": [
+          61,
+          66,
+          74,
+          82,
+          94
+        ]
+      }
+    ],
+    "stats": [
+      {
+        "label": "Revenue Growth",
+        "value": "+142%"
+      },
+      {
+        "label": "Active Users",
+        "value": "2.4M"
+      },
+      {
+        "label": "Retention Rate",
+        "value": "94%"
+      }
+    ],
+    "subtitle": "A bold, high-contrast template designed for maximum visual impact and uncompromising clarity.",
+    "title": "Quarterly Growth Metrics"
+  },
+  "family_id": "block-frame",
+  "page_family_source": {
+    "claim_boundary": "page-family golden fixture for block-frame renderer; not production/default selectable evidence",
+    "family_id": "block-frame",
+    "review_render_scope": "golden_page_family_fixture",
+    "source_class": "slide-4",
+    "source_slide_index": 4,
+    "source_template_html": "beautiful-html-templates/templates/block-frame/template.html"
+  },
+  "page_role": "data",
+  "page_variant_id": "data_dashboard-4",
+  "quality_constraints": {
+    "max_title_lines": 3,
+    "min_font_size": 7,
+    "safe_area": {
+      "height": 460,
+      "width": 864,
+      "x": 48,
+      "y": 40
+    }
+  },
+  "renderer_variant_id": "data_dashboard-4",
+  "review_only_current_deck_render": {
+    "claim_boundary": "page-family golden fixture for block-frame renderer; not production/default selectable evidence",
+    "degraded": false,
+    "degraded_reason": null,
+    "page": 4,
+    "review_render_scope": "golden_page_family_fixture",
+    "schema_version": "svglide-page-family-golden-fixture/v1",
+    "source_current_deck_spec": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/block-frame/page-004-data-dashboard-4.canvas-spec.json"
+  },
+  "safe_area": {
+    "height": 460,
+    "width": 864,
+    "x": 48,
+    "y": 40
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 154,
+        "width": 330,
+        "x": 288,
+        "y": 182
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "block-frame-grid",
+  "theme": {
+    "colors": {
+      "accent": "#99E885",
+      "background": "#FFDC8B",
+      "blue": "#C0F7FE",
+      "primary": "#FE90E8",
+      "surface": "#FFFDF5",
+      "text": "#000000",
+      "yellow": "#F7CB46"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 18,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Inter",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 54,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Space Grotesk",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 10,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "Space Grotesk",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 42,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "Space Grotesk",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/block-frame.block-frame-grid.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "block-frame",
+  "version": "svglide-canvas-spec/v1"
+}

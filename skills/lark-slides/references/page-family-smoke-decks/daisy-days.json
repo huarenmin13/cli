@@ -1,0 +1,62 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for daisy-days page-family coverage; not production/default selectable evidence.",
+  "family_id": "daisy-days",
+  "runtime_template_id": "daisy-workshop-playbook",
+  "selected_theme_id": "daisy-days",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "title"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "welcome"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "weekly"
+    },
+    {
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "timeline"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "chart-bar"
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "cards"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "team"
+    },
+    {
+      "page": 9,
+      "page_role": "process",
+      "page_variant_id": "process"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "donut"
+    }
+  ],
+  "variant_reuse_rationale": "No variant is reused. The source has 10 pages; slide 10 is a donut summary page and is mapped to closing because Daisy Days has no dedicated closing page."
+}

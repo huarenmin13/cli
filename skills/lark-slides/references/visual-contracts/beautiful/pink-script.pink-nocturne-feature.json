@@ -679,7 +679,21 @@
         "radialGradient"
       ],
       "python_generic_fallback": "forbidden",
-      "runtime": "owned_satori_template"
+      "runtime": "owned_satori_template",
+      "renderer_stage": "page_family",
+      "implemented_page_variants": [
+        "cover",
+        "toc",
+        "stats",
+        "section",
+        "chart",
+        "process",
+        "matrix",
+        "quote",
+        "cta"
+      ],
+      "promotion_status": "needs_review",
+      "default_selectable": false
     },
     "constraints": {
       "external_html_css_js": "forbidden",
@@ -690,7 +704,7 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
@@ -1440,9 +1454,10 @@
       "cover",
       "agenda",
       "data_dashboard",
-      "content",
+      "detail",
+      "quote_or_emphasis",
       "process_or_timeline",
-      "quote_or_emphasis"
+      "closing"
     ],
     "production_minimum_roles": [
       "cover",
@@ -1452,7 +1467,69 @@
       "quote_or_emphasis",
       "process_or_timeline",
       "closing"
-    ]
+    ],
+    "claim_boundary": "page-family renderer execution evidence only; does not imply production/default selectable status.",
+    "source_page_variants": [
+      "cover",
+      "toc",
+      "stats",
+      "section",
+      "chart",
+      "process",
+      "matrix",
+      "quote",
+      "cta"
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "toc",
+      "stats",
+      "section",
+      "chart",
+      "process",
+      "matrix",
+      "quote",
+      "cta"
+    ],
+    "supported_page_variants": [
+      "cover",
+      "toc",
+      "stats",
+      "section",
+      "chart",
+      "process",
+      "matrix",
+      "quote",
+      "cta"
+    ],
+    "page_variant_golden_specs": {
+      "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
+      "toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json",
+      "stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
+      "section": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
+      "chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
+      "process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
+      "matrix": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
+      "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
+      "cta": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json"
+    },
+    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/pink-script.json",
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/pink-script.pink-nocturne-feature.json",
+    "variant_usage_policy": {
+      "singletons": [
+        "cover",
+        "toc",
+        "section",
+        "quote",
+        "cta"
+      ],
+      "repeatable": [
+        "stats",
+        "chart",
+        "process",
+        "matrix"
+      ]
+    }
   },
   "page_variants": {
     "cover": {
@@ -1654,5 +1731,17 @@
     "source_design_md": "beautiful-html-templates/templates/pink-script/design.md",
     "source_template_json": "beautiful-html-templates/templates/pink-script/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
+  },
+  "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/pink-nocturne-feature.mjs",
+  "page_variant_golden_specs": {
+    "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cover.canvas-spec.json",
+    "toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.toc.canvas-spec.json",
+    "stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.stats.canvas-spec.json",
+    "section": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.section.canvas-spec.json",
+    "chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.chart.canvas-spec.json",
+    "process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.process.canvas-spec.json",
+    "matrix": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.matrix.canvas-spec.json",
+    "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.quote.canvas-spec.json",
+    "cta": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pink-script.cta.canvas-spec.json"
   }
 }

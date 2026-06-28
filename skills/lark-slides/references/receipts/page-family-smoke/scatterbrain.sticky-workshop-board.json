@@ -1,0 +1,304 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "scatterbrain",
+  "selected_template_id": "sticky-workshop-board",
+  "selected_theme_id": "scatterbrain",
+  "selection_source": "explicit_args",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 11,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "title",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "quote",
+      "page_variant_id": "statement",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "two-column",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "content",
+      "page_variant_id": "features",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "timeline",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "content",
+      "page_variant_id": "image-text",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "data",
+      "page_variant_id": "diagram",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "comparison",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 11,
+      "page_role": "agenda",
+      "page_variant_id": "features",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "title"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        11
+      ],
+      "variants": [
+        "features"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        5,
+        7
+      ],
+      "variants": [
+        "features",
+        "image-text"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4,
+        8
+      ],
+      "variants": [
+        "chart",
+        "diagram"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "comparison"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "statement"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "timeline"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "two-column"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "closing"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "title",
+    "statement",
+    "two-column",
+    "chart",
+    "features",
+    "timeline",
+    "image-text",
+    "diagram",
+    "comparison",
+    "closing"
+  ],
+  "covered_implemented_page_variants": [
+    "title",
+    "statement",
+    "two-column",
+    "chart",
+    "features",
+    "timeline",
+    "image-text",
+    "diagram",
+    "comparison",
+    "closing"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "features",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/scatterbrain.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.chart.canvas-spec.json",
+    "golden_spec.closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.closing.canvas-spec.json",
+    "golden_spec.comparison": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.comparison.canvas-spec.json",
+    "golden_spec.diagram": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.diagram.canvas-spec.json",
+    "golden_spec.features": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.features.canvas-spec.json",
+    "golden_spec.image-text": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.image-text.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.statement.canvas-spec.json",
+    "golden_spec.timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.timeline.canvas-spec.json",
+    "golden_spec.title": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.title.canvas-spec.json",
+    "golden_spec.two-column": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.two-column.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_deck": "0d7a1a2315749663e658f83df15bf4aec8a1c7d3953ebe764bddfbe08bd3bcc1",
+    "golden_spec.chart": "92c8a6b426ee62d9eb02cddba9e574095dc42e4a19ffb7ce80034e8e54dd1348",
+    "golden_spec.closing": "0bb7b5d7f96e1e747ab50633d664caba852244a133ee9a748a96ed71a2ef5c4c",
+    "golden_spec.comparison": "47d1e2719161aa1d5af9fd271c20d8abd3be677b89ed4d77ad35836607ed16d2",
+    "golden_spec.diagram": "19120aed62b210adbb7e4e1021d6e32fb1cd62e25f0e483e47157b59513fd5bf",
+    "golden_spec.features": "9071cdfc99787d5844ddaf0768c9bf90456187ef57a2d6885a1abf345091364e",
+    "golden_spec.image-text": "a0bb7042556e430c4cd4ee773c735b21e55a0e7ddcc521b7cbcfbd2b89a6090c",
+    "golden_spec.statement": "aee6e488fa3017e741d4f306e41e7ecc1b20f049599cde1173df1e132f6291ff",
+    "golden_spec.timeline": "67457d65578610a3014dcc06f08275f5591aebc0727383609b803e8364565907",
+    "golden_spec.title": "ed6408967793a305b1daa54bc1c43fdd8386b491e2fdfdf6be2ff4a16d6edb5c",
+    "golden_spec.two-column": "31cace1826c4edf06fa1b9a4eb7c24319e71e5e6e03b4d16f0a0306a5f247698"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    ".",
+    "--selected-family",
+    "scatterbrain"
+  ],
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/scatterbrain.json",
+    "smoke_fixture": null,
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 11,
+    "covered_role_count": 9,
+    "implemented_variant_count": 10,
+    "covered_implemented_variant_count": 10
+  }
+}

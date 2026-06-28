@@ -1,0 +1,67 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for pin-and-paper page-family coverage; not production/default selectable evidence.",
+  "family_id": "pin-and-paper",
+  "runtime_template_id": "annotated-field-board",
+  "selected_theme_id": "pin-and-paper",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "agenda"
+    },
+    {
+      "page": 3,
+      "page_role": "process",
+      "page_variant_id": "notes"
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "sec"
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "notice"
+    },
+    {
+      "page": 6,
+      "page_role": "data",
+      "page_variant_id": "chart"
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "process"
+    },
+    {
+      "page": 8,
+      "page_role": "comparison",
+      "page_variant_id": "matrix"
+    },
+    {
+      "page": 9,
+      "page_role": "data",
+      "page_variant_id": "stats"
+    },
+    {
+      "page": 10,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 11,
+      "page_role": "closing",
+      "page_variant_id": "cta"
+    }
+  ],
+  "variant_reuse_rationale": "Pin & Paper source has 11 source-backed pages. Smoke deck covers all implemented variants and all production minimum roles; process/data roles appear twice because the source has multiple process/data-like pages, not because a renderer branch is reused."
+}

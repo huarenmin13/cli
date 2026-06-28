@@ -1,0 +1,217 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "capsules": [
+      "Drop one",
+      "Creator proof",
+      "Member perks",
+      "Retail pilots"
+    ],
+    "cards": [
+      {
+        "body": "Every content container uses soft rounded capsule forms.",
+        "mark": "I",
+        "title": "Pill Geometry"
+      },
+      {
+        "body": "Accent colors rotate for balance rather than semantic meaning.",
+        "mark": "II",
+        "title": "Candy Palette"
+      },
+      {
+        "body": "Serif headlines pair with clean sans labels and body copy.",
+        "mark": "III",
+        "title": "Editorial Contrast"
+      }
+    ],
+    "eyebrow": "Core Principles",
+    "stat": "12K waitlist",
+    "steps": [
+      "Tease",
+      "Launch",
+      "Retain"
+    ],
+    "subtitle": "A framework for bold ideas",
+    "title": "The Capsule System"
+  },
+  "family_id": "capsule",
+  "page_family_source": {
+    "claim_boundary": "page-family golden fixture for capsule renderer; not production/default selectable evidence",
+    "family_id": "capsule",
+    "review_render_scope": "golden_page_family_fixture",
+    "source_class": "slide-3",
+    "source_slide_index": 3,
+    "source_template_html": "beautiful-html-templates/templates/capsule/template.html"
+  },
+  "page_role": "content",
+  "page_variant_id": "data_dashboard",
+  "quality_constraints": {
+    "max_title_lines": 2,
+    "min_font_size": 16,
+    "safe_area": {
+      "height": 460,
+      "width": 864,
+      "x": 48,
+      "y": 40
+    }
+  },
+  "renderer_variant_id": "data_dashboard",
+  "review_only_current_deck_render": {
+    "claim_boundary": "page-family golden fixture for capsule renderer; not production/default selectable evidence",
+    "degraded": false,
+    "degraded_reason": null,
+    "page": 3,
+    "review_render_scope": "golden_page_family_fixture",
+    "schema_version": "svglide-page-family-golden-fixture/v1",
+    "source_current_deck_spec": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/capsule/page-003-data-dashboard.canvas-spec.json"
+  },
+  "safe_area": {
+    "height": 460,
+    "width": 864,
+    "x": 48,
+    "y": 40
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 76,
+        "width": 500,
+        "x": 230,
+        "y": 258
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "capsule-card-system",
+  "theme": {
+    "colors": {
+      "accent": "#E85D4E",
+      "background": "#F4F4EE",
+      "blue": "#8DB7F2",
+      "lavender": "#CDB9E9",
+      "muted": "#77736D",
+      "panel": "#F2D160",
+      "peach": "#F0B894",
+      "primary": "#C4D94E",
+      "surface": "#FFFFFF",
+      "text": "#1A1A1A"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 20,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Space Grotesk",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 54,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Bodoni Moda",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 12,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "Bodoni Moda",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 42,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "Bodoni Moda",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/capsule.capsule-card-system.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "capsule",
+  "version": "svglide-canvas-spec/v1"
+}

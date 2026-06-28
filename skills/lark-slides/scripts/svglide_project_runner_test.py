@@ -479,7 +479,7 @@ class SVGlideProjectRunnerTest(unittest.TestCase):
                     "page_type": kwargs["page_type"],
                     "reference_screenshot": str(kwargs["reference_screenshot"]),
                     "render_screenshot": str(kwargs["render_screenshot"]),
-                    "score": 0.69,
+                    "score": 0.38,
                     "threshold": 0.72,
                     "metrics": {key: 1 for key in runner.beautiful_template_fidelity_check.REQUIRED_METRIC_KEYS},
                     "issues": [
@@ -2543,6 +2543,17 @@ class SVGlideProjectRunnerTest(unittest.TestCase):
 
             with self.assertRaisesRegex(runner.RunnerError, "palette_review"):
                 runner.require_quality_gate_current(project_root)
+
+    def test_existing_quality_gate_accepts_passed_with_waiver(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project_root = self.make_project(tmpdir)
+            gate_path = project_root / "06-check/quality-gate.json"
+            gate = json.loads(gate_path.read_text(encoding="utf-8"))
+            gate["status"] = "passed_with_waiver"
+            gate["waivers"] = [{"check": "legacy-fallback-review", "waivers": [{"code": "explicit_current_deck"}]}]
+            gate_path.write_text(json.dumps(gate), encoding="utf-8")
+
+            self.assertEqual(runner.require_quality_gate_current(project_root)["status"], "passed_with_waiver")
 
     def test_existing_quality_gate_with_stale_diversity_gate_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

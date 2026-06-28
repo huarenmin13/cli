@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/raw-grid.html",
-    "render_status": "missing_smoke",
-    "sha256": "50aa0a802b070e26b6f8236c970bd823195cea08d302683a022fac434170fe37"
+    "render_status": "passed",
+    "sha256": "3bf608339d912cb2a5b705f4f398a982e1160230b8248046aad96b5e11092948"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "50aa0a802b070e26b6f8236c970bd823195cea08d302683a022fac434170fe37",
+    "contact_sheet": "3bf608339d912cb2a5b705f4f398a982e1160230b8248046aad96b5e11092948",
     "fidelity_receipt": "fee9ac2b5c6d69612a2a082849f1829f5b3c75f2a5c2d29b76657361f4fc04cc",
     "reference_screenshot": "4056c85b9415ba7a9a988d45f5316cbdfbaf18ee959e3f7727e2ef90f59f42bc",
-    "smoke_receipt": null,
-    "visual_contract": "fb4dc324a40f42349b253e2ad99ad3c5a7bec51e31944a4dc1e9872199441f8a"
+    "smoke_receipt": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676",
+    "visual_contract": "f31392718e263d0673b70a290eddd0cb5d87cf48624888b6a336ec67edf00124"
   },
   "family_id": "raw-grid",
   "fidelity": {
@@ -33,16 +33,24 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 10,
+  "implemented_page_variants": [
+    "cover",
+    "split",
+    "bars",
+    "cards",
+    "feature",
+    "process",
+    "donut",
+    "quote",
+    "table",
+    "closing"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
-    "selector_gate_missing",
-    "source_core_roles_missing"
+    "selector_gate_missing"
   ],
   "legacy_renderer_fixture_sample": {
     "artifact_kind": "legacy_renderer_fixture_sample",
@@ -59,10 +67,7 @@
     "runtime_template_id": "brutalist-matrix",
     "status": "available"
   },
-  "missing_roles": [
-    "comparison_or_split",
-    "process_or_timeline"
-  ],
+  "missing_roles": [],
   "not_promotion_receipt": true,
   "page_family_promotion_gate": {
     "claim_boundary": null,
@@ -73,26 +78,26 @@
   "page_family_representative_sample": {
     "artifact_kind": "page_family_representative_sample",
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
-    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.png",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "df4dbd838c401c3100337db7fca3ab2eae809a3498f5042858b6fdf6681a90bd",
-    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.png",
-    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.svg",
-    "current_deck_render_sha256": "eb20d7b007cb524146a7f6d314238fa6049d7c694ea19a08cc228b2434f7cd00",
-    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.svg",
+    "current_deck_browser_preview_sha256": "9961b37cfde3bfc898156d2394e6b8854b10843df4edd47f5e58625457ca1b25",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.svg",
+    "current_deck_render_sha256": "44a8f90f85142edc1a52e93c7faa7c5ab533b6a5b6c33014c78113043eaa0627",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.svg",
     "family_id": "raw-grid",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cover.canvas-spec.json",
+    "golden_spec_sha256": "abeaa881f5914c65bd63ab10ffe37f8abf4e66834effc80d110d208c09b6e522",
     "page": 1,
     "page_role": "cover",
-    "page_variant_id": "s1",
+    "page_variant_id": "cover",
     "role_group": "cover",
     "runtime_template_id": "brutalist-matrix",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
-    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg",
-    "source_screenshot_sha256": "4f81877c1ab51e1013c5c66ba5020503b97d8d1a6249ae6ee79e145a1d351fac",
-    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg",
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+    "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676",
+    "source_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
+    "source_screenshot_sha256": "4056c85b9415ba7a9a988d45f5316cbdfbaf18ee959e3f7727e2ef90f59f42bc",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
     "source_slide_index": 1,
     "status": "available"
   },
@@ -102,49 +107,49 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "s2"
+        "cards"
       ],
       "pages": [
-        2
+        4
       ]
     },
     "closing": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "s10"
+        "closing"
       ],
       "pages": [
         10
       ]
     },
     "comparison_or_split": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "split",
+        "table"
+      ],
+      "pages": [
+        2,
+        9
+      ]
     },
     "content": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "s4",
-        "s5",
-        "s6",
-        "s9"
+        "feature"
       ],
       "pages": [
-        4,
-        5,
-        6,
-        9
+        5
       ]
     },
     "cover": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "s1"
+        "cover"
       ],
       "pages": [
         1
@@ -154,8 +159,8 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "s3",
-        "s7"
+        "bars",
+        "donut"
       ],
       "pages": [
         3,
@@ -163,16 +168,20 @@
       ]
     },
     "process_or_timeline": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "process"
+      ],
+      "pages": [
+        6
+      ]
     },
     "quote_or_emphasis": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "s8"
+        "quote"
       ],
       "pages": [
         8
@@ -181,13 +190,13 @@
   },
   "page_variants": [
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "cta",
+        "brand"
       ],
       "page_role": "cover",
-      "page_variant_id": "s1",
+      "page_variant_id": "cover",
       "required_slots": [
         "title",
         "items"
@@ -197,167 +206,153 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s1 active\">",
+          "raw_value": "<div class=\"slide s1\"",
           "selector_or_token": ".s1"
         }
       ],
       "source_slide_index": 1
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "metrics"
       ],
-      "page_role": "agenda",
-      "page_variant_id": "s2",
+      "page_role": "content",
+      "page_variant_id": "split",
       "required_slots": [
         "title",
         "subtitle"
       ],
-      "role_group": "agenda",
+      "role_group": "comparison_or_split",
       "source_class": "s2",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s2\">",
+          "raw_value": "<div class=\"slide s2\"",
           "selector_or_token": ".s2"
         }
       ],
       "source_slide_index": 2
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "chart"
       ],
       "page_role": "data_dashboard",
-      "page_variant_id": "s3",
+      "page_variant_id": "bars",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "metrics"
       ],
       "role_group": "data_or_structured",
       "source_class": "s3",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s3\">",
+          "raw_value": "<div class=\"slide s3\"",
           "selector_or_token": ".s3"
         }
       ],
       "source_slide_index": 3
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
         "decoration"
       ],
-      "page_role": "content",
-      "page_variant_id": "s4",
+      "page_role": "agenda",
+      "page_variant_id": "cards",
       "required_slots": [
         "title",
-        "subtitle",
         "items"
       ],
-      "role_group": "content",
+      "role_group": "agenda",
       "source_class": "s4",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s4\">",
+          "raw_value": "<div class=\"slide s4\"",
           "selector_or_token": ".s4"
         }
       ],
       "source_slide_index": 4
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "image",
+        "badge"
       ],
-      "page_role": "content",
-      "page_variant_id": "s5",
+      "page_role": "detail",
+      "page_variant_id": "feature",
       "required_slots": [
-        "subtitle",
-        "timeline"
+        "title",
+        "subtitle"
       ],
       "role_group": "content",
       "source_class": "s5",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s5\">",
+          "raw_value": "<div class=\"slide s5\"",
           "selector_or_token": ".s5"
         }
       ],
       "source_slide_index": 5
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "items"
       ],
-      "page_role": "detail",
-      "page_variant_id": "s6",
+      "page_role": "process_or_timeline",
+      "page_variant_id": "process",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics"
+        "timeline"
       ],
-      "role_group": "content",
+      "role_group": "process_or_timeline",
       "source_class": "s6",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s6\">",
+          "raw_value": "<div class=\"slide s6\"",
           "selector_or_token": ".s6"
         }
       ],
       "source_slide_index": 6
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "legend"
       ],
       "page_role": "data_dashboard",
-      "page_variant_id": "s7",
+      "page_variant_id": "donut",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items",
-        "quote"
+        "metrics"
       ],
       "role_group": "data_or_structured",
       "source_class": "s7",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s7\">",
+          "raw_value": "<div class=\"slide s7\"",
           "selector_or_token": ".s7"
         }
       ],
       "source_slide_index": 7
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "metrics"
       ],
       "page_role": "quote_or_emphasis",
-      "page_variant_id": "s8",
+      "page_variant_id": "quote",
       "required_slots": [
-        "metrics",
         "quote"
       ],
       "role_group": "quote_or_emphasis",
@@ -365,42 +360,42 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s8\">",
+          "raw_value": "<div class=\"slide s8\"",
           "selector_or_token": ".s8"
         }
       ],
       "source_slide_index": 8
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "headers"
       ],
-      "page_role": "content",
-      "page_variant_id": "s9",
+      "page_role": "comparison",
+      "page_variant_id": "table",
       "required_slots": [
-        "title"
+        "title",
+        "items"
       ],
-      "role_group": "content",
+      "role_group": "comparison_or_split",
       "source_class": "s9",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s9\">",
+          "raw_value": "<div class=\"slide s9\"",
           "selector_or_token": ".s9"
         }
       ],
       "source_slide_index": 9
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "css_extracted_from_template_html",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "contact",
+        "cta"
       ],
       "page_role": "closing",
-      "page_variant_id": "s10",
+      "page_variant_id": "closing",
       "required_slots": [
         "title",
         "subtitle"
@@ -410,7 +405,7 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s10\">",
+          "raw_value": "<div class=\"slide s10\"",
           "selector_or_token": ".s10"
         }
       ],
@@ -420,44 +415,44 @@
   "pages": [
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "cta",
+        "brand"
       ],
       "page": 1,
       "page_role": "cover",
-      "page_variant_id": "s1",
+      "page_variant_id": "cover",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "df4dbd838c401c3100337db7fca3ab2eae809a3498f5042858b6fdf6681a90bd",
+          "browser_preview_sha256": "9961b37cfde3bfc898156d2394e6b8854b10843df4edd47f5e58625457ca1b25",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.svg",
-          "sha256": "eb20d7b007cb524146a7f6d314238fa6049d7c694ea19a08cc228b2434f7cd00",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.svg",
+          "sha256": "44a8f90f85142edc1a52e93c7faa7c5ab533b6a5b6c33014c78113043eaa0627",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cover.canvas-spec.json",
+        "golden_spec_sha256": "abeaa881f5914c65bd63ab10ffe37f8abf4e66834effc80d110d208c09b6e522",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cover.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "items"
@@ -467,468 +462,452 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s1 active\">",
+          "raw_value": "<div class=\"slide s1\"",
           "selector_or_token": ".s1"
         }
       ],
       "source_screenshot": {
-        "bytes": 68239,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg",
+        "bytes": 51999,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "4f81877c1ab51e1013c5c66ba5020503b97d8d1a6249ae6ee79e145a1d351fac",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg"
+        "sha256": "4056c85b9415ba7a9a988d45f5316cbdfbaf18ee959e3f7727e2ef90f59f42bc",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png"
       },
       "source_slide_index": 1
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "metrics"
       ],
       "page": 2,
-      "page_role": "agenda",
-      "page_variant_id": "s2",
+      "page_role": "content",
+      "page_variant_id": "split",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "b239215fb22f5935a92a36589fdb5c25d42aa90115e3049ca9c2087ca9826481",
+          "browser_preview_sha256": "da86b0bbb78e63f3ef2976c54d2123e67724b07dc28614a2e21a46d8a25194af",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.svg",
-          "sha256": "9f5ca1825c76be22c04a1b7d87b3de5790c319da6ee5998819b2f64975a79496",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.svg",
+          "sha256": "5a8864b1888a308a7fc0951d723019513be654dc281a83104e72a7f2e06e6ee9",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.split.canvas-spec.json",
+        "golden_spec_sha256": "3ef3a9e08d58e42845e953da1c7944c6d4742b3c8066a83cb65e9fe07c52b458",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.split.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle"
       ],
-      "role_group": "agenda",
+      "role_group": "comparison_or_split",
       "source_class": "s2",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s2\">",
+          "raw_value": "<div class=\"slide s2\"",
           "selector_or_token": ".s2"
         }
       ],
       "source_screenshot": {
-        "bytes": 87723,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/002-s2.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-2.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/002-s2.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "f17a4a5705b5850fe4312edcf59f9912c56a378c521c9b49af818b9eab72b50b",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/002-s2.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 2
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "chart"
       ],
       "page": 3,
       "page_role": "data_dashboard",
-      "page_variant_id": "s3",
+      "page_variant_id": "bars",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "f7b7220eb6de2fdbed734a403d937ef9bee86b81712cf1142e2e6d45379efb31",
+          "browser_preview_sha256": "f72250dcad372f8b9029853f7ff87d14b758382a897cb2b3f1b71bafe636a629",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.svg",
-          "sha256": "3ed7bdd56163ca461d075a7c1429e7d7ea2a5eb1cc9a13dc8572d595d385bc11",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.svg",
+          "sha256": "0b322e165988d30082ba7aec1fcc0ee369d8febaf76622420d0299e95b0cb0d5",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.bars.canvas-spec.json",
+        "golden_spec_sha256": "e1e86e444624df531989927d4c8d1a0796805a0eb370fb6bb91feaf433ab644d",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.bars.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "metrics"
       ],
       "role_group": "data_or_structured",
       "source_class": "s3",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s3\">",
+          "raw_value": "<div class=\"slide s3\"",
           "selector_or_token": ".s3"
         }
       ],
       "source_screenshot": {
-        "bytes": 76776,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/003-s3.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-3.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/003-s3.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "74c8e11a3e094798ba5f86e8710495c6b8fa2500a60731562f60965b71ad1769",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/003-s3.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 3
     },
     {
       "optional_slots": [
-        "eyebrow",
         "decoration"
       ],
       "page": 4,
-      "page_role": "content",
-      "page_variant_id": "s4",
+      "page_role": "agenda",
+      "page_variant_id": "cards",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "b2d70d77aeac74784c825dc7e63bea5dab5e372427148debfbbde46404815690",
+          "browser_preview_sha256": "35718beb9f11637207a70361596aafa2c7f111d7375da6a78014983ec7fe4a57",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.svg",
-          "sha256": "fc61191a06007eca7c8443e44efcb92de4aae9af437752f1de4be33e2da45201",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.svg",
+          "sha256": "d16fb640c6e6b5dc1c15042cc06d1bb5f9e2f23a50a262e13fe54af52874fca2",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cards.canvas-spec.json",
+        "golden_spec_sha256": "55c3274ae9356d179992c7e4cc254233dd1b64bb3cd07f396785a56b03d10005",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cards.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
         "items"
       ],
-      "role_group": "content",
+      "role_group": "agenda",
       "source_class": "s4",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s4\">",
+          "raw_value": "<div class=\"slide s4\"",
           "selector_or_token": ".s4"
         }
       ],
       "source_screenshot": {
-        "bytes": 76536,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/004-s4.jpg",
+        "bytes": 72813,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-4.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/004-s4.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-4.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "78894a683129720d4dc6988fb63a8f138b4e395bae296c196fc4a43c34951ad6",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/004-s4.jpg"
+        "sha256": "5ddc01db338c2f149e6aab55051e55ff9e3d7a3abf166b26c0cdf871ebdb8d82",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-4.png"
       },
       "source_slide_index": 4
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "image",
+        "badge"
       ],
       "page": 5,
-      "page_role": "content",
-      "page_variant_id": "s5",
+      "page_role": "detail",
+      "page_variant_id": "feature",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "fd691035bed61dcf1dd99e4f3db10e11fd32037dd0d0bb8520ff54f586a2480c",
+          "browser_preview_sha256": "450c1f5e4ae85eec55bc79a55725df2f0a4d930e854ba14a7bf530343300fc72",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.svg",
-          "sha256": "3e4c0cbda50f5c433d2bbee66793910c6a48f37bb719d7a851b85b346c2fb5f8",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.svg",
+          "sha256": "52743ac73b8ccb226d736252f624f3c32e44b71baab31d5f1db64ff7f3d07a6d",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.feature.canvas-spec.json",
+        "golden_spec_sha256": "ed9778e07353f1d343531bd292a53100bc39d5058e3fb6a7dd694f0849426b76",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.feature.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "subtitle",
-        "timeline"
+        "title",
+        "subtitle"
       ],
       "role_group": "content",
       "source_class": "s5",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s5\">",
+          "raw_value": "<div class=\"slide s5\"",
           "selector_or_token": ".s5"
         }
       ],
       "source_screenshot": {
-        "bytes": 59886,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/005-s5.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-5.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/005-s5.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "115a5fa7d9b75c7698abc45642c672748c1394cb411b2edc3647f9dbac0742ac",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/005-s5.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 5
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "items"
       ],
       "page": 6,
-      "page_role": "detail",
-      "page_variant_id": "s6",
+      "page_role": "process_or_timeline",
+      "page_variant_id": "process",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "f7ac90ae3307f417d2079cc88784c4703adb203b43811e9a45a629c1a3552328",
+          "browser_preview_sha256": "11b39829db08399b8326391555b75e39a392190190fa033f6f8a996b7424f9c0",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.svg",
-          "sha256": "2c777abc05b93b581ecc54e97ef130945257b759c3df2d0da1767c29e12ab1f5",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.svg",
+          "sha256": "48db409f9b31390ed6c7e62841b530adaa28458f7354b78334fe9ffc2f80a466",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.process.canvas-spec.json",
+        "golden_spec_sha256": "3021d951c2030a162e9b76f182d08fab9e9f5b8e13ee89d5ef2a4c5df952f8b6",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.process.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics"
+        "timeline"
       ],
-      "role_group": "content",
+      "role_group": "process_or_timeline",
       "source_class": "s6",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s6\">",
+          "raw_value": "<div class=\"slide s6\"",
           "selector_or_token": ".s6"
         }
       ],
       "source_screenshot": {
-        "bytes": 81041,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/006-s6.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-6.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/006-s6.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "7406768550bfc6e7c2664966b6232db05a7890bd49007a0b84d9546dd5725dfd",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/006-s6.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 6
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "legend"
       ],
       "page": 7,
       "page_role": "data_dashboard",
-      "page_variant_id": "s7",
+      "page_variant_id": "donut",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "208f74c24fdaeada7da79a5b23ecfcb712789d9fef8223d29434552e93e64a0d",
+          "browser_preview_sha256": "d85fe13e6b63324b2f2ea2dfc196afc35768fc63caf0554b74da60627341fd73",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.svg",
-          "sha256": "22e257e87fc27f3cf2da61532fa2d0260da2c322c8978332e905071dd3882a33",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.svg",
+          "sha256": "b596ec0a3bf642019511a31d6f3d7507c3f2cd340292d0e61c8411a9e54341d0",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.donut.canvas-spec.json",
+        "golden_spec_sha256": "605ddf25714a910315a437ac0d6196a7aabe3e770316bf0e5eed7fdbcb7e4f71",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.donut.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items",
-        "quote"
+        "metrics"
       ],
       "role_group": "data_or_structured",
       "source_class": "s7",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s7\">",
+          "raw_value": "<div class=\"slide s7\"",
           "selector_or_token": ".s7"
         }
       ],
       "source_screenshot": {
-        "bytes": 68892,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/007-s7.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-7.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/007-s7.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "60dcefb01c4058a40c97d23b5bf36f605278df6a0bb4abef312cc81fac9eac4a",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/007-s7.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 7
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "metrics"
       ],
       "page": 8,
       "page_role": "quote_or_emphasis",
-      "page_variant_id": "s8",
+      "page_variant_id": "quote",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "2b828f3a818c3833a0856ae6078228219185b5bc70114c01cd69df563f32257d",
+          "browser_preview_sha256": "8f4c1126ff3bbdcffdcf5e877842525467b59e614e32b32fe0634245de7c74ef",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.svg",
-          "sha256": "df2c34b5ef5ea29f5145cae9fd09abb2e4f44deaa650208ca7eeb55cc9555e76",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.svg",
+          "sha256": "e6d461924f554d4f49a53d045d58ef4c174cc385f6595abb1c68a49b65266ba1",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.quote.canvas-spec.json",
+        "golden_spec_sha256": "f8d6a240541569132dd5aca7a74351910e4c1d5ac2f271b304bda141694b92c3",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.quote.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "metrics",
         "quote"
       ],
       "role_group": "quote_or_emphasis",
@@ -936,128 +915,127 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s8\">",
+          "raw_value": "<div class=\"slide s8\"",
           "selector_or_token": ".s8"
         }
       ],
       "source_screenshot": {
-        "bytes": 75409,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/008-s8.jpg",
+        "bytes": 54290,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-8.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/008-s8.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-8.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "e3b87f50a664bbecbb8d1b6483827e470a969b491cac20539640f4967fa25a5d",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/008-s8.jpg"
+        "sha256": "a71de0f79d56fa531ea042480a18c66fc61ab08fbecb7650d74a31d52dc79395",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-8.png"
       },
       "source_slide_index": 8
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "headers"
       ],
       "page": 9,
-      "page_role": "content",
-      "page_variant_id": "s9",
+      "page_role": "comparison",
+      "page_variant_id": "table",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "c71c39d9e4f386f16ed78af8b09dbed753bb143eefa641c61c12a5d31eefda6e",
+          "browser_preview_sha256": "2645968fe752ffadd67bda7593a9339579155c7d49e60c7343b2a125ce110fdc",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.svg",
-          "sha256": "1bd47720941e6c324e8a084d39d571cbdc2bd71bc5c2ef33b180556ed777596a",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.svg",
+          "sha256": "761d0b94af96722779b11f96af7bdb68ff179e734b45ea0b27de5b42581bae31",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.table.canvas-spec.json",
+        "golden_spec_sha256": "a9d972b5af718c439c93c2bf89d1b841aa495405bdca1c71ebd9c2a75be12a33",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.table.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "title"
+        "title",
+        "items"
       ],
-      "role_group": "content",
+      "role_group": "comparison_or_split",
       "source_class": "s9",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s9\">",
+          "raw_value": "<div class=\"slide s9\"",
           "selector_or_token": ".s9"
         }
       ],
       "source_screenshot": {
-        "bytes": 87005,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/009-s9.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-9.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/009-s9.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "95c8972813765a4df671e047e85ee5970da4ad0efb8433a6d521ab97c0543ac2",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/009-s9.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 9
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "contact",
+        "cta"
       ],
       "page": 10,
       "page_role": "closing",
-      "page_variant_id": "s10",
+      "page_variant_id": "closing",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "ede25bad56c852fbff2ea0ec96cc8ccdbebf1efae2088a7663afcc88ba0dcb63",
+          "browser_preview_sha256": "027bd33f117128732419f75d127971a4b55d2ca2e51c9941aff6b6bf098c6eba",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-          "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.svg",
-          "sha256": "9a043bafecbc549d97a037a7187ad75a10e99c3b0c4c739726bd88650fd99dbd",
+          "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.svg",
+          "sha256": "b67739b7a00d4335dfafd1b010fa3248acf1e9ca8967b474b75f7bfe8ed0fa5f",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.closing.canvas-spec.json",
+        "golden_spec_sha256": "98dd61a5f2624a6fb62142c87d98177034c7210158e53306e41460e829428ddd",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.closing.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+        "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle"
@@ -1067,20 +1045,20 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/raw-grid/template.html",
-          "raw_value": "<div class=\"slide s10\">",
+          "raw_value": "<div class=\"slide s10\"",
           "selector_or_token": ".s10"
         }
       ],
       "source_screenshot": {
-        "bytes": 62997,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/010-s10.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-10.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/010-s10.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-        "sha256": "067dd494b03d69eeee228acd6777ad6cbba37e7f288a6b1d8a71af75575d5726",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/010-s10.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 10
     }
@@ -1095,76 +1073,196 @@
   "runtime_template_id": "brutalist-matrix",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "cover",
+      "split",
+      "bars",
+      "cards",
+      "feature",
+      "process",
+      "donut",
+      "quote",
+      "table",
+      "closing"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/raw-grid.json",
+    "deck_sha256": "815a29abcdc6a7e2369171365da9cce0330957cca49bafd7f049569b9727556b",
+    "degraded": false,
+    "implemented_page_variants": [
+      "cover",
+      "split",
+      "bars",
+      "cards",
+      "feature",
+      "process",
+      "donut",
+      "quote",
+      "table",
+      "closing"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.bars": "e1e86e444624df531989927d4c8d1a0796805a0eb370fb6bb91feaf433ab644d",
+      "golden_spec.cards": "55c3274ae9356d179992c7e4cc254233dd1b64bb3cd07f396785a56b03d10005",
+      "golden_spec.closing": "98dd61a5f2624a6fb62142c87d98177034c7210158e53306e41460e829428ddd",
+      "golden_spec.cover": "abeaa881f5914c65bd63ab10ffe37f8abf4e66834effc80d110d208c09b6e522",
+      "golden_spec.donut": "605ddf25714a910315a437ac0d6196a7aabe3e770316bf0e5eed7fdbcb7e4f71",
+      "golden_spec.feature": "ed9778e07353f1d343531bd292a53100bc39d5058e3fb6a7dd694f0849426b76",
+      "golden_spec.process": "3021d951c2030a162e9b76f182d08fab9e9f5b8e13ee89d5ef2a4c5df952f8b6",
+      "golden_spec.quote": "66a3b0c3490fc7e288197e32982e341d76fc1e659c83ad5d23bf6558d9534e5c",
+      "golden_spec.split": "3ef3a9e08d58e42845e953da1c7944c6d4742b3c8066a83cb65e9fe07c52b458",
+      "golden_spec.table": "a9d972b5af718c439c93c2bf89d1b841aa495405bdca1c71ebd9c2a75be12a33",
+      "slide_plan": null,
+      "smoke_deck": "815a29abcdc6a7e2369171365da9cce0330957cca49bafd7f049569b9727556b",
+      "smoke_fixture": "063df00ef8e5f3fd748682004f59ae1c07bc85ad145f15dd83ca0f98c73199e9",
+      "template_registry": null,
+      "theme_registry": null
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          4
+        ],
+        "variants": [
+          "cards"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          10
+        ],
+        "variants": [
+          "closing"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "table"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "split"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "cover"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          3,
+          7
+        ],
+        "variants": [
+          "bars",
+          "donut"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "feature"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "process"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "quote"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+    "receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676",
+    "rendered_pages": 10,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
-    "missing_roles": [
-      "comparison_or_split",
-      "process_or_timeline"
-    ],
+    "missing_roles": [],
     "page_count": 10,
     "page_variant_coverage": {
       "agenda": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "s2"
+          "cards"
         ],
         "pages": [
-          2
+          4
         ]
       },
       "closing": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "s10"
+          "closing"
         ],
         "pages": [
           10
         ]
       },
       "comparison_or_split": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "split",
+          "table"
+        ],
+        "pages": [
+          2,
+          9
+        ]
       },
       "content": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "s4",
-          "s5",
-          "s6",
-          "s9"
+          "feature"
         ],
         "pages": [
-          4,
-          5,
-          6,
-          9
+          5
         ]
       },
       "cover": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "s1"
+          "cover"
         ],
         "pages": [
           1
@@ -1174,8 +1272,8 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "s3",
-          "s7"
+          "bars",
+          "donut"
         ],
         "pages": [
           3,
@@ -1183,16 +1281,20 @@
         ]
       },
       "process_or_timeline": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "process"
+        ],
+        "pages": [
+          6
+        ]
       },
       "quote_or_emphasis": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "s8"
+          "quote"
         ],
         "pages": [
           8
@@ -1202,44 +1304,44 @@
     "pages": [
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "cta",
+          "brand"
         ],
         "page": 1,
         "page_role": "cover",
-        "page_variant_id": "s1",
+        "page_variant_id": "cover",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "df4dbd838c401c3100337db7fca3ab2eae809a3498f5042858b6fdf6681a90bd",
+            "browser_preview_sha256": "9961b37cfde3bfc898156d2394e6b8854b10843df4edd47f5e58625457ca1b25",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.svg",
-            "sha256": "eb20d7b007cb524146a7f6d314238fa6049d7c694ea19a08cc228b2434f7cd00",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.svg",
+            "sha256": "44a8f90f85142edc1a52e93c7faa7c5ab533b6a5b6c33014c78113043eaa0627",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-s1.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-001-cover.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cover.canvas-spec.json",
+          "golden_spec_sha256": "abeaa881f5914c65bd63ab10ffe37f8abf4e66834effc80d110d208c09b6e522",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cover.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "items"
@@ -1249,468 +1351,452 @@
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s1 active\">",
+            "raw_value": "<div class=\"slide s1\"",
             "selector_or_token": ".s1"
           }
         ],
         "source_screenshot": {
-          "bytes": 68239,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg",
+          "bytes": 51999,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "4f81877c1ab51e1013c5c66ba5020503b97d8d1a6249ae6ee79e145a1d351fac",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/001-s1.jpg"
+          "sha256": "4056c85b9415ba7a9a988d45f5316cbdfbaf18ee959e3f7727e2ef90f59f42bc",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png"
         },
         "source_slide_index": 1
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "metrics"
         ],
         "page": 2,
-        "page_role": "agenda",
-        "page_variant_id": "s2",
+        "page_role": "content",
+        "page_variant_id": "split",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "b239215fb22f5935a92a36589fdb5c25d42aa90115e3049ca9c2087ca9826481",
+            "browser_preview_sha256": "da86b0bbb78e63f3ef2976c54d2123e67724b07dc28614a2e21a46d8a25194af",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.svg",
-            "sha256": "9f5ca1825c76be22c04a1b7d87b3de5790c319da6ee5998819b2f64975a79496",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.svg",
+            "sha256": "5a8864b1888a308a7fc0951d723019513be654dc281a83104e72a7f2e06e6ee9",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-s2.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-002-split.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.split.canvas-spec.json",
+          "golden_spec_sha256": "3ef3a9e08d58e42845e953da1c7944c6d4742b3c8066a83cb65e9fe07c52b458",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.split.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle"
         ],
-        "role_group": "agenda",
+        "role_group": "comparison_or_split",
         "source_class": "s2",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s2\">",
+            "raw_value": "<div class=\"slide s2\"",
             "selector_or_token": ".s2"
           }
         ],
         "source_screenshot": {
-          "bytes": 87723,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/002-s2.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-2.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/002-s2.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "f17a4a5705b5850fe4312edcf59f9912c56a378c521c9b49af818b9eab72b50b",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/002-s2.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 2
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "chart"
         ],
         "page": 3,
         "page_role": "data_dashboard",
-        "page_variant_id": "s3",
+        "page_variant_id": "bars",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "f7b7220eb6de2fdbed734a403d937ef9bee86b81712cf1142e2e6d45379efb31",
+            "browser_preview_sha256": "f72250dcad372f8b9029853f7ff87d14b758382a897cb2b3f1b71bafe636a629",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.svg",
-            "sha256": "3ed7bdd56163ca461d075a7c1429e7d7ea2a5eb1cc9a13dc8572d595d385bc11",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.svg",
+            "sha256": "0b322e165988d30082ba7aec1fcc0ee369d8febaf76622420d0299e95b0cb0d5",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-s3.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-003-bars.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.bars.canvas-spec.json",
+          "golden_spec_sha256": "e1e86e444624df531989927d4c8d1a0796805a0eb370fb6bb91feaf433ab644d",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.bars.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "metrics",
-          "items"
+          "metrics"
         ],
         "role_group": "data_or_structured",
         "source_class": "s3",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s3\">",
+            "raw_value": "<div class=\"slide s3\"",
             "selector_or_token": ".s3"
           }
         ],
         "source_screenshot": {
-          "bytes": 76776,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/003-s3.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-3.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/003-s3.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "74c8e11a3e094798ba5f86e8710495c6b8fa2500a60731562f60965b71ad1769",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/003-s3.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 3
       },
       {
         "optional_slots": [
-          "eyebrow",
           "decoration"
         ],
         "page": 4,
-        "page_role": "content",
-        "page_variant_id": "s4",
+        "page_role": "agenda",
+        "page_variant_id": "cards",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "b2d70d77aeac74784c825dc7e63bea5dab5e372427148debfbbde46404815690",
+            "browser_preview_sha256": "35718beb9f11637207a70361596aafa2c7f111d7375da6a78014983ec7fe4a57",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.svg",
-            "sha256": "fc61191a06007eca7c8443e44efcb92de4aae9af437752f1de4be33e2da45201",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.svg",
+            "sha256": "d16fb640c6e6b5dc1c15042cc06d1bb5f9e2f23a50a262e13fe54af52874fca2",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-s4.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-004-cards.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cards.canvas-spec.json",
+          "golden_spec_sha256": "55c3274ae9356d179992c7e4cc254233dd1b64bb3cd07f396785a56b03d10005",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cards.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
           "items"
         ],
-        "role_group": "content",
+        "role_group": "agenda",
         "source_class": "s4",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s4\">",
+            "raw_value": "<div class=\"slide s4\"",
             "selector_or_token": ".s4"
           }
         ],
         "source_screenshot": {
-          "bytes": 76536,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/004-s4.jpg",
+          "bytes": 72813,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-4.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/004-s4.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-4.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "78894a683129720d4dc6988fb63a8f138b4e395bae296c196fc4a43c34951ad6",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/004-s4.jpg"
+          "sha256": "5ddc01db338c2f149e6aab55051e55ff9e3d7a3abf166b26c0cdf871ebdb8d82",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-4.png"
         },
         "source_slide_index": 4
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "image",
+          "badge"
         ],
         "page": 5,
-        "page_role": "content",
-        "page_variant_id": "s5",
+        "page_role": "detail",
+        "page_variant_id": "feature",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "fd691035bed61dcf1dd99e4f3db10e11fd32037dd0d0bb8520ff54f586a2480c",
+            "browser_preview_sha256": "450c1f5e4ae85eec55bc79a55725df2f0a4d930e854ba14a7bf530343300fc72",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.svg",
-            "sha256": "3e4c0cbda50f5c433d2bbee66793910c6a48f37bb719d7a851b85b346c2fb5f8",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.svg",
+            "sha256": "52743ac73b8ccb226d736252f624f3c32e44b71baab31d5f1db64ff7f3d07a6d",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-s5.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-005-feature.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.feature.canvas-spec.json",
+          "golden_spec_sha256": "ed9778e07353f1d343531bd292a53100bc39d5058e3fb6a7dd694f0849426b76",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.feature.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "subtitle",
-          "timeline"
+          "title",
+          "subtitle"
         ],
         "role_group": "content",
         "source_class": "s5",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s5\">",
+            "raw_value": "<div class=\"slide s5\"",
             "selector_or_token": ".s5"
           }
         ],
         "source_screenshot": {
-          "bytes": 59886,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/005-s5.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-5.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/005-s5.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "115a5fa7d9b75c7698abc45642c672748c1394cb411b2edc3647f9dbac0742ac",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/005-s5.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 5
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "items"
         ],
         "page": 6,
-        "page_role": "detail",
-        "page_variant_id": "s6",
+        "page_role": "process_or_timeline",
+        "page_variant_id": "process",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "f7ac90ae3307f417d2079cc88784c4703adb203b43811e9a45a629c1a3552328",
+            "browser_preview_sha256": "11b39829db08399b8326391555b75e39a392190190fa033f6f8a996b7424f9c0",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.svg",
-            "sha256": "2c777abc05b93b581ecc54e97ef130945257b759c3df2d0da1767c29e12ab1f5",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.svg",
+            "sha256": "48db409f9b31390ed6c7e62841b530adaa28458f7354b78334fe9ffc2f80a466",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-s6.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-006-process.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.process.canvas-spec.json",
+          "golden_spec_sha256": "3021d951c2030a162e9b76f182d08fab9e9f5b8e13ee89d5ef2a4c5df952f8b6",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.process.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "metrics"
+          "timeline"
         ],
-        "role_group": "content",
+        "role_group": "process_or_timeline",
         "source_class": "s6",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s6\">",
+            "raw_value": "<div class=\"slide s6\"",
             "selector_or_token": ".s6"
           }
         ],
         "source_screenshot": {
-          "bytes": 81041,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/006-s6.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-6.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/006-s6.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "7406768550bfc6e7c2664966b6232db05a7890bd49007a0b84d9546dd5725dfd",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/006-s6.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 6
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "legend"
         ],
         "page": 7,
         "page_role": "data_dashboard",
-        "page_variant_id": "s7",
+        "page_variant_id": "donut",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "208f74c24fdaeada7da79a5b23ecfcb712789d9fef8223d29434552e93e64a0d",
+            "browser_preview_sha256": "d85fe13e6b63324b2f2ea2dfc196afc35768fc63caf0554b74da60627341fd73",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.svg",
-            "sha256": "22e257e87fc27f3cf2da61532fa2d0260da2c322c8978332e905071dd3882a33",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.svg",
+            "sha256": "b596ec0a3bf642019511a31d6f3d7507c3f2cd340292d0e61c8411a9e54341d0",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-s7.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-007-donut.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.donut.canvas-spec.json",
+          "golden_spec_sha256": "605ddf25714a910315a437ac0d6196a7aabe3e770316bf0e5eed7fdbcb7e4f71",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.donut.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "metrics",
-          "items",
-          "quote"
+          "metrics"
         ],
         "role_group": "data_or_structured",
         "source_class": "s7",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s7\">",
+            "raw_value": "<div class=\"slide s7\"",
             "selector_or_token": ".s7"
           }
         ],
         "source_screenshot": {
-          "bytes": 68892,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/007-s7.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-7.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/007-s7.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "60dcefb01c4058a40c97d23b5bf36f605278df6a0bb4abef312cc81fac9eac4a",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/007-s7.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 7
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "metrics"
         ],
         "page": 8,
         "page_role": "quote_or_emphasis",
-        "page_variant_id": "s8",
+        "page_variant_id": "quote",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "2b828f3a818c3833a0856ae6078228219185b5bc70114c01cd69df563f32257d",
+            "browser_preview_sha256": "8f4c1126ff3bbdcffdcf5e877842525467b59e614e32b32fe0634245de7c74ef",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.svg",
-            "sha256": "df2c34b5ef5ea29f5145cae9fd09abb2e4f44deaa650208ca7eeb55cc9555e76",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.svg",
+            "sha256": "e6d461924f554d4f49a53d045d58ef4c174cc385f6595abb1c68a49b65266ba1",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-s8.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-008-quote.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.quote.canvas-spec.json",
+          "golden_spec_sha256": "f8d6a240541569132dd5aca7a74351910e4c1d5ac2f271b304bda141694b92c3",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.quote.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "metrics",
           "quote"
         ],
         "role_group": "quote_or_emphasis",
@@ -1718,128 +1804,127 @@
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s8\">",
+            "raw_value": "<div class=\"slide s8\"",
             "selector_or_token": ".s8"
           }
         ],
         "source_screenshot": {
-          "bytes": 75409,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/008-s8.jpg",
+          "bytes": 54290,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-8.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/008-s8.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-8.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "e3b87f50a664bbecbb8d1b6483827e470a969b491cac20539640f4967fa25a5d",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/008-s8.jpg"
+          "sha256": "a71de0f79d56fa531ea042480a18c66fc61ab08fbecb7650d74a31d52dc79395",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-8.png"
         },
         "source_slide_index": 8
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "headers"
         ],
         "page": 9,
-        "page_role": "content",
-        "page_variant_id": "s9",
+        "page_role": "comparison",
+        "page_variant_id": "table",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "c71c39d9e4f386f16ed78af8b09dbed753bb143eefa641c61c12a5d31eefda6e",
+            "browser_preview_sha256": "2645968fe752ffadd67bda7593a9339579155c7d49e60c7343b2a125ce110fdc",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.svg",
-            "sha256": "1bd47720941e6c324e8a084d39d571cbdc2bd71bc5c2ef33b180556ed777596a",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.svg",
+            "sha256": "761d0b94af96722779b11f96af7bdb68ff179e734b45ea0b27de5b42581bae31",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-s9.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-009-table.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.table.canvas-spec.json",
+          "golden_spec_sha256": "a9d972b5af718c439c93c2bf89d1b841aa495405bdca1c71ebd9c2a75be12a33",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.table.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "title"
+          "title",
+          "items"
         ],
-        "role_group": "content",
+        "role_group": "comparison_or_split",
         "source_class": "s9",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s9\">",
+            "raw_value": "<div class=\"slide s9\"",
             "selector_or_token": ".s9"
           }
         ],
         "source_screenshot": {
-          "bytes": 87005,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/009-s9.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-9.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/009-s9.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "95c8972813765a4df671e047e85ee5970da4ad0efb8433a6d521ab97c0543ac2",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/009-s9.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 9
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "contact",
+          "cta"
         ],
         "page": 10,
         "page_role": "closing",
-        "page_variant_id": "s10",
+        "page_variant_id": "closing",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "ede25bad56c852fbff2ea0ec96cc8ccdbebf1efae2088a7663afcc88ba0dcb63",
+            "browser_preview_sha256": "027bd33f117128732419f75d127971a4b55d2ca2e51c9941aff6b6bf098c6eba",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/manifest.json",
-            "manifest_sha256": "dd5b0040f58b5948421574e60a45be2f670eb31253420d9634b878d5238172ae",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.svg",
-            "sha256": "9a043bafecbc549d97a037a7187ad75a10e99c3b0c4c739726bd88650fd99dbd",
+            "manifest_sha256": "daa91c49844f8f27c062b7f731ab5fe99caed16f0836ae2fce49daa221e6f997",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.svg",
+            "sha256": "b67739b7a00d4335dfafd1b010fa3248acf1e9ca8967b474b75f7bfe8ed0fa5f",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-s10.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/raw-grid/page-010-closing.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.closing.canvas-spec.json",
+          "golden_spec_sha256": "98dd61a5f2624a6fb62142c87d98177034c7210158e53306e41460e829428ddd",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.closing.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/raw-grid.brutalist-matrix.json",
+          "smoke_receipt_sha256": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle"
@@ -1849,30 +1934,30 @@
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/raw-grid/template.html",
-            "raw_value": "<div class=\"slide s10\">",
+            "raw_value": "<div class=\"slide s10\"",
             "selector_or_token": ".s10"
           }
         ],
         "source_screenshot": {
-          "bytes": 62997,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/010-s10.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-10.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/010-s10.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/raw-grid-1.png",
-          "sha256": "067dd494b03d69eeee228acd6777ad6cbba37e7f288a6b1d8a71af75575d5726",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/raw-grid/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/raw-grid/010-s10.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 10
       }
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 10,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "brutalist-matrix",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/raw-grid.brutalist-matrix.json",
-  "visual_contract_sha256": "fb4dc324a40f42349b253e2ad99ad3c5a7bec51e31944a4dc1e9872199441f8a"
+  "visual_contract_sha256": "f31392718e263d0673b70a290eddd0cb5d87cf48624888b6a336ec67edf00124"
 }

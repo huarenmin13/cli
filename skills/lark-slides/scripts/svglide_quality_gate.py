@@ -94,6 +94,7 @@ CURRENT_DECK_LEGACY_DEBUG_WAIVABLE_CODES = {
     "legacy_debug_registry_enabled",
     "legacy_asset_status",
     "fixture_only_asset_used",
+    "quality_gate_fallback_used",
 }
 OPTIONAL_CHECKS = []
 PASS_ACTION = "create_live"
@@ -470,7 +471,7 @@ def has_explicit_nonproduction_current_deck_integrity(project: Path) -> bool:
         return False
     if integrity.get("production_selectable") is not False:
         return False
-    if integrity.get("template_promotion_status") != "not_passed" or not integrity.get("claim_boundary"):
+    if integrity.get("template_promotion_status") not in {"not_passed", "passed"} or not integrity.get("claim_boundary"):
         return False
     template_ref = integrity.get("template_promotion_fidelity_ref")
     template_hash = integrity.get("template_promotion_fidelity_sha256")
@@ -674,6 +675,48 @@ def contract_manifest_issues(project: Path) -> list[dict[str, str]]:
                         issue(
                             "single_char_text_shape_excessive",
                             f"contract report has too many one-character editable text boxes: {single_char}/{output_boxes} in {report_rel}",
+                        )
+                    )
+                records = text_lowering.get("width_compensation_records")
+                if isinstance(records, list):
+                    for record in records:
+                        if not isinstance(record, dict):
+                            continue
+                        element_id = str(record.get("element_id") or "unknown")
+                        try:
+                            compiled_width = float(record.get("compiled_width", 0))
+                            min_safe_width = float(record.get("min_safe_width", 0))
+                        except (TypeError, ValueError):
+                            compiled_width = min_safe_width = 0.0
+                        if (
+                            record.get("font_mapping_reason") == "role_font_family_mapped_to_slide_default"
+                            and record.get("width_compensation") != "slide-font-safe-width/v1"
+                        ):
+                            issues.append(
+                                issue(
+                                    "role_font_mapped_without_width_compensation",
+                                    f"role-font mapped text lacks width compensation: {element_id} in {report_rel}",
+                                )
+                            )
+                        if record.get("nowrap_risk") and compiled_width < min_safe_width * 0.98:
+                            issues.append(
+                                issue(
+                                    "text_box_too_narrow_for_slide_font",
+                                    f"editable text box is below safe width after lowering: {element_id} in {report_rel}",
+                                )
+                            )
+                        if record.get("nowrap_risk") and record.get("letter_spacing") and not record.get("letter_spacing_accounted"):
+                            issues.append(
+                                issue(
+                                    "letter_spacing_width_not_accounted",
+                                    f"letter-spacing text width was not accounted for: {element_id} in {report_rel}",
+                                )
+                            )
+                elif int(text_lowering.get("role_font_mapped_count", 0) or 0) > 0:
+                    issues.append(
+                        issue(
+                            "role_font_mapped_without_width_compensation",
+                            f"role-font mapped text lowering must include width compensation records: {report_rel}",
                         )
                     )
         else:

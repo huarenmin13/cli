@@ -26,6 +26,7 @@ OUTPUT_RECEIPT = Path("receipts/editability_gate.json")
 LOCAL_RASTER_PAGE_AREA_LIMIT = 0.25
 LOCAL_RASTER_DECK_AREA_LIMIT = 0.15
 ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
+CJK_CHAR_RE = re.compile(r"[\u3400-\u9fff]")
 TEXT_FRAGMENT_MIN_SHAPES = 30
 TEXT_FRAGMENT_RATIO_LIMIT = 0.5
 
@@ -80,6 +81,77 @@ def parse_number(value: Any) -> float | None:
         return None
     match = re.search(r"-?\d+(?:\.\d+)?", value)
     return float(match.group(0)) if match else None
+
+
+def is_short_ascii_label(value: str) -> bool:
+    compact = compact_text(value)
+    if not 2 <= len(compact) <= 16:
+        return False
+    return bool(re.match(r"^[A-Z0-9][A-Z0-9./%+_-]*$", compact)) and compact.upper() == compact
+
+
+def is_short_cjk_text(value: str) -> bool:
+    compact = compact_text(value)
+    return bool(compact) and bool(CJK_CHAR_RE.search(compact)) and len(compact) <= 8
+
+
+def estimated_slide_text_width(text: str, font_size: float, letter_spacing: float) -> float:
+    normalized = re.sub(r"\s+", " ", (text or "").strip())
+    if not normalized:
+        return font_size
+    width = 0.0
+    visible_chars = 0
+    for char in normalized:
+        if char.isspace():
+            width += font_size * 0.34
+        elif CJK_CHAR_RE.match(char):
+            width += font_size * 1.0
+            visible_chars += 1
+        elif char.isupper():
+            width += font_size * 0.68
+            visible_chars += 1
+        elif char.islower():
+            width += font_size * 0.56
+            visible_chars += 1
+        elif char.isdigit():
+            width += font_size * 0.58
+            visible_chars += 1
+        elif char in "./%+_-":
+            width += font_size * 0.44
+            visible_chars += 1
+        else:
+            width += font_size * 0.5
+            visible_chars += 1
+    if visible_chars > 1 and letter_spacing:
+        width += abs(letter_spacing) * (visible_chars - 1)
+    return max(width, font_size)
+
+
+def text_wrap_risk(
+    text: str,
+    width: float | None,
+    font_size: float | None,
+    letter_spacing: float = 0.0,
+    *,
+    role_font_mapped: bool = False,
+    source_width: float | None = None,
+) -> bool:
+    if not text or width is None or font_size is None:
+        return False
+    short_ascii = is_short_ascii_label(text)
+    short_cjk = is_short_cjk_text(text)
+    letter_spacing_risk = abs(letter_spacing) > 0.01 and len(compact_text(text)) > 1
+    if not (short_ascii or short_cjk or letter_spacing_risk):
+        return False
+    min_width = estimated_slide_text_width(text, font_size, letter_spacing)
+    if role_font_mapped:
+        min_width = max(min_width, (source_width or width) * 1.18)
+    if short_ascii:
+        min_width *= 1.08
+    if short_cjk:
+        min_width = max(min_width, len(compact_text(text)) * font_size * 1.08)
+    min_width += font_size * 0.55
+    return width < min_width * 0.98
 
 
 def root_dimensions(root: ET.Element) -> tuple[float, float]:
@@ -155,6 +227,7 @@ def prepared_svg_stats(project: Path) -> dict[str, Any]:
         "local_raster_island_count": 0,
         "local_raster_area_ratio_sum": 0.0,
         "local_raster_area_ratio_max": 0.0,
+        "prepared_text_wrap_risk_count": 0,
     }
     for path in files:
         root = ET.fromstring(path.read_text(encoding="utf-8"))
@@ -165,6 +238,20 @@ def prepared_svg_stats(project: Path) -> dict[str, Any]:
         full_page_image_count = 0
         local_raster_island_count = 0
         local_raster_area = 0.0
+        prepared_text_wrap_risk_count = 0
+        for element in root.iter():
+            if not is_svg_text_node(element):
+                continue
+            text = element_visible_text(element)
+            if not text:
+                continue
+            font_size = parse_number(element.attrib.get("font-size"))
+            width = parse_number(element.attrib.get("width"))
+            letter_spacing = parse_number(element.attrib.get("letter-spacing")) or 0.0
+            role_font_mapped = element.attrib.get("data-svglide-font-mapping-reason") == "role_font_family_mapped_to_slide_default"
+            source_width = parse_number(element.attrib.get("data-svglide-source-width"))
+            if text_wrap_risk(text, width, font_size, letter_spacing, role_font_mapped=role_font_mapped, source_width=source_width):
+                prepared_text_wrap_risk_count += 1
         for element in root.iter():
             if local_name(element.tag) != "image":
                 continue
@@ -189,6 +276,7 @@ def prepared_svg_stats(project: Path) -> dict[str, Any]:
             "image_only": image_only,
             "local_raster_island_count": local_raster_island_count,
             "local_raster_area_ratio": round(local_raster_area_ratio, 6),
+            "prepared_text_wrap_risk_count": prepared_text_wrap_risk_count,
             "sha256": file_sha256(path),
         }
         pages.append(page)
@@ -200,6 +288,7 @@ def prepared_svg_stats(project: Path) -> dict[str, Any]:
         totals["local_raster_island_count"] += local_raster_island_count
         totals["local_raster_area_ratio_sum"] += local_raster_area_ratio
         totals["local_raster_area_ratio_max"] = max(totals["local_raster_area_ratio_max"], local_raster_area_ratio)
+        totals["prepared_text_wrap_risk_count"] += prepared_text_wrap_risk_count
     totals["local_raster_area_ratio_sum"] = round(totals["local_raster_area_ratio_sum"], 6)
     totals["local_raster_area_ratio_max"] = round(totals["local_raster_area_ratio_max"], 6)
     return {"totals": totals, "pages": pages}
@@ -259,6 +348,7 @@ def xml_block_stats(xml_text: str) -> dict[str, Any]:
         "text_shape_count_max_per_page": 0,
         "single_char_text_shape_ratio": 0.0,
         "short_text_shape_ratio": 0.0,
+        "text_wrap_risk_count": 0,
     }
     for slide in [element for element in root.iter() if local_name(element.tag) == "slide"]:
         stats["page_count"] += 1
@@ -286,6 +376,12 @@ def xml_block_stats(xml_text: str) -> dict[str, Any]:
                         stats["short_text_shape_count"] += 1
                     if any(ROLE_FONT_RE.match(font) for font in shape_font_families(element)):
                         stats["role_font_family_count"] += 1
+                    width = parse_number(element.attrib.get("width"))
+                    height = parse_number(element.attrib.get("height"))
+                    font_size = find_first_key({local_name(node.tag): node.attrib for node in element.iter()}, {"fontSize", "font-size"})
+                    parsed_font_size = parse_number(font_size) or (height * 0.75 if height else None)
+                    if text_wrap_risk(content_text, width, parsed_font_size, 0.0):
+                        stats["text_wrap_risk_count"] += 1
                 else:
                     stats["editable_shape_count"] += 1
             elif name == "line":
@@ -351,6 +447,7 @@ def json_block_stats(value: Any) -> dict[str, Any]:
         "text_shape_count_max_per_page": 0,
         "single_char_text_shape_ratio": 0.0,
         "short_text_shape_ratio": 0.0,
+        "text_wrap_risk_count": 0,
     }
 
 
@@ -416,6 +513,14 @@ def run_editability_gate(project: Path) -> dict[str, Any]:
         local_raster_area_ratio_sum=prepared["totals"]["local_raster_area_ratio_sum"],
         limit=LOCAL_RASTER_DECK_AREA_LIMIT,
     )
+    checks["prepared_text_box_width"] = check_status(
+        "passed" if prepared["totals"]["prepared_text_wrap_risk_count"] == 0 else "failed",
+        prepared_text_wrap_risk_count=prepared["totals"]["prepared_text_wrap_risk_count"],
+    )
+    checks["readback_text_box_width"] = check_status(
+        "passed" if readback["text_wrap_risk_count"] == 0 else "failed",
+        readback_text_wrap_risk_count=readback["text_wrap_risk_count"],
+    )
     checks["editable_text"] = check_status(
         "passed" if readback["editable_text_count"] > 0 else "failed",
         source_text_count=prepared["totals"]["source_text_count"],
@@ -467,6 +572,8 @@ def run_editability_gate(project: Path) -> dict[str, Any]:
             "short_text_shape_count": readback["short_text_shape_count"],
             "short_text_shape_ratio": readback["short_text_shape_ratio"],
             "role_font_family_count": readback["role_font_family_count"],
+            "prepared_text_wrap_risk_count": prepared["totals"]["prepared_text_wrap_risk_count"],
+            "readback_text_wrap_risk_count": readback["text_wrap_risk_count"],
             "text_shape_count_max_per_page": readback["text_shape_count_max_per_page"],
             "image_only_page_count": readback["image_only_page_count"],
             "full_page_raster_count": readback["full_page_raster_count"],

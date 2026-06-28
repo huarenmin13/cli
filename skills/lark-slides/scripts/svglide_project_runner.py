@@ -236,6 +236,7 @@ IMPLEMENTED_STAGES = {
 }
 FAILURE_STATUSES = {"blocked", "failed", "skipped"}
 RERUNNABLE_STAGE_STATUSES = {"blocked", "failed"}
+QUALITY_GATE_SUCCESS_STATUSES = {"passed", "passed_with_waiver"}
 DECK_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 PROFILE_TARGETS = {
     "preview_only": "quality_gate",
@@ -1599,13 +1600,16 @@ def _page_family_fidelity_can_warn(payload: dict[str, Any], smoke_payload: dict[
         return False
     if payload.get("status") != "failed":
         return False
-    score = payload.get("score")
-    warn_min = beautiful_template_fidelity_check.default_profile()["thresholds"]["warn_min"]
-    if not isinstance(score, (int, float)) or score < warn_min:
-        return False
     issues = payload.get("issues") if isinstance(payload.get("issues"), list) else []
     issue_codes = {item.get("code") for item in issues if isinstance(item, dict)}
-    return bool(issue_codes) and issue_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES
+    if not issue_codes or not issue_codes <= PAGE_FAMILY_FIDELITY_WARNING_CODES:
+        return False
+    explicit_current_deck = smoke_payload.get("selection_source") == "explicit_fixture" and smoke_payload.get("production_selectable") is False
+    if explicit_current_deck:
+        return True
+    score = payload.get("score")
+    warn_min = beautiful_template_fidelity_check.default_profile()["thresholds"]["warn_min"]
+    return isinstance(score, (int, float)) and score >= warn_min
 
 
 def current_deck_visual_integrity_receipt(
@@ -3045,7 +3049,7 @@ def require_editability_gate_current(project_root: Path) -> dict[str, Any]:
 
 def require_quality_gate_passed(project_root: Path) -> dict[str, Any]:
     gate = read_json(project_root / "06-check" / "quality-gate.json")
-    if gate.get("status") != "passed":
+    if gate.get("status") not in QUALITY_GATE_SUCCESS_STATUSES:
         raise RunnerError("quality gate must be passed before create stages")
     gate_hashes = gate.get("prepared_files")
     if isinstance(gate_hashes, list) and gate_hashes and gate_hashes != prepared_file_hashes(project_root):

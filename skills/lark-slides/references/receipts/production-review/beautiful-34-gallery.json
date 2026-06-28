@@ -9,10 +9,10 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "ead29fd11a86928776a2dca5657205cb9fc2cebd952c7691086c7f00d3e212d4",
+        "contact_sheet": "9c24015b374fe5e7f2b553f31a09103b348f4be8340ddc3640da7f07676768b7",
         "fidelity_receipt": "31bab9cafb1fabb4453980f01a8255d16c9a79e1f882d01585b319dee779d556",
         "reference_screenshot": "c1f0517225fbe17807d69de03a7260881738d25bc456bd4151af67fabbb15281",
-        "smoke_receipt": null,
+        "smoke_receipt": "29b137376212e7b874b37be0d34549ff42617940a1dbfbb429837d613c69b87e",
         "visual_contract": "9eb1df9b6321fb3273d47a66bc17c5ac69ac61ff7e9ccdc1c975198cb4a2c47b"
       },
       "family_id": "8-bit-orbit",
@@ -20,8 +20,6 @@
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -51,33 +49,31 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "ec07fe3a3c3a4cc947275a30a56e8add05b4aad2c66684b192f6fcd4e33be407",
+        "contact_sheet": "b35ab684ee13a5c5104402488e58fc69fb87fe03217b1e4caf39dc3a0d8245c0",
         "fidelity_receipt": "27b20213513d6a895ae84c07aea6d784f5acd5a5fcd4b5a6baf0d1868f4a7dfe",
         "reference_screenshot": "8acd74e991ff533d6982f60fc2934ad2020d5ea8e03c5d79d00c24899d6f9e8d",
-        "smoke_receipt": null,
-        "visual_contract": "8f04a650927de6641fd356ec3d2107b1421cf9f6579e7af8f7e447b36f99c82b"
+        "smoke_receipt": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89",
+        "visual_contract": "292cfb18b40560798e57e90e168f769696c7a554afa43783b8fe8e573f6dda90"
       },
       "family_id": "biennale-yellow",
       "gallery_url": "families/biennale-yellow.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
+        "content",
         "process_or_timeline"
       ],
       "page_variant_coverage": [
         "cover",
         "agenda",
-        "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
         "closing"
       ],
@@ -93,32 +89,28 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "80f58ed09a0e51fcede0255e2b182a57ce9309d347e9255ec3983258372f4260",
+        "contact_sheet": "cc4c2413793f08720f59b3cdb1f6912d07bd162ae671fa48af418440731d6381",
         "fidelity_receipt": "e35a3eb5441b55568413e926f2275e9593c0b01d95a4345337995c995ffffd95",
         "reference_screenshot": "3fd1774d38f1bfbda05df46fc7f2b98a1780de45ced4d71f4925136bbf2460a0",
-        "smoke_receipt": null,
-        "visual_contract": "b2bede4e48e6b4bd302aaa554c7ca106fff4f1d06bd453ae336ef7aa7096a256"
+        "smoke_receipt": "91958801efedce3068ae0acfa5ad446a946787288ad0446aa3f41c07e28a6b75",
+        "visual_contract": "d8f479d085392cece4d7d35db4191c730b879083d6a456c2372a90b70da2d73e"
       },
       "family_id": "block-frame",
       "gallery_url": "families/block-frame.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "content",
-        "comparison_or_split"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
+        "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
         "process_or_timeline",
         "closing"
@@ -206,27 +198,22 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "bb6ea584ff5034ed2e49ba8ee9918a2c1d7010766e6aac66fa41dc52afef5fa6",
+        "contact_sheet": "7f3e7d5b7c2cf0b8aa40a50b8ea86d9b56d3d424ec0d5a51c91cbd4d8bfda0e3",
         "fidelity_receipt": "fd3c0b8d0ae82ecad0cbeb13974361d5bf8f9e76083619edf5a88d77b0b5f664",
         "reference_screenshot": "96805bd67e4502f94b078b723d252717183fe8eb34f2eb529c44b772b4dcdce4",
-        "smoke_receipt": null,
-        "visual_contract": "be278ba76d6c3722086bde248d72efd31cd8eb7ff7f33a842194aac78212e899"
+        "smoke_receipt": "7393d13ec36fad258c51e070ecbc329162eee7b8f687d8410f20886cd988668a",
+        "visual_contract": "08dbba787bf0f4555c27fa929dea205079ca0fb434ef5b6751e8304062787c9e"
       },
       "family_id": "broadside",
       "gallery_url": "families/broadside.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "closing"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
@@ -234,7 +221,8 @@
         "data_or_structured",
         "comparison_or_split",
         "quote_or_emphasis",
-        "process_or_timeline"
+        "process_or_timeline",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -248,32 +236,28 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "204af3a467a4739b8d3053c3d6898cbfdfa38b20ee51ef315ff9d3db3957bf11",
+        "contact_sheet": "031c96e4b0996c2bda94b95a6cdb3d0b1c9ce4847670ae385cc081e506c1da63",
         "fidelity_receipt": "38ef8db0e9fdaf4d3c4f83f3b9ab1a2c956661315784c6090c301faac93f2f8c",
         "reference_screenshot": "468b1b618668660274e7a46a528d0a323fb926c3e47f7e5895ec03189efd35b3",
-        "smoke_receipt": null,
-        "visual_contract": "5d93d9bc2bf6025343271fac5efa91d43fa1753e7e0638653c3671818eea9d65"
+        "smoke_receipt": "dacb87f16e908c7737639883aada0d26bfacef00105a4b92f4cc4ef8a3e8fae6",
+        "visual_contract": "aee83ef4fc19685017587859b14bbc2c656339ad00d16e6a9b1ae34b06151878"
       },
       "family_id": "capsule",
       "gallery_url": "families/capsule.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "comparison_or_split"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
         "process_or_timeline",
         "closing"
@@ -290,33 +274,29 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "5769c4814ad91810e3c29ea5c0a9a11d7f68dbe5531601fa030bcc1d5564b736",
+        "contact_sheet": "6071ff807e26fb2e1bca944a82865b02c5f139e1b2649a964c945652dcd22853",
         "fidelity_receipt": "d7bec45b7684b8ab2e98755e76624fffdf5048fd864aa64d7092aeb6aba3a62d",
         "reference_screenshot": "59af0f5ee20b85f07ada82a1d6bb8ab5e69b81bb08b5abf2a7520eca4934e93e",
-        "smoke_receipt": null,
-        "visual_contract": "0eaba0fe4ff403fb63bbe64692bcb137d6122f1897096d588d82133ac45386b4"
+        "smoke_receipt": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755",
+        "visual_contract": "7b1b329ca70fb455721a857697e31722f46e152b102d6fbb4d03684cf822d9d4"
       },
       "family_id": "cartesian",
       "gallery_url": "families/cartesian.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "cover",
-        "comparison_or_split",
-        "quote_or_emphasis"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
+        "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
+        "quote_or_emphasis",
         "process_or_timeline",
         "closing"
       ],
@@ -332,35 +312,33 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "a8ebf758f1157b8c6df1710970e010145fac55971406a7abf796b056022132b3",
+        "contact_sheet": "64a1d922f1e6f892ef451accc88b185097029e2bd1b973cfdd8b7f8ebb6a90aa",
         "fidelity_receipt": "fd2b394777733364723f20d0d732a346f93edba0a748628ce9a1e5596726cb02",
         "reference_screenshot": "e85989914eb7ca3bb279e03cc792df19c5d06f8d3ba0e59515211164fca5ae2d",
-        "smoke_receipt": null,
-        "visual_contract": "d4c4dfaf72ea1557439bc9dc2575ef25adc01e849d53a2492512e5308c004e5d"
+        "smoke_receipt": "bc19089f1fde7cbfe414a14aab27436ebf1c14a68f2e5a53adf456d2c4b281e8",
+        "visual_contract": "597018b8dc6422c41dc0acabec5bab9d2f18126fa18675dc88a989deb5ed2305"
       },
       "family_id": "cobalt-grid",
       "gallery_url": "families/cobalt-grid.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
-        "process_or_timeline",
-        "closing"
+        "content",
+        "process_or_timeline"
       ],
       "page_variant_coverage": [
         "cover",
         "agenda",
-        "content",
         "data_or_structured",
-        "quote_or_emphasis"
+        "comparison_or_split",
+        "quote_or_emphasis",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -374,32 +352,28 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "7f97cdaf5b856d443449561f27a987aa662c2f34e1d894a6e23a9d24c3d51a00",
+        "contact_sheet": "ae38885f84ffc91378cb70a3d380d83fc1f2cb9a94d2c57f7100a7b32d83f168",
         "fidelity_receipt": "dd795f5b763b8b5769e173a07ba63f2a2da2345fefaf96cb48989b7a5ba4ef2c",
         "reference_screenshot": "3cce11542e0c380396c14d2e7ac7406af704af163e7ba85b8ce9e2fdf7d12015",
-        "smoke_receipt": null,
-        "visual_contract": "4a49a52df2fc350355fe88276d9d0af73c518d3bb3c0f4ce30fa966846e6d0df"
+        "smoke_receipt": "dbad455d496a0d3d7b19a42606180403218e0a1f1caf385982ff192d0fc89fe6",
+        "visual_contract": "336ee95c3da65f0611aac1d8965b020d927bfcc8166c1ed773af51fd626c4400"
       },
       "family_id": "coral",
       "gallery_url": "families/coral.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "comparison_or_split"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
         "process_or_timeline",
         "closing"
@@ -416,10 +390,10 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "a8f8b0cc013a60ffb7e6eb8a1050a0d456d2410f885364e1531ae41686b41710",
+        "contact_sheet": "2f1ff175ba02c7e5bfe1efb84b406a8d74570fd2714bc9c99d94c626a2c4a065",
         "fidelity_receipt": "51de4317d40671c7a4ba0868cacfa3c86ca2de0d14eecb8d07177f6c53506acf",
         "reference_screenshot": "aaac87da4e7f0e1e294f8f3d88616b067174687f4b89dafcad0acb4b967e9633",
-        "smoke_receipt": null,
+        "smoke_receipt": "48134f9a7bc61b030e677d6dab37bd1c8ece97d10b2d4385f56065a5ec9292f5",
         "visual_contract": "ae208aa5cb4ec3e197f51d997ab4e68109275c7b79bb020a3767cfa494dc227a"
       },
       "family_id": "creative-mode",
@@ -427,8 +401,6 @@
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -458,35 +430,31 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "e14613919c09917441113f6418f6a6462ba3ec90c6dde995bfca852aa2a82291",
+        "contact_sheet": "8595dc3275e7c20d096a1e8238acf3ccae39001259729a893718e6d53264a09a",
         "fidelity_receipt": "926bc15a8016d24e25c00a42eb878578dbb825471d6ba2abc316bf48016ab5bc",
         "reference_screenshot": "65f6615ff2ec51a3d4a77573c2a53471b356724a58bd33dffdb55ed69ab2b73b",
-        "smoke_receipt": null,
-        "visual_contract": "9f481ab2692c478b75690c69edf7a8e55a233e476aadf2d2d3954e7a0ed28a68"
+        "smoke_receipt": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96",
+        "visual_contract": "02a52cd41098880ccf327023683f71ef977b02761b1b551a1dfb60735ab2cb7f"
       },
       "family_id": "daisy-days",
       "gallery_url": "families/daisy-days.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "comparison_or_split",
-        "closing"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
-        "process_or_timeline"
+        "process_or_timeline",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -500,35 +468,33 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "35919aa3e33a66d91449b5f7400e16ecb7c9288daa8d2c8532a2e082462d6af7",
+        "contact_sheet": "f7bd888095962eddfd9f23d1b47e215bf179665eae0f97d7703ef3c31d931553",
         "fidelity_receipt": "64abadb7a840271a45d482c1f3a7e8f4e75909ac007ef2c13d4ac0f77c77fdaf",
         "reference_screenshot": "a081f3b16a3dd72dd16d9fdfcf30aa61cf66c79c865189eb380d22bd425c2a1c",
-        "smoke_receipt": null,
-        "visual_contract": "35d65f6b44f6f19b883b3c0feccd5310e5468c7fb0f9a558360c180101a286a6"
+        "smoke_receipt": "72430419347187438125a007b42e4fd895fff5b1fb2f798dc065c89cfb4fd026",
+        "visual_contract": "0a66aa22317df5f8acfed8b3dc3963b2a4b61d67dd20608b85b3a0c4243d6a99"
       },
       "family_id": "editorial-forest",
       "gallery_url": "families/editorial-forest.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
-        "quality_gate_integration_pending",
-        "selector_gate_missing",
+        "quality_gate_pending",
+        "selector_gate_pending",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
-        "quote_or_emphasis",
-        "process_or_timeline",
-        "closing"
+        "content"
       ],
       "page_variant_coverage": [
         "cover",
         "agenda",
-        "content",
-        "data_or_structured"
+        "data_or_structured",
+        "comparison_or_split",
+        "quote_or_emphasis",
+        "process_or_timeline",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -542,35 +508,33 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "e0fe83c0dd64d1cd65c454813d40f1fc3ae11bb722a59214b362c0f562c8c2e0",
+        "contact_sheet": "f7402a0f8a2c2436490c359aa8a4226e018bcbe5a69e6453fb4bd696d5e7848c",
         "fidelity_receipt": "5bf44805d7dc674b07da8f0ac8f0a749bfc78893371e921567db82e5bf3a251b",
         "reference_screenshot": "0b89022af5bfcc26356b7bdb48156510ba16b643e9bc01027ae8197092ead507",
-        "smoke_receipt": null,
-        "visual_contract": "732fba46fdbbdc3d6c40c0c56775e508523ff100cbc015a0a033c8adc347fb83"
+        "smoke_receipt": "0917fbfb6d3f0cfbdb7091dcec32fcca58df4779a3a1b773d27541792d547717",
+        "visual_contract": "566f42ff1c355d0f35df68e093268590ad3233bf39a7261bdcaed45bf0b55582"
       },
       "family_id": "editorial-tri-tone",
       "gallery_url": "families/editorial-tri-tone.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
-        "quality_gate_integration_pending",
-        "selector_gate_missing",
+        "quality_gate_pending",
+        "selector_gate_pending",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
-        "closing"
+        "content",
+        "comparison_or_split"
       ],
       "page_variant_coverage": [
         "cover",
         "agenda",
-        "content",
         "data_or_structured",
         "quote_or_emphasis",
-        "process_or_timeline"
+        "process_or_timeline",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -584,26 +548,23 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "a82afb6aadedf413ae770bf82f1f034f26001115fd44cb10481649e5468d1580",
+        "contact_sheet": "2e5519d63d6f3a8853491d985eefafa06f7459aea2c69f991b95bd600ed368e5",
         "fidelity_receipt": "7aa06118b44f3dcc6202b56e64ec03134f5487d3e48a25279a9ccfeb09c1c81b",
         "reference_screenshot": "fda35bb4c4810369a5c5bccd70cbcd9d474691027c79a0d94ebf59dbf673c150",
-        "smoke_receipt": null,
-        "visual_contract": "d1045f952aa4385a33084a25788785509dd62154b8bf18b8c342c9d6a212df98"
+        "smoke_receipt": "e6fb8902a51a55acb9fb2dc255137ff1171f14240c4ce024742ece9c4d40cfc6",
+        "visual_contract": "2de2a3e4f8261f170324910a5e630c3ba6429ceb631af2c600422ab908c79473"
       },
       "family_id": "emerald-editorial",
       "gallery_url": "families/emerald-editorial.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
-        "quality_gate_integration_pending",
-        "selector_gate_missing",
+        "quality_gate_pending",
+        "selector_gate_pending",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
         "quote_or_emphasis"
       ],
       "page_variant_coverage": [
@@ -611,6 +572,7 @@
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
         "process_or_timeline",
         "closing"
       ],
@@ -626,27 +588,22 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "5ce74b06c0e07725af8738b9372ca52becaf4c3f6e2dffc7d3d9b738ee643346",
+        "contact_sheet": "6b58badf04d6066863dd331e00de1b5eeb26faa71eac0989da1daf7f69c27fe4",
         "fidelity_receipt": "72a5d983bb922049b536f086eedb89d0e3a7959b72480aab5fcfce63842d7455",
         "reference_screenshot": "6a01598d4b183837b96c698eb9453962fea4bea072a431ee4d71aef6e09da3eb",
-        "smoke_receipt": null,
-        "visual_contract": "7b26c718abe40c305f7ba14a64cea6cfc66d12c7d8c24f2d61e1d91e9d5368ee"
+        "smoke_receipt": "f13bd9323b9785e1ce5987e4ebd9f8ef9cb33b637af29300539b7d20a36a12f9",
+        "visual_contract": "f149c48728c1e434daba0758b2b1f9236d45553fbe60b15a3f89f3e2061a640f"
       },
       "family_id": "grove",
       "gallery_url": "families/grove.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
-        "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "quality_gate_pending",
+        "selector_gate_pending"
       ],
-      "missing_roles": [
-        "process_or_timeline"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
@@ -654,6 +611,7 @@
         "data_or_structured",
         "comparison_or_split",
         "quote_or_emphasis",
+        "process_or_timeline",
         "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
@@ -668,31 +626,29 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "64d3b379b6e7def60a39213a38aacad593c8eb74b1c812107997e829a7af3dfd",
+        "contact_sheet": "65e2c342dcce9c4eb376ae9eca77e40bc013408365af70a8262f464ee348b7b2",
         "fidelity_receipt": "96948f5547801870efb639d755ee4b944114cd0925c3fd03f6d15cafe935119e",
         "reference_screenshot": "79f7956399971a6038c6b98ba7850b8d232c593bafb1c484c7127e5d3fd60bba",
-        "smoke_receipt": null,
-        "visual_contract": "505151ef203ca83bad790f90553bc14186740bef093cbb84fc3bd2e00a5bcd84"
+        "smoke_receipt": "ca6fecbc89d09f90ab330da19cefdd31b6710d62665851d56f4c11251b0e0a78",
+        "visual_contract": "5fd6ad83fe1b1f70b781a882933093f99fdaf56ca1e198b02d9b8b0ef8101083"
       },
       "family_id": "long-table",
       "gallery_url": "families/long-table.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
+        "agenda",
         "comparison_or_split",
         "process_or_timeline"
       ],
       "page_variant_coverage": [
         "cover",
-        "agenda",
         "content",
         "data_or_structured",
         "quote_or_emphasis",
@@ -710,31 +666,29 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "0ce4a452a37c017f264b7d4090ddf92dc778be331705bdc39e0587017d067cdc",
+        "contact_sheet": "215a8d694af09a490f0364de0f927c852cf43c85ad6cb8404b3aa3488c502e38",
         "fidelity_receipt": "e1e95e38f4ea8124a378b7de4a0eb81593f192811ea42e7b31085ed84410cf34",
         "reference_screenshot": "acac0ac30af8fbb206adfb6810573c72d3ca96b00293f9f850fdeefed1ae11dc",
-        "smoke_receipt": null,
-        "visual_contract": "22f9899bfa852ac964a8e42a4178cc2898ff113d1e97da9584d0674d721e2319"
+        "smoke_receipt": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1",
+        "visual_contract": "54c42155904fc464ff5244469df666433b79b43cf7f38381a24f9c3824938d82"
       },
       "family_id": "mat",
       "gallery_url": "families/mat.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
+        "agenda",
         "process_or_timeline",
         "closing"
       ],
       "page_variant_coverage": [
         "cover",
-        "agenda",
         "content",
         "data_or_structured",
         "comparison_or_split",
@@ -752,35 +706,31 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "92b5f0d7827ecae4af1f182c5e126f56afec810c7f7b5a0641b42130bfc55d6a",
+        "contact_sheet": "56ec0a04eb419e5edc152ea13ce716a51f6ec34eb3ba121c0d03b2c769b26668",
         "fidelity_receipt": "7fd4a1a4f9929a0add47861c0f489f80b3cfe4dd9e91dc13014ec264811c78c5",
         "reference_screenshot": "bac6b00bf1d0b3c97b19d2a0c45edf44af5cbf369f2cf3ebe78a207a7b6b8c7b",
-        "smoke_receipt": null,
-        "visual_contract": "22f4d6c5ae06606df6d47ad3c7bd7e560cde90e4192a9b95f461be024f6ff053"
+        "smoke_receipt": "3921983f4ca2c8208e6aa7fae0d5896e5d8f7f1758b7d2f0a4bf910e2aeffd44",
+        "visual_contract": "19c9ab64d4ece426bc3d3b1c85023b9b547bd65178485ee87711d0295af73c0a"
       },
       "family_id": "monochrome",
       "gallery_url": "families/monochrome.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "content",
-        "closing"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
+        "content",
         "data_or_structured",
         "comparison_or_split",
         "quote_or_emphasis",
-        "process_or_timeline"
+        "process_or_timeline",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -794,32 +744,28 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "eddd750be9246e1e7c0dc0f88f67126b77e5c860fa1a5f2a5eb84369cd579a0e",
+        "contact_sheet": "13c03443d5db33f42803ba70532c76313f9b395a2f0b56b9157e36f923040fee",
         "fidelity_receipt": "9d0ced3d64a642e028edf86ff6457c36def39175b3079fff6a4c97b645803228",
         "reference_screenshot": "c53ba5da0f1b85b23ad1975da65edafaee84f029f06c468b2fbd036031ce15e5",
-        "smoke_receipt": null,
-        "visual_contract": "a4ecaab6b9ffcca493e015eb2a3e591ffb71aa199d9eebd25aa53a5225b4180a"
+        "smoke_receipt": "8eb5e5cd5582d8f4c16f58020f1a4912a2b74272ba6148fec96f6bb554c2792e",
+        "visual_contract": "724c0eb1d37f2b8a10e486f6b93e20292a708509bc3ecea1d05aafef34a87f65"
       },
       "family_id": "neo-grid-bold",
       "gallery_url": "families/neo-grid-bold.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "comparison_or_split"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
         "process_or_timeline",
         "closing"
@@ -836,22 +782,22 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "4013c7e1ca8710970d9cd0c15416f961c6e94ff7870ae9a8e38d3ab6f0a06e88",
+        "contact_sheet": "1f5fa39421ff3d32d0e9dd3087845678e2917f440822ae92f0918c680245e6b0",
         "fidelity_receipt": "679368f5526815a2cb311d583f0f86871000639c85643e6b47099ab91566d5cc",
         "reference_screenshot": "9a0c40acaa0fb9c058745cbd16c875f9b7a0417d46c6c37dede388e32cf52d25",
-        "smoke_receipt": null,
-        "visual_contract": "32839a4cac6a261ce9088ed2017536f11448621234e2b2b8dd70c882e0bc6c0e"
+        "smoke_receipt": "0afb5a8040c6ca4d6a016d0ba065a53aa4aaea9da2d71582366eb902d9106f6c",
+        "visual_contract": "ee4aa79ef7b7f7e48c892b26637e0a0f51a744433bf386ce732f6ffebde4b02e"
       },
       "family_id": "peoples-platform",
       "gallery_url": "families/peoples-platform.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing"
+        "quality_gate_pending",
+        "selector_gate_missing",
+        "selector_gate_pending"
       ],
       "missing_roles": [],
       "page_variant_coverage": [
@@ -876,19 +822,17 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "367d204e44ce8faf4f29dbe1a71bab1a60a55ff55ef688aafbb027d8f045491d",
+        "contact_sheet": "67fd173b67af766f40e52add396b4dc35b164bdfbfdba6fbf7b62dcb1139ee54",
         "fidelity_receipt": "b6aa5696947e5fc7fcd633c340cea26e983956f97a0a54b72eb035818d6a3d76",
         "reference_screenshot": "35ff94a10d71d18318fa11e1c95fb6a32e2b1801ffff24ccc8e0f36afe187387",
-        "smoke_receipt": null,
-        "visual_contract": "69e9062c9e5f8a9df6e536d0168eaaf4b164cc95e2b7086d84989affd1a9e6b7"
+        "smoke_receipt": "302ed4aa7e4c4c52267377a62bce501f7f6eac328e1c80d6163d0d6b219f07a3",
+        "visual_contract": "d224f205699fc6d95c3eceb533bfa5d0f3a518798f15c3867d6d2cefe0e3a21e"
       },
       "family_id": "pin-and-paper",
       "gallery_url": "families/pin-and-paper.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -918,19 +862,17 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "4826a9fd47a338d326017e58e20b11edb73a6ced4b1e85d9005c810b7c987b74",
+        "contact_sheet": "6ae26aae112e1f926460c42d9c5fc51064086b5be717a8f01a9e310f50427f80",
         "fidelity_receipt": "ff075c2947f7c09785c47c57f68d995722873676d91251a822747e0b096b88bf",
         "reference_screenshot": "d39af58b620fe59ab0e28db0f070fd6e13214896115aa984be069369ef594ff7",
-        "smoke_receipt": null,
-        "visual_contract": "b6f6845aa9f78d5c98f51a3279c2afde366f68c0a88fee5521c2c146a3a6b971"
+        "smoke_receipt": "51c15f2410b2d5a0aef6ac092dfc0598315a2432c359789411cf8843e5b3fb63",
+        "visual_contract": "f8d89981581aa76d70a5c0d03521d87d17843a336701b1a8cfbb03cda00b2b41"
       },
       "family_id": "pink-script",
       "gallery_url": "families/pink-script.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -960,33 +902,31 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "1986139c73ed201cd003e301e65c61781e376324aee0dc527ee4316495a4e590",
+        "contact_sheet": "4d15301787139e12aabf4324fbbd145bbf8fe1863196d72b83f1e21e55e5db3f",
         "fidelity_receipt": "e828f367dda5704dca8c804fb833051e8e3888202e9b76169082ac50164873d8",
         "reference_screenshot": "75c22cf0736c2c349599de769e984af4e55440dbf83fb4abac35e5c0842abe81",
-        "smoke_receipt": null,
-        "visual_contract": "b16366831a2ff2e7df7e443765c1921e043d096145d73f08073110cb8897791b"
+        "smoke_receipt": "22c522df56437d384a36c38cd35446070d4f77b3170c4520b60ee7fc6f5041be",
+        "visual_contract": "58987907817587533f20590d23f34913ecae5e340475f8780b7f7dbc342de85a"
       },
       "family_id": "playful",
       "gallery_url": "families/playful.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
-        "quote_or_emphasis"
+        "comparison_or_split"
       ],
       "page_variant_coverage": [
         "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "quote_or_emphasis",
         "process_or_timeline",
         "closing"
       ],
@@ -1002,34 +942,30 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "50aa0a802b070e26b6f8236c970bd823195cea08d302683a022fac434170fe37",
+        "contact_sheet": "3bf608339d912cb2a5b705f4f398a982e1160230b8248046aad96b5e11092948",
         "fidelity_receipt": "fee9ac2b5c6d69612a2a082849f1829f5b3c75f2a5c2d29b76657361f4fc04cc",
         "reference_screenshot": "4056c85b9415ba7a9a988d45f5316cbdfbaf18ee959e3f7727e2ef90f59f42bc",
-        "smoke_receipt": null,
-        "visual_contract": "fb4dc324a40f42349b253e2ad99ad3c5a7bec51e31944a4dc1e9872199441f8a"
+        "smoke_receipt": "6577545fcd6046c0cafb72c3d4539048f247db1e2585c39fa950143833f16676",
+        "visual_contract": "f31392718e263d0673b70a290eddd0cb5d87cf48624888b6a336ec67edf00124"
       },
       "family_id": "raw-grid",
       "gallery_url": "families/raw-grid.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "comparison_or_split",
-        "process_or_timeline"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
         "quote_or_emphasis",
+        "process_or_timeline",
         "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
@@ -1044,33 +980,31 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "dbb9aae1e5038cbb3c2a77ede183f83b04390d8f430c4fd8ef6a88249714857c",
+        "contact_sheet": "1f835866b2c2c68c351a9388a62094a61f56f3819e949c82c54ae9dd1aac4f03",
         "fidelity_receipt": "d9f718418fe0cba65d03c26230b5655764011c1197b9b52cb3ab15b0787cd8b6",
         "reference_screenshot": "8d9fc0a05ab025310cc35f15c2d3b2de629c79a49df9fe1c7d63b2f7b8a00543",
-        "smoke_receipt": null,
-        "visual_contract": "0e791a06d076a86dc292b0ead47827882a4a8698b169d2d8e4424ef220afec0c"
+        "smoke_receipt": "fb106bd8cf0aaecf5411a026eba606647fe53868c8295bba36548d4aa85c44d5",
+        "visual_contract": "baeac1de4d699bc66b3e046a6c9bc670dc877e5860ae37b3b7c556007ec3ba02"
       },
       "family_id": "retro-windows",
       "gallery_url": "families/retro-windows.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "content",
-        "comparison_or_split",
         "quote_or_emphasis"
       ],
       "page_variant_coverage": [
         "cover",
         "agenda",
+        "content",
         "data_or_structured",
+        "comparison_or_split",
         "process_or_timeline",
         "closing"
       ],
@@ -1086,19 +1020,17 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "95a262ac3cdc7037a56ae725b2be8f059f14d82558a1ba7d052e3043976d5076",
+        "contact_sheet": "08f86c5e64f046194d05bfb5b3ab8f2e409bcc4d1aea7ef66832a3e8fb482155",
         "fidelity_receipt": "70330ed527a665653b1934d49e3ad5f14e2f4f866de429f38615ca98f18657ba",
         "reference_screenshot": "bd93d862d934f00253a36df8f03f4aef74f87fb1b0f870c777002b39ae7f2af9",
-        "smoke_receipt": null,
-        "visual_contract": "24b24b38b4a89b009d65195b65ca24fce3f277cc906a2e104645a8d3c3173593"
+        "smoke_receipt": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf",
+        "visual_contract": "7665c5b2e04b921bf785d3313a849504836fb3a47bc15ffdbce1784318e86e0c"
       },
       "family_id": "retro-zine",
       "gallery_url": "families/retro-zine.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -1106,13 +1038,13 @@
       ],
       "missing_roles": [
         "agenda",
-        "quote_or_emphasis"
+        "data_or_structured"
       ],
       "page_variant_coverage": [
         "cover",
         "content",
-        "data_or_structured",
         "comparison_or_split",
+        "quote_or_emphasis",
         "process_or_timeline",
         "closing"
       ],
@@ -1128,32 +1060,30 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "6ae315eafc05f29a2d09d523eab0f11451456065e1375dd6c6cb380f44cc6e8e",
+        "contact_sheet": "2430d5125473734cc0f2439e5aae0660aaa226dc799526abd3ce6e9822c3b238",
         "fidelity_receipt": "01ed753670341664ee282238d30060766dba929200e59bb279b31497ec8af736",
         "reference_screenshot": "92bae8fc25051d0dbbb648f931befbfb653cbc331e876ea5e5aaf76afbad0733",
-        "smoke_receipt": null,
-        "visual_contract": "103a2836d248d9e1db95b89c6cd25b60d6c7a7ad89b6327d6a7b3ae2e78cc5b8"
+        "smoke_receipt": "955b9d83ebddbb06fd6030d584671a068da47c41e03ce7488805d037b68f3759",
+        "visual_contract": "2314eea505e9b4dce4a26c28791493469b15b378ba5df44933272686b418a039"
       },
       "family_id": "sakura-chroma",
       "gallery_url": "families/sakura-chroma.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
+        "agenda",
         "comparison_or_split",
         "process_or_timeline",
         "closing"
       ],
       "page_variant_coverage": [
         "cover",
-        "agenda",
         "content",
         "data_or_structured",
         "quote_or_emphasis"
@@ -1170,33 +1100,31 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "b0d29d297a61d5d62fc8b3a06dc0746642ef32b9e4d5615c0f99396f4113a76f",
+        "contact_sheet": "7ef849f1993bd1e88f3872fcded4cc93829fae52811bc1b39eb8f9982bf758e4",
         "fidelity_receipt": "8f986c32012e5a26fff7d1e4b2c73fb73db59885a7bb3f8ba7fc7f1f0cfd927f",
         "reference_screenshot": "c2ed8f8d89fd124c65976fa3ece9b153afe4f4542d95880c367922bb88d910ca",
-        "smoke_receipt": null,
-        "visual_contract": "65fa4706b1e80a7692f2201c6b4fbdace18190f05d3e6923f7d936b06da2b7fd"
+        "smoke_receipt": "5dcf65ec086ecfe51dae05ba0b1b6baa0110372b52c688c203be5b120243c49f",
+        "visual_contract": "1062645cd0b1f0b795d14a2414fd7cc28900b148f25aaba8e4ade4d4458e2f20"
       },
       "family_id": "scatterbrain",
       "gallery_url": "families/scatterbrain.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
-        "comparison_or_split",
-        "quote_or_emphasis"
+        "agenda"
       ],
       "page_variant_coverage": [
         "cover",
-        "agenda",
         "content",
         "data_or_structured",
+        "comparison_or_split",
+        "quote_or_emphasis",
         "process_or_timeline",
         "closing"
       ],
@@ -1212,19 +1140,17 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "d8e02dce651942deeb75cdf0f4c1e04ba465a1acbca3da0ef2d0fc41e50ec2ce",
+        "contact_sheet": "1fab34e12a8a0bad9f247213c0517a33148b4a5f4c2bf4b0fe02e58a8ffc9f02",
         "fidelity_receipt": "f33e1fed9d3fe80ed000386d4649be14d1120ea455b57d33b8d97a87d2769231",
         "reference_screenshot": "ca5487dc68264f209951400c5edddb93c4ae1fc7174b88c2b3dc54a82e0be64a",
-        "smoke_receipt": null,
-        "visual_contract": "6d637f0f69f55293ff9a7ff5db337872b9626ae039c22e46a341929f45e7660f"
+        "smoke_receipt": "357d6f3f5352d91fe1e2d7a76ac8a8533e6b0f14d1778ed292f2c4986977449a",
+        "visual_contract": "c0d8ccc81beace563a317b45a9acfcec3c95e6b6ef764a5377bf359d7db324dd"
       },
       "family_id": "signal",
       "gallery_url": "families/signal.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing"
@@ -1252,27 +1178,22 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "83b822e407f0c81c0a6412bdb40bb8b0f3772a6da963659ee9a0e24426d6c46e",
+        "contact_sheet": "4db881c0077ff56bc760f3d6d3ce7d380527a0f31e484da237320eb36b61f46e",
         "fidelity_receipt": "a7543b7f841153c3dd8d182b0c43d5d3688dc128b4da2f392cb41ee20d275ff3",
         "reference_screenshot": "3e37602cf749a0a383ef0f0a1f25db85e9633da1d74bafc2be76a91b004a866b",
-        "smoke_receipt": null,
-        "visual_contract": "d3a13400806f0fff74391ef91450b5bfb15284077c62f5a74b04ff069c0a8302"
+        "smoke_receipt": "ab40c2f831594c1c3a96601bc011c1b43f5a5dce3cf63de21d2cc655e60b8da4",
+        "visual_contract": "e8333bd6696638693b242b52825ae3eb9f24f9b6a77c8f9918d286573c1407f1"
       },
       "family_id": "soft-editorial",
       "gallery_url": "families/soft-editorial.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
-        "selector_gate_missing",
-        "source_core_roles_missing"
+        "selector_gate_missing"
       ],
-      "missing_roles": [
-        "closing"
-      ],
+      "missing_roles": [],
       "page_variant_coverage": [
         "cover",
         "agenda",
@@ -1280,7 +1201,8 @@
         "data_or_structured",
         "comparison_or_split",
         "quote_or_emphasis",
-        "process_or_timeline"
+        "process_or_timeline",
+        "closing"
       ],
       "promotion_action": "no_change_until_human_pass",
       "review_decision": "pending_review",
@@ -1294,19 +1216,17 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "581927fcafc3fa94e360339f03a6de1a85698e6e0a504d875ae323a8b791de87",
+        "contact_sheet": "ac0940693918c5bfa6e6332942186a9ea4c17ec53a6e0db7054682a9b8bc1394",
         "fidelity_receipt": "bf32692b17d20d5a20c9c87ac02226c93739131b38f83c7f3b452a14451128fd",
         "reference_screenshot": "b8321134113e99f90a0e17e44e326ab25e64f3735150dd82269e0b2daabaaa2b",
-        "smoke_receipt": null,
-        "visual_contract": "2754357cbe7401757e4aa5e188a59a9208650f38d75c521ea80c26a3c9fbe963"
+        "smoke_receipt": "32e91d42c0e9508a4ee94e2d74cb32926fba3b4ef8e82796cdf95d895f9b919f",
+        "visual_contract": "9b853098f164904ddd472a8a3cd3acb80b51d6c0bed9233cef2638b6e493985a"
       },
       "family_id": "stencil-tablet",
       "gallery_url": "families/stencil-tablet.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -1336,19 +1256,17 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "c3b1b486256437c087103af3debbf7a274b24db403431658e663d9aceb0ed1cf",
+        "contact_sheet": "25e7f4e1c18e4f9d2a39e546eab8276d82753757491815066ece3e438a29a20d",
         "fidelity_receipt": "95baeec998aed196a738e4491cc7cab3ad34dbca2c3d5e96a94943f62075f60c",
         "reference_screenshot": "0d7c0646a85c56b4b26e09f0cf8a0b658fe0b1cf36be38255900fd259d0c42d4",
-        "smoke_receipt": null,
-        "visual_contract": "52f47ef1318378f158396849c1040431c3a962f65bc50ebe13e70f2c57ad5ed9"
+        "smoke_receipt": "f3154baa14f2c56910168056023cd64e692e55fdd75a94c5b00b8c1d36fa7a41",
+        "visual_contract": "1683ddf91c8778b4fde376739b3801e075c00376f5db1ea160da8f2d113617c6"
       },
       "family_id": "studio",
       "gallery_url": "families/studio.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
@@ -1378,30 +1296,28 @@
       ],
       "auto_gate_status": "blocked",
       "evidence_hashes": {
-        "contact_sheet": "79fa52a820912c0ff693993524ce06d48e1491c879433a54960ad348f12530d1",
+        "contact_sheet": "17aceec723560e94283597b09ced1874872d3535bbf72d6687f1629603d1567a",
         "fidelity_receipt": "3152f66c029a0f4be72c43d417b2aec470b483239a8070136e5b87993e57ae68",
         "reference_screenshot": "8c99c96677fec3c94235098b8fe36b9beeefd31ebfd173989f0ce358d91c4b73",
-        "smoke_receipt": null,
-        "visual_contract": "a3e4e814788d738fd66b743f06fcafc465b7f4d8e4d02112dee8a3256eacdb93"
+        "smoke_receipt": "473b6d124d9a6ad60eb0e24f3bff0d35a50791aec1b5303f11da75eab9ea9333",
+        "visual_contract": "a767e1d43155a7ca10e19ab06997ed5ebdaec4fed385dbbba0107e4685dcd96b"
       },
       "family_id": "vellum",
       "gallery_url": "families/vellum.html",
       "human_review_status": "pending",
       "known_blockers": [
         "auto_gate_blocked",
-        "missing_smoke",
-        "page_family_smoke_missing_or_failed",
         "production_review_pending",
         "quality_gate_integration_pending",
         "selector_gate_missing",
         "source_core_roles_missing"
       ],
       "missing_roles": [
+        "agenda",
         "process_or_timeline"
       ],
       "page_variant_coverage": [
         "cover",
-        "agenda",
         "content",
         "data_or_structured",
         "comparison_or_split",
@@ -1425,7 +1341,7 @@
   },
   "review_batch_id": "beautiful-34",
   "schema_version": "svglide-beautiful-production-review-gallery/v2",
-  "source_manifest_sha256": "8bbe2db5b540344f05ebe3c0b85f45e4d33a653e3ca4fef370f9f276d9d02d5f",
+  "source_manifest_sha256": "701ce98d1718383d370e0d00e0ac2a19c6daeb43e1672578b063b76cb9c4f921",
   "summary": {
     "auto_gate_blocked_count": 33,
     "auto_gate_passed_count": 1,
@@ -1435,14 +1351,13 @@
     },
     "candidate_count": 34,
     "default_selectable_count": 1,
-    "families_with_implemented_page_variants": 2,
+    "families_with_implemented_page_variants": 34,
     "family_contact_sheet_count": 34,
     "production_count": 1,
     "production_default_selectable_count": 1,
     "review_pending_count": 34,
     "smoke_status_counts": {
-      "missing": 32,
-      "passed": 2
+      "passed": 34
     }
   }
 }

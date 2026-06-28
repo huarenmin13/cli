@@ -1460,7 +1460,7 @@
       "page_role": "detail",
       "required_slots": [
         "title",
-        "subtitle"
+        "items"
       ],
       "optional_slots": [
         "eyebrow",
@@ -1503,7 +1503,7 @@
       "required_slots": [
         "title",
         "subtitle",
-        "quote"
+        "number"
       ],
       "optional_slots": [
         "eyebrow",
@@ -1541,10 +1541,10 @@
     "cta": {
       "source_class": "s-cta",
       "source_slide_index": 8,
-      "page_role": "detail",
+      "page_role": "closing",
       "required_slots": [
         "title",
-        "subtitle"
+        "items"
       ],
       "optional_slots": [
         "eyebrow",
@@ -1562,12 +1562,10 @@
     "consult": {
       "source_class": "s-consult",
       "source_slide_index": 9,
-      "page_role": "data_dashboard",
+      "page_role": "detail",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "columns"
       ],
       "optional_slots": [
         "eyebrow",
@@ -1585,10 +1583,11 @@
     "chart2": {
       "source_class": "s-chart2",
       "source_slide_index": 10,
-      "page_role": "closing",
+      "page_role": "data_dashboard",
       "required_slots": [
         "title",
-        "subtitle"
+        "subtitle",
+        "labels"
       ],
       "optional_slots": [
         "eyebrow",
@@ -1610,8 +1609,7 @@
       "required_slots": [
         "title",
         "subtitle",
-        "metrics",
-        "timeline"
+        "items"
       ],
       "optional_slots": [
         "eyebrow",
@@ -1629,9 +1627,11 @@
     "matrix2": {
       "source_class": "s-matrix2",
       "source_slide_index": 12,
-      "page_role": "content",
+      "page_role": "comparison",
       "required_slots": [
-        "title"
+        "title",
+        "headers",
+        "rows"
       ],
       "optional_slots": [
         "eyebrow",

@@ -1,0 +1,287 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "--selected-family",
+    "capsule"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "agenda",
+    "data_dashboard",
+    "data_dashboard-4",
+    "quote_or_emphasis",
+    "process_or_timeline",
+    "data_dashboard-7",
+    "slide-8",
+    "slide-9",
+    "closing"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "cover",
+    "agenda",
+    "data_dashboard",
+    "data_dashboard-4",
+    "quote_or_emphasis",
+    "process_or_timeline",
+    "data_dashboard-7",
+    "slide-8",
+    "slide-9",
+    "closing"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.agenda": "91388bfaa1624654a0e64b2fd43b73a0cb3f484594cd277ba7a6b4865e5656bd",
+    "golden_spec.closing": "45708c6d6bdc703f1c35bb7e1fd1e1e2feaeff5e56426de0ce0796a48addd7b9",
+    "golden_spec.cover": "230d69dd8fa0b61fe30f003bd15b08d2e9a74bc2ee165432ffedd227fd477d4b",
+    "golden_spec.data_dashboard": "89b80f8f2310374bea29c0ca41285a02888c2588af61d68926e420cae1934209",
+    "golden_spec.data_dashboard-4": "a017214a1c36be903c877889d52ea609dd5dd533b223bb877e7c41bb690e51f3",
+    "golden_spec.data_dashboard-7": "f6e5c9cb9b40ba726fa2eb136100a6555f5333af64fa43bca8bb9af0f3162f2b",
+    "golden_spec.process_or_timeline": "a69c7fb54c04ca9e45199fa9a3c785058934ef1b2a899b080668a839deaa419a",
+    "golden_spec.quote_or_emphasis": "999eb8fd7298993c8215c3f6aee00b69e1f5292a807231a29bc7fec92b9795cd",
+    "golden_spec.slide-8": "ce29432c1fff989ec2120bfd5ee8a8a6695b0688c0ca3d076635ef1c235204f0",
+    "golden_spec.slide-9": "5e87cb697af220c817770fa0ab81f8e677dbaa12224cf87ef1de5a6019f7b0df",
+    "slide_plan": null,
+    "smoke_deck": "dc228dcc3c8c2d9bdb1c907876352f8b090294266fa4516510a339680aaf4d5c",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.agenda": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.agenda.canvas-spec.json",
+    "golden_spec.closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.closing.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.cover.canvas-spec.json",
+    "golden_spec.data_dashboard": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.data_dashboard.canvas-spec.json",
+    "golden_spec.data_dashboard-4": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.data_dashboard-4.canvas-spec.json",
+    "golden_spec.data_dashboard-7": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.data_dashboard-7.canvas-spec.json",
+    "golden_spec.process_or_timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.process_or_timeline.canvas-spec.json",
+    "golden_spec.quote_or_emphasis": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.quote_or_emphasis.canvas-spec.json",
+    "golden_spec.slide-8": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.slide-8.canvas-spec.json",
+    "golden_spec.slide-9": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/capsule.slide-9.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/capsule.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "agenda"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "closing"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "slide-9"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "data_dashboard"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4,
+        7
+      ],
+      "variants": [
+        "data_dashboard-4",
+        "data_dashboard-7"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "slide-8"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "process_or_timeline"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "quote_or_emphasis"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": null,
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "agenda",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "data_dashboard",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "data_dashboard-4",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 5,
+      "page_role": "quote",
+      "page_variant_id": "quote_or_emphasis",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "process_or_timeline",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "data_dashboard-7",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "slide-8",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "slide-9",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "template_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/capsule.json",
+    "smoke_fixture": null
+  },
+  "rendered_pages": 10,
+  "reuse_count": 0,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "capsule",
+  "selected_template_id": "capsule-card-system",
+  "selected_theme_id": "capsule",
+  "selection_source": "explicit_args",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 10,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 10,
+    "page_count": 10,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

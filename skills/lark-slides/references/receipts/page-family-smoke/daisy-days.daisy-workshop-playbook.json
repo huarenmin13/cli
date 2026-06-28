@@ -1,0 +1,289 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "daisy-days",
+  "selected_template_id": "daisy-workshop-playbook",
+  "selected_theme_id": "daisy-days",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 10,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "title",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "welcome",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "weekly",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "timeline",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "chart-bar",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "cards",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "team",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 9,
+      "page_role": "process",
+      "page_variant_id": "process",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "donut",
+      "template_id": "daisy-workshop-playbook",
+      "family_id": "daisy-days",
+      "theme_id": "daisy-days"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "title"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "welcome"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "weekly"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "chart-bar"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "cards"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        4,
+        9
+      ],
+      "variants": [
+        "process",
+        "timeline"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "team"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "donut"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "title",
+    "welcome",
+    "weekly",
+    "timeline",
+    "chart-bar",
+    "cards",
+    "quote",
+    "team",
+    "process",
+    "donut"
+  ],
+  "covered_implemented_page_variants": [
+    "title",
+    "welcome",
+    "weekly",
+    "timeline",
+    "chart-bar",
+    "cards",
+    "quote",
+    "team",
+    "process",
+    "donut"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/daisy-days.json",
+    "golden_spec.cards": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.cards.canvas-spec.json",
+    "golden_spec.chart-bar": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.chart-bar.canvas-spec.json",
+    "golden_spec.donut": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.donut.canvas-spec.json",
+    "golden_spec.process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.process.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.quote.canvas-spec.json",
+    "golden_spec.team": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.team.canvas-spec.json",
+    "golden_spec.timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.timeline.canvas-spec.json",
+    "golden_spec.title": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
+    "golden_spec.weekly": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.weekly.canvas-spec.json",
+    "golden_spec.welcome": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.welcome.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": "19fe2f1521a14fb880037c49e8dc7539e29a4df69f8b96eaec59b3d7cdd03af6",
+    "generator_receipt": null,
+    "template_registry": "e272fd0e5aab05d9cbaea74f91aa33251e680ddd9bbfc14c077b6fdba0745738",
+    "theme_registry": "17e5f7a2fbb64f8cf6a7f2e32dc355dfd1d320c8545d8cf3b504da02089d8bdb",
+    "smoke_fixture": "4bbe92619b35c7c1f66fa2876bfd62fdd5006021ee8414bacdb2370791317ec5",
+    "smoke_deck": "704a8adaf86e9a54414152b641b47c952f18eefde0ef316ab1a64ea01ee863ad",
+    "golden_spec.cards": "2ec8bcc8089cf0dc5b673f152e6a85d815a1352c1da1b3b0bba9a633a5236c64",
+    "golden_spec.chart-bar": "afc52d20a6a67470804ed65df0add4d9d0e717e32cdaa7f5016064463d880567",
+    "golden_spec.donut": "cf112cc2a4fbb46e67ee27d9ff7c1e13094bcb8854f0681d202444f1fef4d063",
+    "golden_spec.process": "98f582e954eedd653553ddce336b4ad484bbe2f2c68f207a105870720fb2a58b",
+    "golden_spec.quote": "41cfd9e4e7276fc1dd2d5651681249ad1f2bf036419e06c787664a476d186219",
+    "golden_spec.team": "269fe8c75f3f9f4cc89857a87f4006e4a3368c5baf866cf11cd0d42cf3b60769",
+    "golden_spec.timeline": "fd94e85615c669ec0410e0545b8d1df2e69666895a4114d8d9165be33684a781",
+    "golden_spec.title": "5ab43a8ce7977fefeaf73bf986a84706a80d4deeff93cb97db7dc69c7ef52352",
+    "golden_spec.weekly": "1782052fdac0fe8b22bb370ad5e2268fda0ac7f591f9efdd8e3b67a16f2d120f",
+    "golden_spec.welcome": "ecf54655b6cf1b753fb5f404d47eef62af0465f849d0b5f3146d58b8faa7aabe"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/svglide-daisy-smoke-wsm9f1tv",
+    "--pretty"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/daisy-days.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/svglide-daisy-smoke-wsm9f1tv"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 10,
+    "covered_role_count": 9,
+    "implemented_variant_count": 10,
+    "covered_implemented_variant_count": 10
+  }
+}

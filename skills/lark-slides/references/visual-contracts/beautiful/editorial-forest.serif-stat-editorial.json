@@ -24,21 +24,25 @@
     "formality": "medium",
     "layout_rhythm": "editorial-forest: medium density, medium formality. Forest green, dusty pink, and warm cream meet Source Serif 4 in a quiet, intentional quarterly-review deck.",
     "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"slide_pad_default\": \"96px 120px\", \"slide_pad_narrow\": \"100px 120px\", \"slide_pad_wide\": \"100px 140px\", \"slide_pad_statement\": \"130px 160px\", \"grid_gap_cards\": \"28\", \"grid_gap_topics\": \"24\", \"grid_gap_kpi\": \"60\", \"rule_w",
-    "source_layout_classes": [],
+    "source_layout_classes": [
+      "cover",
+      "agenda",
+      "statement",
+      "two-col",
+      "data",
+      "framework",
+      "stats",
+      "summary"
+    ],
     "variant_ids": [
       "cover",
       "agenda",
-      "section_divider",
-      "context_overview",
-      "metric_dashboard",
-      "problem_analysis",
-      "cause_analysis",
-      "comparison",
-      "timeline",
-      "case_evidence",
-      "action_plan",
-      "risk_dependency",
-      "closing"
+      "statement",
+      "two-col",
+      "data",
+      "framework",
+      "stats",
+      "summary"
     ]
   },
   "typography": {
@@ -584,7 +588,21 @@
     "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/serif-stat-editorial.mjs",
     "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/serif-stat-editorial.canvas-spec.json",
     "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/editorial-forest.serif-stat-editorial.json",
-    "renderer_contract": {},
+    "renderer_contract": {
+      "renderer_stage": "page_family",
+      "implemented_page_variants": [
+        "cover",
+        "agenda",
+        "statement",
+        "two-col",
+        "data",
+        "framework",
+        "stats",
+        "summary"
+      ],
+      "default_selectable": false,
+      "selection_scope": "experimental"
+    },
     "constraints": {
       "external_html_css_js": "forbidden",
       "generic_fallback_as_production": "forbidden",
@@ -594,11 +612,23 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
-    ]
+    ],
+    "page_variant_golden_specs": {
+      "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.cover.canvas-spec.json",
+      "agenda": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.agenda.canvas-spec.json",
+      "statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.statement.canvas-spec.json",
+      "two-col": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.two-col.canvas-spec.json",
+      "data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.data.canvas-spec.json",
+      "framework": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.framework.canvas-spec.json",
+      "stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.stats.canvas-spec.json",
+      "summary": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/editorial-forest.summary.canvas-spec.json"
+    },
+    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/editorial-forest.json",
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/editorial-forest.serif-stat-editorial.json"
   },
   "do_not_simplify": [
     "preserve_fonts_palette_grid_slide_classes_decorative_elements",
@@ -1341,8 +1371,12 @@
     "core_page_roles": [
       "cover",
       "agenda",
+      "quote_or_emphasis",
+      "comparison",
+      "data",
+      "process_or_timeline",
       "data_dashboard",
-      "detail"
+      "closing"
     ],
     "production_minimum_roles": [
       "cover",
@@ -1352,177 +1386,189 @@
       "quote_or_emphasis",
       "process_or_timeline",
       "closing"
-    ]
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "agenda",
+      "statement",
+      "two-col",
+      "data",
+      "framework",
+      "stats",
+      "summary"
+    ],
+    "claim_boundary": "page-family implemented for review; not production/default selectable until selector, quality gate, visual review, and production review pass"
   },
   "page_variants": {
     "cover": {
-      "source_class": "cover",
       "source_slide_index": 1,
+      "source_class": "cover",
       "page_role": "cover",
       "required_slots": [
-        "title"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "title",
+        "eyebrow"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".cover",
-          "raw_value": "<section class=\"cover\" data-screen-label=\"01 Cover\">"
+          "selector_or_token": "section.cover",
+          "raw_value": "cover"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "agenda": {
-      "source_class": "agenda",
       "source_slide_index": 2,
+      "source_class": "agenda",
       "page_role": "agenda",
       "required_slots": [
-        "title",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "title"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".agenda",
-          "raw_value": "<section class=\"agenda\" data-screen-label=\"02 Agenda\">"
+          "selector_or_token": "section.agenda",
+          "raw_value": "agenda"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "statement": {
-      "source_class": "statement",
       "source_slide_index": 3,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "metrics",
-        "quote"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".statement",
-          "raw_value": "<section class=\"statement\" data-screen-label=\"03 Statement\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "two_col": {
-      "source_class": "two-col",
-      "source_slide_index": 4,
-      "page_role": "data_dashboard",
+      "source_class": "statement",
+      "page_role": "quote_or_emphasis",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "quote"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".two-col",
-          "raw_value": "<section class=\"two-col\" data-screen-label=\"04 Two Column\">"
+          "selector_or_token": "section.statement",
+          "raw_value": "statement"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
+    },
+    "two-col": {
+      "source_slide_index": 4,
+      "source_class": "two-col",
+      "page_role": "comparison",
+      "required_slots": [
+        "title"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
+          "selector_or_token": "section.two-col",
+          "raw_value": "two-col"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "data": {
-      "source_class": "data",
       "source_slide_index": 5,
+      "source_class": "data",
+      "page_role": "data",
+      "required_slots": [
+        "title"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
+          "selector_or_token": "section.data",
+          "raw_value": "data"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
+    },
+    "framework": {
+      "source_slide_index": 6,
+      "source_class": "framework",
+      "page_role": "process_or_timeline",
+      "required_slots": [
+        "title"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
+          "selector_or_token": "section.framework",
+          "raw_value": "framework"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
+    },
+    "stats": {
+      "source_slide_index": 7,
+      "source_class": "stats",
       "page_role": "data_dashboard",
       "required_slots": [
         "title"
       ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
+          "selector_or_token": "section.stats",
+          "raw_value": "stats"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
         "eyebrow",
         "decoration"
       ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".data",
-          "raw_value": "<section class=\"data\" data-screen-label=\"05 Data\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "framework": {
-      "source_class": "framework",
-      "source_slide_index": 6,
-      "page_role": "detail",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".framework",
-          "raw_value": "<section class=\"framework\" data-screen-label=\"06 Framework\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "stats": {
-      "source_class": "stats",
-      "source_slide_index": 7,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".stats",
-          "raw_value": "<section class=\"stats\" data-screen-label=\"07 Stats\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "summary": {
-      "source_class": "summary",
       "source_slide_index": 8,
-      "page_role": "data_dashboard",
+      "source_class": "summary",
+      "page_role": "closing",
       "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "title"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/editorial-forest/template.html",
-          "selector_or_token": ".summary",
-          "raw_value": "<section class=\"summary\" data-screen-label=\"08 Summary\">"
+          "selector_or_token": "section.summary",
+          "raw_value": "summary"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     }
   },
   "page_family_source": {
@@ -1531,5 +1577,6 @@
     "source_design_md": "beautiful-html-templates/templates/editorial-forest/design.md",
     "source_template_json": "beautiful-html-templates/templates/editorial-forest/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  },
+  "template_id": "serif-stat-editorial"
 }

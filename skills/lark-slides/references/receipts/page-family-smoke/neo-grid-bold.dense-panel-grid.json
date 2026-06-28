@@ -1,0 +1,316 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "neo-grid-bold",
+  "selected_template_id": "dense-panel-grid",
+  "selected_theme_id": "neo-grid-bold",
+  "selection_source": "explicit_args",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 12,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "features",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "section",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "cta",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "consult",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "data",
+      "page_variant_id": "chart2",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 11,
+      "page_role": "process",
+      "page_variant_id": "process2",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 12,
+      "page_role": "comparison",
+      "page_variant_id": "matrix2",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "toc"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "section"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        3,
+        5,
+        10
+      ],
+      "variants": [
+        "chart",
+        "chart2",
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        12
+      ],
+      "variants": [
+        "matrix2"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        11
+      ],
+      "variants": [
+        "process2"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        4,
+        9
+      ],
+      "variants": [
+        "consult",
+        "features"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "cta"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "toc",
+    "stats",
+    "features",
+    "chart",
+    "section",
+    "quote",
+    "cta",
+    "consult",
+    "chart2",
+    "process2",
+    "matrix2"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "toc",
+    "stats",
+    "features",
+    "chart",
+    "section",
+    "quote",
+    "cta",
+    "consult",
+    "chart2",
+    "process2",
+    "matrix2"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/neo-grid-bold.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.chart.canvas-spec.json",
+    "golden_spec.chart2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.chart2.canvas-spec.json",
+    "golden_spec.consult": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.consult.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.cover.canvas-spec.json",
+    "golden_spec.cta": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.cta.canvas-spec.json",
+    "golden_spec.features": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.features.canvas-spec.json",
+    "golden_spec.matrix2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.matrix2.canvas-spec.json",
+    "golden_spec.process2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.process2.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.quote.canvas-spec.json",
+    "golden_spec.section": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.section.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.stats.canvas-spec.json",
+    "golden_spec.toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/neo-grid-bold.toc.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_deck": "f959b92fb922ff4a150e2b7de03bebdc2a152c72e33ae520d781af66b067a9f2",
+    "golden_spec.chart": "4949f1ad5af85355daa40cf385e8cad7117c5a57d5f764b4429e039366e3dfd9",
+    "golden_spec.chart2": "86bb1b14ee5a3c3df0930e05c2df26b70a01d4d211d985f0769e7dc4639a9270",
+    "golden_spec.consult": "18aa2d278874b134afe7aebd76153f0fc338233ca000c508b7ec9dbb6dea36b9",
+    "golden_spec.cover": "b24e0d5b9b78cba2507d3e6c26d78d285095ef2288643743fcdf554b01b58220",
+    "golden_spec.cta": "b1e5ed725a5c953106a52533237191ed68fe1f293e1426e957195e03b874387f",
+    "golden_spec.features": "3ffff9906e835bd0ebb951e6a8f9182f0b4fb6076a5b4f13d793a7da9cca2df0",
+    "golden_spec.matrix2": "872f6b8db30c0f5448a70b579a337c47325d32965aa217606daa130f29633034",
+    "golden_spec.process2": "ded5345de4d5deacb734594f96dd332425e6b02153203d802a799c84903ae9cf",
+    "golden_spec.quote": "e200d0115e35b0a572c3e49200008cf5d4d1fbc330a333488b546a1f28a03b2e",
+    "golden_spec.section": "1911a914a9596b37f7a41804808b6d4b90eb8237bfb57248239c59320111c77d",
+    "golden_spec.stats": "900ed3d98fca05cafa84e7b2116d49f6ef2c13d2b98c65347931da4c8ab336d8",
+    "golden_spec.toc": "d565fdb29325ae91bbce3d87c5532c422e0347aa8f5a7f2e0e01b7c3a02313b4"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "python3",
+    "skills/lark-slides/scripts/beautiful_template_page_family_smoke.py",
+    "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private",
+    "--selected-family=neo-grid-bold"
+  ],
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/neo-grid-bold.json",
+    "smoke_fixture": null,
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 12,
+    "covered_role_count": 9,
+    "implemented_variant_count": 12,
+    "covered_implemented_variant_count": 12
+  }
+}

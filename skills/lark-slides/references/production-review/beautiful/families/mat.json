@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/mat.html",
-    "render_status": "missing_smoke",
-    "sha256": "0ce4a452a37c017f264b7d4090ddf92dc778be331705bdc39e0587017d067cdc"
+    "render_status": "passed",
+    "sha256": "215a8d694af09a490f0364de0f927c852cf43c85ad6cb8404b3aa3488c502e38"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "0ce4a452a37c017f264b7d4090ddf92dc778be331705bdc39e0587017d067cdc",
+    "contact_sheet": "215a8d694af09a490f0364de0f927c852cf43c85ad6cb8404b3aa3488c502e38",
     "fidelity_receipt": "e1e95e38f4ea8124a378b7de4a0eb81593f192811ea42e7b31085ed84410cf34",
     "reference_screenshot": "acac0ac30af8fbb206adfb6810573c72d3ca96b00293f9f850fdeefed1ae11dc",
-    "smoke_receipt": null,
-    "visual_contract": "22f9899bfa852ac964a8e42a4178cc2898ff113d1e97da9584d0674d721e2319"
+    "smoke_receipt": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1",
+    "visual_contract": "54c42155904fc464ff5244469df666433b79b43cf7f38381a24f9c3824938d82"
   },
   "family_id": "mat",
   "fidelity": {
@@ -33,12 +33,20 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 9,
+  "implemented_page_variants": [
+    "cover",
+    "statement",
+    "split",
+    "stats",
+    "quote",
+    "list",
+    "compare",
+    "chart",
+    "end"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
     "selector_gate_missing",
@@ -60,6 +68,7 @@
     "status": "available"
   },
   "missing_roles": [
+    "agenda",
     "process_or_timeline",
     "closing"
   ],
@@ -75,21 +84,21 @@
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
     "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "81f24f7068b6e2accd63646a0cf08cc7e4f9e44d15b9eb787e4560342958c28d",
+    "current_deck_browser_preview_sha256": "7bcd19f16cc37c61642291bcbf9fdc5d90ad004fb87eac0bc7b87d5374dc4276",
     "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.png",
     "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.svg",
-    "current_deck_render_sha256": "e99feed10d6a2770ce302e52327b03e2f42883ff17cc3eaf5eb98c5688246a08",
+    "current_deck_render_sha256": "9c176365ba6a5474c3add22fd4c00eb959ab8e1bd679e6544093c12ea18bb466",
     "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.svg",
     "family_id": "mat",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
+    "golden_spec_sha256": "b8e2e507e6837a5982bbbbe10b51f548ca5bb960da1d1a4158416620d535a886",
     "page": 1,
     "page_role": "cover",
     "page_variant_id": "cover",
     "role_group": "cover",
     "runtime_template_id": "mat-midcentury-board",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+    "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1",
     "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/mat/001-cover.jpg",
     "source_screenshot_sha256": "19c813b50a5df84a3837a3c0f329b04f321af93e36b4410f09dd4a73897cdd1d",
     "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/mat/001-cover.jpg",
@@ -99,14 +108,10 @@
   "page_variant_count": 9,
   "page_variant_coverage": {
     "agenda": {
-      "covered": true,
-      "missing_reason": null,
-      "page_variant_ids": [
-        "statement"
-      ],
-      "pages": [
-        2
-      ]
+      "covered": false,
+      "missing_reason": "source_page_variant_not_extracted_for_role",
+      "page_variant_ids": [],
+      "pages": []
     },
     "closing": {
       "covered": false,
@@ -170,9 +175,11 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
+        "statement",
         "quote"
       ],
       "pages": [
+        2,
         5
       ]
     }
@@ -217,7 +224,7 @@
         "metrics",
         "items"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "slide--statement",
       "source_refs": [
         {
@@ -409,33 +416,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "81f24f7068b6e2accd63646a0cf08cc7e4f9e44d15b9eb787e4560342958c28d",
+          "browser_preview_sha256": "7bcd19f16cc37c61642291bcbf9fdc5d90ad004fb87eac0bc7b87d5374dc4276",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.svg",
-          "sha256": "e99feed10d6a2770ce302e52327b03e2f42883ff17cc3eaf5eb98c5688246a08",
+          "sha256": "9c176365ba6a5474c3add22fd4c00eb959ab8e1bd679e6544093c12ea18bb466",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
+        "golden_spec_sha256": "b8e2e507e6837a5982bbbbe10b51f548ca5bb960da1d1a4158416620d535a886",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -477,40 +484,40 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "a2aa5cdb51bda07fa3e7b355e854e13095682e323be2657fb11b0eb017c1d650",
+          "browser_preview_sha256": "e413cfb0c30c4a4b05742fb1727fa614ea54876a47db38dd8c5ea57247486ac4",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.svg",
-          "sha256": "138e809c45fb31cc3a76a3d34cdccbb87c1ed8d7566468d199cf553cddf353bf",
+          "sha256": "2794095800649ac851e53bbd04d7e38c503afd20949cf2b55b98f7b7321aa4d5",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.statement.canvas-spec.json",
+        "golden_spec_sha256": "a72903bae1bed4fb2df8bde153a24b703f6dc843b0028687ceeb9c6c6714c6cd",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.statement.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
         "metrics",
         "items"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "slide--statement",
       "source_refs": [
         {
@@ -545,33 +552,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "0f18ac13c3b5b6ef61cfce805afc1cd47dd97bf2d6f12a159ff6d9f49a713468",
+          "browser_preview_sha256": "647cc30ab245b3a4d73c83370f232e1814a8f00ebded0d95cf3bb02ba66f13cb",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.svg",
-          "sha256": "264debbb40c1c06399cde2f960edd77f6e618ff177ad89fef08453f612e83bc5",
+          "sha256": "52b16199cf62d5b4bc3677de5f1567c7701fa3b5a937a33abe9bd8de970cdbc6",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.split.canvas-spec.json",
+        "golden_spec_sha256": "e13cdcf65e235de544e78dc0a1583dc790e1b66d5dd15da6c0bdb650754c37fc",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.split.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -613,33 +620,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "dd4581ab17fdc533b124690f882dd206ff439b26402023b78fa14e36a5bb40b0",
+          "browser_preview_sha256": "2db4cee2973584b3d4a8c3bea8986c735aeea54246d36b0731a2baef0ec5a107",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.svg",
-          "sha256": "1bc3c90aab5e6fe4ee0a670d8a686519cbf15489557cbddc505ba483eed9b681",
+          "sha256": "4bfcd87f79a1c7ce2f9a6726fb190bc95438eef92f42198ae499d0298c4d4f07",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.stats.canvas-spec.json",
+        "golden_spec_sha256": "af2ec5828b4e54c51729f094d5657793f62890ea52c7739293aff6bc513fad75",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.stats.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "metrics",
@@ -680,33 +687,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "106abc0c17c696ba98ac10f300e8140af98f79b616719cd410ad16fb9095c1db",
+          "browser_preview_sha256": "59868c97109af31a5c71b6eef2f814a2d17a6d677126b443d7807354125ab819",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.svg",
-          "sha256": "2e1e9946eace638c96a9f119ca88ffd9aed8815e207dce8384b5b0ed2e964f83",
+          "sha256": "4442c53a5aaacbefe3e5256fa9fa5c52fd5caddf66cffb9e59fed2a08960f2f9",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.quote.canvas-spec.json",
+        "golden_spec_sha256": "38b13935f5ba0d566864b89b85a98542f931e2381687865a6b702a78ffe05cd8",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.quote.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "quote"
       ],
@@ -745,33 +752,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "0b5fa144fa09b4cde37a66a86cd4548b92b5ab61929d0004e9d8a1e89be9f52e",
+          "browser_preview_sha256": "727f8c55f01c1f78b964a96e693e262527147a48e1c0426fe0d55ce05abf5a43",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.svg",
-          "sha256": "5a68805bddfe421e422bd63c5b75ad58e6c3628907f0611c41adbb6e3563df9a",
+          "sha256": "9fd0a7758b92cdb33108f07258cc8d4e86b0355c799346fe15ae55a341e891a2",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.list.canvas-spec.json",
+        "golden_spec_sha256": "f02aeebdfaa6f91660091d2aa58a654db89ad7bfd90d612d3e83c44002207767",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.list.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -812,33 +819,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "8d943f467f899cfb181154a151ff76284866465eaee6422bf0d1db63ed630ee2",
+          "browser_preview_sha256": "bd68a624201ded6c2c78f59d308a0a52cc000b057033c2006639a098b806ad27",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.svg",
-          "sha256": "ed8ed3cdc9e73fa5f796064fc74d72cb3e27578f72dfa957e6f26b960a9b5010",
+          "sha256": "d2910bea8c23f9ab13df9fc874f9d48d9fcca8f6bfba9921b544bae921402f38",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.compare.canvas-spec.json",
+        "golden_spec_sha256": "6195d65ce42bc46795b809d38b9615130bf3cad96ffde75091c2ff7272e88b30",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.compare.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -879,33 +886,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "8107d5b92a2294e62a359c521b5e709840c44820e724988ce009c3e126e744d4",
+          "browser_preview_sha256": "bbe8dbfecc9431872998c2703778c41ff12c9b72ae6aacea6664afda9f267e0a",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.svg",
-          "sha256": "8c8cc622d9070bff1f9cf56722f83fa666dc1d084441fda29d536555e0217a51",
+          "sha256": "a2763960919b2012d3ad915f9748e98b529b821f10e95622366a666e1d077818",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.chart.canvas-spec.json",
+        "golden_spec_sha256": "89a706a96c8c5ccf5a8656837c2cbf1b3d44bf12a25ad06e9a3955374d74337e",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.chart.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "items"
@@ -945,33 +952,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "c0b074e5c7952886525d0efa4919d9a9b0db0ad9ed1c79cfc48a541cc6e2e601",
+          "browser_preview_sha256": "b6ad68d0eef665078649bf4dcd07926017c057872275551dcd982f9a8b6ae207",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-          "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+          "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.svg",
-          "sha256": "aa9bf98322624c3d0d4fd349280f383d2304076c6bdf215abba98cb9651ef4f4",
+          "sha256": "74d9a6d9b089d04602f83bc74b32fdda6be3e80462275bf72909c76b786e241d",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.end.canvas-spec.json",
+        "golden_spec_sha256": "b0f2a4b8a78367e28a0c5280cf40b48047db13544252ba353838e117e9ef05b1",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.end.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+        "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -1010,38 +1017,155 @@
   "runtime_template_id": "mat-midcentury-board",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "cover",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/mat.json",
+    "deck_sha256": "bf310ec3e0745b3c8d6f391ef21d892e89d1e053a7bcf5e4c9beb0fa88e64b73",
+    "degraded": false,
+    "implemented_page_variants": [
+      "cover",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "chart",
+      "end"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.chart": "89a706a96c8c5ccf5a8656837c2cbf1b3d44bf12a25ad06e9a3955374d74337e",
+      "golden_spec.compare": "6195d65ce42bc46795b809d38b9615130bf3cad96ffde75091c2ff7272e88b30",
+      "golden_spec.cover": "b8e2e507e6837a5982bbbbe10b51f548ca5bb960da1d1a4158416620d535a886",
+      "golden_spec.end": "b0f2a4b8a78367e28a0c5280cf40b48047db13544252ba353838e117e9ef05b1",
+      "golden_spec.list": "f02aeebdfaa6f91660091d2aa58a654db89ad7bfd90d612d3e83c44002207767",
+      "golden_spec.quote": "38b13935f5ba0d566864b89b85a98542f931e2381687865a6b702a78ffe05cd8",
+      "golden_spec.split": "e13cdcf65e235de544e78dc0a1583dc790e1b66d5dd15da6c0bdb650754c37fc",
+      "golden_spec.statement": "a72903bae1bed4fb2df8bde153a24b703f6dc843b0028687ceeb9c6c6714c6cd",
+      "golden_spec.stats": "af2ec5828b4e54c51729f094d5657793f62890ea52c7739293aff6bc513fad75",
+      "slide_plan": null,
+      "smoke_deck": "bf310ec3e0745b3c8d6f391ef21d892e89d1e053a7bcf5e4c9beb0fa88e64b73",
+      "smoke_fixture": "8b6c9167d49001888a5160bd0a14b13f0e6fd1f13f98f1783d09137ec64bece3",
+      "template_registry": null,
+      "theme_registry": null
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "statement"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          10
+        ],
+        "variants": [
+          "end"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          7
+        ],
+        "variants": [
+          "compare"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "list"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "cover"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          4,
+          9
+        ],
+        "variants": [
+          "chart",
+          "stats"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "split"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "split"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "quote"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+    "receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1",
+    "rendered_pages": 10,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
     "missing_roles": [
+      "agenda",
       "process_or_timeline",
       "closing"
     ],
     "page_count": 9,
     "page_variant_coverage": {
       "agenda": {
-        "covered": true,
-        "missing_reason": null,
-        "page_variant_ids": [
-          "statement"
-        ],
-        "pages": [
-          2
-        ]
+        "covered": false,
+        "missing_reason": "source_page_variant_not_extracted_for_role",
+        "page_variant_ids": [],
+        "pages": []
       },
       "closing": {
         "covered": false,
@@ -1105,9 +1229,11 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
+          "statement",
           "quote"
         ],
         "pages": [
+          2,
           5
         ]
       }
@@ -1126,33 +1252,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "81f24f7068b6e2accd63646a0cf08cc7e4f9e44d15b9eb787e4560342958c28d",
+            "browser_preview_sha256": "7bcd19f16cc37c61642291bcbf9fdc5d90ad004fb87eac0bc7b87d5374dc4276",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.svg",
-            "sha256": "e99feed10d6a2770ce302e52327b03e2f42883ff17cc3eaf5eb98c5688246a08",
+            "sha256": "9c176365ba6a5474c3add22fd4c00eb959ab8e1bd679e6544093c12ea18bb466",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-001-cover.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
+          "golden_spec_sha256": "b8e2e507e6837a5982bbbbe10b51f548ca5bb960da1d1a4158416620d535a886",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.cover.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1194,40 +1320,40 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "a2aa5cdb51bda07fa3e7b355e854e13095682e323be2657fb11b0eb017c1d650",
+            "browser_preview_sha256": "e413cfb0c30c4a4b05742fb1727fa614ea54876a47db38dd8c5ea57247486ac4",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.svg",
-            "sha256": "138e809c45fb31cc3a76a3d34cdccbb87c1ed8d7566468d199cf553cddf353bf",
+            "sha256": "2794095800649ac851e53bbd04d7e38c503afd20949cf2b55b98f7b7321aa4d5",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-002-statement.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.statement.canvas-spec.json",
+          "golden_spec_sha256": "a72903bae1bed4fb2df8bde153a24b703f6dc843b0028687ceeb9c6c6714c6cd",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.statement.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
           "metrics",
           "items"
         ],
-        "role_group": "agenda",
+        "role_group": "quote_or_emphasis",
         "source_class": "slide--statement",
         "source_refs": [
           {
@@ -1262,33 +1388,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "0f18ac13c3b5b6ef61cfce805afc1cd47dd97bf2d6f12a159ff6d9f49a713468",
+            "browser_preview_sha256": "647cc30ab245b3a4d73c83370f232e1814a8f00ebded0d95cf3bb02ba66f13cb",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.svg",
-            "sha256": "264debbb40c1c06399cde2f960edd77f6e618ff177ad89fef08453f612e83bc5",
+            "sha256": "52b16199cf62d5b4bc3677de5f1567c7701fa3b5a937a33abe9bd8de970cdbc6",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-003-split.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.split.canvas-spec.json",
+          "golden_spec_sha256": "e13cdcf65e235de544e78dc0a1583dc790e1b66d5dd15da6c0bdb650754c37fc",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.split.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1330,33 +1456,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "dd4581ab17fdc533b124690f882dd206ff439b26402023b78fa14e36a5bb40b0",
+            "browser_preview_sha256": "2db4cee2973584b3d4a8c3bea8986c735aeea54246d36b0731a2baef0ec5a107",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.svg",
-            "sha256": "1bc3c90aab5e6fe4ee0a670d8a686519cbf15489557cbddc505ba483eed9b681",
+            "sha256": "4bfcd87f79a1c7ce2f9a6726fb190bc95438eef92f42198ae499d0298c4d4f07",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-004-stats.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.stats.canvas-spec.json",
+          "golden_spec_sha256": "af2ec5828b4e54c51729f094d5657793f62890ea52c7739293aff6bc513fad75",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.stats.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "metrics",
@@ -1397,33 +1523,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "106abc0c17c696ba98ac10f300e8140af98f79b616719cd410ad16fb9095c1db",
+            "browser_preview_sha256": "59868c97109af31a5c71b6eef2f814a2d17a6d677126b443d7807354125ab819",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.svg",
-            "sha256": "2e1e9946eace638c96a9f119ca88ffd9aed8815e207dce8384b5b0ed2e964f83",
+            "sha256": "4442c53a5aaacbefe3e5256fa9fa5c52fd5caddf66cffb9e59fed2a08960f2f9",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-005-quote.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.quote.canvas-spec.json",
+          "golden_spec_sha256": "38b13935f5ba0d566864b89b85a98542f931e2381687865a6b702a78ffe05cd8",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.quote.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "quote"
         ],
@@ -1462,33 +1588,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "0b5fa144fa09b4cde37a66a86cd4548b92b5ab61929d0004e9d8a1e89be9f52e",
+            "browser_preview_sha256": "727f8c55f01c1f78b964a96e693e262527147a48e1c0426fe0d55ce05abf5a43",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.svg",
-            "sha256": "5a68805bddfe421e422bd63c5b75ad58e6c3628907f0611c41adbb6e3563df9a",
+            "sha256": "9fd0a7758b92cdb33108f07258cc8d4e86b0355c799346fe15ae55a341e891a2",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-006-list.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.list.canvas-spec.json",
+          "golden_spec_sha256": "f02aeebdfaa6f91660091d2aa58a654db89ad7bfd90d612d3e83c44002207767",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.list.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1529,33 +1655,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "8d943f467f899cfb181154a151ff76284866465eaee6422bf0d1db63ed630ee2",
+            "browser_preview_sha256": "bd68a624201ded6c2c78f59d308a0a52cc000b057033c2006639a098b806ad27",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.svg",
-            "sha256": "ed8ed3cdc9e73fa5f796064fc74d72cb3e27578f72dfa957e6f26b960a9b5010",
+            "sha256": "d2910bea8c23f9ab13df9fc874f9d48d9fcca8f6bfba9921b544bae921402f38",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-007-compare.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.compare.canvas-spec.json",
+          "golden_spec_sha256": "6195d65ce42bc46795b809d38b9615130bf3cad96ffde75091c2ff7272e88b30",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.compare.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1596,33 +1722,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "8107d5b92a2294e62a359c521b5e709840c44820e724988ce009c3e126e744d4",
+            "browser_preview_sha256": "bbe8dbfecc9431872998c2703778c41ff12c9b72ae6aacea6664afda9f267e0a",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.svg",
-            "sha256": "8c8cc622d9070bff1f9cf56722f83fa666dc1d084441fda29d536555e0217a51",
+            "sha256": "a2763960919b2012d3ad915f9748e98b529b821f10e95622366a666e1d077818",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-008-chart.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.chart.canvas-spec.json",
+          "golden_spec_sha256": "89a706a96c8c5ccf5a8656837c2cbf1b3d44bf12a25ad06e9a3955374d74337e",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.chart.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "items"
@@ -1662,33 +1788,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "c0b074e5c7952886525d0efa4919d9a9b0db0ad9ed1c79cfc48a541cc6e2e601",
+            "browser_preview_sha256": "b6ad68d0eef665078649bf4dcd07926017c057872275551dcd982f9a8b6ae207",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/manifest.json",
-            "manifest_sha256": "b6a0de747a171db6d0cd56641e914e8d1c25c54d4e49d9996ad8c508cea39723",
+            "manifest_sha256": "27d380503571292d476ec1acba5614748d475b2af203dd883c16eb27a0d6a177",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.svg",
-            "sha256": "aa9bf98322624c3d0d4fd349280f383d2304076c6bdf215abba98cb9651ef4f4",
+            "sha256": "74d9a6d9b089d04602f83bc74b32fdda6be3e80462275bf72909c76b786e241d",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/mat/page-009-end.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.end.canvas-spec.json",
+          "golden_spec_sha256": "b0f2a4b8a78367e28a0c5280cf40b48047db13544252ba353838e117e9ef05b1",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/mat.end.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/mat.mat-midcentury-board.json",
+          "smoke_receipt_sha256": "b0d965dd5db7ae8568a70e23a423c369893fb616d558ba9b45531af8a187fed1"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1719,10 +1845,10 @@
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 9,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "mat-midcentury-board",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/mat.mat-midcentury-board.json",
-  "visual_contract_sha256": "22f9899bfa852ac964a8e42a4178cc2898ff113d1e97da9584d0674d721e2319"
+  "visual_contract_sha256": "54c42155904fc464ff5244469df666433b79b43cf7f38381a24f9c3824938d82"
 }

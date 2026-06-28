@@ -1,0 +1,62 @@
+{
+  "claim_boundary": "Explicit current-run smoke deck for retro-zine page-family coverage; not production/default selectable evidence.",
+  "family_id": "retro-zine",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "hero"
+    },
+    {
+      "page": 2,
+      "page_role": "comparison",
+      "page_variant_id": "split"
+    },
+    {
+      "page": 3,
+      "page_role": "quote",
+      "page_variant_id": "statement"
+    },
+    {
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "grid"
+    },
+    {
+      "page": 5,
+      "page_role": "content",
+      "page_variant_id": "visual"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "editorial"
+    },
+    {
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "numbers"
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "collage"
+    },
+    {
+      "page": 9,
+      "page_role": "agenda",
+      "page_variant_id": "rsvp"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing"
+    }
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "runtime_template_id": "retro-zine-spread",
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "selected_theme_id": "retro-zine",
+  "variant_reuse_rationale": "Retro Zine source has 10 source-backed pages. Smoke deck covers all implemented variants and all production minimum roles; rsvp is mapped to agenda/next-action coverage because the source family has no literal agenda slide."
+}

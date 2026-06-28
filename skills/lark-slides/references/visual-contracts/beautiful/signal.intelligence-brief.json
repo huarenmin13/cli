@@ -1,159 +1,79 @@
 {
-  "version": "svglide-beautiful-template-visual-contract/v1",
-  "family_id": "signal",
-  "runtime_template_id": "intelligence-brief",
-  "source": {
-    "source_template_html": "beautiful-html-templates/templates/signal/template.html",
-    "source_design_md": "beautiful-html-templates/templates/signal/design.md",
-    "source_template_json": "beautiful-html-templates/templates/signal/template.json",
-    "reference_screenshot": "beautiful-html-templates/screenshots/signal-1.png",
-    "source_screenshots": [
-      "beautiful-html-templates/screenshots/signal-1.png",
-      "beautiful-html-templates/screenshots/signal-18.png",
-      "beautiful-html-templates/screenshots/signal-8.png"
-    ],
-    "absorption_records": [
-      "skills/lark-slides/references/absorptions/beautiful-html-templates/signal.intelligence-brief.json"
-    ],
-    "template_json_name": "Signal",
-    "template_json_slug": "signal"
-  },
-  "layout": {
-    "layout_family": null,
-    "density": "high",
-    "formality": "high",
-    "layout_rhythm": "signal: high density, high formality. Deep navy canvas with bone paper and a single muted-gold accent; institutional with quiet weight.",
-    "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_x\": \"7.5vw\", \"pad_y\": \"5.5vh\", \"gap_lg\": \"4vh\", \"gap_md\": \"2.5vh\", \"gap_sm\": \"1.2vh\", \"grid_cell\": \"80px\"}",
-    "source_layout_classes": [],
-    "variant_ids": [
-      "cover",
-      "agenda",
-      "section_divider",
-      "context_overview",
-      "metric_dashboard",
-      "problem_analysis",
-      "cause_analysis",
-      "comparison",
+  "component": {
+    "component_candidates": [
+      "title_block",
+      "section_label",
+      "metric_card",
+      "finding_callout",
+      "evidence_table",
+      "comparison_matrix",
       "timeline",
-      "case_evidence",
-      "action_plan",
-      "risk_dependency",
-      "closing"
+      "process_flow",
+      "image_panel",
+      "logo_strip",
+      "mini_chart",
+      "qualitative_radar",
+      "action_list",
+      "risk_matrix",
+      "architecture_diagram"
+    ],
+    "component_grammar": [
+      "stat-4",
+      "stat-4-cell",
+      "stat-4-label",
+      "stat-4-val",
+      "stat-card",
+      "stat-label",
+      "stat-note",
+      "stat-value",
+      "statement-body",
+      "stats-grid"
+    ],
+    "component_ids": [],
+    "content_shapes": [],
+    "html_component_classes": [
+      "bullet-list",
+      "chart-baseline",
+      "chart-header",
+      "chart-source",
+      "chart-wrapper",
+      "compare-panel",
+      "cycle-grid",
+      "list-head",
+      "log-list",
+      "quote-attr",
+      "quote-mark",
+      "quote-text",
+      "slide--chart",
+      "slide--list",
+      "slide--quote",
+      "slide--statement",
+      "slide--stats",
+      "slide--vtimeline",
+      "stat-4",
+      "stat-4-cell",
+      "stat-4-label",
+      "stat-4-val",
+      "stat-card",
+      "stat-label",
+      "stat-note",
+      "stat-value",
+      "statement-body",
+      "stats-grid",
+      "vtimeline"
     ]
   },
-  "typography": {
-    "template_json_typography": {
-      "display": "Source Serif 4",
-      "body": "DM Sans",
-      "mono": "IBM Plex Mono",
-      "serif_cn": "Noto Serif SC",
-      "sans_cn": "Noto Sans SC",
-      "style": "transitional serif headlines + clean sans body + technical mono captions; full Chinese serif/sans support"
-    },
-    "design_tokens_typography": {
-      "body": "DM Sans",
-      "display": "Source Serif 4",
-      "mono": "IBM Plex Mono",
-      "sans_cn": "Noto Sans SC",
-      "serif_cn": "Noto Serif SC",
-      "style": "transitional serif headlines + clean sans body + technical mono captions; full Chinese serif/sans support"
-    },
-    "visual_dna_typography_roles": {
-      "body": "DM Sans",
-      "caption": "small caption -> system-sans-cjk-regular",
-      "display": "Source Serif 4",
-      "label": "compact label -> system-sans-cjk-medium",
-      "metric": "display numeric emphasis -> system-sans-cjk-heavy"
-    },
-    "typography_role": "transitional serif headlines + clean sans body + technical mono captions; full Chinese serif/sans support",
-    "font_policy": {
-      "fallback_stack": "system-sans-cjk",
-      "font_role_map": {
-        "body": "system-sans-cjk-regular",
-        "display": "system-sans-cjk-heavy",
-        "label": "system-sans-cjk-medium",
-        "metric": "system-sans-cjk-heavy",
-        "mono": "system-mono"
-      },
-      "original_families": [
-        "Source Serif 4",
-        "DM Sans"
-      ]
-    },
-    "cjk_policy": {
-      "body_font_cn": "Noto Serif SC",
-      "design_intent_font_pairing": [
-        "Noto Sans SC",
-        "Noto Serif SC"
-      ],
-      "display_font_cn": "Noto Sans SC",
-      "emphasis_policy": "color_or_weight_only",
-      "italic_policy": "drop_italic",
-      "known_degradation": "The system's most distinctive typographic treatment (roman + italic-gold mid-sentence inside Source Serif 4 headlines) is fundamentally a Latin-typographic move that does not translate. Neither Noto Serif SC nor Noto Sans SC ships an italic axis, and inventing one via CSS `font-style: italic` produces an oblique/slanted glyph that reads as broken rather than",
-      "latin_accent_policy": "latin_only_allowed_when_semantic_annotation",
-      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
-      "mixed_run_spacing": "pangu_spacing",
-      "mono_font_policy": "latin_only_or_system_mono",
-      "runtime_font_policy": "system_font_only_no_remote_dependency",
-      "runtime_font_stack": [
-        "system-sans-cjk",
-        "system-sans-cjk-heavy",
-        "system-sans-cjk-regular",
-        "system-mono"
-      ],
-      "source_section_heading": "CJK & International Content",
-      "source_section_sha256": "63e59eb164dd465d55114602076e2bac6aa477ec9a023f6c686e0493d3e3bc39",
-      "strategy": "replace_family_whole_element"
-    }
-  },
-  "palette": {
-    "template_json_palette": {
-      "bg": "#1c2644",
-      "bg_alt": "#232f55",
-      "fg": "#e2dcd0",
-      "accent": "#c8a870",
-      "bg_light": "#f0ece3",
-      "description": "deep navy primary with warm bone paper alternate and a single muted-gold accent; restrained, institutional, no decorative color"
-    },
-    "design_token_colors": {
-      "border_dark": "#2E3D5C",
-      "border_light": "#CAC4B4",
-      "cream": "#F0ECE3",
-      "cream_alt": "#E6E0D4",
-      "gold": "#C8A870",
-      "ink": "#1A2030",
-      "navy": "#1C2644",
-      "navy_alt": "#232F55",
-      "text_hint_dark": "#4E5A6E",
-      "text_hint_light": "#9AA0A8",
-      "text_muted_dark": "#8A96A8",
-      "text_muted_light": "#5A6270",
-      "text_warm": "#E2DCD0"
-    },
-    "theme_token_colors": {},
-    "theme_token_semantic_colors": {},
-    "visual_dna_palette_roles": {
-      "accent": "#c8a870",
-      "background": "#1c2644",
-      "border": "#1A2030",
-      "muted": "#1c2644",
-      "negative": "#1c2644",
-      "positive": "#1c2644",
-      "primary": "#c8a870",
-      "surface": "#F0ECE3",
-      "text": "#1A2030"
-    },
-    "css_color_variables": {
-      "c_bg": "#1c2644",
-      "c_bg_alt": "#232f55",
-      "c_bg_light": "#f0ece3",
-      "c_bg_light_alt": "#e6e0d4",
-      "c_accent": "#c8a870",
-      "c_border": "#2e3d5c",
-      "c_border_light": "#cac4b4"
-    }
-  },
   "decorative": {
+    "chrome_rules": [
+      "bar-x-label",
+      "compare-label",
+      "editorial-stamp",
+      "label",
+      "pie-item-label",
+      "slide-chrome",
+      "stat-4-label",
+      "stat-label"
+    ],
     "decorative_motifs": [
       "grid",
       "accent line",
@@ -164,6 +84,24 @@
       "quote mark",
       "sticker collage"
     ],
+    "decorative_vocabulary": [
+      "grid",
+      "accent line",
+      "card panels",
+      "paper texture",
+      "window chrome",
+      "poster blocks",
+      "quote mark",
+      "sticker collage"
+    ],
+    "forbidden_mutations": [
+      "new_palette",
+      "cross_family_components",
+      "fake_italic",
+      "new_decorative_motif",
+      "remote_font_dependency"
+    ],
+    "motif_budget": {},
     "visual_effects": [
       {
         "effect_id": "tinted_card",
@@ -195,131 +133,390 @@
         "lowering_policy": "native_svg",
         "notes": "Derived from beautiful-html-template source signal: bold_border."
       }
-    ],
-    "decorative_vocabulary": [
-      "grid",
-      "accent line",
-      "card panels",
-      "paper texture",
-      "window chrome",
-      "poster blocks",
-      "quote mark",
-      "sticker collage"
-    ],
-    "chrome_rules": [
-      "bar-x-label",
-      "compare-label",
-      "editorial-stamp",
-      "label",
-      "pie-item-label",
-      "slide-chrome",
-      "stat-4-label",
-      "stat-label"
-    ],
-    "motif_budget": {},
-    "forbidden_mutations": [
-      "new_palette",
-      "cross_family_components",
-      "fake_italic",
-      "new_decorative_motif",
-      "remote_font_dependency"
     ]
   },
+  "do_not_simplify": [
+    "preserve_fonts_palette_grid_slide_classes_decorative_elements",
+    "do_not_recolor_without_explicit_brand_override",
+    "do_not_mix_template_families",
+    "extend_missing_layout_inside_same_family",
+    "do_not_strip_identity_decorations",
+    "new_palette",
+    "cross_family_components",
+    "fake_italic",
+    "new_decorative_motif",
+    "remote_font_dependency",
+    "do_not_replace_family_with_generic_card_shell",
+    "do_not_mark_production_without_renderer_golden_fidelity_receipt",
+    "do_not_strip_identity_decorations",
+    "do_not_recolor_without_explicit_brand_override"
+  ],
+  "extraction_receipt": {
+    "basis": [
+      "template.json",
+      "design.md",
+      "template.html",
+      "reference_screenshot",
+      "beautiful-html-template-families.json"
+    ],
+    "claim_boundary": "visual contract only; not a renderer implementation or fidelity pass",
+    "promotion_status": "needs_review"
+  },
+  "family_id": "signal",
+  "font_strategy": {
+    "adobe_or_embedded_fallback": [
+      "Source Serif Pro",
+      "Source Sans Pro",
+      "Source Code Pro",
+      "思源宋体",
+      "思源黑体",
+      "思源等宽"
+    ],
+    "cjk_fallback": "Noto Sans SC",
+    "extraction_confidence": {
+      "adobe_or_embedded_fallback": "inferred_from_layout",
+      "cjk_fallback": "inferred_from_layout",
+      "forbidden": "inferred_from_layout",
+      "mapping_reason": "inferred_from_layout",
+      "role_mapping.body": "inferred_from_layout",
+      "role_mapping.display": "inferred_from_layout",
+      "role_mapping.label": "inferred_from_layout",
+      "role_mapping.metric": "inferred_from_layout",
+      "slide_native_preferred": "inferred_from_layout",
+      "source_fonts": "css_extracted_from_template_html"
+    },
+    "forbidden": [
+      "remote_font_runtime_dependency",
+      "google_fonts_as_production_default_without_receipt",
+      "collapse_all_roles_to_unexplained_single_font",
+      "drop_cjk_fallback"
+    ],
+    "mapping_reason": "根据 design.md/template.html/template.json 中的 font-family 与 typography token 提取源字体；运行时按 Slide/系统/Adobe/思源可用字体降级。",
+    "role_mapping": {
+      "body": {
+        "cjk_font": "思源黑体",
+        "fallback_stack": [
+          "system-sans-cjk",
+          "SVGlideBody"
+        ],
+        "mapping_reason": "保留 DM Sans 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideBody",
+        "slide_font": "Source Sans Pro",
+        "source_font": "DM Sans",
+        "source_only": false
+      },
+      "display": {
+        "cjk_font": "思源宋体",
+        "fallback_stack": [
+          "system-serif-cjk",
+          "SVGlideDisplay"
+        ],
+        "mapping_reason": "保留 Source Serif 4 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideDisplay",
+        "slide_font": "Source Serif Pro",
+        "source_font": "Source Serif 4",
+        "source_only": false
+      },
+      "label": {
+        "cjk_font": "思源等宽",
+        "fallback_stack": [
+          "system-mono",
+          "SVGlideLabel"
+        ],
+        "mapping_reason": "保留 IBM Plex Mono 的语义角色，但运行时优先使用 Slide/系统可用的 Source Code Pro 与 思源等宽。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideLabel",
+        "slide_font": "Source Code Pro",
+        "source_font": "IBM Plex Mono",
+        "source_only": false
+      },
+      "metric": {
+        "cjk_font": "思源等宽",
+        "fallback_stack": [
+          "system-mono",
+          "SVGlideMetric"
+        ],
+        "mapping_reason": "保留 IBM Plex Mono 的语义角色，但运行时优先使用 Slide/系统可用的 Source Code Pro 与 思源等宽。",
+        "requires_download": false,
+        "runtime_alias": "SVGlideMetric",
+        "slide_font": "Source Code Pro",
+        "source_font": "IBM Plex Mono",
+        "source_only": false
+      }
+    },
+    "slide_native_preferred": [
+      "system-serif-cjk",
+      "system-sans-cjk",
+      "system-mono"
+    ],
+    "source_evidence": [
+      "beautiful-html-templates/templates/signal/design.md",
+      "beautiful-html-templates/templates/signal/template.html",
+      "beautiful-html-templates/templates/signal/template.json",
+      "beautiful-html-templates/screenshots/signal-1.png"
+    ],
+    "source_fonts": [
+      "Source Serif 4",
+      "DM Sans",
+      "IBM Plex Mono",
+      "JetBrains Mono"
+    ],
+    "source_refs": {
+      "adobe_or_embedded_fallback": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "cjk_fallback": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "forbidden": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "mapping_reason": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "role_mapping.body": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "DM Sans",
+          "selector_or_token": "role_mapping.body.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.display": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "Source Serif 4",
+          "selector_or_token": "role_mapping.display.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.label": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "IBM Plex Mono",
+          "selector_or_token": "role_mapping.label.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.metric": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "IBM Plex Mono",
+          "selector_or_token": "role_mapping.metric.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "slide_native_preferred": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)",
+          "selector_or_token": "css.font-family"
+        }
+      ],
+      "source_fonts": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)",
+          "selector_or_token": "css.font-family"
+        }
+      ]
+    }
+  },
   "image": {
-    "strategy": "Preserve source image regions and screenshot-backed composition; runtime generation must use traceable online/approved image assets, not local decorative placeholders.",
+    "image_related_classes": [
+      "split-image"
+    ],
     "reference_screenshot": "beautiful-html-templates/screenshots/signal-1.png",
+    "required_assets": [],
     "source_screenshots": [
       "beautiful-html-templates/screenshots/signal-1.png",
       "beautiful-html-templates/screenshots/signal-18.png",
       "beautiful-html-templates/screenshots/signal-8.png"
     ],
-    "required_assets": [],
-    "image_related_classes": [
-      "split-image"
+    "strategy": "Preserve source image regions and screenshot-backed composition; runtime generation must use traceable online/approved image assets, not local decorative placeholders."
+  },
+  "layout": {
+    "density": "high",
+    "formality": "high",
+    "layout_family": "signal_intelligence_brief",
+    "layout_rhythm": "signal: high density, high formality. Deep navy canvas with bone paper and a single muted-gold accent; institutional with quiet weight.",
+    "source_layout_classes": [
+      "slide dark slide--cover",
+      "slide dark slide--chapter",
+      "slide dark slide--statement",
+      "slide light slide--split",
+      "slide dark slide--stats",
+      "slide dark slide--quote",
+      "slide light slide--list",
+      "slide dark slide--compare",
+      "slide dark slide--editorial",
+      "slide dark slide--dense",
+      "slide dark slide--statement",
+      "slide dark slide--end",
+      "slide slide--chart dark",
+      "slide slide--diagram light",
+      "slide dark slide--pie",
+      "slide dark slide--pyramid",
+      "slide dark slide--vtimeline",
+      "slide dark slide--cycle"
+    ],
+    "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"pad_x\": \"7.5vw\", \"pad_y\": \"5.5vh\", \"gap_lg\": \"4vh\", \"gap_md\": \"2.5vh\", \"gap_sm\": \"1.2vh\", \"grid_cell\": \"80px\"}",
+    "variant_ids": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "editorial",
+      "dense",
+      "statement-2",
+      "end",
+      "chart",
+      "diagram",
+      "pie",
+      "pyramid",
+      "vtimeline",
+      "cycle"
     ]
   },
-  "component": {
-    "component_candidates": [
-      "title_block",
-      "section_label",
-      "metric_card",
-      "finding_callout",
-      "evidence_table",
-      "comparison_matrix",
-      "timeline",
-      "process_flow",
-      "image_panel",
-      "logo_strip",
-      "mini_chart",
-      "qualitative_radar",
-      "action_list",
-      "risk_matrix",
-      "architecture_diagram"
+  "loss_notes": [
+    "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
+    "letter spacing is preserved for Latin labels and reset/softened for CJK"
+  ],
+  "page_family": {
+    "claim_boundary": "current-run page-family implementation evidence only; not production/default selectable evidence",
+    "core_page_roles": [
+      "cover",
+      "agenda",
+      "content",
+      "data",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
+      "closing"
     ],
-    "component_ids": [],
-    "component_grammar": [
-      "stat-4",
-      "stat-4-cell",
-      "stat-4-label",
-      "stat-4-val",
-      "stat-card",
-      "stat-label",
-      "stat-note",
-      "stat-value",
-      "statement-body",
-      "stats-grid"
+    "family_id": "signal",
+    "implemented_page_variants": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "editorial",
+      "dense",
+      "statement-2",
+      "end",
+      "chart",
+      "diagram",
+      "pie",
+      "pyramid",
+      "vtimeline",
+      "cycle"
     ],
-    "html_component_classes": [
-      "bullet-list",
-      "chart-baseline",
-      "chart-header",
-      "chart-source",
-      "chart-wrapper",
-      "compare-panel",
-      "cycle-grid",
-      "list-head",
-      "log-list",
-      "quote-attr",
-      "quote-mark",
-      "quote-text",
-      "slide--chart",
-      "slide--list",
-      "slide--quote",
-      "slide--statement",
-      "slide--stats",
-      "slide--vtimeline",
-      "stat-4",
-      "stat-4-cell",
-      "stat-4-label",
-      "stat-4-val",
-      "stat-card",
-      "stat-label",
-      "stat-note",
-      "stat-value",
-      "statement-body",
-      "stats-grid",
-      "vtimeline"
+    "production_minimum_roles": [
+      "cover",
+      "agenda",
+      "content",
+      "data",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
+      "closing"
     ],
-    "content_shapes": []
+    "renderer_stage": "page_family",
+    "runtime_template_id": "intelligence-brief",
+    "source_slide_count": 18,
+    "supported_page_variants": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "editorial",
+      "dense",
+      "statement-2",
+      "end",
+      "chart",
+      "diagram",
+      "pie",
+      "pyramid",
+      "vtimeline",
+      "cycle"
+    ]
+  },
+  "page_family_source": {
+    "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status",
+    "extractor": "skills/lark-slides/scripts/beautiful_template_page_family_extract.py",
+    "source_design_md": "beautiful-html-templates/templates/signal/design.md",
+    "source_template_html": "beautiful-html-templates/templates/signal/template.html",
+    "source_template_json": "beautiful-html-templates/templates/signal/template.json"
   },
   "page_type": {
-    "source_slide_count": 18,
-    "supported_page_roles": [
-      "action_plan",
-      "agenda",
-      "business_review",
-      "case_evidence",
-      "cause_analysis",
-      "closing",
-      "comparison",
-      "context_overview",
+    "implemented_page_variant_count": 18,
+    "implemented_page_variants": [
       "cover",
-      "metric_overview",
-      "problem_analysis",
-      "risk_dependency",
-      "roadmap",
-      "section",
-      "timeline"
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "editorial",
+      "dense",
+      "statement-2",
+      "end",
+      "chart",
+      "diagram",
+      "pie",
+      "pyramid",
+      "vtimeline",
+      "cycle"
     ],
     "layout_variants": [
       {
@@ -625,16 +822,502 @@
         "variant_id": "closing"
       }
     ],
+    "optional_content": [],
     "required_content": [],
-    "optional_content": []
+    "source_page_variants": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "quote",
+      "list",
+      "compare",
+      "editorial",
+      "dense",
+      "statement-2",
+      "end",
+      "chart",
+      "diagram",
+      "pie",
+      "pyramid",
+      "vtimeline",
+      "cycle"
+    ],
+    "source_slide_count": 18,
+    "supported_page_roles": [
+      "action_plan",
+      "agenda",
+      "business_review",
+      "case_evidence",
+      "cause_analysis",
+      "closing",
+      "comparison",
+      "content",
+      "context_overview",
+      "cover",
+      "data",
+      "detail",
+      "metric_overview",
+      "problem_analysis",
+      "process",
+      "quote",
+      "risk_dependency",
+      "roadmap",
+      "section",
+      "timeline"
+    ]
   },
+  "page_variant_count": 18,
+  "page_variant_golden_specs": {
+    "chapter": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.chapter.canvas-spec.json",
+    "chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.chart.canvas-spec.json",
+    "compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.compare.canvas-spec.json",
+    "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.cover.canvas-spec.json",
+    "cycle": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.cycle.canvas-spec.json",
+    "dense": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.dense.canvas-spec.json",
+    "diagram": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.diagram.canvas-spec.json",
+    "editorial": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.editorial.canvas-spec.json",
+    "end": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.end.canvas-spec.json",
+    "list": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.list.canvas-spec.json",
+    "pie": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.pie.canvas-spec.json",
+    "pyramid": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.pyramid.canvas-spec.json",
+    "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.quote.canvas-spec.json",
+    "split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.split.canvas-spec.json",
+    "statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.statement.canvas-spec.json",
+    "statement-2": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.statement-2.canvas-spec.json",
+    "stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.stats.canvas-spec.json",
+    "vtimeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/signal.vtimeline.canvas-spec.json"
+  },
+  "page_variants": {
+    "chapter": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "subtitle",
+        "decoration"
+      ],
+      "page_role": "agenda",
+      "required_slots": [
+        "chapter",
+        "title"
+      ],
+      "source_class": "slide dark slide--chapter",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--chapter\">",
+          "selector_or_token": "section:nth-of-type(2)"
+        }
+      ],
+      "source_slide_index": 2
+    },
+    "chart": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "source",
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "values",
+        "labels"
+      ],
+      "source_class": "slide slide--chart dark",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide slide--chart dark\">",
+          "selector_or_token": "section:nth-of-type(13)"
+        }
+      ],
+      "source_slide_index": 13
+    },
+    "compare": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "title",
+        "left_title",
+        "right_title",
+        "decoration"
+      ],
+      "page_role": "comparison",
+      "required_slots": [
+        "left",
+        "right"
+      ],
+      "source_class": "slide dark slide--compare",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--compare\">",
+          "selector_or_token": "section:nth-of-type(8)"
+        }
+      ],
+      "source_slide_index": 8
+    },
+    "cover": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "meta_left",
+        "meta_right",
+        "decoration"
+      ],
+      "page_role": "cover",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide dark slide--cover",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--cover\">",
+          "selector_or_token": "section:nth-of-type(1)"
+        }
+      ],
+      "source_slide_index": 1
+    },
+    "cycle": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration"
+      ],
+      "page_role": "process",
+      "required_slots": [
+        "title",
+        "steps"
+      ],
+      "source_class": "slide dark slide--cycle",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--cycle\">",
+          "selector_or_token": "section:nth-of-type(18)"
+        }
+      ],
+      "source_slide_index": 18
+    },
+    "dense": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration"
+      ],
+      "page_role": "detail",
+      "required_slots": [
+        "title",
+        "columns"
+      ],
+      "source_class": "slide dark slide--dense",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--dense\">",
+          "selector_or_token": "section:nth-of-type(10)"
+        }
+      ],
+      "source_slide_index": 10
+    },
+    "diagram": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration"
+      ],
+      "page_role": "process",
+      "required_slots": [
+        "title",
+        "steps"
+      ],
+      "source_class": "slide slide--diagram light",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide slide--diagram light\">",
+          "selector_or_token": "section:nth-of-type(14)"
+        }
+      ],
+      "source_slide_index": 14
+    },
+    "editorial": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "kicker",
+        "stats",
+        "decoration"
+      ],
+      "page_role": "content",
+      "required_slots": [
+        "title",
+        "left",
+        "right"
+      ],
+      "source_class": "slide dark slide--editorial",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--editorial\">",
+          "selector_or_token": "section:nth-of-type(9)"
+        }
+      ],
+      "source_slide_index": 9
+    },
+    "end": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "contact",
+        "decoration"
+      ],
+      "page_role": "closing",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "source_class": "slide dark slide--end",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--end\">",
+          "selector_or_token": "section:nth-of-type(12)"
+        }
+      ],
+      "source_slide_index": 12
+    },
+    "list": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "intro",
+        "decoration"
+      ],
+      "page_role": "content",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "source_class": "slide light slide--list",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide light slide--list\">",
+          "selector_or_token": "section:nth-of-type(7)"
+        }
+      ],
+      "source_slide_index": 7
+    },
+    "pie": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "total",
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "source_class": "slide dark slide--pie",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--pie\">",
+          "selector_or_token": "section:nth-of-type(15)"
+        }
+      ],
+      "source_slide_index": 15
+    },
+    "pyramid": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration"
+      ],
+      "page_role": "detail",
+      "required_slots": [
+        "title",
+        "levels"
+      ],
+      "source_class": "slide dark slide--pyramid",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--pyramid\">",
+          "selector_or_token": "section:nth-of-type(16)"
+        }
+      ],
+      "source_slide_index": 16
+    },
+    "quote": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "attribution",
+        "decoration"
+      ],
+      "page_role": "quote",
+      "required_slots": [
+        "quote"
+      ],
+      "source_class": "slide dark slide--quote",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--quote\">",
+          "selector_or_token": "section:nth-of-type(6)"
+        }
+      ],
+      "source_slide_index": 6
+    },
+    "split": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "bullets",
+        "image_caption",
+        "decoration"
+      ],
+      "page_role": "detail",
+      "required_slots": [
+        "title",
+        "body"
+      ],
+      "source_class": "slide light slide--split",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide light slide--split\">",
+          "selector_or_token": "section:nth-of-type(4)"
+        }
+      ],
+      "source_slide_index": 4
+    },
+    "statement": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "kicker",
+        "footer",
+        "decoration"
+      ],
+      "page_role": "quote",
+      "required_slots": [
+        "title"
+      ],
+      "source_class": "slide dark slide--statement",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--statement\">",
+          "selector_or_token": "section:nth-of-type(3)"
+        }
+      ],
+      "source_slide_index": 3
+    },
+    "statement-2": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "kicker",
+        "body",
+        "decoration"
+      ],
+      "page_role": "quote",
+      "required_slots": [
+        "title"
+      ],
+      "source_class": "slide dark slide--statement",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--statement\">",
+          "selector_or_token": "section:nth-of-type(11)"
+        }
+      ],
+      "source_slide_index": 11
+    },
+    "stats": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration"
+      ],
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "stats"
+      ],
+      "source_class": "slide dark slide--stats",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--stats\">",
+          "selector_or_token": "section:nth-of-type(5)"
+        }
+      ],
+      "source_slide_index": 5
+    },
+    "vtimeline": {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration"
+      ],
+      "page_role": "process",
+      "required_slots": [
+        "title",
+        "events"
+      ],
+      "source_class": "slide dark slide--vtimeline",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "<section class=\"slide dark slide--vtimeline\">",
+          "selector_or_token": "section:nth-of-type(17)"
+        }
+      ],
+      "source_slide_index": 17
+    }
+  },
+  "palette": {
+    "css_color_variables": {
+      "c_accent": "#c8a870",
+      "c_bg": "#1c2644",
+      "c_bg_alt": "#232f55",
+      "c_bg_light": "#f0ece3",
+      "c_bg_light_alt": "#e6e0d4",
+      "c_border": "#2e3d5c",
+      "c_border_light": "#cac4b4"
+    },
+    "design_token_colors": {
+      "border_dark": "#2E3D5C",
+      "border_light": "#CAC4B4",
+      "cream": "#F0ECE3",
+      "cream_alt": "#E6E0D4",
+      "gold": "#C8A870",
+      "ink": "#1A2030",
+      "navy": "#1C2644",
+      "navy_alt": "#232F55",
+      "text_hint_dark": "#4E5A6E",
+      "text_hint_light": "#9AA0A8",
+      "text_muted_dark": "#8A96A8",
+      "text_muted_light": "#5A6270",
+      "text_warm": "#E2DCD0"
+    },
+    "template_json_palette": {
+      "accent": "#c8a870",
+      "bg": "#1c2644",
+      "bg_alt": "#232f55",
+      "bg_light": "#f0ece3",
+      "description": "deep navy primary with warm bone paper alternate and a single muted-gold accent; restrained, institutional, no decorative color",
+      "fg": "#e2dcd0"
+    },
+    "theme_token_colors": {},
+    "theme_token_semantic_colors": {},
+    "visual_dna_palette_roles": {
+      "accent": "#c8a870",
+      "background": "#1c2644",
+      "border": "#1A2030",
+      "muted": "#1c2644",
+      "negative": "#1c2644",
+      "positive": "#1c2644",
+      "primary": "#c8a870",
+      "surface": "#F0ECE3",
+      "text": "#1A2030"
+    }
+  },
+  "runtime_template_id": "intelligence-brief",
   "satori": {
-    "runtime": "owned_satori_template",
-    "renderer_id": "artboard_satori.intelligence-brief",
-    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/intelligence-brief.mjs",
-    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/intelligence-brief.canvas-spec.json",
-    "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/signal.intelligence-brief.json",
-    "renderer_contract": {},
     "constraints": {
       "external_html_css_js": "forbidden",
       "generic_fallback_as_production": "forbidden",
@@ -644,233 +1327,531 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/signal.intelligence-brief.json",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
-    ]
+    ],
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/intelligence-brief.canvas-spec.json",
+    "migration_status": "needs_dedicated_renderer",
+    "renderer_contract": {},
+    "renderer_id": "artboard_satori.intelligence-brief",
+    "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/intelligence-brief.mjs",
+    "runtime": "owned_satori_template"
   },
-  "do_not_simplify": [
-    "preserve_fonts_palette_grid_slide_classes_decorative_elements",
-    "do_not_recolor_without_explicit_brand_override",
-    "do_not_mix_template_families",
-    "extend_missing_layout_inside_same_family",
-    "do_not_strip_identity_decorations",
-    "new_palette",
-    "cross_family_components",
-    "fake_italic",
-    "new_decorative_motif",
-    "remote_font_dependency",
-    "do_not_replace_family_with_generic_card_shell",
-    "do_not_mark_production_without_renderer_golden_fidelity_receipt",
-    "do_not_strip_identity_decorations",
-    "do_not_recolor_without_explicit_brand_override"
+  "source": {
+    "absorption_records": [
+      "skills/lark-slides/references/absorptions/beautiful-html-templates/signal.intelligence-brief.json"
+    ],
+    "reference_screenshot": "beautiful-html-templates/screenshots/signal-1.png",
+    "source_design_md": "beautiful-html-templates/templates/signal/design.md",
+    "source_screenshots": [
+      "beautiful-html-templates/screenshots/signal-1.png",
+      "beautiful-html-templates/screenshots/signal-18.png",
+      "beautiful-html-templates/screenshots/signal-8.png"
+    ],
+    "source_template_html": "beautiful-html-templates/templates/signal/template.html",
+    "source_template_json": "beautiful-html-templates/templates/signal/template.json",
+    "template_json_name": "Signal",
+    "template_json_slug": "signal"
+  },
+  "source_page_variants": [
+    "cover",
+    "chapter",
+    "statement",
+    "split",
+    "stats",
+    "quote",
+    "list",
+    "compare",
+    "editorial",
+    "dense",
+    "statement-2",
+    "end",
+    "chart",
+    "diagram",
+    "pie",
+    "pyramid",
+    "vtimeline",
+    "cycle"
   ],
-  "extraction_receipt": {
-    "basis": [
-      "template.json",
-      "design.md",
-      "template.html",
-      "reference_screenshot",
-      "beautiful-html-template-families.json"
-    ],
-    "claim_boundary": "visual contract only; not a renderer implementation or fidelity pass",
-    "promotion_status": "needs_review"
-  },
-  "font_strategy": {
-    "source_fonts": [
-      "Source Serif 4",
-      "DM Sans",
-      "IBM Plex Mono",
-      "JetBrains Mono"
-    ],
-    "slide_native_preferred": [
-      "system-serif-cjk",
-      "system-sans-cjk",
-      "system-mono"
-    ],
-    "adobe_or_embedded_fallback": [
-      "Source Serif Pro",
-      "Source Sans Pro",
-      "Source Code Pro",
-      "思源宋体",
-      "思源黑体",
-      "思源等宽"
-    ],
-    "cjk_fallback": "Noto Sans SC",
-    "role_mapping": {
-      "display": {
-        "source_font": "Source Serif 4",
-        "slide_font": "Source Serif Pro",
-        "runtime_alias": "SVGlideDisplay",
-        "cjk_font": "思源宋体",
-        "fallback_stack": [
-          "system-serif-cjk",
-          "SVGlideDisplay"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 Source Serif 4 的语义角色，但运行时优先使用 Slide/系统可用的 Source Serif Pro 与 思源宋体。"
+  "text_style_strategy": {
+    "bold": {
+      "allowed_roles": [
+        "display",
+        "label",
+        "metric"
+      ],
+      "mapped_weight": {
+        "display": 400,
+        "label": 700,
+        "metric": 900
       },
-      "body": {
-        "source_font": "DM Sans",
-        "slide_font": "Source Sans Pro",
-        "runtime_alias": "SVGlideBody",
-        "cjk_font": "思源黑体",
-        "fallback_stack": [
-          "system-sans-cjk",
-          "SVGlideBody"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 DM Sans 的语义角色，但运行时优先使用 Slide/系统可用的 Source Sans Pro 与 思源黑体。"
-      },
-      "label": {
-        "source_font": "IBM Plex Mono",
-        "slide_font": "Source Code Pro",
-        "runtime_alias": "SVGlideLabel",
-        "cjk_font": "思源等宽",
-        "fallback_stack": [
-          "system-mono",
-          "SVGlideLabel"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 IBM Plex Mono 的语义角色，但运行时优先使用 Slide/系统可用的 Source Code Pro 与 思源等宽。"
-      },
-      "metric": {
-        "source_font": "IBM Plex Mono",
-        "slide_font": "Source Code Pro",
-        "runtime_alias": "SVGlideMetric",
-        "cjk_font": "思源等宽",
-        "fallback_stack": [
-          "system-mono",
-          "SVGlideMetric"
-        ],
-        "source_only": false,
-        "requires_download": false,
-        "mapping_reason": "保留 IBM Plex Mono 的语义角色，但运行时优先使用 Slide/系统可用的 Source Code Pro 与 思源等宽。"
-      }
+      "source_usage": "source uses heavy display/label weights"
+    },
+    "emphasis": {
+      "color_shift": "use source accent color roles only",
+      "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+      "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+      "weight_shift": "increase one role step within font_weight_scale"
+    },
+    "extraction_confidence": {
+      "bold": "css_extracted_from_template_html",
+      "emphasis": "inferred_from_layout",
+      "forbidden": "inferred_from_layout",
+      "italic": "css_extracted_from_template_html",
+      "line_through": "absent_use_default",
+      "text_decoration_policy.line_through.color": "absent_use_default",
+      "text_decoration_policy.line_through.style": "absent_use_default",
+      "text_decoration_policy.line_through.thickness": "absent_use_default",
+      "text_decoration_policy.underline.color": "css_extracted_from_template_html",
+      "text_decoration_policy.underline.style": "css_extracted_from_template_html",
+      "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
+      "underline": "css_extracted_from_template_html"
     },
     "forbidden": [
-      "remote_font_runtime_dependency",
-      "google_fonts_as_production_default_without_receipt",
-      "collapse_all_roles_to_unexplained_single_font",
-      "drop_cjk_fallback"
+      "fake_cjk_italic",
+      "drop_source_text_transform",
+      "drop_source_letter_spacing_without_loss_note",
+      "use_cross_family_font_motif",
+      "remote_font_dependency_without_receipt"
     ],
-    "mapping_reason": "根据 design.md/template.html/template.json 中的 font-family 与 typography token 提取源字体；运行时按 Slide/系统/Adobe/思源可用字体降级。",
-    "source_evidence": [
-      "beautiful-html-templates/templates/signal/design.md",
-      "beautiful-html-templates/templates/signal/template.html",
-      "beautiful-html-templates/templates/signal/template.json",
-      "beautiful-html-templates/screenshots/signal-1.png"
-    ],
-    "extraction_confidence": {
-      "role_mapping.body": "inferred_from_layout",
-      "role_mapping.display": "inferred_from_layout",
-      "source_fonts": "css_extracted_from_template_html",
-      "adobe_or_embedded_fallback": "inferred_from_layout",
-      "cjk_fallback": "inferred_from_layout",
-      "role_mapping.metric": "inferred_from_layout",
-      "forbidden": "inferred_from_layout",
-      "slide_native_preferred": "inferred_from_layout",
-      "mapping_reason": "inferred_from_layout",
-      "role_mapping.label": "inferred_from_layout"
+    "italic": {
+      "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+      "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+      "mapped_style": "latin_only_when_source_requires_else_normal",
+      "source_usage": "source uses italic/font-style or italic-family tokens"
+    },
+    "line_through": {
+      "fallback_shape": "none",
+      "mapped_decoration": "none",
+      "source_usage": "not present in source; default no line-through"
     },
     "source_refs": {
-      "role_mapping.body": [
+      "bold": [
         {
           "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.body.source_font",
-          "raw_value": "DM Sans"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
+          "raw_value": "700; 600; 500; 400; 300",
+          "selector_or_token": "css.font-weight"
         }
       ],
-      "role_mapping.display": [
+      "emphasis": [
         {
           "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.display.source_font",
-          "raw_value": "Source Serif 4"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
-        }
-      ],
-      "source_fonts": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)"
-        }
-      ],
-      "adobe_or_embedded_fallback": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)"
-        }
-      ],
-      "cjk_fallback": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)"
-        }
-      ],
-      "role_mapping.metric": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.metric.source_font",
-          "raw_value": "IBM Plex Mono"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
         }
       ],
       "forbidden": [
         {
           "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)"
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
         }
       ],
-      "slide_native_preferred": [
+      "italic": [
         {
           "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)"
+          "raw_value": "private intelligence briefing. Source Serif 4 carries every headline with roman/italic mixing mid-sentence in antique gold, DM Sans steps back for body, and IBM Plex Mono runs all the timestamps, kickers, and chrome. The dual surface system is warm cream paper (#F0ECE3) and deep editorial navy (#1C2",
+          "selector_or_token": "css.font-style"
+        }
+      ],
+      "text_decoration_policy.underline.color": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "text_decoration_policy.underline.style": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "text_decoration_policy.underline.thickness": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size",
+          "selector_or_token": "css.text-decoration"
+        }
+      ],
+      "underline": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size",
+          "selector_or_token": "css.text-decoration"
+        }
+      ]
+    },
+    "text_decoration_policy": {
+      "line_through": {
+        "color": "currentColor",
+        "style": "none",
+        "thickness": "0px"
+      },
+      "underline": {
+        "color": "currentColor",
+        "style": "solid",
+        "thickness": "1px"
+      }
+    },
+    "underline": {
+      "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+      "mapped_decoration": "native underline only for actual text-decoration source usage",
+      "source_usage": "source uses underline/text-decoration or hairline emphasis"
+    }
+  },
+  "typography": {
+    "cjk_policy": {
+      "body_font_cn": "Noto Serif SC",
+      "design_intent_font_pairing": [
+        "Noto Sans SC",
+        "Noto Serif SC"
+      ],
+      "display_font_cn": "Noto Sans SC",
+      "emphasis_policy": "color_or_weight_only",
+      "italic_policy": "drop_italic",
+      "known_degradation": "The system's most distinctive typographic treatment (roman + italic-gold mid-sentence inside Source Serif 4 headlines) is fundamentally a Latin-typographic move that does not translate. Neither Noto Serif SC nor Noto Sans SC ships an italic axis, and inventing one via CSS `font-style: italic` produces an oblique/slanted glyph that reads as broken rather than",
+      "latin_accent_policy": "latin_only_allowed_when_semantic_annotation",
+      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
+      "mixed_run_spacing": "pangu_spacing",
+      "mono_font_policy": "latin_only_or_system_mono",
+      "runtime_font_policy": "system_font_only_no_remote_dependency",
+      "runtime_font_stack": [
+        "system-sans-cjk",
+        "system-sans-cjk-heavy",
+        "system-sans-cjk-regular",
+        "system-mono"
+      ],
+      "source_section_heading": "CJK & International Content",
+      "source_section_sha256": "63e59eb164dd465d55114602076e2bac6aa477ec9a023f6c686e0493d3e3bc39",
+      "strategy": "replace_family_whole_element"
+    },
+    "design_tokens_typography": {
+      "body": "DM Sans",
+      "display": "Source Serif 4",
+      "mono": "IBM Plex Mono",
+      "sans_cn": "Noto Sans SC",
+      "serif_cn": "Noto Serif SC",
+      "style": "transitional serif headlines + clean sans body + technical mono captions; full Chinese serif/sans support"
+    },
+    "font_policy": {
+      "fallback_stack": "system-sans-cjk",
+      "font_role_map": {
+        "body": "system-sans-cjk-regular",
+        "display": "system-sans-cjk-heavy",
+        "label": "system-sans-cjk-medium",
+        "metric": "system-sans-cjk-heavy",
+        "mono": "system-mono"
+      },
+      "original_families": [
+        "Source Serif 4",
+        "DM Sans"
+      ]
+    },
+    "template_json_typography": {
+      "body": "DM Sans",
+      "display": "Source Serif 4",
+      "mono": "IBM Plex Mono",
+      "sans_cn": "Noto Sans SC",
+      "serif_cn": "Noto Serif SC",
+      "style": "transitional serif headlines + clean sans body + technical mono captions; full Chinese serif/sans support"
+    },
+    "typography_role": "transitional serif headlines + clean sans body + technical mono captions; full Chinese serif/sans support",
+    "visual_dna_typography_roles": {
+      "body": "DM Sans",
+      "caption": "small caption -> system-sans-cjk-regular",
+      "display": "Source Serif 4",
+      "label": "compact label -> system-sans-cjk-medium",
+      "metric": "display numeric emphasis -> system-sans-cjk-heavy"
+    }
+  },
+  "typography_strategy": {
+    "alignment": {
+      "fallback": "left/top aligned unless source screenshot is centered",
+      "primary": "follow source composition"
+    },
+    "cjk_typography_adjustment": {
+      "body_font_cn": "Noto Serif SC",
+      "display_font_cn": "Noto Sans SC",
+      "italic_policy": "drop_italic",
+      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
+      "mixed_run_spacing": "pangu_spacing"
+    },
+    "extraction_confidence": {
+      "alignment": "inferred_from_layout",
+      "cjk_typography_adjustment": "inferred_from_layout",
+      "font_size_scale": "css_extracted_from_template_html",
+      "font_weight_scale": "css_extracted_from_template_html",
+      "hierarchy_ratio": "inferred_from_layout",
+      "letter_spacing_scale": "css_extracted_from_template_html",
+      "line_height_scale": "css_extracted_from_template_html",
+      "mapping_reason": "inferred_from_layout",
+      "max_lines": "inferred_from_layout",
+      "measure": "inferred_from_layout",
+      "paragraph_spacing": "css_extracted_from_template_html",
+      "role_mapping.body": "inferred_from_layout",
+      "role_mapping.display": "inferred_from_layout",
+      "role_mapping.label": "inferred_from_layout",
+      "role_mapping.metric": "inferred_from_layout",
+      "source_typography_tokens": "css_extracted_from_template_html",
+      "text_direction": "css_extracted_from_template_html",
+      "text_transform_policy": "css_extracted_from_template_html",
+      "word_spacing": "absent_use_default",
+      "wrapping_policy": "inferred_from_layout",
+      "writing_mode": "absent_use_default"
+    },
+    "font_size_scale": {
+      "body": 18,
+      "display": 54,
+      "label": 10,
+      "metric": 42
+    },
+    "font_weight_scale": {
+      "body": 400,
+      "display": 400,
+      "label": 700,
+      "metric": 900
+    },
+    "hierarchy_ratio": 3.0,
+    "letter_spacing_scale": {
+      "body": 0,
+      "display": 0,
+      "label": 0.08,
+      "metric": 0
+    },
+    "line_height_scale": {
+      "body": 1.32,
+      "display": 0.96,
+      "label": 1.05,
+      "metric": 0.95
+    },
+    "mapping_reason": "按源模板字号/字重/行高/字距/大小写规则抽象到 960x540 Slide 画布的四个文本角色。",
+    "max_lines": {
+      "body": 5,
+      "display": 3,
+      "label": 1,
+      "metric": 2
+    },
+    "measure": {
+      "body": "40-70 characters or CJK equivalent",
+      "display": "0.55-0.78 canvas width",
+      "label": "short mono labels",
+      "metric": "short numeric/stat blocks"
+    },
+    "paragraph_spacing": {
+      "body_after": 12,
+      "display_after": 0,
+      "label_after": 0,
+      "metric_after": 0
+    },
+    "role_mapping": {
+      "body": {
+        "alignment": "source_layout_dependent",
+        "font_role": "body",
+        "font_size": 18,
+        "font_weight": 400,
+        "letter_spacing": 0,
+        "line_height": 1.32,
+        "max_lines": 5,
+        "runtime_alias": "SVGlideBody",
+        "source_font": "DM Sans",
+        "text_transform": "preserve_source_case"
+      },
+      "display": {
+        "alignment": "source_layout_dependent",
+        "font_role": "display",
+        "font_size": 54,
+        "font_weight": 400,
+        "letter_spacing": 0,
+        "line_height": 0.96,
+        "max_lines": 3,
+        "runtime_alias": "SVGlideDisplay",
+        "source_font": "Source Serif 4",
+        "text_transform": "latin_uppercase_only"
+      },
+      "label": {
+        "alignment": "source_layout_dependent",
+        "font_role": "label",
+        "font_size": 10,
+        "font_weight": 700,
+        "letter_spacing": 0.08,
+        "line_height": 1.05,
+        "max_lines": 1,
+        "runtime_alias": "SVGlideLabel",
+        "source_font": "IBM Plex Mono",
+        "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+      },
+      "metric": {
+        "alignment": "source_layout_dependent",
+        "font_role": "metric",
+        "font_size": 42,
+        "font_weight": 900,
+        "letter_spacing": 0,
+        "line_height": 0.95,
+        "max_lines": 2,
+        "runtime_alias": "SVGlideMetric",
+        "source_font": "IBM Plex Mono",
+        "text_transform": "preserve_numbers_and_units"
+      }
+    },
+    "source_refs": {
+      "alignment": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "cjk_typography_adjustment": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "font_size_scale": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "10px; var(--sz-display); var(--sz-h1); var(--sz-h2); var(--sz-h3); var(--sz-lead); var(--sz-body); var(--sz-caption); var(--sz-label); 5.5vw; 8vw; 3.6vw; 2.75vw; 2.5vw; 0.62vw; 0.88vw",
+          "selector_or_token": "css.font_size_scale"
+        }
+      ],
+      "font_weight_scale": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "700; 600; 500; 400; 300",
+          "selector_or_token": "css.font_weight_scale"
+        }
+      ],
+      "hierarchy_ratio": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "letter_spacing_scale": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "0 on CJK - Text-transform: no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment (italic gold `<em>` mid-sentence) becomes color-only on CJK.** Noto Sans SC has no italic variant; 0.12em; -0.02em; -0.01em; 0.14em; 0.2em; 0.05em; 0.16em; 0.22em; 0.18em; 0.1em; 0.07em; 0.04em; 0.06em; 0.08em",
+          "selector_or_token": "css.letter_spacing_scale"
+        }
+      ],
+      "line_height_scale": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "body 1.75–1.85, display 1.15–1.25 - Letter-spacing: 0 on CJK - Text-transform: no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment (italic gold `<em>` mid-sentence) becomes color-only on CJK.** Noto Sans SC has no italic variant; 0.96; 1.08; 1.18; 1.3; 1.58; 1.65; 1.5; 1; 0.6; 1.28; 1.2; 1.52; 1.4; 1.72; 1.15",
+          "selector_or_token": "css.line_height_scale"
         }
       ],
       "mapping_reason": [
         {
           "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-family",
-          "raw_value": "'Source Serif 4', 'Noto Sans SC', Georgia, serif; 'DM Sans', 'Noto Sans SC', system-ui, sans-serif; 'IBM Plex Mono', 'Noto Sans SC', monospace; var(--f-mono); var(--f-display); var(--f-heading); var(--f-body)"
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "max_lines": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "measure": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
+        }
+      ],
+      "paragraph_spacing": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "var(--gap-md); var(--gap-lg); var(--gap-sm); 0.5vh; 1.4vh; 0; 0.6vh; var(--gap-md)\" data-anim=\"fade-up\" data-delay=\"2\" > Section headline with one emphasized idea </h1> <!-- Description --> <p class=\"lead muted\" style=\"max-width: 50%\" data-anim=\"fade-up\" data-delay=\"3\" > A brief setup sentence that explains what this section covers and why it matters. </p> </section> <!-- ═══════ SLIDE 3 · STATEMENT dark ══════════════════════════════════ --> <section class=\"slide dark slide--statement\"> <!-- Ch",
+          "selector_or_token": "css.paragraph_spacing"
+        }
+      ],
+      "role_mapping.body": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "DM Sans",
+          "selector_or_token": "role_mapping.body.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.display": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "Source Serif 4",
+          "selector_or_token": "role_mapping.display.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
         }
       ],
       "role_mapping.label": [
         {
           "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.label.source_font",
-          "raw_value": "IBM Plex Mono"
+          "raw_value": "IBM Plex Mono",
+          "selector_or_token": "role_mapping.label.source_font"
         },
         {
           "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "role_mapping.metric": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "IBM Plex Mono",
+          "selector_or_token": "role_mapping.metric.source_font"
+        },
+        {
+          "path": "beautiful-html-templates/templates/signal/design.md",
+          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S",
+          "selector_or_token": "design.typography.roles"
+        }
+      ],
+      "source_typography_tokens": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "10px; var(--sz-display); var(--sz-h1); var(--sz-h2); var(--sz-h3); var(--sz-lead); var(--sz-body); var(--sz-caption); var(--sz-label); 5.5vw; 8vw; 3.6vw; 2.75vw; 2.5vw; 0.62vw; 0.88vw; 700; 600; 500; 400; 300; body 1.75–1.85, display 1.15–1.25 - Letter-spacing: 0 on CJK - Text-transform: no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment ",
+          "selector_or_token": "css.source_typography_tokens"
+        }
+      ],
+      "text_direction": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "column",
+          "selector_or_token": "css.text_direction"
+        }
+      ],
+      "text_transform_policy": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment (italic gold `<em>` mid-sentence) becomes color-only on CJK.** Noto Sans SC has no italic variant; uppercase",
+          "selector_or_token": "css.text_transform_policy"
+        }
+      ],
+      "wrapping_policy": [
+        {
+          "path": "beautiful-html-templates/templates/signal/template.html",
+          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════",
+          "selector_or_token": "template.css.typography"
         }
       ]
-    }
-  },
-  "typography_strategy": {
+    },
     "source_typography_tokens": {
       "font_families": [
         "Source Serif 4",
@@ -897,18 +1878,6 @@
         "400",
         "300"
       ],
-      "line_height": [
-        "0.96",
-        "1.08",
-        "1.18",
-        "1.3",
-        "1.58",
-        "1.65",
-        "1.5",
-        "1",
-        "1.28",
-        "0.6"
-      ],
       "letter_spacing": [
         "-0.02em",
         "-0.01em",
@@ -921,11 +1890,18 @@
         "0.22em",
         "0.18em"
       ],
-      "text_transform": [
-        "uppercase",
-        "no uppercase on CJK"
+      "line_height": [
+        "0.96",
+        "1.08",
+        "1.18",
+        "1.3",
+        "1.58",
+        "1.65",
+        "1.5",
+        "1",
+        "1.28",
+        "0.6"
       ],
-      "word_spacing": [],
       "paragraph_spacing": [
         "var(--gap-md)",
         "var(--gap-lg)",
@@ -952,874 +1928,43 @@
         "3px",
         "var(--gap-sm)\" > <div style=\" flex: 1"
       ],
+      "text_decoration": [],
       "text_direction": [
         "column"
       ],
-      "writing_mode": [],
-      "text_decoration": []
+      "text_transform": [
+        "uppercase",
+        "no uppercase on CJK"
+      ],
+      "word_spacing": [],
+      "writing_mode": []
     },
-    "role_mapping": {
-      "display": {
-        "font_role": "display",
-        "source_font": "Source Serif 4",
-        "runtime_alias": "SVGlideDisplay",
-        "font_size": 54,
-        "font_weight": 400,
-        "line_height": 0.96,
-        "letter_spacing": 0,
-        "text_transform": "latin_uppercase_only",
-        "max_lines": 3,
-        "alignment": "source_layout_dependent"
-      },
-      "body": {
-        "font_role": "body",
-        "source_font": "DM Sans",
-        "runtime_alias": "SVGlideBody",
-        "font_size": 18,
-        "font_weight": 400,
-        "line_height": 1.32,
-        "letter_spacing": 0,
-        "text_transform": "preserve_source_case",
-        "max_lines": 5,
-        "alignment": "source_layout_dependent"
-      },
-      "label": {
-        "font_role": "label",
-        "source_font": "IBM Plex Mono",
-        "runtime_alias": "SVGlideLabel",
-        "font_size": 10,
-        "font_weight": 700,
-        "line_height": 1.05,
-        "letter_spacing": 0.08,
-        "text_transform": "latin_uppercase_labels_reset_cjk_spacing",
-        "max_lines": 1,
-        "alignment": "source_layout_dependent"
-      },
-      "metric": {
-        "font_role": "metric",
-        "source_font": "IBM Plex Mono",
-        "runtime_alias": "SVGlideMetric",
-        "font_size": 42,
-        "font_weight": 900,
-        "line_height": 0.95,
-        "letter_spacing": 0,
-        "text_transform": "preserve_numbers_and_units",
-        "max_lines": 2,
-        "alignment": "source_layout_dependent"
-      }
-    },
-    "font_size_scale": {
-      "display": 54,
-      "body": 18,
-      "label": 10,
-      "metric": 42
-    },
-    "font_weight_scale": {
-      "display": 400,
-      "body": 400,
-      "label": 700,
-      "metric": 900
-    },
-    "line_height_scale": {
-      "display": 0.96,
-      "body": 1.32,
-      "label": 1.05,
-      "metric": 0.95
-    },
-    "letter_spacing_scale": {
-      "display": 0,
-      "body": 0,
-      "label": 0.08,
-      "metric": 0
+    "text_direction": {
+      "cjk": "ltr",
+      "default": "column"
     },
     "text_transform_policy": {
-      "display": "latin_uppercase_only",
       "body": "preserve_source_case",
+      "display": "latin_uppercase_only",
       "label": "latin_uppercase_labels_reset_cjk_spacing",
       "metric": "preserve_numbers_and_units"
     },
-    "hierarchy_ratio": 3.0,
-    "max_lines": {
-      "display": 3,
-      "body": 5,
-      "label": 1,
-      "metric": 2
-    },
-    "measure": {
-      "display": "0.55-0.78 canvas width",
-      "body": "40-70 characters or CJK equivalent",
-      "label": "short mono labels",
-      "metric": "short numeric/stat blocks"
-    },
-    "alignment": {
-      "primary": "follow source composition",
-      "fallback": "left/top aligned unless source screenshot is centered"
-    },
-    "cjk_typography_adjustment": {
-      "display_font_cn": "Noto Sans SC",
-      "body_font_cn": "Noto Serif SC",
-      "letter_spacing_policy": "reset_letter_spacing_for_cjk_keep_latin_labels",
-      "mixed_run_spacing": "pangu_spacing",
-      "italic_policy": "drop_italic"
-    },
-    "mapping_reason": "按源模板字号/字重/行高/字距/大小写规则抽象到 960x540 Slide 画布的四个文本角色。",
     "word_spacing": {
-      "display": 0,
       "body": 0,
+      "display": 0,
       "label": 0,
       "metric": 0
     },
-    "paragraph_spacing": {
-      "display_after": 0,
-      "body_after": 12,
-      "label_after": 0,
-      "metric_after": 0
-    },
     "wrapping_policy": {
-      "display": "manual_break_or_balance",
       "body": "wrap_with_measure",
+      "display": "manual_break_or_balance",
       "label": "no_wrap_preferred",
       "metric": "no_wrap_preferred"
-    },
-    "text_direction": {
-      "default": "column",
-      "cjk": "ltr"
     },
     "writing_mode": {
       "default": "horizontal-tb",
       "vertical_roles": []
-    },
-    "extraction_confidence": {
-      "role_mapping.body": "inferred_from_layout",
-      "role_mapping.display": "inferred_from_layout",
-      "font_size_scale": "css_extracted_from_template_html",
-      "max_lines": "inferred_from_layout",
-      "writing_mode": "absent_use_default",
-      "text_direction": "css_extracted_from_template_html",
-      "alignment": "inferred_from_layout",
-      "role_mapping.label": "inferred_from_layout",
-      "paragraph_spacing": "css_extracted_from_template_html",
-      "text_transform_policy": "css_extracted_from_template_html",
-      "line_height_scale": "css_extracted_from_template_html",
-      "wrapping_policy": "inferred_from_layout",
-      "font_weight_scale": "css_extracted_from_template_html",
-      "source_typography_tokens": "css_extracted_from_template_html",
-      "word_spacing": "absent_use_default",
-      "role_mapping.metric": "inferred_from_layout",
-      "cjk_typography_adjustment": "inferred_from_layout",
-      "hierarchy_ratio": "inferred_from_layout",
-      "measure": "inferred_from_layout",
-      "mapping_reason": "inferred_from_layout",
-      "letter_spacing_scale": "css_extracted_from_template_html"
-    },
-    "source_refs": {
-      "role_mapping.body": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.body.source_font",
-          "raw_value": "DM Sans"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
-        }
-      ],
-      "role_mapping.display": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.display.source_font",
-          "raw_value": "Source Serif 4"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
-        }
-      ],
-      "font_size_scale": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font_size_scale",
-          "raw_value": "10px; var(--sz-display); var(--sz-h1); var(--sz-h2); var(--sz-h3); var(--sz-lead); var(--sz-body); var(--sz-caption); var(--sz-label); 5.5vw; 8vw; 3.6vw; 2.75vw; 2.5vw; 0.62vw; 0.88vw"
-        }
-      ],
-      "max_lines": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "text_direction": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.text_direction",
-          "raw_value": "column"
-        }
-      ],
-      "alignment": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "role_mapping.label": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.label.source_font",
-          "raw_value": "IBM Plex Mono"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
-        }
-      ],
-      "paragraph_spacing": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.paragraph_spacing",
-          "raw_value": "var(--gap-md); var(--gap-lg); var(--gap-sm); 0.5vh; 1.4vh; 0; 0.6vh; var(--gap-md)\" data-anim=\"fade-up\" data-delay=\"2\" > Section headline with one emphasized idea </h1> <!-- Description --> <p class=\"lead muted\" style=\"max-width: 50%\" data-anim=\"fade-up\" data-delay=\"3\" > A brief setup sentence that explains what this section covers and why it matters. </p> </section> <!-- ═══════ SLIDE 3 · STATEMENT dark ══════════════════════════════════ --> <section class=\"slide dark slide--statement\"> <!-- Ch"
-        }
-      ],
-      "text_transform_policy": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.text_transform_policy",
-          "raw_value": "no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment (italic gold `<em>` mid-sentence) becomes color-only on CJK.** Noto Sans SC has no italic variant; uppercase"
-        }
-      ],
-      "line_height_scale": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.line_height_scale",
-          "raw_value": "body 1.75–1.85, display 1.15–1.25 - Letter-spacing: 0 on CJK - Text-transform: no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment (italic gold `<em>` mid-sentence) becomes color-only on CJK.** Noto Sans SC has no italic variant; 0.96; 1.08; 1.18; 1.3; 1.58; 1.65; 1.5; 1; 0.6; 1.28; 1.2; 1.52; 1.4; 1.72; 1.15"
-        }
-      ],
-      "wrapping_policy": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "font_weight_scale": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font_weight_scale",
-          "raw_value": "700; 600; 500; 400; 300"
-        }
-      ],
-      "source_typography_tokens": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.source_typography_tokens",
-          "raw_value": "10px; var(--sz-display); var(--sz-h1); var(--sz-h2); var(--sz-h3); var(--sz-lead); var(--sz-body); var(--sz-caption); var(--sz-label); 5.5vw; 8vw; 3.6vw; 2.75vw; 2.5vw; 0.62vw; 0.88vw; 700; 600; 500; 400; 300; body 1.75–1.85, display 1.15–1.25 - Letter-spacing: 0 on CJK - Text-transform: no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment "
-        }
-      ],
-      "role_mapping.metric": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "role_mapping.metric.source_font",
-          "raw_value": "IBM Plex Mono"
-        },
-        {
-          "path": "beautiful-html-templates/templates/signal/design.md",
-          "selector_or_token": "design.typography.roles",
-          "raw_value": "-light c-accent: gold c-border: border-dark c-border-light: border-light typography: display: fontFamily: \"Source Serif 4, Noto Serif SC, Georgia, serif\" fontSize: 9.5vw fontWeight: 700 lineHeight: 0.96 letterSpacing: -0.02em h1: fontFamily: \"Source Serif 4, Noto S"
-        }
-      ],
-      "cjk_typography_adjustment": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "hierarchy_ratio": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "measure": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "mapping_reason": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "letter_spacing_scale": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.letter_spacing_scale",
-          "raw_value": "0 on CJK - Text-transform: no uppercase on CJK - Full-width punctuation - No period on display headlines - Pangu spacing (盘古之白): `使用 Claude` not `使用Claude` - One font per sentence ### Aesthetic Notes for This System - **The Signal moment (italic gold `<em>` mid-sentence) becomes color-only on CJK.** Noto Sans SC has no italic variant; 0.12em; -0.02em; -0.01em; 0.14em; 0.2em; 0.05em; 0.16em; 0.22em; 0.18em; 0.1em; 0.07em; 0.04em; 0.06em; 0.08em"
-        }
-      ]
     }
   },
-  "text_style_strategy": {
-    "bold": {
-      "source_usage": "source uses heavy display/label weights",
-      "mapped_weight": {
-        "display": 400,
-        "label": 700,
-        "metric": 900
-      },
-      "allowed_roles": [
-        "display",
-        "label",
-        "metric"
-      ]
-    },
-    "italic": {
-      "source_usage": "source uses italic/font-style or italic-family tokens",
-      "mapped_style": "latin_only_when_source_requires_else_normal",
-      "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
-      "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation."
-    },
-    "underline": {
-      "source_usage": "source uses underline/text-decoration or hairline emphasis",
-      "mapped_decoration": "native underline only for actual text-decoration source usage",
-      "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable"
-    },
-    "line_through": {
-      "source_usage": "not present in source; default no line-through",
-      "mapped_decoration": "none",
-      "fallback_shape": "none"
-    },
-    "emphasis": {
-      "color_shift": "use source accent color roles only",
-      "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
-      "weight_shift": "increase one role step within font_weight_scale",
-      "style_shift": "italic only when source_usage requires and CJK fallback is safe"
-    },
-    "text_decoration_policy": {
-      "underline": {
-        "style": "solid",
-        "color": "currentColor",
-        "thickness": "1px"
-      },
-      "line_through": {
-        "style": "none",
-        "color": "currentColor",
-        "thickness": "0px"
-      }
-    },
-    "forbidden": [
-      "fake_cjk_italic",
-      "drop_source_text_transform",
-      "drop_source_letter_spacing_without_loss_note",
-      "use_cross_family_font_motif",
-      "remote_font_dependency_without_receipt"
-    ],
-    "extraction_confidence": {
-      "text_decoration_policy.line_through.color": "absent_use_default",
-      "text_decoration_policy.underline.color": "css_extracted_from_template_html",
-      "text_decoration_policy.line_through.style": "absent_use_default",
-      "italic": "css_extracted_from_template_html",
-      "forbidden": "inferred_from_layout",
-      "emphasis": "inferred_from_layout",
-      "text_decoration_policy.underline.thickness": "css_extracted_from_template_html",
-      "underline": "css_extracted_from_template_html",
-      "text_decoration_policy.line_through.thickness": "absent_use_default",
-      "line_through": "absent_use_default",
-      "text_decoration_policy.underline.style": "css_extracted_from_template_html",
-      "bold": "css_extracted_from_template_html"
-    },
-    "source_refs": {
-      "text_decoration_policy.underline.color": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size"
-        }
-      ],
-      "italic": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-style",
-          "raw_value": "private intelligence briefing. Source Serif 4 carries every headline with roman/italic mixing mid-sentence in antique gold, DM Sans steps back for body, and IBM Plex Mono runs all the timestamps, kickers, and chrome. The dual surface system is warm cream paper (#F0ECE3) and deep editorial navy (#1C2"
-        }
-      ],
-      "forbidden": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "emphasis": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "template.css.typography",
-          "raw_value": "r { position: fixed; bottom: 20px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.25); z-index: 100; user-select: none; } /* ╔═════════════════════════"
-        }
-      ],
-      "text_decoration_policy.underline.thickness": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size"
-        }
-      ],
-      "underline": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size"
-        }
-      ],
-      "text_decoration_policy.underline.style": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.text-decoration",
-          "raw_value": "ative — it is the emphasis vehicle inside headlines and inside lead paragraphs. Underline does not exist. Bold within body does not exist; if body needs emphasis, switch to the italic serif gold `<em>` pattern. Line-height runs tight at display scale (0.96 on display, 1.08 on h1) and opens as size"
-        }
-      ],
-      "bold": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": "css.font-weight",
-          "raw_value": "700; 600; 500; 400; 300"
-        }
-      ]
-    }
-  },
-  "loss_notes": [
-    "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
-    "letter spacing is preserved for Latin labels and reset/softened for CJK"
-  ],
-  "page_family": {
-    "source_slide_count": 18,
-    "core_page_roles": [
-      "cover",
-      "agenda",
-      "data_dashboard",
-      "content_split",
-      "quote_or_emphasis",
-      "content",
-      "closing",
-      "process_or_timeline"
-    ],
-    "production_minimum_roles": [
-      "cover",
-      "agenda",
-      "content",
-      "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
-      "closing"
-    ]
-  },
-  "page_variants": {
-    "cover": {
-      "source_class": "slide--cover",
-      "source_slide_index": 1,
-      "page_role": "cover",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--cover",
-          "raw_value": "<section class=\"slide dark slide--cover\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "chapter": {
-      "source_class": "slide--chapter",
-      "source_slide_index": 2,
-      "page_role": "agenda",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--chapter",
-          "raw_value": "<section class=\"slide dark slide--chapter\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "statement": {
-      "source_class": "slide--statement",
-      "source_slide_index": 3,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--statement",
-          "raw_value": "<section class=\"slide dark slide--statement\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "split": {
-      "source_class": "slide--split",
-      "source_slide_index": 4,
-      "page_role": "content_split",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--split",
-          "raw_value": "<section class=\"slide light slide--split\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "stats": {
-      "source_class": "slide--stats",
-      "source_slide_index": 5,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics",
-        "items",
-        "quote"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--stats",
-          "raw_value": "<section class=\"slide dark slide--stats\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "quote": {
-      "source_class": "slide--quote",
-      "source_slide_index": 6,
-      "page_role": "quote_or_emphasis",
-      "required_slots": [
-        "subtitle",
-        "quote"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--quote",
-          "raw_value": "<section class=\"slide dark slide--quote\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "list": {
-      "source_class": "slide--list",
-      "source_slide_index": 7,
-      "page_role": "content",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--list",
-          "raw_value": "<section class=\"slide light slide--list\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "compare": {
-      "source_class": "slide--compare",
-      "source_slide_index": 8,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--compare",
-          "raw_value": "<section class=\"slide dark slide--compare\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "editorial": {
-      "source_class": "slide--editorial",
-      "source_slide_index": 9,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--editorial",
-          "raw_value": "<section class=\"slide dark slide--editorial\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "dense": {
-      "source_class": "slide--dense",
-      "source_slide_index": 10,
-      "page_role": "closing",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--dense",
-          "raw_value": "<section class=\"slide dark slide--dense\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "statement-11": {
-      "source_class": "slide--statement",
-      "source_slide_index": 11,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--statement",
-          "raw_value": "<section class=\"slide dark slide--statement\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "end": {
-      "source_class": "slide--end",
-      "source_slide_index": 12,
-      "page_role": "closing",
-      "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--end",
-          "raw_value": "<section class=\"slide dark slide--end\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "chart": {
-      "source_class": "slide--chart",
-      "source_slide_index": 13,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--chart",
-          "raw_value": "<section class=\"slide slide--chart dark\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "diagram": {
-      "source_class": "slide--diagram",
-      "source_slide_index": 14,
-      "page_role": "content",
-      "required_slots": [
-        "title"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--diagram",
-          "raw_value": "<section class=\"slide slide--diagram light\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "pie": {
-      "source_class": "slide--pie",
-      "source_slide_index": 15,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--pie",
-          "raw_value": "<section class=\"slide dark slide--pie\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "pyramid": {
-      "source_class": "slide--pyramid",
-      "source_slide_index": 16,
-      "page_role": "content",
-      "required_slots": [
-        "title",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--pyramid",
-          "raw_value": "<section class=\"slide dark slide--pyramid\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "vtimeline": {
-      "source_class": "slide--vtimeline",
-      "source_slide_index": 17,
-      "page_role": "process_or_timeline",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--vtimeline",
-          "raw_value": "<section class=\"slide dark slide--vtimeline\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "cycle": {
-      "source_class": "slide--cycle",
-      "source_slide_index": 18,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/signal/template.html",
-          "selector_or_token": ".slide--cycle",
-          "raw_value": "<section class=\"slide dark slide--cycle\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    }
-  },
-  "page_family_source": {
-    "extractor": "skills/lark-slides/scripts/beautiful_template_page_family_extract.py",
-    "source_template_html": "beautiful-html-templates/templates/signal/template.html",
-    "source_design_md": "beautiful-html-templates/templates/signal/design.md",
-    "source_template_json": "beautiful-html-templates/templates/signal/template.json",
-    "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  "version": "svglide-beautiful-template-visual-contract/v1"
 }

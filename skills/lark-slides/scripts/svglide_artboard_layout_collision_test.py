@@ -115,6 +115,52 @@ class SVGlideArtboardLayoutCollisionTest(unittest.TestCase):
         )
         (raw / "page-010.visual.svg").write_text("<svg />", encoding="utf-8")
 
+    def write_poster_hero_project(self, project: Path) -> None:
+        raw = project / "04-artboard/raw"
+        write_json(
+            raw / "manifest.json",
+            {
+                "version": "svglide-raw-visual-manifest/v1",
+                "pages": [
+                    {
+                        "page": 1,
+                        "source": "04-artboard/raw/page-001.visual.svg",
+                        "node_layout_map": "04-artboard/raw/page-001.node-layout-map.json",
+                    }
+                ],
+            },
+        )
+        write_json(
+            raw / "page-001.canvas-spec.json",
+            {
+                "canvas": {"width": 960, "height": 540},
+                "template_id": "poster-stat-punch",
+                "page_variant_id": "hero",
+                "content": {"title": "DIABLO II LEGACY"},
+            },
+        )
+        write_json(
+            raw / "page-001.node-layout-map.json",
+            {
+                "version": "svglide-node-layout-map/v1",
+                "nodes": [
+                    {
+                        "id": "satori-text-title-top",
+                        "kind": "text",
+                        "text": "DIABLO",
+                        "measured_bbox": {"x": 66, "y": 76, "width": 700, "height": 99},
+                    },
+                    {
+                        "id": "satori-text-title-red",
+                        "kind": "text",
+                        "text": "II",
+                        "measured_bbox": {"x": 58, "y": 135, "width": 264, "height": 178.2},
+                    },
+                ],
+            },
+        )
+        (raw / "page-001.visual.svg").write_text("<svg />", encoding="utf-8")
+
     def test_closing_subtitle_cta_collision_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
@@ -148,6 +194,83 @@ class SVGlideArtboardLayoutCollisionTest(unittest.TestCase):
             codes = [issue["code"] for page in result["pages"] for issue in page["issues"]]
             self.assertIn("text_canvas_overflow", codes)
             self.assertEqual(result["status"], "failed")
+
+    def test_same_text_effect_layers_do_not_fail_overlap(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            self.write_project(project, cta_y=380)
+            layout_path = project / "04-artboard/raw/page-010.node-layout-map.json"
+            payload = json.loads(layout_path.read_text(encoding="utf-8"))
+            payload["nodes"].extend(
+                [
+                    {
+                        "id": "satori-text-shadow-1",
+                        "kind": "text",
+                        "text": "RUNES",
+                        "measured_bbox": {"x": 94, "y": 151, "width": 170.5, "height": 74.25},
+                    },
+                    {
+                        "id": "satori-text-shadow-2",
+                        "kind": "text",
+                        "text": "RUNES",
+                        "measured_bbox": {"x": 92, "y": 149, "width": 170.5, "height": 74.25},
+                    },
+                    {
+                        "id": "satori-text-container",
+                        "kind": "text",
+                        "text": "RUNES",
+                        "measured_bbox": {"x": 88, "y": 150, "width": 790, "height": 62},
+                    },
+                ]
+            )
+            write_json(layout_path, payload)
+
+            result = collision.check_project(project)
+
+            self.assertEqual(result["status"], "passed")
+            codes = [issue["code"] for page in result["pages"] for issue in page["issues"]]
+            self.assertNotIn("text_text_overlap", codes)
+
+    def test_different_text_overlap_still_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            self.write_project(project, cta_y=380)
+            layout_path = project / "04-artboard/raw/page-010.node-layout-map.json"
+            payload = json.loads(layout_path.read_text(encoding="utf-8"))
+            payload["nodes"].extend(
+                [
+                    {
+                        "id": "satori-text-left",
+                        "kind": "text",
+                        "text": "LOOT",
+                        "measured_bbox": {"x": 120, "y": 150, "width": 220, "height": 80},
+                    },
+                    {
+                        "id": "satori-text-right",
+                        "kind": "text",
+                        "text": "BUILD",
+                        "measured_bbox": {"x": 180, "y": 170, "width": 220, "height": 80},
+                    },
+                ]
+            )
+            write_json(layout_path, payload)
+
+            result = collision.check_project(project)
+
+            self.assertEqual(result["status"], "failed")
+            codes = [issue["code"] for page in result["pages"] for issue in page["issues"]]
+            self.assertIn("text_text_overlap", codes)
+
+    def test_poster_hero_title_stack_does_not_fail_overlap(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            self.write_poster_hero_project(project)
+
+            result = collision.check_project(project)
+
+            self.assertEqual(result["status"], "passed")
+            codes = [issue["code"] for page in result["pages"] for issue in page["issues"]]
+            self.assertNotIn("text_text_overlap", codes)
 
 
 if __name__ == "__main__":

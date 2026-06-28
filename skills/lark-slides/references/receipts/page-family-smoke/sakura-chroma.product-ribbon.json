@@ -1,0 +1,277 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "sakura-chroma",
+  "selected_template_id": "product-ribbon",
+  "selected_theme_id": "sakura-chroma",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 9,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "comparison",
+      "page_variant_id": "catalogue",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "quote",
+      "page_variant_id": "stripe",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "data",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "detail",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "cal",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "colophon",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "content",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "data"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "catalogue"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "stripe"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "cal"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "colophon"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "catalogue",
+    "stripe",
+    "data",
+    "quote",
+    "cal",
+    "colophon"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "catalogue",
+    "stripe",
+    "data",
+    "quote",
+    "cal",
+    "colophon"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "manifesto",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/sakura-chroma.json",
+    "golden_spec.cal": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cal.canvas-spec.json",
+    "golden_spec.catalogue": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.catalogue.canvas-spec.json",
+    "golden_spec.colophon": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.colophon.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.cover.canvas-spec.json",
+    "golden_spec.data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.data.canvas-spec.json",
+    "golden_spec.manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.manifesto.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.quote.canvas-spec.json",
+    "golden_spec.stripe": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sakura-chroma.stripe.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "053c65ddb91d0c77222f26aeb457504dd03678eff55fc2ec77031633932119b8",
+    "smoke_deck": "a5455e02238a240bb285d0b1c9129d0b7687d0c6d03e63a4648f80b7c3242f9c",
+    "golden_spec.cal": "4c763f2c89c16d9f351b332204306cf91abf7f50c5ef972d6d233da3ff0ca8f3",
+    "golden_spec.catalogue": "316fa7472471663a70145784b88f0eda5c9936204644a4b0c4bf2c024433aa54",
+    "golden_spec.colophon": "f5f5602a12f6754f990846e3f24b5ac7a6974d7dc60aacf96fa1cb8a9e71ecf5",
+    "golden_spec.cover": "27e567e14665d9eff40de5835c5beec633d78700d01742be26d39773fe58fd21",
+    "golden_spec.data": "20607b6a908574e6ed0eb459ff234ec9f1da2bfdaaa1a86afcb47675fefc3a56",
+    "golden_spec.manifesto": "a4c1175cf1893061e3272dc02ef36ab1b0086887e7b42c82a74e87b37c0309b0",
+    "golden_spec.quote": "eab19b0bcda436fcf8371d907b6970e94a6e5cf63497d1836102394ceca98573",
+    "golden_spec.stripe": "089f3687e7d15e9946d508f7ae00c3c1a3481dbc5a6fab0d42ad6f8e3534aefa"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/svglide-sakura-chroma-smoke-tld3x5eh",
+    "--pretty"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/sakura-chroma.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/svglide-sakura-chroma-smoke-tld3x5eh"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 9,
+    "covered_role_count": 9,
+    "implemented_variant_count": 8,
+    "covered_implemented_variant_count": 8
+  }
+}

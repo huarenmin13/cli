@@ -1,0 +1,80 @@
+{
+  "claim_boundary": "source page-family implementation smoke deck; not production/default_selectable evidence",
+  "family_id": "8-bit-orbit",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "slide-1",
+      "title": "8-BIT ORBIT"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "slide-2",
+      "title": "Rewiring How We Share Ideas"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "slide-3",
+      "title": "Four Engines Running"
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "slide-4",
+      "title": "Quarterly Growth Metrics"
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "slide-5",
+      "title": "Resource Allocation"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "slide-6",
+      "title": "Development Roadmap"
+    },
+    {
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "slide-7",
+      "title": "Platform Vitals"
+    },
+    {
+      "page": 8,
+      "page_role": "quote",
+      "page_variant_id": "slide-8",
+      "title": "Immersive Quote"
+    },
+    {
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "slide-9",
+      "title": "Choose Your Loadout"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "slide-10",
+      "title": "Ready Player One?"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "template_id": "pixel-orbit-console",
+  "theme_id": "8-bit-orbit"
+}

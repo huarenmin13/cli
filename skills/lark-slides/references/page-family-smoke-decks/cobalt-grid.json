@@ -1,0 +1,57 @@
+{
+  "claim_boundary": "Explicit current-run smoke deck for cobalt-grid page-family coverage; not production/default selectable evidence.",
+  "family_id": "cobalt-grid",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "detail",
+      "page_variant_id": "manifesto"
+    },
+    {
+      "page": 3,
+      "page_role": "agenda",
+      "page_variant_id": "index"
+    },
+    {
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "chapter"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "data"
+    },
+    {
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "table"
+    },
+    {
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "colophon"
+    },
+    {
+      "page": 9,
+      "page_role": "content",
+      "page_variant_id": "chapter"
+    }
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "runtime_template_id": "trend-grid-report",
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "selected_theme_id": "cobalt-grid",
+  "variant_reuse_rationale": "Source has 8 pages; chapter is reused once as content evidence after serving the process/chapter role. No new source variant is invented."
+}

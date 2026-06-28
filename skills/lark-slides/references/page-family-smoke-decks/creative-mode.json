@@ -1,0 +1,74 @@
+{
+  "claim_boundary": "source page-family implementation smoke deck; not production/default_selectable evidence",
+  "family_id": "creative-mode",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "s1",
+      "title": "Title Poster"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "s2",
+      "title": "Chapter Opener"
+    },
+    {
+      "page": 3,
+      "page_role": "content",
+      "page_variant_id": "s3",
+      "title": "Stat Grid"
+    },
+    {
+      "page": 4,
+      "page_role": "detail",
+      "page_variant_id": "s4",
+      "title": "System Diagram"
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "s5",
+      "title": "Bar Chart"
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "s6",
+      "title": "Process Flow"
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "s7",
+      "title": "Comparison Table"
+    },
+    {
+      "page": 8,
+      "page_role": "closing",
+      "page_variant_id": "s8",
+      "title": "Closing Card"
+    },
+    {
+      "page": 9,
+      "page_role": "quote",
+      "page_variant_id": "s2",
+      "title": "Emphasis Reuse"
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "template_id": "creative-mode-grid",
+  "theme_id": "creative-mode"
+}

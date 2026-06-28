@@ -1,0 +1,316 @@
+{
+  "artifact_issues": [],
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    ".",
+    "--selected-family",
+    "soft-editorial"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "foreword",
+    "method",
+    "insights",
+    "closer",
+    "numbers",
+    "quote",
+    "next",
+    "consult",
+    "chart",
+    "process",
+    "matrix"
+  ],
+  "degraded": false,
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "implemented_page_variants": [
+    "cover",
+    "foreword",
+    "method",
+    "insights",
+    "closer",
+    "numbers",
+    "quote",
+    "next",
+    "consult",
+    "chart",
+    "process",
+    "matrix"
+  ],
+  "input_hashes": {
+    "generator_receipt": null,
+    "golden_spec.chart": "b58f1fb733221d285b6ad5a8de4f20cb3f44f374ffc6292fdbf1c035552b372b",
+    "golden_spec.closer": "1b5d92c01998afdfeba258d41fa524962227b5de58340324a31842c2340f20ff",
+    "golden_spec.consult": "8a0c40057a78cb8663769de68d828f3187d4e7dfc5cde315d5aa76d82b16f0f5",
+    "golden_spec.cover": "0b9de0c1284d2b5f5de0d0404765b7f02af4224711532d001f449bd4add2bc50",
+    "golden_spec.foreword": "5d32a8f8ec0b78116bf9957562e398c4f361f94755baca9638a4fdb8d3d8d11f",
+    "golden_spec.insights": "4f7170ae40fe873639541676d7ec70832923b454f8e97963d57818e509d50e3d",
+    "golden_spec.matrix": "1b8b3879ac15fa11ebd288024b42b7d064a73684fabab77c3bad1caba7efa7b2",
+    "golden_spec.method": "9646869e47ddc32e508590c068fba4c047d227789e92e7adf601a2f5820e5f6d",
+    "golden_spec.next": "1e540256e5fdb93605b8972d7e24571f1c8ea1383738819424262329e68a7260",
+    "golden_spec.numbers": "155173c470cbec6e17ccb72307fe1c034005c0b58335c56164e54b576cd34b06",
+    "golden_spec.process": "8619bc5a3553b5f32bf7db83a0e0848615ea032025beed3e8a6d7d954ba30394",
+    "golden_spec.quote": "d8bf6421e5a4087a1930b56353a48dcc0e978edbc9fbc95bc8f94255c24ee073",
+    "slide_plan": null,
+    "smoke_deck": "1609fa437d44b4c373c7e219471e0fbbf10161c3f2b68df025857b6aec767608",
+    "template_registry": null,
+    "theme_registry": null
+  },
+  "inputs": {
+    "generator_receipt": "receipts/generate_svg.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.chart.canvas-spec.json",
+    "golden_spec.closer": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.closer.canvas-spec.json",
+    "golden_spec.consult": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.consult.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.cover.canvas-spec.json",
+    "golden_spec.foreword": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.foreword.canvas-spec.json",
+    "golden_spec.insights": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.insights.canvas-spec.json",
+    "golden_spec.matrix": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.matrix.canvas-spec.json",
+    "golden_spec.method": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.method.canvas-spec.json",
+    "golden_spec.next": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.next.canvas-spec.json",
+    "golden_spec.numbers": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.numbers.canvas-spec.json",
+    "golden_spec.process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.process.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/soft-editorial.quote.canvas-spec.json",
+    "slide_plan": "02-plan/slide_plan.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/soft-editorial.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json"
+  },
+  "missing_implemented_page_variants": [],
+  "missing_required_roles": [],
+  "page_variant_coverage": {
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "foreword"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "closer"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        12
+      ],
+      "variants": [
+        "matrix"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "insights"
+      ]
+    },
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        6,
+        10
+      ],
+      "variants": [
+        "chart",
+        "numbers"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        3,
+        9
+      ],
+      "variants": [
+        "consult",
+        "method"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        8,
+        11
+      ],
+      "variants": [
+        "next",
+        "process"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "quote"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "family_id": null,
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "foreword",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "method",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "insights",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 5,
+      "page_role": "closing",
+      "page_variant_id": "closer",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 6,
+      "page_role": "data",
+      "page_variant_id": "numbers",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "next",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "consult",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 10,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 11,
+      "page_role": "process",
+      "page_variant_id": "process",
+      "template_id": null,
+      "theme_id": null
+    },
+    {
+      "family_id": null,
+      "page": 12,
+      "page_role": "comparison",
+      "page_variant_id": "matrix",
+      "template_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/soft-editorial.json",
+    "smoke_fixture": null
+  },
+  "rendered_pages": 12,
+  "reuse_count": 0,
+  "schema_version": "svglide-page-family-smoke/v1",
+  "scope": "page_family",
+  "selected_family_id": "soft-editorial",
+  "selected_template_id": "soft-editorial-feature",
+  "selected_theme_id": "soft-editorial",
+  "selection_source": "explicit_args",
+  "stage": "template_fidelity",
+  "status": "passed",
+  "summary": {
+    "covered_implemented_variant_count": 12,
+    "covered_role_count": 9,
+    "error_count": 0,
+    "implemented_variant_count": 12,
+    "page_count": 12,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  },
+  "unimplemented_page_variants": [],
+  "variant_reuse_reasons": [],
+  "visual_distinctness_summary": {
+    "error_count": 0,
+    "status": null,
+    "warning_count": 0
+  }
+}

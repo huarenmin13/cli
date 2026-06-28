@@ -52,7 +52,9 @@ PRESERVED_CONTAINER_TAGS = {"svg", "g", *SUPPORT_SUBTREE_TAGS}
 SLIDE_DEFAULT_FONT_FAMILY = "思源黑体"
 ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
 CJK_RE = re.compile(r"^[\u3400-\u9fff\u3000-\u303f\uff00-\uffef]+$")
+CJK_CHAR_RE = re.compile(r"[\u3400-\u9fff]")
 ASCII_WORD_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9./%+_-]*$")
+PATH_COMMAND_RE = re.compile(r"[AaCcHhLlMmQqSsTtVvZz]")
 
 ET.register_namespace("", contract.SVG_NS)
 ET.register_namespace("slide", contract.SLIDE_NS)
@@ -161,6 +163,268 @@ def style_or_attr(element: ET.Element, name: str, default: str | None = None) ->
     return parse_style_attr(get_xml_attr(element, "style")).get(name.lower(), default)
 
 
+def path_commands(value: str) -> set[str]:
+    return set(PATH_COMMAND_RE.findall(value or ""))
+
+
+def unsupported_path_commands(value: str) -> set[str]:
+    allowed = set("MLHVZCQmlhvzcq")
+    return {command for command in path_commands(value) if command not in allowed}
+
+
+def matrix_values(value: str | None) -> list[float] | None:
+    match = re.search(r"matrix\(([^)]+)\)", value or "")
+    if not match:
+        return None
+    values: list[float] = []
+    for part in re.split(r"[,\s]+", match.group(1).strip()):
+        if not part:
+            continue
+        try:
+            values.append(float(part))
+        except ValueError:
+            return None
+    return values if len(values) == 6 else None
+
+
+def has_shear_matrix_transform(element: ET.Element) -> bool:
+    values = matrix_values(get_xml_attr(element, "transform"))
+    if not values:
+        return False
+    _a, b, c, _d, _e, _f = values
+    # Rotation matrices have b ~= -c. Satori skewY/skewX emits shear-like
+    # matrices that the slide parser cannot decompose reliably.
+    return abs(b + c) > 0.02
+
+
+def drop_unsupported_shape_matrix_transform(element: ET.Element, report: dict[str, Any]) -> None:
+    if not has_shear_matrix_transform(element):
+        return
+    node_id = ensure_node_id(element, f"raw-{local_name(element.tag)}-matrix")
+    source_transform = get_xml_attr(element, "transform")
+    element.attrib.pop("transform", None)
+    element.attrib["data-svglide-transform-lowered"] = "unsupported-matrix-dropped"
+    report["loss_notes"].append(
+        {
+            "node": local_name(element.tag),
+            "element_id": node_id,
+            "reason": "unsupported non-text matrix transform dropped during protocol lowering",
+            "source_transform": source_transform,
+        }
+    )
+
+
+def rounded_rect_path_bbox(data: str) -> dict[str, float] | None:
+    tokens = re.findall(r"[A-Za-z]|[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?", data or "")
+    if not tokens:
+        return None
+    index = 0
+    command = ""
+    x = y = 0.0
+    start_x = start_y = 0.0
+    points: list[tuple[float, float]] = []
+
+    def read_float() -> float | None:
+        nonlocal index
+        if index >= len(tokens) or re.match(r"^[A-Za-z]$", tokens[index]):
+            return None
+        value = number(tokens[index], 0.0)
+        index += 1
+        return value
+
+    while index < len(tokens):
+        if re.match(r"^[A-Za-z]$", tokens[index]):
+            command = tokens[index]
+            index += 1
+        if command in {"M", "m"}:
+            first = True
+            while index < len(tokens):
+                raw_x = read_float()
+                raw_y = read_float()
+                if raw_x is None or raw_y is None:
+                    break
+                x = x + raw_x if command == "m" else raw_x
+                y = y + raw_y if command == "m" else raw_y
+                points.append((x, y))
+                if first:
+                    start_x, start_y = x, y
+                    first = False
+                command = "l" if command == "m" else "L"
+        elif command in {"H", "h"}:
+            while index < len(tokens):
+                raw_x = read_float()
+                if raw_x is None:
+                    break
+                x = x + raw_x if command == "h" else raw_x
+                points.append((x, y))
+        elif command in {"V", "v"}:
+            while index < len(tokens):
+                raw_y = read_float()
+                if raw_y is None:
+                    break
+                y = y + raw_y if command == "v" else raw_y
+                points.append((x, y))
+        elif command in {"A", "a"}:
+            while index < len(tokens):
+                values = [read_float() for _ in range(7)]
+                if any(value is None for value in values):
+                    break
+                end_x = float(values[5] or 0.0)
+                end_y = float(values[6] or 0.0)
+                x = x + end_x if command == "a" else end_x
+                y = y + end_y if command == "a" else end_y
+                points.append((x, y))
+        elif command in {"Z", "z"}:
+            x, y = start_x, start_y
+            points.append((x, y))
+            command = ""
+        else:
+            break
+    return bbox_from_points(points)
+
+
+def rounded_rect_radius_from_path(data: str) -> tuple[float, float] | None:
+    match = re.search(
+        r"[aA]\s*([-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?)\s*,?\s*([-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?)",
+        data or "",
+    )
+    if not match:
+        return None
+    return (number(match.group(1), 0.0), number(match.group(2), 0.0))
+
+
+def lower_satori_rounded_rect_path(element: ET.Element, report: dict[str, Any]) -> bool:
+    if local_name(element.tag) != "path":
+        return False
+    data = get_xml_attr(element, "d") or ""
+    commands = path_commands(data)
+    if not commands or not any(command in commands for command in {"a", "A"}):
+        return False
+    if not commands.issubset(set("MmHhVvAaZz")):
+        return False
+    x = number(get_xml_attr(element, "x"), float("nan"))
+    y = number(get_xml_attr(element, "y"), float("nan"))
+    width = number(get_xml_attr(element, "width"), float("nan"))
+    height = number(get_xml_attr(element, "height"), float("nan"))
+    if not all(value == value for value in [width, height]) or width <= 0 or height <= 0:
+        return False
+    if not all(value == value for value in [x, y]):
+        inferred = rounded_rect_path_bbox(data)
+        if inferred is None:
+            return False
+        x = inferred["x"]
+        y = inferred["y"]
+    node_id = ensure_node_id(element, "raw-rounded-rect-path")
+    radius = rounded_rect_radius_from_path(data)
+    element.tag = f"{{{contract.SVG_NS}}}rect"
+    element.attrib.pop("d", None)
+    element.attrib["x"] = scalar(x)
+    element.attrib["y"] = scalar(y)
+    element.attrib["width"] = scalar(width)
+    element.attrib["height"] = scalar(height)
+    if radius:
+        rx = min(max(radius[0], 0.0), width / 2)
+        ry = min(max(radius[1], 0.0), height / 2)
+        if rx > 0:
+            element.attrib["rx"] = scalar(rx)
+        if ry > 0:
+            element.attrib["ry"] = scalar(ry)
+    element.attrib["data-svglide-path-lowered-as"] = "rounded-rect"
+    report["loss_notes"].append(
+        {
+            "node": "path",
+            "element_id": node_id,
+            "reason": "raw Satori rounded-rect path lowered to slide rect to avoid unsupported arc path commands",
+        }
+    )
+    return True
+
+
+def lower_satori_arc_blob_path_to_ellipse(element: ET.Element, report: dict[str, Any]) -> bool:
+    if local_name(element.tag) != "path":
+        return False
+    data = get_xml_attr(element, "d") or ""
+    commands = path_commands(data)
+    if not commands or not any(command in commands for command in {"a", "A"}):
+        return False
+    if not unsupported_path_commands(data):
+        return False
+    bbox = svg_element_bbox(element)
+    if bbox is None or bbox["width"] <= 0 or bbox["height"] <= 0:
+        return False
+    node_id = ensure_node_id(element, "raw-arc-blob-path")
+    element.tag = f"{{{contract.SVG_NS}}}ellipse"
+    element.attrib.pop("d", None)
+    element.attrib.pop("x", None)
+    element.attrib.pop("y", None)
+    element.attrib.pop("width", None)
+    element.attrib.pop("height", None)
+    element.attrib["cx"] = scalar(bbox["x"] + bbox["width"] / 2)
+    element.attrib["cy"] = scalar(bbox["y"] + bbox["height"] / 2)
+    element.attrib["rx"] = scalar(max(bbox["width"] / 2, 1.0))
+    element.attrib["ry"] = scalar(max(bbox["height"] / 2, 1.0))
+    element.attrib["data-svglide-path-lowered-as"] = "ellipse-approximation"
+    report["loss_notes"].append(
+        {
+            "node": "path",
+            "element_id": node_id,
+            "reason": "raw Satori arc/blob path approximated as slide ellipse to avoid unsupported arc path commands",
+            "source_bbox": bbox_to_list(bbox),
+        }
+    )
+    return True
+
+
+def lower_thin_rect_to_line(element: ET.Element, report: dict[str, Any]) -> bool:
+    if local_name(element.tag) != "rect":
+        return False
+    bbox = svg_element_bbox(element)
+    if bbox is None:
+        return False
+    width = bbox["width"]
+    height = bbox["height"]
+    horizontal = width >= 8 and height <= 3
+    vertical = height >= 8 and width <= 3
+    if not horizontal and not vertical:
+        return False
+    node_id = ensure_node_id(element, "raw-rule-rect")
+    fill = get_xml_attr(element, "fill") or parse_style_attr(get_xml_attr(element, "style")).get("fill") or "#111111"
+    opacity = get_xml_attr(element, "opacity")
+    transform = get_xml_attr(element, "transform")
+    if horizontal:
+        y = bbox["y"] + height / 2
+        coords = {"x1": bbox["x"], "y1": y, "x2": bbox["x"] + width, "y2": y}
+        stroke_width = max(height, 1.0)
+    else:
+        x = bbox["x"] + width / 2
+        coords = {"x1": x, "y1": bbox["y"], "x2": x, "y2": bbox["y"] + height}
+        stroke_width = max(width, 1.0)
+    element.tag = f"{{{contract.SVG_NS}}}line"
+    element.attrib.clear()
+    element.attrib["id"] = node_id
+    element.attrib["data-node-id"] = node_id
+    element.attrib["x1"] = scalar(coords["x1"])
+    element.attrib["y1"] = scalar(coords["y1"])
+    element.attrib["x2"] = scalar(coords["x2"])
+    element.attrib["y2"] = scalar(coords["y2"])
+    element.attrib["stroke"] = fill
+    element.attrib["stroke-width"] = scalar(stroke_width)
+    if opacity:
+        element.attrib["opacity"] = opacity
+    if transform:
+        element.attrib["transform"] = transform
+    element.attrib["data-svglide-rect-lowered-as"] = "line"
+    report["loss_notes"].append(
+        {
+            "node": "rect",
+            "element_id": node_id,
+            "reason": "thin Satori rect lowered to slide line primitive",
+            "source_bbox": bbox_to_list(bbox),
+        }
+    )
+    return True
+
+
 def semantic_text_source_refs(semantic_map: dict[str, Any]) -> list[dict[str, str]]:
     refs: list[dict[str, str]] = []
     elements = semantic_map.get("elements") if isinstance(semantic_map.get("elements"), list) else []
@@ -214,6 +478,58 @@ def is_ascii_word(value: str) -> bool:
     return bool(ASCII_WORD_RE.match(normalize_text(value)))
 
 
+def is_short_ascii_label(value: str) -> bool:
+    compact = re.sub(r"\s+", "", normalize_text(value))
+    if not 2 <= len(compact) <= 16:
+        return False
+    return bool(re.match(r"^[A-Z0-9][A-Z0-9./%+_-]*$", compact)) and compact.upper() == compact
+
+
+def is_short_cjk_text(value: str) -> bool:
+    compact = normalize_text(value).replace(" ", "")
+    return bool(compact) and bool(CJK_CHAR_RE.search(compact)) and len(compact) <= 8
+
+
+def contains_cjk_text(value: str) -> bool:
+    return bool(CJK_CHAR_RE.search(normalize_text(value)))
+
+
+def reset_cjk_letter_spacing(element: ET.Element, text: str) -> bool:
+    if not contains_cjk_text(text):
+        return False
+    changed = False
+    current = style_or_attr(element, "letter-spacing")
+    if current is not None and normalize_text(current).lower() not in {"0", "0px", "normal", "unset", "initial"}:
+        element.attrib["letter-spacing"] = "0"
+        changed = True
+    style = parse_style_attr(get_xml_attr(element, "style"))
+    if "letter-spacing" in style and normalize_text(style["letter-spacing"]).lower() not in {"0", "0px", "normal", "unset", "initial"}:
+        style["letter-spacing"] = "0"
+        element.attrib["style"] = style_attr_from_dict(style)
+        changed = True
+    if changed:
+        element.attrib["data-svglide-cjk-letter-spacing-reset"] = "true"
+    return changed
+
+
+def reset_cjk_fake_italic(element: ET.Element, text: str) -> bool:
+    if not contains_cjk_text(text):
+        return False
+    changed = False
+    current = style_or_attr(element, "font-style")
+    if current is not None and normalize_text(current).lower() in {"italic", "oblique"}:
+        element.attrib["font-style"] = "normal"
+        changed = True
+    style = parse_style_attr(get_xml_attr(element, "style"))
+    if "font-style" in style and normalize_text(style["font-style"]).lower() in {"italic", "oblique"}:
+        style["font-style"] = "normal"
+        element.attrib["style"] = style_attr_from_dict(style)
+        changed = True
+    if changed:
+        element.attrib["data-svglide-cjk-font-style-reset"] = "true"
+    return changed
+
+
 def source_font_family(element: ET.Element) -> str:
     return style_or_attr(element, "font-family") or ""
 
@@ -256,6 +572,153 @@ def text_metrics(element: ET.Element) -> dict[str, float]:
         "line_height_px": max(ascent + descent, font_size),
         "ascent": ascent,
         "descent": descent,
+    }
+
+
+def estimated_slide_text_width(text: str, font_size: float, letter_spacing: float) -> float:
+    normalized = normalize_text(text)
+    if not normalized:
+        return font_size
+    width = 0.0
+    visible_chars = 0
+    for char in normalized:
+        if char.isspace():
+            width += font_size * 0.34
+        elif CJK_CHAR_RE.match(char):
+            width += font_size * 1.0
+            visible_chars += 1
+        elif char.isupper():
+            width += font_size * 0.68
+            visible_chars += 1
+        elif char.islower():
+            width += font_size * 0.56
+            visible_chars += 1
+        elif char.isdigit():
+            width += font_size * 0.58
+            visible_chars += 1
+        elif char in "./%+_-":
+            width += font_size * 0.44
+            visible_chars += 1
+        else:
+            width += font_size * 0.5
+            visible_chars += 1
+    if visible_chars > 1 and letter_spacing:
+        width += abs(letter_spacing) * (visible_chars - 1)
+    return max(width, font_size)
+
+
+def text_width_compensation(
+    element: ET.Element,
+    font_mapping: dict[str, Any],
+    *,
+    page_width: float | None = None,
+) -> dict[str, Any]:
+    text = normalize_text(text_content(element))
+    metrics = text_metrics(element)
+    source_width = metrics["width"]
+    font_size = metrics["font_size"]
+    letter_spacing = numeric_style_value(style_or_attr(element, "letter-spacing"), 0.0)
+    mapping_reason = str(font_mapping.get("reason") or "source_font_family_preserved")
+    role_font_mapped = mapping_reason == "role_font_family_mapped_to_slide_default"
+    short_ascii_label = is_short_ascii_label(text)
+    short_cjk_text = is_short_cjk_text(text)
+    letter_spacing_risk = abs(letter_spacing) > 0.01 and len(text.replace(" ", "")) > 1
+    nowrap_risk = short_ascii_label or short_cjk_text or letter_spacing_risk
+
+    estimated_width = estimated_slide_text_width(text, font_size, letter_spacing)
+    reasons: list[str] = []
+    if role_font_mapped:
+        estimated_width = max(estimated_width, source_width * 1.18)
+        reasons.append("role_font_mapping")
+    if short_ascii_label:
+        estimated_width *= 1.08
+        reasons.append("short_ascii_label")
+    if short_cjk_text:
+        estimated_width = max(estimated_width, len(text.replace(" ", "")) * font_size * 1.08)
+        reasons.append("short_cjk_text")
+    if letter_spacing_risk:
+        estimated_width = max(estimated_width, source_width + abs(letter_spacing) * max(len(text.replace(" ", "")) - 1, 1) + font_size * 0.4)
+        reasons.append("letter_spacing")
+    if nowrap_risk:
+        estimated_width += font_size * 0.55
+    min_safe_width = max(source_width, estimated_width)
+    compiled_width = min_safe_width if min_safe_width > source_width + 0.25 else source_width
+    x_value = number(get_xml_attr(element, "x"), 0.0)
+    canvas_fit: dict[str, Any] = {"applied": False}
+    if page_width and compiled_width > source_width + 0.25:
+        available_width = max(page_width - x_value, 0.0)
+        if compiled_width > available_width and available_width > 0:
+            if nowrap_risk:
+                overflow = compiled_width - available_width
+                shift_left = min(overflow, x_value)
+                if shift_left > 0.25:
+                    new_x = x_value - shift_left
+                    element.attrib["x"] = scalar(new_x)
+                    canvas_fit = {
+                        "applied": True,
+                        "mode": "shift_left",
+                        "original_x": round(x_value, 4),
+                        "compiled_x": round(new_x, 4),
+                        "shift_x": round(-shift_left, 4),
+                        "available_width": round(page_width - new_x, 4),
+                    }
+                    reasons.append("fit_canvas_right")
+            elif available_width >= source_width - 0.25:
+                compiled_width = available_width
+                canvas_fit = {
+                    "applied": True,
+                    "mode": "cap_width",
+                    "original_width": round(min_safe_width, 4),
+                    "compiled_width": round(compiled_width, 4),
+                    "available_width": round(available_width, 4),
+                }
+                reasons.append("fit_canvas_right")
+    if page_width and not canvas_fit["applied"]:
+        available_width = max(page_width - x_value, 0.0)
+        overflow = compiled_width - available_width
+        if available_width > 0 and 0 < overflow <= 1.0:
+            compiled_width = available_width
+            canvas_fit = {
+                "applied": True,
+                "mode": "cap_width_epsilon",
+                "original_width": round(min_safe_width, 4),
+                "compiled_width": round(compiled_width, 4),
+                "available_width": round(available_width, 4),
+            }
+            reasons.append("fit_canvas_right_epsilon")
+    width_compensated = compiled_width > source_width + 0.25
+    if width_compensated or canvas_fit["applied"]:
+        element.attrib["width"] = scalar(compiled_width)
+    if canvas_fit["applied"]:
+        element.attrib["data-svglide-width-canvas-fit"] = str(canvas_fit["mode"])
+        if "shift_x" in canvas_fit:
+            element.attrib["data-svglide-width-shift-x"] = scalar(canvas_fit["shift_x"])
+    if nowrap_risk or role_font_mapped:
+        element.attrib["data-svglide-width-compensation"] = "slide-font-safe-width/v1"
+    element.attrib["data-svglide-source-width"] = scalar(source_width)
+    element.attrib["data-svglide-compiled-width"] = scalar(compiled_width)
+    element.attrib["data-svglide-min-safe-width"] = scalar(min_safe_width)
+    element.attrib["data-svglide-width-expansion-ratio"] = scalar(round(compiled_width / max(source_width, 1.0), 6))
+    element.attrib["data-svglide-width-expansion-reason"] = ",".join(reasons) if reasons else "not_required"
+    element.attrib["data-svglide-nowrap-risk"] = "true" if nowrap_risk else "false"
+    element.attrib["data-svglide-letter-spacing-accounted"] = "true" if letter_spacing_risk else "false"
+    return {
+        "element_id": get_xml_attr(element, "id") or get_xml_attr(element, "data-node-id"),
+        "text": text,
+        "source_width": round(source_width, 4),
+        "compiled_width": round(compiled_width, 4),
+        "min_safe_width": round(min_safe_width, 4),
+        "width_expansion_ratio": round(compiled_width / max(source_width, 1.0), 6),
+        "width_expansion_reason": reasons or ["not_required"],
+        "width_compensation": get_xml_attr(element, "data-svglide-width-compensation") or "",
+        "width_compensated": width_compensated,
+        "nowrap_risk": nowrap_risk,
+        "font_mapping_reason": mapping_reason,
+        "letter_spacing": letter_spacing,
+        "letter_spacing_accounted": letter_spacing_risk,
+        "short_ascii_label": short_ascii_label,
+        "short_cjk_text": short_cjk_text,
+        "canvas_fit": canvas_fit,
     }
 
 
@@ -350,6 +813,12 @@ def svg_element_bbox(element: ET.Element) -> dict[str, float] | None:
     if name in {"polygon", "polyline"}:
         return bbox_from_points(parse_points(get_xml_attr(element, "points")))
     if name == "path":
+        x = number(get_xml_attr(element, "x"), float("nan"))
+        y = number(get_xml_attr(element, "y"), float("nan"))
+        width = number(get_xml_attr(element, "width"), float("nan"))
+        height = number(get_xml_attr(element, "height"), float("nan"))
+        if all(value == value for value in [x, y, width, height]) and width > 0 and height > 0:
+            return {"x": x, "y": y, "width": width, "height": height}
         nums = [float(part) for part in re.findall(r"-?\d+(?:\.\d+)?", get_xml_attr(element, "d") or "")]
         return bbox_from_points(list(zip(nums[0::2], nums[1::2]))) if nums else None
     if name == "g":
@@ -367,6 +836,52 @@ def svg_element_bbox(element: ET.Element) -> dict[str, float] | None:
 
 def bbox_to_list(box: dict[str, float]) -> list[float]:
     return [round(box["x"], 4), round(box["y"], 4), round(box["width"], 4), round(box["height"], 4)]
+
+
+def bbox_intersection(left: dict[str, float], right: dict[str, float]) -> dict[str, float] | None:
+    x1 = max(left["x"], right["x"])
+    y1 = max(left["y"], right["y"])
+    x2 = min(left["x"] + left["width"], right["x"] + right["width"])
+    y2 = min(left["y"] + left["height"], right["y"] + right["height"])
+    if x2 <= x1 or y2 <= y1:
+        return None
+    return {"x": x1, "y": y1, "width": x2 - x1, "height": y2 - y1}
+
+
+def fit_shape_to_canvas(element: ET.Element, bbox: dict[str, float], page_width: float, page_height: float, report: dict[str, Any]) -> bool:
+    canvas = {"x": 0.0, "y": 0.0, "width": page_width, "height": page_height}
+    if bbox["x"] >= 0 and bbox["y"] >= 0 and bbox["x"] + bbox["width"] <= page_width and bbox["y"] + bbox["height"] <= page_height:
+        return True
+    clipped = bbox_intersection(bbox, canvas)
+    node_id = ensure_node_id(element, f"raw-{local_name(element.tag)}-canvas-fit")
+    if clipped is None:
+        report["loss_notes"].append(
+            {
+                "node": local_name(element.tag),
+                "element_id": node_id,
+                "reason": "off-canvas non-text shape dropped during protocol lowering",
+                "source_bbox": bbox_to_list(bbox),
+            }
+        )
+        return False
+    name = local_name(element.tag)
+    if name in {"rect", "image", "path"}:
+        element.attrib["x"] = scalar(clipped["x"])
+        element.attrib["y"] = scalar(clipped["y"])
+        element.attrib["width"] = scalar(clipped["width"])
+        element.attrib["height"] = scalar(clipped["height"])
+        element.attrib["data-svglide-canvas-fit"] = "clip-to-canvas"
+        report["loss_notes"].append(
+            {
+                "node": name,
+                "element_id": node_id,
+                "reason": "non-text shape clipped to slide canvas during protocol lowering",
+                "source_bbox": bbox_to_list(bbox),
+                "compiled_bbox": bbox_to_list(clipped),
+            }
+        )
+        return True
+    return True
 
 
 def text_fragment_record(element: ET.Element, index: int) -> dict[str, Any] | None:
@@ -745,7 +1260,8 @@ def local_effect_candidates(root: ET.Element) -> list[ET.Element]:
         name = local_name(element.tag)
         if element is root or element_in_support(element, parents, root) or name == "text":
             continue
-        if not hard_effect_attrs(element):
+        unsupported_path = name == "path" and bool(unsupported_path_commands(get_xml_attr(element, "d") or ""))
+        if not hard_effect_attrs(element) and not unsupported_path:
             continue
         if name in VISIBLE_SHAPE_TAGS | VISIBLE_IMAGE_TAGS | {"g"}:
             out.append(element)
@@ -828,7 +1344,12 @@ def rasterize_local_effects(project: Path, root: ET.Element, *, page: int, repor
                 output_ref=node_id,
             )
             continue
-        reason = "unsupported-filter" if get_xml_attr(candidate, "filter") else "unsupported-mask-or-clip"
+        if local_name(candidate.tag) == "path" and unsupported_path_commands(get_xml_attr(candidate, "d") or ""):
+            reason = "unsupported-path-command"
+        elif get_xml_attr(candidate, "filter"):
+            reason = "unsupported-filter"
+        else:
+            reason = "unsupported-mask-or-clip"
         island = {
             "id": f"island-{index:03d}",
             "kind": "local",
@@ -933,6 +1454,13 @@ def build_text_style_item(element: ET.Element, *, text_style_id: str, source_ref
         "color": color,
         "decoration": text_decoration_payload(element, color),
         "wrap": "nowrap",
+        "source_width": numeric_style_value(get_xml_attr(element, "data-svglide-source-width"), 0.0),
+        "compiled_width": numeric_style_value(get_xml_attr(element, "data-svglide-compiled-width"), 0.0),
+        "min_safe_width": numeric_style_value(get_xml_attr(element, "data-svglide-min-safe-width"), 0.0),
+        "width_expansion_ratio": numeric_style_value(get_xml_attr(element, "data-svglide-width-expansion-ratio"), 1.0),
+        "width_expansion_reason": get_xml_attr(element, "data-svglide-width-expansion-reason") or "not_required",
+        "nowrap_risk": get_xml_attr(element, "data-svglide-nowrap-risk") == "true",
+        "width_compensation": get_xml_attr(element, "data-svglide-width-compensation") or "",
         "source_contract": {"source_ref": source_ref} if source_ref else {},
         "loss_notes": loss_notes,
         "text_style_id": text_style_id,
@@ -1081,6 +1609,10 @@ def empty_report(source: str, semantic_map: str, output: str) -> dict[str, Any]:
             "baseline_converted_count": 0,
             "role_font_mapped_count": 0,
             "single_character_text_boxes": 0,
+            "width_compensated_count": 0,
+            "nowrap_risk_count": 0,
+            "letter_spacing_width_accounted_count": 0,
+            "width_compensation_records": [],
             "baseline_conversions": [],
         },
         "text_style_manifest_items": 0,
@@ -1341,6 +1873,7 @@ def raw_element_record(element: ET.Element, *, element_id: str, kind: str, impor
 def lower_raw_satori_svg(root: ET.Element, *, report: dict[str, Any], semantic_map: dict[str, Any], assets: dict[str, str]) -> None:
     source_refs = semantic_text_source_refs(semantic_map)
     coalesce_text_fragments(root, report)
+    page_width, page_height = root_dimensions(root)
     text_style_items: dict[str, dict[str, Any]] = {}
     counters = {"text": 0, "shape": 0, "image": 0, "unsupported": 0}
 
@@ -1378,9 +1911,33 @@ def lower_raw_satori_svg(root: ET.Element, *, report: dict[str, Any], semantic_m
             source_ref = source_ref_for_text(text, source_refs)
             if source_ref:
                 element.attrib["data-source-ref"] = source_ref
+            if reset_cjk_letter_spacing(element, text):
+                report["loss_notes"].append(
+                    {
+                        "node": "text",
+                        "element_id": node_id,
+                        "reason": "CJK text letter-spacing reset to 0 to avoid inherited Latin tracking in editable slide text",
+                    }
+                )
+            if reset_cjk_fake_italic(element, text):
+                report["loss_notes"].append(
+                    {
+                        "node": "text",
+                        "element_id": node_id,
+                        "reason": "CJK text font-style reset to normal to avoid fake italic in editable slide text",
+                    }
+                )
             font_mapping = apply_text_font_mapping(element)
             if font_mapping.get("reason") == "role_font_family_mapped_to_slide_default":
                 report["text_lowering"]["role_font_mapped_count"] += 1
+            width_compensation = text_width_compensation(element, font_mapping, page_width=page_width)
+            report["text_lowering"]["width_compensation_records"].append(width_compensation)
+            if width_compensation["width_compensated"]:
+                report["text_lowering"]["width_compensated_count"] += 1
+            if width_compensation["nowrap_risk"]:
+                report["text_lowering"]["nowrap_risk_count"] += 1
+            if width_compensation["letter_spacing_accounted"]:
+                report["text_lowering"]["letter_spacing_width_accounted_count"] += 1
             baseline_conversion = convert_text_baseline_to_box(element)
             report["text_lowering"]["baseline_converted_count"] += 1
             if len(normalize_text(text)) <= 1:
@@ -1401,6 +1958,39 @@ def lower_raw_satori_svg(root: ET.Element, *, report: dict[str, Any], semantic_m
                 {"element_id": node_id, **baseline_conversion}
             )
         elif name in VISIBLE_SHAPE_TAGS:
+            if name == "rect" and lower_thin_rect_to_line(element, report):
+                name = local_name(element.tag)
+            if name == "path" and lower_satori_rounded_rect_path(element, report):
+                name = local_name(element.tag)
+            if name == "path" and lower_satori_arc_blob_path_to_ellipse(element, report):
+                name = local_name(element.tag)
+            bbox = svg_element_bbox(element)
+            if name != "line" and (bbox is None or bbox["width"] <= 0 or bbox["height"] <= 0):
+                node_id = ensure_node_id(element, f"raw-{name}-zero-size")
+                record_decision(
+                    report,
+                    element=raw_element_record(element, element_id=node_id, kind=name, importance="visual_optional"),
+                    decision="dropped",
+                    reason="raw Satori visible shape has no positive visual area",
+                    output_ref=None,
+                )
+                if parent is not None:
+                    parent.remove(element)
+                return
+            if bbox is not None and not fit_shape_to_canvas(element, bbox, page_width, page_height, report):
+                node_id = get_xml_attr(element, "id") or get_xml_attr(element, "data-node-id") or f"raw-{name}-off-canvas"
+                record_decision(
+                    report,
+                    element=raw_element_record(element, element_id=node_id, kind=name, importance="visual_optional"),
+                    decision="dropped",
+                    reason="raw Satori non-text shape is fully outside the slide canvas",
+                    output_ref=None,
+                )
+                if parent is not None:
+                    parent.remove(element)
+                return
+            if name != "text":
+                drop_unsupported_shape_matrix_transform(element, report)
             counters["shape"] += 1
             node_id = ensure_node_id(element, f"raw-{name}-{counters['shape']:03d}")
             set_slide_role(element, "shape")

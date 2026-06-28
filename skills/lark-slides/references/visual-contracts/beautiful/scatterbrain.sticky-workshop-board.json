@@ -24,20 +24,28 @@
     "formality": "low",
     "layout_rhythm": "scatterbrain: high density, low formality. Post-it inspired: pastel sticky notes, Caveat handwriting, Shrikhand and Zilla Slab type stack.",
     "spacing_rhythm": "Reuse source spacing tokens and grid gaps: {\"slide_pad\": \"3rem\", \"post_it_pad_lg\": \"3rem 4rem\", \"post_it_pad_md\": \"2.5rem\", \"post_it_pad_sm\": \"1.5rem\", \"post_it_pad_statement\": \"3.5rem 4rem\", \"gap_lg\": \"3rem\", \"gap_md\": \"2.5rem\", \"gap_sm\": \"2rem\"}",
-    "source_layout_classes": [],
+    "source_layout_classes": [
+      "slide bg-cork slide-title",
+      "slide bg-paper statement-layout",
+      "slide bg-warm two-col-layout",
+      "slide bg-cork chart-layout",
+      "slide bg-paper three-col-layout",
+      "slide bg-warm timeline-layout",
+      "slide bg-cork imgtext-layout",
+      "slide bg-paper diagram-layout",
+      "slide bg-warm compare-layout",
+      "slide bg-cork slide-title closing-cluster"
+    ],
     "variant_ids": [
-      "cover",
-      "agenda",
-      "section_divider",
-      "context_overview",
-      "metric_dashboard",
-      "problem_analysis",
-      "cause_analysis",
-      "comparison",
+      "title",
+      "statement",
+      "two-column",
+      "chart",
+      "features",
       "timeline",
-      "case_evidence",
-      "action_plan",
-      "risk_dependency",
+      "image-text",
+      "diagram",
+      "comparison",
       "closing"
     ]
   },
@@ -677,18 +685,78 @@
     "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/sticky-workshop-board.canvas-spec.json",
     "fidelity_receipt": "skills/lark-slides/references/receipts/template-fidelity/scatterbrain.sticky-workshop-board.json",
     "renderer_contract": {
-      "external_html_css_js": "forbidden",
-      "forbidden_svg_features": [
-        "filter",
-        "pattern",
-        "foreignObject",
-        "image",
-        "use",
-        "linearGradient",
-        "radialGradient"
+      "claim_boundary": "page-family renderer evidence only; production/default selectable still requires selector/gate/production review.",
+      "status": "needs_review",
+      "renderer_stage": "page_family",
+      "default_selectable": false,
+      "selection_scope": "experimental",
+      "implemented_page_variants": [
+        "title",
+        "statement",
+        "two-column",
+        "chart",
+        "features",
+        "timeline",
+        "image-text",
+        "diagram",
+        "comparison",
+        "closing"
       ],
-      "python_generic_fallback": "forbidden",
-      "runtime": "owned_satori_template"
+      "text_budget_by_variant": {
+        "title": {
+          "title": 40,
+          "subtitle": 140,
+          "note": 60,
+          "accents": 60
+        },
+        "statement": {
+          "quote": 120,
+          "body": 220,
+          "author": 60,
+          "side_note": 50
+        },
+        "two-column": {
+          "columns": 420
+        },
+        "chart": {
+          "title": 50,
+          "labels": 40,
+          "values": 24,
+          "legend": 160,
+          "note": 90
+        },
+        "features": {
+          "items": 300
+        },
+        "timeline": {
+          "items": 420
+        },
+        "image-text": {
+          "label": 24,
+          "title": 60,
+          "body": 210,
+          "body2": 120,
+          "mini_note": 50
+        },
+        "diagram": {
+          "title": 60,
+          "labels": 80,
+          "stats": 120,
+          "note": 70
+        },
+        "comparison": {
+          "left": 180,
+          "right": 180,
+          "left_title": 24,
+          "right_title": 24
+        },
+        "closing": {
+          "title": 70,
+          "subtitle": 80,
+          "accents": 100,
+          "contact": 90
+        }
+      }
     },
     "constraints": {
       "external_html_css_js": "forbidden",
@@ -699,7 +767,7 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "distinctive display face may be approximated by Slide/Source/思源 fonts; preserve weight/size/case first",
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
@@ -1431,17 +1499,19 @@
   "loss_notes": [
     "distinctive display face may be approximated by Slide/Source/思源 fonts; preserve weight/size/case first",
     "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
-    "letter spacing is preserved for Latin labels and reset/softened for CJK"
+    "letter spacing is preserved for Latin labels and reset/softened for CJK",
+    "production review currently has fewer generated source screenshots than template.html sections; renderer implementation follows the 10 source HTML sections and records screenshot coverage as review evidence risk rather than dropping pages."
   ],
   "page_family": {
-    "source_slide_count": 8,
+    "source_slide_count": 10,
     "core_page_roles": [
       "cover",
-      "agenda",
-      "data_dashboard",
+      "quote",
       "detail",
-      "process_or_timeline",
+      "data",
       "content",
+      "process",
+      "comparison",
       "closing"
     ],
     "production_minimum_roles": [
@@ -1449,185 +1519,223 @@
       "agenda",
       "content",
       "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
       "closing"
     ]
   },
   "page_variants": {
-    "slide-1": {
-      "source_class": "data-slide-1",
+    "title": {
+      "source_class": "slide bg-cork slide-title",
       "source_slide_index": 1,
       "page_role": "cover",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-1",
-          "raw_value": "<section class=\"slide bg-paper\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-2": {
-      "source_class": "data-slide-2",
-      "source_slide_index": 2,
-      "page_role": "agenda",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-2",
-          "raw_value": "<section class=\"slide bg-warm\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-3": {
-      "source_class": "data-slide-3",
-      "source_slide_index": 3,
-      "page_role": "data_dashboard",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-3",
-          "raw_value": "<section class=\"slide bg-cork\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-4": {
-      "source_class": "data-slide-4",
-      "source_slide_index": 4,
-      "page_role": "detail",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-4",
-          "raw_value": "<section class=\"slide bg-paper\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-5": {
-      "source_class": "data-slide-5",
-      "source_slide_index": 5,
-      "page_role": "process_or_timeline",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "timeline"
-      ],
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-5",
-          "raw_value": "<section class=\"slide bg-warm\">"
-        }
-      ],
-      "extraction_confidence": "inferred_from_layout"
-    },
-    "slide-6": {
-      "source_class": "data-slide-6",
-      "source_slide_index": 6,
-      "page_role": "content",
       "required_slots": [
         "title",
         "subtitle"
       ],
       "optional_slots": [
-        "eyebrow",
+        "note",
+        "accents",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-6",
-          "raw_value": "<section class=\"slide bg-cork\">"
+          "selector_or_token": "section:nth-of-type(1)",
+          "raw_value": "<section class=\"slide bg-cork slide-title\">"
         }
       ],
       "extraction_confidence": "inferred_from_layout"
     },
-    "slide-7": {
-      "source_class": "data-slide-7",
-      "source_slide_index": 7,
-      "page_role": "data_dashboard",
+    "statement": {
+      "source_class": "slide bg-paper statement-layout",
+      "source_slide_index": 2,
+      "page_role": "quote",
+      "required_slots": [
+        "quote",
+        "body"
+      ],
+      "optional_slots": [
+        "author",
+        "side_note",
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(2)",
+          "raw_value": "<section class=\"slide bg-paper statement-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "two-column": {
+      "source_class": "slide bg-warm two-col-layout",
+      "source_slide_index": 3,
+      "page_role": "detail",
+      "required_slots": [
+        "columns"
+      ],
+      "optional_slots": [
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(3)",
+          "raw_value": "<section class=\"slide bg-warm two-col-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "chart": {
+      "source_class": "slide bg-cork chart-layout",
+      "source_slide_index": 4,
+      "page_role": "data",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
+        "values",
+        "legend"
+      ],
+      "optional_slots": [
+        "note",
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(4)",
+          "raw_value": "<section class=\"slide bg-cork chart-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "features": {
+      "source_class": "slide bg-paper three-col-layout",
+      "source_slide_index": 5,
+      "page_role": "content",
+      "required_slots": [
         "items"
       ],
       "optional_slots": [
-        "eyebrow",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-7",
-          "raw_value": "<section class=\"slide bg-paper\">"
+          "selector_or_token": "section:nth-of-type(5)",
+          "raw_value": "<section class=\"slide bg-paper three-col-layout\">"
         }
       ],
       "extraction_confidence": "inferred_from_layout"
     },
-    "slide-8": {
-      "source_class": "data-slide-8",
+    "timeline": {
+      "source_class": "slide bg-warm timeline-layout",
+      "source_slide_index": 6,
+      "page_role": "process",
+      "required_slots": [
+        "items"
+      ],
+      "optional_slots": [
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(6)",
+          "raw_value": "<section class=\"slide bg-warm timeline-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "image-text": {
+      "source_class": "slide bg-cork imgtext-layout",
+      "source_slide_index": 7,
+      "page_role": "content",
+      "required_slots": [
+        "title",
+        "body"
+      ],
+      "optional_slots": [
+        "label",
+        "body2",
+        "mini_note",
+        "image_region",
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(7)",
+          "raw_value": "<section class=\"slide bg-cork imgtext-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "diagram": {
+      "source_class": "slide bg-paper diagram-layout",
       "source_slide_index": 8,
+      "page_role": "data",
+      "required_slots": [
+        "title",
+        "stats"
+      ],
+      "optional_slots": [
+        "labels",
+        "note",
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(8)",
+          "raw_value": "<section class=\"slide bg-paper diagram-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "comparison": {
+      "source_class": "slide bg-warm compare-layout",
+      "source_slide_index": 9,
+      "page_role": "comparison",
+      "required_slots": [
+        "left",
+        "right"
+      ],
+      "optional_slots": [
+        "left_title",
+        "right_title",
+        "decoration"
+      ],
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/scatterbrain/template.html",
+          "selector_or_token": "section:nth-of-type(9)",
+          "raw_value": "<section class=\"slide bg-warm compare-layout\">"
+        }
+      ],
+      "extraction_confidence": "inferred_from_layout"
+    },
+    "closing": {
+      "source_class": "slide bg-cork slide-title closing-cluster",
+      "source_slide_index": 10,
       "page_role": "closing",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "subtitle"
       ],
       "optional_slots": [
-        "eyebrow",
+        "accents",
+        "contact",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/scatterbrain/template.html",
-          "selector_or_token": ".data-slide-8",
-          "raw_value": "<section class=\"slide bg-warm\">"
+          "selector_or_token": "section:nth-of-type(10)",
+          "raw_value": "<section class=\"slide bg-cork slide-title closing-cluster\">"
         }
       ],
       "extraction_confidence": "inferred_from_layout"
@@ -1639,5 +1747,87 @@
     "source_design_md": "beautiful-html-templates/templates/scatterbrain/design.md",
     "source_template_json": "beautiful-html-templates/templates/scatterbrain/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
+  },
+  "source_page_variants": [
+    "title",
+    "statement",
+    "two-column",
+    "chart",
+    "features",
+    "timeline",
+    "image-text",
+    "diagram",
+    "comparison",
+    "closing"
+  ],
+  "page_variant_count": 10,
+  "page_variant_golden_specs": {
+    "title": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.title.canvas-spec.json",
+    "statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.statement.canvas-spec.json",
+    "two-column": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.two-column.canvas-spec.json",
+    "chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.chart.canvas-spec.json",
+    "features": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.features.canvas-spec.json",
+    "timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.timeline.canvas-spec.json",
+    "image-text": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.image-text.canvas-spec.json",
+    "diagram": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.diagram.canvas-spec.json",
+    "comparison": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.comparison.canvas-spec.json",
+    "closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/scatterbrain.closing.canvas-spec.json"
+  },
+  "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/scatterbrain.json",
+  "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/scatterbrain.sticky-workshop-board.json",
+  "text_budget_by_variant": {
+    "title": {
+      "title": 40,
+      "subtitle": 140,
+      "note": 60,
+      "accents": 60
+    },
+    "statement": {
+      "quote": 120,
+      "body": 220,
+      "author": 60,
+      "side_note": 50
+    },
+    "two-column": {
+      "columns": 420
+    },
+    "chart": {
+      "title": 50,
+      "labels": 40,
+      "values": 24,
+      "legend": 160,
+      "note": 90
+    },
+    "features": {
+      "items": 300
+    },
+    "timeline": {
+      "items": 420
+    },
+    "image-text": {
+      "label": 24,
+      "title": 60,
+      "body": 210,
+      "body2": 120,
+      "mini_note": 50
+    },
+    "diagram": {
+      "title": 60,
+      "labels": 80,
+      "stats": 120,
+      "note": 70
+    },
+    "comparison": {
+      "left": 180,
+      "right": 180,
+      "left_title": 24,
+      "right_title": 24
+    },
+    "closing": {
+      "title": 70,
+      "subtitle": 80,
+      "accents": 100,
+      "contact": 90
+    }
   }
 }

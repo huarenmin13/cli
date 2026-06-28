@@ -7,6 +7,7 @@ import { REQUIRED_FONT_ROLES, fontRoleAliasesFromTheme, fontRolesFromTheme, typo
 const SATORI_VERSION = '0.26.0'
 const RESVG_VERSION = '2.6.2'
 const DEFAULT_FONT_FAMILY = 'SVGlideDefault'
+const EMBED_FONT_FOR_PNG_ENV = 'SVGLIDE_SATORI_EMBED_FONT_FOR_PNG'
 const DEFAULT_FONT_CANDIDATES = [
   '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
   '/System/Library/Fonts/Supplemental/Arial.ttf',
@@ -166,6 +167,20 @@ async function checkRuntime() {
   console.log(JSON.stringify({ ok: true, renderer: 'satori-resvg', satori_version: SATORI_VERSION, resvg_version: RESVG_VERSION, font_path: fontBundle.primaryFont.path, font_receipt: fontBundle.receipt }))
 }
 
+function boolEnv(name) {
+  return ['1', 'true', 'yes', 'on'].includes(String(process.env[name] || '').toLowerCase())
+}
+
+async function renderSatoriSvg(satori, spec, fonts, { embedFont = false, onNodeDetected = null } = {}) {
+  return await satori(renderTree(spec), {
+    width: 960,
+    height: 540,
+    embedFont,
+    fonts,
+    ...(onNodeDetected ? { onNodeDetected } : {})
+  })
+}
+
 function serializeObservation(node) {
   const props = node?.props || {}
   const safeProps = {}
@@ -203,11 +218,8 @@ async function main() {
   const typographyRoles = typographyRolesFromTheme(spec)
   const textStyleRoles = spec.theme?.typography?.text_style_roles || {}
   const observations = []
-  const svg = await satori(renderTree(spec), {
-    width: 960,
-    height: 540,
+  const svg = await renderSatoriSvg(satori, spec, fontBundle.fonts, {
     embedFont: false,
-    fonts: fontBundle.fonts,
     onNodeDetected: (node) => {
       observations.push(serializeObservation(node))
     }
@@ -215,8 +227,13 @@ async function main() {
   await fs.mkdir(path.dirname(outputPath), { recursive: true })
   await fs.writeFile(outputPath, svg)
   let pngBytes = null
+  let pngFontEmbeddingMode = 'same_as_output_svg'
   if (pngPath) {
-    pngBytes = new Resvg(svg, {
+    const pngSvg = boolEnv(EMBED_FONT_FOR_PNG_ENV)
+      ? await renderSatoriSvg(satori, spec, fontBundle.fonts, { embedFont: true })
+      : svg
+    pngFontEmbeddingMode = pngSvg === svg ? 'same_as_output_svg' : 'embedded_font_preview_only'
+    pngBytes = new Resvg(pngSvg, {
       fitTo: { mode: 'width', value: 960 },
       font: { loadSystemFonts: true }
     }).render().asPng()
@@ -243,6 +260,7 @@ async function main() {
           typography_roles: typographyRoles,
           text_style_roles: textStyleRoles,
           typography_strategy_source: spec.theme?.typography?.strategy_source || null,
+          png_font_embedding_mode: pngFontEmbeddingMode,
           png_bytes: pngBytes ? pngBytes.length : null
         },
         null,

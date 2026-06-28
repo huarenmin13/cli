@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/biennale-yellow.html",
-    "render_status": "missing_smoke",
-    "sha256": "ec07fe3a3c3a4cc947275a30a56e8add05b4aad2c66684b192f6fcd4e33be407"
+    "render_status": "passed",
+    "sha256": "b35ab684ee13a5c5104402488e58fc69fb87fe03217b1e4caf39dc3a0d8245c0"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "ec07fe3a3c3a4cc947275a30a56e8add05b4aad2c66684b192f6fcd4e33be407",
+    "contact_sheet": "b35ab684ee13a5c5104402488e58fc69fb87fe03217b1e4caf39dc3a0d8245c0",
     "fidelity_receipt": "27b20213513d6a895ae84c07aea6d784f5acd5a5fcd4b5a6baf0d1868f4a7dfe",
     "reference_screenshot": "8acd74e991ff533d6982f60fc2934ad2020d5ea8e03c5d79d00c24899d6f9e8d",
-    "smoke_receipt": null,
-    "visual_contract": "8f04a650927de6641fd356ec3d2107b1421cf9f6579e7af8f7e447b36f99c82b"
+    "smoke_receipt": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89",
+    "visual_contract": "292cfb18b40560798e57e90e168f769696c7a554afa43783b8fe8e573f6dda90"
   },
   "family_id": "biennale-yellow",
   "fidelity": {
@@ -33,12 +33,19 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 8,
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "programme",
+    "chapter",
+    "data",
+    "quote",
+    "cal",
+    "colophon"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
     "selector_gate_missing",
@@ -60,7 +67,7 @@
     "status": "available"
   },
   "missing_roles": [
-    "comparison_or_split",
+    "content",
     "process_or_timeline"
   ],
   "not_promotion_receipt": true,
@@ -75,21 +82,21 @@
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
     "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "401f319232da42c26fce4cacb21f8954538e698cf30d165c4793dbe4f197c3d9",
+    "current_deck_browser_preview_sha256": "6a058ce2ac2a77d64ea121575af7fd880c24c9e8558ffa56327336a63871638b",
     "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.png",
     "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.svg",
-    "current_deck_render_sha256": "3d39dab0f5ceb8168de88595dcc495078c64d6323c11f85e30a227ada31a21b6",
+    "current_deck_render_sha256": "5cbbca905d87b2b11f18961df4f338d434dc4eb79e0d63e58819b00eff5a690b",
     "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.svg",
     "family_id": "biennale-yellow",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cover.canvas-spec.json",
+    "golden_spec_sha256": "c8fc351e112f03aa7d8cb890c791762070ce47a20182ed32c32a6b5b5f26c13a",
     "page": 1,
     "page_role": "cover",
     "page_variant_id": "cover",
     "role_group": "cover",
     "runtime_template_id": "biennale-programme-poster",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+    "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89",
     "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/biennale-yellow/001-cover.jpg",
     "source_screenshot_sha256": "7d569321e9de8fee2b7b2deb5af9a276059ddf85cefaa0a39621c3e458b72fa7",
     "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/biennale-yellow/001-cover.jpg",
@@ -102,11 +109,11 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "manifesto",
+        "programme",
         "chapter"
       ],
       "pages": [
-        2,
+        3,
         4
       ]
     },
@@ -121,20 +128,20 @@
       ]
     },
     "comparison_or_split": {
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "cal"
+      ],
+      "pages": [
+        7
+      ]
+    },
+    "content": {
       "covered": false,
       "missing_reason": "source_page_variant_not_extracted_for_role",
       "page_variant_ids": [],
       "pages": []
-    },
-    "content": {
-      "covered": true,
-      "missing_reason": null,
-      "page_variant_ids": [
-        "programme"
-      ],
-      "pages": [
-        3
-      ]
     },
     "cover": {
       "covered": true,
@@ -150,12 +157,10 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "data",
-        "cal"
+        "data"
       ],
       "pages": [
-        5,
-        7
+        5
       ]
     },
     "process_or_timeline": {
@@ -168,49 +173,52 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
+        "manifesto",
         "quote"
       ],
       "pages": [
+        2,
         6
       ]
     }
   },
   "page_variants": [
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
+        "footer_items",
         "decoration"
       ],
       "page_role": "cover",
       "page_variant_id": "cover",
       "required_slots": [
-        "title"
+        "title",
+        "date"
       ],
       "role_group": "cover",
       "source_class": "s-cover",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/biennale-yellow/template.html",
-          "raw_value": "<section class=\"slide s-cover active\">",
+          "raw_value": "<section class=\"slide s-cover\">",
           "selector_or_token": ".s-cover"
         }
       ],
       "source_slide_index": 1
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "author",
         "decoration"
       ],
-      "page_role": "agenda",
+      "page_role": "content",
       "page_variant_id": "manifesto",
       "required_slots": [
-        "subtitle",
         "quote"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "s-manifesto",
       "source_refs": [
         {
@@ -222,18 +230,19 @@
       "source_slide_index": 2
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "kicker",
+        "meta",
         "decoration"
       ],
-      "page_role": "content",
+      "page_role": "agenda",
       "page_variant_id": "programme",
       "required_slots": [
         "title",
-        "subtitle"
+        "strands"
       ],
-      "role_group": "content",
+      "role_group": "agenda",
       "source_class": "s-programme",
       "source_refs": [
         {
@@ -245,16 +254,17 @@
       "source_slide_index": 3
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "rail",
         "decoration"
       ],
-      "page_role": "closing",
+      "page_role": "process",
       "page_variant_id": "chapter",
       "required_slots": [
+        "number",
         "title",
-        "subtitle"
+        "lede"
       ],
       "role_group": "agenda",
       "source_class": "s-chapter",
@@ -268,16 +278,17 @@
       "source_slide_index": 4
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "label",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "page_variant_id": "data",
       "required_slots": [
-        "metrics",
-        "quote"
+        "title",
+        "stats",
+        "rows"
       ],
       "role_group": "data_or_structured",
       "source_class": "s-data",
@@ -291,16 +302,18 @@
       "source_slide_index": 5
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "kicker",
+        "role",
+        "mark",
         "decoration"
       ],
-      "page_role": "quote_or_emphasis",
+      "page_role": "quote",
       "page_variant_id": "quote",
       "required_slots": [
-        "subtitle",
-        "quote"
+        "quote",
+        "who"
       ],
       "role_group": "quote_or_emphasis",
       "source_class": "s-quote",
@@ -314,17 +327,18 @@
       "source_slide_index": 6
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "label",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "page_variant_id": "cal",
       "required_slots": [
-        "title"
+        "title",
+        "rows"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "comparison_or_split",
       "source_class": "s-cal",
       "source_refs": [
         {
@@ -336,15 +350,16 @@
       "source_slide_index": 7
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
-        "eyebrow",
+        "kicker",
         "decoration"
       ],
       "page_role": "closing",
       "page_variant_id": "colophon",
       "required_slots": [
-        "title"
+        "title",
+        "footer_items"
       ],
       "role_group": "closing",
       "source_class": "s-colophon",
@@ -362,6 +377,7 @@
     {
       "optional_slots": [
         "eyebrow",
+        "footer_items",
         "decoration"
       ],
       "page": 1,
@@ -372,42 +388,43 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "401f319232da42c26fce4cacb21f8954538e698cf30d165c4793dbe4f197c3d9",
+          "browser_preview_sha256": "6a058ce2ac2a77d64ea121575af7fd880c24c9e8558ffa56327336a63871638b",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.svg",
-          "sha256": "3d39dab0f5ceb8168de88595dcc495078c64d6323c11f85e30a227ada31a21b6",
+          "sha256": "5cbbca905d87b2b11f18961df4f338d434dc4eb79e0d63e58819b00eff5a690b",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cover.canvas-spec.json",
+        "golden_spec_sha256": "c8fc351e112f03aa7d8cb890c791762070ce47a20182ed32c32a6b5b5f26c13a",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cover.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "title"
+        "title",
+        "date"
       ],
       "role_group": "cover",
       "source_class": "s-cover",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/biennale-yellow/template.html",
-          "raw_value": "<section class=\"slide s-cover active\">",
+          "raw_value": "<section class=\"slide s-cover\">",
           "selector_or_token": ".s-cover"
         }
       ],
@@ -426,49 +443,48 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "author",
         "decoration"
       ],
       "page": 2,
-      "page_role": "agenda",
+      "page_role": "content",
       "page_variant_id": "manifesto",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "ef1b3c324db55c93d1249a349bc141f186c751423d0b477b0055dd078c250ba8",
+          "browser_preview_sha256": "f632a97ef2e766c9ff868581e3fbdac3402b52a638fd7af02faa97e8e38e1863",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.svg",
-          "sha256": "88899bbbb68df7c219dcf96df3bb5a2570cb8b4b8f99e44f91bd692fc0e20d98",
+          "sha256": "fcdd56858cca40482f26b32978c54649931b388c8dcac52884aab28fb631c33d",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.manifesto.canvas-spec.json",
+        "golden_spec_sha256": "8eaf19d551c67c6c4850697ea6829a40093857905876804e3599b2b6bf1454b7",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.manifesto.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "subtitle",
         "quote"
       ],
-      "role_group": "agenda",
+      "role_group": "quote_or_emphasis",
       "source_class": "s-manifesto",
       "source_refs": [
         {
@@ -492,49 +508,50 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "kicker",
+        "meta",
         "decoration"
       ],
       "page": 3,
-      "page_role": "content",
+      "page_role": "agenda",
       "page_variant_id": "programme",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "b7430020345c733dbb3bbd2fbf43efb4d5c3a9cb518a9855e074e3e01865e80f",
+          "browser_preview_sha256": "074ab66cded606ac97913e573bd04361746eae4afe966069ce493930b8b7bb07",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.svg",
-          "sha256": "ab6aff290ca8e387166f4e564f6ef9f268caa05feb228816ee2368ca68cd7de1",
+          "sha256": "d404b2660837fea40e98b5e5d2e4d0684f272d57ce3b69de38bb51a94c0cd423",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.programme.canvas-spec.json",
+        "golden_spec_sha256": "4254215512f62defea9e8a4f5b79187fc0414438a4b28d9f4714f2c9c5d5fefa",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.programme.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle"
+        "strands"
       ],
-      "role_group": "content",
+      "role_group": "agenda",
       "source_class": "s-programme",
       "source_refs": [
         {
@@ -558,47 +575,48 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "rail",
         "decoration"
       ],
       "page": 4,
-      "page_role": "closing",
+      "page_role": "process",
       "page_variant_id": "chapter",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "d22d4c21ef6f7266da46ddd095ff3a8f7cd1cc5f689467754aab58032424642d",
+          "browser_preview_sha256": "901f7ffb46952eacfcf0da1a9c30b2abd94a069bcd6accfb6a2a0f50b21c2272",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.svg",
-          "sha256": "fa47c59f1c4c7af0d80ec0eab840f889446419cbabba42edccb996370c60867a",
+          "sha256": "c1897bb8a801375bab1a66532c7efc12e028355bcf76dbb38c7af8c5f0212f12",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.chapter.canvas-spec.json",
+        "golden_spec_sha256": "f8839ea6e3f90a4970132d1bb53ab030c58ba5f4223cadaa298a76457e77b47d",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.chapter.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
+        "number",
         "title",
-        "subtitle"
+        "lede"
       ],
       "role_group": "agenda",
       "source_class": "s-chapter",
@@ -624,47 +642,48 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "label",
         "decoration"
       ],
       "page": 5,
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "page_variant_id": "data",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "f2c62336e406ffc8180b4438244aa24d40ab72cc84cd5039d779522c1328b41b",
+          "browser_preview_sha256": "c2c0b29c944ce82f0e886628bf405dc252bc95240f78b1366631ed3c154777a4",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.svg",
-          "sha256": "66417c8afce8f2dbe171f6e7366ecf882a80a9d470dae83d651716d04ce2447e",
+          "sha256": "45c9bd898cff52caad7af3865814a0e4d686ff411d3325969a1784663d89ec25",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.data.canvas-spec.json",
+        "golden_spec_sha256": "a94dd38faebf10937dc5947adeca79ccd6fae53534448f0ef9146e44737a70ca",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.data.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "metrics",
-        "quote"
+        "title",
+        "stats",
+        "rows"
       ],
       "role_group": "data_or_structured",
       "source_class": "s-data",
@@ -690,47 +709,49 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "kicker",
+        "role",
+        "mark",
         "decoration"
       ],
       "page": 6,
-      "page_role": "quote_or_emphasis",
+      "page_role": "quote",
       "page_variant_id": "quote",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "80af9852dc0725da0f98ddf21dc8692e8f00a53ab6e2360755ddbe87a39f8c10",
+          "browser_preview_sha256": "2280aa6435359195c3d50db411b6b1ad0eab4e3428aed9e79faeb1ebdcc20538",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.svg",
-          "sha256": "c9908a4e53c494f61aac4f9413e39cdd7f452e7f2107a9c2fcd5ce4f7ea5e533",
+          "sha256": "2210b3d7d9ab6222783adb1e032ba9dcbaa2888f7d0f483f501c7a31da439527",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.quote.canvas-spec.json",
+        "golden_spec_sha256": "20c7d25cd9fb1fa926b2454f0aa4b9f91b273d0663b7f5298fb57bde2090aa74",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.quote.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "subtitle",
-        "quote"
+        "quote",
+        "who"
       ],
       "role_group": "quote_or_emphasis",
       "source_class": "s-quote",
@@ -756,48 +777,49 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "label",
         "decoration"
       ],
       "page": 7,
-      "page_role": "data_dashboard",
+      "page_role": "comparison",
       "page_variant_id": "cal",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "dff241e6b7816daa0866ee90d1520990e811ab86695d06789df9c20df65f58be",
+          "browser_preview_sha256": "985bf7677c05070a10b3088a455801f387f023c5c1f931e7526f0286e145b133",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.svg",
-          "sha256": "81d9f8e1ae30c410101ca080990cef275d55139d581b742d66fa6fd116d1cc12",
+          "sha256": "31884c30f750dec81422638b87bae12048247a0dbff5a89a4e6e267dccf35b3c",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cal.canvas-spec.json",
+        "golden_spec_sha256": "ce49e84832a9e3e401467139fac876cbf7d5581863cd024ac72a2930c74e0e18",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cal.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "title"
+        "title",
+        "rows"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "comparison_or_split",
       "source_class": "s-cal",
       "source_refs": [
         {
@@ -821,7 +843,7 @@
     },
     {
       "optional_slots": [
-        "eyebrow",
+        "kicker",
         "decoration"
       ],
       "page": 8,
@@ -832,35 +854,36 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "27d5a03445671af5e62a03f3c00409a3f478b575be6286e6447826423d495d31",
+          "browser_preview_sha256": "e1712c946a354a53547f203936fcfec02ff9732fcac607ed281a4fecfaf1db46",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-          "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+          "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.svg",
-          "sha256": "d59979ad164e7a32384258f0a7fc3c77f8a10bbd8630f71ab2815d7cb3681638",
+          "sha256": "c4ddd42f747d4d54d77ba1a1656590b25208a5445d8aa58fd961b73ee0e4e3d8",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.colophon.canvas-spec.json",
+        "golden_spec_sha256": "2196c6dcd765f69d9b1a9f6ef26339a6840647b84ca2de140f17e629a20229a7",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.colophon.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+        "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "title"
+        "title",
+        "footer_items"
       ],
       "role_group": "closing",
       "source_class": "s-colophon",
@@ -895,25 +918,139 @@
   "runtime_template_id": "biennale-programme-poster",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "cover",
+      "manifesto",
+      "programme",
+      "chapter",
+      "data",
+      "quote",
+      "cal",
+      "colophon"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/biennale-yellow.json",
+    "deck_sha256": "1fa9c75aead7b86ccfa776390a0c64a9f5ccd8b2e29ea392c958acad3689688a",
+    "degraded": false,
+    "implemented_page_variants": [
+      "cover",
+      "manifesto",
+      "programme",
+      "chapter",
+      "data",
+      "quote",
+      "cal",
+      "colophon"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.cal": "ce49e84832a9e3e401467139fac876cbf7d5581863cd024ac72a2930c74e0e18",
+      "golden_spec.chapter": "f8839ea6e3f90a4970132d1bb53ab030c58ba5f4223cadaa298a76457e77b47d",
+      "golden_spec.colophon": "2196c6dcd765f69d9b1a9f6ef26339a6840647b84ca2de140f17e629a20229a7",
+      "golden_spec.cover": "c8fc351e112f03aa7d8cb890c791762070ce47a20182ed32c32a6b5b5f26c13a",
+      "golden_spec.data": "a94dd38faebf10937dc5947adeca79ccd6fae53534448f0ef9146e44737a70ca",
+      "golden_spec.manifesto": "8eaf19d551c67c6c4850697ea6829a40093857905876804e3599b2b6bf1454b7",
+      "golden_spec.programme": "4254215512f62defea9e8a4f5b79187fc0414438a4b28d9f4714f2c9c5d5fefa",
+      "golden_spec.quote": "20c7d25cd9fb1fa926b2454f0aa4b9f91b273d0663b7f5298fb57bde2090aa74",
+      "slide_plan": null,
+      "smoke_deck": "1fa9c75aead7b86ccfa776390a0c64a9f5ccd8b2e29ea392c958acad3689688a",
+      "template_registry": null,
+      "theme_registry": null
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "programme"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "colophon"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          7
+        ],
+        "variants": [
+          "cal"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "manifesto"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "cover"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "data"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "cal"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          4
+        ],
+        "variants": [
+          "chapter"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "quote"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+    "receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89",
+    "rendered_pages": 9,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
     "missing_roles": [
-      "comparison_or_split",
+      "content",
       "process_or_timeline"
     ],
     "page_count": 8,
@@ -922,11 +1059,11 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "manifesto",
+          "programme",
           "chapter"
         ],
         "pages": [
-          2,
+          3,
           4
         ]
       },
@@ -941,20 +1078,20 @@
         ]
       },
       "comparison_or_split": {
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "cal"
+        ],
+        "pages": [
+          7
+        ]
+      },
+      "content": {
         "covered": false,
         "missing_reason": "source_page_variant_not_extracted_for_role",
         "page_variant_ids": [],
         "pages": []
-      },
-      "content": {
-        "covered": true,
-        "missing_reason": null,
-        "page_variant_ids": [
-          "programme"
-        ],
-        "pages": [
-          3
-        ]
       },
       "cover": {
         "covered": true,
@@ -970,12 +1107,10 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "data",
-          "cal"
+          "data"
         ],
         "pages": [
-          5,
-          7
+          5
         ]
       },
       "process_or_timeline": {
@@ -988,9 +1123,11 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
+          "manifesto",
           "quote"
         ],
         "pages": [
+          2,
           6
         ]
       }
@@ -999,6 +1136,7 @@
       {
         "optional_slots": [
           "eyebrow",
+          "footer_items",
           "decoration"
         ],
         "page": 1,
@@ -1009,42 +1147,43 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "401f319232da42c26fce4cacb21f8954538e698cf30d165c4793dbe4f197c3d9",
+            "browser_preview_sha256": "6a058ce2ac2a77d64ea121575af7fd880c24c9e8558ffa56327336a63871638b",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.svg",
-            "sha256": "3d39dab0f5ceb8168de88595dcc495078c64d6323c11f85e30a227ada31a21b6",
+            "sha256": "5cbbca905d87b2b11f18961df4f338d434dc4eb79e0d63e58819b00eff5a690b",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-001-cover.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cover.canvas-spec.json",
+          "golden_spec_sha256": "c8fc351e112f03aa7d8cb890c791762070ce47a20182ed32c32a6b5b5f26c13a",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cover.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "title"
+          "title",
+          "date"
         ],
         "role_group": "cover",
         "source_class": "s-cover",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/biennale-yellow/template.html",
-            "raw_value": "<section class=\"slide s-cover active\">",
+            "raw_value": "<section class=\"slide s-cover\">",
             "selector_or_token": ".s-cover"
           }
         ],
@@ -1063,49 +1202,48 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "author",
           "decoration"
         ],
         "page": 2,
-        "page_role": "agenda",
+        "page_role": "content",
         "page_variant_id": "manifesto",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "ef1b3c324db55c93d1249a349bc141f186c751423d0b477b0055dd078c250ba8",
+            "browser_preview_sha256": "f632a97ef2e766c9ff868581e3fbdac3402b52a638fd7af02faa97e8e38e1863",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.svg",
-            "sha256": "88899bbbb68df7c219dcf96df3bb5a2570cb8b4b8f99e44f91bd692fc0e20d98",
+            "sha256": "fcdd56858cca40482f26b32978c54649931b388c8dcac52884aab28fb631c33d",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-002-manifesto.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.manifesto.canvas-spec.json",
+          "golden_spec_sha256": "8eaf19d551c67c6c4850697ea6829a40093857905876804e3599b2b6bf1454b7",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.manifesto.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "subtitle",
           "quote"
         ],
-        "role_group": "agenda",
+        "role_group": "quote_or_emphasis",
         "source_class": "s-manifesto",
         "source_refs": [
           {
@@ -1129,49 +1267,50 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "kicker",
+          "meta",
           "decoration"
         ],
         "page": 3,
-        "page_role": "content",
+        "page_role": "agenda",
         "page_variant_id": "programme",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "b7430020345c733dbb3bbd2fbf43efb4d5c3a9cb518a9855e074e3e01865e80f",
+            "browser_preview_sha256": "074ab66cded606ac97913e573bd04361746eae4afe966069ce493930b8b7bb07",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.svg",
-            "sha256": "ab6aff290ca8e387166f4e564f6ef9f268caa05feb228816ee2368ca68cd7de1",
+            "sha256": "d404b2660837fea40e98b5e5d2e4d0684f272d57ce3b69de38bb51a94c0cd423",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-003-programme.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.programme.canvas-spec.json",
+          "golden_spec_sha256": "4254215512f62defea9e8a4f5b79187fc0414438a4b28d9f4714f2c9c5d5fefa",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.programme.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle"
+          "strands"
         ],
-        "role_group": "content",
+        "role_group": "agenda",
         "source_class": "s-programme",
         "source_refs": [
           {
@@ -1195,47 +1334,48 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "rail",
           "decoration"
         ],
         "page": 4,
-        "page_role": "closing",
+        "page_role": "process",
         "page_variant_id": "chapter",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "d22d4c21ef6f7266da46ddd095ff3a8f7cd1cc5f689467754aab58032424642d",
+            "browser_preview_sha256": "901f7ffb46952eacfcf0da1a9c30b2abd94a069bcd6accfb6a2a0f50b21c2272",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.svg",
-            "sha256": "fa47c59f1c4c7af0d80ec0eab840f889446419cbabba42edccb996370c60867a",
+            "sha256": "c1897bb8a801375bab1a66532c7efc12e028355bcf76dbb38c7af8c5f0212f12",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-004-chapter.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.chapter.canvas-spec.json",
+          "golden_spec_sha256": "f8839ea6e3f90a4970132d1bb53ab030c58ba5f4223cadaa298a76457e77b47d",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.chapter.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
+          "number",
           "title",
-          "subtitle"
+          "lede"
         ],
         "role_group": "agenda",
         "source_class": "s-chapter",
@@ -1261,47 +1401,48 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "label",
           "decoration"
         ],
         "page": 5,
-        "page_role": "data_dashboard",
+        "page_role": "data",
         "page_variant_id": "data",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "f2c62336e406ffc8180b4438244aa24d40ab72cc84cd5039d779522c1328b41b",
+            "browser_preview_sha256": "c2c0b29c944ce82f0e886628bf405dc252bc95240f78b1366631ed3c154777a4",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.svg",
-            "sha256": "66417c8afce8f2dbe171f6e7366ecf882a80a9d470dae83d651716d04ce2447e",
+            "sha256": "45c9bd898cff52caad7af3865814a0e4d686ff411d3325969a1784663d89ec25",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-005-data.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.data.canvas-spec.json",
+          "golden_spec_sha256": "a94dd38faebf10937dc5947adeca79ccd6fae53534448f0ef9146e44737a70ca",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.data.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "metrics",
-          "quote"
+          "title",
+          "stats",
+          "rows"
         ],
         "role_group": "data_or_structured",
         "source_class": "s-data",
@@ -1327,47 +1468,49 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "kicker",
+          "role",
+          "mark",
           "decoration"
         ],
         "page": 6,
-        "page_role": "quote_or_emphasis",
+        "page_role": "quote",
         "page_variant_id": "quote",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "80af9852dc0725da0f98ddf21dc8692e8f00a53ab6e2360755ddbe87a39f8c10",
+            "browser_preview_sha256": "2280aa6435359195c3d50db411b6b1ad0eab4e3428aed9e79faeb1ebdcc20538",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.svg",
-            "sha256": "c9908a4e53c494f61aac4f9413e39cdd7f452e7f2107a9c2fcd5ce4f7ea5e533",
+            "sha256": "2210b3d7d9ab6222783adb1e032ba9dcbaa2888f7d0f483f501c7a31da439527",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-006-quote.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.quote.canvas-spec.json",
+          "golden_spec_sha256": "20c7d25cd9fb1fa926b2454f0aa4b9f91b273d0663b7f5298fb57bde2090aa74",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.quote.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "subtitle",
-          "quote"
+          "quote",
+          "who"
         ],
         "role_group": "quote_or_emphasis",
         "source_class": "s-quote",
@@ -1393,48 +1536,49 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "label",
           "decoration"
         ],
         "page": 7,
-        "page_role": "data_dashboard",
+        "page_role": "comparison",
         "page_variant_id": "cal",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "dff241e6b7816daa0866ee90d1520990e811ab86695d06789df9c20df65f58be",
+            "browser_preview_sha256": "985bf7677c05070a10b3088a455801f387f023c5c1f931e7526f0286e145b133",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.svg",
-            "sha256": "81d9f8e1ae30c410101ca080990cef275d55139d581b742d66fa6fd116d1cc12",
+            "sha256": "31884c30f750dec81422638b87bae12048247a0dbff5a89a4e6e267dccf35b3c",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-007-cal.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cal.canvas-spec.json",
+          "golden_spec_sha256": "ce49e84832a9e3e401467139fac876cbf7d5581863cd024ac72a2930c74e0e18",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cal.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "title"
+          "title",
+          "rows"
         ],
-        "role_group": "data_or_structured",
+        "role_group": "comparison_or_split",
         "source_class": "s-cal",
         "source_refs": [
           {
@@ -1458,7 +1602,7 @@
       },
       {
         "optional_slots": [
-          "eyebrow",
+          "kicker",
           "decoration"
         ],
         "page": 8,
@@ -1469,35 +1613,36 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "27d5a03445671af5e62a03f3c00409a3f478b575be6286e6447826423d495d31",
+            "browser_preview_sha256": "e1712c946a354a53547f203936fcfec02ff9732fcac607ed281a4fecfaf1db46",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/manifest.json",
-            "manifest_sha256": "0fbbbc390880a7a60aafe86bec9883f976fec1d8a7665932d4dfe290ef3a0fb3",
+            "manifest_sha256": "53ee9859e4c3749d34530ea758fd1a77cd1e3f1e09575a2b3aeaf959eeac497f",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.svg",
-            "sha256": "d59979ad164e7a32384258f0a7fc3c77f8a10bbd8630f71ab2815d7cb3681638",
+            "sha256": "c4ddd42f747d4d54d77ba1a1656590b25208a5445d8aa58fd961b73ee0e4e3d8",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/biennale-yellow/page-008-colophon.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.colophon.canvas-spec.json",
+          "golden_spec_sha256": "2196c6dcd765f69d9b1a9f6ef26339a6840647b84ca2de140f17e629a20229a7",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.colophon.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/biennale-yellow.biennale-programme-poster.json",
+          "smoke_receipt_sha256": "98ae8cb127462b55b49d018432fef42f492f6d49aff22bcc165a057242e9ca89"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "title"
+          "title",
+          "footer_items"
         ],
         "role_group": "closing",
         "source_class": "s-colophon",
@@ -1524,10 +1669,10 @@
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 8,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "biennale-programme-poster",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/biennale-yellow.biennale-programme-poster.json",
-  "visual_contract_sha256": "8f04a650927de6641fd356ec3d2107b1421cf9f6579e7af8f7e447b36f99c82b"
+  "visual_contract_sha256": "292cfb18b40560798e57e90e168f769696c7a554afa43783b8fe8e573f6dda90"
 }

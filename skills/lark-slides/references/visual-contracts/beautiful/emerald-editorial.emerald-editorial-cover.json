@@ -678,7 +678,7 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "italic is source-aware but CJK fake italic is forbidden; use color/weight fallback when unavailable",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
@@ -1432,9 +1432,11 @@
     "core_page_roles": [
       "cover",
       "agenda",
-      "detail",
+      "content",
+      "data",
+      "comparison",
       "process_or_timeline",
-      "data_dashboard",
+      "detail",
       "closing"
     ],
     "production_minimum_roles": [
@@ -1442,10 +1444,23 @@
       "agenda",
       "content",
       "data",
+      "comparison",
       "quote_or_emphasis",
       "process_or_timeline",
+      "detail",
       "closing"
-    ]
+    ],
+    "implemented_page_variants": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5",
+      "s6",
+      "s7",
+      "s8"
+    ],
+    "claim_boundary": "page-family implemented for review; not production/default selectable until selector, quality gate, visual review, and production review pass"
   },
   "page_variants": {
     "s1": {
@@ -1453,153 +1468,154 @@
       "source_slide_index": 1,
       "page_role": "cover",
       "required_slots": [
-        "title",
-        "metrics"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s1",
-          "raw_value": "<section class=\"slide s1\" data-screen-label=\"01 Cover\">"
+          "selector_or_token": "section.s1",
+          "raw_value": "s1"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s2": {
       "source_class": "s2",
       "source_slide_index": 2,
       "page_role": "agenda",
       "required_slots": [
-        "title",
-        "metrics"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s2",
-          "raw_value": "<section class=\"slide s2\" data-screen-label=\"02 Agenda\">"
+          "selector_or_token": "section.s2",
+          "raw_value": "s2"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s3": {
       "source_class": "s3",
       "source_slide_index": 3,
-      "page_role": "detail",
+      "page_role": "content",
       "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s3",
-          "raw_value": "<section class=\"slide s3\" data-screen-label=\"03 Section Opener\">"
+          "selector_or_token": "section.s3",
+          "raw_value": "s3"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s4": {
       "source_class": "s4",
       "source_slide_index": 4,
-      "page_role": "process_or_timeline",
+      "page_role": "comparison",
       "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s4",
-          "raw_value": "<section class=\"slide s4\" data-screen-label=\"04 Statement And Three\">"
+          "selector_or_token": "section.s4",
+          "raw_value": "s4"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s5": {
       "source_class": "s5",
       "source_slide_index": 5,
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s5",
-          "raw_value": "<section class=\"slide s5\" data-screen-label=\"05 Data Study\">"
+          "selector_or_token": "section.s5",
+          "raw_value": "s5"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s6": {
       "source_class": "s6",
       "source_slide_index": 6,
-      "page_role": "detail",
+      "page_role": "process_or_timeline",
       "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s6",
-          "raw_value": "<section class=\"slide s6\" data-screen-label=\"06 Process Diagram\">"
+          "selector_or_token": "section.s6",
+          "raw_value": "s6"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s7": {
       "source_class": "s7",
       "source_slide_index": 7,
-      "page_role": "data_dashboard",
+      "page_role": "detail",
       "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
+        "title"
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s7",
-          "raw_value": "<section class=\"slide s7\" data-screen-label=\"07 KPI Grid\">"
+          "selector_or_token": "section.s7",
+          "raw_value": "s7"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     },
     "s8": {
       "source_class": "s8",
@@ -1610,16 +1626,18 @@
       ],
       "optional_slots": [
         "eyebrow",
+        "metrics",
         "decoration"
       ],
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/emerald-editorial/template.html",
-          "selector_or_token": ".s8",
-          "raw_value": "<section class=\"slide s8\" data-screen-label=\"08 Closing\">"
+          "selector_or_token": "section.s8",
+          "raw_value": "s8"
         }
       ],
-      "extraction_confidence": "inferred_from_layout"
+      "extraction_confidence": "inferred_from_layout",
+      "mapping_reason": "Mapped from explicit source section class and page-family smoke role coverage; remains needs_review and not default selectable."
     }
   },
   "page_family_source": {
@@ -1628,5 +1646,6 @@
     "source_design_md": "beautiful-html-templates/templates/emerald-editorial/design.md",
     "source_template_json": "beautiful-html-templates/templates/emerald-editorial/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
-  }
+  },
+  "template_id": "emerald-editorial-cover"
 }

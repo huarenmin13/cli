@@ -43,6 +43,7 @@ FONT_STYLE_ITALIC_RE = re.compile(r"font-style\s*:\s*(italic|oblique)\b", re.IGN
 LETTER_SPACING_RE = re.compile(r"letter-spacing\s*:\s*([^;]+)", re.IGNORECASE)
 REMOTE_FONT_DEPENDENCY_RE = re.compile(r"(@font-face|fonts\.googleapis\.com|fonts\.gstatic\.com|https?://)", re.IGNORECASE)
 ROLE_FONT_RE = re.compile(r"^svglide[a-z0-9_-]*(display|body|label|metric|font)", re.IGNORECASE)
+CJK_CHAR_RE = re.compile(r"[\u3400-\u9fff]")
 STYLE_IMAGE_OPACITY_RE = re.compile(r"(^|;)\s*opacity\s*:", re.IGNORECASE)
 STYLE_STROKE_WIDTH_RE = re.compile(r"(^|;)\s*stroke-width\s*:", re.IGNORECASE)
 STYLE_STROKE_DASHARRAY_RE = re.compile(r"(^|;)\s*stroke-dasharray\s*:", re.IGNORECASE)
@@ -487,6 +488,86 @@ def validate_root(root: ET.Element) -> tuple[list[dict[str, Any]], float, float]
     return issues, width or CANVAS_WIDTH, height or CANVAS_HEIGHT
 
 
+def normalized_text(element: ET.Element) -> str:
+    return re.sub(r"\s+", " ", "".join(element.itertext()).strip())
+
+
+def is_short_ascii_label(value: str) -> bool:
+    compact = re.sub(r"\s+", "", value)
+    if not 2 <= len(compact) <= 16:
+        return False
+    return bool(re.match(r"^[A-Z0-9][A-Z0-9./%+_-]*$", compact)) and compact.upper() == compact
+
+
+def is_short_cjk_text(value: str) -> bool:
+    compact = re.sub(r"\s+", "", value)
+    return bool(compact) and bool(CJK_CHAR_RE.search(compact)) and len(compact) <= 8
+
+
+def estimated_slide_text_width(text: str, font_size: float, letter_spacing: float) -> float:
+    if not text:
+        return font_size
+    width = 0.0
+    visible_chars = 0
+    for char in text:
+        if char.isspace():
+            width += font_size * 0.34
+        elif CJK_CHAR_RE.match(char):
+            width += font_size * 1.0
+            visible_chars += 1
+        elif char.isupper():
+            width += font_size * 0.68
+            visible_chars += 1
+        elif char.islower():
+            width += font_size * 0.56
+            visible_chars += 1
+        elif char.isdigit():
+            width += font_size * 0.58
+            visible_chars += 1
+        elif char in "./%+_-":
+            width += font_size * 0.44
+            visible_chars += 1
+        else:
+            width += font_size * 0.5
+            visible_chars += 1
+    if visible_chars > 1 and letter_spacing:
+        width += abs(letter_spacing) * (visible_chars - 1)
+    return max(width, font_size)
+
+
+def editable_text_width_risk(element: ET.Element, font_size: float | None, width: float | None, style: dict[str, str]) -> dict[str, Any]:
+    text = normalized_text(element)
+    if not text or font_size is None or width is None:
+        return {"risk": False}
+    letter_spacing = parse_number(get_attr(element, "letter-spacing") or style.get("letter-spacing")) or 0.0
+    mapping_reason = get_attr(element, "data-svglide-font-mapping-reason") or ""
+    role_font_mapped = mapping_reason == "role_font_family_mapped_to_slide_default"
+    short_ascii = is_short_ascii_label(text)
+    short_cjk = is_short_cjk_text(text)
+    letter_spacing_risk = abs(letter_spacing) > 0.01 and len(re.sub(r"\s+", "", text)) > 1
+    nowrap_risk = short_ascii or short_cjk or letter_spacing_risk
+    estimated = estimated_slide_text_width(text, font_size, letter_spacing)
+    if role_font_mapped:
+        source_width = parse_number(get_attr(element, "data-svglide-source-width")) or width
+        estimated = max(estimated, source_width * 1.18)
+    if short_ascii:
+        estimated *= 1.08
+    if short_cjk:
+        estimated = max(estimated, len(re.sub(r"\s+", "", text)) * font_size * 1.08)
+    if nowrap_risk:
+        estimated += font_size * 0.55
+    return {
+        "risk": nowrap_risk,
+        "min_safe_width": estimated,
+        "role_font_mapped": role_font_mapped,
+        "short_cjk": short_cjk,
+        "letter_spacing_risk": letter_spacing_risk,
+        "letter_spacing_accounted": get_attr(element, "data-svglide-letter-spacing-accounted") == "true",
+        "has_compensation": get_attr(element, "data-svglide-width-compensation") == "slide-font-safe-width/v1",
+        "width_ok": width >= estimated * 0.98,
+    }
+
+
 def validate_roles_and_attrs(elements: list[ET.Element]) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
     for element in elements:
@@ -503,6 +584,7 @@ def validate_roles_and_attrs(elements: list[ET.Element]) -> list[dict[str, Any]]
             style = parse_style_props(get_attr(element, "style"))
             font_family = get_attr(element, "font-family") or style.get("font-family") or ""
             font_size = parse_number(get_attr(element, "font-size") or style.get("font-size"))
+            width = parse_number(get_attr(element, "width") or style.get("width"))
             height = parse_number(get_attr(element, "height") or style.get("height"))
             has_font_family = bool(font_family)
             has_font_size = font_size is not None
@@ -541,6 +623,43 @@ def validate_roles_and_attrs(elements: list[ET.Element]) -> list[dict[str, Any]]
                         "error",
                         "text_box_height_invalid",
                         '<text slide:role="text"> height must be large enough for its font size',
+                        element,
+                    )
+                )
+            width_risk = editable_text_width_risk(element, font_size, width, style)
+            if width_risk.get("role_font_mapped") and not width_risk.get("has_compensation"):
+                issues.append(
+                    issue(
+                        "error",
+                        "role_font_mapped_without_width_compensation",
+                        "role-font mapped text must record slide-font width compensation",
+                        element,
+                    )
+                )
+            if width_risk.get("risk") and not width_risk.get("width_ok"):
+                issues.append(
+                    issue(
+                        "error",
+                        "text_box_too_narrow_for_slide_font",
+                        "editable text box is too narrow for the mapped Slide font",
+                        element,
+                    )
+                )
+            if width_risk.get("letter_spacing_risk") and not width_risk.get("letter_spacing_accounted"):
+                issues.append(
+                    issue(
+                        "error",
+                        "letter_spacing_width_not_accounted",
+                        "editable text width must account for letter-spacing",
+                        element,
+                    )
+                )
+            if width_risk.get("short_cjk") and not width_risk.get("width_ok"):
+                issues.append(
+                    issue(
+                        "error",
+                        "cjk_short_text_wrap_risk",
+                        "short CJK editable text is likely to wrap in the online text box",
                         element,
                     )
                 )
@@ -3465,7 +3584,12 @@ def lint_plan(plan: dict[str, Any], path: str = "<plan>") -> dict[str, Any]:
 
     comparable_renderers = [renderer for renderer in renderer_ids if renderer]
     comparable_layout_families = [family for family in layout_families if family]
-    if len(slides) >= 10 and len(set(comparable_renderers)) < 5:
+    layout_diversity_satisfies_template_family = (
+        is_svg_plan
+        and is_template_family_plan
+        and len(set(comparable_layout_families)) >= 5
+    )
+    if len(slides) >= 10 and len(set(comparable_renderers)) < 5 and not layout_diversity_satisfies_template_family:
         issues.append(
             plan_issue(
                 "error",
@@ -3486,7 +3610,12 @@ def lint_plan(plan: dict[str, Any], path: str = "<plan>") -> dict[str, Any]:
             )
         )
     for index in range(len(comparable_renderers) - 2):
-        if comparable_renderers[index] == comparable_renderers[index + 1] == comparable_renderers[index + 2]:
+        same_renderer = comparable_renderers[index] == comparable_renderers[index + 1] == comparable_renderers[index + 2]
+        same_layout_family = (
+            index + 2 < len(comparable_layout_families)
+            and comparable_layout_families[index] == comparable_layout_families[index + 1] == comparable_layout_families[index + 2]
+        )
+        if same_renderer and (same_layout_family or not layout_diversity_satisfies_template_family):
             issues.append(
                 plan_issue(
                     "error",

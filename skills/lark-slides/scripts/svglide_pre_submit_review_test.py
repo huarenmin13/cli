@@ -235,6 +235,22 @@ class PreSubmitReviewTest(unittest.TestCase):
             self.assertEqual(check["status"], "passed")
             self.assertEqual(check, receipt)
 
+    def test_quality_gate_passed_with_waiver_is_accepted_when_hashes_are_current(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            project = make_project(Path(tmp))
+            gate_path = project / "06-check/quality-gate.json"
+            gate = json.loads(gate_path.read_text(encoding="utf-8"))
+            gate["status"] = "passed_with_waiver"
+            gate["waivers"] = [{"check": "legacy-fallback-review", "waivers": [{"code": "explicit_current_deck"}]}]
+            write_json(gate_path, gate)
+            write_visual_acceptance(project)
+            write_human_review(project)
+
+            result = pre_submit_review.run_pre_submit_review(project, project / "06-check/pre-submit-human-review.json")
+
+            self.assertEqual(result["status"], "passed", result["issues"])
+            self.assertNotIn("quality_gate_not_passed", issue_codes(result))
+
     def test_document_array_reviewed_artifacts_contract_passes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             project = make_project(Path(tmp))

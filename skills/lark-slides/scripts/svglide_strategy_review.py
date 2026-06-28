@@ -310,9 +310,26 @@ def validate_visual_identity(plan: dict[str, Any], slides: list[Any]) -> list[di
         for slide in slides
         if isinstance(slide, dict) and slide.get("page_type") == "content" and isinstance(slide.get("renderer_id"), str)
     ]
+    content_layout_families = [
+        slide.get("layout_family")
+        for slide in slides
+        if isinstance(slide, dict) and slide.get("page_type") == "content" and isinstance(slide.get("layout_family"), str)
+    ]
+    content_page_variants = [
+        slide.get("page_variant_id") or slide.get("template_variant")
+        for slide in slides
+        if isinstance(slide, dict)
+        and slide.get("page_type") == "content"
+        and isinstance(slide.get("page_variant_id") or slide.get("template_variant"), str)
+    ]
     if renderer_ids and all(renderer_id in DEFAULT_RENDERERS for renderer_id in renderer_ids):
         issues.append(issue("visual_identity_renderer_default_only", "renderer_id sequence uses only generic default renderers"))
-    if len(set(content_renderers)) <= 1 and len(content_renderers) >= 3:
+    if (
+        len(set(content_renderers)) <= 1
+        and len(set(content_layout_families)) <= 1
+        and len(set(content_page_variants)) <= 1
+        and len(content_renderers) >= 3
+    ):
         issues.append(issue("visual_identity_content_renderer_monoculture", "content pages need more than one renderer family for theme-specific structure"))
     return issues
 

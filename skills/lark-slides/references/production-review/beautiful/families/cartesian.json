@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/cartesian.html",
-    "render_status": "missing_smoke",
-    "sha256": "5769c4814ad91810e3c29ea5c0a9a11d7f68dbe5531601fa030bcc1d5564b736"
+    "render_status": "passed",
+    "sha256": "6071ff807e26fb2e1bca944a82865b02c5f139e1b2649a964c945652dcd22853"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "5769c4814ad91810e3c29ea5c0a9a11d7f68dbe5531601fa030bcc1d5564b736",
+    "contact_sheet": "6071ff807e26fb2e1bca944a82865b02c5f139e1b2649a964c945652dcd22853",
     "fidelity_receipt": "d7bec45b7684b8ab2e98755e76624fffdf5048fd864aa64d7092aeb6aba3a62d",
     "reference_screenshot": "59af0f5ee20b85f07ada82a1d6bb8ab5e69b81bb08b5abf2a7520eca4934e93e",
-    "smoke_receipt": null,
-    "visual_contract": "0eaba0fe4ff403fb63bbe64692bcb137d6122f1897096d588d82133ac45386b4"
+    "smoke_receipt": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755",
+    "visual_contract": "7b1b329ca70fb455721a857697e31722f46e152b102d6fbb4d03684cf822d9d4"
   },
   "family_id": "cartesian",
   "fidelity": {
@@ -33,22 +33,30 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 10,
+  "implemented_page_variants": [
+    "title",
+    "agenda",
+    "statement",
+    "barchart",
+    "twocol",
+    "cards",
+    "linechart",
+    "timeline",
+    "team",
+    "closing"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
-    "selector_gate_missing",
-    "source_core_roles_missing"
+    "selector_gate_missing"
   ],
   "legacy_renderer_fixture_sample": {
     "artifact_kind": "legacy_renderer_fixture_sample",
     "claim_boundary": "legacy renderer-level fixture only; not shown as current page-family review evidence",
-    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/architectural-spec.canvas-spec.json",
-    "golden_spec_sha256": "8dc8722fe0fd98faa4ea6d37a261df088c15d534d95a221d9e0ab5cd2a41d816",
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.title.canvas-spec.json",
+    "golden_spec_sha256": "2ae390c47dfd054234bd221539e72ea79e015dedbe702b716a03c60c41261c47",
     "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
     "reference_screenshot_sha256": "59af0f5ee20b85f07ada82a1d6bb8ab5e69b81bb08b5abf2a7520eca4934e93e",
     "reference_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
@@ -59,11 +67,7 @@
     "runtime_template_id": "architectural-spec",
     "status": "available"
   },
-  "missing_roles": [
-    "cover",
-    "comparison_or_split",
-    "quote_or_emphasis"
-  ],
+  "missing_roles": [],
   "not_promotion_receipt": true,
   "page_family_promotion_gate": {
     "claim_boundary": null,
@@ -74,40 +78,38 @@
   "page_family_representative_sample": {
     "artifact_kind": "page_family_representative_sample",
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
-    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.png",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "2ce00e7c621c5817bf1630dea1c7b2d40e8fa9232965aa6b7ad2fb19bbbc85ae",
-    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.png",
-    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.svg",
-    "current_deck_render_sha256": "20b60ca6ea40730c39b909697398304ef3019faed7b4c3f479e6167282e5cb8a",
-    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.svg",
+    "current_deck_browser_preview_sha256": "d1d32d5ebd1b05586745c1c566a3352da48f2e38ed497c320fab9c50f79f1913",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.svg",
+    "current_deck_render_sha256": "2ea0a10b05f6efbd3633b4aaa3349e546aabb025b762127a8a010f51ba48683e",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.svg",
     "family_id": "cartesian",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.title.canvas-spec.json",
+    "golden_spec_sha256": "2ae390c47dfd054234bd221539e72ea79e015dedbe702b716a03c60c41261c47",
     "page": 1,
-    "page_role": "agenda",
-    "page_variant_id": "agenda",
-    "role_group": "agenda",
+    "page_role": "cover",
+    "page_variant_id": "title",
+    "role_group": "cover",
     "runtime_template_id": "architectural-spec",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
-    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg",
-    "source_screenshot_sha256": "be5ce4a58af3ad92f7f3321be9a2045fc9341bb4bf9a9d8570f8e9f5795525ff",
-    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg",
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+    "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755",
+    "source_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
+    "source_screenshot_sha256": "59af0f5ee20b85f07ada82a1d6bb8ab5e69b81bb08b5abf2a7520eca4934e93e",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
     "source_slide_index": 1,
     "status": "available"
   },
-  "page_variant_count": 9,
+  "page_variant_count": 10,
   "page_variant_coverage": {
     "agenda": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "agenda",
-        "statement"
+        "agenda"
       ],
       "pages": [
-        1,
         2
       ]
     },
@@ -118,45 +120,51 @@
         "closing"
       ],
       "pages": [
-        9
+        10
       ]
     },
     "comparison_or_split": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "team"
+      ],
+      "pages": [
+        9
+      ]
     },
     "content": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "cards",
-        "team"
+        "twocol",
+        "cards"
       ],
       "pages": [
         5,
-        8
+        6
       ]
     },
     "cover": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "title"
+      ],
+      "pages": [
+        1
+      ]
     },
     "data_or_structured": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
         "barchart",
-        "twocol",
         "linechart"
       ],
       "pages": [
-        3,
         4,
-        6
+        7
       ]
     },
     "process_or_timeline": {
@@ -166,19 +174,46 @@
         "timeline"
       ],
       "pages": [
-        7
+        8
       ]
     },
     "quote_or_emphasis": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "statement"
+      ],
+      "pages": [
+        3
+      ]
     }
   },
   "page_variants": [
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "cover",
+      "page_variant_id": "title",
+      "required_slots": [
+        "title",
+        "subtitle"
+      ],
+      "role_group": "cover",
+      "source_class": "slide-title",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-title",
+          "selector_or_token": ".slide-title"
+        }
+      ],
+      "source_slide_index": 1
+    },
+    {
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
         "decoration"
@@ -187,8 +222,6 @@
       "page_variant_id": "agenda",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
         "items"
       ],
       "role_group": "agenda",
@@ -196,47 +229,44 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-agenda\">",
+          "raw_value": "<div class=\"slide slide-agenda",
           "selector_or_token": ".slide-agenda"
-        }
-      ],
-      "source_slide_index": 1
-    },
-    {
-      "extraction_confidence": "inferred_from_layout",
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "page_role": "agenda",
-      "page_variant_id": "statement",
-      "required_slots": [
-        "title",
-        "metrics",
-        "quote"
-      ],
-      "role_group": "agenda",
-      "source_class": "slide-statement",
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-statement\">",
-          "selector_or_token": ".slide-statement"
         }
       ],
       "source_slide_index": 2
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "quote",
+      "page_variant_id": "statement",
+      "required_slots": [
+        "quote"
+      ],
+      "role_group": "quote_or_emphasis",
+      "source_class": "slide-statement",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-statement",
+          "selector_or_token": ".slide-statement"
+        }
+      ],
+      "source_slide_index": 3
+    },
+    {
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "data",
       "page_variant_id": "barchart",
       "required_slots": [
         "title",
-        "subtitle",
         "metrics"
       ],
       "role_group": "data_or_structured",
@@ -244,39 +274,38 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-barchart\">",
+          "raw_value": "<div class=\"slide slide-barchart",
           "selector_or_token": ".slide-barchart"
-        }
-      ],
-      "source_slide_index": 3
-    },
-    {
-      "extraction_confidence": "inferred_from_layout",
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "page_role": "data_dashboard",
-      "page_variant_id": "twocol",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "metrics",
-        "items"
-      ],
-      "role_group": "data_or_structured",
-      "source_class": "slide-twocol",
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-twocol\">",
-          "selector_or_token": ".slide-twocol"
         }
       ],
       "source_slide_index": 4
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "detail",
+      "page_variant_id": "twocol",
+      "required_slots": [
+        "title",
+        "subtitle",
+        "metrics"
+      ],
+      "role_group": "content",
+      "source_class": "slide-twocol",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-twocol",
+          "selector_or_token": ".slide-twocol"
+        }
+      ],
+      "source_slide_index": 5
+    },
+    {
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
         "decoration"
@@ -285,7 +314,6 @@
       "page_variant_id": "cards",
       "required_slots": [
         "title",
-        "subtitle",
         "items"
       ],
       "role_group": "content",
@@ -293,49 +321,45 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-cards\">",
+          "raw_value": "<div class=\"slide slide-cards",
           "selector_or_token": ".slide-cards"
         }
       ],
-      "source_slide_index": 5
+      "source_slide_index": 6
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
         "decoration"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "data",
       "page_variant_id": "linechart",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "timeline"
+        "metrics"
       ],
       "role_group": "data_or_structured",
       "source_class": "slide-linechart",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-linechart\">",
+          "raw_value": "<div class=\"slide slide-linechart",
           "selector_or_token": ".slide-linechart"
         }
       ],
-      "source_slide_index": 6
+      "source_slide_index": 7
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
         "decoration"
       ],
-      "page_role": "process_or_timeline",
+      "page_role": "process",
       "page_variant_id": "timeline",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
         "timeline"
       ],
       "role_group": "process_or_timeline",
@@ -343,36 +367,37 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-timeline\">",
+          "raw_value": "<div class=\"slide slide-timeline",
           "selector_or_token": ".slide-timeline"
-        }
-      ],
-      "source_slide_index": 7
-    },
-    {
-      "extraction_confidence": "inferred_from_layout",
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "page_role": "detail",
-      "page_variant_id": "team",
-      "required_slots": [
-        "title"
-      ],
-      "role_group": "content",
-      "source_class": "slide-team",
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-team\">",
-          "selector_or_token": ".slide-team"
         }
       ],
       "source_slide_index": 8
     },
     {
-      "extraction_confidence": "inferred_from_layout",
+      "extraction_confidence": "direct_from_design_md",
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page_role": "comparison",
+      "page_variant_id": "team",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "role_group": "comparison_or_split",
+      "source_class": "slide-team",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-team",
+          "selector_or_token": ".slide-team"
+        }
+      ],
+      "source_slide_index": 9
+    },
+    {
+      "extraction_confidence": "direct_from_design_md",
       "optional_slots": [
         "eyebrow",
         "decoration"
@@ -388,11 +413,11 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-closing\">",
+          "raw_value": "<div class=\"slide slide-closing",
           "selector_or_token": ".slide-closing"
         }
       ],
-      "source_slide_index": 9
+      "source_slide_index": 10
     }
   ],
   "pages": [
@@ -402,65 +427,62 @@
         "decoration"
       ],
       "page": 1,
-      "page_role": "agenda",
-      "page_variant_id": "agenda",
+      "page_role": "cover",
+      "page_variant_id": "title",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "2ce00e7c621c5817bf1630dea1c7b2d40e8fa9232965aa6b7ad2fb19bbbc85ae",
+          "browser_preview_sha256": "d1d32d5ebd1b05586745c1c566a3352da48f2e38ed497c320fab9c50f79f1913",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.svg",
-          "sha256": "20b60ca6ea40730c39b909697398304ef3019faed7b4c3f479e6167282e5cb8a",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.svg",
+          "sha256": "2ea0a10b05f6efbd3633b4aaa3349e546aabb025b762127a8a010f51ba48683e",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.title.canvas-spec.json",
+        "golden_spec_sha256": "2ae390c47dfd054234bd221539e72ea79e015dedbe702b716a03c60c41261c47",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.title.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "subtitle"
       ],
-      "role_group": "agenda",
-      "source_class": "slide-agenda",
+      "role_group": "cover",
+      "source_class": "slide-title",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-agenda\">",
-          "selector_or_token": ".slide-agenda"
+          "raw_value": "<div class=\"slide slide-title",
+          "selector_or_token": ".slide-title"
         }
       ],
       "source_screenshot": {
-        "bytes": 42594,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg",
+        "bytes": 59174,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "be5ce4a58af3ad92f7f3321be9a2045fc9341bb4bf9a9d8570f8e9f5795525ff",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg"
+        "sha256": "59af0f5ee20b85f07ada82a1d6bb8ab5e69b81bb08b5abf2a7520eca4934e93e",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png"
       },
       "source_slide_index": 1
     },
@@ -471,63 +493,62 @@
       ],
       "page": 2,
       "page_role": "agenda",
-      "page_variant_id": "statement",
+      "page_variant_id": "agenda",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "79c7a72ac5f6236ca91185596726b2e3b4c3ffcd66555d96b4238047e76ebad4",
+          "browser_preview_sha256": "cc997f589c30315725ba938ea5f163fadfe3f995babd6d8561f471269a6cd1ed",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.svg",
-          "sha256": "f5b9c438deb2778e1193dc932c3fe0abcc802ce6c2f5b1a69e2a229499d1dbcf",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.svg",
+          "sha256": "bb47fc9c2616ec90ec2d3080c0f3f4adcefe9817178abd08475eaac078990177",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.agenda.canvas-spec.json",
+        "golden_spec_sha256": "5f56c3222cdf3dfc7824b85c834f9117ebf3256a6292d6b9ce5747349fba498b",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.agenda.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "metrics",
-        "quote"
+        "items"
       ],
       "role_group": "agenda",
-      "source_class": "slide-statement",
+      "source_class": "slide-agenda",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-statement\">",
-          "selector_or_token": ".slide-statement"
+          "raw_value": "<div class=\"slide slide-agenda",
+          "selector_or_token": ".slide-agenda"
         }
       ],
       "source_screenshot": {
-        "bytes": 43247,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/002-statement.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-2.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/002-statement.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "02e8cffc3d711d5a9033f5a5c9dd97bdc21409fe2edf9e0aed56d6ad0d8e4506",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/002-statement.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 2
     },
@@ -537,64 +558,62 @@
         "decoration"
       ],
       "page": 3,
-      "page_role": "data_dashboard",
-      "page_variant_id": "barchart",
+      "page_role": "quote",
+      "page_variant_id": "statement",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "7df40d21ec3b6c09c71b857641a450a42af49a729fc0a87fe0ef8d167fad95aa",
+          "browser_preview_sha256": "70ca91d861c3743ed2153805601e5a2ea9b828aa5a467a14dbf007419de9e8d6",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.svg",
-          "sha256": "e456c4744b585f4d00f8d64b08aa3d0342fb085de19046b58ba6922201f84cea",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.svg",
+          "sha256": "49b334f08077bcd43182e6c064e5d5d7c7a79c9ac11d8afcdce7bc4f35114a74",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.statement.canvas-spec.json",
+        "golden_spec_sha256": "2458cd43553bb7be0acef1d1a4bb9fba9f61812ccf85e38f1f4497813133030a",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.statement.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "title",
-        "subtitle",
-        "metrics"
+        "quote"
       ],
-      "role_group": "data_or_structured",
-      "source_class": "slide-barchart",
+      "role_group": "quote_or_emphasis",
+      "source_class": "slide-statement",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-barchart\">",
-          "selector_or_token": ".slide-barchart"
+          "raw_value": "<div class=\"slide slide-statement",
+          "selector_or_token": ".slide-statement"
         }
       ],
       "source_screenshot": {
-        "bytes": 33141,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/003-barchart.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-3.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/003-barchart.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "91b09370ed3417f57efd145a15d71a1550addd4f92acaca76aab50338c555465",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/003-barchart.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 3
     },
@@ -604,65 +623,62 @@
         "decoration"
       ],
       "page": 4,
-      "page_role": "data_dashboard",
-      "page_variant_id": "twocol",
+      "page_role": "data",
+      "page_variant_id": "barchart",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "4ec3684cb39efcb51acca65346440af900fd1ed0fab6aa1884c45d55b0c004b7",
+          "browser_preview_sha256": "207036da7e2af5288861b7ad868a2b95bb98fffe95a01304005b31e0b3a0dec6",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.svg",
-          "sha256": "5faac083d494fc33f6cfb75e6ecb77b22fbbea69cd12d59126cb0e66ae6468a3",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.svg",
+          "sha256": "06d8460c23070f423a49573a0d62378dcf70b0d1248454e0cd30f85d34a1fbd6",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.barchart.canvas-spec.json",
+        "golden_spec_sha256": "ef07f2507f338c02abdb844bb1af6c2cee575df47cbdd58c56e197ae0ad52e90",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.barchart.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "items"
+        "metrics"
       ],
       "role_group": "data_or_structured",
-      "source_class": "slide-twocol",
+      "source_class": "slide-barchart",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-twocol\">",
-          "selector_or_token": ".slide-twocol"
+          "raw_value": "<div class=\"slide slide-barchart",
+          "selector_or_token": ".slide-barchart"
         }
       ],
       "source_screenshot": {
-        "bytes": 66523,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/004-twocol.jpg",
+        "bytes": 47903,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-4.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/004-twocol.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-4.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "f89e29452503b6b5b59cf6968c591b9d75d4a430bf5c3d257f97ea77375852da",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/004-twocol.jpg"
+        "sha256": "7d7429f8f5a25b7cd994ffd01ad2db187f9c2ec441c48c9cc6458b67405648ae",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-4.png"
       },
       "source_slide_index": 4
     },
@@ -672,64 +688,64 @@
         "decoration"
       ],
       "page": 5,
-      "page_role": "content",
-      "page_variant_id": "cards",
+      "page_role": "detail",
+      "page_variant_id": "twocol",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "bf73ca8e04c72bba98c6ea19a00283554a2eee6c2cd7d73c426aa57ba70f88cb",
+          "browser_preview_sha256": "e88976a7cb77169ff5a2ebc201e20b7fa1c35646eba223e8818ecd2cdc6b4768",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.svg",
-          "sha256": "cfb4e2d7f4edfa7425c3ef76b505f88b926a947b275ba4dfc01c3f08a6085a80",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.svg",
+          "sha256": "2acdda98eb1bea078959fbc1386a12dca737f2fb162e0ea20a69f6a455d3b5f9",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.twocol.canvas-spec.json",
+        "golden_spec_sha256": "ada71c833dafa9b72fc031e407cebd885f0d1e7d2bc70ccf06ec934b10ac9763",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.twocol.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
-        "items"
+        "metrics"
       ],
       "role_group": "content",
-      "source_class": "slide-cards",
+      "source_class": "slide-twocol",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-cards\">",
-          "selector_or_token": ".slide-cards"
+          "raw_value": "<div class=\"slide slide-twocol",
+          "selector_or_token": ".slide-twocol"
         }
       ],
       "source_screenshot": {
-        "bytes": 52534,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/005-cards.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-5.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/005-cards.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "8c0b38cae1cb72bf0e301d4236fe6b8a93d3f3390da7d894d99afe9bdfef12a1",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/005-cards.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 5
     },
@@ -739,65 +755,63 @@
         "decoration"
       ],
       "page": 6,
-      "page_role": "data_dashboard",
-      "page_variant_id": "linechart",
+      "page_role": "content",
+      "page_variant_id": "cards",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "e035ad712ca15de01e53a037c5e4fb94e7bee68946c5799182d415eb7b5ca685",
+          "browser_preview_sha256": "9f3412eb885a6671fa7d4599d8acd374ab2572d0c77ec948da3c89f90ee396c6",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.svg",
-          "sha256": "88b34339dd329330ee2cbb70a68c15e70559fc6d42c1bebbf1627b47acdea2bb",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.svg",
+          "sha256": "6aa7bedb71906e0e2a521d2ebd8d9aa38a72ffbd9776722f6a9675024c4f1e5d",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.cards.canvas-spec.json",
+        "golden_spec_sha256": "10c85d9b82001c1a21167b6096cc99e39b788cc28b9120f0e0066774a73f3513",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.cards.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "metrics",
-        "timeline"
+        "items"
       ],
-      "role_group": "data_or_structured",
-      "source_class": "slide-linechart",
+      "role_group": "content",
+      "source_class": "slide-cards",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-linechart\">",
-          "selector_or_token": ".slide-linechart"
+          "raw_value": "<div class=\"slide slide-cards",
+          "selector_or_token": ".slide-cards"
         }
       ],
       "source_screenshot": {
-        "bytes": 29498,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/006-linechart.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-6.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/006-linechart.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "9c9e32e0852acf7145d1fa70f9eb46645f091af83c72ef55cab59fce88675d79",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/006-linechart.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 6
     },
@@ -807,65 +821,63 @@
         "decoration"
       ],
       "page": 7,
-      "page_role": "process_or_timeline",
-      "page_variant_id": "timeline",
+      "page_role": "data",
+      "page_variant_id": "linechart",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "4b2e72f82c6d1bda8e11b057ac77c5aa4ef5a3da6fb5fa9bdd3acce19ab7e06d",
+          "browser_preview_sha256": "cb1a0eb6f5ae0fe3e11686a3879527df6b985bda9e5ae3beaad4dce7ceafe152",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.svg",
-          "sha256": "efe583ee76a1754125292a301abc94bd00a103d61521d2b1b90cac46a8c8003f",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.svg",
+          "sha256": "2cc52d109cb0a7db2bb5fcfebcdaaf24b3e89b79dfb657616f29cc5085d4e160",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.linechart.canvas-spec.json",
+        "golden_spec_sha256": "ecdd6eb4d0a2bb06209ee01da6029a434728cac9e423c3d2df445519a4727145",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.linechart.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "timeline"
+        "metrics"
       ],
-      "role_group": "process_or_timeline",
-      "source_class": "slide-timeline",
+      "role_group": "data_or_structured",
+      "source_class": "slide-linechart",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-timeline\">",
-          "selector_or_token": ".slide-timeline"
+          "raw_value": "<div class=\"slide slide-linechart",
+          "selector_or_token": ".slide-linechart"
         }
       ],
       "source_screenshot": {
-        "bytes": 50423,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/007-timeline.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-7.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/007-timeline.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "f29622ee430694b264157db49fdd4ac9b927cf69424100c3895a0383a2c38f54",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/007-timeline.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 7
     },
@@ -875,62 +887,62 @@
         "decoration"
       ],
       "page": 8,
-      "page_role": "detail",
-      "page_variant_id": "team",
+      "page_role": "process",
+      "page_variant_id": "timeline",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "0ce78d34392b9df244f038420fcae78140a5d079f4957e2afd925fe8a50b82af",
+          "browser_preview_sha256": "22a06d5b461d57f239f38ae03b781dde93136717ca77a1f516bde960141a5c4a",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.svg",
-          "sha256": "7b4033ed7da1c55ae2028605ba8f60f9a4b37832699d78f3cecb737adebfa1ec",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.svg",
+          "sha256": "8894c4bddcd940426ea8335ead8dd587d9c90c5904d27366926b2de8abb56171",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.timeline.canvas-spec.json",
+        "golden_spec_sha256": "cf4a2ac9cb0a0cd1e6a36ee478b842a313c38f0169277ca84328ca748cc101ee",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.timeline.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "title"
+        "title",
+        "timeline"
       ],
-      "role_group": "content",
-      "source_class": "slide-team",
+      "role_group": "process_or_timeline",
+      "source_class": "slide-timeline",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-team\">",
-          "selector_or_token": ".slide-team"
+          "raw_value": "<div class=\"slide slide-timeline",
+          "selector_or_token": ".slide-timeline"
         }
       ],
       "source_screenshot": {
-        "bytes": 39623,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/008-team.jpg",
+        "bytes": 50937,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-8.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/008-team.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-8.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "0ad2bfdd560a44165c76027ac5c78fcd125cf19f782f43092e5362708faf9811",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/008-team.jpg"
+        "sha256": "f6411b785ba0aeda5e79c7ef59df700a69e2f111a231a67195a9598a632310d1",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-8.png"
       },
       "source_slide_index": 8
     },
@@ -940,40 +952,106 @@
         "decoration"
       ],
       "page": 9,
-      "page_role": "closing",
-      "page_variant_id": "closing",
+      "page_role": "comparison",
+      "page_variant_id": "team",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "d4aa23af84bd15dc212e0b6d963da92ec319b5499cb058aa50adb8eddffaadca",
+          "browser_preview_sha256": "6ec78d07db05ca241c837e3f63b56eb0cf4a9c0e9fec21f6b5b07da0af6ca9f0",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-          "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.svg",
-          "sha256": "d0fa83acaa83b718dd90c7586a391883e4fff9c2991ebe0d00ccb6907c3efd6a",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.svg",
+          "sha256": "ab1f9355b661b254b619065f87a7c97553d6bfc97ba56508a18ea9ef6d3df571",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.team.canvas-spec.json",
+        "golden_spec_sha256": "0b9ca08e5552395c9066ed84dedce02f6e923916eb3925979a494954f8e9bedb",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.team.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
+      "required_slots": [
+        "title",
+        "items"
+      ],
+      "role_group": "comparison_or_split",
+      "source_class": "slide-team",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/cartesian/template.html",
+          "raw_value": "<div class=\"slide slide-team",
+          "selector_or_token": ".slide-team"
+        }
+      ],
+      "source_screenshot": {
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-9.png",
+        "fallback_used": false,
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
+        "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
+        "sha256": null,
+        "status": "missing",
+        "uri": null
+      },
+      "source_slide_index": 9
+    },
+    {
+      "optional_slots": [
+        "eyebrow",
+        "decoration"
+      ],
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "75ceb1336d6d24db2c2b16b63efe80fcf11088eceefc86bccf6ba3d2ba9ffc28",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
+          "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.svg",
+          "sha256": "abc8f46855b1bbd0150b94b592eda74ef219771fbc8a987b21604eba360dd6bd",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.closing.canvas-spec.json",
+        "golden_spec_sha256": "029ecdcd057655fb5ebb0a82aeee9bf58d69a86ce15671f5fe51db15cf0974e9",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.closing.canvas-spec.json",
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+        "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
+      },
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle"
@@ -983,22 +1061,22 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/cartesian/template.html",
-          "raw_value": "<div class=\"slide slide-closing\">",
+          "raw_value": "<div class=\"slide slide-closing",
           "selector_or_token": ".slide-closing"
         }
       ],
       "source_screenshot": {
-        "bytes": 30729,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/009-closing.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-10.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/009-closing.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-        "sha256": "3ada0b80c6edabd50f93ed65b972e423f64370280726080ae55357ce89754f53",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/009-closing.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
-      "source_slide_index": 9
+      "source_slide_index": 10
     }
   ],
   "promotion_action": "no_change_until_human_pass",
@@ -1011,39 +1089,156 @@
   "runtime_template_id": "architectural-spec",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "title",
+      "agenda",
+      "statement",
+      "barchart",
+      "twocol",
+      "cards",
+      "linechart",
+      "timeline",
+      "team",
+      "closing"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/cartesian.json",
+    "deck_sha256": "c29985e3effe7064c2c775b2a1a6f984469e12b1a6ca658028f38b71bcf829dd",
+    "degraded": false,
+    "implemented_page_variants": [
+      "title",
+      "agenda",
+      "statement",
+      "barchart",
+      "twocol",
+      "cards",
+      "linechart",
+      "timeline",
+      "team",
+      "closing"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.agenda": "5f56c3222cdf3dfc7824b85c834f9117ebf3256a6292d6b9ce5747349fba498b",
+      "golden_spec.barchart": "ef07f2507f338c02abdb844bb1af6c2cee575df47cbdd58c56e197ae0ad52e90",
+      "golden_spec.cards": "10c85d9b82001c1a21167b6096cc99e39b788cc28b9120f0e0066774a73f3513",
+      "golden_spec.closing": "029ecdcd057655fb5ebb0a82aeee9bf58d69a86ce15671f5fe51db15cf0974e9",
+      "golden_spec.linechart": "ecdd6eb4d0a2bb06209ee01da6029a434728cac9e423c3d2df445519a4727145",
+      "golden_spec.statement": "2458cd43553bb7be0acef1d1a4bb9fba9f61812ccf85e38f1f4497813133030a",
+      "golden_spec.team": "0b9ca08e5552395c9066ed84dedce02f6e923916eb3925979a494954f8e9bedb",
+      "golden_spec.timeline": "cf4a2ac9cb0a0cd1e6a36ee478b842a313c38f0169277ca84328ca748cc101ee",
+      "golden_spec.title": "2ae390c47dfd054234bd221539e72ea79e015dedbe702b716a03c60c41261c47",
+      "golden_spec.twocol": "ada71c833dafa9b72fc031e407cebd885f0d1e7d2bc70ccf06ec934b10ac9763",
+      "slide_plan": null,
+      "smoke_deck": "c29985e3effe7064c2c775b2a1a6f984469e12b1a6ca658028f38b71bcf829dd",
+      "smoke_fixture": "da87fbd69a384ada3efe283bf2bd58ffa6aa20bcc3e40af0f70acca2c0dae57e",
+      "template_registry": null,
+      "theme_registry": null
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "agenda"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          10
+        ],
+        "variants": [
+          "closing"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "team"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "cards"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "title"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          4,
+          7
+        ],
+        "variants": [
+          "barchart",
+          "linechart"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "twocol"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "timeline"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "statement"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+    "receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755",
+    "rendered_pages": 10,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
-    "missing_roles": [
-      "cover",
-      "comparison_or_split",
-      "quote_or_emphasis"
-    ],
-    "page_count": 9,
+    "missing_roles": [],
+    "page_count": 10,
     "page_variant_coverage": {
       "agenda": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "agenda",
-          "statement"
+          "agenda"
         ],
         "pages": [
-          1,
           2
         ]
       },
@@ -1054,45 +1249,51 @@
           "closing"
         ],
         "pages": [
-          9
+          10
         ]
       },
       "comparison_or_split": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "team"
+        ],
+        "pages": [
+          9
+        ]
       },
       "content": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "cards",
-          "team"
+          "twocol",
+          "cards"
         ],
         "pages": [
           5,
-          8
+          6
         ]
       },
       "cover": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "title"
+        ],
+        "pages": [
+          1
+        ]
       },
       "data_or_structured": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
           "barchart",
-          "twocol",
           "linechart"
         ],
         "pages": [
-          3,
           4,
-          6
+          7
         ]
       },
       "process_or_timeline": {
@@ -1102,14 +1303,18 @@
           "timeline"
         ],
         "pages": [
-          7
+          8
         ]
       },
       "quote_or_emphasis": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "statement"
+        ],
+        "pages": [
+          3
+        ]
       }
     },
     "pages": [
@@ -1119,65 +1324,62 @@
           "decoration"
         ],
         "page": 1,
-        "page_role": "agenda",
-        "page_variant_id": "agenda",
+        "page_role": "cover",
+        "page_variant_id": "title",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "2ce00e7c621c5817bf1630dea1c7b2d40e8fa9232965aa6b7ad2fb19bbbc85ae",
+            "browser_preview_sha256": "d1d32d5ebd1b05586745c1c566a3352da48f2e38ed497c320fab9c50f79f1913",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.svg",
-            "sha256": "20b60ca6ea40730c39b909697398304ef3019faed7b4c3f479e6167282e5cb8a",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.svg",
+            "sha256": "2ea0a10b05f6efbd3633b4aaa3349e546aabb025b762127a8a010f51ba48683e",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-agenda.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-001-title.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.title.canvas-spec.json",
+          "golden_spec_sha256": "2ae390c47dfd054234bd221539e72ea79e015dedbe702b716a03c60c41261c47",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.title.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "metrics",
-          "items"
+          "subtitle"
         ],
-        "role_group": "agenda",
-        "source_class": "slide-agenda",
+        "role_group": "cover",
+        "source_class": "slide-title",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-agenda\">",
-            "selector_or_token": ".slide-agenda"
+            "raw_value": "<div class=\"slide slide-title",
+            "selector_or_token": ".slide-title"
           }
         ],
         "source_screenshot": {
-          "bytes": 42594,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg",
+          "bytes": 59174,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "be5ce4a58af3ad92f7f3321be9a2045fc9341bb4bf9a9d8570f8e9f5795525ff",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/001-agenda.jpg"
+          "sha256": "59af0f5ee20b85f07ada82a1d6bb8ab5e69b81bb08b5abf2a7520eca4934e93e",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png"
         },
         "source_slide_index": 1
       },
@@ -1188,63 +1390,62 @@
         ],
         "page": 2,
         "page_role": "agenda",
-        "page_variant_id": "statement",
+        "page_variant_id": "agenda",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "79c7a72ac5f6236ca91185596726b2e3b4c3ffcd66555d96b4238047e76ebad4",
+            "browser_preview_sha256": "cc997f589c30315725ba938ea5f163fadfe3f995babd6d8561f471269a6cd1ed",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.svg",
-            "sha256": "f5b9c438deb2778e1193dc932c3fe0abcc802ce6c2f5b1a69e2a229499d1dbcf",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.svg",
+            "sha256": "bb47fc9c2616ec90ec2d3080c0f3f4adcefe9817178abd08475eaac078990177",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-statement.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-002-agenda.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.agenda.canvas-spec.json",
+          "golden_spec_sha256": "5f56c3222cdf3dfc7824b85c834f9117ebf3256a6292d6b9ce5747349fba498b",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.agenda.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "metrics",
-          "quote"
+          "items"
         ],
         "role_group": "agenda",
-        "source_class": "slide-statement",
+        "source_class": "slide-agenda",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-statement\">",
-            "selector_or_token": ".slide-statement"
+            "raw_value": "<div class=\"slide slide-agenda",
+            "selector_or_token": ".slide-agenda"
           }
         ],
         "source_screenshot": {
-          "bytes": 43247,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/002-statement.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-2.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/002-statement.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "02e8cffc3d711d5a9033f5a5c9dd97bdc21409fe2edf9e0aed56d6ad0d8e4506",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/002-statement.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 2
       },
@@ -1254,64 +1455,62 @@
           "decoration"
         ],
         "page": 3,
-        "page_role": "data_dashboard",
-        "page_variant_id": "barchart",
+        "page_role": "quote",
+        "page_variant_id": "statement",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "7df40d21ec3b6c09c71b857641a450a42af49a729fc0a87fe0ef8d167fad95aa",
+            "browser_preview_sha256": "70ca91d861c3743ed2153805601e5a2ea9b828aa5a467a14dbf007419de9e8d6",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.svg",
-            "sha256": "e456c4744b585f4d00f8d64b08aa3d0342fb085de19046b58ba6922201f84cea",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.svg",
+            "sha256": "49b334f08077bcd43182e6c064e5d5d7c7a79c9ac11d8afcdce7bc4f35114a74",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-barchart.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-003-statement.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.statement.canvas-spec.json",
+          "golden_spec_sha256": "2458cd43553bb7be0acef1d1a4bb9fba9f61812ccf85e38f1f4497813133030a",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.statement.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "title",
-          "subtitle",
-          "metrics"
+          "quote"
         ],
-        "role_group": "data_or_structured",
-        "source_class": "slide-barchart",
+        "role_group": "quote_or_emphasis",
+        "source_class": "slide-statement",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-barchart\">",
-            "selector_or_token": ".slide-barchart"
+            "raw_value": "<div class=\"slide slide-statement",
+            "selector_or_token": ".slide-statement"
           }
         ],
         "source_screenshot": {
-          "bytes": 33141,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/003-barchart.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-3.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/003-barchart.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "91b09370ed3417f57efd145a15d71a1550addd4f92acaca76aab50338c555465",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/003-barchart.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 3
       },
@@ -1321,65 +1520,62 @@
           "decoration"
         ],
         "page": 4,
-        "page_role": "data_dashboard",
-        "page_variant_id": "twocol",
+        "page_role": "data",
+        "page_variant_id": "barchart",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "4ec3684cb39efcb51acca65346440af900fd1ed0fab6aa1884c45d55b0c004b7",
+            "browser_preview_sha256": "207036da7e2af5288861b7ad868a2b95bb98fffe95a01304005b31e0b3a0dec6",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.svg",
-            "sha256": "5faac083d494fc33f6cfb75e6ecb77b22fbbea69cd12d59126cb0e66ae6468a3",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.svg",
+            "sha256": "06d8460c23070f423a49573a0d62378dcf70b0d1248454e0cd30f85d34a1fbd6",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-twocol.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-004-barchart.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.barchart.canvas-spec.json",
+          "golden_spec_sha256": "ef07f2507f338c02abdb844bb1af6c2cee575df47cbdd58c56e197ae0ad52e90",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.barchart.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "metrics",
-          "items"
+          "metrics"
         ],
         "role_group": "data_or_structured",
-        "source_class": "slide-twocol",
+        "source_class": "slide-barchart",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-twocol\">",
-            "selector_or_token": ".slide-twocol"
+            "raw_value": "<div class=\"slide slide-barchart",
+            "selector_or_token": ".slide-barchart"
           }
         ],
         "source_screenshot": {
-          "bytes": 66523,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/004-twocol.jpg",
+          "bytes": 47903,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-4.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/004-twocol.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-4.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "f89e29452503b6b5b59cf6968c591b9d75d4a430bf5c3d257f97ea77375852da",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/004-twocol.jpg"
+          "sha256": "7d7429f8f5a25b7cd994ffd01ad2db187f9c2ec441c48c9cc6458b67405648ae",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-4.png"
         },
         "source_slide_index": 4
       },
@@ -1389,64 +1585,64 @@
           "decoration"
         ],
         "page": 5,
-        "page_role": "content",
-        "page_variant_id": "cards",
+        "page_role": "detail",
+        "page_variant_id": "twocol",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "bf73ca8e04c72bba98c6ea19a00283554a2eee6c2cd7d73c426aa57ba70f88cb",
+            "browser_preview_sha256": "e88976a7cb77169ff5a2ebc201e20b7fa1c35646eba223e8818ecd2cdc6b4768",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.svg",
-            "sha256": "cfb4e2d7f4edfa7425c3ef76b505f88b926a947b275ba4dfc01c3f08a6085a80",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.svg",
+            "sha256": "2acdda98eb1bea078959fbc1386a12dca737f2fb162e0ea20a69f6a455d3b5f9",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-cards.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-005-twocol.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.twocol.canvas-spec.json",
+          "golden_spec_sha256": "ada71c833dafa9b72fc031e407cebd885f0d1e7d2bc70ccf06ec934b10ac9763",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.twocol.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
-          "items"
+          "metrics"
         ],
         "role_group": "content",
-        "source_class": "slide-cards",
+        "source_class": "slide-twocol",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-cards\">",
-            "selector_or_token": ".slide-cards"
+            "raw_value": "<div class=\"slide slide-twocol",
+            "selector_or_token": ".slide-twocol"
           }
         ],
         "source_screenshot": {
-          "bytes": 52534,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/005-cards.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-5.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/005-cards.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "8c0b38cae1cb72bf0e301d4236fe6b8a93d3f3390da7d894d99afe9bdfef12a1",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/005-cards.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 5
       },
@@ -1456,65 +1652,63 @@
           "decoration"
         ],
         "page": 6,
-        "page_role": "data_dashboard",
-        "page_variant_id": "linechart",
+        "page_role": "content",
+        "page_variant_id": "cards",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "e035ad712ca15de01e53a037c5e4fb94e7bee68946c5799182d415eb7b5ca685",
+            "browser_preview_sha256": "9f3412eb885a6671fa7d4599d8acd374ab2572d0c77ec948da3c89f90ee396c6",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.svg",
-            "sha256": "88b34339dd329330ee2cbb70a68c15e70559fc6d42c1bebbf1627b47acdea2bb",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.svg",
+            "sha256": "6aa7bedb71906e0e2a521d2ebd8d9aa38a72ffbd9776722f6a9675024c4f1e5d",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-linechart.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-006-cards.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.cards.canvas-spec.json",
+          "golden_spec_sha256": "10c85d9b82001c1a21167b6096cc99e39b788cc28b9120f0e0066774a73f3513",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.cards.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "metrics",
-          "timeline"
+          "items"
         ],
-        "role_group": "data_or_structured",
-        "source_class": "slide-linechart",
+        "role_group": "content",
+        "source_class": "slide-cards",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-linechart\">",
-            "selector_or_token": ".slide-linechart"
+            "raw_value": "<div class=\"slide slide-cards",
+            "selector_or_token": ".slide-cards"
           }
         ],
         "source_screenshot": {
-          "bytes": 29498,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/006-linechart.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-6.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/006-linechart.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "9c9e32e0852acf7145d1fa70f9eb46645f091af83c72ef55cab59fce88675d79",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/006-linechart.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 6
       },
@@ -1524,65 +1718,63 @@
           "decoration"
         ],
         "page": 7,
-        "page_role": "process_or_timeline",
-        "page_variant_id": "timeline",
+        "page_role": "data",
+        "page_variant_id": "linechart",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "4b2e72f82c6d1bda8e11b057ac77c5aa4ef5a3da6fb5fa9bdd3acce19ab7e06d",
+            "browser_preview_sha256": "cb1a0eb6f5ae0fe3e11686a3879527df6b985bda9e5ae3beaad4dce7ceafe152",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.svg",
-            "sha256": "efe583ee76a1754125292a301abc94bd00a103d61521d2b1b90cac46a8c8003f",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.svg",
+            "sha256": "2cc52d109cb0a7db2bb5fcfebcdaaf24b3e89b79dfb657616f29cc5085d4e160",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-timeline.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-007-linechart.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.linechart.canvas-spec.json",
+          "golden_spec_sha256": "ecdd6eb4d0a2bb06209ee01da6029a434728cac9e423c3d2df445519a4727145",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.linechart.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "items",
-          "timeline"
+          "metrics"
         ],
-        "role_group": "process_or_timeline",
-        "source_class": "slide-timeline",
+        "role_group": "data_or_structured",
+        "source_class": "slide-linechart",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-timeline\">",
-            "selector_or_token": ".slide-timeline"
+            "raw_value": "<div class=\"slide slide-linechart",
+            "selector_or_token": ".slide-linechart"
           }
         ],
         "source_screenshot": {
-          "bytes": 50423,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/007-timeline.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-7.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/007-timeline.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "f29622ee430694b264157db49fdd4ac9b927cf69424100c3895a0383a2c38f54",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/007-timeline.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 7
       },
@@ -1592,62 +1784,62 @@
           "decoration"
         ],
         "page": 8,
-        "page_role": "detail",
-        "page_variant_id": "team",
+        "page_role": "process",
+        "page_variant_id": "timeline",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "0ce78d34392b9df244f038420fcae78140a5d079f4957e2afd925fe8a50b82af",
+            "browser_preview_sha256": "22a06d5b461d57f239f38ae03b781dde93136717ca77a1f516bde960141a5c4a",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.svg",
-            "sha256": "7b4033ed7da1c55ae2028605ba8f60f9a4b37832699d78f3cecb737adebfa1ec",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.svg",
+            "sha256": "8894c4bddcd940426ea8335ead8dd587d9c90c5904d27366926b2de8abb56171",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-team.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-008-timeline.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.timeline.canvas-spec.json",
+          "golden_spec_sha256": "cf4a2ac9cb0a0cd1e6a36ee478b842a313c38f0169277ca84328ca748cc101ee",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.timeline.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "title"
+          "title",
+          "timeline"
         ],
-        "role_group": "content",
-        "source_class": "slide-team",
+        "role_group": "process_or_timeline",
+        "source_class": "slide-timeline",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-team\">",
-            "selector_or_token": ".slide-team"
+            "raw_value": "<div class=\"slide slide-timeline",
+            "selector_or_token": ".slide-timeline"
           }
         ],
         "source_screenshot": {
-          "bytes": 39623,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/008-team.jpg",
+          "bytes": 50937,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-8.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/008-team.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-8.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "0ad2bfdd560a44165c76027ac5c78fcd125cf19f782f43092e5362708faf9811",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/008-team.jpg"
+          "sha256": "f6411b785ba0aeda5e79c7ef59df700a69e2f111a231a67195a9598a632310d1",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-8.png"
         },
         "source_slide_index": 8
       },
@@ -1657,40 +1849,106 @@
           "decoration"
         ],
         "page": 9,
-        "page_role": "closing",
-        "page_variant_id": "closing",
+        "page_role": "comparison",
+        "page_variant_id": "team",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "d4aa23af84bd15dc212e0b6d963da92ec319b5499cb058aa50adb8eddffaadca",
+            "browser_preview_sha256": "6ec78d07db05ca241c837e3f63b56eb0cf4a9c0e9fec21f6b5b07da0af6ca9f0",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
-            "manifest_sha256": "d281013522c35bc82beadf1090107e5b3530391b7a4c7ccd15b5ec402c816a5a",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.svg",
-            "sha256": "d0fa83acaa83b718dd90c7586a391883e4fff9c2991ebe0d00ccb6907c3efd6a",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.svg",
+            "sha256": "ab1f9355b661b254b619065f87a7c97553d6bfc97ba56508a18ea9ef6d3df571",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-closing.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-009-team.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.team.canvas-spec.json",
+          "golden_spec_sha256": "0b9ca08e5552395c9066ed84dedce02f6e923916eb3925979a494954f8e9bedb",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.team.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
+        "required_slots": [
+          "title",
+          "items"
+        ],
+        "role_group": "comparison_or_split",
+        "source_class": "slide-team",
+        "source_refs": [
+          {
+            "path": "beautiful-html-templates/templates/cartesian/template.html",
+            "raw_value": "<div class=\"slide slide-team",
+            "selector_or_token": ".slide-team"
+          }
+        ],
+        "source_screenshot": {
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-9.png",
+          "fallback_used": false,
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
+          "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "source_slide_index": 9
+      },
+      {
+        "optional_slots": [
+          "eyebrow",
+          "decoration"
+        ],
+        "page": 10,
+        "page_role": "closing",
+        "page_variant_id": "closing",
+        "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "75ceb1336d6d24db2c2b16b63efe80fcf11088eceefc86bccf6ba3d2ba9ffc28",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/manifest.json",
+            "manifest_sha256": "28ac2438fcac5ff2e9bede66b3d4d7eced2eff1527fa9231cb9be997a6d79861",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.svg",
+            "sha256": "abc8f46855b1bbd0150b94b592eda74ef219771fbc8a987b21604eba360dd6bd",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/cartesian/page-010-closing.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.closing.canvas-spec.json",
+          "golden_spec_sha256": "029ecdcd057655fb5ebb0a82aeee9bf58d69a86ce15671f5fe51db15cf0974e9",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/cartesian.closing.canvas-spec.json",
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/cartesian.architectural-spec.json",
+          "smoke_receipt_sha256": "5f065fc083dd30c6a11861c28983fe60c27af2af658686f7925068fe9f924755"
+        },
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle"
@@ -1700,30 +1958,30 @@
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/cartesian/template.html",
-            "raw_value": "<div class=\"slide slide-closing\">",
+            "raw_value": "<div class=\"slide slide-closing",
             "selector_or_token": ".slide-closing"
           }
         ],
         "source_screenshot": {
-          "bytes": 30729,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/009-closing.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-10.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/009-closing.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/cartesian-1.png",
-          "sha256": "3ada0b80c6edabd50f93ed65b972e423f64370280726080ae55357ce89754f53",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/cartesian/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/cartesian/009-closing.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
-        "source_slide_index": 9
+        "source_slide_index": 10
       }
     ],
     "source": "visual_contract.page_variants",
-    "source_page_count": 9,
-    "status": "missing"
+    "source_page_count": 10,
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "architectural-spec",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/cartesian.architectural-spec.json",
-  "visual_contract_sha256": "0eaba0fe4ff403fb63bbe64692bcb137d6122f1897096d588d82133ac45386b4"
+  "visual_contract_sha256": "7b1b329ca70fb455721a857697e31722f46e152b102d6fbb4d03684cf822d9d4"
 }

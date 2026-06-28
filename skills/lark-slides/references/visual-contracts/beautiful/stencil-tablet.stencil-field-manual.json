@@ -1427,22 +1427,58 @@
     "letter spacing is preserved for Latin labels and reset/softened for CJK"
   ],
   "page_family": {
-    "source_slide_count": 11,
+    "claim_boundary": "current-run page-family implementation evidence only; not production/default selectable evidence",
     "core_page_roles": [
       "cover",
       "agenda",
-      "process_or_timeline",
       "content",
-      "quote_or_emphasis"
+      "data",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
+      "closing"
+    ],
+    "family_id": "stencil-tablet",
+    "implemented_page_variants": [
+      "cover",
+      "agenda",
+      "princ",
+      "sec",
+      "consult",
+      "chart",
+      "process",
+      "matrix",
+      "stats",
+      "quote",
+      "cta"
     ],
     "production_minimum_roles": [
       "cover",
       "agenda",
       "content",
       "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
       "closing"
+    ],
+    "renderer_stage": "page_family",
+    "runtime_template_id": "stencil-field-manual",
+    "source_slide_count": 11,
+    "supported_page_variants": [
+      "cover",
+      "agenda",
+      "princ",
+      "sec",
+      "consult",
+      "chart",
+      "process",
+      "matrix",
+      "stats",
+      "quote",
+      "cta"
     ]
   },
   "page_variants": {

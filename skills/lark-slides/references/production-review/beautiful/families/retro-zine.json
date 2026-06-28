@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/retro-zine.html",
-    "render_status": "missing_smoke",
-    "sha256": "95a262ac3cdc7037a56ae725b2be8f059f14d82558a1ba7d052e3043976d5076"
+    "render_status": "passed",
+    "sha256": "08f86c5e64f046194d05bfb5b3ab8f2e409bcc4d1aea7ef66832a3e8fb482155"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "95a262ac3cdc7037a56ae725b2be8f059f14d82558a1ba7d052e3043976d5076",
+    "contact_sheet": "08f86c5e64f046194d05bfb5b3ab8f2e409bcc4d1aea7ef66832a3e8fb482155",
     "fidelity_receipt": "70330ed527a665653b1934d49e3ad5f14e2f4f866de429f38615ca98f18657ba",
     "reference_screenshot": "bd93d862d934f00253a36df8f03f4aef74f87fb1b0f870c777002b39ae7f2af9",
-    "smoke_receipt": null,
-    "visual_contract": "24b24b38b4a89b009d65195b65ca24fce3f277cc906a2e104645a8d3c3173593"
+    "smoke_receipt": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf",
+    "visual_contract": "7665c5b2e04b921bf785d3313a849504836fb3a47bc15ffdbce1784318e86e0c"
   },
   "family_id": "retro-zine",
   "fidelity": {
@@ -33,12 +33,21 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 10,
+  "implemented_page_variants": [
+    "hero",
+    "split",
+    "statement",
+    "grid",
+    "visual",
+    "editorial",
+    "numbers",
+    "collage",
+    "rsvp",
+    "closing"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
     "selector_gate_missing",
@@ -61,7 +70,7 @@
   },
   "missing_roles": [
     "agenda",
-    "quote_or_emphasis"
+    "data_or_structured"
   ],
   "not_promotion_receipt": true,
   "page_family_promotion_gate": {
@@ -75,21 +84,21 @@
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
     "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "b7baba3a18e4c2fe8c897c30111fde7923418af29bff5ea7ea513e9d05b136ee",
+    "current_deck_browser_preview_sha256": "02534b5a1735c3efbf3b5f6fd7b8aac76bb9d13209ce3b99be062103ff0f63a8",
     "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.png",
     "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.svg",
-    "current_deck_render_sha256": "52406cc3e80c0cfc7be06e82f0bfe2211328a3a77a6dc04a18e2bfd68a149b32",
+    "current_deck_render_sha256": "67be29a5315884370f6b4aa7cf98d65eb3cb840bfd1a68ad415cb19147eea664",
     "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.svg",
     "family_id": "retro-zine",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.hero.canvas-spec.json",
+    "golden_spec_sha256": "d9b8d9ab95a5290f53ae66118e42c2c73fc5d26716000aa5d9b8faa8ea146c1c",
     "page": 1,
     "page_role": "cover",
     "page_variant_id": "hero",
     "role_group": "cover",
     "runtime_template_id": "retro-zine-spread",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+    "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf",
     "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/retro-zine/001-hero.jpg",
     "source_screenshot_sha256": "e6d8063f584157f8c7bc60fa92701dab1676c33d2b42a3c2ee58ba871087d217",
     "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/retro-zine/001-hero.jpg",
@@ -151,14 +160,10 @@
       ]
     },
     "data_or_structured": {
-      "covered": true,
-      "missing_reason": null,
-      "page_variant_ids": [
-        "statement"
-      ],
-      "pages": [
-        3
-      ]
+      "covered": false,
+      "missing_reason": "source_page_variant_not_extracted_for_role",
+      "page_variant_ids": [],
+      "pages": []
     },
     "process_or_timeline": {
       "covered": true,
@@ -173,10 +178,14 @@
       ]
     },
     "quote_or_emphasis": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "statement"
+      ],
+      "pages": [
+        3
+      ]
     }
   },
   "page_variants": [
@@ -237,7 +246,7 @@
         "metrics",
         "quote"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "quote_or_emphasis",
       "source_class": "slide-statement",
       "source_refs": [
         {
@@ -423,33 +432,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "b7baba3a18e4c2fe8c897c30111fde7923418af29bff5ea7ea513e9d05b136ee",
+          "browser_preview_sha256": "02534b5a1735c3efbf3b5f6fd7b8aac76bb9d13209ce3b99be062103ff0f63a8",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.svg",
-          "sha256": "52406cc3e80c0cfc7be06e82f0bfe2211328a3a77a6dc04a18e2bfd68a149b32",
+          "sha256": "67be29a5315884370f6b4aa7cf98d65eb3cb840bfd1a68ad415cb19147eea664",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.hero.canvas-spec.json",
+        "golden_spec_sha256": "d9b8d9ab95a5290f53ae66118e42c2c73fc5d26716000aa5d9b8faa8ea146c1c",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.hero.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle"
@@ -489,33 +498,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "dfd625bba4acedb96a6e061f889b53c64f85c82efb64aabf77aafd6adf1ebebc",
+          "browser_preview_sha256": "7305cab324b7132d25654cb87a4de1fe5bfb2dcb5bc9b556cea3e5022ee6f9a6",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.svg",
-          "sha256": "8da8e7563cf30a862a1b4fc243252dcce1cdd2a5037013a86cf1f39ebf11daeb",
+          "sha256": "98c7e2f6e4a5efd8402c3552c4babc285e9e8d4a42c100cce7d44d02c49be610",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.split.canvas-spec.json",
+        "golden_spec_sha256": "159cceb25c0bf6491ad8b3836000f513f2857b6391558aaf311ea466be4b3d0d",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.split.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "metrics"
       ],
@@ -554,38 +563,38 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "2c1f378dee47dd3471afbdb1d8578e23beb665e6bb2c7837417aa1343bcbb597",
+          "browser_preview_sha256": "5388f9f6caa79582b459b1a742f69ecceb0165c854435b40725553a32b7b95c8",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.svg",
-          "sha256": "95e429a3038705d72c2c6a426e59988566ccfababd398a89a8fae08055785ff6",
+          "sha256": "ab4418e7e53b93c48f4a0910a3898b8cbdb7ad4f625eb7cf1605c795e64c6154",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.statement.canvas-spec.json",
+        "golden_spec_sha256": "ded57e697727bc719e497402f645d722ddbc863634fb431c0420b26429fb6eae",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.statement.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "metrics",
         "quote"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "quote_or_emphasis",
       "source_class": "slide-statement",
       "source_refs": [
         {
@@ -620,33 +629,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "d0ec769cd6c0c43081ebdf2d63fe3cfd4ffdc7c33490bd290d5fe3789ea711fb",
+          "browser_preview_sha256": "9c9dc4429d44b572726668226a05504eb93fe505095780d02b9634fd72fc852a",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.svg",
-          "sha256": "bdcbc9d37c853f312748931043a08af7e695efc36efc44b0520d04d68b0c9b4a",
+          "sha256": "8234295f69a2edef52e5095b724955783e1dac3a122e768680c1e94d83b2d646",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.grid.canvas-spec.json",
+        "golden_spec_sha256": "fa9582f53bdfb3f0e45242443199486eed568ec15685f1a02576630f0a86852c",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.grid.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -685,33 +694,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "29cbb04297008920584f6e4b54c00e16d7fc10b863e99a1a9b713ac40ffbd88f",
+          "browser_preview_sha256": "9607aea8d5c216f241ad1b2be8382c72229cd0112ade06f198b7d090dbce1dcc",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.svg",
-          "sha256": "d0b4fa993852303482e8bc68e5ab45f5d03a241a4189f3602f7c1c3ada1de0f8",
+          "sha256": "9caa1e7ce098d69befd4501de33e0eade4bd7c2d784a4d69940cacb83070a498",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.visual.canvas-spec.json",
+        "golden_spec_sha256": "7241641487392801c77c0b89e29f33524070dab35027cd536d186c3733d8ba1f",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.visual.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -752,33 +761,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "70ca1f6dbb60268dc9f1028f3f281caee1daf3ed605c3f43d07c98c0bb6d56d1",
+          "browser_preview_sha256": "79c727c4e81f3e4f0981e1c6a45fabd997c59df9d4dd2acca9b48801365347f1",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.svg",
-          "sha256": "ca7fd45fb39f6e73eeb823f8d0fdae44dbb0c6069072343984d3e58f09e48058",
+          "sha256": "165e283f9132c5597c5da28f55bb203be66997d296abe2e2403ac9165559f7ef",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.editorial.canvas-spec.json",
+        "golden_spec_sha256": "eb48bc8fcada04015176dcf6c35ba7f6a46441b5d119c2b04f353fcec01cc636",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.editorial.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "timeline"
@@ -818,33 +827,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "5e1a93dce3370a23fdb40e389eb6d4f339391fc3996ac8082f612a9c0b5c3a43",
+          "browser_preview_sha256": "605871f6d2de61331fd498220b0f9c513c11ecf3d7a3b05e0aab75b64cedaffe",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.svg",
-          "sha256": "197d683c9ed9dfa74257d2db1d76096e3518e0c0047ebed068f68100196edee5",
+          "sha256": "f90a70a703da6963a83bda265ee5a427278e604092d7e89303ee464097931542",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.numbers.canvas-spec.json",
+        "golden_spec_sha256": "814be6c04f40c34782834ee0a0ee2fedf24744f9c6889557ede7bcfa79ce26e3",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.numbers.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "items"
       ],
@@ -883,33 +892,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "2180f758771eeeff23c96bb466091eb88332945be1983c849fd733cb96b83a5c",
+          "browser_preview_sha256": "7bc3bc3a97fb215a9b9a60a71ef45c96734078edd2ce30111cf01b9c5956b442",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.svg",
-          "sha256": "4f7895f7f225dc8aa66054c5392e6161e5e1469a7b05cfdc40e9736f956f77cd",
+          "sha256": "8905ab8776bbadc04fcfeebfd36ad5558d22af05aba8332b9ba8a98f5f7fea69",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.collage.canvas-spec.json",
+        "golden_spec_sha256": "74cd9cb502f15584e5c3dd485cc7449b410c3f039d905410051c31c013474e05",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.collage.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle"
@@ -949,33 +958,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "f7ec57aff8a491aabe80c634c1864f74579b42ed675078c919456ffd1ebb1dd6",
+          "browser_preview_sha256": "b2ea88778b4bfce2857811c84cfb4066a12de1e2ec7b920fb8b197002e4cb9e2",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.svg",
-          "sha256": "20df0af2d441ef950cc888f9602c7babc4997530285eabdd685e44576ae6894a",
+          "sha256": "84d2c6fbefe9086d39cb0822903b619548ab86dbbde999ef8b5cda2488c24b17",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.rsvp.canvas-spec.json",
+        "golden_spec_sha256": "d36f338a0c751890ec7b866c10b850ed6010cf7cf0162bf7dee624a8314a3c34",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.rsvp.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
         "subtitle",
@@ -1016,33 +1025,33 @@
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
           "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "b7d8b1542221e381abc45204f2aa6ac0a3aad58d6486200e42aab4b29b27def1",
+          "browser_preview_sha256": "1476c8e6d34569dd333a42e839fff784ef6c99e59b709c2312c1be09136db369",
           "browser_preview_status": "available",
           "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-          "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+          "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
           "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.svg",
-          "sha256": "f7fd2241bdbb54e772be63173b113487a87cc50edb275ca9fead4cda911ac0cd",
+          "sha256": "23877ad5b5d2a364195a81645eba892946fee2b2a761079c6ce3b0ad9ae7eacb",
           "status": "available",
           "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.closing.canvas-spec.json",
+        "golden_spec_sha256": "5cd68d94803edabfae4d3c376bfe6832332a08985453f87f2128badbda4b461c",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.closing.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+        "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title"
       ],
@@ -1079,26 +1088,148 @@
   "runtime_template_id": "retro-zine-spread",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "hero",
+      "split",
+      "statement",
+      "grid",
+      "visual",
+      "editorial",
+      "numbers",
+      "collage",
+      "rsvp",
+      "closing"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/retro-zine.json",
+    "deck_sha256": "9904ea7e3641600251b508c1fc5ad27b8921f18cffd229b1ee79e9ebe56a2c83",
+    "degraded": false,
+    "implemented_page_variants": [
+      "hero",
+      "split",
+      "statement",
+      "grid",
+      "visual",
+      "editorial",
+      "numbers",
+      "collage",
+      "rsvp",
+      "closing"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.closing": "5cd68d94803edabfae4d3c376bfe6832332a08985453f87f2128badbda4b461c",
+      "golden_spec.collage": "74cd9cb502f15584e5c3dd485cc7449b410c3f039d905410051c31c013474e05",
+      "golden_spec.editorial": "eb48bc8fcada04015176dcf6c35ba7f6a46441b5d119c2b04f353fcec01cc636",
+      "golden_spec.grid": "fa9582f53bdfb3f0e45242443199486eed568ec15685f1a02576630f0a86852c",
+      "golden_spec.hero": "d9b8d9ab95a5290f53ae66118e42c2c73fc5d26716000aa5d9b8faa8ea146c1c",
+      "golden_spec.numbers": "814be6c04f40c34782834ee0a0ee2fedf24744f9c6889557ede7bcfa79ce26e3",
+      "golden_spec.rsvp": "d36f338a0c751890ec7b866c10b850ed6010cf7cf0162bf7dee624a8314a3c34",
+      "golden_spec.split": "159cceb25c0bf6491ad8b3836000f513f2857b6391558aaf311ea466be4b3d0d",
+      "golden_spec.statement": "ded57e697727bc719e497402f645d722ddbc863634fb431c0420b26429fb6eae",
+      "golden_spec.visual": "7241641487392801c77c0b89e29f33524070dab35027cd536d186c3733d8ba1f",
+      "slide_plan": null,
+      "smoke_deck": "9904ea7e3641600251b508c1fc5ad27b8921f18cffd229b1ee79e9ebe56a2c83",
+      "template_registry": null,
+      "theme_registry": null
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          9
+        ],
+        "variants": [
+          "rsvp"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          10
+        ],
+        "variants": [
+          "closing"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "split"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "visual"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "hero"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          7
+        ],
+        "variants": [
+          "numbers"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          4
+        ],
+        "variants": [
+          "grid"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          6,
+          8
+        ],
+        "variants": [
+          "collage",
+          "editorial"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "statement"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+    "receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf",
+    "rendered_pages": 10,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
     "missing_roles": [
       "agenda",
-      "quote_or_emphasis"
+      "data_or_structured"
     ],
     "page_count": 10,
     "page_variant_coverage": {
@@ -1155,14 +1286,10 @@
         ]
       },
       "data_or_structured": {
-        "covered": true,
-        "missing_reason": null,
-        "page_variant_ids": [
-          "statement"
-        ],
-        "pages": [
-          3
-        ]
+        "covered": false,
+        "missing_reason": "source_page_variant_not_extracted_for_role",
+        "page_variant_ids": [],
+        "pages": []
       },
       "process_or_timeline": {
         "covered": true,
@@ -1177,10 +1304,14 @@
         ]
       },
       "quote_or_emphasis": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "statement"
+        ],
+        "pages": [
+          3
+        ]
       }
     },
     "pages": [
@@ -1197,33 +1328,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "b7baba3a18e4c2fe8c897c30111fde7923418af29bff5ea7ea513e9d05b136ee",
+            "browser_preview_sha256": "02534b5a1735c3efbf3b5f6fd7b8aac76bb9d13209ce3b99be062103ff0f63a8",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.svg",
-            "sha256": "52406cc3e80c0cfc7be06e82f0bfe2211328a3a77a6dc04a18e2bfd68a149b32",
+            "sha256": "67be29a5315884370f6b4aa7cf98d65eb3cb840bfd1a68ad415cb19147eea664",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-001-hero.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.hero.canvas-spec.json",
+          "golden_spec_sha256": "d9b8d9ab95a5290f53ae66118e42c2c73fc5d26716000aa5d9b8faa8ea146c1c",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.hero.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle"
@@ -1263,33 +1394,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "dfd625bba4acedb96a6e061f889b53c64f85c82efb64aabf77aafd6adf1ebebc",
+            "browser_preview_sha256": "7305cab324b7132d25654cb87a4de1fe5bfb2dcb5bc9b556cea3e5022ee6f9a6",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.svg",
-            "sha256": "8da8e7563cf30a862a1b4fc243252dcce1cdd2a5037013a86cf1f39ebf11daeb",
+            "sha256": "98c7e2f6e4a5efd8402c3552c4babc285e9e8d4a42c100cce7d44d02c49be610",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-002-split.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.split.canvas-spec.json",
+          "golden_spec_sha256": "159cceb25c0bf6491ad8b3836000f513f2857b6391558aaf311ea466be4b3d0d",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.split.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "metrics"
         ],
@@ -1328,38 +1459,38 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "2c1f378dee47dd3471afbdb1d8578e23beb665e6bb2c7837417aa1343bcbb597",
+            "browser_preview_sha256": "5388f9f6caa79582b459b1a742f69ecceb0165c854435b40725553a32b7b95c8",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.svg",
-            "sha256": "95e429a3038705d72c2c6a426e59988566ccfababd398a89a8fae08055785ff6",
+            "sha256": "ab4418e7e53b93c48f4a0910a3898b8cbdb7ad4f625eb7cf1605c795e64c6154",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-003-statement.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.statement.canvas-spec.json",
+          "golden_spec_sha256": "ded57e697727bc719e497402f645d722ddbc863634fb431c0420b26429fb6eae",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.statement.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "metrics",
           "quote"
         ],
-        "role_group": "data_or_structured",
+        "role_group": "quote_or_emphasis",
         "source_class": "slide-statement",
         "source_refs": [
           {
@@ -1394,33 +1525,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "d0ec769cd6c0c43081ebdf2d63fe3cfd4ffdc7c33490bd290d5fe3789ea711fb",
+            "browser_preview_sha256": "9c9dc4429d44b572726668226a05504eb93fe505095780d02b9634fd72fc852a",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.svg",
-            "sha256": "bdcbc9d37c853f312748931043a08af7e695efc36efc44b0520d04d68b0c9b4a",
+            "sha256": "8234295f69a2edef52e5095b724955783e1dac3a122e768680c1e94d83b2d646",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-004-grid.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.grid.canvas-spec.json",
+          "golden_spec_sha256": "fa9582f53bdfb3f0e45242443199486eed568ec15685f1a02576630f0a86852c",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.grid.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1459,33 +1590,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "29cbb04297008920584f6e4b54c00e16d7fc10b863e99a1a9b713ac40ffbd88f",
+            "browser_preview_sha256": "9607aea8d5c216f241ad1b2be8382c72229cd0112ade06f198b7d090dbce1dcc",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.svg",
-            "sha256": "d0b4fa993852303482e8bc68e5ab45f5d03a241a4189f3602f7c1c3ada1de0f8",
+            "sha256": "9caa1e7ce098d69befd4501de33e0eade4bd7c2d784a4d69940cacb83070a498",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-005-visual.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.visual.canvas-spec.json",
+          "golden_spec_sha256": "7241641487392801c77c0b89e29f33524070dab35027cd536d186c3733d8ba1f",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.visual.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1526,33 +1657,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "70ca1f6dbb60268dc9f1028f3f281caee1daf3ed605c3f43d07c98c0bb6d56d1",
+            "browser_preview_sha256": "79c727c4e81f3e4f0981e1c6a45fabd997c59df9d4dd2acca9b48801365347f1",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.svg",
-            "sha256": "ca7fd45fb39f6e73eeb823f8d0fdae44dbb0c6069072343984d3e58f09e48058",
+            "sha256": "165e283f9132c5597c5da28f55bb203be66997d296abe2e2403ac9165559f7ef",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-006-editorial.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.editorial.canvas-spec.json",
+          "golden_spec_sha256": "eb48bc8fcada04015176dcf6c35ba7f6a46441b5d119c2b04f353fcec01cc636",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.editorial.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "timeline"
@@ -1592,33 +1723,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "5e1a93dce3370a23fdb40e389eb6d4f339391fc3996ac8082f612a9c0b5c3a43",
+            "browser_preview_sha256": "605871f6d2de61331fd498220b0f9c513c11ecf3d7a3b05e0aab75b64cedaffe",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.svg",
-            "sha256": "197d683c9ed9dfa74257d2db1d76096e3518e0c0047ebed068f68100196edee5",
+            "sha256": "f90a70a703da6963a83bda265ee5a427278e604092d7e89303ee464097931542",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-007-numbers.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.numbers.canvas-spec.json",
+          "golden_spec_sha256": "814be6c04f40c34782834ee0a0ee2fedf24744f9c6889557ede7bcfa79ce26e3",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.numbers.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "items"
         ],
@@ -1657,33 +1788,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "2180f758771eeeff23c96bb466091eb88332945be1983c849fd733cb96b83a5c",
+            "browser_preview_sha256": "7bc3bc3a97fb215a9b9a60a71ef45c96734078edd2ce30111cf01b9c5956b442",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.svg",
-            "sha256": "4f7895f7f225dc8aa66054c5392e6161e5e1469a7b05cfdc40e9736f956f77cd",
+            "sha256": "8905ab8776bbadc04fcfeebfd36ad5558d22af05aba8332b9ba8a98f5f7fea69",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-008-collage.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.collage.canvas-spec.json",
+          "golden_spec_sha256": "74cd9cb502f15584e5c3dd485cc7449b410c3f039d905410051c31c013474e05",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.collage.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle"
@@ -1723,33 +1854,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "f7ec57aff8a491aabe80c634c1864f74579b42ed675078c919456ffd1ebb1dd6",
+            "browser_preview_sha256": "b2ea88778b4bfce2857811c84cfb4066a12de1e2ec7b920fb8b197002e4cb9e2",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.svg",
-            "sha256": "20df0af2d441ef950cc888f9602c7babc4997530285eabdd685e44576ae6894a",
+            "sha256": "84d2c6fbefe9086d39cb0822903b619548ab86dbbde999ef8b5cda2488c24b17",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-009-rsvp.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.rsvp.canvas-spec.json",
+          "golden_spec_sha256": "d36f338a0c751890ec7b866c10b850ed6010cf7cf0162bf7dee624a8314a3c34",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.rsvp.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
           "subtitle",
@@ -1790,33 +1921,33 @@
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
             "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "b7d8b1542221e381abc45204f2aa6ac0a3aad58d6486200e42aab4b29b27def1",
+            "browser_preview_sha256": "1476c8e6d34569dd333a42e839fff784ef6c99e59b709c2312c1be09136db369",
             "browser_preview_status": "available",
             "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/manifest.json",
-            "manifest_sha256": "c8e0a4de0077f9025acc6c5889587e7115cbee87182abc9bd3d7e4d161c61412",
+            "manifest_sha256": "0dbfa41bf4696841c2908b12acdfd69cea4afe10e6344b4fdc1a7daff642c448",
             "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.svg",
-            "sha256": "f7fd2241bdbb54e772be63173b113487a87cc50edb275ca9fead4cda911ac0cd",
+            "sha256": "23877ad5b5d2a364195a81645eba892946fee2b2a761079c6ce3b0ad9ae7eacb",
             "status": "available",
             "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/retro-zine/page-010-closing.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.closing.canvas-spec.json",
+          "golden_spec_sha256": "5cd68d94803edabfae4d3c376bfe6832332a08985453f87f2128badbda4b461c",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/retro-zine.closing.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/retro-zine.retro-zine-spread.json",
+          "smoke_receipt_sha256": "911387cafbdc1ca40d79050583b13c38f294208152ed175ee02b597ee454e5cf"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title"
         ],
@@ -1845,10 +1976,10 @@
     ],
     "source": "visual_contract.page_variants",
     "source_page_count": 10,
-    "status": "missing"
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "retro-zine-spread",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/retro-zine.retro-zine-spread.json",
-  "visual_contract_sha256": "24b24b38b4a89b009d65195b65ca24fce3f277cc906a2e104645a8d3c3173593"
+  "visual_contract_sha256": "7665c5b2e04b921bf785d3313a849504836fb3a47bc15ffdbce1784318e86e0c"
 }

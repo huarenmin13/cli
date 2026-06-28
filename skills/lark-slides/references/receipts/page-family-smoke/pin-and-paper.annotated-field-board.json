@@ -1,0 +1,302 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "pin-and-paper",
+  "selected_template_id": "annotated-field-board",
+  "selected_theme_id": "pin-and-paper",
+  "selection_source": "explicit_args",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 11,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "agenda",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "process",
+      "page_variant_id": "notes",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "sec",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "notice",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "process",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "comparison",
+      "page_variant_id": "matrix",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 11,
+      "page_role": "closing",
+      "page_variant_id": "cta",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "agenda"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "sec"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        6,
+        9
+      ],
+      "variants": [
+        "chart",
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "matrix"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        3,
+        7
+      ],
+      "variants": [
+        "notes",
+        "process"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "notice"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        11
+      ],
+      "variants": [
+        "cta"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "agenda",
+    "notes",
+    "sec",
+    "notice",
+    "chart",
+    "process",
+    "matrix",
+    "stats",
+    "quote",
+    "cta"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "agenda",
+    "notes",
+    "sec",
+    "notice",
+    "chart",
+    "process",
+    "matrix",
+    "stats",
+    "quote",
+    "cta"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/pin-and-paper.json",
+    "golden_spec.agenda": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.agenda.canvas-spec.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.chart.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.cover.canvas-spec.json",
+    "golden_spec.cta": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.cta.canvas-spec.json",
+    "golden_spec.matrix": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.matrix.canvas-spec.json",
+    "golden_spec.notes": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.notes.canvas-spec.json",
+    "golden_spec.notice": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.notice.canvas-spec.json",
+    "golden_spec.process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.process.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.quote.canvas-spec.json",
+    "golden_spec.sec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.sec.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/pin-and-paper.stats.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_deck": "ed0d85a81505b9da83d6cdac818307b7f36c447584869cf924c0b59d65a6f69c",
+    "golden_spec.agenda": "dd7db5667dd04ba2750f3d1034151efc1dce8a56fbcdc95d6e9f22a36d6718f4",
+    "golden_spec.chart": "84f0e23418e921f61395c0043a72e9f8514905c8103d07d4c1d24e0256979aea",
+    "golden_spec.cover": "6e40b73c6c0e68344c323499d88cd3f3a573027841977413225c305b360391b3",
+    "golden_spec.cta": "19b43928002acbeb3acbc4518bcc89ddfd1ced29541835cbfe82ee18ee943bc6",
+    "golden_spec.matrix": "6be5bcf65b1041dda356c044c50b94c970a83e752be1dccbd7632a6017316234",
+    "golden_spec.notes": "efe93660c5241cf839577100a6ad2398b84a7c4c6e390bfc6fcffb3c5335d886",
+    "golden_spec.notice": "e9ace608a34758d025cb10d4c5d45a27f3cc9d041c79e802570bac34f895bbb6",
+    "golden_spec.process": "a7adbd391ba335aa600693eb46e29d2fb36bcddb5e7877f53b035c5d859cbd4b",
+    "golden_spec.quote": "71159e7786bef620d940edf8ecc6d51ddb184dffe3de703457c656b019c78d2a",
+    "golden_spec.sec": "f650713007db746c63c95811509b2fa4f450e6ca24fcf5e75d4d82fdd626d969",
+    "golden_spec.stats": "92d4a88f5473f3c934e47468ab2428bdc33a05e5df0604db134308660a85d6f6"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private",
+    "--selected-family",
+    "pin-and-paper"
+  ],
+  "provenance": {
+    "matrix": "skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/pin-and-paper.json",
+    "smoke_fixture": null,
+    "project": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 11,
+    "covered_role_count": 9,
+    "implemented_variant_count": 11,
+    "covered_implemented_variant_count": 11
+  }
+}

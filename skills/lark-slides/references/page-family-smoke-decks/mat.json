@@ -1,0 +1,62 @@
+{
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "claim_boundary": "Explicit current-run smoke deck for mat page-family coverage; not production/default selectable evidence.",
+  "family_id": "mat",
+  "runtime_template_id": "mat-midcentury-board",
+  "selected_theme_id": "mat",
+  "promotion_status": "needs_review",
+  "production_selectable": false,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "statement"
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "split"
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "stats"
+    },
+    {
+      "page": 5,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 6,
+      "page_role": "content",
+      "page_variant_id": "list"
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "compare"
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "split"
+    },
+    {
+      "page": 9,
+      "page_role": "data",
+      "page_variant_id": "chart"
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "end"
+    }
+  ],
+  "variant_reuse_rationale": "Mat source has 9 slides and no dedicated process page. The split/material-detail variant is reused once for process because it explains product construction; this smoke deck is review evidence only and does not promote the template."
+}

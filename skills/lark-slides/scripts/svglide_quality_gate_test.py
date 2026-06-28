@@ -1265,6 +1265,7 @@ class SVGlideQualityGateTest(unittest.TestCase):
             write_page_family_smoke_receipt(project)
             write_current_deck_visual_integrity_receipt(
                 project,
+                template_promotion_status="passed",
                 selected_family_id="bold-poster",
                 selected_template_id="poster-stat-punch",
                 selected_theme_id="bold-poster-explicit-tomato",
@@ -1544,6 +1545,17 @@ class SVGlideQualityGateTest(unittest.TestCase):
                 selected_theme_id="bold-poster-explicit-tomato",
                 score=0.38,
             )
+            write_json(
+                project / "receipts/theme_template_selection.json",
+                {
+                    "selected_family_id": "bold-poster",
+                    "selected_template_id": "poster-stat-punch",
+                    "brand_resolution": {
+                        "source": "stable_fallback",
+                        "quality_gate_fallback": True,
+                    },
+                },
+            )
 
             result = svglide_quality_gate.run_quality_gate(project, profile="production")
 
@@ -1552,6 +1564,7 @@ class SVGlideQualityGateTest(unittest.TestCase):
         self.assertEqual(legacy_check["status"], "passed_with_waiver")
         self.assertTrue(legacy_check["waived_issues"])
         self.assertTrue(legacy_check["waivers"])
+        self.assertIn("quality_gate_fallback_used", {item["code"] for item in legacy_check["waived_issues"]})
 
     def test_quality_gate_blocks_source_inventory_only_template_in_production_registry(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -1720,6 +1733,84 @@ class SVGlideQualityGateTest(unittest.TestCase):
             codes = {item["code"] for item in issues}
             self.assertIn("text_fragment_ratio_too_high", codes)
             self.assertIn("single_char_text_shape_excessive", codes)
+
+    def test_contract_manifest_issues_rejects_narrow_editable_text_boxes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            report_path = project / "04-svg/contract/page-001.report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["text_lowering"] = {
+                "raw_text_fragments": 1,
+                "output_text_boxes": 1,
+                "coalesced_text_fragments": 0,
+                "baseline_converted_count": 1,
+                "role_font_mapped_count": 1,
+                "single_character_text_boxes": 0,
+                "width_compensated_count": 0,
+                "nowrap_risk_count": 1,
+                "width_compensation_records": [
+                    {
+                        "element_id": "label",
+                        "text": "TRADING",
+                        "source_width": 35,
+                        "compiled_width": 35,
+                        "min_safe_width": 56,
+                        "width_compensated": False,
+                        "nowrap_risk": True,
+                        "font_mapping_reason": "role_font_family_mapped_to_slide_default",
+                        "letter_spacing": 1,
+                        "letter_spacing_accounted": False,
+                    }
+                ],
+            }
+            write_json(report_path, report)
+
+            issues = svglide_quality_gate.contract_manifest_issues(project)
+
+            codes = {item["code"] for item in issues}
+            self.assertIn("role_font_mapped_without_width_compensation", codes)
+            self.assertIn("text_box_too_narrow_for_slide_font", codes)
+            self.assertIn("letter_spacing_width_not_accounted", codes)
+
+    def test_contract_manifest_issues_allows_single_character_letter_spacing_without_nowrap_risk(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = Path(tmpdir)
+            write_passing_semantic_review(project)
+            attach_passing_artboard_receipt(project)
+            report_path = project / "04-svg/contract/page-001.report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["text_lowering"] = {
+                "raw_text_fragments": 1,
+                "output_text_boxes": 1,
+                "coalesced_text_fragments": 0,
+                "baseline_converted_count": 1,
+                "role_font_mapped_count": 1,
+                "single_character_text_boxes": 1,
+                "width_compensated_count": 1,
+                "nowrap_risk_count": 0,
+                "width_compensation_records": [
+                    {
+                        "element_id": "page-number",
+                        "text": "4",
+                        "source_width": 26,
+                        "compiled_width": 52,
+                        "min_safe_width": 52,
+                        "width_compensation": "slide-font-safe-width/v1",
+                        "width_compensated": True,
+                        "nowrap_risk": False,
+                        "font_mapping_reason": "role_font_family_mapped_to_slide_default",
+                        "letter_spacing": -0.8,
+                        "letter_spacing_accounted": False,
+                    }
+                ],
+            }
+            write_json(report_path, report)
+
+            issues = svglide_quality_gate.contract_manifest_issues(project)
+
+            self.assertNotIn("letter_spacing_width_not_accounted", {item["code"] for item in issues})
 
     def test_contract_manifest_issues_rejects_zero_output_text_when_raw_has_text(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

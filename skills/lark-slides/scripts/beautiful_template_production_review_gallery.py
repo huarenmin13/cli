@@ -179,6 +179,8 @@ def _role_group(page_role: object, variant_id: object) -> str | None:
     tokens.add(str(variant_id or "").lower())
     if {"split", "compare", "comparison", "vs", "matrix"}.intersection(tokens):
         return "comparison_or_split"
+    if {"quote", "emphasis", "callout", "manifesto", "statement"}.intersection(tokens):
+        return "quote_or_emphasis"
     for group, aliases in ROLE_GROUP_ALIASES.items():
         if aliases.intersection(tokens):
             return group

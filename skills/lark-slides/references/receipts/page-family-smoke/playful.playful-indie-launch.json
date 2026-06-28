@@ -1,0 +1,289 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "playful",
+  "selected_template_id": "playful-indie-launch",
+  "selected_theme_id": "playful",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 10,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "toc",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "quote",
+      "page_variant_id": "statement",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "data",
+      "page_variant_id": "chart",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "team",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "comparison",
+      "page_variant_id": "services",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "process",
+      "page_variant_id": "timeline",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "data",
+      "page_variant_id": "stats",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "content",
+      "page_variant_id": "gallery",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "toc"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "gallery"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        4,
+        8
+      ],
+      "variants": [
+        "chart",
+        "stats"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "services"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "statement"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "timeline"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "team"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "closing"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "toc",
+    "statement",
+    "chart",
+    "team",
+    "services",
+    "timeline",
+    "stats",
+    "gallery",
+    "closing"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "toc",
+    "statement",
+    "chart",
+    "team",
+    "services",
+    "timeline",
+    "stats",
+    "gallery",
+    "closing"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/playful.json",
+    "golden_spec.chart": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.chart.canvas-spec.json",
+    "golden_spec.closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.closing.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.cover.canvas-spec.json",
+    "golden_spec.gallery": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.gallery.canvas-spec.json",
+    "golden_spec.services": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.services.canvas-spec.json",
+    "golden_spec.statement": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.statement.canvas-spec.json",
+    "golden_spec.stats": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.stats.canvas-spec.json",
+    "golden_spec.team": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.team.canvas-spec.json",
+    "golden_spec.timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.timeline.canvas-spec.json",
+    "golden_spec.toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/playful.toc.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "c4d359309d499f33f726ea43c0a9ab6b2a55d47e2d020ef8715db4b5e253d333",
+    "smoke_deck": "ed1a043e5733ca1c86ec99b3c701aaf449e7ce8035445e2d38efb6b0d6587183",
+    "golden_spec.chart": "9369bff47fe1caaeb5092ccfd4eeb050416c9cc9c13cc28781f1b588ed0ecdb6",
+    "golden_spec.closing": "140e12484cb609f2b17b1ce1982109e9809b9973dd3452b173c6114dbddd3777",
+    "golden_spec.cover": "8c82de1a220510df55011e7ddd78be0ac1425ad635838a9d29b2183804904076",
+    "golden_spec.gallery": "f48e85ee9838e1e9efc86a2e4e4d10db92a9d487b25f838c0d9e2d5b322090b9",
+    "golden_spec.services": "0911aadf9516e20fc01a1c0d2edaf11cd8dcde3d2a3ee76eec0a364b4d3a50c3",
+    "golden_spec.statement": "e3e957263e4f619d1f22ca9521d8af23e481d0006e20d2c77464b89504cf2858",
+    "golden_spec.stats": "62c479b229a2f02e1aec9bc4384c5847dca68b8bf95928f249403d0e20ad81cf",
+    "golden_spec.team": "36aab42aa9ec352c6101cd7c5eda8b3e72990b12108d04bd0f2cb9b025bb1313",
+    "golden_spec.timeline": "4e48b28691eeb806bda1c8e106a905416aa35896be714f6be17f71d5ea18857e",
+    "golden_spec.toc": "4674893db5c8b065897e331ad34487b5844092ce6e6382a8136f75757b0e931d"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-playful-smoke-project",
+    "--pretty"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/playful.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/tmp/svglide-playful-smoke-project"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 10,
+    "covered_role_count": 9,
+    "implemented_variant_count": 10,
+    "covered_implemented_variant_count": 10
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "columns": [
+      {
+        "body": "Every solution starts with understanding. We dive deep to uncover what truly matters.",
+        "bullets": [
+          "User research sessions",
+          "Market analysis",
+          "Stakeholder interviews",
+          "Competitive landscape"
+        ],
+        "label": "01 / Discovery",
+        "title": "Finding the Problem"
+      },
+      {
+        "body": "With clarity comes creativity. Findings become strategies and tangible designs.",
+        "bullets": [
+          "Ideation workshops",
+          "Prototype development",
+          "Iterative testing",
+          "Final delivery"
+        ],
+        "label": "02 / Solution",
+        "title": "Crafting the Answer"
+      }
+    ],
+    "eyebrow": "BRAINSTORM BOARD",
+    "phases": [
+      "Diverge",
+      "Cluster",
+      "Commit"
+    ],
+    "postits": [
+      "Workshop map",
+      "Ask a good question",
+      "Prototype fast"
+    ],
+    "subtitle": "Collect your thoughts, pin them down, and make the big problem small.",
+    "title": "Workshop map"
+  },
+  "family_id": "scatterbrain",
+  "page_family_source": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "family_id": "scatterbrain",
+    "review_render_scope": "current_renderer_deck",
+    "source_class": "slide bg-warm two-col-layout",
+    "source_slide_index": 3,
+    "source_template_html": "beautiful-html-templates/templates/scatterbrain/template.html"
+  },
+  "page_role": "detail",
+  "page_variant_id": "two-column",
+  "quality_constraints": {
+    "max_title_lines": 2,
+    "min_font_size": 16,
+    "safe_area": {
+      "height": 460,
+      "width": 864,
+      "x": 48,
+      "y": 40
+    }
+  },
+  "renderer_variant_id": "two-column",
+  "review_only_current_deck_render": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "degraded": true,
+    "degraded_reason": "single dedicated sample renderer reused for source page variants",
+    "page": 3,
+    "schema_version": "svglide-beautiful-current-deck-render/v1"
+  },
+  "safe_area": {
+    "height": 460,
+    "width": 864,
+    "x": 48,
+    "y": 40
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 88,
+        "width": 710,
+        "x": 56,
+        "y": 96
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "sticky-workshop-board",
+  "theme": {
+    "colors": {
+      "accent": "#F05A28",
+      "background": "#F7E7C6",
+      "muted": "#716657",
+      "panel": "#FFEE88",
+      "primary": "#2E4057",
+      "surface": "#FFF8E6",
+      "text": "#2A241E"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 18,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Zilla Slab",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 54,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Shrikhand",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 10,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "Shrikhand",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 42,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "Shrikhand",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/scatterbrain.sticky-workshop-board.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "scatterbrain",
+  "version": "svglide-canvas-spec/v1"
+}

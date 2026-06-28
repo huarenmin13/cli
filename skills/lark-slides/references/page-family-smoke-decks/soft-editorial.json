@@ -1,0 +1,71 @@
+{
+  "claim_boundary": "Explicit current-run smoke deck for soft-editorial page-family coverage; not production/default selectable evidence.",
+  "family_id": "soft-editorial",
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover"
+    },
+    {
+      "page": 2,
+      "page_role": "agenda",
+      "page_variant_id": "foreword"
+    },
+    {
+      "page": 3,
+      "page_role": "detail",
+      "page_variant_id": "method"
+    },
+    {
+      "page": 4,
+      "page_role": "content",
+      "page_variant_id": "insights"
+    },
+    {
+      "page": 5,
+      "page_role": "closing",
+      "page_variant_id": "closer"
+    },
+    {
+      "page": 6,
+      "page_role": "data",
+      "page_variant_id": "numbers"
+    },
+    {
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote"
+    },
+    {
+      "page": 8,
+      "page_role": "process",
+      "page_variant_id": "next"
+    },
+    {
+      "page": 9,
+      "page_role": "detail",
+      "page_variant_id": "consult"
+    },
+    {
+      "page": 10,
+      "page_role": "data",
+      "page_variant_id": "chart"
+    },
+    {
+      "page": 11,
+      "page_role": "process",
+      "page_variant_id": "process"
+    },
+    {
+      "page": 12,
+      "page_role": "comparison",
+      "page_variant_id": "matrix"
+    }
+  ],
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "runtime_template_id": "soft-editorial-feature",
+  "schema_version": "svglide-page-family-smoke-deck/v1",
+  "selected_theme_id": "soft-editorial"
+}

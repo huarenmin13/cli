@@ -9,16 +9,16 @@
   "contact_sheet": {
     "artifact_kind": "smoke_deck_contact_sheet_review_model",
     "html_path": "families/daisy-days.html",
-    "render_status": "missing_smoke",
-    "sha256": "e14613919c09917441113f6418f6a6462ba3ec90c6dde995bfca852aa2a82291"
+    "render_status": "passed",
+    "sha256": "8595dc3275e7c20d096a1e8238acf3ccae39001259729a893718e6d53264a09a"
   },
   "default_selectable": false,
   "evidence_hashes": {
-    "contact_sheet": "e14613919c09917441113f6418f6a6462ba3ec90c6dde995bfca852aa2a82291",
+    "contact_sheet": "8595dc3275e7c20d096a1e8238acf3ccae39001259729a893718e6d53264a09a",
     "fidelity_receipt": "926bc15a8016d24e25c00a42eb878578dbb825471d6ba2abc316bf48016ab5bc",
     "reference_screenshot": "65f6615ff2ec51a3d4a77573c2a53471b356724a58bd33dffdb55ed69ab2b73b",
-    "smoke_receipt": null,
-    "visual_contract": "9f481ab2692c478b75690c69edf7a8e55a233e476aadf2d2d3954e7a0ed28a68"
+    "smoke_receipt": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96",
+    "visual_contract": "02a52cd41098880ccf327023683f71ef977b02761b1b551a1dfb60735ab2cb7f"
   },
   "family_id": "daisy-days",
   "fidelity": {
@@ -33,16 +33,24 @@
   },
   "fidelity_status": "passed",
   "human_review_status": "pending",
-  "implemented_page_variant_count": 0,
-  "implemented_page_variants": [],
+  "implemented_page_variant_count": 10,
+  "implemented_page_variants": [
+    "title",
+    "welcome",
+    "weekly",
+    "timeline",
+    "chart-bar",
+    "cards",
+    "quote",
+    "team",
+    "process",
+    "donut"
+  ],
   "known_blockers": [
     "auto_gate_blocked",
-    "missing_smoke",
-    "page_family_smoke_missing_or_failed",
     "production_review_pending",
     "quality_gate_integration_pending",
-    "selector_gate_missing",
-    "source_core_roles_missing"
+    "selector_gate_missing"
   ],
   "legacy_renderer_fixture_sample": {
     "artifact_kind": "legacy_renderer_fixture_sample",
@@ -59,10 +67,7 @@
     "runtime_template_id": "daisy-workshop-playbook",
     "status": "available"
   },
-  "missing_roles": [
-    "comparison_or_split",
-    "closing"
-  ],
+  "missing_roles": [],
   "not_promotion_receipt": true,
   "page_family_promotion_gate": {
     "claim_boundary": null,
@@ -73,64 +78,70 @@
   "page_family_representative_sample": {
     "artifact_kind": "page_family_representative_sample",
     "claim_boundary": "current page-family review sample from source screenshot and current deck render; use full per-page deck below for review",
-    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.png",
+    "current_deck_browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.png",
     "current_deck_browser_preview_kind": "resvg_png",
-    "current_deck_browser_preview_sha256": "e48ad6b1ee3fa247e1d690516f88fb480973ef437df2bde29a11baeaa78fd671",
-    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.png",
-    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.svg",
-    "current_deck_render_sha256": "1c2b09ebb1676040c47207632885035cceadaccaf693e57e09a0749ac25b18a2",
-    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.svg",
+    "current_deck_browser_preview_sha256": "e638915d48fb92f409689af7457a7844d6cd42f2560d96a283ebbf35363fbb94",
+    "current_deck_browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.png",
+    "current_deck_render": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.svg",
+    "current_deck_render_sha256": "4810eb4861ca9bc17de004cd5ea730a9ec31875d0048779db155c184c79bba99",
+    "current_deck_render_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.svg",
     "family_id": "daisy-days",
-    "golden_spec": null,
-    "golden_spec_sha256": null,
+    "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
+    "golden_spec_sha256": "5ab43a8ce7977fefeaf73bf986a84706a80d4deeff93cb97db7dc69c7ef52352",
     "page": 1,
     "page_role": "cover",
-    "page_variant_id": "welcome",
+    "page_variant_id": "title",
     "role_group": "cover",
     "runtime_template_id": "daisy-workshop-playbook",
-    "smoke_receipt": null,
-    "smoke_receipt_sha256": null,
-    "source_screenshot": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg",
-    "source_screenshot_sha256": "605959fa32d141b0a2cc3703af00777d2eb622c372764009ed8077726d054a83",
-    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg",
+    "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+    "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96",
+    "source_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+    "source_screenshot_sha256": "65f6615ff2ec51a3d4a77573c2a53471b356724a58bd33dffdb55ed69ab2b73b",
+    "source_screenshot_uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
     "source_slide_index": 1,
     "status": "available"
   },
-  "page_variant_count": 9,
+  "page_variant_count": 10,
   "page_variant_coverage": {
     "agenda": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "weekly"
+        "welcome"
       ],
       "pages": [
         2
       ]
     },
     "closing": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "donut"
+      ],
+      "pages": [
+        10
+      ]
     },
     "comparison_or_split": {
-      "covered": false,
-      "missing_reason": "source_page_variant_not_extracted_for_role",
-      "page_variant_ids": [],
-      "pages": []
+      "covered": true,
+      "missing_reason": null,
+      "page_variant_ids": [
+        "cards"
+      ],
+      "pages": [
+        6
+      ]
     },
     "content": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "cards",
-        "team",
-        "process"
+        "weekly",
+        "team"
       ],
       "pages": [
-        5,
-        7,
+        3,
         8
       ]
     },
@@ -138,7 +149,7 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "welcome"
+        "title"
       ],
       "pages": [
         1
@@ -148,22 +159,22 @@
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "chart_bar",
-        "donut"
+        "chart-bar"
       ],
       "pages": [
-        4,
-        9
+        5
       ]
     },
     "process_or_timeline": {
       "covered": true,
       "missing_reason": null,
       "page_variant_ids": [
-        "timeline"
+        "timeline",
+        "process"
       ],
       "pages": [
-        3
+        4,
+        9
       ]
     },
     "quote_or_emphasis": {
@@ -173,7 +184,7 @@
         "quote"
       ],
       "pages": [
-        6
+        7
       ]
     }
   },
@@ -181,23 +192,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page_role": "cover",
-      "page_variant_id": "welcome",
+      "page_variant_id": "title",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "subtitle"
       ],
       "role_group": "cover",
-      "source_class": "slide-welcome",
+      "source_class": "slide-title",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-welcome\" id=\"slide-2\">",
-          "selector_or_token": ".slide-welcome"
+          "raw_value": "<section class=\"slide slide-title\">",
+          "selector_or_token": ".slide-title"
         }
       ],
       "source_slide_index": 1
@@ -205,24 +216,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page_role": "agenda",
-      "page_variant_id": "weekly",
+      "page_variant_id": "welcome",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "timeline"
+        "items"
       ],
       "role_group": "agenda",
-      "source_class": "slide-weekly",
+      "source_class": "slide-welcome",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-weekly\" id=\"slide-3\">",
-          "selector_or_token": ".slide-weekly"
+          "raw_value": "<section class=\"slide slide-welcome\">",
+          "selector_or_token": ".slide-welcome"
         }
       ],
       "source_slide_index": 2
@@ -230,24 +240,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "process_or_timeline",
-      "page_variant_id": "timeline",
+      "page_role": "content",
+      "page_variant_id": "weekly",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "timeline"
+        "items"
       ],
-      "role_group": "process_or_timeline",
-      "source_class": "slide-timeline",
+      "role_group": "content",
+      "source_class": "slide-weekly",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-timeline\" id=\"slide-4\">",
-          "selector_or_token": ".slide-timeline"
+          "raw_value": "<section class=\"slide slide-weekly\">",
+          "selector_or_token": ".slide-weekly"
         }
       ],
       "source_slide_index": 3
@@ -255,23 +264,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "data_dashboard",
-      "page_variant_id": "chart_bar",
+      "page_role": "process",
+      "page_variant_id": "timeline",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "timeline"
       ],
-      "role_group": "data_or_structured",
-      "source_class": "slide-chart-bar",
+      "role_group": "process_or_timeline",
+      "source_class": "slide-timeline",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-chart-bar\" id=\"slide-5\">",
-          "selector_or_token": ".slide-chart-bar"
+          "raw_value": "<section class=\"slide slide-timeline\">",
+          "selector_or_token": ".slide-timeline"
         }
       ],
       "source_slide_index": 4
@@ -279,24 +288,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "detail",
-      "page_variant_id": "cards",
+      "page_role": "data",
+      "page_variant_id": "chart-bar",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "quote"
+        "metrics"
       ],
-      "role_group": "content",
-      "source_class": "slide-cards",
+      "role_group": "data_or_structured",
+      "source_class": "slide-chart-bar",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-cards\" id=\"slide-6\">",
-          "selector_or_token": ".slide-cards"
+          "raw_value": "<section class=\"slide slide-chart-bar\">",
+          "selector_or_token": ".slide-chart-bar"
         }
       ],
       "source_slide_index": 5
@@ -304,22 +312,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "quote_or_emphasis",
-      "page_variant_id": "quote",
+      "page_role": "comparison",
+      "page_variant_id": "cards",
       "required_slots": [
-        "subtitle",
-        "quote"
+        "title",
+        "items"
       ],
-      "role_group": "quote_or_emphasis",
-      "source_class": "slide-quote",
+      "role_group": "comparison_or_split",
+      "source_class": "slide-cards",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-quote\" id=\"slide-7\">",
-          "selector_or_token": ".slide-quote"
+          "raw_value": "<section class=\"slide slide-cards\">",
+          "selector_or_token": ".slide-cards"
         }
       ],
       "source_slide_index": 6
@@ -327,22 +336,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "detail",
-      "page_variant_id": "team",
+      "page_role": "quote",
+      "page_variant_id": "quote",
       "required_slots": [
-        "title",
-        "subtitle"
+        "quote",
+        "author"
       ],
-      "role_group": "content",
-      "source_class": "slide-team",
+      "role_group": "quote_or_emphasis",
+      "source_class": "slide-quote",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-team\" id=\"slide-8\">",
-          "selector_or_token": ".slide-team"
+          "raw_value": "<section class=\"slide slide-quote\">",
+          "selector_or_token": ".slide-quote"
         }
       ],
       "source_slide_index": 7
@@ -350,22 +360,23 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "content",
-      "page_variant_id": "process",
+      "page_role": "detail",
+      "page_variant_id": "team",
       "required_slots": [
         "title",
-        "subtitle"
+        "items"
       ],
       "role_group": "content",
-      "source_class": "slide-process",
+      "source_class": "slide-team",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-process\" id=\"slide-9\">",
-          "selector_or_token": ".slide-process"
+          "raw_value": "<section class=\"slide slide-team\">",
+          "selector_or_token": ".slide-team"
         }
       ],
       "source_slide_index": 8
@@ -373,208 +384,296 @@
     {
       "extraction_confidence": "inferred_from_layout",
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page_role": "data_dashboard",
+      "page_role": "process",
+      "page_variant_id": "process",
+      "required_slots": [
+        "title",
+        "timeline"
+      ],
+      "role_group": "process_or_timeline",
+      "source_class": "slide-process",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/daisy-days/template.html",
+          "raw_value": "<section class=\"slide slide-process\">",
+          "selector_or_token": ".slide-process"
+        }
+      ],
+      "source_slide_index": 9
+    },
+    {
+      "extraction_confidence": "inferred_from_layout",
+      "optional_slots": [
+        "decoration",
+        "counter",
+        "nav_dots"
+      ],
+      "page_role": "closing",
       "page_variant_id": "donut",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "metrics"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "closing",
       "source_class": "slide-donut",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-donut\" id=\"slide-10\">",
+          "raw_value": "<section class=\"slide slide-donut\">",
           "selector_or_token": ".slide-donut"
         }
       ],
-      "source_slide_index": 9
+      "source_slide_index": 10
     }
   ],
   "pages": [
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page": 1,
       "page_role": "cover",
-      "page_variant_id": "welcome",
+      "page_variant_id": "title",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "e48ad6b1ee3fa247e1d690516f88fb480973ef437df2bde29a11baeaa78fd671",
+          "browser_preview_sha256": "e638915d48fb92f409689af7457a7844d6cd42f2560d96a283ebbf35363fbb94",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.svg",
-          "sha256": "1c2b09ebb1676040c47207632885035cceadaccaf693e57e09a0749ac25b18a2",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.svg",
+          "sha256": "4810eb4861ca9bc17de004cd5ea730a9ec31875d0048779db155c184c79bba99",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
+        "golden_spec_sha256": "5ab43a8ce7977fefeaf73bf986a84706a80d4deeff93cb97db7dc69c7ef52352",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "subtitle"
       ],
       "role_group": "cover",
-      "source_class": "slide-welcome",
+      "source_class": "slide-title",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-welcome\" id=\"slide-2\">",
-          "selector_or_token": ".slide-welcome"
+          "raw_value": "<section class=\"slide slide-title\">",
+          "selector_or_token": ".slide-title"
         }
       ],
       "source_screenshot": {
-        "bytes": 51936,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg",
+        "bytes": 99459,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "605959fa32d141b0a2cc3703af00777d2eb622c372764009ed8077726d054a83",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg"
+        "sha256": "65f6615ff2ec51a3d4a77573c2a53471b356724a58bd33dffdb55ed69ab2b73b",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png"
       },
       "source_slide_index": 1
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page": 2,
       "page_role": "agenda",
-      "page_variant_id": "weekly",
+      "page_variant_id": "welcome",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "b836333472ae10af73d3de9a87881536b3a599029fb1e5e207c7128bfdd4298f",
+          "browser_preview_sha256": "55137c19b177e2febcfa08ad25d7b48516074d4f751f8e7de7cb04ae0b1a8405",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.svg",
-          "sha256": "e1c38ad3af10c8a4ecc9904ea1398aa90be903bafbe6edb0fcca1d102aa3f0ea",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.svg",
+          "sha256": "2f191a3ce7e86c8dd0c062c404490d6497750d45bd35d34ed4b1afb2d2839547",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.welcome.canvas-spec.json",
+        "golden_spec_sha256": "ecf54655b6cf1b753fb5f404d47eef62af0465f849d0b5f3146d58b8faa7aabe",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.welcome.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
-        "timeline"
+        "items"
       ],
       "role_group": "agenda",
-      "source_class": "slide-weekly",
+      "source_class": "slide-welcome",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-weekly\" id=\"slide-3\">",
-          "selector_or_token": ".slide-weekly"
+          "raw_value": "<section class=\"slide slide-welcome\">",
+          "selector_or_token": ".slide-welcome"
         }
       ],
       "source_screenshot": {
-        "bytes": 76770,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/002-weekly.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-2.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/002-weekly.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "6400a2d5fb72bbe5162ab7a8cbf9354f0fdf8114e37aa6ea69dda06fd09dd131",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/002-weekly.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 2
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page": 3,
-      "page_role": "process_or_timeline",
-      "page_variant_id": "timeline",
+      "page_role": "content",
+      "page_variant_id": "weekly",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "4b3f28194aa48dee6ad6605465b8c4a96958766d24d887d0b5d53ca58706963c",
+          "browser_preview_sha256": "f1405873e47b466c5f339bcd4c7074926522a22835d2a693a6c497d86a0d439c",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.svg",
-          "sha256": "7275b8122d35fc34d1fed5a261623c8e6f97ffc23f4df016f7951e0d36efd0c2",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.svg",
+          "sha256": "54c56e4dd33d9cd9aa791550841498f5d27a93ea8b711d94a5f694c8dcd6f1c3",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.weekly.canvas-spec.json",
+        "golden_spec_sha256": "1782052fdac0fe8b22bb370ad5e2268fda0ac7f591f9efdd8e3b67a16f2d120f",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.weekly.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "items",
+        "items"
+      ],
+      "role_group": "content",
+      "source_class": "slide-weekly",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/daisy-days/template.html",
+          "raw_value": "<section class=\"slide slide-weekly\">",
+          "selector_or_token": ".slide-weekly"
+        }
+      ],
+      "source_screenshot": {
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-3.png",
+        "fallback_used": false,
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
+        "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+        "sha256": null,
+        "status": "missing",
+        "uri": null
+      },
+      "source_slide_index": 3
+    },
+    {
+      "optional_slots": [
+        "decoration",
+        "counter",
+        "nav_dots"
+      ],
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "timeline",
+      "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "9a9a3cf631ac1566b184c079c3d898e01fcfe4e78e4649cd81274749b682c4c2",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.svg",
+          "sha256": "56557226c0e17e5706b6d673b1a678d94dfe339582f05f6f01a046052a12cb08",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.timeline.canvas-spec.json",
+        "golden_spec_sha256": "fd94e85615c669ec0410e0545b8d1df2e69666895a4114d8d9165be33684a781",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.timeline.canvas-spec.json",
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
+      },
+      "render_status": "passed",
+      "required_slots": [
+        "title",
         "timeline"
       ],
       "role_group": "process_or_timeline",
@@ -582,422 +681,422 @@
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-timeline\" id=\"slide-4\">",
+          "raw_value": "<section class=\"slide slide-timeline\">",
           "selector_or_token": ".slide-timeline"
         }
       ],
       "source_screenshot": {
-        "bytes": 76710,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/003-timeline.jpg",
+        "bytes": 95834,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-4.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/003-timeline.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-4.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "5855e3d2da422467402bd9bfb580820aa4a35803708cfd55201e6ecd9c0ecd03",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/003-timeline.jpg"
+        "sha256": "7b42341596e3a835f5c859e8009e5caffa8953a8608e6257fae82a99e29743dd",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-4.png"
       },
-      "source_slide_index": 3
+      "source_slide_index": 4
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page": 4,
-      "page_role": "data_dashboard",
-      "page_variant_id": "chart_bar",
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "chart-bar",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "a6371ed1c0160df59cb625630a35c38c7154ff71dde6bd6388325ee00b445040",
+          "browser_preview_sha256": "8188a7b7ed67df234217b3b3e5447bb4f1d1f10b8a0a52c2be30c9ff94bc8417",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.svg",
-          "sha256": "f5f24114f0ef4c0f115a68f80da17adcd7c72baae39ecb7c0904d5b6b560c6fa",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.svg",
+          "sha256": "fb9e8023aeb286053f2910b33a774378e6024363d44ac31bd3ddbf8c5e00e7d5",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.chart-bar.canvas-spec.json",
+        "golden_spec_sha256": "afc52d20a6a67470804ed65df0add4d9d0e717e32cdaa7f5016064463d880567",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.chart-bar.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "metrics"
       ],
       "role_group": "data_or_structured",
       "source_class": "slide-chart-bar",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-chart-bar\" id=\"slide-5\">",
+          "raw_value": "<section class=\"slide slide-chart-bar\">",
           "selector_or_token": ".slide-chart-bar"
         }
       ],
       "source_screenshot": {
-        "bytes": 63157,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/004-chart-bar.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-5.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/004-chart-bar.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "8834ede51a140f99414e2bc8c6ccd8994fded03a50720806b73b01fbe7d19e37",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/004-chart-bar.jpg"
-      },
-      "source_slide_index": 4
-    },
-    {
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "page": 5,
-      "page_role": "detail",
-      "page_variant_id": "cards",
-      "render_evidence": {
-        "current_deck_render": {
-          "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.png",
-          "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "5f479ded0c236d0d24809a05bfc7f25a01bbbfe81bdd1e27ae8880425f5baee9",
-          "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.png",
-          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
-          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.svg",
-          "sha256": "2afc7ccf86fb1c8fb28ac1da1496a74702aef1d7b7530406147fa8fafb0afa47",
-          "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.svg"
-        },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_preview": {
-          "expected_from_golden_spec": null,
-          "path": null,
-          "sha256": null,
-          "status": "missing",
-          "uri": null
-        },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
-      },
-      "render_status": "missing_smoke",
-      "required_slots": [
-        "title",
-        "subtitle",
-        "items",
-        "quote"
-      ],
-      "role_group": "content",
-      "source_class": "slide-cards",
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-cards\" id=\"slide-6\">",
-          "selector_or_token": ".slide-cards"
-        }
-      ],
-      "source_screenshot": {
-        "bytes": 83119,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/005-cards.jpg",
-        "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/005-cards.jpg",
-        "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "eec49f48616337507635575301cc13e2efa735eb76127a87209f3ece56d6bc90",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/005-cards.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
       "source_slide_index": 5
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page": 6,
-      "page_role": "quote_or_emphasis",
-      "page_variant_id": "quote",
+      "page_role": "comparison",
+      "page_variant_id": "cards",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "f7baa7ddcdd6e0ef7e2055e76a874dc5f5f63101aebe0366a68235e1582c53d4",
+          "browser_preview_sha256": "e5193ee05d5de914a8bd427af256a1b5138aaf93fb5c521544fb22b2c3c6f289",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.svg",
-          "sha256": "628cc97c29fbaab262bb19ed665da25f0325209fa37593bbbd4b0c5328b92d35",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.svg",
+          "sha256": "0a7a80b049d494c1beb14c13ede7229d6840ead8ef463f579145cacf1d12cb29",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.cards.canvas-spec.json",
+        "golden_spec_sha256": "2ec8bcc8089cf0dc5b673f152e6a85d815a1352c1da1b3b0bba9a633a5236c64",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.cards.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
-        "subtitle",
-        "quote"
+        "title",
+        "items"
+      ],
+      "role_group": "comparison_or_split",
+      "source_class": "slide-cards",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/daisy-days/template.html",
+          "raw_value": "<section class=\"slide slide-cards\">",
+          "selector_or_token": ".slide-cards"
+        }
+      ],
+      "source_screenshot": {
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-6.png",
+        "fallback_used": false,
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
+        "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+        "sha256": null,
+        "status": "missing",
+        "uri": null
+      },
+      "source_slide_index": 6
+    },
+    {
+      "optional_slots": [
+        "decoration",
+        "counter",
+        "nav_dots"
+      ],
+      "page": 7,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "ed4dc6ef4ea61fb49eda71daebc24a26a998ada21d22e0b5c4bd7b98bebe1ed5",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.svg",
+          "sha256": "6a6bd972ec2dc4bb7980bb0c21dd5040a66cffa0e2764969b3d8c74f1ce010cb",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.quote.canvas-spec.json",
+        "golden_spec_sha256": "41cfd9e4e7276fc1dd2d5651681249ad1f2bf036419e06c787664a476d186219",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.quote.canvas-spec.json",
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
+      },
+      "render_status": "passed",
+      "required_slots": [
+        "quote",
+        "author"
       ],
       "role_group": "quote_or_emphasis",
       "source_class": "slide-quote",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-quote\" id=\"slide-7\">",
+          "raw_value": "<section class=\"slide slide-quote\">",
           "selector_or_token": ".slide-quote"
         }
       ],
       "source_screenshot": {
-        "bytes": 65979,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/006-quote.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-7.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/006-quote.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "709ee51bc3589b2018b62ceb1e1b70f940a535faef01e97ab75118dd81bb7eb0",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/006-quote.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
-      "source_slide_index": 6
+      "source_slide_index": 7
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
-      "page": 7,
+      "page": 8,
       "page_role": "detail",
       "page_variant_id": "team",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "91cafe70584cdf61a3d5834e93e78c75d0b656ce615bf607e706bed1c0d5c9de",
+          "browser_preview_sha256": "8a10929f88183ce51d17d8e524d5ea15732a5973a0c15f3ec6f4e7f780de9120",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.svg",
-          "sha256": "faefd7295f360126ebbc2e49735071b30efa761c20ea85ea8b9e0df6942ac47e",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.svg",
+          "sha256": "40caf0c1ee1c042f9d19a5cafbb6a4f914e151161d1e799833929290438cab01",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.team.canvas-spec.json",
+        "golden_spec_sha256": "269fe8c75f3f9f4cc89857a87f4006e4a3368c5baf866cf11cd0d42cf3b60769",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.team.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle"
+        "items"
       ],
       "role_group": "content",
       "source_class": "slide-team",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-team\" id=\"slide-8\">",
+          "raw_value": "<section class=\"slide slide-team\">",
           "selector_or_token": ".slide-team"
         }
       ],
       "source_screenshot": {
-        "bytes": 49916,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/007-team.jpg",
+        "bytes": 69413,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-8.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/007-team.jpg",
+        "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-8.png",
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "b49c110d609930d39c03b6ef5def538dc0399f2aeac95688e40957b88cc5ea5c",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/007-team.jpg"
-      },
-      "source_slide_index": 7
-    },
-    {
-      "optional_slots": [
-        "eyebrow",
-        "decoration"
-      ],
-      "page": 8,
-      "page_role": "content",
-      "page_variant_id": "process",
-      "render_evidence": {
-        "current_deck_render": {
-          "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.png",
-          "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "05b9ee563ac31a40ae1bebc481d894f16fb72f0092fd82445aba2f598cdaff5d",
-          "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.png",
-          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
-          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.svg",
-          "sha256": "99a06baeff4c11a3de4c28a1404971409e0c1e69e5627639160b9d5611f43fd2",
-          "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.svg"
-        },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
-        "render_preview": {
-          "expected_from_golden_spec": null,
-          "path": null,
-          "sha256": null,
-          "status": "missing",
-          "uri": null
-        },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
-      },
-      "render_status": "missing_smoke",
-      "required_slots": [
-        "title",
-        "subtitle"
-      ],
-      "role_group": "content",
-      "source_class": "slide-process",
-      "source_refs": [
-        {
-          "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-process\" id=\"slide-9\">",
-          "selector_or_token": ".slide-process"
-        }
-      ],
-      "source_screenshot": {
-        "bytes": 57069,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/008-process.jpg",
-        "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/008-process.jpg",
-        "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "8c2d0a3a944eaa4562ef7a56f25f3f769d395051e215e3a1b101b1cbfc7c14c1",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/008-process.jpg"
+        "sha256": "b42224ecf6da8fa3c1a4e021a2c3092cef8f856c2a0ca00b4fbe95d2e52bbbd1",
+        "status": "exact",
+        "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-8.png"
       },
       "source_slide_index": 8
     },
     {
       "optional_slots": [
-        "eyebrow",
-        "decoration"
+        "decoration",
+        "counter",
+        "nav_dots"
       ],
       "page": 9,
-      "page_role": "data_dashboard",
-      "page_variant_id": "donut",
+      "page_role": "process",
+      "page_variant_id": "process",
       "render_evidence": {
         "current_deck_render": {
           "artifact_kind": "beautiful_current_svglide_deck_render_page",
-          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.png",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.png",
           "browser_preview_kind": "resvg_png",
-          "browser_preview_sha256": "c6e2b4a23864b7d5d7065da00065c2c1d046a740d93c0560a1278c1e44957d34",
+          "browser_preview_sha256": "91c7a89e52e9ba116151fe38d26ec5e92c58bab79f3497ecea25a33f2ffa6407",
           "browser_preview_status": "available",
-          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.png",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.png",
           "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-          "degraded": true,
-          "degraded_reason": "single dedicated sample renderer reused for source page variants",
+          "degraded": false,
+          "degraded_reason": null,
           "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-          "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.svg",
-          "sha256": "a028bc9b05d11c530eafaf1887ab8a0cfe8e12bb5ab14982032d7d442ff3ce00",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.svg",
+          "sha256": "c89a2502de4ef0e572deeca67247280d8de7e70a2d865cc3ce3ee9ea54cfaf23",
           "status": "available",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.svg"
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.svg"
         },
-        "golden_spec": null,
-        "golden_spec_sha256": null,
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.process.canvas-spec.json",
+        "golden_spec_sha256": "98f582e954eedd653553ddce336b4ad484bbe2f2c68f207a105870720fb2a58b",
         "render_preview": {
-          "expected_from_golden_spec": null,
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.process.canvas-spec.json",
           "path": null,
           "sha256": null,
           "status": "missing",
           "uri": null
         },
-        "render_status": "missing_smoke",
-        "smoke_receipt": null,
-        "smoke_receipt_sha256": null
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
       },
-      "render_status": "missing_smoke",
+      "render_status": "passed",
       "required_slots": [
         "title",
-        "subtitle",
-        "items"
+        "timeline"
       ],
-      "role_group": "data_or_structured",
+      "role_group": "process_or_timeline",
+      "source_class": "slide-process",
+      "source_refs": [
+        {
+          "path": "beautiful-html-templates/templates/daisy-days/template.html",
+          "raw_value": "<section class=\"slide slide-process\">",
+          "selector_or_token": ".slide-process"
+        }
+      ],
+      "source_screenshot": {
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-9.png",
+        "fallback_used": false,
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
+        "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+        "sha256": null,
+        "status": "missing",
+        "uri": null
+      },
+      "source_slide_index": 9
+    },
+    {
+      "optional_slots": [
+        "decoration",
+        "counter",
+        "nav_dots"
+      ],
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "donut",
+      "render_evidence": {
+        "current_deck_render": {
+          "artifact_kind": "beautiful_current_svglide_deck_render_page",
+          "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.png",
+          "browser_preview_kind": "resvg_png",
+          "browser_preview_sha256": "255dc4b1d42a6f8093ffdfa8ae6552b603ac44631d6ad292d56aee40cbb60cc6",
+          "browser_preview_status": "available",
+          "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.png",
+          "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+          "degraded": false,
+          "degraded_reason": null,
+          "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
+          "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+          "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.svg",
+          "sha256": "c048e9e168d20f7c3c2f6e14847bd07f602ece319b6f4559a565972ce99acc64",
+          "status": "available",
+          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.svg"
+        },
+        "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.donut.canvas-spec.json",
+        "golden_spec_sha256": "cf112cc2a4fbb46e67ee27d9ff7c1e13094bcb8854f0681d202444f1fef4d063",
+        "render_preview": {
+          "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.donut.canvas-spec.json",
+          "path": null,
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "render_status": "passed",
+        "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+        "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
+      },
+      "render_status": "passed",
+      "required_slots": [
+        "title",
+        "metrics"
+      ],
+      "role_group": "closing",
       "source_class": "slide-donut",
       "source_refs": [
         {
           "path": "beautiful-html-templates/templates/daisy-days/template.html",
-          "raw_value": "<section class=\"slide slide-donut\" id=\"slide-10\">",
+          "raw_value": "<section class=\"slide slide-donut\">",
           "selector_or_token": ".slide-donut"
         }
       ],
       "source_screenshot": {
-        "bytes": 55120,
-        "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/009-donut.jpg",
+        "bytes": null,
+        "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-10.png",
         "fallback_used": false,
-        "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/009-donut.jpg",
+        "missing_reason": "source_screenshot_missing_for_slide",
+        "path": null,
         "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-        "sha256": "a64c4e4fa7dec310a028de1d441db519962042025817a975fcc4dcef641d634f",
-        "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-        "status": "generated_from_template_html",
-        "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/009-donut.jpg"
+        "sha256": null,
+        "status": "missing",
+        "uri": null
       },
-      "source_slide_index": 9
+      "source_slide_index": 10
     }
   ],
   "promotion_action": "no_change_until_human_pass",
@@ -1010,62 +1109,188 @@
   "runtime_template_id": "daisy-workshop-playbook",
   "smoke": {
     "artifact_kind": "page-family-smoke",
-    "covered_implemented_page_variants": [],
-    "deck_path": null,
-    "deck_sha256": null,
-    "degraded": null,
-    "implemented_page_variants": [],
-    "input_hashes": {},
+    "covered_implemented_page_variants": [
+      "title",
+      "welcome",
+      "weekly",
+      "timeline",
+      "chart-bar",
+      "cards",
+      "quote",
+      "team",
+      "process",
+      "donut"
+    ],
+    "deck_path": "skills/lark-slides/references/page-family-smoke-decks/daisy-days.json",
+    "deck_sha256": "704a8adaf86e9a54414152b641b47c952f18eefde0ef316ab1a64ea01ee863ad",
+    "degraded": false,
+    "implemented_page_variants": [
+      "title",
+      "welcome",
+      "weekly",
+      "timeline",
+      "chart-bar",
+      "cards",
+      "quote",
+      "team",
+      "process",
+      "donut"
+    ],
+    "input_hashes": {
+      "generator_receipt": null,
+      "golden_spec.cards": "2ec8bcc8089cf0dc5b673f152e6a85d815a1352c1da1b3b0bba9a633a5236c64",
+      "golden_spec.chart-bar": "afc52d20a6a67470804ed65df0add4d9d0e717e32cdaa7f5016064463d880567",
+      "golden_spec.donut": "cf112cc2a4fbb46e67ee27d9ff7c1e13094bcb8854f0681d202444f1fef4d063",
+      "golden_spec.process": "98f582e954eedd653553ddce336b4ad484bbe2f2c68f207a105870720fb2a58b",
+      "golden_spec.quote": "41cfd9e4e7276fc1dd2d5651681249ad1f2bf036419e06c787664a476d186219",
+      "golden_spec.team": "269fe8c75f3f9f4cc89857a87f4006e4a3368c5baf866cf11cd0d42cf3b60769",
+      "golden_spec.timeline": "fd94e85615c669ec0410e0545b8d1df2e69666895a4114d8d9165be33684a781",
+      "golden_spec.title": "5ab43a8ce7977fefeaf73bf986a84706a80d4deeff93cb97db7dc69c7ef52352",
+      "golden_spec.weekly": "1782052fdac0fe8b22bb370ad5e2268fda0ac7f591f9efdd8e3b67a16f2d120f",
+      "golden_spec.welcome": "ecf54655b6cf1b753fb5f404d47eef62af0465f849d0b5f3146d58b8faa7aabe",
+      "slide_plan": "19fe2f1521a14fb880037c49e8dc7539e29a4df69f8b96eaec59b3d7cdd03af6",
+      "smoke_deck": "704a8adaf86e9a54414152b641b47c952f18eefde0ef316ab1a64ea01ee863ad",
+      "smoke_fixture": "4bbe92619b35c7c1f66fa2876bfd62fdd5006021ee8414bacdb2370791317ec5",
+      "template_registry": "e272fd0e5aab05d9cbaea74f91aa33251e680ddd9bbfc14c077b6fdba0745738",
+      "theme_registry": "17e5f7a2fbb64f8cf6a7f2e32dc355dfd1d320c8545d8cf3b504da02089d8bdb"
+    },
     "missing_implemented_page_variants": [],
     "missing_required_roles": [],
-    "page_variant_coverage": {},
-    "receipt_path": null,
-    "receipt_sha256": null,
-    "rendered_pages": null,
-    "status": "missing"
+    "page_variant_coverage": {
+      "agenda": {
+        "covered": true,
+        "pages": [
+          2
+        ],
+        "variants": [
+          "welcome"
+        ]
+      },
+      "closing": {
+        "covered": true,
+        "pages": [
+          10
+        ],
+        "variants": [
+          "donut"
+        ]
+      },
+      "comparison": {
+        "covered": true,
+        "pages": [
+          6
+        ],
+        "variants": [
+          "cards"
+        ]
+      },
+      "content": {
+        "covered": true,
+        "pages": [
+          3
+        ],
+        "variants": [
+          "weekly"
+        ]
+      },
+      "cover": {
+        "covered": true,
+        "pages": [
+          1
+        ],
+        "variants": [
+          "title"
+        ]
+      },
+      "data": {
+        "covered": true,
+        "pages": [
+          5
+        ],
+        "variants": [
+          "chart-bar"
+        ]
+      },
+      "detail": {
+        "covered": true,
+        "pages": [
+          8
+        ],
+        "variants": [
+          "team"
+        ]
+      },
+      "process": {
+        "covered": true,
+        "pages": [
+          4,
+          9
+        ],
+        "variants": [
+          "process",
+          "timeline"
+        ]
+      },
+      "quote": {
+        "covered": true,
+        "pages": [
+          7
+        ],
+        "variants": [
+          "quote"
+        ]
+      }
+    },
+    "receipt_path": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+    "receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96",
+    "rendered_pages": 10,
+    "status": "passed"
   },
   "smoke_deck": {
     "artifact_kind": "smoke_deck_review_data",
     "claim_boundary": "source-derived review deck; only passed smoke/fidelity/review receipt can promote a family",
-    "missing_roles": [
-      "comparison_or_split",
-      "closing"
-    ],
-    "page_count": 9,
+    "missing_roles": [],
+    "page_count": 10,
     "page_variant_coverage": {
       "agenda": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "weekly"
+          "welcome"
         ],
         "pages": [
           2
         ]
       },
       "closing": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "donut"
+        ],
+        "pages": [
+          10
+        ]
       },
       "comparison_or_split": {
-        "covered": false,
-        "missing_reason": "source_page_variant_not_extracted_for_role",
-        "page_variant_ids": [],
-        "pages": []
+        "covered": true,
+        "missing_reason": null,
+        "page_variant_ids": [
+          "cards"
+        ],
+        "pages": [
+          6
+        ]
       },
       "content": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "cards",
-          "team",
-          "process"
+          "weekly",
+          "team"
         ],
         "pages": [
-          5,
-          7,
+          3,
           8
         ]
       },
@@ -1073,7 +1298,7 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "welcome"
+          "title"
         ],
         "pages": [
           1
@@ -1083,22 +1308,22 @@
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "chart_bar",
-          "donut"
+          "chart-bar"
         ],
         "pages": [
-          4,
-          9
+          5
         ]
       },
       "process_or_timeline": {
         "covered": true,
         "missing_reason": null,
         "page_variant_ids": [
-          "timeline"
+          "timeline",
+          "process"
         ],
         "pages": [
-          3
+          4,
+          9
         ]
       },
       "quote_or_emphasis": {
@@ -1108,190 +1333,254 @@
           "quote"
         ],
         "pages": [
-          6
+          7
         ]
       }
     },
     "pages": [
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
         "page": 1,
         "page_role": "cover",
-        "page_variant_id": "welcome",
+        "page_variant_id": "title",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "e48ad6b1ee3fa247e1d690516f88fb480973ef437df2bde29a11baeaa78fd671",
+            "browser_preview_sha256": "e638915d48fb92f409689af7457a7844d6cd42f2560d96a283ebbf35363fbb94",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.svg",
-            "sha256": "1c2b09ebb1676040c47207632885035cceadaccaf693e57e09a0749ac25b18a2",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.svg",
+            "sha256": "4810eb4861ca9bc17de004cd5ea730a9ec31875d0048779db155c184c79bba99",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-welcome.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-001-title.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
+          "golden_spec_sha256": "5ab43a8ce7977fefeaf73bf986a84706a80d4deeff93cb97db7dc69c7ef52352",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.title.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "items"
+          "subtitle"
         ],
         "role_group": "cover",
-        "source_class": "slide-welcome",
+        "source_class": "slide-title",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-welcome\" id=\"slide-2\">",
-            "selector_or_token": ".slide-welcome"
+            "raw_value": "<section class=\"slide slide-title\">",
+            "selector_or_token": ".slide-title"
           }
         ],
         "source_screenshot": {
-          "bytes": 51936,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg",
+          "bytes": 99459,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "605959fa32d141b0a2cc3703af00777d2eb622c372764009ed8077726d054a83",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/001-welcome.jpg"
+          "sha256": "65f6615ff2ec51a3d4a77573c2a53471b356724a58bd33dffdb55ed69ab2b73b",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png"
         },
         "source_slide_index": 1
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
         "page": 2,
         "page_role": "agenda",
-        "page_variant_id": "weekly",
+        "page_variant_id": "welcome",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "b836333472ae10af73d3de9a87881536b3a599029fb1e5e207c7128bfdd4298f",
+            "browser_preview_sha256": "55137c19b177e2febcfa08ad25d7b48516074d4f751f8e7de7cb04ae0b1a8405",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.svg",
-            "sha256": "e1c38ad3af10c8a4ecc9904ea1398aa90be903bafbe6edb0fcca1d102aa3f0ea",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.svg",
+            "sha256": "2f191a3ce7e86c8dd0c062c404490d6497750d45bd35d34ed4b1afb2d2839547",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-weekly.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-002-welcome.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.welcome.canvas-spec.json",
+          "golden_spec_sha256": "ecf54655b6cf1b753fb5f404d47eef62af0465f849d0b5f3146d58b8faa7aabe",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.welcome.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "items",
-          "timeline"
+          "items"
         ],
         "role_group": "agenda",
-        "source_class": "slide-weekly",
+        "source_class": "slide-welcome",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-weekly\" id=\"slide-3\">",
-            "selector_or_token": ".slide-weekly"
+            "raw_value": "<section class=\"slide slide-welcome\">",
+            "selector_or_token": ".slide-welcome"
           }
         ],
         "source_screenshot": {
-          "bytes": 76770,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/002-weekly.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-2.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/002-weekly.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "6400a2d5fb72bbe5162ab7a8cbf9354f0fdf8114e37aa6ea69dda06fd09dd131",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/002-weekly.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 2
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
         "page": 3,
-        "page_role": "process_or_timeline",
-        "page_variant_id": "timeline",
+        "page_role": "content",
+        "page_variant_id": "weekly",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "4b3f28194aa48dee6ad6605465b8c4a96958766d24d887d0b5d53ca58706963c",
+            "browser_preview_sha256": "f1405873e47b466c5f339bcd4c7074926522a22835d2a693a6c497d86a0d439c",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.svg",
-            "sha256": "7275b8122d35fc34d1fed5a261623c8e6f97ffc23f4df016f7951e0d36efd0c2",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.svg",
+            "sha256": "54c56e4dd33d9cd9aa791550841498f5d27a93ea8b711d94a5f694c8dcd6f1c3",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-timeline.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-003-weekly.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.weekly.canvas-spec.json",
+          "golden_spec_sha256": "1782052fdac0fe8b22bb370ad5e2268fda0ac7f591f9efdd8e3b67a16f2d120f",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.weekly.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "items",
+          "items"
+        ],
+        "role_group": "content",
+        "source_class": "slide-weekly",
+        "source_refs": [
+          {
+            "path": "beautiful-html-templates/templates/daisy-days/template.html",
+            "raw_value": "<section class=\"slide slide-weekly\">",
+            "selector_or_token": ".slide-weekly"
+          }
+        ],
+        "source_screenshot": {
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-3.png",
+          "fallback_used": false,
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
+          "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "source_slide_index": 3
+      },
+      {
+        "optional_slots": [
+          "decoration",
+          "counter",
+          "nav_dots"
+        ],
+        "page": 4,
+        "page_role": "process",
+        "page_variant_id": "timeline",
+        "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "9a9a3cf631ac1566b184c079c3d898e01fcfe4e78e4649cd81274749b682c4c2",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.svg",
+            "sha256": "56557226c0e17e5706b6d673b1a678d94dfe339582f05f6f01a046052a12cb08",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-timeline.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.timeline.canvas-spec.json",
+          "golden_spec_sha256": "fd94e85615c669ec0410e0545b8d1df2e69666895a4114d8d9165be33684a781",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.timeline.canvas-spec.json",
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
+        },
+        "render_status": "passed",
+        "required_slots": [
+          "title",
           "timeline"
         ],
         "role_group": "process_or_timeline",
@@ -1299,430 +1588,430 @@
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-timeline\" id=\"slide-4\">",
+            "raw_value": "<section class=\"slide slide-timeline\">",
             "selector_or_token": ".slide-timeline"
           }
         ],
         "source_screenshot": {
-          "bytes": 76710,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/003-timeline.jpg",
+          "bytes": 95834,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-4.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/003-timeline.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-4.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "5855e3d2da422467402bd9bfb580820aa4a35803708cfd55201e6ecd9c0ecd03",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/003-timeline.jpg"
+          "sha256": "7b42341596e3a835f5c859e8009e5caffa8953a8608e6257fae82a99e29743dd",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-4.png"
         },
-        "source_slide_index": 3
+        "source_slide_index": 4
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
-        "page": 4,
-        "page_role": "data_dashboard",
-        "page_variant_id": "chart_bar",
+        "page": 5,
+        "page_role": "data",
+        "page_variant_id": "chart-bar",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "a6371ed1c0160df59cb625630a35c38c7154ff71dde6bd6388325ee00b445040",
+            "browser_preview_sha256": "8188a7b7ed67df234217b3b3e5447bb4f1d1f10b8a0a52c2be30c9ff94bc8417",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.svg",
-            "sha256": "f5f24114f0ef4c0f115a68f80da17adcd7c72baae39ecb7c0904d5b6b560c6fa",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.svg",
+            "sha256": "fb9e8023aeb286053f2910b33a774378e6024363d44ac31bd3ddbf8c5e00e7d5",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-004-chart-bar.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-chart-bar.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.chart-bar.canvas-spec.json",
+          "golden_spec_sha256": "afc52d20a6a67470804ed65df0add4d9d0e717e32cdaa7f5016064463d880567",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.chart-bar.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "items"
+          "metrics"
         ],
         "role_group": "data_or_structured",
         "source_class": "slide-chart-bar",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-chart-bar\" id=\"slide-5\">",
+            "raw_value": "<section class=\"slide slide-chart-bar\">",
             "selector_or_token": ".slide-chart-bar"
           }
         ],
         "source_screenshot": {
-          "bytes": 63157,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/004-chart-bar.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-5.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/004-chart-bar.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "8834ede51a140f99414e2bc8c6ccd8994fded03a50720806b73b01fbe7d19e37",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/004-chart-bar.jpg"
-        },
-        "source_slide_index": 4
-      },
-      {
-        "optional_slots": [
-          "eyebrow",
-          "decoration"
-        ],
-        "page": 5,
-        "page_role": "detail",
-        "page_variant_id": "cards",
-        "render_evidence": {
-          "current_deck_render": {
-            "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.png",
-            "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "5f479ded0c236d0d24809a05bfc7f25a01bbbfe81bdd1e27ae8880425f5baee9",
-            "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.png",
-            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
-            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.svg",
-            "sha256": "2afc7ccf86fb1c8fb28ac1da1496a74702aef1d7b7530406147fa8fafb0afa47",
-            "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-005-cards.svg"
-          },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_preview": {
-            "expected_from_golden_spec": null,
-            "path": null,
-            "sha256": null,
-            "status": "missing",
-            "uri": null
-          },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
-        },
-        "render_status": "missing_smoke",
-        "required_slots": [
-          "title",
-          "subtitle",
-          "items",
-          "quote"
-        ],
-        "role_group": "content",
-        "source_class": "slide-cards",
-        "source_refs": [
-          {
-            "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-cards\" id=\"slide-6\">",
-            "selector_or_token": ".slide-cards"
-          }
-        ],
-        "source_screenshot": {
-          "bytes": 83119,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/005-cards.jpg",
-          "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/005-cards.jpg",
-          "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "eec49f48616337507635575301cc13e2efa735eb76127a87209f3ece56d6bc90",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/005-cards.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
         "source_slide_index": 5
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
         "page": 6,
-        "page_role": "quote_or_emphasis",
-        "page_variant_id": "quote",
+        "page_role": "comparison",
+        "page_variant_id": "cards",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "f7baa7ddcdd6e0ef7e2055e76a874dc5f5f63101aebe0366a68235e1582c53d4",
+            "browser_preview_sha256": "e5193ee05d5de914a8bd427af256a1b5138aaf93fb5c521544fb22b2c3c6f289",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.svg",
-            "sha256": "628cc97c29fbaab262bb19ed665da25f0325209fa37593bbbd4b0c5328b92d35",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.svg",
+            "sha256": "0a7a80b049d494c1beb14c13ede7229d6840ead8ef463f579145cacf1d12cb29",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-quote.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-006-cards.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.cards.canvas-spec.json",
+          "golden_spec_sha256": "2ec8bcc8089cf0dc5b673f152e6a85d815a1352c1da1b3b0bba9a633a5236c64",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.cards.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
-          "subtitle",
-          "quote"
+          "title",
+          "items"
+        ],
+        "role_group": "comparison_or_split",
+        "source_class": "slide-cards",
+        "source_refs": [
+          {
+            "path": "beautiful-html-templates/templates/daisy-days/template.html",
+            "raw_value": "<section class=\"slide slide-cards\">",
+            "selector_or_token": ".slide-cards"
+          }
+        ],
+        "source_screenshot": {
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-6.png",
+          "fallback_used": false,
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
+          "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "source_slide_index": 6
+      },
+      {
+        "optional_slots": [
+          "decoration",
+          "counter",
+          "nav_dots"
+        ],
+        "page": 7,
+        "page_role": "quote",
+        "page_variant_id": "quote",
+        "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "ed4dc6ef4ea61fb49eda71daebc24a26a998ada21d22e0b5c4bd7b98bebe1ed5",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.svg",
+            "sha256": "6a6bd972ec2dc4bb7980bb0c21dd5040a66cffa0e2764969b3d8c74f1ce010cb",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-quote.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.quote.canvas-spec.json",
+          "golden_spec_sha256": "41cfd9e4e7276fc1dd2d5651681249ad1f2bf036419e06c787664a476d186219",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.quote.canvas-spec.json",
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
+        },
+        "render_status": "passed",
+        "required_slots": [
+          "quote",
+          "author"
         ],
         "role_group": "quote_or_emphasis",
         "source_class": "slide-quote",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-quote\" id=\"slide-7\">",
+            "raw_value": "<section class=\"slide slide-quote\">",
             "selector_or_token": ".slide-quote"
           }
         ],
         "source_screenshot": {
-          "bytes": 65979,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/006-quote.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-7.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/006-quote.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "709ee51bc3589b2018b62ceb1e1b70f940a535faef01e97ab75118dd81bb7eb0",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/006-quote.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
-        "source_slide_index": 6
+        "source_slide_index": 7
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
-        "page": 7,
+        "page": 8,
         "page_role": "detail",
         "page_variant_id": "team",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "91cafe70584cdf61a3d5834e93e78c75d0b656ce615bf607e706bed1c0d5c9de",
+            "browser_preview_sha256": "8a10929f88183ce51d17d8e524d5ea15732a5973a0c15f3ec6f4e7f780de9120",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.svg",
-            "sha256": "faefd7295f360126ebbc2e49735071b30efa761c20ea85ea8b9e0df6942ac47e",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.svg",
+            "sha256": "40caf0c1ee1c042f9d19a5cafbb6a4f914e151161d1e799833929290438cab01",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-007-team.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-team.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.team.canvas-spec.json",
+          "golden_spec_sha256": "269fe8c75f3f9f4cc89857a87f4006e4a3368c5baf866cf11cd0d42cf3b60769",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.team.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle"
+          "items"
         ],
         "role_group": "content",
         "source_class": "slide-team",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-team\" id=\"slide-8\">",
+            "raw_value": "<section class=\"slide slide-team\">",
             "selector_or_token": ".slide-team"
           }
         ],
         "source_screenshot": {
-          "bytes": 49916,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/007-team.jpg",
+          "bytes": 69413,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-8.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/007-team.jpg",
+          "path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-8.png",
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "b49c110d609930d39c03b6ef5def538dc0399f2aeac95688e40957b88cc5ea5c",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/007-team.jpg"
-        },
-        "source_slide_index": 7
-      },
-      {
-        "optional_slots": [
-          "eyebrow",
-          "decoration"
-        ],
-        "page": 8,
-        "page_role": "content",
-        "page_variant_id": "process",
-        "render_evidence": {
-          "current_deck_render": {
-            "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.png",
-            "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "05b9ee563ac31a40ae1bebc481d894f16fb72f0092fd82445aba2f598cdaff5d",
-            "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.png",
-            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
-            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.svg",
-            "sha256": "99a06baeff4c11a3de4c28a1404971409e0c1e69e5627639160b9d5611f43fd2",
-            "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-008-process.svg"
-          },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
-          "render_preview": {
-            "expected_from_golden_spec": null,
-            "path": null,
-            "sha256": null,
-            "status": "missing",
-            "uri": null
-          },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
-        },
-        "render_status": "missing_smoke",
-        "required_slots": [
-          "title",
-          "subtitle"
-        ],
-        "role_group": "content",
-        "source_class": "slide-process",
-        "source_refs": [
-          {
-            "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-process\" id=\"slide-9\">",
-            "selector_or_token": ".slide-process"
-          }
-        ],
-        "source_screenshot": {
-          "bytes": 57069,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/008-process.jpg",
-          "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/008-process.jpg",
-          "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "8c2d0a3a944eaa4562ef7a56f25f3f769d395051e215e3a1b101b1cbfc7c14c1",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/008-process.jpg"
+          "sha256": "b42224ecf6da8fa3c1a4e021a2c3092cef8f856c2a0ca00b4fbe95d2e52bbbd1",
+          "status": "exact",
+          "uri": "file:///Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-8.png"
         },
         "source_slide_index": 8
       },
       {
         "optional_slots": [
-          "eyebrow",
-          "decoration"
+          "decoration",
+          "counter",
+          "nav_dots"
         ],
         "page": 9,
-        "page_role": "data_dashboard",
-        "page_variant_id": "donut",
+        "page_role": "process",
+        "page_variant_id": "process",
         "render_evidence": {
           "current_deck_render": {
             "artifact_kind": "beautiful_current_svglide_deck_render_page",
-            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.png",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.png",
             "browser_preview_kind": "resvg_png",
-            "browser_preview_sha256": "c6e2b4a23864b7d5d7065da00065c2c1d046a740d93c0560a1278c1e44957d34",
+            "browser_preview_sha256": "91c7a89e52e9ba116151fe38d26ec5e92c58bab79f3497ecea25a33f2ffa6407",
             "browser_preview_status": "available",
-            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.png",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.png",
             "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
-            "degraded": true,
-            "degraded_reason": "single dedicated sample renderer reused for source page variants",
+            "degraded": false,
+            "degraded_reason": null,
             "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
-            "manifest_sha256": "09d9f60bd6d98cc59d8df326c31b3cb3e95f8264cf75537c20851aef3e98c9f1",
-            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.svg",
-            "sha256": "a028bc9b05d11c530eafaf1887ab8a0cfe8e12bb5ab14982032d7d442ff3ce00",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.svg",
+            "sha256": "c89a2502de4ef0e572deeca67247280d8de7e70a2d865cc3ce3ee9ea54cfaf23",
             "status": "available",
-            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-donut.svg"
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-009-process.svg"
           },
-          "golden_spec": null,
-          "golden_spec_sha256": null,
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.process.canvas-spec.json",
+          "golden_spec_sha256": "98f582e954eedd653553ddce336b4ad484bbe2f2c68f207a105870720fb2a58b",
           "render_preview": {
-            "expected_from_golden_spec": null,
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.process.canvas-spec.json",
             "path": null,
             "sha256": null,
             "status": "missing",
             "uri": null
           },
-          "render_status": "missing_smoke",
-          "smoke_receipt": null,
-          "smoke_receipt_sha256": null
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
         },
-        "render_status": "missing_smoke",
+        "render_status": "passed",
         "required_slots": [
           "title",
-          "subtitle",
-          "items"
+          "timeline"
         ],
-        "role_group": "data_or_structured",
+        "role_group": "process_or_timeline",
+        "source_class": "slide-process",
+        "source_refs": [
+          {
+            "path": "beautiful-html-templates/templates/daisy-days/template.html",
+            "raw_value": "<section class=\"slide slide-process\">",
+            "selector_or_token": ".slide-process"
+          }
+        ],
+        "source_screenshot": {
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-9.png",
+          "fallback_used": false,
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
+          "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
+          "sha256": null,
+          "status": "missing",
+          "uri": null
+        },
+        "source_slide_index": 9
+      },
+      {
+        "optional_slots": [
+          "decoration",
+          "counter",
+          "nav_dots"
+        ],
+        "page": 10,
+        "page_role": "closing",
+        "page_variant_id": "donut",
+        "render_evidence": {
+          "current_deck_render": {
+            "artifact_kind": "beautiful_current_svglide_deck_render_page",
+            "browser_preview": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.png",
+            "browser_preview_kind": "resvg_png",
+            "browser_preview_sha256": "255dc4b1d42a6f8093ffdfa8ae6552b603ac44631d6ad292d56aee40cbb60cc6",
+            "browser_preview_status": "available",
+            "browser_preview_uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.png",
+            "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+            "degraded": false,
+            "degraded_reason": null,
+            "manifest": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/manifest.json",
+            "manifest_sha256": "4f86769ce70519a99432cdd321cd77d0643919dcee6a727fe44c3dedb54cfd25",
+            "path": "skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.svg",
+            "sha256": "c048e9e168d20f7c3c2f6e14847bd07f602ece319b6f4559a565972ce99acc64",
+            "status": "available",
+            "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/current-svglide-decks/daisy-days/page-010-donut.svg"
+          },
+          "golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.donut.canvas-spec.json",
+          "golden_spec_sha256": "cf112cc2a4fbb46e67ee27d9ff7c1e13094bcb8854f0681d202444f1fef4d063",
+          "render_preview": {
+            "expected_from_golden_spec": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/daisy-days.donut.canvas-spec.json",
+            "path": null,
+            "sha256": null,
+            "status": "missing",
+            "uri": null
+          },
+          "render_status": "passed",
+          "smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/daisy-days.daisy-workshop-playbook.json",
+          "smoke_receipt_sha256": "3d331508e46d290cb6dd2b5af1114d956e18a547e4ca54770cf706a7d717aa96"
+        },
+        "render_status": "passed",
+        "required_slots": [
+          "title",
+          "metrics"
+        ],
+        "role_group": "closing",
         "source_class": "slide-donut",
         "source_refs": [
           {
             "path": "beautiful-html-templates/templates/daisy-days/template.html",
-            "raw_value": "<section class=\"slide slide-donut\" id=\"slide-10\">",
+            "raw_value": "<section class=\"slide slide-donut\">",
             "selector_or_token": ".slide-donut"
           }
         ],
         "source_screenshot": {
-          "bytes": 55120,
-          "expected_path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/009-donut.jpg",
+          "bytes": null,
+          "expected_path": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-10.png",
           "fallback_used": false,
-          "path": "skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/009-donut.jpg",
+          "missing_reason": "source_screenshot_missing_for_slide",
+          "path": null,
           "reference_screenshot": "/Users/bytedance/bd-projects/beautiful-html-templates/screenshots/daisy-days-1.png",
-          "sha256": "a64c4e4fa7dec310a028de1d441db519962042025817a975fcc4dcef641d634f",
-          "source_template_html": "/Users/bytedance/bd-projects/beautiful-html-templates/templates/daisy-days/template.html",
-          "status": "generated_from_template_html",
-          "uri": "file:///Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/production-review/beautiful/source-page-screenshots/daisy-days/009-donut.jpg"
+          "sha256": null,
+          "status": "missing",
+          "uri": null
         },
-        "source_slide_index": 9
+        "source_slide_index": 10
       }
     ],
     "source": "visual_contract.page_variants",
-    "source_page_count": 9,
-    "status": "missing"
+    "source_page_count": 10,
+    "status": "passed"
   },
-  "smoke_status": "missing",
+  "smoke_status": "passed",
   "template_id": "daisy-workshop-playbook",
   "visual_contract_path": "skills/lark-slides/references/visual-contracts/beautiful/daisy-days.daisy-workshop-playbook.json",
-  "visual_contract_sha256": "9f481ab2692c478b75690c69edf7a8e55a233e476aadf2d2d3954e7a0ed28a68"
+  "visual_contract_sha256": "02a52cd41098880ccf327023683f71ef977b02761b1b551a1dfb60735ab2cb7f"
 }

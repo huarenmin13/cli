@@ -1,0 +1,207 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "date": "JANUARY / ANALYSIS / 2026",
+    "eyebrow": "JOURNAL / LONGFORM / DESK NOTE",
+    "footer_left": "PRIVATE / RESEARCH",
+    "footer_right": "CONFIDENTIAL / INTERNAL",
+    "label": "SIGNAL TRACKER",
+    "labels": [
+      "Discovery",
+      "Model",
+      "Review",
+      "Action"
+    ],
+    "points": [
+      "Current approach and friction",
+      "Limitation or source of friction",
+      "Expected improvement"
+    ],
+    "source": "Source: synthesized review log",
+    "subtitle": "A short description of the deck, its purpose, and the decision it supports.",
+    "title": "Evidence concentration by workstream",
+    "values": [
+      38,
+      52,
+      67,
+      86
+    ]
+  },
+  "family_id": "signal",
+  "page_family_source": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "family_id": "signal",
+    "review_render_scope": "current_renderer_deck",
+    "source_class": "slide slide--chart dark",
+    "source_slide_index": 13,
+    "source_template_html": "beautiful-html-templates/templates/signal/template.html"
+  },
+  "page_role": "data",
+  "page_variant_id": "chart",
+  "quality_constraints": {
+    "max_title_lines": 3,
+    "min_font_size": 15,
+    "safe_area": {
+      "height": 460,
+      "width": 864,
+      "x": 48,
+      "y": 40
+    }
+  },
+  "renderer_variant_id": "chart",
+  "review_only_current_deck_render": {
+    "claim_boundary": "review-only current SVGlide renderer deck; not a production promotion receipt, not page-family fidelity pass, and not default_selectable evidence",
+    "degraded": false,
+    "degraded_reason": null,
+    "page": 13,
+    "schema_version": "svglide-beautiful-current-deck-render/v1"
+  },
+  "safe_area": {
+    "height": 460,
+    "width": 864,
+    "x": 48,
+    "y": 40
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 120,
+        "width": 760,
+        "x": 56,
+        "y": 80
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "intelligence-brief",
+  "theme": {
+    "colors": {
+      "accent": "#C8A870",
+      "background": "#1C2644",
+      "border": "#2E3D5C",
+      "hint": "#4E5A6E",
+      "muted": "#8A96A8",
+      "panel": "#232F55",
+      "primary": "#C8A870",
+      "surface": "#232F55",
+      "text": "#E2DCD0"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 18,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "DM Sans",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 54,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 0.96,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Source Serif 4",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 10,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "IBM Plex Mono",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 42,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "IBM Plex Mono",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/signal.intelligence-brief.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 400,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "signal-navy",
+  "version": "svglide-canvas-spec/v1"
+}

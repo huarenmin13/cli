@@ -116,6 +116,37 @@ class SVGlideEditabilityGateTest(unittest.TestCase):
         self.assertGreater(result["summary"]["single_char_text_shape_ratio"], 0.9)
         self.assertGreater(result["summary"]["role_font_family_count"], 30)
 
+    def test_gate_rejects_prepared_and_readback_text_wrap_risk(self) -> None:
+        project = self.make_project()
+        narrow_svg = """
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:slide="https://slides.bytedance.com/ns"
+             slide:role="slide" slide:contract-version="svglide-authoring-contract/v1"
+             width="960" height="540" viewBox="0 0 960 540">
+          <text slide:role="text" data-svglide-baseline-conversion="svg-baseline-to-slide-box"
+                data-svglide-font-mapping-reason="role_font_family_mapped_to_slide_default"
+                x="80" y="120" width="35" height="16"
+                font-family="思源黑体" font-size="8.5" font-weight="800"
+                letter-spacing="1">TRADING</text>
+        </svg>
+        """
+        (project / "04-svg/prepared/page-001.svg").write_text(narrow_svg, encoding="utf-8")
+        self.write_readback(
+            project,
+            '<presentation width="960" height="540"><slide id="s1"><data>'
+            '<shape type="text" width="35" height="16" topLeftX="80" topLeftY="96">'
+            '<content><p><span>TRADING</span></p></content></shape>'
+            "</data></slide></presentation>",
+        )
+
+        result = svglide_editability_gate.run_editability_gate(project)
+
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("prepared_text_box_width", result["failed_checks"])
+        self.assertIn("readback_text_box_width", result["failed_checks"])
+        self.assertGreater(result["summary"]["prepared_text_wrap_risk_count"], 0)
+        self.assertGreater(result["summary"]["readback_text_wrap_risk_count"], 0)
+
     def test_gate_rejects_prepared_full_page_raster(self) -> None:
         project = self.make_project()
         (project / "04-svg/prepared/page-001.svg").write_text(FULL_PAGE_IMAGE_SVG, encoding="utf-8")

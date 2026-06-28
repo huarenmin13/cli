@@ -134,6 +134,43 @@ def same_line_fragments(left: dict[str, float], right: dict[str, float]) -> bool
     return abs(left["y"] - right["y"]) <= 1.5 and abs(left["height"] - right["height"]) <= 2.0
 
 
+def normalized_text(text: str) -> str:
+    return " ".join(text.split()).casefold()
+
+
+def same_text_effect_layers(left_text: str, right_text: str, overlap: dict[str, float]) -> bool:
+    if normalized_text(left_text) != normalized_text(right_text):
+        return False
+    if not normalized_text(left_text):
+        return False
+    return overlap["width"] > 2.0 and overlap["height"] > 0
+
+
+def poster_hero_title_parts(spec: dict[str, Any]) -> set[str]:
+    if spec.get("template_id") != "poster-stat-punch" or spec.get("page_variant_id") != "hero":
+        return set()
+    content = spec.get("content") if isinstance(spec.get("content"), dict) else {}
+    title = content.get("title")
+    if not isinstance(title, str):
+        return set()
+    words = title.split()
+    if len(words) < 3:
+        return set()
+    return {normalized_text(words[0]), normalized_text(words[1]), normalized_text(" ".join(words[2:]))}
+
+
+def poster_hero_title_stack(left_text: str, right_text: str, spec: dict[str, Any], overlap: dict[str, float]) -> bool:
+    parts = poster_hero_title_parts(spec)
+    if not parts:
+        return False
+    return (
+        normalized_text(left_text) in parts
+        and normalized_text(right_text) in parts
+        and overlap["width"] > 2.0
+        and overlap["height"] > 0
+    )
+
+
 def is_canvas_overflow(bbox: dict[str, float], canvas: dict[str, float], tolerance: float = 0.5) -> bool:
     return (
         bbox["x"] < -tolerance
@@ -248,6 +285,10 @@ def check_page(
                 continue
             hit = intersect(left_bbox, right_bbox)
             if hit["width"] <= 2.0 or hit["height"] <= 0:
+                continue
+            if same_text_effect_layers(left_text, right_text, hit):
+                continue
+            if poster_hero_title_stack(left_text, right_text, spec, hit):
                 continue
             smaller = max(1.0, min(bbox_area(left_bbox), bbox_area(right_bbox)))
             area_ratio = bbox_area(hit) / smaller

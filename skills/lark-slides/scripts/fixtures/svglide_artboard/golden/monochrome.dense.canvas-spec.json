@@ -1,0 +1,205 @@
+{
+  "canvas": {
+    "height": 540,
+    "viewBox": "0 0 960 540",
+    "width": 960
+  },
+  "content": {
+    "columns": [
+      {
+        "body": [
+          "Activation is the moment a user experiences the core value of a product for the first time. When that moment is delayed, the mental model never fully forms.",
+          "Each session that ends without activation reinforces the exit pattern. The gap between download and habit is where most products lose users permanently.",
+          "Users who hit activation in session one have a 3x higher probability of returning in week two."
+        ],
+        "title": "The Activation Trap"
+      },
+      {
+        "body": [
+          "Collaboration products face a compounding problem: value increases with each teammate, but users must cross the value threshold alone.",
+          "The median user does not discover the invitation flow until session four, after most have already churned.",
+          "The single-player experience should become an explicit bridge to the collaborative one."
+        ],
+        "title": "The Network Effect Delay"
+      }
+    ],
+    "eyebrow": "User Research Synthesis / [Month, Year]",
+    "footer_left": "Research Team · [Month, Year]",
+    "footer_right": "Round [N] · Internal",
+    "header_left": "Analysis",
+    "header_right": "09",
+    "page": "01 / 16",
+    "subtitle": "What we learned from 24 interviews and what it means for the product.",
+    "title": "Why onboarding problems compound over time"
+  },
+  "family_id": "monochrome",
+  "page_family_source": {
+    "claim_boundary": "page-family golden fixture for monochrome renderer; not production/default selectable evidence",
+    "family_id": "monochrome",
+    "review_render_scope": "golden_page_family_fixture",
+    "source_class": "slide--dense",
+    "source_slide_index": 9,
+    "source_template_html": "beautiful-html-templates/templates/monochrome/template.html"
+  },
+  "page_role": "detail",
+  "page_variant_id": "dense",
+  "quality_constraints": {
+    "max_title_lines": 2,
+    "min_font_size": 6,
+    "safe_area": {
+      "height": 466,
+      "width": 740,
+      "x": 110,
+      "y": 37
+    }
+  },
+  "renderer_variant_id": "dense",
+  "review_only_current_deck_render": {
+    "claim_boundary": "page-family golden fixture for monochrome renderer; not production/default selectable evidence",
+    "degraded": false,
+    "page": 9,
+    "schema_version": "monochrome-page-family-fixture/v1"
+  },
+  "safe_area": {
+    "height": 466,
+    "width": 740,
+    "x": 110,
+    "y": 37
+  },
+  "semantic_elements": [
+    {
+      "bbox": {
+        "height": 140,
+        "width": 520,
+        "x": 110,
+        "y": 242
+      },
+      "element_id": "title",
+      "kind": "text",
+      "role": "title",
+      "source_ref": "canvas_spec.content.title"
+    }
+  ],
+  "template_id": "ledger-briefing",
+  "theme": {
+    "colors": {
+      "accent": "#1A1A16",
+      "background": "#FAFADF",
+      "line": "#1A1A16",
+      "muted": "#5E5E54",
+      "panel": "#F5F0E4",
+      "primary": "#1A1A16",
+      "text": "#1A1A16"
+    },
+    "typography": {
+      "font_roles": {
+        "body": "SVGlideBody",
+        "display": "SVGlideDisplay",
+        "label": "SVGlideLabel",
+        "metric": "SVGlideMetric"
+      },
+      "role_tokens": {
+        "body": {
+          "alignment": "source_layout_dependent",
+          "font_role": "body",
+          "font_size": 18,
+          "font_weight": 400,
+          "letter_spacing": 0,
+          "line_height": 1.32,
+          "max_lines": 5,
+          "runtime_alias": "SVGlideBody",
+          "source_font": "Jost",
+          "text_transform": "preserve_source_case"
+        },
+        "display": {
+          "alignment": "source_layout_dependent",
+          "font_role": "display",
+          "font_size": 54,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.9,
+          "max_lines": 3,
+          "runtime_alias": "SVGlideDisplay",
+          "source_font": "Lora",
+          "text_transform": "latin_uppercase_only"
+        },
+        "label": {
+          "alignment": "source_layout_dependent",
+          "font_role": "label",
+          "font_size": 10,
+          "font_weight": 700,
+          "letter_spacing": 0.08,
+          "line_height": 1.05,
+          "max_lines": 1,
+          "runtime_alias": "SVGlideLabel",
+          "source_font": "JetBrains Mono",
+          "text_transform": "latin_uppercase_labels_reset_cjk_spacing"
+        },
+        "metric": {
+          "alignment": "source_layout_dependent",
+          "font_role": "metric",
+          "font_size": 42,
+          "font_weight": 900,
+          "letter_spacing": 0,
+          "line_height": 0.95,
+          "max_lines": 2,
+          "runtime_alias": "SVGlideMetric",
+          "source_font": "JetBrains Mono",
+          "text_transform": "preserve_numbers_and_units"
+        }
+      },
+      "strategy_source": "skills/lark-slides/references/visual-contracts/beautiful/monochrome.ledger-briefing.json",
+      "text_style_roles": {
+        "bold": {
+          "allowed_roles": [
+            "display",
+            "label",
+            "metric"
+          ],
+          "mapped_weight": {
+            "display": 900,
+            "label": 700,
+            "metric": 900
+          },
+          "source_usage": "source uses heavy display/label weights"
+        },
+        "emphasis": {
+          "color_shift": "use source accent color roles only",
+          "font_family_switch": "only switch between mapped display/body/label/metric roles from this family",
+          "style_shift": "italic only when source_usage requires and CJK fallback is safe",
+          "weight_shift": "increase one role step within font_weight_scale"
+        },
+        "italic": {
+          "fallback_when_unavailable": "use color_shift or weight_shift; do not fake CJK italic",
+          "loss_notes": "Satori/Slide may not provide exact Google italic face; record as visual approximation.",
+          "mapped_style": "latin_only_when_source_requires_else_normal",
+          "source_usage": "source uses italic/font-style or italic-family tokens"
+        },
+        "line_through": {
+          "fallback_shape": "none",
+          "mapped_decoration": "none",
+          "source_usage": "not present in source; default no line-through"
+        },
+        "text_decoration_policy": {
+          "line_through": {
+            "color": "currentColor",
+            "style": "none",
+            "thickness": "0px"
+          },
+          "underline": {
+            "color": "currentColor",
+            "style": "solid",
+            "thickness": "1px"
+          }
+        },
+        "underline": {
+          "fallback_shape": "1px-3px rule or border accent when underline font rendering is unavailable",
+          "mapped_decoration": "native underline only for actual text-decoration source usage",
+          "source_usage": "source uses underline/text-decoration or hairline emphasis"
+        }
+      }
+    }
+  },
+  "theme_id": "monochrome",
+  "version": "svglide-canvas-spec/v1"
+}

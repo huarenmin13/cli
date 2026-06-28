@@ -142,6 +142,11 @@
       "Demand quality",
       "Pipeline health",
       "Operating leverage"
+    ],
+    "stats": [
+      "Demand quality",
+      "Pipeline health",
+      "Operating leverage"
     ]
   },
   "semantic_elements": [

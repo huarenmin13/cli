@@ -1,0 +1,288 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "raw-grid",
+  "selected_template_id": "brutalist-matrix",
+  "selected_theme_id": "raw-grid",
+  "selection_source": "explicit_fixture",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 10,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "content",
+      "page_variant_id": "split",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "data",
+      "page_variant_id": "bars",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "agenda",
+      "page_variant_id": "cards",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "detail",
+      "page_variant_id": "feature",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "process",
+      "page_variant_id": "process",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "data",
+      "page_variant_id": "donut",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "comparison",
+      "page_variant_id": "table",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 10,
+      "page_role": "closing",
+      "page_variant_id": "closing",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "cards"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "split"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        3,
+        7
+      ],
+      "variants": [
+        "bars",
+        "donut"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "table"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "process"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "feature"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        10
+      ],
+      "variants": [
+        "closing"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "split",
+    "bars",
+    "cards",
+    "feature",
+    "process",
+    "donut",
+    "quote",
+    "table",
+    "closing"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "split",
+    "bars",
+    "cards",
+    "feature",
+    "process",
+    "donut",
+    "quote",
+    "table",
+    "closing"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 0,
+  "variant_reuse_reasons": [],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/raw-grid.json",
+    "golden_spec.bars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.bars.canvas-spec.json",
+    "golden_spec.cards": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cards.canvas-spec.json",
+    "golden_spec.closing": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.closing.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.cover.canvas-spec.json",
+    "golden_spec.donut": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.donut.canvas-spec.json",
+    "golden_spec.feature": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.feature.canvas-spec.json",
+    "golden_spec.process": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.process.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.quote.canvas-spec.json",
+    "golden_spec.split": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.split.canvas-spec.json",
+    "golden_spec.table": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/raw-grid.table.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_fixture": "063df00ef8e5f3fd748682004f59ae1c07bc85ad145f15dd83ca0f98c73199e9",
+    "smoke_deck": "815a29abcdc6a7e2369171365da9cce0330957cca49bafd7f049569b9727556b",
+    "golden_spec.bars": "e1e86e444624df531989927d4c8d1a0796805a0eb370fb6bb91feaf433ab644d",
+    "golden_spec.cards": "55c3274ae9356d179992c7e4cc254233dd1b64bb3cd07f396785a56b03d10005",
+    "golden_spec.closing": "98dd61a5f2624a6fb62142c87d98177034c7210158e53306e41460e829428ddd",
+    "golden_spec.cover": "abeaa881f5914c65bd63ab10ffe37f8abf4e66834effc80d110d208c09b6e522",
+    "golden_spec.donut": "605ddf25714a910315a437ac0d6196a7aabe3e770316bf0e5eed7fdbcb7e4f71",
+    "golden_spec.feature": "ed9778e07353f1d343531bd292a53100bc39d5058e3fb6a7dd694f0849426b76",
+    "golden_spec.process": "3021d951c2030a162e9b76f182d08fab9e9f5b8e13ee89d5ef2a4c5df952f8b6",
+    "golden_spec.quote": "66a3b0c3490fc7e288197e32982e341d76fc1e659c83ad5d23bf6558d9534e5c",
+    "golden_spec.split": "3ef3a9e08d58e42845e953da1c7944c6d4742b3c8066a83cb65e9fe07c52b458",
+    "golden_spec.table": "a9d972b5af718c439c93c2bf89d1b841aa495405bdca1c71ebd9c2a75be12a33"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "/private/tmp/svglide-raw-grid-smoke-project"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/raw-grid.json",
+    "smoke_fixture": "02-plan/page-family-smoke-fixture.json",
+    "project": "/private/tmp/svglide-raw-grid-smoke-project"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 0,
+    "page_count": 10,
+    "covered_role_count": 9,
+    "implemented_variant_count": 10,
+    "covered_implemented_variant_count": 10
+  }
+}

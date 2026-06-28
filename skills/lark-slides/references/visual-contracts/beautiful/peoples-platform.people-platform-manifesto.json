@@ -666,7 +666,22 @@
         "radialGradient"
       ],
       "python_generic_fallback": "forbidden",
-      "runtime": "owned_satori_template"
+      "runtime": "owned_satori_template",
+      "renderer_stage": "page_family",
+      "implemented_page_variants": [
+        "cover",
+        "toc",
+        "manifesto",
+        "pillars",
+        "stat",
+        "platform",
+        "quote",
+        "timeline",
+        "compare",
+        "close"
+      ],
+      "promotion_status": "needs_review",
+      "default_selectable": false
     },
     "constraints": {
       "external_html_css_js": "forbidden",
@@ -677,7 +692,7 @@
         "fidelity_receipt"
       ]
     },
-    "migration_status": "needs_dedicated_renderer",
+    "migration_status": "page_family_implemented_needs_review",
     "font_and_typography_constraints": [
       "distinctive display face may be approximated by Slide/Source/思源 fonts; preserve weight/size/case first",
       "letter spacing is preserved for Latin labels and reset/softened for CJK"
@@ -1435,7 +1450,74 @@
       "quote_or_emphasis",
       "process_or_timeline",
       "closing"
-    ]
+    ],
+    "claim_boundary": "page-family renderer execution evidence only; does not imply production/default selectable status.",
+    "source_page_variants": [
+      "cover",
+      "toc",
+      "manifesto",
+      "pillars",
+      "stat",
+      "platform",
+      "quote",
+      "timeline",
+      "compare",
+      "close"
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "toc",
+      "manifesto",
+      "pillars",
+      "stat",
+      "platform",
+      "quote",
+      "timeline",
+      "compare",
+      "close"
+    ],
+    "supported_page_variants": [
+      "cover",
+      "toc",
+      "manifesto",
+      "pillars",
+      "stat",
+      "platform",
+      "quote",
+      "timeline",
+      "compare",
+      "close"
+    ],
+    "page_variant_golden_specs": {
+      "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.cover.canvas-spec.json",
+      "toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.toc.canvas-spec.json",
+      "manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.manifesto.canvas-spec.json",
+      "pillars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.pillars.canvas-spec.json",
+      "stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.stat.canvas-spec.json",
+      "platform": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.platform.canvas-spec.json",
+      "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.quote.canvas-spec.json",
+      "timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.timeline.canvas-spec.json",
+      "compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.compare.canvas-spec.json",
+      "close": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.close.canvas-spec.json"
+    },
+    "page_family_smoke_deck": "skills/lark-slides/references/page-family-smoke-decks/peoples-platform.json",
+    "page_family_smoke_receipt": "skills/lark-slides/references/receipts/page-family-smoke/peoples-platform.people-platform-manifesto.json",
+    "variant_usage_policy": {
+      "singletons": [
+        "cover",
+        "toc",
+        "manifesto",
+        "quote",
+        "close"
+      ],
+      "repeatable": [
+        "pillars",
+        "stat",
+        "platform",
+        "timeline",
+        "compare"
+      ]
+    }
   },
   "page_variants": {
     "cover": {
@@ -1658,5 +1740,18 @@
     "source_design_md": "beautiful-html-templates/templates/peoples-platform/design.md",
     "source_template_json": "beautiful-html-templates/templates/peoples-platform/template.json",
     "claim_boundary": "source extraction only; does not imply renderer, fidelity, quality gate, or production/default selectable status"
+  },
+  "renderer_module": "skills/lark-slides/scripts/artboard_renderer/templates/beautiful/people-platform-manifesto.mjs",
+  "page_variant_golden_specs": {
+    "cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.cover.canvas-spec.json",
+    "toc": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.toc.canvas-spec.json",
+    "manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.manifesto.canvas-spec.json",
+    "pillars": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.pillars.canvas-spec.json",
+    "stat": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.stat.canvas-spec.json",
+    "platform": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.platform.canvas-spec.json",
+    "quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.quote.canvas-spec.json",
+    "timeline": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.timeline.canvas-spec.json",
+    "compare": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.compare.canvas-spec.json",
+    "close": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/peoples-platform.close.canvas-spec.json"
   }
 }

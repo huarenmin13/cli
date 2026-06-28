@@ -1370,14 +1370,60 @@
     "letter spacing is preserved for Latin labels and reset/softened for CJK"
   ],
   "page_family": {
+    "family_id": "studio",
+    "runtime_template_id": "type-mass-poster",
+    "renderer_stage": "page_family",
     "source_slide_count": 12,
+    "source_page_variants": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "list",
+      "quote",
+      "compare",
+      "chapter-9",
+      "statement-10",
+      "chart",
+      "end"
+    ],
+    "implemented_page_variants": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "list",
+      "quote",
+      "compare",
+      "chapter-9",
+      "statement-10",
+      "chart",
+      "end"
+    ],
+    "supported_page_variants": [
+      "cover",
+      "chapter",
+      "statement",
+      "split",
+      "stats",
+      "list",
+      "quote",
+      "compare",
+      "chapter-9",
+      "statement-10",
+      "chart",
+      "end"
+    ],
     "core_page_roles": [
       "cover",
       "agenda",
-      "data_dashboard",
-      "content_split",
       "content",
-      "quote_or_emphasis",
+      "detail",
+      "data",
+      "comparison",
+      "quote",
       "closing"
     ],
     "production_minimum_roles": [
@@ -1385,10 +1431,13 @@
       "agenda",
       "content",
       "data",
-      "quote_or_emphasis",
-      "process_or_timeline",
+      "comparison",
+      "quote",
+      "process",
+      "detail",
       "closing"
-    ]
+    ],
+    "claim_boundary": "SVGlide renders 12 source-backed studio/type-mass-poster page variants for review. It remains needs_review/default_selectable=false until production review; editable protocol lowering issues belong to contract_compile/prepare, not this renderer."
   },
   "page_variants": {
     "cover": {

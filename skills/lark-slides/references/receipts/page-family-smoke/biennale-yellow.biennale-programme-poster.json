@@ -1,0 +1,275 @@
+{
+  "schema_version": "svglide-page-family-smoke/v1",
+  "stage": "template_fidelity",
+  "scope": "page_family",
+  "status": "passed",
+  "selected_family_id": "biennale-yellow",
+  "selected_template_id": "biennale-programme-poster",
+  "selected_theme_id": "biennale-yellow",
+  "selection_source": "explicit_args",
+  "production_selectable": false,
+  "promotion_status": "needs_review",
+  "rendered_pages": 9,
+  "pages": [
+    {
+      "page": 1,
+      "page_role": "cover",
+      "page_variant_id": "cover",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 2,
+      "page_role": "content",
+      "page_variant_id": "manifesto",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 3,
+      "page_role": "agenda",
+      "page_variant_id": "programme",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 4,
+      "page_role": "process",
+      "page_variant_id": "chapter",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 5,
+      "page_role": "data",
+      "page_variant_id": "data",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 6,
+      "page_role": "quote",
+      "page_variant_id": "quote",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 7,
+      "page_role": "comparison",
+      "page_variant_id": "cal",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 8,
+      "page_role": "detail",
+      "page_variant_id": "cal",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    },
+    {
+      "page": 9,
+      "page_role": "closing",
+      "page_variant_id": "colophon",
+      "template_id": null,
+      "family_id": null,
+      "theme_id": null
+    }
+  ],
+  "production_minimum_roles": [
+    "cover",
+    "agenda",
+    "content",
+    "data",
+    "comparison",
+    "quote",
+    "process",
+    "detail",
+    "closing"
+  ],
+  "page_variant_coverage": {
+    "cover": {
+      "covered": true,
+      "pages": [
+        1
+      ],
+      "variants": [
+        "cover"
+      ]
+    },
+    "agenda": {
+      "covered": true,
+      "pages": [
+        3
+      ],
+      "variants": [
+        "programme"
+      ]
+    },
+    "content": {
+      "covered": true,
+      "pages": [
+        2
+      ],
+      "variants": [
+        "manifesto"
+      ]
+    },
+    "data": {
+      "covered": true,
+      "pages": [
+        5
+      ],
+      "variants": [
+        "data"
+      ]
+    },
+    "comparison": {
+      "covered": true,
+      "pages": [
+        7
+      ],
+      "variants": [
+        "cal"
+      ]
+    },
+    "quote": {
+      "covered": true,
+      "pages": [
+        6
+      ],
+      "variants": [
+        "quote"
+      ]
+    },
+    "process": {
+      "covered": true,
+      "pages": [
+        4
+      ],
+      "variants": [
+        "chapter"
+      ]
+    },
+    "detail": {
+      "covered": true,
+      "pages": [
+        8
+      ],
+      "variants": [
+        "cal"
+      ]
+    },
+    "closing": {
+      "covered": true,
+      "pages": [
+        9
+      ],
+      "variants": [
+        "colophon"
+      ]
+    }
+  },
+  "missing_required_roles": [],
+  "implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "programme",
+    "chapter",
+    "data",
+    "quote",
+    "cal",
+    "colophon"
+  ],
+  "covered_implemented_page_variants": [
+    "cover",
+    "manifesto",
+    "programme",
+    "chapter",
+    "data",
+    "quote",
+    "cal",
+    "colophon"
+  ],
+  "missing_implemented_page_variants": [],
+  "unimplemented_page_variants": [],
+  "reuse_count": 1,
+  "variant_reuse_reasons": [
+    {
+      "page_variant_id": "cal",
+      "reuse_count": 2,
+      "reason": "duplicate_variant_in_smoke_deck"
+    }
+  ],
+  "degraded": false,
+  "visual_distinctness_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "theme_consistency_summary": {
+    "status": null,
+    "error_count": 0,
+    "warning_count": 0
+  },
+  "artifact_issues": [],
+  "inputs": {
+    "slide_plan": "02-plan/slide_plan.json",
+    "generator_receipt": "receipts/generate_svg.json",
+    "template_registry": "02-plan/template-registry.json",
+    "theme_registry": "02-plan/theme-registry.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/biennale-yellow.json",
+    "golden_spec.cal": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cal.canvas-spec.json",
+    "golden_spec.chapter": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.chapter.canvas-spec.json",
+    "golden_spec.colophon": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.colophon.canvas-spec.json",
+    "golden_spec.cover": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.cover.canvas-spec.json",
+    "golden_spec.data": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.data.canvas-spec.json",
+    "golden_spec.manifesto": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.manifesto.canvas-spec.json",
+    "golden_spec.programme": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.programme.canvas-spec.json",
+    "golden_spec.quote": "skills/lark-slides/scripts/fixtures/svglide_artboard/golden/biennale-yellow.quote.canvas-spec.json"
+  },
+  "input_hashes": {
+    "slide_plan": null,
+    "generator_receipt": null,
+    "template_registry": null,
+    "theme_registry": null,
+    "smoke_deck": "1fa9c75aead7b86ccfa776390a0c64a9f5ccd8b2e29ea392c958acad3689688a",
+    "golden_spec.cal": "ce49e84832a9e3e401467139fac876cbf7d5581863cd024ac72a2930c74e0e18",
+    "golden_spec.chapter": "f8839ea6e3f90a4970132d1bb53ab030c58ba5f4223cadaa298a76457e77b47d",
+    "golden_spec.colophon": "2196c6dcd765f69d9b1a9f6ef26339a6840647b84ca2de140f17e629a20229a7",
+    "golden_spec.cover": "c8fc351e112f03aa7d8cb890c791762070ce47a20182ed32c32a6b5b5f26c13a",
+    "golden_spec.data": "a94dd38faebf10937dc5947adeca79ccd6fae53534448f0ef9146e44737a70ca",
+    "golden_spec.manifesto": "8eaf19d551c67c6c4850697ea6829a40093857905876804e3599b2b6bf1454b7",
+    "golden_spec.programme": "4254215512f62defea9e8a4f5b79187fc0414438a4b28d9f4714f2c9c5d5fefa",
+    "golden_spec.quote": "20c7d25cd9fb1fa926b2454f0aa4b9f91b273d0663b7f5298fb57bde2090aa74"
+  },
+  "generated_by": "beautiful_template_page_family_smoke.py",
+  "generator_version": "svglide-page-family-smoke/v1",
+  "command": [
+    "beautiful_template_page_family_smoke.py",
+    "--family",
+    "biennale-yellow"
+  ],
+  "provenance": {
+    "matrix": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/beautiful-template-executable-matrix.json",
+    "smoke_deck": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/cli-svglide-svg-private/skills/lark-slides/references/page-family-smoke-decks/biennale-yellow.json",
+    "smoke_fixture": null,
+    "project": "/private/var/folders/gh/pcgh9htj0ynfb6mbvy38rtpc0000gn/T/svglide-biennale-smoke-andpp3c6"
+  },
+  "summary": {
+    "error_count": 0,
+    "warning_count": 1,
+    "page_count": 9,
+    "covered_role_count": 9,
+    "implemented_variant_count": 8,
+    "covered_implemented_variant_count": 8
+  }
+}
