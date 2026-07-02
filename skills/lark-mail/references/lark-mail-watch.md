@@ -48,6 +48,7 @@ lark-cli mail +watch --print-output-schema
 | `--mailbox <id>` | `me` | 订阅目标邮箱 |
 | `--msg-format <mode>` | `metadata` | 输出模式：`metadata` / `minimal` / `plain_text_full` / `full` / `event` |
 | `--format <mode>` | `table` | 输出样式：`table` / `json` / `data` |
+| `--json` | — | `--format json` 的简写；与 `--format` 同时显式指定时以 `--format` 为准 |
 | `--folder-ids <json-array>` | — | 文件夹 ID 过滤，如 `["INBOX","SENT"]` |
 | `--folders <json-array>` | — | 文件夹名称过滤（与 `--folder-ids` 取并集） |
 | `--label-ids <json-array>` | — | 标签 ID 过滤，如 `["FLAGGED","IMPORTANT"]` |

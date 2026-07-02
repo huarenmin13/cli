@@ -34,6 +34,9 @@ lark-cli mail +triage --filter '{"label":"重要邮件"}'
 # json/data 格式可配合 jq 处理
 lark-cli mail +triage --format json | jq '.messages[].subject'
 
+# --json 是 --format json 的简写
+lark-cli mail +triage --json --max 20
+
 # 分页：先取 10 条，再用 page_token 翻页
 lark-cli mail +triage --max 10 --format json
 # 输出中包含 page_token，传入下一次请求
@@ -50,6 +53,7 @@ lark-cli mail +triage --page-size 10
 | `--filter <json>` | — | 筛选条件（见下方字段说明） |
 | `--query <text>` | — | 全文搜索关键词 |
 | `--format <mode>` | `table` | `table` / `json` / `data`（`json` 和 `data` 均输出含分页信息的对象） |
+| `--json` | — | `--format json` 的简写；与 `--format` 同时显式指定时以 `--format` 为准 |
 | `--max <n>` | `20` | 最大返回条数（1-400），内部自动分页拉取 |
 | `--page-size <n>` | — | `--max` 的别名，两者含义相同；同时指定时 `--page-size` 优先 |
 | `--page-token <token>` | — | 上一次响应返回的分页令牌，传入后从该位置继续拉取。令牌带 `search:` 或 `list:` 前缀，标识来源路径，不可混用 |
