@@ -20,7 +20,7 @@ metadata:
 | 读取或分析已有 PPT | 解析 slides/wiki token，回读全文或单页 XML，保存 `xml_presentation_id`、`slide_id`、`revision_id` | `xml_presentations.get`、`xml_presentation.slide.get` |
 | 获取幻灯片页面截图 | 用 `slide_id` 或页号指定页面 | `slides +screenshot`、`lark-slides-screenshot.md` |
 | 上传或使用图片 | 先上传为 `file_token`，禁止直接写 http(s) 外链 | `slides +media-upload`，或 `+create --slides` 的 `@./path` 占位符 |
-| 使用 AnyGen SVG Slides 本地工作台 | 创建本地 run-dir，由 Codex 分阶段填充产物，再本地 validate / preview | [`lark-slides-create-svglide.md`](references/lark-slides-create-svglide.md)、`slides +create-svglide` |
+| 使用 AnyGen SVG Slides 本地工作台 | 创建 run-dir，按 stage 填产物；本地校验/预览/修复，不发布飞书 | [`lark-slides-create-svglide.md`](references/lark-slides-create-svglide.md)、`slides +create-svglide` |
 | 在 slide 中绘制柱/条/折线/面积/雷达/饼等有数据序列的图表 | 使用原生 `<chart>` 元素 | `xml-schema-quick-ref.md` |
 | 在 slide 中绘制流程图、时序图、架构图、散点图、漏斗图或装饰图案 | 必须先用 Read 工具读取参考文档，再生成 `<whiteboard>` 元素 | [`lark-slides-whiteboard.md`](references/lark-slides-whiteboard.md) |
 | 使用语义图标 | 先检索 IconPark，再写 `<icon iconType="...">` | `iconpark_tool.py search → resolve`、`iconpark.md` |
