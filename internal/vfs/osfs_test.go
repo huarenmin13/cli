@@ -23,6 +23,15 @@ func TestOsFsBasicOperations(t *testing.T) {
 	fs := OsFs{}
 	dir := t.TempDir()
 
+	// Mkdir
+	one := filepath.Join(dir, "one")
+	if err := fs.Mkdir(one, 0o755); err != nil {
+		t.Fatalf("Mkdir: %v", err)
+	}
+	if err := Mkdir(filepath.Join(dir, "two"), 0o755); err != nil {
+		t.Fatalf("package Mkdir: %v", err)
+	}
+
 	// MkdirAll
 	sub := filepath.Join(dir, "a", "b")
 	if err := fs.MkdirAll(sub, 0o755); err != nil {

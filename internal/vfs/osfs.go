@@ -30,6 +30,7 @@ func (OsFs) OpenFile(name string, flag int, perm fs.FileMode) (*os.File, error) 
 func (OsFs) CreateTemp(dir, pattern string) (*os.File, error) { return os.CreateTemp(dir, pattern) }
 
 // Directory/File management
+func (OsFs) Mkdir(path string, perm fs.FileMode) error     { return os.Mkdir(path, perm) }
 func (OsFs) MkdirAll(path string, perm fs.FileMode) error  { return os.MkdirAll(path, perm) }
 func (OsFs) MkdirTemp(dir, pattern string) (string, error) { return os.MkdirTemp(dir, pattern) }
 func (OsFs) ReadDir(name string) ([]os.DirEntry, error)    { return os.ReadDir(name) }

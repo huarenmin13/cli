@@ -25,6 +25,7 @@ type FS interface {
 	CreateTemp(dir, pattern string) (*os.File, error)
 
 	// Directory/File management
+	Mkdir(path string, perm fs.FileMode) error
 	MkdirAll(path string, perm fs.FileMode) error
 	MkdirTemp(dir, pattern string) (string, error)
 	ReadDir(name string) ([]os.DirEntry, error)

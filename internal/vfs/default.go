@@ -27,6 +27,7 @@ func OpenFile(name string, flag int, perm fs.FileMode) (*os.File, error) {
 	return DefaultFS.OpenFile(name, flag, perm)
 }
 func CreateTemp(dir, pattern string) (*os.File, error) { return DefaultFS.CreateTemp(dir, pattern) }
+func Mkdir(path string, perm fs.FileMode) error        { return DefaultFS.Mkdir(path, perm) }
 func MkdirAll(path string, perm fs.FileMode) error     { return DefaultFS.MkdirAll(path, perm) }
 func MkdirTemp(dir, pattern string) (string, error)    { return DefaultFS.MkdirTemp(dir, pattern) }
 func ReadDir(name string) ([]os.DirEntry, error)       { return DefaultFS.ReadDir(name) }
