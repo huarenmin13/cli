@@ -1,0 +1,139 @@
+package svglide
+
+import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+	"testing"
+)
+
+func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" {
+		t.Fatalf("Status = %q, want passed: %+v", report.Status, report)
+	}
+	if !report.LintOK {
+		t.Fatalf("LintOK = false, want true: %+v", report)
+	}
+	if report.Preview != "passed" {
+		t.Fatalf("Preview = %q, want passed: %+v", report.Preview, report)
+	}
+	if !report.Reauthored {
+		t.Fatalf("Reauthored = false, want true: %+v", report)
+	}
+
+	for _, rel := range []string{
+		"slides/01.svg",
+		"preview.html",
+		"receipts/lint.json",
+		"receipts/preview.json",
+		"receipts/validate_preview_repair.json",
+	} {
+		if _, err := os.Stat(filepath.Join("demo", rel)); err != nil {
+			t.Fatalf("missing %s: %v", rel, err)
+		}
+	}
+
+	receipt := readRepairReceiptForTest(t)
+	if receipt["stage"] != StageValidatePreviewRepair {
+		t.Fatalf("receipt stage = %v, want %q", receipt["stage"], StageValidatePreviewRepair)
+	}
+	if receipt["status"] != "passed" {
+		t.Fatalf("receipt status = %v, want passed", receipt["status"])
+	}
+	if _, ok := receipt["artifacts"].([]any); !ok {
+		t.Fatalf("receipt artifacts = %T, want array", receipt["artifacts"])
+	}
+	if _, ok := receipt["updated_at"]; ok {
+		t.Fatalf("receipt contains updated_at, want StageReceipt-compatible schema: %+v", receipt)
+	}
+	if _, ok := receipt["generated_at"]; ok {
+		t.Fatalf("receipt contains generated_at, want StageReceipt-compatible schema: %+v", receipt)
+	}
+}
+
+func TestRepairRunReauthorsBackgroundOnlySVG(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+	mustWriteTestFile(t, "demo/slides/01.svg", backgroundOnlySVG())
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" || !report.Reauthored || !report.LintOK || report.Preview != "passed" {
+		t.Fatalf("report = %+v, want passed reauthored repair", report)
+	}
+
+	validation, err := ValidateRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !validation.OK {
+		t.Fatalf("ValidateRun OK = false after repair: %+v", validation.Issues)
+	}
+}
+
+func TestRepairRunDoesNotAuthorInvalidSlidePath(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/../01.svg"}]}`,
+	)
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" {
+		t.Fatalf("Status = %q, want failed: %+v", report.Status, report)
+	}
+	if report.Reauthored {
+		t.Fatalf("Reauthored = true, want false for invalid path: %+v", report)
+	}
+	if _, err := os.Stat(filepath.Join("demo", "receipts", "svg_author.json")); !os.IsNotExist(err) {
+		t.Fatalf("svg_author receipt exists or stat failed, want no authoring: %v", err)
+	}
+}
+
+func TestRepairRunTreatsValidationArtifactWriteErrorAsFatal(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+	if err := os.Remove(filepath.Join("demo", "repair_queue.md")); err != nil && !os.IsNotExist(err) {
+		t.Fatal(err)
+	}
+	if err := os.Mkdir(filepath.Join("demo", "repair_queue.md"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := RepairRun("demo"); err == nil {
+		t.Fatal("expected repair to return validation artifact write error")
+	}
+	if _, err := os.Stat(filepath.Join("demo", "receipts", "validate_preview_repair.json")); !os.IsNotExist(err) {
+		t.Fatalf("final repair receipt exists or stat failed, want no misleading final receipt: %v", err)
+	}
+}
+
+func readRepairReceiptForTest(t *testing.T) map[string]any {
+	t.Helper()
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "validate_preview_repair.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var receipt map[string]any
+	if err := json.Unmarshal(raw, &receipt); err != nil {
+		t.Fatal(err)
+	}
+	return receipt
+}

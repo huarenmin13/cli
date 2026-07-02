@@ -20,8 +20,8 @@ var SlidesCreateSVGlide = common.Shortcut{
 	Risk:        "write",
 	AuthTypes:   []string{"user", "bot"},
 	Flags: []common.Flag{
-		{Name: "action", Desc: "runtime action: init, status, next, complete, author, validate, preview", Required: true, Enum: []string{"init", "status", "next", "complete", "author", "validate", "preview"}},
-		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview"},
+		{Name: "action", Desc: "runtime action: init, status, next, complete, author, validate, preview, repair", Required: true, Enum: []string{"init", "status", "next", "complete", "author", "validate", "preview", "repair"}},
+		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview/repair"},
 		{Name: "title", Desc: "deck title for init"},
 		{Name: "input", Desc: "local source markdown/text path for init"},
 		{Name: "audience", Desc: "final audience for the deck"},
@@ -116,6 +116,13 @@ var SlidesCreateSVGlide = common.Shortcut{
 			return nil
 		case "preview":
 			report, err := svglide.WritePreview(runtime.Str("run"))
+			if err != nil {
+				return err
+			}
+			runtime.Out(report, nil)
+			return nil
+		case "repair":
+			report, err := svglide.RepairRun(runtime.Str("run"))
 			if err != nil {
 				return err
 			}

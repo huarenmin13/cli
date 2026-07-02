@@ -154,18 +154,16 @@ func TestSlidesCreateSVGlidePreviewActionOutputsReport(t *testing.T) {
 	}
 }
 
-func TestSlidesCreateSVGlideActionEnumIncludesCompleteAndAuthor(t *testing.T) {
+func TestSlidesCreateSVGlideActionEnumIncludesCompleteAuthorAndRepair(t *testing.T) {
 	actionFlag := findSVGlideShortcutFlag(t, "action")
 	want := map[string]bool{
 		"complete": false,
 		"author":   false,
+		"repair":   false,
 	}
 	for _, value := range actionFlag.Enum {
 		if _, ok := want[value]; ok {
 			want[value] = true
-		}
-		if value == "repair" {
-			t.Fatal("action enum contains repair, want Task 5 to add it later")
 		}
 	}
 	for value, found := range want {
@@ -175,6 +173,34 @@ func TestSlidesCreateSVGlideActionEnumIncludesCompleteAndAuthor(t *testing.T) {
 		if !strings.Contains(actionFlag.Desc, value) {
 			t.Fatalf("action desc %q missing %q", actionFlag.Desc, value)
 		}
+	}
+}
+
+func TestSlidesCreateSVGlideRepairActionAuthorsAndPreviews(t *testing.T) {
+	initSVGlideShortcutRunWithAuthorInputs(t)
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "repair",
+		"--run", "run-demo",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["status"] != "passed" {
+		t.Fatalf("status = %v, want passed; data=%+v", data["status"], data)
+	}
+	if data["reauthored"] != true {
+		t.Fatalf("reauthored = %v, want true; data=%+v", data["reauthored"], data)
+	}
+	if _, err := os.Stat(filepath.Join("run-demo", "preview.html")); err != nil {
+		t.Fatalf("missing preview.html: %v", err)
+	}
+	if _, err := os.Stat(filepath.Join("run-demo", "receipts", "validate_preview_repair.json")); err != nil {
+		t.Fatalf("missing final repair receipt: %v", err)
 	}
 }
 
