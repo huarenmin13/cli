@@ -31,6 +31,10 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 		return StatusReport{}, fmt.Errorf("current stage %q missing outputs: %s", stage.Name, strings.Join(missingOutputs, ", "))
 	}
 
+	if err := ValidateStageOutputs(root); err != nil {
+		return StatusReport{}, err
+	}
+
 	if err := writeStageReceipt(safeRoot, StageReceipt{
 		Stage:     stage.Name,
 		Status:    StatusDone,
