@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/larksuite/cli/internal/cmdutil"
+	"github.com/larksuite/cli/shortcuts/common"
 )
 
 func TestSlidesCreateSVGlideInitShortcut(t *testing.T) {
@@ -153,6 +154,87 @@ func TestSlidesCreateSVGlidePreviewActionOutputsReport(t *testing.T) {
 	}
 }
 
+func TestSlidesCreateSVGlideActionEnumIncludesCompleteAndAuthor(t *testing.T) {
+	actionFlag := findSVGlideShortcutFlag(t, "action")
+	want := map[string]bool{
+		"complete": false,
+		"author":   false,
+	}
+	for _, value := range actionFlag.Enum {
+		if _, ok := want[value]; ok {
+			want[value] = true
+		}
+		if value == "repair" {
+			t.Fatal("action enum contains repair, want Task 5 to add it later")
+		}
+	}
+	for value, found := range want {
+		if !found {
+			t.Fatalf("action enum missing %q: %+v", value, actionFlag.Enum)
+		}
+		if !strings.Contains(actionFlag.Desc, value) {
+			t.Fatalf("action desc %q missing %q", actionFlag.Desc, value)
+		}
+	}
+}
+
+func TestSlidesCreateSVGlideCompleteActionAdvancesRequestStage(t *testing.T) {
+	dir := initSVGlideShortcutRun(t)
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "complete",
+		"--run", "run-demo",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["current_stage"] != "research" {
+		t.Fatalf("current_stage = %v, want research; data=%+v", data["current_stage"], data)
+	}
+	receiptPath := filepath.Join(dir, "run-demo", "receipts", "request.json")
+	raw, err := os.ReadFile(receiptPath)
+	if err != nil {
+		t.Fatalf("missing request receipt: %v", err)
+	}
+	var receipt map[string]any
+	if err := json.Unmarshal(raw, &receipt); err != nil {
+		t.Fatalf("invalid request receipt: %v", err)
+	}
+	if receipt["stage"] != "request" || receipt["status"] != "done" {
+		t.Fatalf("receipt = %+v, want request done", receipt)
+	}
+}
+
+func TestSlidesCreateSVGlideAuthorActionWritesSVG(t *testing.T) {
+	initSVGlideShortcutRunWithAuthorInputs(t)
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "author",
+		"--run", "run-demo",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["status"] != "done" {
+		t.Fatalf("status = %v, want done; data=%+v", data["status"], data)
+	}
+	raw, err := os.ReadFile(filepath.Join("run-demo", "slides", "01.svg"))
+	if err != nil {
+		t.Fatalf("missing authored SVG: %v", err)
+	}
+	if !strings.Contains(string(raw), `slide:role="slide"`) {
+		t.Fatalf("authored SVG missing slide role:\n%s", string(raw))
+	}
+}
+
 func TestSlidesCreateSVGlideValidateActionDoesNotErrorOnValidationFailure(t *testing.T) {
 	initSVGlideShortcutRun(t)
 	writeSVGlideShortcutDeck(t, "slides/missing.svg")
@@ -188,6 +270,14 @@ func initSVGlideShortcutRunWithDeck(t *testing.T) {
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "slides", "01.svg"), svglideShortcutVisibleTextSVG())
 }
 
+func initSVGlideShortcutRunWithAuthorInputs(t *testing.T) {
+	initSVGlideShortcutRun(t)
+	writeSVGlideShortcutDeck(t, "slides/01.svg")
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "brief", "visual_system.json"), `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "content", "slide_content.json"), `{"slides":[{"id":"cover","content":"Point A\nPoint B","notes":"Speaker note"}]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_plan.json"), `{"assets":[]}`)
+}
+
 func initSVGlideShortcutRun(t *testing.T) string {
 	t.Helper()
 	dir := t.TempDir()
@@ -207,6 +297,17 @@ func initSVGlideShortcutRun(t *testing.T) string {
 		t.Fatal(err)
 	}
 	return dir
+}
+
+func findSVGlideShortcutFlag(t *testing.T, name string) common.Flag {
+	t.Helper()
+	for _, flag := range SlidesCreateSVGlide.Flags {
+		if flag.Name == name {
+			return flag
+		}
+	}
+	t.Fatalf("missing flag %q", name)
+	return common.Flag{}
 }
 
 func writeSVGlideShortcutDeck(t *testing.T, slidePath string) {

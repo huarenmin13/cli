@@ -20,8 +20,8 @@ var SlidesCreateSVGlide = common.Shortcut{
 	Risk:        "write",
 	AuthTypes:   []string{"user", "bot"},
 	Flags: []common.Flag{
-		{Name: "action", Desc: "runtime action: init, status, next, validate, preview", Required: true, Enum: []string{"init", "status", "next", "validate", "preview"}},
-		{Name: "run", Desc: "existing run directory for status/next/validate/preview"},
+		{Name: "action", Desc: "runtime action: init, status, next, complete, author, validate, preview", Required: true, Enum: []string{"init", "status", "next", "complete", "author", "validate", "preview"}},
+		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview"},
 		{Name: "title", Desc: "deck title for init"},
 		{Name: "input", Desc: "local source markdown/text path for init"},
 		{Name: "audience", Desc: "final audience for the deck"},
@@ -88,6 +88,20 @@ var SlidesCreateSVGlide = common.Shortcut{
 			return nil
 		case "next":
 			report, err := svglide.NextTask(runtime.Str("run"))
+			if err != nil {
+				return err
+			}
+			runtime.Out(report, nil)
+			return nil
+		case "complete":
+			report, err := svglide.CompleteCurrentStage(runtime.Str("run"))
+			if err != nil {
+				return err
+			}
+			runtime.Out(report, nil)
+			return nil
+		case "author":
+			report, err := svglide.AuthorSlides(runtime.Str("run"))
 			if err != nil {
 				return err
 			}
