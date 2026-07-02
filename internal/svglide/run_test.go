@@ -40,6 +40,36 @@ func TestDefaultStagesAreOrdered(t *testing.T) {
 	}
 }
 
+func TestDefaultStagesRequireGeneratedSlideSVGs(t *testing.T) {
+	stages := DefaultStages()
+	svgAuthor := mustStage(t, stages, StageSVGAuthor)
+	if !reflect.DeepEqual(svgAuthor.Outputs, []string{"slides/*.svg"}) {
+		t.Fatalf("svg_author Outputs = %v, want slides/*.svg", svgAuthor.Outputs)
+	}
+	repair := mustStage(t, stages, StageValidatePreviewRepair)
+	if !reflect.DeepEqual(repair.Inputs, []string{"slides/*.svg"}) {
+		t.Fatalf("validate_preview_repair Inputs = %v, want slides/*.svg", repair.Inputs)
+	}
+}
+
+func TestDefaultStagesResearchInputsMatchPromptContract(t *testing.T) {
+	stages := DefaultStages()
+	research := mustStage(t, stages, StageResearch)
+	want := []string{"request/request.json", "request/source_manifest.json"}
+	if !reflect.DeepEqual(research.Inputs, want) {
+		t.Fatalf("research Inputs = %v, want %v", research.Inputs, want)
+	}
+}
+
+func TestDefaultStagesOutlineInputsMatchPromptContract(t *testing.T) {
+	stages := DefaultStages()
+	outline := mustStage(t, stages, StageOutline)
+	want := []string{"brief/design_brief.json", "brief/visual_system.json"}
+	if !reflect.DeepEqual(outline.Inputs, want) {
+		t.Fatalf("outline Inputs = %v, want %v", outline.Inputs, want)
+	}
+}
+
 func TestNewRunDefaultsToCodexRuntime(t *testing.T) {
 	now := time.Date(2026, 7, 2, 15, 4, 5, 0, time.UTC)
 	run := NewRun(NewRunConfig{
@@ -110,4 +140,15 @@ func TestNewRunDefaultsToCodexRuntime(t *testing.T) {
 	if run.Policy != wantPolicy {
 		t.Fatalf("Policy = %+v, want %+v", run.Policy, wantPolicy)
 	}
+}
+
+func mustStage(t *testing.T, stages []Stage, name string) Stage {
+	t.Helper()
+	for _, stage := range stages {
+		if stage.Name == name {
+			return stage
+		}
+	}
+	t.Fatalf("missing stage %q", name)
+	return Stage{}
 }

@@ -109,12 +109,12 @@ func NewRun(cfg NewRunConfig) Run {
 func DefaultStages() []Stage {
 	return []Stage{
 		{Name: StageRequest, Status: StatusPending, Inputs: []string{}, Outputs: []string{"request/request.json", "request/source_manifest.json"}, Receipt: "receipts/request.json"},
-		{Name: StageResearch, Status: StatusPending, Inputs: []string{"request/request.json"}, Outputs: []string{"research/research_notes.md", "research/sources.json"}, Receipt: "receipts/research.json"},
+		{Name: StageResearch, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json"}, Outputs: []string{"research/research_notes.md", "research/sources.json"}, Receipt: "receipts/research.json"},
 		{Name: StageDesignBrief, Status: StatusPending, Inputs: []string{"request/request.json", "research/research_notes.md"}, Outputs: []string{"brief/design_brief.json", "brief/visual_system.json"}, Receipt: "receipts/design_brief.json"},
-		{Name: StageOutline, Status: StatusPending, Inputs: []string{"brief/design_brief.json"}, Outputs: []string{"outline/deck.json"}, Receipt: "receipts/outline.json"},
+		{Name: StageOutline, Status: StatusPending, Inputs: []string{"brief/design_brief.json", "brief/visual_system.json"}, Outputs: []string{"outline/deck.json"}, Receipt: "receipts/outline.json"},
 		{Name: StageSlideContent, Status: StatusPending, Inputs: []string{"outline/deck.json", "research/research_notes.md"}, Outputs: []string{"content/slide_content.md", "content/slide_content.json"}, Receipt: "receipts/slide_content.json"},
 		{Name: StageAssets, Status: StatusPending, Inputs: []string{"content/slide_content.json", "brief/visual_system.json"}, Outputs: []string{"assets/assets_plan.json"}, Receipt: "receipts/assets.json"},
-		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_plan.json"}, Outputs: []string{"slides"}, Receipt: "receipts/svg_author.json"},
-		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "repair_queue.md", "preview.html"}, Receipt: "receipts/validate_preview_repair.json"},
+		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_plan.json"}, Outputs: []string{"slides/*.svg"}, Receipt: "receipts/svg_author.json"},
+		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "repair_queue.md", "preview.html"}, Receipt: "receipts/validate_preview_repair.json"},
 	}
 }
