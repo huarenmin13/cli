@@ -1026,6 +1026,7 @@ func newRuntimeContext(cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut, conf
 	}
 	rctx.larkSDK = sdk
 
+	applyJSONShorthand(cmd, s)
 	rctx.Format = rctx.Str("format")
 	rctx.JqExpr, _ = cmd.Flags().GetString("jq")
 	return rctx, nil
@@ -1220,6 +1221,24 @@ func ensureJSONShorthand(cmd *cobra.Command, s *Shortcut) {
 		return
 	}
 	cmd.Flags().Bool("json", false, "shorthand for --format json")
+}
+
+// applyJSONShorthand folds the injected --json shorthand into the format flag
+// itself, before rctx.Format caches it — so both the cached value (OutFormat,
+// ValidateJqFlags, dry-run) and later runtime.Str("format") reads observe
+// "json". An explicitly passed --format always wins over the shorthand (the
+// shorthand only fills in when the user did not choose a format). Shortcuts
+// that declare their own "json" flag keep its custom semantics untouched.
+func applyJSONShorthand(cmd *cobra.Command, s *Shortcut) {
+	if shortcutDeclaresJSONFlag(s) {
+		return
+	}
+	if cmd.Flags().Lookup("json") == nil || cmd.Flags().Changed("format") {
+		return
+	}
+	if set, _ := cmd.Flags().GetBool("json"); set {
+		_ = cmd.Flags().Set("format", "json")
+	}
 }
 
 func registerShortcutFlagsWithContext(ctx context.Context, cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut) {
