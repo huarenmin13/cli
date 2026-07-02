@@ -20,6 +20,7 @@ metadata:
 | 读取或分析已有 PPT | 解析 slides/wiki token，回读全文或单页 XML，保存 `xml_presentation_id`、`slide_id`、`revision_id` | `xml_presentations.get`、`xml_presentation.slide.get` |
 | 获取幻灯片页面截图 | 用 `slide_id` 或页号指定页面 | `slides +screenshot`、`lark-slides-screenshot.md` |
 | 上传或使用图片 | 先上传为 `file_token`，禁止直接写 http(s) 外链 | `slides +media-upload`，或 `+create --slides` 的 `@./path` 占位符 |
+| 使用 AnyGen SVG Slides 本地工作台 | 创建本地 run-dir，由 Codex 分阶段填充产物，再本地 validate / preview | [`lark-slides-create-svglide.md`](references/lark-slides-create-svglide.md)、`slides +create-svglide` |
 | 在 slide 中绘制柱/条/折线/面积/雷达/饼等有数据序列的图表 | 使用原生 `<chart>` 元素 | `xml-schema-quick-ref.md` |
 | 在 slide 中绘制流程图、时序图、架构图、散点图、漏斗图或装饰图案 | 必须先用 Read 工具读取参考文档，再生成 `<whiteboard>` 元素 | [`lark-slides-whiteboard.md`](references/lark-slides-whiteboard.md) |
 | 使用语义图标 | 先检索 IconPark，再写 `<icon iconType="...">` | `iconpark_tool.py search → resolve`、`iconpark.md` |
@@ -79,6 +80,7 @@ lark-cli auth login --domain slides
 - 编辑：[`lark-slides-edit-workflows.md`](references/lark-slides-edit-workflows.md)、[`lark-slides-replace-slide.md`](references/lark-slides-replace-slide.md)、[`lark-slides-replace-pages.md`](references/lark-slides-replace-pages.md)
 - 截图：[`lark-slides-screenshot.md`](references/lark-slides-screenshot.md)
 - 图片：[`lark-slides-media-upload.md`](references/lark-slides-media-upload.md)
+- 本地 AnyGen SVG Slides 工作台：[`lark-slides-create-svglide.md`](references/lark-slides-create-svglide.md)
 - 流程图 / 时序图 / 架构图 / 装饰图案：[`lark-slides-whiteboard.md`](references/lark-slides-whiteboard.md)
 - 图标：[`iconpark.md`](references/iconpark.md)、[`scripts/iconpark_tool.py`](scripts/iconpark_tool.py)
 - 排障：[`troubleshooting.md`](references/troubleshooting.md)
@@ -247,6 +249,7 @@ Shortcut 是对常用操作的高级封装（`lark-cli slides +<verb> [flags]`�
 | Shortcut | 说明 |
 |----------|------|
 | [`+create`](references/lark-slides-create.md) | 创建 PPT（可选 `--slides` 一步添加页面，支持 `<img src="@./local.png">` 占位符自动上传） |
+| [`+create-svglide`](references/lark-slides-create-svglide.md) | 创建和管理本地 SVGlide SVG run-dir，不发布到飞书，不调用 slide_engine |
 | [`+media-upload`](references/lark-slides-media-upload.md) | 上传本地图片到指定演示文稿，返回 `file_token`（用作 `<img src="...">`），最大 20 MB |
 | [`+replace-slide`](references/lark-slides-replace-slide.md) | 对已有幻灯片页面进行块级替换/插入（`block_replace` / `block_insert`），自动注入 id 和 `<content/>`，不改变页序 |
 | [`+replace-pages`](references/lark-slides-replace-pages.md) | 在原演示文稿内批量重建多个页面：先创建新页到旧页前，再删除旧页；适合已有 Slides 的多页大改，不新建链接 |
