@@ -23,12 +23,15 @@ func RepairRun(root string) (RepairReport, error) {
 	}
 
 	reauthored := false
-	if validateErr == nil && !lint.OK && canRepairByAuthoring(lint) {
-		if _, err := AuthorSlides(root); err != nil {
-			return RepairReport{}, err
+	if !lint.OK {
+		repairPaths, ok := authorRepairPaths(lint)
+		if ok {
+			if _, err := authorSlides(root, repairPaths); err != nil {
+				return RepairReport{}, err
+			}
+			reauthored = true
+			lint, validateErr = ValidateRun(root)
 		}
-		reauthored = true
-		lint, validateErr = ValidateRun(root)
 		if validateErr != nil {
 			return RepairReport{}, validateErr
 		}
@@ -71,30 +74,47 @@ func RepairRun(root string) (RepairReport, error) {
 }
 
 func canRepairByAuthoring(report ValidationReport) bool {
+	_, ok := authorRepairPaths(report)
+	return ok
+}
+
+func authorRepairPaths(report ValidationReport) (map[string]bool, bool) {
 	if report.OK || len(report.Issues) == 0 {
-		return false
+		return nil, false
 	}
+	paths := make(map[string]bool)
 	for _, issue := range report.Issues {
-		if !canRepairIssueByAuthoring(issue) {
-			return false
+		path, ok := repairIssueAuthorPath(issue)
+		if !ok {
+			return nil, false
 		}
+		paths[path] = true
 	}
-	return true
+	if len(paths) == 0 {
+		return nil, false
+	}
+	return paths, true
 }
 
 func canRepairIssueByAuthoring(issue ValidationIssue) bool {
+	_, ok := repairIssueAuthorPath(issue)
+	return ok
+}
+
+func repairIssueAuthorPath(issue ValidationIssue) (string, bool) {
 	path := strings.TrimSpace(issue.Path)
-	if _, err := previewSlideObjectPath(path); err != nil {
-		return false
+	slidePath, err := previewSlideObjectPath(path)
+	if err != nil {
+		return "", false
 	}
 
 	switch strings.TrimSpace(issue.Code) {
 	case "svglide.path":
-		return strings.Contains(issue.Message, "missing or not a regular file")
+		return slidePath, strings.Contains(issue.Message, "missing or not a regular file")
 	case "svglide.xml", "svglide.root", "svglide.slide_role", "svglide.viewbox", "svglide.visible_content":
-		return true
+		return slidePath, true
 	default:
-		return false
+		return "", false
 	}
 }
 

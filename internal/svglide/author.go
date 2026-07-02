@@ -78,6 +78,10 @@ type authorSlideTarget struct {
 }
 
 func AuthorSlides(root string) (AuthorReport, error) {
+	return authorSlides(root, nil)
+}
+
+func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, error) {
 	safeRoot, run, err := readRun(root)
 	if err != nil {
 		return AuthorReport{}, err
@@ -98,6 +102,9 @@ func AuthorSlides(root string) (AuthorReport, error) {
 	if err := readAuthorJSONContract(safeRoot, "assets/assets_plan.json"); err != nil {
 		return AuthorReport{}, err
 	}
+	if err := validateAuthorDeckContent(deck, contentByID); err != nil {
+		return AuthorReport{}, err
+	}
 
 	targets := make([]authorSlideTarget, 0, len(deck.Slides))
 	report := AuthorReport{
@@ -108,6 +115,9 @@ func AuthorSlides(root string) (AuthorReport, error) {
 		slidePath, err := previewSlideObjectPath(slide.Path)
 		if err != nil {
 			return AuthorReport{}, err
+		}
+		if selectedPaths != nil && !selectedPaths[slidePath] {
+			continue
 		}
 		target, err := ensureRunFileTargetForWrite(safeRoot, slidePath)
 		if err != nil {
@@ -173,11 +183,33 @@ func readAuthorContent(safeRoot string, path string) (map[string]authorSlideCont
 	byID := make(map[string]authorSlideContent, len(file.Slides))
 	for _, slide := range file.Slides {
 		id := strings.TrimSpace(slide.ID)
-		if id != "" {
-			byID[id] = slide
+		if id == "" {
+			return nil, fmt.Errorf("slide content id must not be empty")
 		}
+		if _, exists := byID[id]; exists {
+			return nil, fmt.Errorf("slide content id %q is duplicated", id)
+		}
+		byID[id] = slide
 	}
 	return byID, nil
+}
+
+func validateAuthorDeckContent(deck authorDeck, contentByID map[string]authorSlideContent) error {
+	deckIDs := make(map[string]bool, len(deck.Slides))
+	for _, slide := range deck.Slides {
+		id := strings.TrimSpace(slide.ID)
+		if id == "" {
+			return fmt.Errorf("deck slide id must not be empty")
+		}
+		if deckIDs[id] {
+			return fmt.Errorf("deck slide id %q is duplicated", id)
+		}
+		deckIDs[id] = true
+		if _, ok := contentByID[id]; !ok {
+			return fmt.Errorf("deck slide id %q is missing from slide content", id)
+		}
+	}
+	return nil
 }
 
 func readAuthorTheme(safeRoot string, path string) (authorTheme, error) {

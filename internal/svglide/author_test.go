@@ -114,6 +114,38 @@ func TestAuthorSlidesPreflightsSlidePathsBeforeWriting(t *testing.T) {
 	}
 }
 
+func TestAuthorSlidesRejectsMissingContentBeforeWriting(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"},{"id":"s2","title":"Second claim","summary":"Second summary","role":"content","key_message":"Second key message","path":"slides/02.svg"}]}`,
+	)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line"}]}`)
+
+	if _, err := AuthorSlides("demo"); err == nil {
+		t.Fatal("expected missing slide content to fail")
+	}
+	for _, rel := range []string{"slides/01.svg", "receipts/svg_author.json"} {
+		if _, err := os.Stat(filepath.Join("demo", rel)); !errors.Is(err, os.ErrNotExist) {
+			t.Fatalf("%s exists after content preflight failure, stat err = %v", rel, err)
+		}
+	}
+}
+
+func TestAuthorSlidesRejectsDuplicateContentID(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line"},{"id":"s1","content":"Duplicate body line"}]}`)
+
+	if _, err := AuthorSlides("demo"); err == nil {
+		t.Fatal("expected duplicate slide content id to fail")
+	}
+	if _, err := os.Stat(filepath.Join("demo", "receipts", "svg_author.json")); !errors.Is(err, os.ErrNotExist) {
+		t.Fatalf("svg_author receipt exists after duplicate content id failure, stat err = %v", err)
+	}
+}
+
 func initAuthorDemoRun(t *testing.T, visualSystem string, deck string) {
 	t.Helper()
 	initStatusTestRun(t)

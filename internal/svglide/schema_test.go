@@ -30,6 +30,45 @@ func TestValidateStageOutputsAcceptsCurrentRequestArtifacts(t *testing.T) {
 	}
 }
 
+func TestValidateStageOutputsRejectsDeckSlidePathsThatPreviewRejects(t *testing.T) {
+	for _, path := range []string{"slides/a%20.svg", "slides/.hidden.svg", "slides/a..b.svg", "slides/a:b.svg"} {
+		t.Run(path, func(t *testing.T) {
+			initStatusTestRun(t)
+			setCurrentStageForStatusTest(t, StageOutline)
+			mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"`+path+`"}]}`)
+
+			err := ValidateStageOutputs("demo")
+			if err == nil {
+				t.Fatal("expected deck slide path validation error")
+			}
+			if !strings.Contains(err.Error(), "outline/deck.json") || !strings.Contains(err.Error(), "slides[0].path") {
+				t.Fatalf("error = %v, want deck path context", err)
+			}
+		})
+	}
+}
+
+func TestCompleteCurrentStageRejectsInvalidDeckSlidePath(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageOutline)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/a%20.svg"}]}`)
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected deck slide path validation error")
+	}
+	run := readStatusTestRunFile(t)
+	if run.CurrentStage != StageOutline {
+		t.Fatalf("run.CurrentStage = %q, want %q", run.CurrentStage, StageOutline)
+	}
+	if got := stageStatus(t, run, StageOutline); got == StatusDone {
+		t.Fatalf("outline stage status = %q, want not %q", got, StatusDone)
+	}
+	if _, statErr := os.Stat(filepath.Join("demo", "receipts", "outline.json")); !os.IsNotExist(statErr) {
+		t.Fatalf("outline receipt should not be written, stat err = %v", statErr)
+	}
+}
+
 func TestValidateStageOutputsRejectsInvalidValidatePreviewRepairReceipts(t *testing.T) {
 	tests := []struct {
 		name  string

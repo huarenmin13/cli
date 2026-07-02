@@ -60,6 +60,42 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 	}
 }
 
+func TestRepairRunOnlyReauthorsFailedSlidePaths(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"},{"id":"s2","title":"Second claim","summary":"Second summary","role":"content","key_message":"Second key message","path":"slides/02.svg"}]}`,
+	)
+	custom := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><text x="48" y="80">KEEP-CUSTOM-01</text></svg>`
+	mustWriteTestFile(t, "demo/slides/01.svg", custom)
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" || !report.Reauthored || !report.LintOK || report.Preview != "passed" {
+		t.Fatalf("report = %+v, want passed reauthored repair", report)
+	}
+
+	raw, err := os.ReadFile(filepath.Join("demo", "slides", "01.svg"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(raw) != custom {
+		t.Fatalf("slides/01.svg was overwritten:\n%s", string(raw))
+	}
+	if _, err := os.Stat(filepath.Join("demo", "slides", "02.svg")); err != nil {
+		t.Fatalf("missing reauthored slides/02.svg: %v", err)
+	}
+
+	validation, err := ValidateRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !validation.OK {
+		t.Fatalf("ValidateRun OK = false after repair: %+v", validation.Issues)
+	}
+}
+
 func TestRepairRunReauthorsBackgroundOnlySVG(t *testing.T) {
 	initAuthorDemoRun(t,
 		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,

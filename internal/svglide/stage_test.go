@@ -79,6 +79,31 @@ func TestCompleteCurrentStageDoesNotAdvanceRunWhenReceiptWriteFails(t *testing.T
 	}
 }
 
+func TestCompleteCurrentStageRejectsFailedValidatePreviewRepairReceipts(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageValidatePreviewRepair)
+	mustWriteTestFile(t, "demo/slides/01.svg", visibleTextSVG())
+	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"failed","issues":[]}`)
+	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"failed","slides":[{"path":"slides/01.svg","rendered":false}]}`)
+	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
+	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected failed lint/preview receipts to block completion")
+	}
+	run := readStatusTestRunFile(t)
+	if run.CurrentStage != StageValidatePreviewRepair {
+		t.Fatalf("run.CurrentStage = %q, want %q", run.CurrentStage, StageValidatePreviewRepair)
+	}
+	if got := stageStatus(t, run, StageValidatePreviewRepair); got == StatusDone {
+		t.Fatalf("validate stage status = %q, want not %q", got, StatusDone)
+	}
+	if _, statErr := os.Stat(filepath.Join("demo", "receipts", "validate_preview_repair.json")); !os.IsNotExist(statErr) {
+		t.Fatalf("final receipt should not be written, stat err = %v", statErr)
+	}
+}
+
 func stageStatus(t *testing.T, run Run, name string) string {
 	t.Helper()
 	for _, stage := range run.Stages {

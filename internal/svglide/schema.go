@@ -55,6 +55,32 @@ func ValidateStageOutputs(root string) error {
 		if err := validateStageOutputSchema(safeRoot, output, schemaPath); err != nil {
 			return err
 		}
+		if output == "outline/deck.json" {
+			if err := validateDeckSlideOutputPaths(safeRoot, output); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func validateDeckSlideOutputPaths(safeRoot string, artifactPath string) error {
+	raw, err := readRunRegularArtifact(safeRoot, artifactPath)
+	if err != nil {
+		return fmt.Errorf("%s: read artifact: %w", artifactPath, err)
+	}
+	var deck struct {
+		Slides []struct {
+			Path string `json:"path"`
+		} `json:"slides"`
+	}
+	if err := json.Unmarshal(raw, &deck); err != nil {
+		return fmt.Errorf("%s: invalid JSON: %w", artifactPath, err)
+	}
+	for i, slide := range deck.Slides {
+		if _, err := previewSlideObjectPath(slide.Path); err != nil {
+			return fmt.Errorf("%s: field slides[%d].path: %w", artifactPath, i, err)
+		}
 	}
 	return nil
 }

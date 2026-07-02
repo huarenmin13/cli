@@ -1,6 +1,7 @@
 package svglide
 
 import (
+	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -34,6 +35,11 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 	if err := ValidateStageOutputs(root); err != nil {
 		return StatusReport{}, err
 	}
+	if stage.Name == StageValidatePreviewRepair {
+		if err := validateFinalStageReceiptsPassed(safeRoot); err != nil {
+			return StatusReport{}, err
+		}
+	}
 
 	if err := writeStageReceipt(safeRoot, StageReceipt{
 		Stage:     stage.Name,
@@ -59,6 +65,27 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 		return StatusReport{}, err
 	}
 	return InspectStatus(root)
+}
+
+type stageStatusReceipt struct {
+	Status string `json:"status"`
+}
+
+func validateFinalStageReceiptsPassed(safeRoot string) error {
+	for _, path := range []string{"receipts/lint.json", "receipts/preview.json"} {
+		raw, err := readRunRegularArtifact(safeRoot, path)
+		if err != nil {
+			return fmt.Errorf("%s: read receipt: %w", path, err)
+		}
+		var receipt stageStatusReceipt
+		if err := json.Unmarshal(raw, &receipt); err != nil {
+			return fmt.Errorf("%s: invalid JSON: %w", path, err)
+		}
+		if receipt.Status != "passed" {
+			return fmt.Errorf("%s: status is %q, want passed", path, receipt.Status)
+		}
+	}
+	return nil
 }
 
 func currentStageWithIndex(run Run) (int, Stage, error) {
