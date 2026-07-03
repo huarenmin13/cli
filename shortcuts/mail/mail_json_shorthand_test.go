@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-// help 契约（spec §6.1）
+// help 必须列出 --json 简写
 func TestMailTriageHelpListsJSONShorthand(t *testing.T) {
 	f, stdout, _, _ := mailShortcutTestFactory(t)
 	if err := runMountedMailShortcutWithCobraOutput(t, MailTriage, []string{"+triage", "-h"}, f, stdout); err != nil {
@@ -29,7 +29,7 @@ func TestMailWatchHelpListsJSONShorthand(t *testing.T) {
 	}
 }
 
-// 行为契约（spec §6.2.2）：--json 走 JSON 输出路径，不输出 table read hint
+// 行为验证：--json 走 JSON 输出路径，不输出 table read hint
 func TestMailTriageJSONShorthandDoesNotEmitReadHint(t *testing.T) {
 	f, stdout, stderr, reg := mailShortcutTestFactory(t)
 	registerTriageReadHintStubs(reg)
@@ -47,7 +47,7 @@ func TestMailTriageJSONShorthandDoesNotEmitReadHint(t *testing.T) {
 	}
 }
 
-// 行为契约（spec §6.2.1）：--json 与 --format json 的 dry-run 输出一致
+// 等价性验证：--json 与 --format json 的 dry-run 输出一致
 func TestMailTriageJSONShorthandDryRunEquivalence(t *testing.T) {
 	f1, stdout1, _, _ := mailShortcutTestFactory(t)
 	if err := runMountedMailShortcut(t, MailTriage, []string{"+triage", "--json", "--max", "1", "--dry-run"}, f1, stdout1); err != nil {
@@ -62,7 +62,7 @@ func TestMailTriageJSONShorthandDryRunEquivalence(t *testing.T) {
 	}
 }
 
-// 优先级契约（spec §6.2.5）：显式 --format table 优先，--json 让位 → 仍走 table 路径
+// 优先级验证：显式 --format table 优先，--json 让位 → 仍走 table 路径
 func TestMailTriageExplicitTableWinsOverJSONShorthand(t *testing.T) {
 	f, stdout, stderr, reg := mailShortcutTestFactory(t)
 	registerTriageReadHintStubs(reg)
@@ -76,7 +76,7 @@ func TestMailTriageExplicitTableWinsOverJSONShorthand(t *testing.T) {
 	}
 }
 
-// 错误契约（spec §6.3.2）：Enum 硬校验
+// 错误验证：Enum 硬校验
 func TestMailTriageEnumRejectsUnknownFormat(t *testing.T) {
 	f, stdout, _, _ := mailShortcutTestFactory(t)
 	err := runMountedMailShortcut(t, MailTriage, []string{"+triage", "--format", "bogus", "--max", "1", "--dry-run"}, f, stdout)

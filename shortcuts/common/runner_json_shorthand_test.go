@@ -117,7 +117,7 @@ func TestApplyJSONShorthand_JSONAlone_SetsFormatJSON(t *testing.T) {
 	}
 }
 
-// 显式 --format 优先（D2 决策）：--format table --json → table
+// 显式 --format 优先于 --json 简写：--format table --json → table
 func TestApplyJSONShorthand_ExplicitFormatWins(t *testing.T) {
 	s := customFormatShortcut()
 	cmd := parseMounted(t, s, []string{"--format", "table", "--json"})

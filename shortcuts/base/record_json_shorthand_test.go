@@ -24,7 +24,7 @@ func mountBaseShortcutFlags(t *testing.T, s common.Shortcut, name string) *cobra
 	return cmd
 }
 
-// record-list 获得简写（spec §6.1）
+// record-list 获得 --json 简写
 func TestRecordListRegistersJSONShorthand(t *testing.T) {
 	cmd := mountBaseShortcutFlags(t, BaseRecordList, "+record-list")
 	fl := cmd.Flags().Lookup("json")
@@ -39,7 +39,7 @@ func TestRecordListRegistersJSONShorthand(t *testing.T) {
 	}
 }
 
-// record-search / record-get 的 --json 保持请求体语义，不被覆盖（spec §6.1 回归）
+// record-search / record-get 的 --json 保持请求体语义，不被覆盖（回归锚点）
 func TestRecordSearchGetKeepRequestBodyJSON(t *testing.T) {
 	for _, tc := range []struct {
 		name     string
