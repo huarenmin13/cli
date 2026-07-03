@@ -125,6 +125,28 @@ func TestNextTaskSeparatesAnyGenPromptsFromRuntimeAdapter(t *testing.T) {
 	}
 }
 
+func TestNextTaskDeclaresExecutionModeWithoutApprovalGate(t *testing.T) {
+	initStatusTestRun(t)
+
+	next, err := NextTask("demo")
+	if err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+
+	if next.Mode != "execution" {
+		t.Fatalf("Mode = %q, want execution", next.Mode)
+	}
+	if next.ApprovalRequired {
+		t.Fatalf("ApprovalRequired = true, want false")
+	}
+	if next.BlockingOwner != "svglide-runtime" {
+		t.Fatalf("BlockingOwner = %q, want svglide-runtime", next.BlockingOwner)
+	}
+	if next.BlockingReason != "" {
+		t.Fatalf("BlockingReason = %q, want empty", next.BlockingReason)
+	}
+}
+
 func TestInspectStatusRejectsUnsafeRunPath(t *testing.T) {
 	t.Chdir(t.TempDir())
 
