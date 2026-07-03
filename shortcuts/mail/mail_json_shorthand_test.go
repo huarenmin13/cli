@@ -4,8 +4,11 @@
 package mail
 
 import (
+	"errors"
 	"strings"
 	"testing"
+
+	"github.com/larksuite/cli/errs"
 )
 
 // help 必须列出 --json 简写
@@ -83,10 +86,27 @@ func TestMailTriageEnumRejectsUnknownFormat(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected validation error for --format bogus")
 	}
-	if !strings.Contains(err.Error(), `invalid value "bogus" for --format`) {
-		t.Fatalf("error = %v, want enum validation message", err)
+	problem, ok := errs.ProblemOf(err)
+	if !ok {
+		t.Fatalf("error = %T, want typed errs problem carrier", err)
 	}
-	if !strings.Contains(err.Error(), "table, json, data") {
-		t.Fatalf("error = %v, want allowed values list", err)
+	if problem.Category != errs.CategoryValidation {
+		t.Fatalf("category = %q, want %q", problem.Category, errs.CategoryValidation)
+	}
+	if problem.Subtype != errs.SubtypeInvalidArgument {
+		t.Fatalf("subtype = %q, want %q", problem.Subtype, errs.SubtypeInvalidArgument)
+	}
+	var ve *errs.ValidationError
+	if !errors.As(err, &ve) {
+		t.Fatalf("error = %T, want *errs.ValidationError", err)
+	}
+	if ve.Param != "--format" {
+		t.Fatalf("param = %q, want --format", ve.Param)
+	}
+	if !strings.Contains(problem.Message, `invalid value "bogus" for --format`) {
+		t.Fatalf("message = %q, want enum validation message", problem.Message)
+	}
+	if !strings.Contains(problem.Message, "table, json, data") {
+		t.Fatalf("message = %q, want allowed values list", problem.Message)
 	}
 }
