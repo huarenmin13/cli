@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
+	"os"
 	"strings"
 )
 
@@ -41,9 +42,30 @@ type authorSlideContentFile struct {
 }
 
 type authorSlideContent struct {
+	ID         string              `json:"id"`
+	Content    string              `json:"content"`
+	Notes      string              `json:"notes"`
+	SourceRefs []string            `json:"source_refs"`
+	Visuals    []authorSlideVisual `json:"visuals"`
+}
+
+type authorSlideVisual struct {
+	ID          string `json:"id"`
+	Type        string `json:"type"`
+	Instruction string `json:"instruction"`
+}
+
+type authorAssetsFile struct {
+	Assets []authorAsset `json:"assets"`
+}
+
+type authorAsset struct {
 	ID      string `json:"id"`
-	Content string `json:"content"`
-	Notes   string `json:"notes"`
+	SlideID string `json:"slide_id"`
+	Type    string `json:"type"`
+	Path    string `json:"path"`
+	Usage   string `json:"usage"`
+	Status  string `json:"status"`
 }
 
 type authorVisualSystem struct {
@@ -72,6 +94,7 @@ type authorTheme struct {
 type authorSlideTarget struct {
 	Slide   authorDeckSlide
 	Content authorSlideContent
+	Assets  []authorAsset
 	Path    string
 	Target  string
 	Page    int
@@ -99,7 +122,8 @@ func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, err
 	if err != nil {
 		return AuthorReport{}, err
 	}
-	if err := readAuthorJSONContract(safeRoot, "assets/assets_plan.json"); err != nil {
+	assetsBySlideID, err := readAuthorAssets(safeRoot, "assets/assets_plan.json")
+	if err != nil {
 		return AuthorReport{}, err
 	}
 	if err := validateAuthorDeckContent(deck, contentByID); err != nil {
@@ -126,6 +150,7 @@ func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, err
 		targets = append(targets, authorSlideTarget{
 			Slide:   slide,
 			Content: contentByID[strings.TrimSpace(slide.ID)],
+			Assets:  selectAuthorRenderableImageAssets(safeRoot, contentByID[strings.TrimSpace(slide.ID)], assetsBySlideID[strings.TrimSpace(slide.ID)]),
 			Path:    slidePath,
 			Target:  target,
 			Page:    i + 1,
@@ -138,7 +163,7 @@ func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, err
 	}
 
 	for _, target := range targets {
-		svg := renderAuthorSVG(deck.Title, target.Slide, target.Content, theme, target.Page, len(deck.Slides))
+		svg := renderAuthorSVG(deck.Title, target.Slide, target.Content, target.Assets, theme, target.Page, len(deck.Slides))
 		if err := writeText(target.Target, svg); err != nil {
 			return AuthorReport{}, err
 		}
@@ -194,6 +219,86 @@ func readAuthorContent(safeRoot string, path string) (map[string]authorSlideCont
 	return byID, nil
 }
 
+func readAuthorAssets(safeRoot string, path string) (map[string][]authorAsset, error) {
+	raw, err := readRunRegularArtifact(safeRoot, path)
+	if err != nil {
+		return nil, fmt.Errorf("read assets plan %q: %w", path, err)
+	}
+	var file authorAssetsFile
+	if err := json.Unmarshal(raw, &file); err != nil {
+		return nil, fmt.Errorf("read assets plan %q: %w", path, err)
+	}
+	bySlideID := make(map[string][]authorAsset, len(file.Assets))
+	for _, asset := range file.Assets {
+		if strings.TrimSpace(asset.Status) != "ready" {
+			continue
+		}
+		slideID := strings.TrimSpace(asset.SlideID)
+		bySlideID[slideID] = append(bySlideID[slideID], asset)
+	}
+	return bySlideID, nil
+}
+
+func selectAuthorRenderableImageAssets(safeRoot string, content authorSlideContent, assets []authorAsset) []authorAsset {
+	if len(content.Visuals) == 0 || len(assets) == 0 {
+		return nil
+	}
+	assetByID := make(map[string]authorAsset, len(assets))
+	for _, asset := range assets {
+		if strings.TrimSpace(asset.Type) != "image" {
+			continue
+		}
+		id := strings.TrimSpace(asset.ID)
+		if id == "" {
+			continue
+		}
+		assetByID[id] = asset
+	}
+	for _, visual := range content.Visuals {
+		if strings.TrimSpace(visual.Type) != "image" {
+			continue
+		}
+		id := strings.TrimSpace(visual.ID)
+		if id == "" {
+			continue
+		}
+		asset, ok := assetByID[id]
+		if !ok {
+			continue
+		}
+		if !authorImageAssetUsable(safeRoot, asset) {
+			continue
+		}
+		return []authorAsset{asset}
+	}
+	return nil
+}
+
+func authorImageAssetUsable(safeRoot string, asset authorAsset) bool {
+	if strings.TrimSpace(asset.Type) != "image" {
+		return false
+	}
+	path := strings.TrimSpace(asset.Path)
+	if path == "" {
+		return false
+	}
+	lowerPath := strings.ToLower(path)
+	if strings.HasPrefix(lowerPath, "http://") || strings.HasPrefix(lowerPath, "https://") {
+		return false
+	}
+	if isAbsoluteRunPath(path) {
+		info, err := os.Stat(path)
+		if err != nil || !info.Mode().IsRegular() {
+			return false
+		}
+		return true
+	}
+	if _, err := readRunRegularArtifact(safeRoot, path); err != nil {
+		return false
+	}
+	return true
+}
+
 func validateAuthorDeckContent(deck authorDeck, contentByID map[string]authorSlideContent) error {
 	deckIDs := make(map[string]bool, len(deck.Slides))
 	for _, slide := range deck.Slides {
@@ -238,18 +343,6 @@ func readAuthorTheme(safeRoot string, path string) (authorTheme, error) {
 	return theme, nil
 }
 
-func readAuthorJSONContract(safeRoot string, path string) error {
-	raw, err := readRunRegularArtifact(safeRoot, path)
-	if err != nil {
-		return fmt.Errorf("read assets plan %q: %w", path, err)
-	}
-	var contract any
-	if err := json.Unmarshal(raw, &contract); err != nil {
-		return fmt.Errorf("read assets plan %q: %w", path, err)
-	}
-	return nil
-}
-
 func normalizeAuthorColor(value string, fallback string) string {
 	value = strings.TrimSpace(value)
 	if isAllowedAuthorHexColor(value) {
@@ -274,7 +367,7 @@ func isAllowedAuthorHexColor(value string) bool {
 	return true
 }
 
-func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlideContent, theme authorTheme, page int, total int) string {
+func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlideContent, assets []authorAsset, theme authorTheme, page int, total int) string {
 	title := firstNonEmpty(slide.Title, "Untitled slide")
 	keyMessage := firstNonEmpty(slide.KeyMessage, slide.Summary)
 	bodyLines := authorBodyLines(content.Content)
@@ -282,12 +375,19 @@ func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlid
 	if footer == "" {
 		footer = "SVGlide"
 	}
+	footnote := authorSourceFootnote(content.SourceRefs)
+	heroAsset := firstReadyAuthorImageAsset(assets)
+	contentWidth := 848
+	contentHeight := 404
+	if heroAsset != nil {
+		contentWidth = 500
+	}
 
 	var b strings.Builder
 	fmt.Fprintf(&b, `<svg xmlns="%s" xmlns:slide="%s" width="%d" height="%d" viewBox="0 0 960 540" slide:role="slide">`+"\n", svgNamespace, slideNamespace, defaultSlideWidth, defaultSlideHeight)
 	fmt.Fprintf(&b, `  <rect x="0" y="0" width="960" height="540" fill="%s" data-role="background"/>`+"\n", escapeAttr(theme.Background))
 	fmt.Fprintf(&b, `  <rect x="0" y="0" width="960" height="8" fill="%s"/>`+"\n", escapeAttr(theme.Accent))
-	fmt.Fprintf(&b, `  <foreignObject x="56" y="48" width="848" height="404" slide:shape-type="text">`+"\n")
+	fmt.Fprintf(&b, `  <foreignObject x="56" y="48" width="%d" height="%d" slide:role="shape" slide:shape-type="text">`+"\n", contentWidth, contentHeight)
 	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;">`+"\n", escapeAttr(theme.Ink))
 	fmt.Fprintf(&b, `      <div style="font-size:%dpx;font-weight:700;line-height:1.16;margin-bottom:16px;">%s</div>`+"\n", theme.TitleSize, escapeText(title))
 	if keyMessage != "" {
@@ -300,7 +400,15 @@ func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlid
 	fmt.Fprintf(&b, "      </div>\n")
 	fmt.Fprintf(&b, "    </div>\n")
 	fmt.Fprintf(&b, "  </foreignObject>\n")
-	fmt.Fprintf(&b, `  <foreignObject x="56" y="482" width="848" height="32" slide:shape-type="text">`+"\n")
+	if footnote != "" {
+		fmt.Fprintf(&b, `  <foreignObject x="56" y="456" width="520" height="18" slide:role="shape" slide:shape-type="text">`+"\n")
+		fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;font-size:12px;line-height:1.2;">%s</div>`+"\n", escapeAttr(theme.Muted), escapeText(footnote))
+		fmt.Fprintf(&b, "  </foreignObject>\n")
+	}
+	if heroAsset != nil {
+		fmt.Fprintf(&b, `  <image slide:role="image" slide:shape-type="image" href="%s" x="600" y="160" width="304" height="190" clip-path="inset(0 round 12px)"/>`+"\n", escapeAttr(heroAsset.Path))
+	}
+	fmt.Fprintf(&b, `  <foreignObject x="56" y="482" width="848" height="32" slide:role="shape" slide:shape-type="text">`+"\n")
 	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;font-size:12px;display:flex;justify-content:space-between;">`+"\n", escapeAttr(theme.Muted))
 	fmt.Fprintf(&b, "      <span>%s</span><span>%d / %d</span>\n", escapeText(footer), page, total)
 	fmt.Fprintf(&b, "    </div>\n")
@@ -321,6 +429,36 @@ func authorBodyLines(content string) []string {
 		return []string{"No content provided."}
 	}
 	return lines
+}
+
+func authorSourceFootnote(sourceRefs []string) string {
+	if len(sourceRefs) == 0 {
+		return ""
+	}
+	refs := make([]string, 0, len(sourceRefs))
+	for _, ref := range sourceRefs {
+		if trimmed := strings.TrimSpace(ref); trimmed != "" {
+			refs = append(refs, trimmed)
+		}
+	}
+	if len(refs) == 0 {
+		return ""
+	}
+	return "来源：" + strings.Join(refs, " / ")
+}
+
+func firstReadyAuthorImageAsset(assets []authorAsset) *authorAsset {
+	for i := range assets {
+		asset := &assets[i]
+		if strings.TrimSpace(asset.Type) != "image" {
+			continue
+		}
+		if strings.TrimSpace(asset.Path) == "" {
+			continue
+		}
+		return asset
+	}
+	return nil
 }
 
 func firstNonEmpty(values ...string) string {
