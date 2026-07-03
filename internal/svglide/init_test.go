@@ -32,14 +32,13 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 	for _, name := range []string{
 		"run.json",
 		"README.md",
+		"prompt_manifest.json",
 		"request/request.json",
 		"request/source_manifest.json",
 		"research",
 		"brief",
 		"outline",
 		"content",
-		"prompts/01_request.task.md",
-		"prompts/07_svg_author.task.md",
 		"schemas/request.schema.json",
 		"schemas/deck.schema.json",
 		"receipts",
@@ -94,14 +93,18 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		t.Fatalf("unexpected source_manifest.json: %+v", manifest)
 	}
 
-	promptRaw, err := os.ReadFile(filepath.Join(root, "prompts", "07_svg_author.task.md"))
+	if _, err := os.Stat(filepath.Join(root, "prompts")); !os.IsNotExist(err) {
+		t.Fatalf("prompts directory should not be generated per run, stat err = %v", err)
+	}
+
+	promptRaw, err := os.ReadFile(filepath.Join(root, "prompt_manifest.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
 	prompt := string(promptRaw)
-	for _, want := range []string{"Inputs", "Outputs", "Receipt", "禁止只写背景"} {
+	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/generate_svg_chart.md"} {
 		if !strings.Contains(prompt, want) {
-			t.Fatalf("svg author prompt missing %q:\n%s", want, prompt)
+			t.Fatalf("prompt manifest missing %q:\n%s", want, prompt)
 		}
 	}
 
@@ -312,106 +315,38 @@ func TestInitRunRejectsRootResolvingToCWDWhenOverwrite(t *testing.T) {
 	}
 }
 
-func TestInitRunWritesPromptContracts(t *testing.T) {
-	prompts := map[string]string{}
-	for _, prompt := range DefaultPromptFiles() {
-		prompts[prompt.Name] = prompt.Content
+func TestDefaultPromptManifestContracts(t *testing.T) {
+	manifest := DefaultPromptManifest()
+	if manifest.Source != anyGenPromptRoot {
+		t.Fatalf("Source = %q, want %q", manifest.Source, anyGenPromptRoot)
 	}
-	repairPrompt := prompts["08_repair.task.md"]
-	if repairPrompt == "" {
-		t.Fatal("missing 08_repair.task.md")
+	if manifest.Runtime != "codex" {
+		t.Fatalf("Runtime = %q, want codex", manifest.Runtime)
 	}
-	wantOutputs := []string{
-		"receipts/lint.json",
-		"receipts/preview.json",
-		"quality_report.json",
-		"repair_queue.md",
-		"preview.html",
+	entries := map[string]PromptManifestEntry{}
+	for _, entry := range manifest.Entries {
+		entries[entry.Name] = entry
 	}
-	if got := promptSectionItems(repairPrompt, "Outputs"); !sameStrings(got, wantOutputs) {
-		t.Fatalf("08_repair Outputs = %v, want %v\n%s", got, wantOutputs, repairPrompt)
-	}
-	if got := promptSectionItems(repairPrompt, "Receipt"); !sameStrings(got, []string{"receipts/validate_preview_repair.json"}) {
-		t.Fatalf("08_repair Receipt = %v, want receipts/validate_preview_repair.json\n%s", got, repairPrompt)
-	}
-
-	slideContentPrompt := prompts["05_slide_content.task.md"]
-	if slideContentPrompt == "" {
-		t.Fatal("missing 05_slide_content.task.md")
-	}
-	for _, want := range []string{
-		"每个 visuals item 都必须写 id/type/instruction。",
-		`{"id":"none-<slide-id>","type":"none","instruction":"说明不需要视觉资产的原因"}`,
-		"不要添加 schema 未允许字段。",
-	} {
-		if !strings.Contains(slideContentPrompt, want) {
-			t.Fatalf("05_slide_content prompt missing %q:\n%s", want, slideContentPrompt)
+	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "resolve_design_brief", "slide_outline", "slides_edit", "finish_slides_edit", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
+		if entries[want].Path == "" {
+			t.Fatalf("manifest missing %q: %+v", want, manifest.Entries)
 		}
 	}
-
-	assetsPrompt := prompts["06_assets.task.md"]
-	if assetsPrompt == "" {
-		t.Fatal("missing 06_assets.task.md")
+	if !entries["mode_system_prompt_svg"].Always || !entries["svg_reference"].Always {
+		t.Fatalf("core prompt entries must be always available: %+v", manifest.Entries)
 	}
-	for _, want := range []string{
-		"每个资产都必须包含 id/slide_id/type/path/usage/status。",
-		"status 只能是 ready 或 missing。",
-		"ready 必须对应 assets/images/<file> 单层本地相对路径。",
-		"missing 用于记录还没由 Codex 准备好的资产。",
-	} {
-		if !strings.Contains(assetsPrompt, want) {
-			t.Fatalf("06_assets prompt missing %q:\n%s", want, assetsPrompt)
+	if entries["slides_edit"].Stage != StageSVGAuthor {
+		t.Fatalf("slides_edit stage = %q, want %q", entries["slides_edit"].Stage, StageSVGAuthor)
+	}
+	if entries["generate_svg_chart"].Stage != StageAssets {
+		t.Fatalf("generate_svg_chart stage = %q, want %q", entries["generate_svg_chart"].Stage, StageAssets)
+	}
+	paths := strings.Join(PromptPathsForStage(StageSVGAuthor), "\n")
+	for _, want := range []string{"mode_system_prompt_svg.md", "svg_reference.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
+		if !strings.Contains(paths, want) {
+			t.Fatalf("SVG author prompt paths missing %q:\n%s", want, paths)
 		}
 	}
-	for _, unwanted := range []string{
-		"assets/charts",
-		"图表资产必须写入",
-		"本地绝对路径",
-	} {
-		if strings.Contains(assetsPrompt, unwanted) {
-			t.Fatalf("06_assets prompt contains unsupported chart instruction %q:\n%s", unwanted, assetsPrompt)
-		}
-	}
-
-	authorPrompt := prompts["07_svg_author.task.md"]
-	if authorPrompt == "" {
-		t.Fatal("missing 07_svg_author.task.md")
-	}
-	if strings.Contains(authorPrompt, "assets/charts") {
-		t.Fatalf("07_svg_author prompt contains unsupported chart input:\n%s", authorPrompt)
-	}
-}
-
-func promptSectionItems(content string, section string) []string {
-	lines := strings.Split(content, "\n")
-	inSection := false
-	var items []string
-	for _, line := range lines {
-		trimmed := strings.TrimSpace(line)
-		if trimmed == section+":" {
-			inSection = true
-			continue
-		}
-		if inSection && strings.HasSuffix(trimmed, ":") {
-			break
-		}
-		if inSection && strings.HasPrefix(trimmed, "- ") {
-			items = append(items, strings.TrimSpace(strings.TrimPrefix(trimmed, "- ")))
-		}
-	}
-	return items
-}
-
-func sameStrings(got []string, want []string) bool {
-	if len(got) != len(want) {
-		return false
-	}
-	for i := range got {
-		if got[i] != want[i] {
-			return false
-		}
-	}
-	return true
 }
 
 func TestInitRunRejectsBlankRequiredFields(t *testing.T) {

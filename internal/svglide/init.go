@@ -134,7 +134,6 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 		"content",
 		"assets/images",
 		"slides",
-		"prompts",
 		"schemas",
 		"receipts",
 	} {
@@ -176,10 +175,8 @@ func writeStaticFiles(root string) error {
 	if err := writeText(filepath.Join(root, "README.md"), renderRunREADME()); err != nil {
 		return err
 	}
-	for _, prompt := range DefaultPromptFiles() {
-		if err := writeText(filepath.Join(root, "prompts", prompt.Name), prompt.Content); err != nil {
-			return err
-		}
+	if err := writePromptManifest(root); err != nil {
+		return err
 	}
 	for name, schema := range DefaultSchemas() {
 		if err := writeText(filepath.Join(root, "schemas", name), schema); err != nil {
