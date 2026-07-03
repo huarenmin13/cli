@@ -155,9 +155,11 @@ func lintSVG(path string, raw []byte) []ValidationIssue {
 				rootIsSVG = typed.Name.Local == "svg" && typed.Name.Space == svgNamespace
 				hasSlideRole = hasRootSlideRole(typed)
 				viewBox, hasViewBox = rootViewBox(typed)
+				issues = append(issues, lintSVGElementProtocol(path, typed, excluded)...)
 				stack = append(stack, ctx)
 				continue
 			}
+			issues = append(issues, lintSVGElementProtocol(path, typed, excluded)...)
 			if elementCountsAsVisibleContent(typed, viewBox, excluded) {
 				hasVisibleContent = true
 			}
@@ -236,6 +238,109 @@ func parseViewBox(value string) svgViewBox {
 		return svgViewBox{}
 	}
 	return svgViewBox{Width: width, Height: height, Valid: true}
+}
+
+func lintSVGElementProtocol(path string, start xml.StartElement, excluded bool) []ValidationIssue {
+	if excluded || start.Name.Space != svgNamespace {
+		return nil
+	}
+
+	var issues []ValidationIssue
+	if elementHasNonPositiveDimension(start) {
+		issues = append(issues, ValidationIssue{
+			Path:    path,
+			Code:    "svglide.geometry",
+			Message: fmt.Sprintf("<%s> has non-positive width or height", start.Name.Local),
+		})
+	}
+	if start.Name.Local == "image" {
+		if imageHrefIsRemote(start) {
+			issues = append(issues, ValidationIssue{
+				Path:    path,
+				Code:    "svglide.remote_asset",
+				Message: "image href must be a local prepared asset, not a remote URL",
+			})
+		}
+		if !hasSlideAttr(start, "role", "image") {
+			issues = append(issues, ValidationIssue{
+				Path:    path,
+				Code:    "svglide.image_role",
+				Message: `image must include slide:role="image"`,
+			})
+		}
+	}
+	return issues
+}
+
+func elementHasNonPositiveDimension(start xml.StartElement) bool {
+	for _, name := range []string{"width", "height"} {
+		value, ok := plainAttr(start, name)
+		if !ok {
+			continue
+		}
+		parsed, ok := parseSVGDimension(value)
+		if ok && parsed <= 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func imageHrefIsRemote(start xml.StartElement) bool {
+	for _, attr := range start.Attr {
+		if !isAllowedImageHrefAttr(attr) {
+			continue
+		}
+		value := strings.ToLower(strings.TrimSpace(attr.Value))
+		if strings.HasPrefix(value, "http://") || strings.HasPrefix(value, "https://") {
+			return true
+		}
+	}
+	return false
+}
+
+func isAllowedImageHrefAttr(attr xml.Attr) bool {
+	return attr.Name.Local == "href" && (attr.Name.Space == "" || attr.Name.Space == xlinkNamespace)
+}
+
+func hasSlideAttr(start xml.StartElement, local string, value string) bool {
+	for _, attr := range start.Attr {
+		if attr.Name.Space == slideNamespace && attr.Name.Local == local && strings.TrimSpace(attr.Value) == value {
+			return true
+		}
+	}
+	return false
+}
+
+func plainAttr(start xml.StartElement, local string) (string, bool) {
+	for _, attr := range start.Attr {
+		if attr.Name.Space == "" && attr.Name.Local == local {
+			return attr.Value, true
+		}
+	}
+	return "", false
+}
+
+func parseSVGDimension(value string) (float64, bool) {
+	s := strings.TrimSpace(value)
+	if s == "" {
+		return 0, false
+	}
+	lower := strings.ToLower(s)
+	for _, suffix := range []string{"vmax", "vmin", "rem", "px", "%", "em", "pt", "pc", "in", "cm", "mm", "qh", "q", "ex", "ch", "vw", "vh"} {
+		if strings.HasSuffix(lower, suffix) {
+			s = strings.TrimSpace(s[:len(s)-len(suffix)])
+			if s == "" {
+				return 0, false
+			}
+			break
+		}
+	}
+	parsed, err := strconv.ParseFloat(s, 64)
+	if err != nil || math.IsNaN(parsed) || math.IsInf(parsed, 0) {
+		return 0, false
+	}
+	return parsed, true
 }
 
 func elementCountsAsVisibleContent(start xml.StartElement, viewBox svgViewBox, excluded bool) bool {
