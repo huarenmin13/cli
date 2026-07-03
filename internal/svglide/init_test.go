@@ -356,7 +356,7 @@ func TestInitRunWritesPromptContracts(t *testing.T) {
 	for _, want := range []string{
 		"每个资产都必须包含 id/slide_id/type/path/usage/status。",
 		"status 只能是 ready 或 missing。",
-		"ready 必须对应本地路径。",
+		"ready 必须对应 assets/images/<file> 单层本地相对路径。",
 		"missing 用于记录还没由 Codex 准备好的资产。",
 	} {
 		if !strings.Contains(assetsPrompt, want) {
@@ -366,6 +366,7 @@ func TestInitRunWritesPromptContracts(t *testing.T) {
 	for _, unwanted := range []string{
 		"assets/charts",
 		"图表资产必须写入",
+		"本地绝对路径",
 	} {
 		if strings.Contains(assetsPrompt, unwanted) {
 			t.Fatalf("06_assets prompt contains unsupported chart instruction %q:\n%s", unwanted, assetsPrompt)

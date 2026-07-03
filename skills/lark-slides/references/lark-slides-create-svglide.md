@@ -20,7 +20,7 @@ Codex 负责：
 - 生成 research_notes.md 与 sources.json
 - 生成 design_brief.json 与 visual_system.json
 - 生成 slide_content.md 与 slide_content.json
-- 搜图/生图并写入 assets/images/*
+- 搜图/生图并写入 assets/images/<file>
 - 编写或修复 slides/*.svg
 
 第一阶段不支持：
@@ -122,7 +122,7 @@ lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/
 
 - CLI 负责 run-dir 骨架、prompt/schema、状态检查、SVG protocol 校验、当前本地迁移 quality gate、repair queue 和 HTML preview。
 - Codex 负责网页研究、完整页面读取、design brief、visual system、slide content、资产规划、生图/搜图结果落地、每页 source_refs/visuals 以及 SVG authoring 和修复。
-- assets_plan 是先规划后写 SVG 的输入；Codex 应先写 assets_plan，再落地 `assets/images/*`，最后让 `author` 或 `repair` 消费这些本地资产。
+- assets_plan 是先规划后写 SVG 的输入；Codex 应先写 assets_plan，再落地 `assets/images/<file>` 单层本地资产，最后让 `author` 或 `repair` 消费这些本地资产。不要在 assets_plan 或 SVG href 中写远程 URL、绝对路径、父目录、嵌套目录或 percent encoding。
 - `quality` action 是当前本地迁移质量门禁入口，覆盖来源、引用、视觉需求和本地资产路径；`repair` 的 final quality gate 必须和 validate、preview 一起通过。
 - 第一批功能等价适配不实现 chart、table、图片裁剪。遇到真实数据图表、表格或图片构图需求时，Codex 在内容层保留语义说明，CLI 基础 `author` 用文本和形状占位表达，不伪装成 native chart、native table 或 image crop。
 - 本命令不发布到 Feishu，不返回 `xml_presentation_id`，不创建 `.slides`，不调用 Slides OpenAPI。
@@ -134,7 +134,7 @@ lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/
 1. 先运行 `status` 或 `next`，确认当前 stage 和缺失产物。
 2. 按 `prompts/*.task.md` 填充当前 stage 的输出，不跳 stage 写最终 SVG。
 3. 每个 stage 输出就绪后运行 `complete`，让 CLI 校验当前 stage 并推进 `run.json`。
-4. 写 `content/slide_content.md` 时为每页补齐 `source_refs` 和 `visuals`；写 `assets/assets_plan.json` 后再落地 `assets/images/*` 本地资产。
+4. 写 `content/slide_content.md` 时为每页补齐 `source_refs` 和 `visuals`；写 `assets/assets_plan.json` 后再落地 `assets/images/<file>` 本地资产。
 5. 当 `outline`、`content`、`visual`、`assets` 已存在时，可运行 `author` 生成包含文本、来源脚注和本地图片的基础 SVG。
 6. 生成 SVG 时保持纯 SVG、`viewBox="0 0 960 540"`、可选中文本、无远程资源。
 7. 最后运行 `repair`，形成 validate + preview + quality 三门禁和 final receipt；`repair` 只自动处理可由基础 `author` 覆盖的 lint 失败，deck 缺失、JSON 读取失败等问题会通过命令错误、已有 receipt 和 `repair_queue.md` 暴露；`quality` 成功执行后才保证写出 `quality_report.json`。

@@ -506,7 +506,7 @@ func TestValidateRunRejectsWrongNamespaceVisibleContent(t *testing.T) {
 func TestValidateRunAcceptsNamespacedXLinkHref(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
-	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" xmlns:xlink="http://www.w3.org/1999/xlink" slide:role="slide" viewBox="0 0 960 540"><image slide:role="image" xlink:href="asset.png" width="120" height="80"/></svg>`
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" xmlns:xlink="http://www.w3.org/1999/xlink" slide:role="slide" viewBox="0 0 960 540"><image slide:role="image" xlink:href="assets/images/asset.png" width="120" height="80"/></svg>`
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), svg)
 
 	report, err := ValidateRun("demo")
@@ -596,34 +596,34 @@ func TestValidateRunRejectsImageWithoutImageRole(t *testing.T) {
 	}
 }
 
-func TestValidateRunIgnoresProtocolLintInsideExcludedContent(t *testing.T) {
+func TestValidateRunIgnoresGeometryAndImageRoleInsideExcludedContent(t *testing.T) {
 	tests := []struct {
 		name string
 		body string
 	}{
 		{
 			name: "defs image",
-			body: `<defs><image href="https://example.com/defs.png" width="-4px" height="120"/></defs><text x="48" y="80">Hello</text>`,
+			body: `<defs><image href="assets/images/defs.png" width="-4px" height="120"/></defs><text x="48" y="80">Hello</text>`,
 		},
 		{
 			name: "pattern image",
-			body: `<pattern id="p"><image href="https://example.com/pattern.png" width="120" height="0%"/></pattern><text x="48" y="80">Hello</text>`,
+			body: `<pattern id="p"><image href="assets/images/pattern.png" width="120" height="0%"/></pattern><text x="48" y="80">Hello</text>`,
 		},
 		{
 			name: "mask image",
-			body: `<mask id="m"><image href="https://example.com/mask.png" width="auto" height="-4px"/></mask><text x="48" y="80">Hello</text>`,
+			body: `<mask id="m"><image href="assets/images/mask.png" width="auto" height="-4px"/></mask><text x="48" y="80">Hello</text>`,
 		},
 		{
 			name: "display none image",
-			body: `<g display="none"><image href="https://example.com/hidden.png" width="-4px" height="120"/></g><text x="48" y="80">Hello</text>`,
+			body: `<g display="none"><image href="assets/images/hidden.png" width="-4px" height="120"/></g><text x="48" y="80">Hello</text>`,
 		},
 		{
 			name: "visibility hidden image",
-			body: `<g visibility="hidden"><image href="https://example.com/hidden.png" width="120" height="-4px"/></g><text x="48" y="80">Hello</text>`,
+			body: `<g visibility="hidden"><image href="assets/images/hidden.png" width="120" height="-4px"/></g><text x="48" y="80">Hello</text>`,
 		},
 		{
 			name: "marker image role",
-			body: `<marker id="mk"><image href="https://example.com/marker.png" width="120" height="80"/></marker><text x="48" y="80">Hello</text>`,
+			body: `<marker id="mk"><image href="assets/images/marker.png" width="120" height="80"/></marker><text x="48" y="80">Hello</text>`,
 		},
 	}
 	for _, tt := range tests {
@@ -669,6 +669,64 @@ func TestValidateRunRejectsRemoteImageHrefWithXLink(t *testing.T) {
 	}
 	if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
 		t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+	}
+}
+
+func TestValidateRunRejectsUnsafeImageHrefVariants(t *testing.T) {
+	tests := []struct {
+		name string
+		href string
+	}{
+		{name: "parent directory", href: "../outside.png"},
+		{name: "absolute path", href: "/Users/example/secret.png"},
+		{name: "file url", href: "file:///tmp/secret.png"},
+		{name: "protocol relative", href: "//example.com/hero.png"},
+		{name: "data url", href: "data:image/png;base64,AAAA"},
+		{name: "percent encoding", href: "assets/images/hero%2epng"},
+		{name: "nested asset path", href: "assets/images/nested/hero.png"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			initValidateTestRun(t)
+			writeMinimalDeck(t, "demo", "slides/01.svg")
+			writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
+  <image slide:role="image" slide:shape-type="image" href="`+tt.href+`" x="10" y="10" width="200" height="120"/>
+</svg>`)
+
+			report, err := ValidateRun("demo")
+			if err != nil {
+				t.Fatal(err)
+			}
+			if report.OK {
+				t.Fatalf("OK = true, want false")
+			}
+			if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+				t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+			}
+		})
+	}
+}
+
+func TestValidateRunRejectsUnsafeImageHrefInsideExcludedContent(t *testing.T) {
+	initValidateTestRun(t)
+	writeMinimalDeck(t, "demo", "slides/01.svg")
+	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
+  <defs><image href="file:///tmp/secret.png" width="-4px" height="120"/></defs>
+  <text x="48" y="80">Hello</text>
+</svg>`)
+
+	report, err := ValidateRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.OK {
+		t.Fatalf("OK = true, want false")
+	}
+	if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+		t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+	}
+	if validationIssuesContainCode(report.Issues, "svglide.geometry") {
+		t.Fatalf("issues = %+v, want no geometry issue inside excluded content", report.Issues)
 	}
 }
 
@@ -736,7 +794,7 @@ func TestValidateRunRejectsDimensionUnits(t *testing.T) {
 func TestValidateRunAcceptsPlainHref(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
-	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><image slide:role="image" href="asset.png" width="120" height="80"/></svg>`
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><image slide:role="image" href="assets/images/asset.png" width="120" height="80"/></svg>`
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), svg)
 
 	report, err := ValidateRun("demo")

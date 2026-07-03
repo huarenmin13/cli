@@ -241,11 +241,21 @@ func parseViewBox(value string) svgViewBox {
 }
 
 func lintSVGElementProtocol(path string, start xml.StartElement, excluded bool) []ValidationIssue {
-	if excluded || start.Name.Space != svgNamespace {
+	if start.Name.Space != svgNamespace {
 		return nil
 	}
 
 	var issues []ValidationIssue
+	if start.Name.Local == "image" && imageHrefIsUnsafe(start) {
+		issues = append(issues, ValidationIssue{
+			Path:    path,
+			Code:    "svglide.remote_asset",
+			Message: "image href must be a local prepared assets/images/<file> asset",
+		})
+	}
+	if excluded {
+		return issues
+	}
 	if elementHasNonPositiveDimension(start) {
 		issues = append(issues, ValidationIssue{
 			Path:    path,
@@ -254,13 +264,6 @@ func lintSVGElementProtocol(path string, start xml.StartElement, excluded bool) 
 		})
 	}
 	if start.Name.Local == "image" {
-		if imageHrefIsRemote(start) {
-			issues = append(issues, ValidationIssue{
-				Path:    path,
-				Code:    "svglide.remote_asset",
-				Message: "image href must be a local prepared asset, not a remote URL",
-			})
-		}
 		if !hasSlideAttr(start, "role", "image") {
 			issues = append(issues, ValidationIssue{
 				Path:    path,
@@ -286,13 +289,12 @@ func elementHasNonPositiveDimension(start xml.StartElement) bool {
 	return false
 }
 
-func imageHrefIsRemote(start xml.StartElement) bool {
+func imageHrefIsUnsafe(start xml.StartElement) bool {
 	for _, attr := range start.Attr {
 		if !isAllowedImageHrefAttr(attr) {
 			continue
 		}
-		value := strings.ToLower(strings.TrimSpace(attr.Value))
-		if strings.HasPrefix(value, "http://") || strings.HasPrefix(value, "https://") {
+		if _, err := validatePreparedImageAssetPath(attr.Value); err != nil {
 			return true
 		}
 	}

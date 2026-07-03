@@ -3,7 +3,6 @@ package svglide
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 )
@@ -106,6 +105,7 @@ func CheckQuality(root string) (QualityReport, error) {
 	report.Metrics.Assets = len(assets.Assets)
 
 	sourceIDs := make(map[string]bool, len(sources.Sources))
+	hasLocalOrUserProvidedSource := false
 	for _, source := range sources.Sources {
 		id := strings.TrimSpace(source.ID)
 		if id != "" {
@@ -116,16 +116,19 @@ func CheckQuality(root string) (QualityReport, error) {
 		if retrieval == "full_page" && (strings.HasPrefix(path, "http://") || strings.HasPrefix(path, "https://")) {
 			report.Metrics.WebSources++
 		}
+		if retrieval == "local_file" || retrieval == "user_provided" {
+			hasLocalOrUserProvidedSource = true
+		}
 	}
-	if report.Metrics.WebSources == 0 {
+	if report.Metrics.WebSources == 0 && !hasLocalOrUserProvidedSource {
 		report.Issues = append(report.Issues, qualityIssue(
 			"research/sources.json",
 			"svglide.quality.research",
-			"topic decks need at least one full_page web source",
+			"topic decks need at least one full_page web source or explicit local/user-provided source",
 		))
 	}
 
-	assetsBySlideAndID := make(map[string]bool, len(assets.Assets))
+	assetsBySlideAndID := make(map[string]qualityAsset, len(assets.Assets))
 	for _, asset := range assets.Assets {
 		if strings.TrimSpace(asset.Status) != "ready" {
 			continue
@@ -135,7 +138,7 @@ func CheckQuality(root string) (QualityReport, error) {
 			continue
 		}
 		key := strings.TrimSpace(asset.SlideID) + "/" + strings.TrimSpace(asset.ID)
-		assetsBySlideAndID[key] = true
+		assetsBySlideAndID[key] = asset
 	}
 
 	contentByID := make(map[string]qualityContentSlide, len(content.Slides))
@@ -178,18 +181,37 @@ func CheckQuality(root string) (QualityReport, error) {
 			}
 		}
 
+		if len(item.Visuals) == 0 {
+			report.Issues = append(report.Issues, qualityIssue(
+				"content/slide_content.json",
+				"svglide.quality.visuals",
+				fmt.Sprintf("slide %q has no visuals; use a type=none sentinel when no visual asset is needed", id),
+			))
+		}
+
 		hasVisual := false
 		for _, visual := range item.Visuals {
-			if strings.TrimSpace(visual.Type) == "none" {
+			visualType := strings.TrimSpace(visual.Type)
+			if visualType == "none" {
 				continue
 			}
 			hasVisual = true
 			key := id + "/" + strings.TrimSpace(visual.ID)
-			if !assetsBySlideAndID[key] {
+			asset, ok := assetsBySlideAndID[key]
+			if !ok {
 				report.Issues = append(report.Issues, qualityIssue(
 					"assets/assets_plan.json",
 					"svglide.quality.asset",
 					fmt.Sprintf("slide %q visual %q has no ready asset", id, visual.ID),
+				))
+				continue
+			}
+			assetType := strings.TrimSpace(asset.Type)
+			if assetType != visualType {
+				report.Issues = append(report.Issues, qualityIssue(
+					"assets/assets_plan.json",
+					"svglide.quality.asset",
+					fmt.Sprintf("slide %q visual %q type %q has ready asset type %q", id, visual.ID, visualType, assetType),
 				))
 			}
 		}
@@ -248,26 +270,9 @@ func validateQualityAssetPath(safeRoot string, asset qualityAsset) error {
 	if strings.TrimSpace(asset.Status) != "ready" {
 		return nil
 	}
-	path := strings.TrimSpace(asset.Path)
-	if path == "" {
-		return fmt.Errorf("asset %q path is empty", strings.TrimSpace(asset.ID))
-	}
-	if strings.HasPrefix(path, "http://") || strings.HasPrefix(path, "https://") {
-		return fmt.Errorf("asset %q uses remote URL", strings.TrimSpace(asset.ID))
-	}
-	if filepath.IsAbs(path) {
-		info, err := os.Stat(path)
-		if err != nil {
-			return err
-		}
-		if !info.Mode().IsRegular() {
-			return fmt.Errorf("asset %q path is not a regular file", strings.TrimSpace(asset.ID))
-		}
-		f, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		return f.Close()
+	path, err := validatePreparedImageAssetPath(asset.Path)
+	if err != nil {
+		return fmt.Errorf("asset %q: %w", strings.TrimSpace(asset.ID), err)
 	}
 	if _, err := readRunRegularArtifact(safeRoot, path); err != nil {
 		return err

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
-	"os"
 	"strings"
 )
 
@@ -279,19 +278,9 @@ func authorImageAssetUsable(safeRoot string, asset authorAsset) bool {
 		return false
 	}
 	path := strings.TrimSpace(asset.Path)
-	if path == "" {
+	path, err := validatePreparedImageAssetPath(path)
+	if err != nil {
 		return false
-	}
-	lowerPath := strings.ToLower(path)
-	if strings.HasPrefix(lowerPath, "http://") || strings.HasPrefix(lowerPath, "https://") {
-		return false
-	}
-	if isAbsoluteRunPath(path) {
-		info, err := os.Stat(path)
-		if err != nil || !info.Mode().IsRegular() {
-			return false
-		}
-		return true
 	}
 	if _, err := readRunRegularArtifact(safeRoot, path); err != nil {
 		return false
@@ -406,7 +395,7 @@ func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlid
 		fmt.Fprintf(&b, "  </foreignObject>\n")
 	}
 	if heroAsset != nil {
-		fmt.Fprintf(&b, `  <image slide:role="image" slide:shape-type="image" href="%s" x="600" y="160" width="304" height="190" clip-path="inset(0 round 12px)"/>`+"\n", escapeAttr(heroAsset.Path))
+		fmt.Fprintf(&b, `  <image slide:role="image" slide:shape-type="image" href="%s" x="600" y="160" width="304" height="190"/>`+"\n", escapeAttr(heroAsset.Path))
 	}
 	fmt.Fprintf(&b, `  <foreignObject x="56" y="482" width="848" height="32" slide:role="shape" slide:shape-type="text">`+"\n")
 	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;font-size:12px;display:flex;justify-content:space-between;">`+"\n", escapeAttr(theme.Muted))

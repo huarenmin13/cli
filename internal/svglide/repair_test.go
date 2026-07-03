@@ -74,7 +74,7 @@ func TestRepairRunFailsWhenQualityFails(t *testing.T) {
 	)
 	mustWriteTestFile(t, "demo/slides/01.svg", visibleTextSVG())
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"local1","path":"research/local.md","title":"Local source","excerpt":"Local excerpt","usage":"support","retrieval":"local_file"}]}`)
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line\nSecond body line","source_refs":["local1"],"visuals":[{"id":"none-s1","type":"none","instruction":"Text-only"}]}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line\nSecond body line","source_refs":[],"visuals":[{"id":"none-s1","type":"none","instruction":"Text-only"}]}]}`)
 
 	report, err := RepairRun("demo")
 	if err != nil {

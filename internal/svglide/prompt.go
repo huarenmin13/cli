@@ -123,7 +123,7 @@ Inputs:
 
 Outputs:
 - assets/assets_plan.json
-- assets/images/* when local images are required
+- assets/images/<file> when local images are required
 
 Receipt:
 - receipts/assets.json
@@ -132,9 +132,9 @@ Acceptance:
 - 对 slide_content.json 中 type=image/diagram/icon 的视觉需求，必须在 assets_plan.json 中给出同 slide_id 的资产记录。
 - 每个资产都必须包含 id/slide_id/type/path/usage/status。
 - status 只能是 ready 或 missing。
-- ready 必须对应本地路径。
+- ready 必须对应 assets/images/<file> 单层本地相对路径。
 - missing 用于记录还没由 Codex 准备好的资产。
-- 图片路径必须是 run-dir 内本地文件或可被 CLI 读取的本地绝对路径。
+- 图片路径不得使用远程 URL、绝对路径、父目录、嵌套目录、percent encoding 或非 assets/images 目录。
 - 本阶段不生成 chart、table 或 image crop/pan 资产。
 - 遇到图表、表格或裁剪构图需求时，只在内容层保留语义说明；基础 author 用文本和形状占位，不伪装成 native chart、native table 或 image crop。
 
@@ -148,7 +148,7 @@ Inputs:
 - content/slide_content.json
 - brief/visual_system.json
 - assets/assets_plan.json
-- assets/images/*
+- assets/images/<file>
 
 Outputs:
 - slides/*.svg
@@ -322,6 +322,7 @@ func DefaultSchemas() map[string]string {
           "source_refs": {"type": "array", "items": {"type": "string"}},
           "visuals": {
             "type": "array",
+            "minItems": 1,
             "items": {
               "type": "object",
               "additionalProperties": false,
@@ -354,7 +355,7 @@ func DefaultSchemas() map[string]string {
           "id": {"type": "string"},
           "slide_id": {"type": "string"},
           "type": {"type": "string", "enum": ["image", "diagram", "icon"]},
-          "path": {"type": "string"},
+          "path": {"type": "string", "pattern": "^assets/images/[^./%\\\\:](?:[^/%\\\\:.]|\\.[^./%\\\\:])*$"},
           "usage": {"type": "string"},
           "status": {"type": "string", "enum": ["ready", "missing"]}
         }

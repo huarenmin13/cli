@@ -176,6 +176,11 @@ func TestValidateStageOutputsRejectsSlideContentMissingSourceRefsOrVisualIds(t *
 			raw:  `{"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[{"type":"none","instruction":"No visual needed"}]}]}`,
 			want: "visuals[0].id",
 		},
+		{
+			name: "empty visuals",
+			raw:  `{"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[]}]}`,
+			want: "visuals",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -209,6 +214,33 @@ func TestValidateStageOutputsRejectsAssetsMissingStatus(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "assets/assets_plan.json") || !strings.Contains(err.Error(), "status") {
 		t.Fatalf("error = %v, want assets/assets_plan.json and status", err)
+	}
+}
+
+func TestValidateStageOutputsRejectsUnsafeAssetPaths(t *testing.T) {
+	tests := []struct {
+		name string
+		path string
+	}{
+		{name: "outside images", path: "../a.png"},
+		{name: "dot dot filename", path: "assets/images/hero..png"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			initStatusTestRun(t)
+			setCurrentStageForStatusTest(t, StageAssets)
+			if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"assets":[{"id":"a1","slide_id":"s1","type":"image","path":"`+tt.path+`","usage":"hero image","status":"ready"}]}`), 0o644); err != nil {
+				t.Fatal(err)
+			}
+
+			err := ValidateStageOutputs("demo")
+			if err == nil {
+				t.Fatal("expected asset path schema validation error")
+			}
+			if !strings.Contains(err.Error(), "assets/assets_plan.json") || !strings.Contains(err.Error(), "path") {
+				t.Fatalf("error = %v, want assets/assets_plan.json and path", err)
+			}
+		})
 	}
 }
 

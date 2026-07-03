@@ -214,6 +214,10 @@ func TestAuthorSlidesSkipsUnsafeOrUnsupportedReadyImageAssets(t *testing.T) {
 			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"../hero.png","usage":"Hero image","status":"ready"}]}`,
 		},
 		{
+			name:  "wrong directory",
+			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/other/hero.png","usage":"Hero image","status":"ready"}]}`,
+		},
+		{
 			name:  "diagram",
 			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"diagram","path":"assets/images/hero.png","usage":"Hero diagram","status":"ready"}]}`,
 		},
@@ -250,6 +254,31 @@ func TestAuthorSlidesSkipsUnsafeOrUnsupportedReadyImageAssets(t *testing.T) {
 				t.Fatalf("unsafe or unsupported asset should not render image:\n%s", string(raw))
 			}
 		})
+	}
+}
+
+func TestAuthorSlidesDoesNotRenderExistingAbsoluteImageAsset(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+	outside := filepath.Join(t.TempDir(), "hero.png")
+	if err := os.WriteFile(outside, []byte("png"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Use the prepared hero image"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"`+outside+`","usage":"Hero image","status":"ready"}]}`)
+
+	if _, err := AuthorSlides("demo"); err != nil {
+		t.Fatal(err)
+	}
+
+	raw, err := os.ReadFile(filepath.Join("demo", "slides", "01.svg"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(raw), outside) || strings.Contains(string(raw), `<image slide:role="image"`) {
+		t.Fatalf("absolute asset should not render image:\n%s", string(raw))
 	}
 }
 

@@ -7,11 +7,27 @@ import (
 	"testing"
 )
 
-func TestCheckQualityRejectsTopicDeckWithoutFullPageWebSource(t *testing.T) {
+func TestCheckQualityAllowsExplicitLocalSourceWithoutFullPageWebSource(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"local1","path":"source.md","title":"Local Source","excerpt":"Input","usage":"Support","retrieval":"local_file"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["local1"],"visuals":[{"id":"v1","type":"none","instruction":"Text-only"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[]}`)
+
+	report, err := CheckQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" {
+		t.Fatalf("status = %q, want passed; issues = %+v", report.Status, report.Issues)
+	}
+}
+
+func TestCheckQualityRejectsTopicDeckWithoutFullPageWebOrExplicitLocalSource(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"source1","path":"source.md","title":"Weak Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["source1"],"visuals":[{"id":"v1","type":"none","instruction":"Text-only"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[]}`)
 
 	report, err := CheckQuality("demo")
@@ -103,13 +119,16 @@ func TestCheckQualityPassesAnyGenReadyRun(t *testing.T) {
 	}
 }
 
-func TestCheckQualityRejectsMissingAbsoluteReadyAssetPath(t *testing.T) {
+func TestCheckQualityRejectsAbsoluteReadyAssetPath(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"}]}]}`)
-	missing := filepath.Join(t.TempDir(), "missing.png")
-	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"`+missing+`","usage":"Hero image","status":"ready"}]}`)
+	outside := filepath.Join(t.TempDir(), "hero.png")
+	if err := os.WriteFile(outside, []byte("png"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"`+outside+`","usage":"Hero image","status":"ready"}]}`)
 
 	report, err := CheckQuality("demo")
 	if err != nil {
@@ -120,6 +139,50 @@ func TestCheckQualityRejectsMissingAbsoluteReadyAssetPath(t *testing.T) {
 	}
 	if !qualityIssueCodesContain(report.Issues, "svglide.quality.asset_path") {
 		t.Fatalf("issues = %+v, want svglide.quality.asset_path", report.Issues)
+	}
+}
+
+func TestCheckQualityRejectsEmptyVisuals(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["web1"],"visuals":[]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[]}`)
+
+	report, err := CheckQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" {
+		t.Fatalf("status = %q, want failed", report.Status)
+	}
+	if !qualityIssueCodesContain(report.Issues, "svglide.quality.visuals") {
+		t.Fatalf("issues = %+v, want svglide.quality.visuals", report.Issues)
+	}
+}
+
+func TestCheckQualityRejectsVisualAssetTypeMismatch(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"diagram","path":"assets/images/hero.png","usage":"Hero image","status":"ready"}]}`)
+	if err := os.MkdirAll(filepath.Join("demo", "assets", "images"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join("demo", "assets", "images", "hero.png"), []byte("png"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	report, err := CheckQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" {
+		t.Fatalf("status = %q, want failed", report.Status)
+	}
+	if !qualityIssueCodesContain(report.Issues, "svglide.quality.asset") {
+		t.Fatalf("issues = %+v, want svglide.quality.asset", report.Issues)
 	}
 }
 
