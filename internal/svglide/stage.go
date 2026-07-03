@@ -72,7 +72,7 @@ type stageStatusReceipt struct {
 }
 
 func validateFinalStageReceiptsPassed(safeRoot string) error {
-	for _, path := range []string{"receipts/lint.json", "receipts/preview.json"} {
+	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", "quality_report.json"} {
 		raw, err := readRunRegularArtifact(safeRoot, path)
 		if err != nil {
 			return fmt.Errorf("%s: read receipt: %w", path, err)

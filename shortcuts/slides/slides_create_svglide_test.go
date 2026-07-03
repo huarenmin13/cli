@@ -159,6 +159,7 @@ func TestSlidesCreateSVGlideActionEnumIncludesCompleteAuthorAndRepair(t *testing
 	want := map[string]bool{
 		"complete": false,
 		"author":   false,
+		"quality":  false,
 		"repair":   false,
 	}
 	for _, value := range actionFlag.Enum {
@@ -196,11 +197,39 @@ func TestSlidesCreateSVGlideRepairActionAuthorsAndPreviews(t *testing.T) {
 	if data["reauthored"] != true {
 		t.Fatalf("reauthored = %v, want true; data=%+v", data["reauthored"], data)
 	}
+	if data["quality"] != "passed" {
+		t.Fatalf("quality = %v, want passed; data=%+v", data["quality"], data)
+	}
 	if _, err := os.Stat(filepath.Join("run-demo", "preview.html")); err != nil {
 		t.Fatalf("missing preview.html: %v", err)
 	}
+	if _, err := os.Stat(filepath.Join("run-demo", "quality_report.json")); err != nil {
+		t.Fatalf("missing quality_report.json: %v", err)
+	}
 	if _, err := os.Stat(filepath.Join("run-demo", "receipts", "validate_preview_repair.json")); err != nil {
 		t.Fatalf("missing final repair receipt: %v", err)
+	}
+}
+
+func TestSlidesCreateSVGlideQualityActionOutputsReport(t *testing.T) {
+	initSVGlideShortcutRunWithAuthorInputs(t)
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "quality",
+		"--run", "run-demo",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["status"] != "passed" {
+		t.Fatalf("status = %v, want passed; data=%+v", data["status"], data)
+	}
+	if _, err := os.Stat(filepath.Join("run-demo", "quality_report.json")); err != nil {
+		t.Fatalf("missing quality_report.json: %v", err)
 	}
 }
 
@@ -300,7 +329,8 @@ func initSVGlideShortcutRunWithAuthorInputs(t *testing.T) {
 	initSVGlideShortcutRun(t)
 	writeSVGlideShortcutDeck(t, "slides/01.svg")
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "brief", "visual_system.json"), `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`)
-	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "content", "slide_content.json"), `{"slides":[{"id":"cover","content":"Point A\nPoint B","notes":"Speaker note"}]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "research", "sources.json"), `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "content", "slide_content.json"), `{"slides":[{"id":"cover","content":"Point A\nPoint B","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-cover","type":"none","instruction":"Text-only"}]}]}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_plan.json"), `{"assets":[]}`)
 }
 

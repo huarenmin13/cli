@@ -8,6 +8,7 @@ type RepairReport struct {
 	Status     string `json:"status"`
 	LintOK     bool   `json:"lint_ok"`
 	Preview    string `json:"preview"`
+	Quality    string `json:"quality"`
 	Reauthored bool   `json:"reauthored"`
 }
 
@@ -41,14 +42,19 @@ func RepairRun(root string) (RepairReport, error) {
 	if err != nil {
 		return RepairReport{}, err
 	}
+	quality, err := CheckQuality(root)
+	if err != nil {
+		return RepairReport{}, err
+	}
 
 	report := RepairReport{
 		Status:     "failed",
 		LintOK:     lint.OK,
 		Preview:    preview.Status,
+		Quality:    quality.Status,
 		Reauthored: reauthored,
 	}
-	if report.LintOK && report.Preview == "passed" {
+	if report.LintOK && report.Preview == "passed" && report.Quality == "passed" {
 		report.Status = "passed"
 	}
 
@@ -63,6 +69,7 @@ func RepairRun(root string) (RepairReport, error) {
 		Artifacts: []string{
 			"receipts/lint.json",
 			"receipts/preview.json",
+			"quality_report.json",
 			"repair_queue.md",
 			previewPath,
 		},
@@ -121,9 +128,12 @@ func repairIssueAuthorPath(issue ValidationIssue) (string, bool) {
 func repairReceiptMessage(report RepairReport) string {
 	if report.Status == "passed" {
 		if report.Reauthored {
-			return "lint and preview passed after reauthoring"
+			return "lint, preview, and quality passed after reauthoring"
 		}
-		return "lint and preview passed"
+		return "lint, preview, and quality passed"
+	}
+	if report.LintOK && report.Preview == "passed" && report.Quality != "passed" {
+		return "quality gate failed"
 	}
 	if report.Reauthored {
 		return "repair reauthored slides but lint or preview still failed"

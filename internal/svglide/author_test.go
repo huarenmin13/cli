@@ -152,7 +152,8 @@ func initAuthorDemoRun(t *testing.T, visualSystem string, deck string) {
 	mustWriteTestFile(t, "demo/brief/design_brief.json", `{"narrative_spine":"A to B","depth":"medium","tone":"clear"}`)
 	mustWriteTestFile(t, "demo/brief/visual_system.json", visualSystem)
 	mustWriteTestFile(t, "demo/outline/deck.json", deck)
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line\nSecond body line","notes":"Speaker note"},{"id":"s2","content":"Point A\nPoint B\nPoint C"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line\nSecond body line","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-s1","type":"none","instruction":"Text-only"}]},{"id":"s2","content":"Point A\nPoint B\nPoint C","source_refs":["web1"],"visuals":[{"id":"none-s2","type":"none","instruction":"Text-only"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[]}`)
 	run := readStatusTestRunFile(t)
 	run.CurrentStage = StageSVGAuthor
