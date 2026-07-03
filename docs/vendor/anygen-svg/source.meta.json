@@ -1,0 +1,8 @@
+{
+  "doc_url": "https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd",
+  "local_full_snapshot": "/Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/lark_doc_KnCLd7xr5ohWONxhKsncZ3Lxnvd/full.md",
+  "local_handoff": "/Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/anygen-slides-svg-prompt-handoff.md",
+  "fetched_by": "local export",
+  "fetched_for": "slides +create-svglide AnyGen SVG prompt runtime experiment",
+  "experiment_mode": "experiment_unrestricted_assets"
+}
