@@ -330,13 +330,19 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	for _, entry := range manifest.Entries {
 		entries[entry.Name] = entry
 	}
-	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "resolve_design_brief", "slide_outline", "slides_edit", "finish_slides_edit", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
+	for _, want := range []string{"anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
 		if entries[want].Path == "" {
 			t.Fatalf("manifest missing %q: %+v", want, manifest.Entries)
 		}
 	}
+	if entries["anygen_svg_readme"].Path != "skills/lark-slides/references/anygen-svg/README.md" || !entries["anygen_svg_readme"].Always {
+		t.Fatalf("anygen_svg_readme entry = %+v, want always README path", entries["anygen_svg_readme"])
+	}
 	if !entries["mode_system_prompt_svg"].Always || !entries["svg_reference"].Always {
 		t.Fatalf("core prompt entries must be always available: %+v", manifest.Entries)
+	}
+	if entries["activate_slides_edit"].Stage != StageSVGAuthor {
+		t.Fatalf("activate_slides_edit stage = %q, want %q", entries["activate_slides_edit"].Stage, StageSVGAuthor)
 	}
 	if entries["slides_edit"].Stage != StageSVGAuthor {
 		t.Fatalf("slides_edit stage = %q, want %q", entries["slides_edit"].Stage, StageSVGAuthor)
@@ -345,7 +351,7 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 		t.Fatalf("generate_svg_chart stage = %q, want %q", entries["generate_svg_chart"].Stage, StageAssets)
 	}
 	paths := strings.Join(PromptPathsForStage(StageSVGAuthor), "\n")
-	for _, want := range []string{"mode_system_prompt_svg.md", "svg_reference.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
+	for _, want := range []string{"README.md", "mode_system_prompt_svg.md", "svg_reference.md", "tools/activate_slides_edit.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
 		if !strings.Contains(paths, want) {
 			t.Fatalf("SVG author prompt paths missing %q:\n%s", want, paths)
 		}

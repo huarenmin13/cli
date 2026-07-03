@@ -22,10 +22,12 @@ func DefaultPromptManifest() PromptManifest {
 		Source:  anyGenPromptRoot,
 		Runtime: "codex",
 		Entries: []PromptManifestEntry{
+			{Name: "anygen_svg_readme", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "README.md")), Always: true},
 			{Name: "mode_system_prompt_svg", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "mode_system_prompt_svg.md")), Always: true},
 			{Name: "svg_reference", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "svg_reference.md")), Always: true},
 			{Name: "resolve_design_brief", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "tools", "resolve_design_brief.md")), Stage: StageDesignBrief},
 			{Name: "slide_outline", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "tools", "slide_outline.md")), Stage: StageOutline},
+			{Name: "activate_slides_edit", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "tools", "activate_slides_edit.md")), Stage: StageSVGAuthor},
 			{Name: "slides_edit", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "tools", "slides_edit.md")), Stage: StageSVGAuthor},
 			{Name: "finish_slides_edit", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "tools", "finish_slides_edit.md")), Stage: StageValidatePreviewRepair},
 			{Name: "slide_organize", Path: filepath.ToSlash(filepath.Join(anyGenPromptRoot, "tools", "slide_organize.md")), Stage: StageOutline},
