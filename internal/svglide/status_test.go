@@ -82,14 +82,20 @@ func TestNextReturnsCurrentTaskPrompt(t *testing.T) {
 	if next.Stage != StageRequest {
 		t.Fatalf("Stage = %q, want %q", next.Stage, StageRequest)
 	}
-	if next.PromptPath != "prompts/01_request.task.md" {
-		t.Fatalf("PromptPath = %q, want prompts/01_request.task.md", next.PromptPath)
+	if next.PromptManifest != "prompt_manifest.json" {
+		t.Fatalf("PromptManifest = %q, want prompt_manifest.json", next.PromptManifest)
 	}
-	if filepath.IsAbs(next.PromptPath) {
-		t.Fatalf("PromptPath = %q, want relative path", next.PromptPath)
+	if next.PromptPath != "" {
+		t.Fatalf("PromptPath = %q, want empty deprecated field", next.PromptPath)
 	}
-	if _, err := os.Stat(filepath.Join("demo", next.PromptPath)); err != nil {
-		t.Fatalf("missing prompt %s: %v", next.PromptPath, err)
+	got := strings.Join(next.PromptPaths, "\n")
+	for _, want := range []string{
+		"skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md",
+		"skills/lark-slides/references/anygen-svg/svg_reference.md",
+	} {
+		if !strings.Contains(got, want) {
+			t.Fatalf("PromptPaths missing %q:\n%s", want, got)
+		}
 	}
 	if len(next.Inputs) != 0 {
 		t.Fatalf("Inputs = %v, want empty", next.Inputs)

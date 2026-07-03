@@ -20,10 +20,12 @@ type StatusReport struct {
 }
 
 type NextTaskReport struct {
-	Stage      string   `json:"stage"`
-	PromptPath string   `json:"prompt_path"`
-	Inputs     []string `json:"inputs"`
-	Outputs    []string `json:"outputs"`
+	Stage          string   `json:"stage"`
+	PromptPath     string   `json:"prompt_path,omitempty"`
+	PromptPaths    []string `json:"prompt_paths"`
+	PromptManifest string   `json:"prompt_manifest"`
+	Inputs         []string `json:"inputs"`
+	Outputs        []string `json:"outputs"`
 }
 
 func ReadRun(root string) (Run, error) {
@@ -75,10 +77,6 @@ func NextTask(root string) (NextTaskReport, error) {
 	if len(missingInputs) > 0 {
 		return NextTaskReport{}, fmt.Errorf("current stage %q missing inputs: %s", stage.Name, strings.Join(missingInputs, ", "))
 	}
-	promptPath, err := promptPathForStage(stage.Name)
-	if err != nil {
-		return NextTaskReport{}, err
-	}
 	inputs, err := validateRunPaths(safeRoot, stage.Inputs)
 	if err != nil {
 		return NextTaskReport{}, err
@@ -88,10 +86,11 @@ func NextTask(root string) (NextTaskReport, error) {
 		return NextTaskReport{}, err
 	}
 	return NextTaskReport{
-		Stage:      stage.Name,
-		PromptPath: promptPath,
-		Inputs:     inputs,
-		Outputs:    outputs,
+		Stage:          stage.Name,
+		PromptPaths:    PromptPathsForStage(stage.Name),
+		PromptManifest: "prompt_manifest.json",
+		Inputs:         inputs,
+		Outputs:        outputs,
 	}, nil
 }
 
@@ -365,27 +364,4 @@ func isShellBareword(value string) bool {
 		return false
 	}
 	return true
-}
-
-func promptPathForStage(stage string) (string, error) {
-	switch stage {
-	case StageRequest:
-		return "prompts/01_request.task.md", nil
-	case StageResearch:
-		return "prompts/02_research.task.md", nil
-	case StageDesignBrief:
-		return "prompts/03_design_brief.task.md", nil
-	case StageOutline:
-		return "prompts/04_outline.task.md", nil
-	case StageSlideContent:
-		return "prompts/05_slide_content.task.md", nil
-	case StageAssets:
-		return "prompts/06_assets.task.md", nil
-	case StageSVGAuthor:
-		return "prompts/07_svg_author.task.md", nil
-	case StageValidatePreviewRepair:
-		return "prompts/08_repair.task.md", nil
-	default:
-		return "", fmt.Errorf("stage %q has no prompt mapping", stage)
-	}
 }
