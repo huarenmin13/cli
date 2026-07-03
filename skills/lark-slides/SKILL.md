@@ -88,6 +88,8 @@ lark-cli auth login --domain slides
 
 执行 `slides +create-svglide` 链路时，AnyGen md 资产优先于本地 adapter：
 
+当用户明确要求“生成 SVGlide / 创建 SVGlide PPT / 执行 SVGlide 链路 / 用 SVGlide 做一份 PPT”时，视为已授权进入执行流程。不要因为任务包含创作、构思或视觉设计就再触发 `superpowers:brainstorming` 的 approval gate。只有缺少必要输入、目标互相矛盾、或会产生外部不可逆副作用时，才暂停询问。
+
 1. 读取 `references/anygen-svg/README.md`。
 2. 读取 `next` 返回的 `prompt_paths`。
 3. 读取 `adapter_paths` 理解本地 run-dir 和 action 约束。

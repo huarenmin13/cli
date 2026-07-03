@@ -23,6 +23,16 @@
 
 语义质量由 AnyGen md 资产约束，Go 只做本地结构检查、JSON/SVG 基础校验和 preview 生成。当前实验阶段允许资产路径宽松表达；这只是本地 adapter 的搬运边界，不改变 AnyGen 对素材规划和页面质量的要求。
 
+## 执行模式
+
+用户要求生成、创建或执行 SVGlide PPT 时，默认进入 execution mode。
+
+- 不额外要求 brainstorming approval。
+- 不额外要求 writing plan。
+- 直接按 `init -> next -> stage artifacts -> complete -> repair` 推进。
+- 只有缺少必要输入、目标互相矛盾、或会产生外部不可逆副作用时才暂停。
+- 阻断权归属 `svglide-runtime`；辅助 skill 只能提供参考，不新增 approval gate。
+
 ## AnyGen prompt assets
 
 源快照：
