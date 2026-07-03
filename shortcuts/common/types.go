@@ -52,6 +52,7 @@ type Shortcut struct {
 	HasFormat bool     // Deprecated: --format is now always injected; this field has no effect.
 	Tips      []string // optional tips shown in --help output
 	Hidden    bool     // hide from --help / tab completion (still executable); use when deprecating a command in favor of a replacement
+	LocalOnly bool     // pure local command: no identity, config, scope, SDK, or OpenAPI bootstrap
 
 	// Business logic hooks.
 	DryRun   func(ctx context.Context, runtime *RuntimeContext) *DryRunAPI // optional: framework prints & returns when --dry-run is set

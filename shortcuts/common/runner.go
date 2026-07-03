@@ -927,6 +927,10 @@ func runShortcut(cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut, botOnly bo
 		}
 	}
 
+	if s.LocalOnly {
+		return runLocalShortcut(cmd, f, s, botOnly)
+	}
+
 	as, err := resolveShortcutIdentity(cmd, f, s)
 	if err != nil {
 		return err
@@ -948,6 +952,23 @@ func runShortcut(cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut, botOnly bo
 		return err
 	}
 
+	return runShortcutWithContext(f, rctx, s)
+}
+
+func runLocalShortcut(cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut, botOnly bool) error {
+	as := core.AsBot
+	if asFlag, _ := cmd.Flags().GetString("as"); asFlag != "" && core.Identity(asFlag) != core.AsAuto {
+		as = core.Identity(asFlag)
+	}
+	if err := f.CheckIdentity(as, s.AuthTypes); err != nil {
+		return err
+	}
+	config := &core.CliConfig{Brand: core.BrandFeishu}
+	rctx := newLocalRuntimeContext(cmd, f, s, config, as, botOnly)
+	return runShortcutWithContext(f, rctx, s)
+}
+
+func runShortcutWithContext(f *cmdutil.Factory, rctx *RuntimeContext, s *Shortcut) error {
 	if err := validateEnumFlags(rctx, s.Flags); err != nil {
 		return err
 	}
@@ -1029,6 +1050,21 @@ func newRuntimeContext(cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut, conf
 	rctx.Format = rctx.Str("format")
 	rctx.JqExpr, _ = cmd.Flags().GetString("jq")
 	return rctx, nil
+}
+
+func newLocalRuntimeContext(cmd *cobra.Command, f *cmdutil.Factory, s *Shortcut, config *core.CliConfig, as core.Identity, botOnly bool) *RuntimeContext {
+	ctx := cmd.Context()
+	ctx = cmdutil.ContextWithShortcut(ctx, s.Service+":"+s.Command, uuid.New().String())
+	rctx := &RuntimeContext{ctx: ctx, Config: config, Cmd: cmd, botOnly: botOnly, resolvedAs: as, Factory: f}
+	rctx.apiClientFunc = sync.OnceValues(func() (*client.APIClient, error) {
+		return nil, errs.NewValidationError(errs.SubtypeFailedPrecondition, "%s %s is local-only and cannot call OpenAPI", s.Service, s.Command)
+	})
+	rctx.botInfoFunc = sync.OnceValues(func() (*BotInfo, error) {
+		return nil, errs.NewValidationError(errs.SubtypeFailedPrecondition, "%s %s is local-only and has no bot identity", s.Service, s.Command)
+	})
+	rctx.Format = rctx.Str("format")
+	rctx.JqExpr, _ = cmd.Flags().GetString("jq")
+	return rctx
 }
 
 // stripUTF8BOM removes a leading UTF-8 byte-order mark from content read from a
@@ -1253,5 +1289,12 @@ func registerShortcutFlagsWithContext(ctx context.Context, cmd *cobra.Command, f
 		}
 	}
 	cmd.Flags().StringP("jq", "q", "", "jq expression to filter JSON output")
+	if s.LocalOnly {
+		cmd.Flags().String("as", "", "identity type: "+strings.Join(s.AuthTypes, " | "))
+		cmdutil.RegisterFlagCompletion(cmd, "as", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+			return s.AuthTypes, cobra.ShellCompDirectiveNoFileComp
+		})
+		return
+	}
 	cmdutil.AddShortcutIdentityFlag(ctx, cmd, f, s.AuthTypes)
 }

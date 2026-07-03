@@ -101,7 +101,7 @@ func RegisterShortcuts(program *cobra.Command, f *cmdutil.Factory) {
 func RegisterShortcutsWithContext(ctx context.Context, program *cobra.Command, f *cmdutil.Factory) {
 	// Factory.Config may be nil in tests that pass a zero-value factory.
 	var brand core.LarkBrand
-	if f != nil && f.Config != nil {
+	if !cmdutil.IsCredentialBootstrapDisabled(ctx) && f != nil && f.Config != nil {
 		if cfg, err := f.Config(); err == nil && cfg != nil {
 			brand = cfg.Brand
 		}

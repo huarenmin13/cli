@@ -19,6 +19,7 @@ var SlidesCreateSVGlide = common.Shortcut{
 	Description: "Create and manage a local SVGlide SVG run directory",
 	Risk:        "write",
 	AuthTypes:   []string{"user", "bot"},
+	LocalOnly:   true,
 	Flags: []common.Flag{
 		{Name: "action", Desc: "runtime action: init, status, next, complete, author, validate, preview, quality, repair", Required: true, Enum: []string{"init", "status", "next", "complete", "author", "validate", "preview", "quality", "repair"}},
 		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview/quality/repair"},

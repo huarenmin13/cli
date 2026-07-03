@@ -12,7 +12,9 @@ import (
 	"testing"
 
 	"github.com/larksuite/cli/internal/cmdutil"
+	"github.com/larksuite/cli/internal/core"
 	"github.com/larksuite/cli/shortcuts/common"
+	lark "github.com/larksuite/oapi-sdk-go/v3"
 )
 
 func TestSlidesCreateSVGlideInitShortcut(t *testing.T) {
@@ -99,11 +101,58 @@ func TestSlidesCreateSVGlideStatusAndNextActions(t *testing.T) {
 		t.Fatal(err)
 	}
 	nextData := decodeShortcutData(t, stdout)
-	if nextData["stage"] != "request" || nextData["prompt_path"] != "prompts/01_request.task.md" {
-		t.Fatalf("next data = %+v, want request prompt", nextData)
+	if nextData["stage"] != "request" || nextData["prompt_manifest"] != "prompt_manifest.json" {
+		t.Fatalf("next data = %+v, want request prompt manifest", nextData)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "run-demo", "prompts", "01_request.task.md")); err != nil {
-		t.Fatalf("missing prompt: %v", err)
+	if nextData["prompt_path"] != nil && stringValue(nextData["prompt_path"]) != "" {
+		t.Fatalf("prompt_path = %v, want empty deprecated field", nextData["prompt_path"])
+	}
+	paths := valuesAsStrings(nextData["prompt_paths"])
+	joined := strings.Join(paths, "\n")
+	for _, want := range []string{
+		"skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md",
+		"skills/lark-slides/references/anygen-svg/svg_reference.md",
+	} {
+		if !strings.Contains(joined, want) {
+			t.Fatalf("prompt_paths missing %q: %+v", want, paths)
+		}
+	}
+	if _, err := os.Stat(filepath.Join(dir, "run-demo", "prompt_manifest.json")); err != nil {
+		t.Fatalf("missing prompt manifest: %v", err)
+	}
+	if _, err := os.Stat(filepath.Join(dir, "run-demo", "prompts")); !os.IsNotExist(err) {
+		t.Fatalf("prompts dir err = %v, want not exist", err)
+	}
+}
+
+func TestSlidesCreateSVGlideLocalOnlySkipsConfigAndSDK(t *testing.T) {
+	dir := t.TempDir()
+	withSlidesTestWorkingDir(t, dir)
+	if err := os.WriteFile("source.md", []byte("# Demo"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	f, stdout, _, _ := cmdutil.TestFactory(t, nil)
+	f.Config = func() (*core.CliConfig, error) {
+		t.Fatal("local-only +create-svglide must not load config")
+		return nil, nil
+	}
+	f.LarkClient = func() (*lark.Client, error) {
+		t.Fatal("local-only +create-svglide must not create Lark SDK client")
+		return nil, nil
+	}
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "init",
+		"--title", "Demo",
+		"--input", "source.md",
+		"--out", "run-demo",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Stat(filepath.Join(dir, "run-demo", "run.json")); err != nil {
+		t.Fatalf("missing run.json: %v", err)
 	}
 }
 
@@ -408,4 +457,18 @@ func stringValue(value any) string {
 	var b bytes.Buffer
 	_ = json.NewEncoder(&b).Encode(value)
 	return strings.TrimSpace(b.String())
+}
+
+func valuesAsStrings(value any) []string {
+	values, ok := value.([]any)
+	if !ok {
+		return nil
+	}
+	out := make([]string, 0, len(values))
+	for _, value := range values {
+		if text, ok := value.(string); ok {
+			out = append(out, text)
+		}
+	}
+	return out
 }

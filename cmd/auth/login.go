@@ -42,6 +42,11 @@ var pollDeviceToken = larkauth.PollDeviceToken
 
 // NewCmdAuthLogin creates the auth login subcommand.
 func NewCmdAuthLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Command {
+	return NewCmdAuthLoginWithContext(context.Background(), f, runF)
+}
+
+// NewCmdAuthLoginWithContext creates the auth login subcommand.
+func NewCmdAuthLoginWithContext(ctx context.Context, f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Command {
 	opts := &LoginOptions{Factory: f}
 
 	cmd := &cobra.Command{
@@ -73,7 +78,7 @@ to generate QR codes (supports ASCII and PNG formats).`,
 	cmd.Flags().StringVar(&opts.Scope, "scope", "", "scopes to request (space- or comma-separated). Combines additively with --domain/--recommend")
 	cmd.Flags().BoolVar(&opts.Recommend, "recommend", false, "request only recommended (auto-approve) scopes")
 	var helpBrand core.LarkBrand
-	if f != nil && f.Config != nil {
+	if !cmdutil.IsCredentialBootstrapDisabled(ctx) && f != nil && f.Config != nil {
 		if cfg, err := f.Config(); err == nil && cfg != nil {
 			helpBrand = cfg.Brand
 		}

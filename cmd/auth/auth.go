@@ -22,6 +22,11 @@ import (
 
 // NewCmdAuth creates the auth command with subcommands.
 func NewCmdAuth(f *cmdutil.Factory) *cobra.Command {
+	return NewCmdAuthWithContext(context.Background(), f)
+}
+
+// NewCmdAuthWithContext creates the auth command with subcommands.
+func NewCmdAuthWithContext(ctx context.Context, f *cmdutil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "auth",
 		Short: "OAuth credentials and authorization management",
@@ -38,7 +43,7 @@ func NewCmdAuth(f *cmdutil.Factory) *cobra.Command {
 	}
 	cmdutil.DisableAuthCheck(cmd)
 
-	cmd.AddCommand(NewCmdAuthLogin(f, nil))
+	cmd.AddCommand(NewCmdAuthLoginWithContext(ctx, f, nil))
 	cmd.AddCommand(NewCmdAuthLogout(f, nil))
 	cmd.AddCommand(NewCmdAuthStatus(f, nil))
 	cmd.AddCommand(NewCmdAuthScopes(f, nil))

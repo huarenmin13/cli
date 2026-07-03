@@ -48,6 +48,22 @@ type Factory struct {
 	SkillContent fs.FS // embedded skill tree (rooted at the skill list); nil when the build embeds no skills
 }
 
+type skipCredentialBootstrapKey struct{}
+
+// ContextWithCredentialBootstrapDisabled marks a command-tree build as
+// credential-free. Use it only for purely local command surfaces that must be
+// constructed without probing strict-mode, profile, or keychain state.
+func ContextWithCredentialBootstrapDisabled(ctx context.Context) context.Context {
+	return context.WithValue(ctx, skipCredentialBootstrapKey{}, true)
+}
+
+// IsCredentialBootstrapDisabled reports whether credential-backed bootstrap
+// probes must be skipped for this context.
+func IsCredentialBootstrapDisabled(ctx context.Context) bool {
+	v, _ := ctx.Value(skipCredentialBootstrapKey{}).(bool)
+	return v
+}
+
 // ResolveFileIO resolves a FileIO instance using the current execution context.
 // The provider controls whether the returned instance is fresh or cached.
 func (f *Factory) ResolveFileIO(ctx context.Context) fileio.FileIO {
@@ -109,6 +125,9 @@ func autoDetectIdentityFromHint(hint *credential.IdentityHint) core.Identity {
 }
 
 func (f *Factory) resolveIdentityHint(ctx context.Context) *credential.IdentityHint {
+	if IsCredentialBootstrapDisabled(ctx) {
+		return nil
+	}
 	if f.Credential == nil {
 		return nil
 	}
@@ -148,6 +167,9 @@ func (f *Factory) CheckIdentity(as core.Identity, supported []string) error {
 // ResolveStrictMode returns the effective strict mode by reading
 // Account.SupportedIdentities from the credential provider chain.
 func (f *Factory) ResolveStrictMode(ctx context.Context) core.StrictMode {
+	if IsCredentialBootstrapDisabled(ctx) {
+		return core.StrictModeOff
+	}
 	if f.Credential == nil {
 		return core.StrictModeOff
 	}

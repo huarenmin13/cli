@@ -103,10 +103,16 @@ func Execute() int {
 	configureFlagCompletions(os.Args)
 
 	ctx := context.Background()
-	f, rootCmd, reg := buildInternal(
-		ctx, inv,
+	buildOpts := []BuildOption{
 		WithIO(os.Stdin, os.Stdout, os.Stderr),
 		HideProfile(isSingleAppMode()),
+	}
+	if isLocalSVGlideInvocation(rawInvocationArgs) {
+		buildOpts = append(buildOpts, WithoutStrictMode())
+	}
+	f, rootCmd, reg := buildInternal(
+		ctx, inv,
+		buildOpts...,
 	)
 
 	// --- Notices (non-blocking) ---
@@ -128,6 +134,30 @@ func Execute() int {
 		return handleRootError(f, runErr)
 	}
 	return 0
+}
+
+func isLocalSVGlideInvocation(args []string) bool {
+	positionals := make([]string, 0, 2)
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
+		switch {
+		case arg == "--profile":
+			if i+1 < len(args) {
+				i++
+			}
+			continue
+		case strings.HasPrefix(arg, "--profile="):
+			continue
+		case strings.HasPrefix(arg, "-"):
+			continue
+		default:
+			positionals = append(positionals, arg)
+			if len(positionals) == 2 {
+				return positionals[0] == "slides" && positionals[1] == "+create-svglide"
+			}
+		}
+	}
+	return false
 }
 
 // setupNotices wires both the binary update notice and the skills

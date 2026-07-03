@@ -54,6 +54,12 @@ type Options struct {
 // local-only; when an external credential provider manages tokens, resolving
 // the identity may contact that provider.
 func NewCmdWhoami(f *cmdutil.Factory) *cobra.Command {
+	return NewCmdWhoamiWithContext(context.Background(), f)
+}
+
+// NewCmdWhoamiWithContext creates the whoami command using the build context
+// for registration-time strict-mode presentation.
+func NewCmdWhoamiWithContext(ctx context.Context, f *cmdutil.Factory) *cobra.Command {
 	opts := &Options{Factory: f}
 	cmd := &cobra.Command{
 		Use:   "whoami",
@@ -63,7 +69,7 @@ func NewCmdWhoami(f *cmdutil.Factory) *cobra.Command {
 		},
 	}
 	cmdutil.DisableAuthCheck(cmd)
-	cmdutil.AddAPIIdentityFlag(context.Background(), cmd, f, &opts.As)
+	cmdutil.AddAPIIdentityFlag(ctx, cmd, f, &opts.As)
 	// Output is always JSON. Accept (and ignore) --json so existing
 	// `whoami --json` callers don't break; hide it to avoid implying a non-JSON
 	// mode exists.

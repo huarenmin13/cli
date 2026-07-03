@@ -5,9 +5,12 @@ package cmd
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -25,6 +28,27 @@ import (
 	"github.com/larksuite/cli/internal/output"
 	"github.com/larksuite/cli/internal/registry"
 )
+
+type countingKeychain struct {
+	gets    int
+	sets    int
+	removes int
+}
+
+func (k *countingKeychain) Get(service, account string) (string, error) {
+	k.gets++
+	return "", fmt.Errorf("unexpected keychain Get for %s/%s", service, account)
+}
+
+func (k *countingKeychain) Set(service, account, value string) error {
+	k.sets++
+	return fmt.Errorf("unexpected keychain Set for %s/%s", service, account)
+}
+
+func (k *countingKeychain) Remove(service, account string) error {
+	k.removes++
+	return fmt.Errorf("unexpected keychain Remove for %s/%s", service, account)
+}
 
 // TestPersistentPreRunE_AuthCheckDisabledAnnotations verifies that
 // auth, config, and schema commands have auth check disabled,
@@ -72,6 +96,63 @@ func TestPersistentPreRunE_ConfigSubcommands(t *testing.T) {
 		if !cmdutil.IsAuthCheckDisabled(sub) {
 			t.Errorf("expected config subcommand %q to inherit disabled auth check", sub.Name())
 		}
+	}
+}
+
+func TestIsLocalSVGlideInvocation(t *testing.T) {
+	tests := []struct {
+		name string
+		args []string
+		want bool
+	}{
+		{name: "local svglide", args: []string{"slides", "+create-svglide", "--action", "init"}, want: true},
+		{name: "with profile", args: []string{"--profile", "demo", "slides", "+create-svglide"}, want: true},
+		{name: "with profile equals", args: []string{"--profile=demo", "slides", "+create-svglide"}, want: true},
+		{name: "other slides shortcut", args: []string{"slides", "+create"}, want: false},
+		{name: "root help", args: []string{"--help"}, want: false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isLocalSVGlideInvocation(tt.args); got != tt.want {
+				t.Fatalf("isLocalSVGlideInvocation(%v) = %v, want %v", tt.args, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestLocalSVGlideRootCommandDoesNotTouchKeychain(t *testing.T) {
+	dir := t.TempDir()
+	t.Chdir(dir)
+	if err := os.WriteFile("source.md", []byte("# Demo"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	var in, out, errOut bytes.Buffer
+	kc := &countingKeychain{}
+	_, rootCmd, _ := buildInternal(
+		context.Background(),
+		cmdutil.InvocationContext{},
+		WithIO(&in, &out, &errOut),
+		WithKeychain(kc),
+		WithoutStrictMode(),
+		WithoutPlugins(),
+	)
+	rootCmd.SetArgs([]string{
+		"slides",
+		"+create-svglide",
+		"--action", "init",
+		"--title", "Demo",
+		"--input", "source.md",
+		"--out", "run-demo",
+	})
+	if err := rootCmd.Execute(); err != nil {
+		t.Fatalf("Execute() error = %v\nstdout=%s\nstderr=%s", err, out.String(), errOut.String())
+	}
+	if kc.gets != 0 || kc.sets != 0 || kc.removes != 0 {
+		t.Fatalf("keychain touched: gets=%d sets=%d removes=%d", kc.gets, kc.sets, kc.removes)
+	}
+	if _, err := os.Stat(filepath.Join("run-demo", "run.json")); err != nil {
+		t.Fatalf("missing run.json: %v", err)
 	}
 }
 

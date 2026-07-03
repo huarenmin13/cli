@@ -90,8 +90,9 @@ func WithoutPlugins() BuildOption {
 }
 
 // WithoutStrictMode builds the complete repository-owned command tree without
-// applying user/profile strict-mode pruning. It is intended for offline
-// inspection tools, not production execution.
+// applying user/profile strict-mode pruning or credential-backed bootstrap
+// probes. It is intended for offline inspection tools and pure local commands
+// that must not require account configuration.
 func WithoutStrictMode() BuildOption {
 	return func(c *buildConfig) {
 		c.skipStrictMode = true
@@ -146,6 +147,9 @@ func buildInternal(ctx context.Context, inv cmdutil.InvocationContext, opts ...B
 			o(cfg)
 		}
 	}
+	if cfg.skipStrictMode {
+		ctx = cmdutil.ContextWithCredentialBootstrapDisabled(ctx)
+	}
 	// Default streams when WithIO is not supplied so the root command's
 	// SetIn/Out/Err calls below don't deref nil. NewDefault also normalizes
 	// partial streams internally; keep both in sync so cfg.streams reflects
@@ -192,10 +196,10 @@ func buildInternal(ctx context.Context, inv cmdutil.InvocationContext, opts ...B
 	}
 
 	rootCmd.AddCommand(cmdconfig.NewCmdConfig(f))
-	rootCmd.AddCommand(auth.NewCmdAuth(f))
+	rootCmd.AddCommand(auth.NewCmdAuthWithContext(ctx, f))
 	rootCmd.AddCommand(profile.NewCmdProfile(f))
 	rootCmd.AddCommand(doctor.NewCmdDoctor(f))
-	rootCmd.AddCommand(whoami.NewCmdWhoami(f))
+	rootCmd.AddCommand(whoami.NewCmdWhoamiWithContext(ctx, f))
 	rootCmd.AddCommand(api.NewCmdApiWithContext(ctx, f, nil))
 	rootCmd.AddCommand(schema.NewCmdSchema(f, nil))
 	rootCmd.AddCommand(completion.NewCmdCompletion(f))
@@ -218,8 +222,10 @@ func buildInternal(ctx context.Context, inv cmdutil.InvocationContext, opts ...B
 	// before printing help; non-bare invocations and non-TTY are unaffected.
 	installRootUpgradePrompt(f, rootCmd)
 
-	if mode := f.ResolveStrictMode(ctx); mode.IsActive() && !cfg.skipStrictMode {
-		pruneForStrictMode(rootCmd, mode)
+	if !cfg.skipStrictMode {
+		if mode := f.ResolveStrictMode(ctx); mode.IsActive() {
+			pruneForStrictMode(rootCmd, mode)
+		}
 	}
 
 	if cfg.skipPlugins {
