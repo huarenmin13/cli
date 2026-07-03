@@ -123,7 +123,6 @@ Inputs:
 
 Outputs:
 - assets/assets_plan.json
-- assets/charts/*.svg when charts are required
 - assets/images/* when local images are required
 
 Receipt:
@@ -136,8 +135,8 @@ Acceptance:
 - ready 必须对应本地路径。
 - missing 用于记录还没由 Codex 准备好的资产。
 - 图片路径必须是 run-dir 内本地文件或可被 CLI 读取的本地绝对路径。
-- 本阶段不做 chart、table、image crop。
-- 图表资产必须写入本地 assets/charts/*.svg。
+- 本阶段不生成 chart、table 或 image crop/pan 资产。
+- 遇到图表、表格或裁剪构图需求时，只在内容层保留语义说明；基础 author 用文本和形状占位，不伪装成 native chart、native table 或 image crop。
 
 Do not:
 - 不要在 slides/*.svg 中引用远程 URL。
@@ -149,7 +148,6 @@ Inputs:
 - content/slide_content.json
 - brief/visual_system.json
 - assets/assets_plan.json
-- assets/charts/*.svg
 - assets/images/*
 
 Outputs:
@@ -185,7 +183,7 @@ Receipt:
 
 Acceptance:
 - 先运行或触发本地 validate + preview，产出 receipts/lint.json、receipts/preview.json、repair_queue.md、preview.html。
-- 产出 quality_report.json 作为最终质量报告。
+- quality 成功执行后产出 quality_report.json 作为当前本地迁移质量报告；如果上游 JSON 或 deck 无法读取，保留命令错误，不要伪造 quality_report.json。
 - 如果 repair_queue.md 有修复项，再基于 repair_queue.md 与 receipts/lint.json 修复 slides/*.svg。
 - 修复后再次确认 SVG 保持纯 SVG、可编辑、无远程资源引用。
 - 最后写 receipts/validate_preview_repair.json，记录 validate、preview、repair 的状态和产物路径。

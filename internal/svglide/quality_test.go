@@ -128,17 +128,14 @@ func TestCheckQualityCountsSlidesWithVisualsPerPage(t *testing.T) {
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"},{"id":"logo","type":"diagram","instruction":"Support diagram"}]}]}`)
-	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero image","status":"ready"},{"id":"logo","slide_id":"s1","type":"diagram","path":"assets/charts/logo.svg","usage":"Support diagram","status":"ready"}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero image","status":"ready"},{"id":"logo","slide_id":"s1","type":"diagram","path":"assets/images/logo.svg","usage":"Support diagram","status":"ready"}]}`)
 	if err := os.MkdirAll(filepath.Join("demo", "assets", "images"), 0o755); err != nil {
-		t.Fatal(err)
-	}
-	if err := os.MkdirAll(filepath.Join("demo", "assets", "charts"), 0o755); err != nil {
 		t.Fatal(err)
 	}
 	if err := os.WriteFile(filepath.Join("demo", "assets", "images", "hero.png"), []byte("png"), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join("demo", "assets", "charts", "logo.svg"), []byte("<svg/>"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join("demo", "assets", "images", "logo.svg"), []byte("<svg/>"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 

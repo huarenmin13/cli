@@ -13,7 +13,7 @@ CLI 负责：
 - 校验 schema
 - 校验 SVG protocol
 - 生成 preview
-- 生成 quality_report.json
+- 在 quality 成功执行后生成 quality_report.json
 
 Codex 负责：
 - 网页研究和完整页面读取
@@ -81,7 +81,7 @@ lark-cli slides +create-svglide --as user --action preview --run ./.lark-slides/
 lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/svglide-runs/demo
 ```
 
-`init` 只建立目录、`run.json`、prompt、schema 和 request 产物。Codex 按 `next` 返回的 prompt 填充当前 stage 产物后，用 `complete` 校验并推进 stage。`repair` 会先执行 validate + preview + quality；只有三者都 passed 才最终 passed。deck 缺失、JSON 错误等不可自动修复的问题会保留在 `receipts/lint.json`、`receipts/preview.json`、`quality_report.json` 和 `repair_queue.md`，由 Codex 手动修复后再运行校验。
+`init` 只建立目录、`run.json`、prompt、schema 和 request 产物。Codex 按 `next` 返回的 prompt 填充当前 stage 产物后，用 `complete` 校验并推进 stage。`repair` 会先执行 validate + preview + quality；只有三者都 passed 才最终 passed。deck 缺失、JSON 读取失败等不可自动修复的问题会通过命令错误、已有 `receipts/lint.json`、`receipts/preview.json` 和 `repair_queue.md` 暴露；`quality` 成功执行后才保证写出 `quality_report.json`。
 
 ## Action
 
@@ -94,7 +94,7 @@ lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/
 | `author` | 基于 deck/content/visual/assets 生成基础 SVG author，支持文本、来源脚注和已准备本地图片 | `slides/*.svg`、`receipts/svg_author.json` |
 | `validate` | 校验 `outline/deck.json` 中的 `slides/*.svg` | `receipts/lint.json`、`repair_queue.md` |
 | `preview` | 生成本地 HTML 预览 | `preview.html`、`receipts/preview.json` |
-| `quality` | 校验 AnyGen 标准质量门禁 | `quality_report.json` |
+| `quality` | 校验当前本地迁移质量门禁：来源、引用、视觉需求和本地资产路径 | `quality_report.json` |
 | `repair` | 执行 validate + preview + quality；仅当三者都 passed 时最终 passed | `receipts/validate_preview_repair.json`、`quality_report.json` |
 
 ## 运行目录
@@ -120,10 +120,10 @@ lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/
 
 ## 边界
 
-- CLI 负责 run-dir 骨架、prompt/schema、状态检查、SVG protocol 校验、quality gate、repair queue 和 HTML preview。
+- CLI 负责 run-dir 骨架、prompt/schema、状态检查、SVG protocol 校验、当前本地迁移 quality gate、repair queue 和 HTML preview。
 - Codex 负责网页研究、完整页面读取、design brief、visual system、slide content、资产规划、生图/搜图结果落地、每页 source_refs/visuals 以及 SVG authoring 和修复。
 - assets_plan 是先规划后写 SVG 的输入；Codex 应先写 assets_plan，再落地 `assets/images/*`，最后让 `author` 或 `repair` 消费这些本地资产。
-- `quality` action 是 AnyGen 标准门禁入口；`repair` 的 final quality gate 必须和 validate、preview 一起通过。
+- `quality` action 是当前本地迁移质量门禁入口，覆盖来源、引用、视觉需求和本地资产路径；`repair` 的 final quality gate 必须和 validate、preview 一起通过。
 - 第一批功能等价适配不实现 chart、table、图片裁剪。遇到真实数据图表、表格或图片构图需求时，Codex 在内容层保留语义说明，CLI 基础 `author` 用文本和形状占位表达，不伪装成 native chart、native table 或 image crop。
 - 本命令不发布到 Feishu，不返回 `xml_presentation_id`，不创建 `.slides`，不调用 Slides OpenAPI。
 - `preview` 只允许 deck slide path 使用 `slides/<file>.svg` 单层本地路径；不要引用远程 URL、上级目录、百分号编码路径或嵌套目录。
@@ -137,7 +137,7 @@ lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/
 4. 写 `content/slide_content.md` 时为每页补齐 `source_refs` 和 `visuals`；写 `assets/assets_plan.json` 后再落地 `assets/images/*` 本地资产。
 5. 当 `outline`、`content`、`visual`、`assets` 已存在时，可运行 `author` 生成包含文本、来源脚注和本地图片的基础 SVG。
 6. 生成 SVG 时保持纯 SVG、`viewBox="0 0 960 540"`、可选中文本、无远程资源。
-7. 最后运行 `repair`，形成 validate + preview + quality 三门禁和 final receipt；`repair` 只自动处理可由基础 `author` 覆盖的 lint 失败，deck 缺失、JSON 错误等问题会保留 `receipts/lint.json`、`receipts/preview.json`、`quality_report.json` 和 `repair_queue.md` 供 Codex 手动修复。
+7. 最后运行 `repair`，形成 validate + preview + quality 三门禁和 final receipt；`repair` 只自动处理可由基础 `author` 覆盖的 lint 失败，deck 缺失、JSON 读取失败等问题会通过命令错误、已有 receipt 和 `repair_queue.md` 暴露；`quality` 成功执行后才保证写出 `quality_report.json`。
 8. 不要把这个本地工作台描述成完整 12-agent 自动化系统；它是 Codex 协作的分阶段本地 runtime。
 
 ## 常见命令
@@ -158,7 +158,7 @@ lark-cli slides +create-svglide --as user --action validate --run ./.lark-slides
 # 生成本地预览
 lark-cli slides +create-svglide --as user --action preview --run ./.lark-slides/svglide-runs/demo
 
-# 只做 AnyGen 标准质量门禁
+# 只做当前本地迁移质量门禁
 lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/svglide-runs/demo
 
 # 执行 validate，preview 和 quality

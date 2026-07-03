@@ -44,7 +44,6 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"schemas/deck.schema.json",
 		"receipts",
 		"slides",
-		"assets/charts",
 		"assets/images",
 	} {
 		if _, err := os.Stat(filepath.Join(root, name)); err != nil {
@@ -363,6 +362,22 @@ func TestInitRunWritesPromptContracts(t *testing.T) {
 		if !strings.Contains(assetsPrompt, want) {
 			t.Fatalf("06_assets prompt missing %q:\n%s", want, assetsPrompt)
 		}
+	}
+	for _, unwanted := range []string{
+		"assets/charts",
+		"图表资产必须写入",
+	} {
+		if strings.Contains(assetsPrompt, unwanted) {
+			t.Fatalf("06_assets prompt contains unsupported chart instruction %q:\n%s", unwanted, assetsPrompt)
+		}
+	}
+
+	authorPrompt := prompts["07_svg_author.task.md"]
+	if authorPrompt == "" {
+		t.Fatal("missing 07_svg_author.task.md")
+	}
+	if strings.Contains(authorPrompt, "assets/charts") {
+		t.Fatalf("07_svg_author prompt contains unsupported chart input:\n%s", authorPrompt)
 	}
 }
 

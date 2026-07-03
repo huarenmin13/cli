@@ -133,7 +133,6 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 		"outline",
 		"content",
 		"assets/images",
-		"assets/charts",
 		"slides",
 		"prompts",
 		"schemas",
