@@ -246,13 +246,6 @@ func lintSVGElementProtocol(path string, start xml.StartElement, excluded bool) 
 	}
 
 	var issues []ValidationIssue
-	if start.Name.Local == "image" && imageHrefIsUnsafe(start) {
-		issues = append(issues, ValidationIssue{
-			Path:    path,
-			Code:    "svglide.remote_asset",
-			Message: "image href must be a local prepared assets/images/<file> asset",
-		})
-	}
 	if excluded {
 		return issues
 	}
@@ -287,22 +280,6 @@ func elementHasNonPositiveDimension(start xml.StartElement) bool {
 		}
 	}
 	return false
-}
-
-func imageHrefIsUnsafe(start xml.StartElement) bool {
-	for _, attr := range start.Attr {
-		if !isAllowedImageHrefAttr(attr) {
-			continue
-		}
-		if _, err := validatePreparedImageAssetPath(attr.Value); err != nil {
-			return true
-		}
-	}
-	return false
-}
-
-func isAllowedImageHrefAttr(attr xml.Attr) bool {
-	return attr.Name.Local == "href" && (attr.Name.Space == "" || attr.Name.Space == xlinkNamespace)
 }
 
 func hasSlideAttr(start xml.StartElement, local string, value string) bool {

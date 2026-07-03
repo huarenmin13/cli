@@ -119,7 +119,24 @@ func TestCheckQualityPassesAnyGenReadyRun(t *testing.T) {
 	}
 }
 
-func TestCheckQualityRejectsAbsoluteReadyAssetPath(t *testing.T) {
+func TestCheckQualityAllowsExperimentAssetsAndDeferredUnsupportedVisuals(t *testing.T) {
+	t.Chdir(t.TempDir())
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/report","title":"Report","excerpt":"Full page excerpt","usage":"evidence","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"main_title":"Demo Deck","style_instruction":{"aesthetic_direction":"Editorial report","color_palette":{},"typography":{}},"slides":[{"id":"s1","title":"Chart claim","summary":"Needs chart later","role":"content","key_message":"Chart is deferred","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Chart-backed point","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Use a remote hero image"},{"id":"chart1","type":"chart","instruction":"Use a real chart when chart generation is enabled"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"https://example.com/hero.png","usage":"Hero image","status":"ready"},{"id":"chart1","slide_id":"s1","type":"chart","path":"","usage":"Deferred chart generation","status":"deferred"}]}`)
+
+	report, err := CheckQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" {
+		t.Fatalf("Status = %q, want passed: %+v", report.Status, report.Issues)
+	}
+}
+
+func TestCheckQualityAllowsAbsoluteReadyAssetPathInExperiment(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
@@ -134,11 +151,8 @@ func TestCheckQualityRejectsAbsoluteReadyAssetPath(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if report.Status != "failed" {
-		t.Fatalf("status = %q, want failed", report.Status)
-	}
-	if !qualityIssueCodesContain(report.Issues, "svglide.quality.asset_path") {
-		t.Fatalf("issues = %+v, want svglide.quality.asset_path", report.Issues)
+	if report.Status != "passed" {
+		t.Fatalf("status = %q, want passed; issues = %+v", report.Status, report.Issues)
 	}
 }
 
@@ -214,7 +228,7 @@ func TestCheckQualityCountsSlidesWithVisualsPerPage(t *testing.T) {
 	}
 }
 
-func TestCheckQualityRejectsSymlinkReadyAssetPath(t *testing.T) {
+func TestCheckQualityAllowsSymlinkReadyAssetPathInExperiment(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
@@ -234,11 +248,8 @@ func TestCheckQualityRejectsSymlinkReadyAssetPath(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if report.Status != "failed" {
-		t.Fatalf("status = %q, want failed", report.Status)
-	}
-	if !qualityIssueCodesContain(report.Issues, "svglide.quality.asset_path") {
-		t.Fatalf("issues = %+v, want svglide.quality.asset_path", report.Issues)
+	if report.Status != "passed" {
+		t.Fatalf("status = %q, want passed; issues = %+v", report.Status, report.Issues)
 	}
 }
 

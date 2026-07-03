@@ -200,23 +200,44 @@ func TestAuthorSlidesDoesNotRenderImageForMismatchedVisualID(t *testing.T) {
 	}
 }
 
-func TestAuthorSlidesSkipsUnsafeOrUnsupportedReadyImageAssets(t *testing.T) {
+func TestAuthorSlidesRendersExperimentRemoteImageAsset(t *testing.T) {
+	initStatusTestRun(t)
+
+	mustWriteTestFile(t, "demo/brief/design_brief.json", `{"narrative_spine":"A to B","depth":"medium","tone":"clear"}`)
+	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"Hero slide","summary":"Hero summary","role":"cover","key_message":"Hero key message","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Use the remote hero image"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"https://example.com/hero.png","usage":"Hero image","status":"ready"}]}`)
+
+	run := readStatusTestRunFile(t)
+	run.CurrentStage = StageSVGAuthor
+	writeStatusTestRunFile(t, run)
+
+	if _, err := AuthorSlides("demo"); err != nil {
+		t.Fatal(err)
+	}
+
+	raw, err := os.ReadFile(filepath.Join("demo", "slides", "01.svg"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	svg := string(raw)
+	for _, want := range []string{
+		`<image slide:role="image"`,
+		`href="https://example.com/hero.png"`,
+	} {
+		if !strings.Contains(svg, want) {
+			t.Fatalf("experiment remote image missing %q:\n%s", want, svg)
+		}
+	}
+}
+
+func TestAuthorSlidesSkipsUnsupportedReadyImageAssets(t *testing.T) {
 	tests := []struct {
 		name  string
 		asset string
 	}{
-		{
-			name:  "remote",
-			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"https://example.com/hero.png","usage":"Hero image","status":"ready"}]}`,
-		},
-		{
-			name:  "escape",
-			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"../hero.png","usage":"Hero image","status":"ready"}]}`,
-		},
-		{
-			name:  "wrong directory",
-			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/other/hero.png","usage":"Hero image","status":"ready"}]}`,
-		},
 		{
 			name:  "diagram",
 			asset: `{"assets":[{"id":"hero","slide_id":"s1","type":"diagram","path":"assets/images/hero.png","usage":"Hero diagram","status":"ready"}]}`,
@@ -251,13 +272,13 @@ func TestAuthorSlidesSkipsUnsafeOrUnsupportedReadyImageAssets(t *testing.T) {
 				t.Fatal(err)
 			}
 			if strings.Contains(string(raw), `<image slide:role="image"`) {
-				t.Fatalf("unsafe or unsupported asset should not render image:\n%s", string(raw))
+				t.Fatalf("unsupported asset should not render image:\n%s", string(raw))
 			}
 		})
 	}
 }
 
-func TestAuthorSlidesDoesNotRenderExistingAbsoluteImageAsset(t *testing.T) {
+func TestAuthorSlidesRendersExistingAbsoluteImageAssetInExperiment(t *testing.T) {
 	initAuthorDemoRun(t,
 		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
 		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
@@ -277,8 +298,8 @@ func TestAuthorSlidesDoesNotRenderExistingAbsoluteImageAsset(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if strings.Contains(string(raw), outside) || strings.Contains(string(raw), `<image slide:role="image"`) {
-		t.Fatalf("absolute asset should not render image:\n%s", string(raw))
+	if !strings.Contains(string(raw), outside) || !strings.Contains(string(raw), `<image slide:role="image"`) {
+		t.Fatalf("absolute asset should render image in experiment mode:\n%s", string(raw))
 	}
 }
 

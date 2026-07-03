@@ -273,19 +273,12 @@ func selectAuthorRenderableImageAssets(safeRoot string, content authorSlideConte
 	return nil
 }
 
-func authorImageAssetUsable(safeRoot string, asset authorAsset) bool {
+func authorImageAssetUsable(_ string, asset authorAsset) bool {
 	if strings.TrimSpace(asset.Type) != "image" {
 		return false
 	}
 	path := strings.TrimSpace(asset.Path)
-	path, err := validatePreparedImageAssetPath(path)
-	if err != nil {
-		return false
-	}
-	if _, err := readRunRegularArtifact(safeRoot, path); err != nil {
-		return false
-	}
-	return true
+	return path != ""
 }
 
 func validateAuthorDeckContent(deck authorDeck, contentByID map[string]authorSlideContent) error {

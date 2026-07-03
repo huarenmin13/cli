@@ -129,15 +129,17 @@ func CheckQuality(root string) (QualityReport, error) {
 	}
 
 	assetsBySlideAndID := make(map[string]qualityAsset, len(assets.Assets))
+	deferredBySlideAndID := make(map[string]qualityAsset, len(assets.Assets))
 	for _, asset := range assets.Assets {
-		if strings.TrimSpace(asset.Status) != "ready" {
-			continue
-		}
-		if err := validateQualityAssetPath(safeRoot, asset); err != nil {
-			report.Issues = append(report.Issues, qualityIssue("assets/assets_plan.json", "svglide.quality.asset_path", err.Error()))
-			continue
-		}
+		status := strings.TrimSpace(asset.Status)
 		key := strings.TrimSpace(asset.SlideID) + "/" + strings.TrimSpace(asset.ID)
+		if status == "deferred" {
+			deferredBySlideAndID[key] = asset
+			continue
+		}
+		if status != "ready" {
+			continue
+		}
 		assetsBySlideAndID[key] = asset
 	}
 
@@ -198,6 +200,12 @@ func CheckQuality(root string) (QualityReport, error) {
 			hasVisual = true
 			key := id + "/" + strings.TrimSpace(visual.ID)
 			asset, ok := assetsBySlideAndID[key]
+			if !ok && visualTypeIsDeferredOnly(visualType) {
+				if deferredAsset, deferred := deferredBySlideAndID[key]; deferred {
+					asset = deferredAsset
+					ok = true
+				}
+			}
 			if !ok {
 				report.Issues = append(report.Issues, qualityIssue(
 					"assets/assets_plan.json",
@@ -228,6 +236,15 @@ func CheckQuality(root string) (QualityReport, error) {
 		return report, err
 	}
 	return report, nil
+}
+
+func visualTypeIsDeferredOnly(value string) bool {
+	switch strings.TrimSpace(value) {
+	case "chart", "table", "crop":
+		return true
+	default:
+		return false
+	}
 }
 
 func readQualitySources(safeRoot string) (qualitySourcesFile, error) {
@@ -264,20 +281,6 @@ func readQualityAssets(safeRoot string) (qualityAssetsFile, error) {
 		return qualityAssetsFile{}, fmt.Errorf("read assets plan %q: %w", "assets/assets_plan.json", err)
 	}
 	return file, nil
-}
-
-func validateQualityAssetPath(safeRoot string, asset qualityAsset) error {
-	if strings.TrimSpace(asset.Status) != "ready" {
-		return nil
-	}
-	path, err := validatePreparedImageAssetPath(asset.Path)
-	if err != nil {
-		return fmt.Errorf("asset %q: %w", strings.TrimSpace(asset.ID), err)
-	}
-	if _, err := readRunRegularArtifact(safeRoot, path); err != nil {
-		return err
-	}
-	return nil
 }
 
 func qualityIssue(path, code, message string) QualityIssue {

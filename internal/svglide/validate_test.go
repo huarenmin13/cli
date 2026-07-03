@@ -539,7 +539,7 @@ func TestValidateRunRejectsNegativeElementDimensions(t *testing.T) {
 	}
 }
 
-func TestValidateRunRejectsRemoteImageHref(t *testing.T) {
+func TestValidateRunAllowsExperimentImageHref(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
@@ -550,15 +550,15 @@ func TestValidateRunRejectsRemoteImageHref(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if report.OK {
-		t.Fatalf("OK = true, want false")
+	if !report.OK {
+		t.Fatalf("OK = false, want true: %+v", report.Issues)
 	}
-	if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
-		t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+	if validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+		t.Fatalf("issues = %+v, did not expect remote asset issue", report.Issues)
 	}
 }
 
-func TestValidateRunRejectsRemoteImageHrefCaseInsensitive(t *testing.T) {
+func TestValidateRunAllowsExperimentImageHrefCaseInsensitive(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
@@ -569,11 +569,11 @@ func TestValidateRunRejectsRemoteImageHrefCaseInsensitive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if report.OK {
-		t.Fatalf("OK = true, want false")
+	if !report.OK {
+		t.Fatalf("OK = false, want true: %+v", report.Issues)
 	}
-	if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
-		t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+	if validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+		t.Fatalf("issues = %+v, did not expect remote asset issue", report.Issues)
 	}
 }
 
@@ -653,7 +653,7 @@ func TestValidateRunIgnoresGeometryAndImageRoleInsideExcludedContent(t *testing.
 	}
 }
 
-func TestValidateRunRejectsRemoteImageHrefWithXLink(t *testing.T) {
+func TestValidateRunAllowsExperimentImageHrefWithXLink(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 540" slide:role="slide">
@@ -664,15 +664,15 @@ func TestValidateRunRejectsRemoteImageHrefWithXLink(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if report.OK {
-		t.Fatalf("OK = true, want false")
+	if !report.OK {
+		t.Fatalf("OK = false, want true: %+v", report.Issues)
 	}
-	if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
-		t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+	if validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+		t.Fatalf("issues = %+v, did not expect remote asset issue", report.Issues)
 	}
 }
 
-func TestValidateRunRejectsUnsafeImageHrefVariants(t *testing.T) {
+func TestValidateRunAllowsExperimentImageHrefVariants(t *testing.T) {
 	tests := []struct {
 		name string
 		href string
@@ -697,17 +697,17 @@ func TestValidateRunRejectsUnsafeImageHrefVariants(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if report.OK {
-				t.Fatalf("OK = true, want false")
+			if !report.OK {
+				t.Fatalf("OK = false, want true for %s: %+v", tt.href, report.Issues)
 			}
-			if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
-				t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+			if validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+				t.Fatalf("issues = %+v, did not expect remote asset issue", report.Issues)
 			}
 		})
 	}
 }
 
-func TestValidateRunRejectsUnsafeImageHrefInsideExcludedContent(t *testing.T) {
+func TestValidateRunAllowsExperimentImageHrefInsideExcludedContent(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
@@ -719,11 +719,11 @@ func TestValidateRunRejectsUnsafeImageHrefInsideExcludedContent(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if report.OK {
-		t.Fatalf("OK = true, want false")
+	if !report.OK {
+		t.Fatalf("OK = false, want true: %+v", report.Issues)
 	}
-	if !validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
-		t.Fatalf("issues = %+v, want remote asset issue", report.Issues)
+	if validationIssuesContainCode(report.Issues, "svglide.remote_asset") {
+		t.Fatalf("issues = %+v, did not expect remote asset issue", report.Issues)
 	}
 	if validationIssuesContainCode(report.Issues, "svglide.geometry") {
 		t.Fatalf("issues = %+v, want no geometry issue inside excluded content", report.Issues)
