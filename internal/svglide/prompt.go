@@ -9,9 +9,12 @@ func DefaultSchemas() map[string]string {
   "properties": {
     "title": {"type": "string"},
     "input": {"type": "string"},
+    "purpose": {"type": "string"},
     "audience": {"type": "string"},
     "delivery_mode": {"type": "string"},
-    "pages": {"type": "integer"}
+    "language": {"type": "string"},
+    "pages": {"type": "integer"},
+    "visual_style_query": {"type": "array", "items": {"type": "string"}}
   }
 }
 `,
@@ -64,11 +67,25 @@ func DefaultSchemas() map[string]string {
 		"design_brief.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["narrative_spine", "depth", "tone"],
+  "required": ["narrative_spine", "depth", "tone", "visual_system"],
   "properties": {
-    "narrative_spine": {"type": "string"},
-    "depth": {"type": "string"},
-    "tone": {"type": "string"}
+    "design_rationale": {"type": "string"},
+    "narrative_spine": {"type": "object"},
+    "depth": {"type": "object"},
+    "tone": {"type": "string"},
+    "visual_system": {
+      "type": "object",
+      "required": ["color_system", "typography", "layout_language"],
+      "properties": {
+        "color_system": {"type": "object"},
+        "typography": {"type": "object"},
+        "layout_language": {"type": "object"},
+        "imagery_treatment": {"type": "object"},
+        "material_texture": {"type": "object"},
+        "decoration_language": {"type": "object"},
+        "mood_coordinates": {"type": "object"}
+      }
+    }
   }
 }
 `,
@@ -79,16 +96,30 @@ func DefaultSchemas() map[string]string {
   "properties": {
     "color_system": {"type": "object"},
     "typography": {"type": "object"},
-    "layout_language": {"type": "string"}
+    "layout_language": {"type": "object"},
+    "imagery_treatment": {"type": "object"},
+    "material_texture": {"type": "object"},
+    "decoration_language": {"type": "object"},
+    "mood_coordinates": {"type": "object"}
   }
 }
 `,
 		"deck.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["title", "slides"],
+  "required": ["main_title", "style_instruction", "slides"],
   "properties": {
+    "main_title": {"type": "string"},
     "title": {"type": "string"},
+    "style_instruction": {
+      "type": "object",
+      "required": ["aesthetic_direction", "color_palette", "typography"],
+      "properties": {
+        "aesthetic_direction": {"type": "string"},
+        "color_palette": {"type": "object"},
+        "typography": {"type": "object"}
+      }
+    },
     "slides": {
       "type": "array",
       "minItems": 1,
@@ -99,6 +130,7 @@ func DefaultSchemas() map[string]string {
         "properties": {
           "id": {"type": "string"},
           "title": {"type": "string"},
+          "page_title": {"type": "string"},
           "summary": {"type": "string"},
           "role": {"type": "string"},
           "key_message": {"type": "string"},
@@ -134,7 +166,7 @@ func DefaultSchemas() map[string]string {
               "required": ["id", "type", "instruction"],
               "properties": {
                 "id": {"type": "string"},
-                "type": {"type": "string", "enum": ["image", "diagram", "icon", "none"]},
+                "type": {"type": "string", "enum": ["image", "diagram", "icon", "chart", "table", "crop", "none"]},
                 "instruction": {"type": "string"}
               }
             }
@@ -148,8 +180,9 @@ func DefaultSchemas() map[string]string {
 		"assets_plan.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["assets"],
+  "required": ["mode", "assets"],
   "properties": {
+    "mode": {"type": "string", "enum": ["experiment_unrestricted_assets"]},
     "assets": {
       "type": "array",
       "items": {
@@ -159,10 +192,10 @@ func DefaultSchemas() map[string]string {
         "properties": {
           "id": {"type": "string"},
           "slide_id": {"type": "string"},
-          "type": {"type": "string", "enum": ["image", "diagram", "icon"]},
-          "path": {"type": "string", "pattern": "^assets/images/[^./%\\\\:](?:[^/%\\\\:.]|\\.[^./%\\\\:])*$"},
+          "type": {"type": "string", "enum": ["image", "diagram", "icon", "chart", "table", "crop"]},
+          "path": {"type": "string"},
           "usage": {"type": "string"},
-          "status": {"type": "string", "enum": ["ready", "missing"]}
+          "status": {"type": "string", "enum": ["ready", "missing", "deferred"]}
         }
       }
     }

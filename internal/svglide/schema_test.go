@@ -35,7 +35,7 @@ func TestValidateStageOutputsRejectsDeckSlidePathsThatPreviewRejects(t *testing.
 		t.Run(path, func(t *testing.T) {
 			initStatusTestRun(t)
 			setCurrentStageForStatusTest(t, StageOutline)
-			mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"`+path+`"}]}`)
+			mustWriteTestFile(t, "demo/outline/deck.json", validSchemaDeckJSON(path))
 
 			err := ValidateStageOutputs("demo")
 			if err == nil {
@@ -51,7 +51,7 @@ func TestValidateStageOutputsRejectsDeckSlidePathsThatPreviewRejects(t *testing.
 func TestCompleteCurrentStageRejectsInvalidDeckSlidePath(t *testing.T) {
 	initStatusTestRun(t)
 	setCurrentStageForStatusTest(t, StageOutline)
-	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/a%20.svg"}]}`)
+	mustWriteTestFile(t, "demo/outline/deck.json", validSchemaDeckJSON("slides/a%20.svg"))
 
 	_, err := CompleteCurrentStage("demo")
 	if err == nil {
@@ -204,7 +204,7 @@ func TestValidateStageOutputsRejectsSlideContentMissingSourceRefsOrVisualIds(t *
 func TestValidateStageOutputsRejectsAssetsMissingStatus(t *testing.T) {
 	initStatusTestRun(t)
 	setCurrentStageForStatusTest(t, StageAssets)
-	if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"assets":[{"id":"a1","slide_id":"s1","type":"image","path":"assets/images/a.png","usage":"hero image"}]}`), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"https://example.com/a.png","usage":"hero image"}]}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -217,7 +217,7 @@ func TestValidateStageOutputsRejectsAssetsMissingStatus(t *testing.T) {
 	}
 }
 
-func TestValidateStageOutputsRejectsUnsafeAssetPaths(t *testing.T) {
+func TestValidateStageOutputsAcceptsExperimentAssetPaths(t *testing.T) {
 	tests := []struct {
 		name string
 		path string
@@ -229,16 +229,13 @@ func TestValidateStageOutputsRejectsUnsafeAssetPaths(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			initStatusTestRun(t)
 			setCurrentStageForStatusTest(t, StageAssets)
-			if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"assets":[{"id":"a1","slide_id":"s1","type":"image","path":"`+tt.path+`","usage":"hero image","status":"ready"}]}`), 0o644); err != nil {
+			if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"`+tt.path+`","usage":"hero image","status":"ready"}]}`), 0o644); err != nil {
 				t.Fatal(err)
 			}
 
 			err := ValidateStageOutputs("demo")
-			if err == nil {
-				t.Fatal("expected asset path schema validation error")
-			}
-			if !strings.Contains(err.Error(), "assets/assets_plan.json") || !strings.Contains(err.Error(), "path") {
-				t.Fatalf("error = %v, want assets/assets_plan.json and path", err)
+			if err != nil {
+				t.Fatalf("expected experiment asset path to pass schema validation, got %v", err)
 			}
 		})
 	}
@@ -268,9 +265,18 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	if !strings.Contains(schemas["assets_plan.schema.json"], `"slide_id"`) {
 		t.Fatalf("assets schema missing slide_id: %s", schemas["assets_plan.schema.json"])
 	}
+	for _, want := range []string{`"experiment_unrestricted_assets"`, `"chart"`, `"table"`, `"crop"`, `"deferred"`} {
+		if !strings.Contains(schemas["assets_plan.schema.json"], want) {
+			t.Fatalf("assets schema missing %s: %s", want, schemas["assets_plan.schema.json"])
+		}
+	}
 	if !strings.Contains(schemas["quality.schema.json"], `"metrics"`) {
 		t.Fatalf("quality schema missing metrics: %s", schemas["quality.schema.json"])
 	}
+}
+
+func validSchemaDeckJSON(path string) string {
+	return `{"main_title":"Demo Deck","style_instruction":{"aesthetic_direction":"Editorial report","color_palette":{},"typography":{}},"slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"` + path + `"}]}`
 }
 
 func validQualityReportJSON() string {

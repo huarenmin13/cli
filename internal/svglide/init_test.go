@@ -148,9 +148,12 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		name string
 		want []string
 	}{
+		{name: "request.schema.json", want: []string{`"purpose"`, `"language"`, `"visual_style_query"`}},
+		{name: "design_brief.schema.json", want: []string{`"visual_system"`, `"narrative_spine"`, `"depth"`, `"tone"`}},
+		{name: "deck.schema.json", want: []string{`"main_title"`, `"style_instruction"`, `"aesthetic_direction"`}},
 		{name: "sources.schema.json", want: []string{`"retrieval"`}},
-		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"visuals"`}},
-		{name: "assets_plan.schema.json", want: []string{`"slide_id"`, `"status"`}},
+		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"visuals"`, `"chart"`, `"table"`, `"crop"`}},
+		{name: "assets_plan.schema.json", want: []string{`"experiment_unrestricted_assets"`, `"slide_id"`, `"status"`, `"deferred"`, `"chart"`, `"table"`, `"crop"`}},
 		{name: "quality.schema.json", want: []string{`"metrics"`}},
 	} {
 		raw, err := os.ReadFile(filepath.Join(root, "schemas", tc.name))
