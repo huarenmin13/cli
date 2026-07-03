@@ -71,7 +71,7 @@ func TestStatusQuotesNextCommandRunPath(t *testing.T) {
 	}
 }
 
-func TestNextReturnsCurrentTaskPrompt(t *testing.T) {
+func TestNextTaskReturnsAnyGenPromptAssets(t *testing.T) {
 	initStatusTestRun(t)
 
 	next, err := NextTask("demo")
