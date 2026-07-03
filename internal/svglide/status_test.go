@@ -105,6 +105,26 @@ func TestNextTaskReturnsAnyGenPromptAssets(t *testing.T) {
 	}
 }
 
+func TestNextTaskSeparatesAnyGenPromptsFromRuntimeAdapter(t *testing.T) {
+	initStatusTestRun(t)
+
+	next, err := NextTask("demo")
+	if err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+
+	gotPrompts := strings.Join(next.PromptPaths, "\n")
+	if strings.Contains(gotPrompts, "lark-slides-create-svglide.md") {
+		t.Fatalf("PromptPaths should contain AnyGen assets only, got:\n%s", gotPrompts)
+	}
+	if !strings.Contains(gotPrompts, "skills/lark-slides/references/anygen-svg/README.md") {
+		t.Fatalf("PromptPaths missing AnyGen README:\n%s", gotPrompts)
+	}
+	if len(next.AdapterPaths) != 1 || next.AdapterPaths[0] != "skills/lark-slides/references/lark-slides-create-svglide.md" {
+		t.Fatalf("AdapterPaths = %#v, want create-svglide adapter", next.AdapterPaths)
+	}
+}
+
 func TestInspectStatusRejectsUnsafeRunPath(t *testing.T) {
 	t.Chdir(t.TempDir())
 

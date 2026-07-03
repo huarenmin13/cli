@@ -23,10 +23,13 @@ type NextTaskReport struct {
 	Stage          string   `json:"stage"`
 	PromptPath     string   `json:"prompt_path,omitempty"`
 	PromptPaths    []string `json:"prompt_paths"`
+	AdapterPaths   []string `json:"adapter_paths"`
 	PromptManifest string   `json:"prompt_manifest"`
 	Inputs         []string `json:"inputs"`
 	Outputs        []string `json:"outputs"`
 }
+
+const createSVGlideAdapterPath = "skills/lark-slides/references/lark-slides-create-svglide.md"
 
 func ReadRun(root string) (Run, error) {
 	safeRoot, err := validate.SafeInputPath(root)
@@ -88,6 +91,7 @@ func NextTask(root string) (NextTaskReport, error) {
 	return NextTaskReport{
 		Stage:          stage.Name,
 		PromptPaths:    PromptPathsForStage(stage.Name),
+		AdapterPaths:   []string{createSVGlideAdapterPath},
 		PromptManifest: "prompt_manifest.json",
 		Inputs:         inputs,
 		Outputs:        outputs,
