@@ -31,6 +31,7 @@ var stageOutputSchemaPaths = map[string]string{
 	"outline/deck.json":            "schemas/deck.schema.json",
 	"content/slide_content.json":   "schemas/slide_content.schema.json",
 	"assets/assets_plan.json":      "schemas/assets_plan.schema.json",
+	"quality_report.json":          "schemas/quality.schema.json",
 	"receipts/lint.json":           "schemas/lint.schema.json",
 	"receipts/preview.json":        "schemas/preview.schema.json",
 }

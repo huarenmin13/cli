@@ -123,6 +123,9 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 	for _, name := range []string{
 		"source_manifest.schema.json",
 		"sources.schema.json",
+		"slide_content.schema.json",
+		"assets_plan.schema.json",
+		"quality.schema.json",
 		"receipt.schema.json",
 		"lint.schema.json",
 		"preview.schema.json",
@@ -137,6 +140,26 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		}
 		if schema["type"] == nil {
 			t.Fatalf("schema %s missing type: %s", name, string(raw))
+		}
+	}
+	for _, tc := range []struct {
+		name string
+		want []string
+	}{
+		{name: "sources.schema.json", want: []string{`"retrieval"`}},
+		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"visuals"`}},
+		{name: "assets_plan.schema.json", want: []string{`"slide_id"`, `"status"`}},
+		{name: "quality.schema.json", want: []string{`"metrics"`}},
+	} {
+		raw, err := os.ReadFile(filepath.Join(root, "schemas", tc.name))
+		if err != nil {
+			t.Fatalf("missing schema %s: %v", tc.name, err)
+		}
+		text := string(raw)
+		for _, want := range tc.want {
+			if !strings.Contains(text, want) {
+				t.Fatalf("schema %s missing %s: %s", tc.name, want, text)
+			}
 		}
 	}
 }
@@ -290,20 +313,19 @@ func TestInitRunRejectsRootResolvingToCWDWhenOverwrite(t *testing.T) {
 	}
 }
 
-func TestDefaultPromptFilesValidatePreviewRepairMatchesStageContract(t *testing.T) {
-	var repairPrompt string
+func TestInitRunWritesPromptContracts(t *testing.T) {
+	prompts := map[string]string{}
 	for _, prompt := range DefaultPromptFiles() {
-		if prompt.Name == "08_repair.task.md" {
-			repairPrompt = prompt.Content
-			break
-		}
+		prompts[prompt.Name] = prompt.Content
 	}
+	repairPrompt := prompts["08_repair.task.md"]
 	if repairPrompt == "" {
 		t.Fatal("missing 08_repair.task.md")
 	}
 	wantOutputs := []string{
 		"receipts/lint.json",
 		"receipts/preview.json",
+		"quality_report.json",
 		"repair_queue.md",
 		"preview.html",
 	}
@@ -312,6 +334,35 @@ func TestDefaultPromptFilesValidatePreviewRepairMatchesStageContract(t *testing.
 	}
 	if got := promptSectionItems(repairPrompt, "Receipt"); !sameStrings(got, []string{"receipts/validate_preview_repair.json"}) {
 		t.Fatalf("08_repair Receipt = %v, want receipts/validate_preview_repair.json\n%s", got, repairPrompt)
+	}
+
+	slideContentPrompt := prompts["05_slide_content.task.md"]
+	if slideContentPrompt == "" {
+		t.Fatal("missing 05_slide_content.task.md")
+	}
+	for _, want := range []string{
+		"每个 visuals item 都必须写 id/type/instruction。",
+		`{"id":"none-<slide-id>","type":"none","instruction":"说明不需要视觉资产的原因"}`,
+		"不要添加 schema 未允许字段。",
+	} {
+		if !strings.Contains(slideContentPrompt, want) {
+			t.Fatalf("05_slide_content prompt missing %q:\n%s", want, slideContentPrompt)
+		}
+	}
+
+	assetsPrompt := prompts["06_assets.task.md"]
+	if assetsPrompt == "" {
+		t.Fatal("missing 06_assets.task.md")
+	}
+	for _, want := range []string{
+		"每个资产都必须包含 id/slide_id/type/path/usage/status。",
+		"status 只能是 ready 或 missing。",
+		"ready 必须对应本地路径。",
+		"missing 用于记录还没由 Codex 准备好的资产。",
+	} {
+		if !strings.Contains(assetsPrompt, want) {
+			t.Fatalf("06_assets prompt missing %q:\n%s", want, assetsPrompt)
+		}
 	}
 }
 

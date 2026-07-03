@@ -115,6 +115,6 @@ func DefaultStages() []Stage {
 		{Name: StageSlideContent, Status: StatusPending, Inputs: []string{"outline/deck.json", "research/research_notes.md"}, Outputs: []string{"content/slide_content.md", "content/slide_content.json"}, Receipt: "receipts/slide_content.json"},
 		{Name: StageAssets, Status: StatusPending, Inputs: []string{"content/slide_content.json", "brief/visual_system.json"}, Outputs: []string{"assets/assets_plan.json"}, Receipt: "receipts/assets.json"},
 		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_plan.json"}, Outputs: []string{"slides/*.svg"}, Receipt: "receipts/svg_author.json"},
-		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "repair_queue.md", "preview.html"}, Receipt: "receipts/validate_preview_repair.json"},
+		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "quality_report.json", "repair_queue.md", "preview.html"}, Receipt: "receipts/validate_preview_repair.json"},
 	}
 }

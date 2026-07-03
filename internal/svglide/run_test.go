@@ -52,6 +52,17 @@ func TestDefaultStagesRequireGeneratedSlideSVGs(t *testing.T) {
 	}
 }
 
+func TestDefaultStagesFinalStageRequiresQualityReport(t *testing.T) {
+	stages := DefaultStages()
+	final := stages[len(stages)-1]
+	if final.Name != StageValidatePreviewRepair {
+		t.Fatalf("final stage = %q, want %q", final.Name, StageValidatePreviewRepair)
+	}
+	if !stringSliceContains(final.Outputs, "quality_report.json") {
+		t.Fatalf("final outputs = %+v, want quality_report.json", final.Outputs)
+	}
+}
+
 func TestDefaultStagesResearchInputsMatchPromptContract(t *testing.T) {
 	stages := DefaultStages()
 	research := mustStage(t, stages, StageResearch)
@@ -151,4 +162,13 @@ func mustStage(t *testing.T, stages []Stage, name string) Stage {
 	}
 	t.Fatalf("missing stage %q", name)
 	return Stage{}
+}
+
+func stringSliceContains(values []string, want string) bool {
+	for _, value := range values {
+		if value == want {
+			return true
+		}
+	}
+	return false
 }

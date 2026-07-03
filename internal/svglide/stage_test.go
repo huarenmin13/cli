@@ -85,6 +85,7 @@ func TestCompleteCurrentStageRejectsFailedValidatePreviewRepairReceipts(t *testi
 	mustWriteTestFile(t, "demo/slides/01.svg", visibleTextSVG())
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"failed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"failed","slides":[{"path":"slides/01.svg","rendered":false}]}`)
+	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"failed","issues":[],"metrics":{"slides":1,"sources":0,"web_sources":0,"assets":0,"slides_with_source_refs":0,"slides_with_visuals":0}}`)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
 

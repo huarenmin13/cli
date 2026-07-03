@@ -42,6 +42,10 @@ Receipt:
 - receipts/research.json
 
 Acceptance:
+- 如果请求只有主题或轻量本地 brief，必须由 Codex 搜索网页并读取完整页面，不要只用搜索摘要。
+- research_notes.md 必须列出结论、来源、口径限制。
+- sources.json 的每个来源必须有 id/title/path/excerpt/usage/retrieval。
+- retrieval=full_page 表示已经读取完整网页内容。
 - 结论必须能追溯到本地输入源。
 - sources.json 必须保留来源路径和摘录用途。
 
@@ -102,6 +106,10 @@ Receipt:
 
 Acceptance:
 - slide_content.json 必须按 deck.slides 的 id 对齐。
+- 每页必须有 source_refs，引用 research/sources.json 中的 source id。
+- 每页必须有 visuals；每个 visuals item 都必须写 id/type/instruction。
+- 不需要视觉资产时写 {"id":"none-<slide-id>","type":"none","instruction":"说明不需要视觉资产的原因"}，不要添加 schema 未允许字段。
+- content 是结构化内容计划，不锁定最终文案。
 - 每页内容必须支持对应 key_message。
 
 Do not:
@@ -122,7 +130,13 @@ Receipt:
 - receipts/assets.json
 
 Acceptance:
-- assets_plan.json 必须说明每个资产的 id/type/path/usage。
+- 对 slide_content.json 中 type=image/diagram/icon 的视觉需求，必须在 assets_plan.json 中给出同 slide_id 的资产记录。
+- 每个资产都必须包含 id/slide_id/type/path/usage/status。
+- status 只能是 ready 或 missing。
+- ready 必须对应本地路径。
+- missing 用于记录还没由 Codex 准备好的资产。
+- 图片路径必须是 run-dir 内本地文件或可被 CLI 读取的本地绝对路径。
+- 本阶段不做 chart、table、image crop。
 - 图表资产必须写入本地 assets/charts/*.svg。
 
 Do not:
@@ -162,6 +176,7 @@ Inputs:
 Outputs:
 - receipts/lint.json
 - receipts/preview.json
+- quality_report.json
 - repair_queue.md
 - preview.html
 
@@ -170,6 +185,7 @@ Receipt:
 
 Acceptance:
 - 先运行或触发本地 validate + preview，产出 receipts/lint.json、receipts/preview.json、repair_queue.md、preview.html。
+- 产出 quality_report.json 作为最终质量报告。
 - 如果 repair_queue.md 有修复项，再基于 repair_queue.md 与 receipts/lint.json 修复 slides/*.svg。
 - 修复后再次确认 SVG 保持纯 SVG、可编辑、无远程资源引用。
 - 最后写 receipts/validate_preview_repair.json，记录 validate、preview、repair 的状态和产物路径。
@@ -224,14 +240,18 @@ func DefaultSchemas() map[string]string {
   "properties": {
     "sources": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "excerpt", "usage"],
+        "required": ["id", "path", "title", "excerpt", "usage", "retrieval"],
         "properties": {
+          "id": {"type": "string"},
           "path": {"type": "string"},
+          "title": {"type": "string"},
           "excerpt": {"type": "string"},
-          "usage": {"type": "string"}
+          "usage": {"type": "string"},
+          "retrieval": {"type": "string", "enum": ["full_page", "local_file", "user_provided"]}
         }
       }
     }
@@ -296,11 +316,25 @@ func DefaultSchemas() map[string]string {
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "content"],
+        "required": ["id", "content", "source_refs", "visuals"],
         "properties": {
           "id": {"type": "string"},
           "content": {"type": "string"},
-          "notes": {"type": "string"}
+          "notes": {"type": "string"},
+          "source_refs": {"type": "array", "items": {"type": "string"}},
+          "visuals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "type", "instruction"],
+              "properties": {
+                "id": {"type": "string"},
+                "type": {"type": "string", "enum": ["image", "diagram", "icon", "none"]},
+                "instruction": {"type": "string"}
+              }
+            }
+          }
         }
       }
     }
@@ -317,13 +351,51 @@ func DefaultSchemas() map[string]string {
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "type", "path", "usage"],
+        "required": ["id", "slide_id", "type", "path", "usage", "status"],
         "properties": {
           "id": {"type": "string"},
-          "type": {"type": "string"},
+          "slide_id": {"type": "string"},
+          "type": {"type": "string", "enum": ["image", "diagram", "icon"]},
           "path": {"type": "string"},
-          "usage": {"type": "string"}
+          "usage": {"type": "string"},
+          "status": {"type": "string", "enum": ["ready", "missing"]}
         }
+      }
+    }
+  }
+}
+`,
+		"quality.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "issues", "metrics"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "code", "message", "severity"],
+        "properties": {
+          "path": {"type": "string"},
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "severity": {"type": "string"}
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slides", "sources", "web_sources", "assets", "slides_with_source_refs", "slides_with_visuals"],
+      "properties": {
+        "slides": {"type": "integer"},
+        "sources": {"type": "integer"},
+        "web_sources": {"type": "integer"},
+        "assets": {"type": "integer"},
+        "slides_with_source_refs": {"type": "integer"},
+        "slides_with_visuals": {"type": "integer"}
       }
     }
   }
