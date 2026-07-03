@@ -104,6 +104,18 @@ func TestSlidesCreateSVGlideStatusAndNextActions(t *testing.T) {
 	if nextData["stage"] != "request" || nextData["prompt_manifest"] != "prompt_manifest.json" {
 		t.Fatalf("next data = %+v, want request prompt manifest", nextData)
 	}
+	if nextData["mode"] != "execution" {
+		t.Fatalf("mode = %v, want execution", nextData["mode"])
+	}
+	if nextData["approval_required"] != false {
+		t.Fatalf("approval_required = %v, want false", nextData["approval_required"])
+	}
+	if nextData["blocking_owner"] != "svglide-runtime" {
+		t.Fatalf("blocking_owner = %v, want svglide-runtime", nextData["blocking_owner"])
+	}
+	if _, ok := nextData["blocking_reason"]; ok {
+		t.Fatalf("blocking_reason should be omitted when empty: %+v", nextData)
+	}
 	if nextData["prompt_path"] != nil && stringValue(nextData["prompt_path"]) != "" {
 		t.Fatalf("prompt_path = %v, want empty deprecated field", nextData["prompt_path"])
 	}
