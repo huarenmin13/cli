@@ -428,7 +428,7 @@ value 使用预定义关键字机制，第一个元素为字符串常量名称�
 5. 若候选记录包含 link 字段，提取关联 `record_id` 后到关联表用 `+record-get` 批量读取展示字段。
 6. 最终回答业务字段，不要把内部 `record_id` 当作用户可读答案。
 
-> **回查命令的输出格式**：`+record-list` 支持 `--json` 作为 `--format json` 的简写（与 `--format` 同时显式指定时以 `--format` 为准）。该简写**仅** `+record-list` 可用——`+record-search` / `+record-get` 的 `--json` 是请求体 JSON 参数，不是输出格式简写，这两个命令的 JSON 输出仍用 `--format json`。
+> **回查命令的输出格式**：`+record-list` 默认输出 markdown（给人看）。当结果要**交给脚本/程序处理**时，必须显式要求 JSON 输出：`+record-list` 支持 `--json` 作为 `--format json` 的简写（与 `--format` 同时显式指定时以 `--format` 为准），例如 `base +record-list --app-token <tok> --table-id <tbl> --json`。该简写**仅** `+record-list` 可用——`+record-search` / `+record-get` 的 `--json` 是请求体 JSON 参数，不是输出格式简写，这两个命令的 JSON 输出仍用 `--format json`。
 
 不要把 `data-query pagination.limit` 理解为分页扫描；它只限制 Base 云端查询服务返回的聚合结果行数，不支持 offset。需要全量原始记录导出时回到 data analysis SOP 的 `+record-list` 分页规则。
 
