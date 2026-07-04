@@ -432,6 +432,9 @@ func TestAuthorSlidesRendersImageFootnoteAndMultilineBodyWithValidation(t *testi
 
 func writeAuthorInputsWithAnyGenContracts(t *testing.T, assets string) {
 	t.Helper()
+	if strings.Contains(assets, `"assets":[]`) && !strings.Contains(assets, `"no_image_reason"`) {
+		assets = strings.TrimSuffix(strings.TrimSpace(assets), "}") + `,"no_image_reason":"Text-only deck; no image assets required"}`
+	}
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line\nSecond body line","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-s1","type":"none","instruction":"Text-only"}]},{"id":"s2","content":"Point A\nPoint B\nPoint C","source_refs":["web1"],"visuals":[{"id":"none-s2","type":"none","instruction":"Text-only"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", assets)
@@ -452,6 +455,9 @@ func readAuthorReceiptForTest(t *testing.T) map[string]any {
 
 func mustWriteTestFile(t *testing.T, path string, content string) {
 	t.Helper()
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		t.Fatal(err)
+	}
 	if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
 		t.Fatal(err)
 	}

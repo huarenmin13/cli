@@ -32,9 +32,72 @@ var stageOutputSchemaPaths = map[string]string{
 	"content/slide_content.json":   "schemas/slide_content.schema.json",
 	"assets/assets_plan.json":      "schemas/assets_plan.schema.json",
 	"quality_report.json":          "schemas/quality.schema.json",
+	"anygen_semantic_report.json":  "schemas/anygen_semantic_report.schema.json",
 	"receipts/lint.json":           "schemas/lint.schema.json",
 	"receipts/preview.json":        "schemas/preview.schema.json",
+	"receipts/delivery.json":       "schemas/delivery.schema.json",
 }
+
+const AnyGenSemanticReportSchema = `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "contract", "findings"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "path", "sha256", "rules"],
+      "properties": {
+        "id": {"type": "string"},
+        "role": {"type": "string"},
+        "path": {"type": "string"},
+        "sha256": {"type": "string"},
+        "rules": {"type": "integer"}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "kind", "severity", "code", "message"],
+        "properties": {
+          "rule_id": {"type": "string"},
+          "kind": {"type": "string"},
+          "severity": {"type": "string"},
+          "code": {"type": "string"},
+          "artifact": {"type": "string"},
+          "field": {"type": "string"},
+          "path": {"type": "string"},
+          "value": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`
+
+const DeliveryReceiptSchema = `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ready"]},
+    "deck": {"type": "string"},
+    "slides_dir": {"type": "string"},
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "preview": {"type": "string"},
+    "quality_report": {"type": "string"},
+    "anygen_semantic_report": {"type": "string"}
+  }
+}
+`
 
 func ValidateStageOutputs(root string) error {
 	safeRoot, run, err := readRun(root)

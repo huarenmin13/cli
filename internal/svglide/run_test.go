@@ -81,7 +81,7 @@ func TestDefaultStagesOutlineInputsMatchPromptContract(t *testing.T) {
 	}
 }
 
-func TestNewRunDefaultsToCodexRuntime(t *testing.T) {
+func TestNewRunSeparatesProtocolRuntimeFromAgentRuntime(t *testing.T) {
 	now := time.Date(2026, 7, 2, 15, 4, 5, 0, time.UTC)
 	run := NewRun(NewRunConfig{
 		Title:        "Demo",
@@ -95,8 +95,14 @@ func TestNewRunDefaultsToCodexRuntime(t *testing.T) {
 	if run.Version != 1 {
 		t.Fatalf("Version = %d, want 1", run.Version)
 	}
-	if run.Runtime != "codex" {
-		t.Fatalf("Runtime = %q, want codex", run.Runtime)
+	if run.Runtime != "agent" {
+		t.Fatalf("Runtime = %q, want agent", run.Runtime)
+	}
+	if run.Agent.Runtime != "codex" {
+		t.Fatalf("Agent.Runtime = %q, want default codex", run.Agent.Runtime)
+	}
+	if run.Intent.SourceMode != "local_file" || run.Intent.Input != "source.md" {
+		t.Fatalf("Intent = %+v, want local_file source.md", run.Intent)
 	}
 	if run.Command != "slides +create-svglide" {
 		t.Fatalf("Command = %q, want slides +create-svglide", run.Command)
@@ -144,8 +150,8 @@ func TestNewRunDefaultsToCodexRuntime(t *testing.T) {
 	}
 	wantPolicy := Policy{
 		PublishEnabled:         false,
-		NetworkByCodex:         true,
-		ImageGenerationByCodex: true,
+		NetworkByAgent:         true,
+		ImageGenerationByAgent: true,
 		Overwrite:              false,
 	}
 	if run.Policy != wantPolicy {

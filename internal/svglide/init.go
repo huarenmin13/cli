@@ -14,25 +14,33 @@ import (
 type InitOptions struct {
 	Title        string
 	Input        string
+	Topic        string
+	Language     string
 	Audience     string
 	DeliveryMode string
 	Pages        int
 	Now          time.Time
 	Overwrite    bool
+	AgentRuntime string
+	AgentID      string
 }
 
 func InitRun(root string, opts InitOptions) error {
 	root = strings.TrimSpace(root)
 	opts.Title = strings.TrimSpace(opts.Title)
 	opts.Input = strings.TrimSpace(opts.Input)
+	opts.Topic = strings.TrimSpace(opts.Topic)
+	opts.Language = strings.TrimSpace(opts.Language)
+	opts.AgentRuntime = strings.TrimSpace(opts.AgentRuntime)
+	opts.AgentID = strings.TrimSpace(opts.AgentID)
 	if root == "" {
 		return fmt.Errorf("out path is required")
 	}
 	if opts.Title == "" {
 		return fmt.Errorf("title is required")
 	}
-	if opts.Input == "" {
-		return fmt.Errorf("input is required")
+	if (opts.Input == "") == (opts.Topic == "") {
+		return fmt.Errorf("exactly one of input or topic is required")
 	}
 	safeRoot, err := validate.SafeOutputPath(root)
 	if err != nil {
@@ -41,14 +49,16 @@ func InitRun(root string, opts InitOptions) error {
 	if err := validateRunRoot(root, safeRoot); err != nil {
 		return err
 	}
-	safeInput, err := validate.SafeInputPath(opts.Input)
-	if err != nil {
-		return err
+	if opts.Input != "" {
+		safeInput, err := validate.SafeInputPath(opts.Input)
+		if err != nil {
+			return err
+		}
+		if err := validateInputOutsideRunRoot(safeRoot, safeInput); err != nil {
+			return err
+		}
+		opts.Input = safeInput
 	}
-	if err := validateInputOutsideRunRoot(safeRoot, safeInput); err != nil {
-		return err
-	}
-	opts.Input = safeInput
 
 	if opts.Overwrite {
 		return initOverwrite(safeRoot, opts)
@@ -144,27 +154,46 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 	run := NewRun(NewRunConfig{
 		Title:        opts.Title,
 		Input:        opts.Input,
+		Topic:        opts.Topic,
+		Language:     opts.Language,
 		Audience:     opts.Audience,
 		DeliveryMode: opts.DeliveryMode,
 		Pages:        opts.Pages,
 		Out:          runRoot,
 		Now:          opts.Now,
+		AgentRuntime: opts.AgentRuntime,
+		AgentID:      opts.AgentID,
 	})
 	run.Policy.Overwrite = opts.Overwrite
 	if err := writeJSON(filepath.Join(writeRoot, "run.json"), run); err != nil {
 		return err
 	}
-	if err := writeJSON(filepath.Join(writeRoot, "request", "request.json"), map[string]any{
+	request := map[string]any{
 		"title":         opts.Title,
-		"input":         opts.Input,
 		"audience":      opts.Audience,
 		"delivery_mode": opts.DeliveryMode,
 		"pages":         opts.Pages,
-	}); err != nil {
+		"intent":        run.Intent,
+		"agent":         run.Agent,
+	}
+	if opts.Input != "" {
+		request["input"] = opts.Input
+	}
+	if opts.Topic != "" {
+		request["topic"] = opts.Topic
+	}
+	if opts.Language != "" {
+		request["language"] = opts.Language
+	}
+	if err := writeJSON(filepath.Join(writeRoot, "request", "request.json"), request); err != nil {
 		return err
 	}
+	source := map[string]string{"type": "topic", "topic": opts.Topic}
+	if opts.Input != "" {
+		source = map[string]string{"path": opts.Input, "type": "local"}
+	}
 	if err := writeJSON(filepath.Join(writeRoot, "request", "source_manifest.json"), map[string]any{
-		"sources": []map[string]string{{"path": opts.Input, "type": "local"}},
+		"sources": []map[string]string{source},
 	}); err != nil {
 		return err
 	}
@@ -189,6 +218,6 @@ func writeStaticFiles(root string) error {
 func renderRunREADME() string {
 	var b bytes.Buffer
 	b.WriteString("# SVGlide Local Run\n\n")
-	b.WriteString("This directory is a local Codex-mediated SVG slides runtime. It does not publish to Feishu Slides.\n")
+	b.WriteString("This directory is a local agent-neutral SVG slides runtime. It does not publish to Feishu Slides.\n")
 	return b.String()
 }

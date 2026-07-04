@@ -1,3 +1,9 @@
+---
+id: anygen_source_full
+role: source_snapshot
+invocation: reference
+---
+
 <title>AnyGen Slides SVG Prompt</title>
 
 # System prompt（编排 / mode_system_prompt_svg）

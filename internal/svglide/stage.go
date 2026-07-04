@@ -32,10 +32,27 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 		return StatusReport{}, fmt.Errorf("current stage %q missing outputs: %s", stage.Name, strings.Join(missingOutputs, ", "))
 	}
 
+	promptReceipt, err := ValidatePromptContextForStage(safeRoot, stage.Name, run)
+	if err != nil {
+		return StatusReport{}, err
+	}
+	if err := ValidateToolCallReceiptsForStage(safeRoot, stage.Name, run, promptReceipt); err != nil {
+		return StatusReport{}, err
+	}
+	if err := ValidateArtifactPromptContractForStage(safeRoot, stage.Name, stage.Outputs); err != nil {
+		return StatusReport{}, err
+	}
 	if err := ValidateStageOutputs(root); err != nil {
 		return StatusReport{}, err
 	}
 	if stage.Name == StageValidatePreviewRepair {
+		semantic, err := EvaluateAnyGenSemantics(root)
+		if err != nil {
+			return StatusReport{}, err
+		}
+		if semantic.Status != "passed" {
+			return StatusReport{}, fmt.Errorf("semantic_gate_failed: %s status is %q, want passed", anyGenSemanticReportPath, semantic.Status)
+		}
 		if err := validateFinalStageReceiptsPassed(safeRoot); err != nil {
 			return StatusReport{}, err
 		}
@@ -72,7 +89,7 @@ type stageStatusReceipt struct {
 }
 
 func validateFinalStageReceiptsPassed(safeRoot string) error {
-	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", "quality_report.json"} {
+	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", "quality_report.json", "anygen_semantic_report.json"} {
 		raw, err := readRunRegularArtifact(safeRoot, path)
 		if err != nil {
 			return fmt.Errorf("%s: read receipt: %w", path, err)

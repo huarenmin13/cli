@@ -1,3 +1,27 @@
+---
+id: generate_svg_chart
+role: tool_prompt
+orchestrated_by: mode_system_prompt_svg
+invocation: conditional
+stage: assets
+order: 80
+cardinality: zero_or_more
+requires:
+  - mode_system_prompt_svg
+  - svg_reference
+condition: visual_type_chart
+trigger:
+  - chart_visual_required
+consumes:
+  - content/slide_content.json
+  - assets/assets_plan.json
+produces:
+  - assets/charts/*.svg
+  - receipts/tool_calls/assets/generate_svg_chart.json
+completion_gate:
+  - chart_asset_ready
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -1003,6 +1027,5 @@ Draw connectors **before** the bar rects (document order) so bars overlap them.
       stroke="[context]" stroke-width="1" stroke-dasharray="2,2"/>
 ```
 ````
-
 
 

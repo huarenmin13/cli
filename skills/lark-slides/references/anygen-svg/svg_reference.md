@@ -1,3 +1,27 @@
+---
+id: svg_reference
+role: protocol_reference
+invocation: required
+stage: all
+order: 2
+cardinality: once
+requires:
+  - mode_system_prompt_svg
+condition: always
+trigger:
+  - svg_protocol_authoring
+  - svg_protocol_validation
+consumes:
+  - outline/deck.json
+  - content/slide_content.json
+  - assets/assets_plan.json
+produces:
+  - slides/*.svg
+completion_gate:
+  - svg_protocol_valid
+  - slide_roles_valid
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -673,4 +697,3 @@ Slide with animation (private `<slide:animations>` + one `<slide:transition>` as
 </canonical_examples>
 </svg_reference>
 ````
-

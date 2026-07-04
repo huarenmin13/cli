@@ -1,3 +1,39 @@
+---
+id: mode_system_prompt_svg
+role: orchestrator
+invocation: required
+stage: all
+order: 1
+cardinality: once
+requires:
+  - svg_reference
+condition: always
+trigger:
+  - initial_deck_generation
+  - stage_orchestration
+consumes:
+  - request/request.json
+  - request/source_manifest.json
+  - research/research_notes.md
+  - brief/design_brief.json
+  - outline/deck.json
+  - content/slide_content.json
+  - assets/assets_plan.json
+produces:
+  - agent_task
+  - prompt_context
+  - tool_invocation_contract
+  - stage_artifacts
+completion_gate:
+  - prompt_context_assets_read
+  - required_tool_calls_recorded
+  - stage_artifact_prompt_contract_valid
+phase_anchors:
+  - research_phase_3_build_source_material
+  - slide_content_phase_6_write_slide_content
+  - assets_phase_7_lock_visual_direction_and_plan_visuals
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -199,4 +235,3 @@ When slide tools fail: retry once. If the retry also fails, consider the task fa
 </user_communication_guidelines>
 </about_slides>
 ````
-

@@ -12,7 +12,7 @@ import (
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
-// SlidesCreateSVGlide manages a local Codex-mediated SVGlide SVG run directory.
+// SlidesCreateSVGlide manages a local agent-neutral SVGlide SVG run directory.
 var SlidesCreateSVGlide = common.Shortcut{
 	Service:     "slides",
 	Command:     "+create-svglide",
@@ -26,6 +26,10 @@ var SlidesCreateSVGlide = common.Shortcut{
 		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview/quality/repair"},
 		{Name: "title", Desc: "deck title for init"},
 		{Name: "input", Desc: "local source markdown/text path for init"},
+		{Name: "topic", Desc: "topic-only deck intent for init; mutually exclusive with --input"},
+		{Name: "language", Desc: "deck language for topic-only or local source init"},
+		{Name: "agent-runtime", Desc: "agent runtime name for init, e.g. codex, claude, cursor, fake-agent"},
+		{Name: "agent-id", Desc: "stable agent/session id for init"},
 		{Name: "audience", Desc: "final audience for the deck"},
 		{Name: "delivery-mode", Desc: "delivery mode: presented, self_read, dual_mode", Enum: []string{"presented", "self_read", "dual_mode"}},
 		{Name: "pages", Type: "int", Desc: "target page count"},
@@ -38,16 +42,20 @@ var SlidesCreateSVGlide = common.Shortcut{
 			if strings.TrimSpace(runtime.Str("title")) == "" {
 				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--title is required for init").WithParam("--title")
 			}
-			if strings.TrimSpace(runtime.Str("input")) == "" {
-				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--input is required for init").WithParam("--input")
+			hasInput := strings.TrimSpace(runtime.Str("input")) != ""
+			hasTopic := strings.TrimSpace(runtime.Str("topic")) != ""
+			if hasInput == hasTopic {
+				return errs.NewValidationError(errs.SubtypeInvalidArgument, "exactly one of --input or --topic is required for init").WithParam("--input")
 			}
 			if strings.TrimSpace(runtime.Str("out")) == "" {
 				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--out is required for init").WithParam("--out")
 			}
-			if stat, err := runtime.FileIO().Stat(runtime.Str("input")); err != nil {
-				return common.WrapInputStatErrorTyped(err, "cannot read --input")
-			} else if !stat.Mode().IsRegular() {
-				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--input must be a regular file").WithParam("--input")
+			if hasInput {
+				if stat, err := runtime.FileIO().Stat(runtime.Str("input")); err != nil {
+					return common.WrapInputStatErrorTyped(err, "cannot read --input")
+				} else if !stat.Mode().IsRegular() {
+					return errs.NewValidationError(errs.SubtypeInvalidArgument, "--input must be a regular file").WithParam("--input")
+				}
 			}
 			return nil
 		}
@@ -64,10 +72,14 @@ var SlidesCreateSVGlide = common.Shortcut{
 			if err := svglide.InitRun(out, svglide.InitOptions{
 				Title:        runtime.Str("title"),
 				Input:        runtime.Str("input"),
+				Topic:        runtime.Str("topic"),
+				Language:     runtime.Str("language"),
 				Audience:     runtime.Str("audience"),
 				DeliveryMode: runtime.Str("delivery-mode"),
 				Pages:        runtime.Int("pages"),
 				Overwrite:    runtime.Bool("overwrite"),
+				AgentRuntime: runtime.Str("agent-runtime"),
+				AgentID:      runtime.Str("agent-id"),
 			}); err != nil {
 				return err
 			}
@@ -76,9 +88,13 @@ var SlidesCreateSVGlide = common.Shortcut{
 				return err
 			}
 			runtime.Out(map[string]any{
-				"action":       action,
-				"run":          out,
-				"next_command": status.NextCommand,
+				"action":        action,
+				"protocol":      "anygen-svg-slides",
+				"run":           out,
+				"agent_runtime": runtime.Str("agent-runtime"),
+				"next_command":  status.NextCommand,
+				"stage_loop":    []string{"next", "write_artifacts", "complete"},
+				"final_loop":    []string{"next", "repair", "complete"},
 			}, nil)
 			return nil
 		case "status":

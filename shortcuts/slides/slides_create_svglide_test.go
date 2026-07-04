@@ -49,8 +49,68 @@ func TestSlidesCreateSVGlideInitShortcut(t *testing.T) {
 	if data["run"] != "run-demo" {
 		t.Fatalf("run = %v, want run-demo", data["run"])
 	}
-	if !strings.Contains(stringValue(data["next_command"]), "--action next --run run-demo") {
-		t.Fatalf("next_command = %v, want next action", data["next_command"])
+	if !strings.Contains(stringValue(data["next_command"]), "--action complete --run run-demo") {
+		t.Fatalf("next_command = %v, want request bootstrap complete action", data["next_command"])
+	}
+}
+
+func TestSlidesCreateSVGlideInitShortcutAcceptsTopicOnlyAgentRuntime(t *testing.T) {
+	dir := t.TempDir()
+	withSlidesTestWorkingDir(t, dir)
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "init",
+		"--title", "电影介绍",
+		"--topic", "介绍一部电影",
+		"--language", "zh",
+		"--agent-runtime", "fake-agent",
+		"--agent-id", "test-agent-1",
+		"--out", "run-demo",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatalf("topic-only init should succeed without --input: %v", err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["agent_runtime"] != "fake-agent" {
+		t.Fatalf("agent_runtime = %v, want fake-agent; data=%+v", data["agent_runtime"], data)
+	}
+	if _, ok := data["stage_loop"].([]any); !ok {
+		t.Fatalf("stage_loop missing from init response: %+v", data)
+	}
+	if _, ok := data["final_loop"].([]any); !ok {
+		t.Fatalf("final_loop missing from init response: %+v", data)
+	}
+
+	runRaw, err := os.ReadFile(filepath.Join(dir, "run-demo", "run.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var run map[string]any
+	if err := json.Unmarshal(runRaw, &run); err != nil {
+		t.Fatal(err)
+	}
+	if run["runtime"] == "fake-agent" || run["runtime"] == "codex" {
+		t.Fatalf("run.runtime = %v, want agent-neutral protocol runtime", run["runtime"])
+	}
+	agent, ok := run["agent"].(map[string]any)
+	if !ok || agent["runtime"] != "fake-agent" {
+		t.Fatalf("run.agent = %+v, want fake-agent", run["agent"])
+	}
+	intent, ok := run["intent"].(map[string]any)
+	if !ok || intent["source_mode"] != "topic" || intent["topic"] != "介绍一部电影" {
+		t.Fatalf("run.intent = %+v, want topic intent", run["intent"])
+	}
+}
+
+func TestSlidesCreateSVGlideAgentRuntimeFlagsRegistered(t *testing.T) {
+	for _, name := range []string{"topic", "language", "agent-runtime", "agent-id"} {
+		flag := findSVGlideShortcutFlag(t, name)
+		if strings.TrimSpace(flag.Desc) == "" {
+			t.Fatalf("flag %s missing description", name)
+		}
 	}
 }
 
@@ -87,8 +147,8 @@ func TestSlidesCreateSVGlideStatusAndNextActions(t *testing.T) {
 	if statusData["current_stage"] != "request" {
 		t.Fatalf("current_stage = %v, want request", statusData["current_stage"])
 	}
-	if !strings.Contains(stringValue(statusData["next_command"]), "--action next --run run-demo") {
-		t.Fatalf("next_command = %v, want next action", statusData["next_command"])
+	if !strings.Contains(stringValue(statusData["next_command"]), "--action complete --run run-demo") {
+		t.Fatalf("next_command = %v, want request bootstrap complete action", statusData["next_command"])
 	}
 
 	err = runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
@@ -119,15 +179,29 @@ func TestSlidesCreateSVGlideStatusAndNextActions(t *testing.T) {
 	if nextData["prompt_path"] != nil && stringValue(nextData["prompt_path"]) != "" {
 		t.Fatalf("prompt_path = %v, want empty deprecated field", nextData["prompt_path"])
 	}
-	paths := valuesAsStrings(nextData["prompt_paths"])
+	if paths := valuesAsStrings(nextData["prompt_paths"]); len(paths) != 0 {
+		t.Fatalf("prompt_paths = %+v, want omitted legacy top-level field", paths)
+	}
+	agentTask, ok := nextData["agent_task"].(map[string]any)
+	if !ok {
+		t.Fatalf("agent_task missing from next response: %+v", nextData)
+	}
+	promptContext, ok := agentTask["prompt_context"].(map[string]any)
+	if !ok {
+		t.Fatalf("agent_task.prompt_context missing from next response: %+v", nextData)
+	}
+	paths := promptContextAssetPathsFromShortcutData(promptContext["assets"])
 	joined := strings.Join(paths, "\n")
 	for _, want := range []string{
 		"skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md",
 		"skills/lark-slides/references/anygen-svg/svg_reference.md",
 	} {
 		if !strings.Contains(joined, want) {
-			t.Fatalf("prompt_paths missing %q: %+v", want, paths)
+			t.Fatalf("prompt_context assets missing %q: %+v", want, paths)
 		}
+	}
+	if strings.Contains(joined, "docs/vendor/anygen-svg/source.full.md") {
+		t.Fatalf("prompt_context assets should not include source snapshot: %+v", paths)
 	}
 	if _, err := os.Stat(filepath.Join(dir, "run-demo", "prompt_manifest.json")); err != nil {
 		t.Fatalf("missing prompt manifest: %v", err)
@@ -392,13 +466,14 @@ func initSVGlideShortcutRunWithAuthorInputs(t *testing.T) {
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "brief", "visual_system.json"), `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "research", "sources.json"), `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "content", "slide_content.json"), `{"slides":[{"id":"cover","content":"Point A\nPoint B","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-cover","type":"none","instruction":"Text-only"}]}]}`)
-	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_plan.json"), `{"assets":[]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_plan.json"), `{"assets":[],"no_image_reason":"Text-only deck; no image assets required"}`)
 }
 
 func initSVGlideShortcutRun(t *testing.T) string {
 	t.Helper()
 	dir := t.TempDir()
 	withSlidesTestWorkingDir(t, dir)
+	writeSVGlideShortcutSemanticContract(t)
 	if err := os.WriteFile("source.md", []byte("# Demo"), 0o644); err != nil {
 		t.Fatal(err)
 	}
@@ -413,7 +488,40 @@ func initSVGlideShortcutRun(t *testing.T) string {
 	}); err != nil {
 		t.Fatal(err)
 	}
+	if err := os.MkdirAll(filepath.Join("run-demo", "receipts", "prompt_context"), 0o755); err != nil {
+		t.Fatal(err)
+	}
 	return dir
+}
+
+func writeSVGlideShortcutSemanticContract(t *testing.T) {
+	t.Helper()
+	writeSVGlideShortcutFile(t, filepath.Join("skills", "lark-slides", "references", "anygen-svg", "semantic_contract.md"), `---
+id: anygen_semantic_contract
+role: semantic_contract
+invocation: reference
+rules:
+  - id: no_silent_all_diagram_fallback
+    kind: explicit_reason_required
+    when: deck_has_zero_image_assets
+    artifact: assets/assets_plan.json
+    field: no_image_reason
+    severity: error
+  - id: image_visual_requires_image_asset
+    kind: visual_asset_type_match
+    visual_type: image
+    asset_type: image
+    severity: error
+  - id: ready_image_asset_must_render
+    kind: svg_contains_asset_href
+    asset_type: image
+    asset_status: ready
+    svg_selector: '<image slide:role="image"'
+    severity: error
+---
+
+# Test Semantic Contract
+`)
 }
 
 func findSVGlideShortcutFlag(t *testing.T, name string) common.Flag {
@@ -480,6 +588,24 @@ func valuesAsStrings(value any) []string {
 	for _, value := range values {
 		if text, ok := value.(string); ok {
 			out = append(out, text)
+		}
+	}
+	return out
+}
+
+func promptContextAssetPathsFromShortcutData(value any) []string {
+	values, ok := value.([]any)
+	if !ok {
+		return nil
+	}
+	out := make([]string, 0, len(values))
+	for _, value := range values {
+		object, ok := value.(map[string]any)
+		if !ok {
+			continue
+		}
+		if path, ok := object["path"].(string); ok {
+			out = append(out, path)
 		}
 	}
 	return out

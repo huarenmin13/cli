@@ -9,7 +9,7 @@ import (
 
 func TestValidateStageOutputsRejectsMissingRequiredField(t *testing.T) {
 	initStatusTestRun(t)
-	if err := os.WriteFile(filepath.Join("demo", "request", "request.json"), []byte(`{"title":"Demo"}`), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join("demo", "request", "request.json"), []byte(`{}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -17,7 +17,7 @@ func TestValidateStageOutputsRejectsMissingRequiredField(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected schema validation error")
 	}
-	if !strings.Contains(err.Error(), "request/request.json") || !strings.Contains(err.Error(), "input") {
+	if !strings.Contains(err.Error(), "request/request.json") || !strings.Contains(err.Error(), "title") {
 		t.Fatalf("error = %v, want path and missing field", err)
 	}
 }
@@ -147,7 +147,7 @@ func TestValidateStageOutputsRejectsInvalidQualityReportSchema(t *testing.T) {
 func TestValidateStageOutputsRejectsSourcesMissingRetrieval(t *testing.T) {
 	initStatusTestRun(t)
 	setCurrentStageForStatusTest(t, StageResearch)
-	if err := os.WriteFile(filepath.Join("demo", "research", "sources.json"), []byte(`{"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"supporting evidence"}]}`), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join("demo", "research", "sources.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"supporting evidence"}]}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -168,17 +168,17 @@ func TestValidateStageOutputsRejectsSlideContentMissingSourceRefsOrVisualIds(t *
 	}{
 		{
 			name: "missing source_refs",
-			raw:  `{"slides":[{"id":"s1","content":"Plan","visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}]}]}`,
+			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}]}]}`,
 			want: "source_refs",
 		},
 		{
 			name: "missing visual id",
-			raw:  `{"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[{"type":"none","instruction":"No visual needed"}]}]}`,
+			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[{"type":"none","instruction":"No visual needed"}]}]}`,
 			want: "visuals[0].id",
 		},
 		{
 			name: "empty visuals",
-			raw:  `{"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[]}]}`,
+			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[]}]}`,
 			want: "visuals",
 		},
 	}
@@ -204,7 +204,7 @@ func TestValidateStageOutputsRejectsSlideContentMissingSourceRefsOrVisualIds(t *
 func TestValidateStageOutputsRejectsAssetsMissingStatus(t *testing.T) {
 	initStatusTestRun(t)
 	setCurrentStageForStatusTest(t, StageAssets)
-	if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"https://example.com/a.png","usage":"hero image"}]}`), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"https://example.com/a.png","usage":"hero image"}]}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -229,7 +229,7 @@ func TestValidateStageOutputsAcceptsExperimentAssetPaths(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			initStatusTestRun(t)
 			setCurrentStageForStatusTest(t, StageAssets)
-			if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"`+tt.path+`","usage":"hero image","status":"ready"}]}`), 0o644); err != nil {
+			if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"`+tt.path+`","usage":"hero image","status":"ready"}]}`), 0o644); err != nil {
 				t.Fatal(err)
 			}
 
@@ -238,6 +238,45 @@ func TestValidateStageOutputsAcceptsExperimentAssetPaths(t *testing.T) {
 				t.Fatalf("expected experiment asset path to pass schema validation, got %v", err)
 			}
 		})
+	}
+}
+
+func TestValidateStageOutputsRejectsMissingArtifactPromptContract(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageAssets)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"mode":"experiment_unrestricted_assets","assets":[]}`)
+
+	err := ValidateStageOutputs("demo")
+	if err == nil {
+		t.Fatal("expected assets artifact without prompt_contract to be rejected")
+	}
+	if !strings.Contains(err.Error(), "assets/assets_plan.json") || !strings.Contains(err.Error(), "prompt_contract") {
+		t.Fatalf("error = %v, want assets/assets_plan.json prompt_contract rejection", err)
+	}
+}
+
+func TestValidateStageOutputsRejectsWrongPromptContractOrchestrator(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageAssets)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "assets",
+    "context_receipt": "receipts/prompt_context/assets.json",
+    "orchestrator": "wrong_orchestrator",
+    "protocol_reference": "svg_reference",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference"]
+  },
+  "mode": "experiment_unrestricted_assets",
+  "assets": []
+}`)
+
+	err := ValidateArtifactPromptContractForStage("demo", StageAssets, []string{"assets/assets_plan.json"})
+	if err == nil {
+		t.Fatal("expected wrong prompt_contract.orchestrator to be rejected")
+	}
+	if !strings.Contains(err.Error(), "assets/assets_plan.json") || !strings.Contains(err.Error(), "orchestrator") {
+		t.Fatalf("error = %v, want assets/assets_plan.json orchestrator rejection", err)
 	}
 }
 
@@ -276,7 +315,7 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 }
 
 func validSchemaDeckJSON(path string) string {
-	return `{"main_title":"Demo Deck","style_instruction":{"aesthetic_direction":"Editorial report","color_palette":{},"typography":{}},"slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"` + path + `"}]}`
+	return `{"prompt_contract":` + promptContractJSON(StageOutline) + `,"main_title":"Demo Deck","style_instruction":{"aesthetic_direction":"Editorial report","color_palette":{},"typography":{}},"slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"` + path + `"}]}`
 }
 
 func validQualityReportJSON() string {

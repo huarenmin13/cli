@@ -41,15 +41,15 @@ func TestStatusQuotesNextCommandRunPath(t *testing.T) {
 	}{
 		{
 			root: "demo dir",
-			want: "lark-cli slides +create-svglide --action next --run 'demo dir'",
+			want: "lark-cli slides +create-svglide --action complete --run 'demo dir'",
 		},
 		{
 			root: "demo' dir",
-			want: "lark-cli slides +create-svglide --action next --run 'demo'\\'' dir'",
+			want: "lark-cli slides +create-svglide --action complete --run 'demo'\\'' dir'",
 		},
 		{
 			root: "demo trail ",
-			want: "lark-cli slides +create-svglide --action next --run 'demo trail '",
+			want: "lark-cli slides +create-svglide --action complete --run 'demo trail '",
 		},
 	}
 	for _, tt := range tests {
@@ -71,7 +71,7 @@ func TestStatusQuotesNextCommandRunPath(t *testing.T) {
 	}
 }
 
-func TestNextTaskReturnsAnyGenPromptAssets(t *testing.T) {
+func TestNextTaskReturnsAnyGenPromptContextAssets(t *testing.T) {
 	initStatusTestRun(t)
 
 	next, err := NextTask("demo")
@@ -88,14 +88,20 @@ func TestNextTaskReturnsAnyGenPromptAssets(t *testing.T) {
 	if next.PromptPath != "" {
 		t.Fatalf("PromptPath = %q, want empty deprecated field", next.PromptPath)
 	}
-	got := strings.Join(next.PromptPaths, "\n")
+	if len(next.PromptPaths) != 0 {
+		t.Fatalf("PromptPaths = %v, want omitted legacy top-level field", next.PromptPaths)
+	}
+	got := promptContextAssetPaths(next.AgentTask.PromptContext.Assets)
 	for _, want := range []string{
 		"skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md",
 		"skills/lark-slides/references/anygen-svg/svg_reference.md",
 	} {
 		if !strings.Contains(got, want) {
-			t.Fatalf("PromptPaths missing %q:\n%s", want, got)
+			t.Fatalf("prompt_context assets missing %q:\n%s", want, got)
 		}
+	}
+	if strings.Contains(got, "docs/vendor/anygen-svg/source.full.md") {
+		t.Fatalf("prompt_context assets should not include source snapshot:\n%s", got)
 	}
 	if len(next.Inputs) != 0 {
 		t.Fatalf("Inputs = %v, want empty", next.Inputs)
@@ -113,16 +119,27 @@ func TestNextTaskSeparatesAnyGenPromptsFromRuntimeAdapter(t *testing.T) {
 		t.Fatalf("NextTask: %v", err)
 	}
 
-	gotPrompts := strings.Join(next.PromptPaths, "\n")
+	if len(next.PromptPaths) != 0 {
+		t.Fatalf("PromptPaths = %v, want omitted legacy top-level field", next.PromptPaths)
+	}
+	gotPrompts := promptContextAssetPaths(next.AgentTask.PromptContext.Assets)
 	if strings.Contains(gotPrompts, "lark-slides-create-svglide.md") {
-		t.Fatalf("PromptPaths should contain AnyGen assets only, got:\n%s", gotPrompts)
+		t.Fatalf("prompt_context assets should contain AnyGen assets only, got:\n%s", gotPrompts)
 	}
 	if !strings.Contains(gotPrompts, "skills/lark-slides/references/anygen-svg/README.md") {
-		t.Fatalf("PromptPaths missing AnyGen README:\n%s", gotPrompts)
+		t.Fatalf("prompt_context assets missing AnyGen README:\n%s", gotPrompts)
 	}
 	if len(next.AdapterPaths) != 1 || next.AdapterPaths[0] != "skills/lark-slides/references/lark-slides-create-svglide.md" {
 		t.Fatalf("AdapterPaths = %#v, want create-svglide adapter", next.AdapterPaths)
 	}
+}
+
+func promptContextAssetPaths(assets []PromptContextAsset) string {
+	paths := make([]string, 0, len(assets))
+	for _, asset := range assets {
+		paths = append(paths, asset.Path)
+	}
+	return strings.Join(paths, "\n")
 }
 
 func TestNextTaskDeclaresExecutionModeWithoutApprovalGate(t *testing.T) {
@@ -147,12 +164,156 @@ func TestNextTaskDeclaresExecutionModeWithoutApprovalGate(t *testing.T) {
 	}
 }
 
+func TestNextTaskReturnsAgentRuntimeProtocolContract(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/research/research_notes.md", "# research\n")
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+
+	next, err := NextTask("demo")
+	if err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+
+	var payload map[string]any
+	raw, err := json.Marshal(next)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := json.Unmarshal(raw, &payload); err != nil {
+		t.Fatal(err)
+	}
+	if payload["protocol"] != "anygen-svg-slides" {
+		t.Fatalf("protocol = %v, want anygen-svg-slides in next payload: %+v", payload["protocol"], payload)
+	}
+	agentTask, ok := payload["agent_task"].(map[string]any)
+	if !ok {
+		t.Fatalf("next.agent_task missing or invalid: %+v", payload)
+	}
+	if agentTask["stage"] != StageDesignBrief {
+		t.Fatalf("agent_task.stage = %v, want %q", agentTask["stage"], StageDesignBrief)
+	}
+	if agentTask["prompt_context"] == nil {
+		t.Fatalf("agent_task.prompt_context missing: %+v", agentTask)
+	}
+	if payload["prompt_context"] == nil {
+		t.Fatalf("next.prompt_context receipt path missing: %+v", payload)
+	}
+	if _, ok := payload["prompt_contract"].(map[string]any); !ok {
+		t.Fatalf("next.prompt_contract missing or invalid: %+v", payload)
+	}
+	toolContract, ok := payload["tool_invocation_contract"].(map[string]any)
+	if !ok {
+		t.Fatalf("next.tool_invocation_contract missing or invalid: %+v", payload)
+	}
+	if !jsonArrayContainsObjectField(toolContract["required_calls"], "id", "resolve_design_brief") {
+		t.Fatalf("required_calls missing resolve_design_brief: %+v", toolContract["required_calls"])
+	}
+}
+
+func TestNextTaskWritesPromptContextReceipt(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/research/research_notes.md", "# research\n")
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+
+	if _, err := NextTask("demo"); err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "prompt_context", StageDesignBrief+".json"))
+	if err != nil {
+		t.Fatalf("missing prompt context receipt for %s: %v", StageDesignBrief, err)
+	}
+	var receipt map[string]any
+	if err := json.Unmarshal(raw, &receipt); err != nil {
+		t.Fatalf("invalid prompt context receipt: %v", err)
+	}
+	if receipt["stage"] != StageDesignBrief || receipt["protocol"] != "anygen-svg-slides" {
+		t.Fatalf("prompt context receipt = %+v, want design_brief anygen protocol", receipt)
+	}
+	if _, ok := receipt["asset_hashes"].(map[string]any); !ok {
+		t.Fatalf("prompt context receipt missing asset_hashes: %+v", receipt)
+	}
+	if receipt["agent_task"] == nil || receipt["tool_invocation_contract"] == nil {
+		t.Fatalf("prompt context receipt missing agent_task/tool_invocation_contract: %+v", receipt)
+	}
+}
+
+func TestNextTaskResearchIncludesPPTXConditionalCall(t *testing.T) {
+	initStatusTestRun(t)
+	run := readStatusTestRunFile(t)
+	run.Input = "source.pptx"
+	run.Intent.Input = "source.pptx"
+	run.CurrentStage = StageResearch
+	writeStatusTestRunFile(t, run)
+
+	next, err := NextTask("demo")
+	if err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+	if !toolCallsContainID(next.ToolInvocationContract.ConditionalCalls, "slides_convert") {
+		t.Fatalf("conditional_calls = %+v, want slides_convert for pptx input", next.ToolInvocationContract.ConditionalCalls)
+	}
+}
+
+func TestNextTaskResearchIncludesTemplateConditionalCall(t *testing.T) {
+	initStatusTestRun(t)
+	run := readStatusTestRunFile(t)
+	run.CurrentStage = StageResearch
+	writeStatusTestRunFile(t, run)
+	mustWriteTestFile(t, filepath.Join("demo", "request", "request.json"), `{"title":"Demo","input":"source.md","template":true}`)
+
+	next, err := NextTask("demo")
+	if err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+	if !toolCallsContainID(next.ToolInvocationContract.ConditionalCalls, "slides_parse_template") {
+		t.Fatalf("conditional_calls = %+v, want slides_parse_template for template request", next.ToolInvocationContract.ConditionalCalls)
+	}
+}
+
+func toolCallsContainID(calls []ToolCallRequirement, id string) bool {
+	for _, call := range calls {
+		if call.ID == id {
+			return true
+		}
+	}
+	return false
+}
+
+func TestNextTaskCreatesPromptContextReceiptDirectory(t *testing.T) {
+	initStatusTestRun(t)
+	if err := os.RemoveAll(filepath.Join("demo", "receipts", "prompt_context")); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := NextTask("demo"); err != nil {
+		t.Fatalf("NextTask should create receipts/prompt_context as needed: %v", err)
+	}
+	if _, err := os.Stat(filepath.Join("demo", "receipts", "prompt_context", StageRequest+".json")); err != nil {
+		t.Fatalf("missing request prompt context receipt: %v", err)
+	}
+}
+
 func TestInspectStatusRejectsUnsafeRunPath(t *testing.T) {
 	t.Chdir(t.TempDir())
 
 	if _, err := InspectStatus("../escape"); err == nil {
 		t.Fatal("expected unsafe run path refusal")
 	}
+}
+
+func jsonArrayContainsObjectField(value any, field string, want string) bool {
+	items, ok := value.([]any)
+	if !ok {
+		return false
+	}
+	for _, item := range items {
+		object, ok := item.(map[string]any)
+		if ok && object[field] == want {
+			return true
+		}
+	}
+	return false
 }
 
 func TestReadRunReadsRunJSONAndRejectsAbsoluteRunPath(t *testing.T) {
@@ -435,6 +596,7 @@ func initStatusTestRunAt(t *testing.T, root string) string {
 	t.Helper()
 	cwd := t.TempDir()
 	t.Chdir(cwd)
+	writeDefaultSemanticContractForTest(t)
 	if err := os.WriteFile("source.md", []byte("# Demo"), 0o644); err != nil {
 		t.Fatal(err)
 	}
@@ -449,6 +611,9 @@ func initStatusTestRunAt(t *testing.T, root string) string {
 		if err := os.Rename(initRoot, root); err != nil {
 			t.Fatal(err)
 		}
+	}
+	if err := os.MkdirAll(filepath.Join(root, "receipts", "prompt_context"), 0o755); err != nil {
+		t.Fatal(err)
 	}
 	return cwd
 }
@@ -494,4 +659,38 @@ func setCurrentStageForStatusTest(t *testing.T, stageName string) {
 	run := readStatusTestRunFile(t)
 	run.CurrentStage = stageName
 	writeStatusTestRunFile(t, run)
+}
+
+func writeDefaultSemanticContractForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, defaultSemanticContractPath, `---
+id: anygen_semantic_contract
+role: semantic_contract
+invocation: reference
+rules:
+  - id: no_silent_all_diagram_fallback
+    kind: explicit_reason_required
+    when: deck_has_zero_image_assets
+    artifact: assets/assets_plan.json
+    field: no_image_reason
+    severity: error
+  - id: image_visual_requires_image_asset
+    kind: visual_asset_type_match
+    visual_type: image
+    asset_type: image
+    severity: error
+  - id: ready_image_and_active_asset_refs_must_render
+    kind: svg_contains_asset_href
+    asset_type: image
+    asset_status: ready
+    svg_selector: '<image slide:role="image"'
+    severity: error
+---
+
+# Test Semantic Contract
+`)
+}
+
+func testPromptContractField(stage string) string {
+	return `"prompt_contract":{"protocol":"anygen-svg-slides","stage":"` + stage + `","orchestrator":"mode_system_prompt_svg","protocol_reference":"svg_reference","required_prompt_ids":["mode_system_prompt_svg","svg_reference"]}`
 }

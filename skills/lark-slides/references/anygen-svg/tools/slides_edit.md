@@ -1,3 +1,31 @@
+---
+id: slides_edit
+role: tool_prompt
+orchestrated_by: mode_system_prompt_svg
+invocation: required
+stage: svg_author
+order: 40
+cardinality: once_or_more
+requires:
+  - mode_system_prompt_svg
+  - svg_reference
+condition: always
+trigger:
+  - initial_deck_generation
+  - slide_revision
+consumes:
+  - outline/deck.json
+  - content/slide_content.json
+  - brief/visual_system.json
+  - assets/assets_plan.json
+produces:
+  - slides/*.svg
+  - receipts/tool_calls/svg_author/slides_edit.json
+completion_gate:
+  - svg_protocol_valid
+  - slide_matches_outline_content_assets
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -73,4 +101,3 @@ Before writing the SVG, use the `content_thinking` parameter to document:
 - Stay consistent with the style_instruction provided in slide_outline.
 </quality_standards>
 ```
-

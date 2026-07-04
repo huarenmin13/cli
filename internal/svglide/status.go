@@ -20,17 +20,22 @@ type StatusReport struct {
 }
 
 type NextTaskReport struct {
-	Stage            string   `json:"stage"`
-	Mode             string   `json:"mode"`
-	ApprovalRequired bool     `json:"approval_required"`
-	BlockingOwner    string   `json:"blocking_owner"`
-	BlockingReason   string   `json:"blocking_reason,omitempty"`
-	PromptPath       string   `json:"prompt_path,omitempty"`
-	PromptPaths      []string `json:"prompt_paths"`
-	AdapterPaths     []string `json:"adapter_paths"`
-	PromptManifest   string   `json:"prompt_manifest"`
-	Inputs           []string `json:"inputs"`
-	Outputs          []string `json:"outputs"`
+	Stage                  string                 `json:"stage"`
+	Mode                   string                 `json:"mode"`
+	Protocol               string                 `json:"protocol"`
+	ApprovalRequired       bool                   `json:"approval_required"`
+	BlockingOwner          string                 `json:"blocking_owner"`
+	BlockingReason         string                 `json:"blocking_reason,omitempty"`
+	PromptPath             string                 `json:"prompt_path,omitempty"`
+	PromptPaths            []string               `json:"prompt_paths,omitempty"`
+	AdapterPaths           []string               `json:"adapter_paths"`
+	PromptManifest         string                 `json:"prompt_manifest"`
+	PromptContext          string                 `json:"prompt_context"`
+	PromptContract         StagePromptContract    `json:"prompt_contract"`
+	ToolInvocationContract ToolInvocationContract `json:"tool_invocation_contract"`
+	AgentTask              AgentTask              `json:"agent_task"`
+	Inputs                 []string               `json:"inputs"`
+	Outputs                []string               `json:"outputs"`
 }
 
 const (
@@ -64,11 +69,15 @@ func InspectStatus(root string) (StatusReport, error) {
 	if err != nil {
 		return StatusReport{}, err
 	}
+	nextAction := "next"
+	if len(missingOutputs) == 0 {
+		nextAction = "complete"
+	}
 	return StatusReport{
 		CurrentStage:   stage.Name,
 		MissingInputs:  missingInputs,
 		MissingOutputs: missingOutputs,
-		NextCommand:    fmt.Sprintf("lark-cli slides +create-svglide --action next --run %s", shellQuote(root)),
+		NextCommand:    fmt.Sprintf("lark-cli slides +create-svglide --action %s --run %s", nextAction, shellQuote(root)),
 	}, nil
 }
 
@@ -96,16 +105,27 @@ func NextTask(root string) (NextTaskReport, error) {
 	if err != nil {
 		return NextTaskReport{}, err
 	}
+	agentTask, promptContract, toolContract, err := BuildAgentTask(stage, run, safeRoot, inputs, outputs)
+	if err != nil {
+		return NextTaskReport{}, err
+	}
+	if err := WritePromptContextReceipt(safeRoot, stage.Name, agentTask, promptContract, toolContract); err != nil {
+		return NextTaskReport{}, err
+	}
 	return NextTaskReport{
-		Stage:            stage.Name,
-		Mode:             svglideExecutionMode,
-		ApprovalRequired: false,
-		BlockingOwner:    svglideBlockingOwner,
-		PromptPaths:      PromptPathsForStage(stage.Name),
-		AdapterPaths:     []string{createSVGlideAdapterPath},
-		PromptManifest:   "prompt_manifest.json",
-		Inputs:           inputs,
-		Outputs:          outputs,
+		Stage:                  stage.Name,
+		Mode:                   svglideExecutionMode,
+		Protocol:               ProtocolAnyGenSVGSlides,
+		ApprovalRequired:       false,
+		BlockingOwner:          svglideBlockingOwner,
+		AdapterPaths:           []string{createSVGlideAdapterPath},
+		PromptManifest:         "prompt_manifest.json",
+		PromptContext:          promptContextReceiptPath(stage.Name),
+		PromptContract:         promptContract,
+		ToolInvocationContract: toolContract,
+		AgentTask:              agentTask,
+		Inputs:                 inputs,
+		Outputs:                outputs,
 	}, nil
 }
 

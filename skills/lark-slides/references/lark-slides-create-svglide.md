@@ -1,134 +1,185 @@
 # slides +create-svglide
 
-`slides +create-svglide` 是 AnyGen SVG Slides md 资产的本地 SVGlide runtime adapter。
+`slides +create-svglide` 是 AnyGen SVG Slides 的 agent runtime adapter。它不是 Codex-only workbench；Codex 只是 `agent.runtime=codex` 的一种实现，其他 agent 也必须通过同一套 CLI runtime protocol 执行。
 
-它只负责把 AnyGen prompt/reference 资产接入本地 run-dir 工作流：创建目录、写入请求和 manifest、显示下一步应读的 AnyGen md、校验本地产物、生成 HTML 预览。它不创建在线飞书幻灯片，不调用 `slide_engine`，不做 SVG-to-SXSD 发布，也不定义新的 AnyGen 生成标准。
+本文档只定义 adapter 协议边界、run-dir 结构、receipt、schema、preview、quality、semantic gate 和 delivery receipt。它不复制 AnyGen prompt 正文，不负责创意生成本身，不接入真实图片 provider，不进入 Feishu/SXSD/live-create 链路。
 
 ## 权威顺序
 
-1. AnyGen 迁移资产：`skills/lark-slides/references/anygen-svg/`
-2. 本地 adapter：`skills/lark-slides/references/lark-slides-create-svglide.md`
-3. Go CLI：`internal/svglide/*`
+1. AnyGen reference index：`skills/lark-slides/references/anygen-svg/README.md`
+2. AnyGen orchestrator：`skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md`
+3. SVG protocol authority：`skills/lark-slides/references/anygen-svg/svg_reference.md`
+4. Semantic contract：`skills/lark-slides/references/anygen-svg/semantic_contract.md`
+5. Runtime adapter：`skills/lark-slides/references/lark-slides-create-svglide.md`
+6. Go CLI：`internal/svglide/*`
 
-当 AnyGen md 资产和本文档在设计语义、角色职责、页面质量标准上出现差异时，以 AnyGen md 资产为准。本文档只解释本地 CLI 如何承载这些资产。
+生成语义、角色职责、页面质量、SVG 协议和语义规则实例来自 AnyGen Markdown 资产。Go 只执行稳定的 runtime protocol 和有限的机械 gate。
 
-## 本地 adapter 边界
+## AnyGen 编排树
 
-- prompt/reference assets 放在 `skills/lark-slides/references/anygen-svg/`，由 AnyGen md 定义生成语义。
-- 本地 run 目录只保存生成产物、receipts、preview、schema、manifest 和 quality reports。
-- Go 不负责设计判断或内容生成；Go 只负责 run-dir 创建、schema 检查、状态流转、SVG lint、本地 preview 和机械 gate。
-- Codex 读取 skill/reference 文件，执行研究、design brief resolution、内容规划、资产准备和 SVG authoring。
+- `mode_system_prompt_svg` 是唯一 orchestrator。
+- `svg_reference` 是唯一 protocol authority。
+- `resolve_design_brief`：required tool prompt，stage=`design_brief`。
+- `slide_outline`：required tool prompt，stage=`outline`。
+- `activate_slides_edit` -> `slides_edit`：required tool prompt chain，stage=`svg_author`。
+- `finish_slides_edit`：required tool prompt，stage=`validate_preview_repair`，对应最终 validate、preview、quality、semantic gate。
+- `slide_organize`：conditional tool prompt，条件为 outline 创建后的增删页或重排。
+- `compute_custom_shape_bbox`：conditional tool prompt，条件为 SVG 含 custom path。
+- `generate_svg_chart`：conditional tool prompt，条件为 `visual_type_chart`，由 `assets` stage 暴露。
+- `slides_convert`：conditional tool prompt，条件为输入是 PPTX。
+- `slides_parse_template`：conditional tool prompt，条件为 PPTX/template 解析链路。
 
-本地 run 写入 `prompt_manifest.json`，记录本次 run 应使用哪些 prompt assets。它不再把完整 prompt 文本复制到 `prompts/`。
+没有独立 tool prompt 的阶段由 `mode_system_prompt_svg` 的章节锚点承载：`research` 对应 Phase 3，`slide_content` 对应 Phase 6，`assets` 图片规划对应 Phase 7 和 `<visuals>`。
 
-语义质量由 AnyGen md 资产约束，Go 只做本地结构检查、JSON/SVG 基础校验和 preview 生成。当前实验阶段允许资产路径宽松表达；这只是本地 adapter 的搬运边界，不改变 AnyGen 对素材规划和页面质量的要求。
+## Adapter 边界
 
-## 执行模式
+adapter 负责：
 
-用户要求生成、创建或执行 SVGlide PPT 时，默认进入 execution mode。
+- 创建和维护本地 run-dir。
+- 写入 `request/request.json`、`request/source_manifest.json`、`prompt_manifest.json` 和 `schemas/*.json`。
+- 通过 `next` 返回 `agent_task`、`prompt_context`、`tool_invocation_contract`、inputs、outputs 和 `completion_gate`。
+- 校验 `receipts/tool_calls/<stage>/`、stage artifact 的 `prompt_contract`、schema、SVG lint、preview、quality、semantic report。
+- 在 `repair` 通过后写出 `receipts/delivery.json`。
 
-- 不额外要求 brainstorming approval。
-- 不额外要求 writing plan。
-- 直接按 `init -> next -> stage artifacts -> complete -> repair` 推进。
-- 只有缺少必要输入、目标互相矛盾、或会产生外部不可逆副作用时才暂停。
-- 阻断权归属 `svglide-runtime`；辅助 skill 只能提供参考，不新增 approval gate。
+adapter 不负责：
 
-## AnyGen prompt assets
+- 改写 AnyGen prompt 正文或替 agent 做创意判断。
+- 自动研究、自动搜图、自动生图或接入真实图片 provider。
+- 发布到 Feishu、创建 `.slides`、返回 `xml_presentation_id`、调用 `slide_engine`、SXSD 或 Slides OpenAPI。
+- 原生实现 chart、table、图片裁剪；这些需求必须通过 AnyGen 语义和本地 artifact 显式表达。
 
-源快照：
+`author` action 只是诊断和占位能力，用于 smoke、协议调试或缺失 SVG 补齐；它不是 AnyGen authoring 的等价实现。
 
-- `docs/vendor/anygen-svg/source.full.md`
-- `docs/vendor/anygen-svg/source.outline.md`
-- `docs/vendor/anygen-svg/source.meta.json`
+## Agent Runtime Protocol
 
-运行时 prompt/reference 文件：
+标准循环是：
 
-- `skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md`
-- `skills/lark-slides/references/anygen-svg/svg_reference.md`
-- `skills/lark-slides/references/anygen-svg/tools/resolve_design_brief.md`
-- `skills/lark-slides/references/anygen-svg/tools/slide_outline.md`
-- `skills/lark-slides/references/anygen-svg/tools/slides_edit.md`
-- `skills/lark-slides/references/anygen-svg/tools/generate_svg_chart.md`
-- `skills/lark-slides/references/anygen-svg/tools/*.md`
-
-## 第一阶段不承诺的能力
-
-第一阶段不假装已经实现这些能力：
-
-- native chart generation
-- native table generation
-- image crop / pan composition
-- Feishu publish / `.slides` handover
-
-如果 deck 需要这些能力，Codex 必须在 `content/slide_content.json` 和 `assets/assets_plan.json` 保留语义需求。当前可以用 `deferred` 或 unrestricted experiment asset 表达，不把它包装成已完成的生产能力。
-
-## 推荐流程
-
-初始化 run-dir：
-
-```bash
-lark-cli slides +create-svglide \
-  --as user \
-  --action init \
-  --title "Demo" \
-  --input ./source.md \
-  --audience "产品负责人" \
-  --delivery-mode self_read \
-  --pages 8 \
-  --out ./.lark-slides/svglide-runs/demo
+```text
+init -> complete(request bootstrap) -> [next -> agent_task -> prompt_context -> tool_calls -> artifact -> complete]* -> next(final gate) -> repair -> complete -> delivery
 ```
 
-查看下一步：
+`init` 只建立 run-dir、请求、manifest 和 schema，并已写好 `request/request.json` 与 `request/source_manifest.json`。`request` stage 是 bootstrap 校验阶段，不需要 agent 再生成 request 产物。`agent.runtime` 记录执行者，例如 `codex`、`claude`、`cursor`、`fake-agent`；runtime protocol 本身不因 agent 名称改变。
 
-```bash
-lark-cli slides +create-svglide --as user --action status --run ./.lark-slides/svglide-runs/demo
-lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svglide-runs/demo
+`next` 是每个 stage 的唯一调度入口。agent 必须先调用 `next`，再按 `next.agent_task` 写 tool call receipt 和 stage artifact。`complete` 只接受当前 stage 的产物；跨 stage 复用旧 `prompt_context` 必须 fail-closed。
+
+## Markdown 读取边界
+
+agent 只能以 `next.agent_task.prompt_context.assets` 作为当前 stage 的必读 Markdown 清单。
+
+禁止行为：
+
+- 自行扫描 repo、README、SKILL.md 或 `tools/` 目录来推导当前 stage 应读哪些 AnyGen Markdown。
+- 用历史记忆、全局 prompt paths、顶层 legacy `prompt_paths`、未由当前 stage 下发的迁移/归档素材或手工猜测替代当前 `prompt_context.assets`。
+- 在 prompt hash 漂移后继续使用旧产物或旧 receipt。
+
+允许行为：
+
+- 按 `prompt_context.assets[*].path` 读取当前 stage 必需 Markdown。
+- 用 `prompt_context.assets[*].id`、`role`、`sha256` 写入 prompt context receipt。
+- 如果发现 hash 漂移或 asset 缺失，重新调用 `next`，按新的 prompt context 修正产物。
+
+直接读取 Markdown 只是上下文动作。stage 能否完成，由 `complete` 校验 prompt context receipt、tool call receipt、artifact `prompt_contract` 和 stage gate 决定。
+
+## next 输出协议
+
+`next` 返回的 task 至少应表达：
+
+```json
+{
+  "agent_task": {
+    "stage": "svg_author",
+    "prompt_context": {
+      "read_policy": "read_required_assets_before_authoring",
+      "authority": "cli_runtime_protocol",
+      "assets": [
+        {
+          "id": "mode_system_prompt_svg",
+          "role": "orchestrator",
+          "path": "skills/lark-slides/references/anygen-svg/mode_system_prompt_svg.md",
+          "sha256": "...",
+          "required": true
+        },
+        {
+          "id": "svg_reference",
+          "role": "protocol_reference",
+          "path": "skills/lark-slides/references/anygen-svg/svg_reference.md",
+          "sha256": "...",
+          "required": true
+        }
+      ]
+    },
+    "tool_invocation_contract": {
+      "required": ["activate_slides_edit", "slides_edit"],
+      "conditional": ["compute_custom_shape_bbox"]
+    },
+    "inputs": ["outline/deck.json", "content/slide_content.json", "assets/assets_plan.json"],
+    "outputs": ["slides/*.svg"],
+    "completion_gate": ["svg_protocol_valid", "slide_matches_outline_content_assets"]
+  }
+}
 ```
 
-每个 stage 的循环：
+`prompt_context` 是 Markdown 读取边界；`tool_invocation_contract` 是 tool prompt 调用边界；`completion_gate` 是 `complete` 的验收边界。三者都来自 CLI runtime，不由 agent 自行推导。
 
-```bash
-lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svglide-runs/demo
-# Codex 根据返回的 prompt_manifest / prompt_paths 读取 prompt assets 并填充当前 stage outputs
-lark-cli slides +create-svglide --as user --action complete --run ./.lark-slides/svglide-runs/demo
-lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svglide-runs/demo
+## Tool Call Receipts
+
+每个被调用的 required 或 conditional tool prompt 都必须写入 `receipts/tool_calls/<stage>/<call>.json`。receipt 至少包含：
+
+```json
+{
+  "stage": "svg_author",
+  "prompt_id": "slides_edit",
+  "orchestrated_by": "mode_system_prompt_svg",
+  "order": 40,
+  "cardinality": "once_or_more",
+  "prompt_context_receipt": "receipts/prompt_context/svg_author.json",
+  "input_artifacts": ["outline/deck.json", "content/slide_content.json", "assets/assets_plan.json"],
+  "output_artifacts": ["slides/slide-01.svg"],
+  "status": "passed"
+}
 ```
 
-`outline`、`content`、`visual`、`assets` 就绪后，再生成基础 SVG author，支持文本、来源脚注和已规划图片资产：
+required tool prompt 缺 receipt 时，`complete` 必须失败。conditional tool prompt 只有在条件命中时要求 receipt；条件未命中时，agent 不应伪造空调用。
 
-```bash
-lark-cli slides +create-svglide --as user --action author --run ./.lark-slides/svglide-runs/demo
+## Stage Artifacts
+
+每个 stage artifact 必须声明 `prompt_contract`，把产物绑定回本次 `next` 输出：
+
+```json
+{
+  "prompt_contract": {
+    "stage": "svg_author",
+    "orchestrator": "mode_system_prompt_svg",
+    "protocol_reference": "svg_reference",
+    "context_receipt": "receipts/prompt_context/svg_author.json",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference", "slides_edit"]
+  }
+}
 ```
 
-最终校验、预览和质量门禁：
+缺少 `prompt_contract`、stage 不匹配、orchestrator 不匹配、protocol reference 不匹配，均应 fail-closed。
 
-```bash
-lark-cli slides +create-svglide --as user --action repair --run ./.lark-slides/svglide-runs/demo
-```
+## 本地 Gate
 
-必要时可单独定位校验或预览问题：
+- `complete` 校验当前 stage 的 prompt context、tool call receipt、artifact contract 和 schema。
+- `validate` 校验 SVG protocol。
+- `preview` 生成本地 HTML 预览。
+- `quality` 校验本地结构和产物链路。
+- `repair` 聚合 validate、preview、quality 和 semantic report；只有全部 passed 才通过。
+- `semantic_contract.md` 提供 semantic rule 实例；Go 只按稳定 `kind` 执行。
 
-```bash
-lark-cli slides +create-svglide --as user --action validate --run ./.lark-slides/svglide-runs/demo
-lark-cli slides +create-svglide --as user --action preview --run ./.lark-slides/svglide-runs/demo
-lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/svglide-runs/demo
-```
+`preview` 只允许 deck slide path 使用 `slides/<file>.svg` 单层本地路径；不要引用远程 URL、上级目录、百分号编码路径或嵌套目录。`validate` 的 `ok=false` 表示内容校验失败，但命令仍会输出结构化报告；只有 run-dir 读取或本地写入失败才是命令异常。
 
-`init` 只建立目录、`run.json`、`prompt_manifest.json`、schema 和 request 产物。Codex 按 `next` 返回的 `prompt_manifest` / `prompt_paths` 读取 prompt assets 并填充当前 stage 产物后，用 `complete` 校验并推进 stage。`repair` 会先执行 validate + preview + quality；只有三者都 passed 才最终 passed。deck 缺失、JSON 读取失败等不可自动修复的问题会通过命令错误、已有 `receipts/lint.json`、`receipts/preview.json` 和 `repair_queue.md` 暴露；`quality` 成功执行后才保证写出 `quality_report.json`。
+## Final Delivery
 
-## Action
+`repair` passed 后必须写出 `receipts/delivery.json`。delivery receipt 至少应能指向：
 
-| Action | 作用 | 主要产物 |
-|--------|------|----------|
-| `init` | 创建本地 run-dir | `run.json`、`request/request.json`、`prompt_manifest.json`、`schemas/*.json` |
-| `status` | 查看当前 stage、缺失输入/输出和下一条命令 | JSON 状态报告 |
-| `next` | 返回当前 stage 的 prompt manifest、prompt asset paths、输入和输出列表 | JSON task 报告 |
-| `complete` | 校验当前 stage 输出并推进到下一 stage | `run.json`、`receipts/<stage>.json` |
-| `author` | 基于 deck/content/visual/assets 生成基础 SVG author，支持文本、来源脚注和已规划图片资产 | `slides/*.svg`、`receipts/svg_author.json` |
-| `validate` | 校验 `outline/deck.json` 中的 `slides/*.svg` | `receipts/lint.json`、`repair_queue.md` |
-| `preview` | 生成本地 HTML 预览 | `preview.html`、`receipts/preview.json` |
-| `quality` | 校验本地结构和产物链路：来源、引用、视觉需求、asset id/type 语义链路 | `quality_report.json` |
-| `repair` | 执行 validate + preview + quality；仅当三者都 passed 时最终 passed | `receipts/validate_preview_repair.json`、`quality_report.json` |
+- run-dir。
+- `slides/*.svg`。
+- `preview.html`。
+- `receipts/lint.json`、`receipts/preview.json`、`quality_report.json`、`anygen_semantic_report.json`。
+
+agent 的最终回复必须返回可追踪 artifact 路径和报告状态，不允许只总结流程。
 
 ## 运行目录
 
@@ -146,55 +197,72 @@ lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/
 - `content/slide_content.md`
 - `content/slide_content.json`
 - `assets/assets_plan.json`
-- `quality_report.json`
 - `slides/*.svg`
-- `receipts/*.json`
+- `receipts/prompt_context/<stage>.json`
+- `receipts/tool_calls/<stage>/*.json`
+- `receipts/delivery.json`
+- `quality_report.json`
+- `anygen_semantic_report.json`
 - `repair_queue.md`
 - `preview.html`
 
-## 边界
-
-- CLI 负责 run-dir 骨架、prompt manifest、schema、状态检查、SVG protocol 校验、本地机械 quality gate、repair queue 和 HTML preview。
-- Codex 负责网页研究、完整页面读取、design brief、visual system、slide content、资产规划、生图/搜图结果落地、每页 source_refs/visuals 以及 SVG authoring 和修复。
-- assets_plan 是先规划后写 SVG 的输入；当前实验模式要求写 `mode: "experiment_unrestricted_assets"`，允许 path 使用远程 URL、临时路径、本地路径或后续生成资产占位。生产化阶段再恢复可搬运的本地 asset contract。
-- `quality` action 是本地结构检查入口，覆盖来源、引用、视觉需求、asset id/type/status 语义链路；它不检查资产路径安全或文件是否已本地落地。`repair` 的 final quality gate 必须和 validate、preview 一起通过。
-- 当前本地 adapter 不实现 native chart、native table、图片裁剪。遇到真实数据图表、表格或图片构图需求时，Codex 按 AnyGen md 保留语义说明，并用 `deferred` 或 unrestricted experiment asset 表达，不伪装成已完成生产能力。
-- 本命令不发布到 Feishu，不返回 `xml_presentation_id`，不创建 `.slides`，不调用 Slides OpenAPI。
-- `preview` 只允许 deck slide path 使用 `slides/<file>.svg` 单层本地路径；不要引用远程 URL、上级目录、百分号编码路径或嵌套目录。
-- `validate` 的 `ok=false` 表示内容校验失败，但命令仍会输出结构化报告；只有 run-dir 读取或本地写入失败才是命令异常。
-
-## Codex 执行规则
-
-1. 先运行 `status` 或 `next`，确认当前 stage 和缺失产物。
-2. 先读 `skills/lark-slides/references/anygen-svg/README.md`，再按 `next` 返回的 `prompt_manifest` / `prompt_paths` 读取 AnyGen prompt assets，填充当前 stage 的输出，不跳 stage 写最终 SVG。
-3. 每个 stage 输出就绪后运行 `complete`，让 CLI 校验当前 stage 并推进 `run.json`。
-4. 写 `content/slide_content.md` 时为每页补齐 `source_refs` 和 `visuals`；写 `assets/assets_plan.json` 时显式包含 `mode: "experiment_unrestricted_assets"`，并保留图片、图表、表格、裁剪等视觉语义。
-5. 当 `outline`、`content`、`visual`、`assets` 已存在时，可运行 `author` 生成包含文本、来源脚注和本地图片的基础 SVG。
-6. 生成 SVG 时保持纯 SVG、`viewBox="0 0 960 540"`、可选中文本；当前实验模式允许 `<image href>` 使用远程或临时资产路径。
-7. 最后运行 `repair`，形成 validate + preview + quality 三门禁和 final receipt；`repair` 只自动处理可由基础 `author` 覆盖的 lint 失败，deck 缺失、JSON 读取失败等问题会通过命令错误、已有 receipt 和 `repair_queue.md` 暴露；`quality` 成功执行后才保证写出 `quality_report.json`。
-8. 不要把这个本地 adapter 描述成完整 12-agent 自动化系统；它是 Codex 协作的分阶段本地 runtime，生成语义以 AnyGen md 资产为准。
-
 ## 常见命令
 
+topic-only 初始化，并显式声明 agent runtime：
+
 ```bash
-# 查看下一步该做什么
-lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svglide-runs/demo
+lark-cli slides +create-svglide \
+  --as user \
+  --action init \
+  --title "电影介绍" \
+  --topic "介绍《给阿嬷的情书》这部电影" \
+  --language zh \
+  --agent-runtime fake-agent \
+  --out ./.lark-slides/svglide-runs/dear-you-film-intro
+```
 
-# 校验当前 stage 并推进
+带本地输入初始化：
+
+```bash
+lark-cli slides +create-svglide \
+  --as user \
+  --action init \
+  --title "Demo" \
+  --input ./source.md \
+  --audience "产品负责人" \
+  --delivery-mode self_read \
+  --pages 8 \
+  --agent-runtime codex \
+  --out ./.lark-slides/svglide-runs/demo
+```
+
+初始化后先推进 bootstrap request stage；它只校验 `init` 已写好的 request 产物：
+
+```bash
 lark-cli slides +create-svglide --as user --action complete --run ./.lark-slides/svglide-runs/demo
+```
 
-# 基于已完成的 deck/content/visual/assets 生成文本、来源脚注和图片资产 SVG
-lark-cli slides +create-svglide --as user --action author --run ./.lark-slides/svglide-runs/demo
+普通 agent stage 按 runtime protocol 循环推进：
 
-# 只做 SVG 协议校验
-lark-cli slides +create-svglide --as user --action validate --run ./.lark-slides/svglide-runs/demo
+```bash
+lark-cli slides +create-svglide --as user --action status --run ./.lark-slides/svglide-runs/demo
+lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svglide-runs/demo
+# agent 按 next.agent_task.prompt_context.assets 读取 Markdown，写 receipt 和当前 stage artifact
+lark-cli slides +create-svglide --as user --action complete --run ./.lark-slides/svglide-runs/demo
+```
 
-# 生成本地预览
-lark-cli slides +create-svglide --as user --action preview --run ./.lark-slides/svglide-runs/demo
+最终 gate stage 先取一次 final task，再运行 `repair` 生成 validate、preview、quality、semantic 和 delivery receipt，最后 `complete`：
 
-# 只做当前本地结构和产物链路检查
-lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/svglide-runs/demo
-
-# 执行 validate，preview 和 quality
+```bash
+lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svglide-runs/demo
 lark-cli slides +create-svglide --as user --action repair --run ./.lark-slides/svglide-runs/demo
+lark-cli slides +create-svglide --as user --action complete --run ./.lark-slides/svglide-runs/demo
+```
+
+单独定位本地 gate：
+
+```bash
+lark-cli slides +create-svglide --as user --action validate --run ./.lark-slides/svglide-runs/demo
+lark-cli slides +create-svglide --as user --action preview --run ./.lark-slides/svglide-runs/demo
+lark-cli slides +create-svglide --as user --action quality --run ./.lark-slides/svglide-runs/demo
 ```

@@ -1,3 +1,25 @@
+---
+id: slides_parse_template
+role: tool_prompt
+orchestrated_by: mode_system_prompt_svg
+invocation: conditional
+stage: research
+order: 100
+cardinality: zero_or_more
+requires:
+  - mode_system_prompt_svg
+condition: template_requested
+trigger:
+  - template_based_generation_after_slides_convert
+consumes:
+  - research/converted_pptx_manifest.json
+produces:
+  - research/template_manifest.json
+  - receipts/tool_calls/research/slides_parse_template.json
+completion_gate:
+  - template_metadata_available
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd

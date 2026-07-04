@@ -53,8 +53,8 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 	if receipt["status"] != "passed" {
 		t.Fatalf("receipt status = %v, want passed", receipt["status"])
 	}
-	if receipt["message"] != "lint, preview, and quality passed after reauthoring" {
-		t.Fatalf("receipt message = %v, want quality-aware pass message", receipt["message"])
+	if receipt["message"] != "lint, preview, quality, and semantic report passed after reauthoring" {
+		t.Fatalf("receipt message = %v, want semantic-aware pass message", receipt["message"])
 	}
 	if _, ok := receipt["artifacts"].([]any); !ok {
 		t.Fatalf("receipt artifacts = %T, want array", receipt["artifacts"])
@@ -64,6 +64,47 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 	}
 	if _, ok := receipt["generated_at"]; ok {
 		t.Fatalf("receipt contains generated_at, want StageReceipt-compatible schema: %+v", receipt)
+	}
+}
+
+func TestRepairWritesDeliveryReceipt(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" {
+		t.Fatalf("Status = %q, want passed: %+v", report.Status, report)
+	}
+
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatalf("missing delivery receipt after passed repair: %v", err)
+	}
+	var delivery map[string]any
+	if err := json.Unmarshal(raw, &delivery); err != nil {
+		t.Fatalf("invalid delivery receipt: %v", err)
+	}
+	if delivery["status"] != "ready" || delivery["deck"] != "outline/deck.json" || delivery["preview"] != "preview.html" {
+		t.Fatalf("delivery receipt = %+v, want ready deck and preview paths", delivery)
+	}
+	for _, key := range []string{"quality_report", "anygen_semantic_report"} {
+		if delivery[key] == "" || delivery[key] == nil {
+			t.Fatalf("delivery receipt missing %s: %+v", key, delivery)
+		}
+	}
+	slides, ok := delivery["slides"].([]any)
+	if !ok || len(slides) != 1 || slides[0] != "slides/01.svg" {
+		t.Fatalf("delivery slides = %+v, want slides/01.svg", delivery["slides"])
+	}
+	for _, rel := range []string{"outline/deck.json", "slides/01.svg", "preview.html", "quality_report.json"} {
+		if _, err := os.Stat(filepath.Join("demo", rel)); err != nil {
+			t.Fatalf("delivery path %s missing: %v", rel, err)
+		}
 	}
 }
 
@@ -121,8 +162,11 @@ func TestRepairReceiptMessagePrioritizesLintPreviewFailuresOverQuality(t *testin
 	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: false, Preview: "failed", Quality: "failed", Reauthored: true}); got != "repair reauthored slides but lint or preview still failed" {
 		t.Fatalf("reauthored message = %q, want reauthored lint/preview failure", got)
 	}
-	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "failed"}); got != "quality gate failed" {
+	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "failed", Semantic: "passed"}); got != "quality gate failed" {
 		t.Fatalf("quality-only message = %q, want quality gate failed", got)
+	}
+	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "passed", Semantic: "failed"}); got != "semantic gate failed" {
+		t.Fatalf("semantic-only message = %q, want semantic gate failed", got)
 	}
 }
 

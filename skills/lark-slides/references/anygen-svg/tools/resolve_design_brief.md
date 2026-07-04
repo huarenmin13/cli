@@ -1,3 +1,29 @@
+---
+id: resolve_design_brief
+role: tool_prompt
+orchestrated_by: mode_system_prompt_svg
+invocation: required
+stage: design_brief
+order: 10
+cardinality: once
+requires:
+  - mode_system_prompt_svg
+condition: always
+trigger:
+  - phase_4_design_brief_resolution
+consumes:
+  - request/request.json
+  - request/source_manifest.json
+  - research/research_notes.md
+produces:
+  - brief/design_brief.json
+  - brief/visual_system.json
+  - receipts/tool_calls/design_brief/resolve_design_brief.json
+completion_gate:
+  - design_brief_schema_valid
+  - visual_system_schema_valid
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -373,4 +399,3 @@ THREE QUICK DISAMBIGUATIONS (where decks wrongly converge to MID)
 2. Expert vs lay on the SAME topic (ai-hardtech-pitch vs ai-101): both about AI — one is eval tables + failure-mode rates for technical partners, the other bans benchmark charts entirely. Audience, not topic, sets altitude.
 3. Pitch is NOT low-detail everywhere: stage demo-day is C1 (one sentence/slide), but the Series B/C IC pre-read is A-altitude self-read (cohort triangles, Rule-of-40, 20-page-memo-equivalent density). Same category, opposite depth — delivery_mode + audience decide.
 ```
-

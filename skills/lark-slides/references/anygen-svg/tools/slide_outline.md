@@ -1,3 +1,26 @@
+---
+id: slide_outline
+role: tool_prompt
+orchestrated_by: mode_system_prompt_svg
+invocation: required
+stage: outline
+order: 20
+cardinality: once
+requires:
+  - mode_system_prompt_svg
+condition: always
+trigger:
+  - create_project_structure
+consumes:
+  - brief/design_brief.json
+  - brief/visual_system.json
+produces:
+  - outline/deck.json
+  - receipts/tool_calls/outline/slide_outline.json
+completion_gate:
+  - deck_outline_schema_valid
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -24,4 +47,3 @@ Create the project structure with outline metadata, style settings, and empty sl
 - Use to define the presentation structure and style before writing individual slides
 </recommended_usage>
 ```
-

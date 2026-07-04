@@ -232,6 +232,38 @@ func CheckQuality(root string) (QualityReport, error) {
 		report.Status = "failed"
 	}
 
+	semantic, semanticErr := EvaluateAnyGenQualitySemantics(root)
+	if semanticErr != nil {
+		report.Issues = append(report.Issues, QualityIssue{
+			Path:     anyGenSemanticReportPath,
+			Code:     "svglide.semantic.contract",
+			Message:  semanticErr.Error(),
+			Severity: "error",
+		})
+		report.Status = "failed"
+	} else if semantic.Status != "passed" {
+		for _, finding := range semantic.Findings {
+			if !semanticFindingFails(finding) {
+				continue
+			}
+			path := strings.TrimSpace(finding.Artifact)
+			if path == "" {
+				path = anyGenSemanticReportPath
+			}
+			code := strings.TrimSpace(finding.Code)
+			if code == "" {
+				code = "svglide.semantic." + strings.TrimSpace(finding.RuleID)
+			}
+			report.Issues = append(report.Issues, QualityIssue{
+				Path:     path,
+				Code:     code,
+				Message:  finding.Message,
+				Severity: "error",
+			})
+		}
+		report.Status = "failed"
+	}
+
 	if err := writeJSON(filepath.Join(safeRoot, "quality_report.json"), report); err != nil {
 		return report, err
 	}

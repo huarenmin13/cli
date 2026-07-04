@@ -87,8 +87,12 @@ func TestCompleteCurrentStageRejectsFailedValidatePreviewRepairReceipts(t *testi
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"failed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"failed","slides":[{"path":"slides/01.svg","rendered":false}]}`)
 	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":1,"assets":0,"slides_with_source_refs":1,"slides_with_visuals":0}}`)
+	mustWritePassedSemanticReportForTest(t)
+	mustWriteDeliveryReceiptForTest(t)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
+	writePromptContextReceiptWithoutToolCallsForTest(t, StageValidatePreviewRepair)
+	writeToolCallReceiptForTest(t, StageValidatePreviewRepair, "finish_slides_edit")
 
 	_, err := CompleteCurrentStage("demo")
 	if err == nil {
@@ -113,8 +117,12 @@ func TestCompleteCurrentStageRejectsFailedQualityReport(t *testing.T) {
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"passed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"passed","slides":[{"path":"slides/01.svg","rendered":true}]}`)
 	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"failed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":0,"assets":0,"slides_with_source_refs":1,"slides_with_visuals":0}}`)
+	mustWritePassedSemanticReportForTest(t)
+	mustWriteDeliveryReceiptForTest(t)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
+	writePromptContextReceiptWithoutToolCallsForTest(t, StageValidatePreviewRepair)
+	writeToolCallReceiptForTest(t, StageValidatePreviewRepair, "finish_slides_edit")
 
 	_, err := CompleteCurrentStage("demo")
 	if err == nil {
@@ -136,6 +144,193 @@ func TestCompleteCurrentStageRejectsFailedQualityReport(t *testing.T) {
 	}
 }
 
+func TestCompleteFinalStageRecomputesSemanticReport(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageValidatePreviewRepair)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Image Deck","slides":[{"id":"s1","title":"Opening","summary":"Opening summary","role":"cover","key_message":"Image hook","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Opening","source_refs":[],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"file:///tmp/secret.png","usage":"Hero image","status":"ready"}]}`)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><image slide:role="image" href="file:///tmp/secret.png" x="40" y="40" width="320" height="180"/><text x="48" y="260">Claim</text></svg>`)
+	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"passed","issues":[]}`)
+	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"passed","slides":[{"path":"slides/01.svg","rendered":true}]}`)
+	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":0,"assets":1,"slides_with_source_refs":1,"slides_with_visuals":1}}`)
+	mustWritePassedSemanticReportForTest(t)
+	mustWriteDeliveryReceiptForTest(t)
+	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
+	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
+	writePromptContextReceiptWithoutToolCallsForTest(t, StageValidatePreviewRepair)
+	writeToolCallReceiptForTest(t, StageValidatePreviewRepair, "finish_slides_edit")
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected final complete to recompute semantic report and reject forged passed report")
+	}
+	if !strings.Contains(err.Error(), "semantic_gate_failed") {
+		t.Fatalf("error = %v, want semantic_gate_failed", err)
+	}
+}
+
+func TestCompleteRejectsMissingPromptContext(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+	writeValidDesignBriefOutputs(t)
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected missing_prompt_context to reject completing design_brief before next")
+	}
+	if !strings.Contains(err.Error(), "missing_prompt_context") && !strings.Contains(err.Error(), "prompt context") {
+		t.Fatalf("error = %v, want missing_prompt_context", err)
+	}
+	run := readStatusTestRunFile(t)
+	if run.CurrentStage != StageDesignBrief {
+		t.Fatalf("run.CurrentStage = %q, want %q", run.CurrentStage, StageDesignBrief)
+	}
+}
+
+func TestCompleteRejectsStalePromptHash(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+	writeValidDesignBriefOutputs(t)
+	writePromptContextReceiptForTest(t, StageDesignBrief, map[string]string{
+		"mode_system_prompt_svg": "sha256:stale",
+		"svg_reference":          "sha256:stale",
+		"resolve_design_brief":   "sha256:stale",
+	})
+	writeToolCallReceiptForTest(t, StageDesignBrief, "resolve_design_brief")
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected stale_prompt_context to reject changed prompt hashes")
+	}
+	if !strings.Contains(err.Error(), "stale_prompt_context") && !strings.Contains(err.Error(), "prompt hash") {
+		t.Fatalf("error = %v, want stale_prompt_context", err)
+	}
+	run := readStatusTestRunFile(t)
+	if run.CurrentStage != StageDesignBrief {
+		t.Fatalf("run.CurrentStage = %q, want %q", run.CurrentStage, StageDesignBrief)
+	}
+}
+
+func TestCompleteRejectsMissingRequiredToolCallReceipt(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+	writeValidDesignBriefOutputs(t)
+	writePromptContextReceiptForTest(t, StageDesignBrief, map[string]string{
+		"mode_system_prompt_svg": "",
+		"svg_reference":          "",
+		"resolve_design_brief":   "",
+	})
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected missing_tool_call to reject design_brief without resolve_design_brief receipt")
+	}
+	if !strings.Contains(err.Error(), "missing_tool_call") && !strings.Contains(err.Error(), "resolve_design_brief") {
+		t.Fatalf("error = %v, want missing_tool_call for resolve_design_brief", err)
+	}
+	run := readStatusTestRunFile(t)
+	if run.CurrentStage != StageDesignBrief {
+		t.Fatalf("run.CurrentStage = %q, want %q", run.CurrentStage, StageDesignBrief)
+	}
+}
+
+func TestCompleteRejectsWrongToolCallContract(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+	writeValidDesignBriefOutputs(t)
+	writePromptContextReceiptForTest(t, StageDesignBrief, map[string]string{})
+	writeToolCallReceiptForTest(t, StageDesignBrief, "resolve_design_brief")
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "tool_calls", StageDesignBrief, "resolve_design_brief.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var receipt map[string]any
+	if err := json.Unmarshal(raw, &receipt); err != nil {
+		t.Fatal(err)
+	}
+	receipt["condition"] = "wrong_condition"
+	receipt["cardinality"] = "zero_or_more"
+	receipt["consumed"] = []string{"request/request.json"}
+	updated, err := json.MarshalIndent(receipt, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, filepath.Join("demo", "receipts", "tool_calls", StageDesignBrief, "resolve_design_brief.json"), string(append(updated, '\n')))
+
+	_, err = CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected wrong tool call receipt contract to be rejected")
+	}
+	if !strings.Contains(err.Error(), "receipt contract mismatch") && !strings.Contains(err.Error(), "consumed artifacts") {
+		t.Fatalf("error = %v, want tool receipt contract rejection", err)
+	}
+}
+
+func TestCompleteRejectsForgedEmptyPromptContext(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageDesignBrief)
+	writeValidDesignBriefOutputs(t)
+	raw, err := json.MarshalIndent(map[string]any{
+		"stage":                    StageDesignBrief,
+		"protocol":                 "anygen-svg-slides",
+		"agent_task":               map[string]any{"stage": StageDesignBrief},
+		"prompt_contract":          map[string]any{"stage": StageDesignBrief},
+		"tool_invocation_contract": map[string]any{"required_calls": []any{}},
+		"asset_hashes":             map[string]string{},
+	}, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, filepath.Join("demo", "receipts", "prompt_context", StageDesignBrief+".json"), string(append(raw, '\n')))
+
+	_, err = CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected forged empty prompt context to be rejected")
+	}
+	if !strings.Contains(err.Error(), "missing_prompt_context_asset") {
+		t.Fatalf("error = %v, want missing_prompt_context_asset", err)
+	}
+}
+
+func TestCompleteRecomputesConditionalCustomShapeBBox(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"Custom path","summary":"Custom summary","role":"cover","key_message":"Custom key","path":"slides/01.svg"}]}`,
+	)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><path slide:role="shape" slide:shape-type="custom" d="M 10 10 L 120 10 L 120 80 Z"/><text x="48" y="160">Custom</text></svg>`)
+	writePromptContextReceiptForTest(t, StageSVGAuthor, map[string]string{})
+	writeToolCallReceiptForTest(t, StageSVGAuthor, "activate_slides_edit")
+	writeToolCallReceiptForTest(t, StageSVGAuthor, "slides_edit")
+
+	_, err := CompleteCurrentStage("demo")
+	if err == nil {
+		t.Fatal("expected custom path SVG to require compute_custom_shape_bbox receipt")
+	}
+	if !strings.Contains(err.Error(), "missing_tool_call") || !strings.Contains(err.Error(), "compute_custom_shape_bbox") {
+		t.Fatalf("error = %v, want missing compute_custom_shape_bbox tool call", err)
+	}
+}
+
+func TestCompleteDoesNotRequireCustomShapeBBoxForPlainSVG(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"Plain","summary":"Plain summary","role":"cover","key_message":"Plain key","path":"slides/01.svg"}]}`,
+	)
+	mustWriteTestFile(t, "demo/slides/01.svg", visibleTextSVG())
+	writePromptContextReceiptForTest(t, StageSVGAuthor, map[string]string{})
+	writeToolCallReceiptForTest(t, StageSVGAuthor, "activate_slides_edit")
+	writeToolCallReceiptForTest(t, StageSVGAuthor, "slides_edit")
+
+	status, err := CompleteCurrentStage("demo")
+	if err != nil {
+		t.Fatalf("plain SVG should not require compute_custom_shape_bbox: %v", err)
+	}
+	if status.CurrentStage != StageValidatePreviewRepair {
+		t.Fatalf("CurrentStage = %q, want %q", status.CurrentStage, StageValidatePreviewRepair)
+	}
+}
+
 func stageStatus(t *testing.T, run Run, name string) string {
 	t.Helper()
 	for _, stage := range run.Stages {
@@ -145,4 +340,151 @@ func stageStatus(t *testing.T, run Run, name string) string {
 	}
 	t.Fatalf("missing stage %q", name)
 	return ""
+}
+
+func writeValidDesignBriefOutputs(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/brief/design_brief.json", `{"prompt_contract":`+promptContractJSON(StageDesignBrief)+`,"narrative_spine":{},"depth":{},"tone":"clear","visual_system":{"color_system":{},"typography":{},"layout_language":{}}}`)
+	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"prompt_contract":`+promptContractJSON(StageDesignBrief)+`,"color_system":{},"typography":{},"layout_language":{}}`)
+}
+
+func promptContractJSON(stage string) string {
+	return `{"protocol":"anygen-svg-slides","stage":"` + stage + `","context_receipt":"receipts/prompt_context/` + stage + `.json","orchestrator":"mode_system_prompt_svg","protocol_reference":"svg_reference","required_prompt_ids":["mode_system_prompt_svg","svg_reference"]}`
+}
+
+func writePromptContextReceiptForTest(t *testing.T, stage string, hashes map[string]string) {
+	t.Helper()
+	run := readStatusTestRunFile(t)
+	contract, err := RequiredPromptContractForStage(stage, run)
+	if err != nil {
+		t.Fatal(err)
+	}
+	context, err := promptContextForPromptContract(contract)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assetHashes := map[string]string{}
+	for _, asset := range context.Assets {
+		if asset.Required {
+			assetHashes[asset.ID] = asset.SHA256
+		}
+	}
+	for id, hash := range hashes {
+		if hash == "" {
+			if asset, ok := promptContextAssetForTest(context, id); ok {
+				hash = asset.SHA256
+			} else {
+				hash = promptAssetSHA(promptPathByID(id))
+			}
+		}
+		assetHashes[id] = hash
+	}
+	requiredCalls, err := RequiredToolCallsForStage(stage, run)
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw, err := json.MarshalIndent(map[string]any{
+		"stage":           stage,
+		"protocol":        "anygen-svg-slides",
+		"agent_task":      map[string]any{"stage": stage, "prompt_context": context},
+		"prompt_contract": contract,
+		"asset_hashes":    assetHashes,
+		"tool_invocation_contract": map[string]any{
+			"protocol":       "anygen-svg-slides",
+			"required_calls": requiredCalls,
+		},
+	}, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, filepath.Join("demo", "receipts", "prompt_context", stage+".json"), string(append(raw, '\n')))
+}
+
+func writeToolCallReceiptForTest(t *testing.T, stage string, callID string) {
+	t.Helper()
+	run := readStatusTestRunFile(t)
+	calls, err := RequiredToolCallsForStage(stage, run)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var call ToolCallRequirement
+	found := false
+	for _, candidate := range calls {
+		if candidate.ID == callID {
+			call = candidate
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Fatalf("missing required call %q for stage %q", callID, stage)
+	}
+	raw, err := json.MarshalIndent(map[string]any{
+		"protocol":          "anygen-svg-slides",
+		"stage":             stage,
+		"call_id":           callID,
+		"prompt_id":         call.PromptID,
+		"invocation":        call.Invocation,
+		"condition":         call.Condition,
+		"condition_matched": true,
+		"order":             call.Order,
+		"cardinality":       call.Cardinality,
+		"consumed":          call.Consumes,
+		"produced":          call.Produces,
+		"status":            "done",
+	}, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, filepath.Join("demo", "receipts", "tool_calls", stage, callID+".json"), string(append(raw, '\n')))
+}
+
+func writePromptContextReceiptWithoutToolCallsForTest(t *testing.T, stage string) {
+	t.Helper()
+	run := readStatusTestRunFile(t)
+	contract, err := RequiredPromptContractForStage(stage, run)
+	if err != nil {
+		t.Fatal(err)
+	}
+	context, err := promptContextForPromptContract(contract)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assetHashes := map[string]string{}
+	for _, asset := range context.Assets {
+		if asset.Required {
+			assetHashes[asset.ID] = asset.SHA256
+		}
+	}
+	raw, err := json.MarshalIndent(map[string]any{
+		"stage":                    stage,
+		"protocol":                 "anygen-svg-slides",
+		"agent_task":               map[string]any{"stage": stage, "prompt_context": context},
+		"prompt_contract":          contract,
+		"tool_invocation_contract": map[string]any{"required_calls": []any{}, "conditional_calls": []any{}},
+		"asset_hashes":             assetHashes,
+	}, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, filepath.Join("demo", "receipts", "prompt_context", stage+".json"), string(append(raw, '\n')))
+}
+
+func promptContextAssetForTest(context PromptContext, id string) (PromptContextAsset, bool) {
+	for _, asset := range context.Assets {
+		if asset.ID == id {
+			return asset, true
+		}
+	}
+	return PromptContextAsset{}, false
+}
+
+func mustWritePassedSemanticReportForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/anygen_semantic_report.json", `{"status":"passed","contract":{"id":"anygen_semantic_contract","role":"semantic_contract","path":"skills/lark-slides/references/anygen-svg/semantic_contract.md","sha256":"test","rules":1},"findings":[]}`)
+}
+
+func mustWriteDeliveryReceiptForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/receipts/delivery.json", `{"status":"ready","deck":"outline/deck.json","slides_dir":"slides","slides":["slides/01.svg"],"preview":"preview.html","quality_report":"quality_report.json","anygen_semantic_report":"anygen_semantic_report.json"}`)
 }

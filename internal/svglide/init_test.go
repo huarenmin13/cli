@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -319,21 +320,27 @@ func TestInitRunRejectsRootResolvingToCWDWhenOverwrite(t *testing.T) {
 }
 
 func TestDefaultPromptManifestContracts(t *testing.T) {
-	manifest := DefaultPromptManifest()
+	manifest, err := ResolvedPromptManifest()
+	if err != nil {
+		t.Fatal(err)
+	}
 	if manifest.Source != anyGenPromptRoot {
 		t.Fatalf("Source = %q, want %q", manifest.Source, anyGenPromptRoot)
 	}
-	if manifest.Runtime != "codex" {
-		t.Fatalf("Runtime = %q, want codex", manifest.Runtime)
+	if manifest.Runtime != "agent" {
+		t.Fatalf("Runtime = %q, want agent", manifest.Runtime)
 	}
 	entries := map[string]PromptManifestEntry{}
 	for _, entry := range manifest.Entries {
 		entries[entry.Name] = entry
 	}
-	for _, want := range []string{"anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
+	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
 		if entries[want].Path == "" {
 			t.Fatalf("manifest missing %q: %+v", want, manifest.Entries)
 		}
+	}
+	if entries["anygen_source_full"].Path != "docs/vendor/anygen-svg/source.full.md" || entries["anygen_source_full"].Always || entries["anygen_source_full"].SHA256 == "" {
+		t.Fatalf("anygen_source_full entry = %+v, want hashed provenance-only source.full.md path", entries["anygen_source_full"])
 	}
 	if entries["anygen_svg_readme"].Path != "skills/lark-slides/references/anygen-svg/README.md" || !entries["anygen_svg_readme"].Always {
 		t.Fatalf("anygen_svg_readme entry = %+v, want always README path", entries["anygen_svg_readme"])
@@ -350,7 +357,14 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	if entries["generate_svg_chart"].Stage != StageAssets {
 		t.Fatalf("generate_svg_chart stage = %q, want %q", entries["generate_svg_chart"].Stage, StageAssets)
 	}
-	paths := strings.Join(PromptPathsForStage(StageSVGAuthor), "\n")
+	promptPaths, err := PromptPathsForStage(StageSVGAuthor)
+	if err != nil {
+		t.Fatal(err)
+	}
+	paths := strings.Join(promptPaths, "\n")
+	if strings.Contains(paths, "source.full.md") {
+		t.Fatalf("SVG author prompt paths should not require source snapshot:\n%s", paths)
+	}
 	for _, want := range []string{"README.md", "mode_system_prompt_svg.md", "svg_reference.md", "tools/activate_slides_edit.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
 		if !strings.Contains(paths, want) {
 			t.Fatalf("SVG author prompt paths missing %q:\n%s", want, paths)
@@ -377,4 +391,87 @@ func TestInitRunRejectsBlankRequiredFields(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestInitRunAcceptsTopicOnlyIntent(t *testing.T) {
+	t.Chdir(t.TempDir())
+	opts := InitOptions{
+		Title: "电影介绍",
+		Now:   time.Date(2026, 7, 3, 10, 0, 0, 0, time.FixedZone("CST", 8*3600)),
+	}
+	setStringInitOptionField(t, &opts, "Topic", "介绍一部电影")
+	setStringInitOptionField(t, &opts, "Language", "zh")
+	setStringInitOptionField(t, &opts, "AgentRuntime", "fake-agent")
+	setStringInitOptionField(t, &opts, "AgentID", "test-agent-1")
+
+	if err := InitRun("demo", opts); err != nil {
+		t.Fatalf("topic-only init should succeed without --input: %v", err)
+	}
+
+	runRaw, err := os.ReadFile(filepath.Join("demo", "run.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var run map[string]any
+	if err := json.Unmarshal(runRaw, &run); err != nil {
+		t.Fatal(err)
+	}
+	if run["runtime"] == "codex" || run["runtime"] == "fake-agent" {
+		t.Fatalf("run.runtime = %v, want agent-neutral protocol runtime separate from agent runtime", run["runtime"])
+	}
+	agent, ok := run["agent"].(map[string]any)
+	if !ok {
+		t.Fatalf("run.agent missing or invalid: %+v", run)
+	}
+	if agent["runtime"] != "fake-agent" || agent["id"] != "test-agent-1" {
+		t.Fatalf("run.agent = %+v, want fake-agent/test-agent-1", agent)
+	}
+	intent, ok := run["intent"].(map[string]any)
+	if !ok {
+		t.Fatalf("run.intent missing or invalid: %+v", run)
+	}
+	if intent["source_mode"] != "topic" || intent["topic"] != "介绍一部电影" || intent["language"] != "zh" {
+		t.Fatalf("run.intent = %+v, want topic-only zh intent", intent)
+	}
+
+	requestRaw, err := os.ReadFile(filepath.Join("demo", "request", "request.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var request map[string]any
+	if err := json.Unmarshal(requestRaw, &request); err != nil {
+		t.Fatal(err)
+	}
+	if input, ok := request["input"]; ok && input != "" {
+		t.Fatalf("topic-only request.json input = %v, want absent or empty", input)
+	}
+	if request["intent"] == nil || request["agent"] == nil {
+		t.Fatalf("request.json missing intent/agent: %+v", request)
+	}
+
+	manifestRaw, err := os.ReadFile(filepath.Join("demo", "request", "source_manifest.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var manifest struct {
+		Sources []map[string]string `json:"sources"`
+	}
+	if err := json.Unmarshal(manifestRaw, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	if len(manifest.Sources) != 1 || manifest.Sources[0]["type"] != "topic" || manifest.Sources[0]["topic"] != "介绍一部电影" {
+		t.Fatalf("source_manifest.json = %+v, want one topic source", manifest)
+	}
+}
+
+func setStringInitOptionField(t *testing.T, opts *InitOptions, name string, value string) {
+	t.Helper()
+	field := reflect.ValueOf(opts).Elem().FieldByName(name)
+	if !field.IsValid() {
+		t.Fatalf("InitOptions missing %s field required by agent runtime protocol", name)
+	}
+	if field.Kind() != reflect.String || !field.CanSet() {
+		t.Fatalf("InitOptions.%s = %s canSet=%v, want settable string", name, field.Kind(), field.CanSet())
+	}
+	field.SetString(value)
 }

@@ -1,3 +1,25 @@
+---
+id: slides_convert
+role: tool_prompt
+orchestrated_by: mode_system_prompt_svg
+invocation: conditional
+stage: research
+order: 90
+cardinality: zero_or_more
+requires:
+  - mode_system_prompt_svg
+condition: input_is_pptx
+trigger:
+  - uploaded_pptx_edit_or_analysis
+consumes:
+  - request/source_manifest.json
+produces:
+  - research/converted_pptx_manifest.json
+  - receipts/tool_calls/research/slides_convert.json
+completion_gate:
+  - pptx_converted_to_editable_deck
+---
+
 <!--
 Source snapshot: docs/vendor/anygen-svg/source.full.md
 Remote source: https://bytedance.larkoffice.com/docx/KnCLd7xr5ohWONxhKsncZ3Lxnvd
@@ -43,4 +65,3 @@ IMPORTANT:
 - The original PPTX content is preserved exactly in the converted .slides file
 - If user wants to use PPTX as a STYLE REFERENCE for new slides, use slides_parse_template instead
 ```
-

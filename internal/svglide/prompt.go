@@ -5,14 +5,19 @@ func DefaultSchemas() map[string]string {
 		"request.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["title", "input"],
+  "required": ["title"],
   "properties": {
     "title": {"type": "string"},
     "input": {"type": "string"},
+    "topic": {"type": "string"},
     "purpose": {"type": "string"},
     "audience": {"type": "string"},
     "delivery_mode": {"type": "string"},
     "language": {"type": "string"},
+    "template": {"type": "boolean"},
+    "template_requested": {"type": "boolean"},
+    "intent": {"type": "object"},
+    "agent": {"type": "object"},
     "pages": {"type": "integer"},
     "visual_style_query": {"type": "array", "items": {"type": "string"}}
   }
@@ -29,10 +34,11 @@ func DefaultSchemas() map[string]string {
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "type"],
+        "required": ["type"],
         "properties": {
           "path": {"type": "string"},
-          "type": {"type": "string", "enum": ["local"]}
+          "topic": {"type": "string"},
+          "type": {"type": "string", "enum": ["local", "topic"]}
         }
       }
     }
@@ -42,8 +48,9 @@ func DefaultSchemas() map[string]string {
 		"sources.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["sources"],
+  "required": ["sources", "prompt_contract"],
   "properties": {
+    "prompt_contract": {"type": "object"},
     "sources": {
       "type": "array",
       "minItems": 1,
@@ -67,8 +74,9 @@ func DefaultSchemas() map[string]string {
 		"design_brief.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["narrative_spine", "depth", "tone", "visual_system"],
+  "required": ["narrative_spine", "depth", "tone", "visual_system", "prompt_contract"],
   "properties": {
+    "prompt_contract": {"type": "object"},
     "design_rationale": {"type": "string"},
     "narrative_spine": {"type": "object"},
     "depth": {"type": "object"},
@@ -92,8 +100,9 @@ func DefaultSchemas() map[string]string {
 		"visual_system.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["color_system", "typography", "layout_language"],
+  "required": ["color_system", "typography", "layout_language", "prompt_contract"],
   "properties": {
+    "prompt_contract": {"type": "object"},
     "color_system": {"type": "object"},
     "typography": {"type": "object"},
     "layout_language": {"type": "object"},
@@ -107,8 +116,9 @@ func DefaultSchemas() map[string]string {
 		"deck.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["main_title", "style_instruction", "slides"],
+  "required": ["main_title", "style_instruction", "slides", "prompt_contract"],
   "properties": {
+    "prompt_contract": {"type": "object"},
     "main_title": {"type": "string"},
     "title": {"type": "string"},
     "style_instruction": {
@@ -144,8 +154,9 @@ func DefaultSchemas() map[string]string {
 		"slide_content.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["slides"],
+  "required": ["slides", "prompt_contract"],
   "properties": {
+    "prompt_contract": {"type": "object"},
     "slides": {
       "type": "array",
       "items": {
@@ -180,8 +191,10 @@ func DefaultSchemas() map[string]string {
 		"assets_plan.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["mode", "assets"],
+  "required": ["mode", "assets", "prompt_contract"],
   "properties": {
+    "prompt_contract": {"type": "object"},
+    "no_image_reason": {"type": "string"},
     "mode": {"type": "string", "enum": ["experiment_unrestricted_assets"]},
     "assets": {
       "type": "array",
@@ -292,6 +305,88 @@ func DefaultSchemas() map[string]string {
         }
       }
     }
+  }
+}
+`,
+		"anygen_semantic_report.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "contract", "findings"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "path", "sha256", "rules"],
+      "properties": {
+        "id": {"type": "string"},
+        "role": {"type": "string"},
+        "path": {"type": "string"},
+        "sha256": {"type": "string"},
+        "rules": {"type": "integer"}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "kind", "severity", "code", "message"],
+        "properties": {
+          "rule_id": {"type": "string"},
+          "kind": {"type": "string"},
+          "severity": {"type": "string"},
+          "code": {"type": "string"},
+          "artifact": {"type": "string"},
+          "field": {"type": "string"},
+          "message": {"type": "string"},
+          "path": {"type": "string"},
+          "value": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
+		"delivery.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ready"]},
+    "deck": {"type": "string"},
+    "slides_dir": {"type": "string"},
+    "slides": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "preview": {"type": "string"},
+    "quality_report": {"type": "string"},
+    "anygen_semantic_report": {"type": "string"}
+  }
+}
+`,
+		"prompt_context.schema.json": `{
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["stage", "protocol", "agent_task", "prompt_contract", "tool_invocation_contract", "asset_hashes"],
+  "properties": {
+    "stage": {"type": "string"},
+    "protocol": {"type": "string"},
+    "agent_task": {"type": "object"},
+    "prompt_contract": {"type": "object"},
+    "tool_invocation_contract": {"type": "object"},
+    "asset_hashes": {"type": "object"}
+  }
+}
+`,
+		"tool_call_receipt.schema.json": `{
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["stage", "prompt_id", "status"],
+  "properties": {
+    "stage": {"type": "string"},
+    "prompt_id": {"type": "string"},
+    "status": {"type": "string"},
+    "consumed": {"type": "array", "items": {"type": "string"}},
+    "produced": {"type": "array", "items": {"type": "string"}}
   }
 }
 `,
