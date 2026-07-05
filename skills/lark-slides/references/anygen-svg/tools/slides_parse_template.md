@@ -4,6 +4,9 @@ role: tool_prompt
 orchestrated_by: mode_system_prompt_svg
 invocation: conditional
 stage: research
+profiles:
+  - template_reference
+exposure: legacy
 order: 100
 cardinality: zero_or_more
 requires:

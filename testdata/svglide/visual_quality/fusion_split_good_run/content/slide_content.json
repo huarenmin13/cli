@@ -1,0 +1,5 @@
+{
+  "slides": [
+    {"id": "s1", "content": "The product detail anchors the story.", "source_refs": ["official"], "visuals": [{"id": "hero", "type": "image", "instruction": "Use product hero"}]}
+  ]
+}

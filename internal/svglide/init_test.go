@@ -103,7 +103,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		t.Fatal(err)
 	}
 	prompt := string(promptRaw)
-	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/generate_svg_chart.md"} {
+	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/generate_svg_chart.md", "tools/generate_vega_lite_chart.md"} {
 		if !strings.Contains(prompt, want) {
 			t.Fatalf("prompt manifest missing %q:\n%s", want, prompt)
 		}
@@ -127,7 +127,12 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"source_manifest.schema.json",
 		"sources.schema.json",
 		"slide_content.schema.json",
+		"slide_copy_plan.schema.json",
 		"assets_plan.schema.json",
+		"assets_manifest.schema.json",
+		"asset_inventory.schema.json",
+		"chart_manifest.schema.json",
+		"typography_contract.schema.json",
 		"quality.schema.json",
 		"receipt.schema.json",
 		"lint.schema.json",
@@ -153,9 +158,13 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		{name: "design_brief.schema.json", want: []string{`"visual_system"`, `"narrative_spine"`, `"depth"`, `"tone"`}},
 		{name: "deck.schema.json", want: []string{`"main_title"`, `"style_instruction"`, `"aesthetic_direction"`}},
 		{name: "sources.schema.json", want: []string{`"retrieval"`}},
-		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"visuals"`, `"chart"`, `"table"`, `"crop"`}},
+		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"minItems"`, `"visuals"`, `"chart"`, `"table"`, `"crop"`}},
+		{name: "slide_copy_plan.schema.json", want: []string{`"audience_copy"`, `"production_instruction"`}},
 		{name: "assets_plan.schema.json", want: []string{`"experiment_unrestricted_assets"`, `"slide_id"`, `"status"`, `"deferred"`, `"chart"`, `"table"`, `"crop"`}},
-		{name: "quality.schema.json", want: []string{`"metrics"`}},
+		{name: "asset_inventory.schema.json", want: []string{`"large_ok"`, `"full_bleed_ok"`, `"recommended_use"`}},
+		{name: "chart_manifest.schema.json", want: []string{`"vega-lite"`, `"spec_path"`, `"svg_path"`}},
+		{name: "typography_contract.schema.json", want: []string{`"display"`, `"number"`, `"label"`}},
+		{name: "quality.schema.json", want: []string{`"metrics"`, `"real_image_assets"`, `"vega_lite_spec_assets"`}},
 	} {
 		raw, err := os.ReadFile(filepath.Join(root, "schemas", tc.name))
 		if err != nil {
@@ -166,6 +175,35 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 			if !strings.Contains(text, want) {
 				t.Fatalf("schema %s missing %s: %s", tc.name, want, text)
 			}
+		}
+	}
+}
+
+func TestLocalRuntimeBindingMentionsCopyPlanAndAssetInventory(t *testing.T) {
+	assets, err := LoadAnyGenPromptAssets()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var binding PromptAssetContract
+	found := false
+	for _, asset := range assets {
+		if asset.ID == "svglide_local_runtime_binding" {
+			binding = asset
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Fatal("missing svglide_local_runtime_binding")
+	}
+	raw, err := readPromptAssetFile(binding.Path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	text := string(raw)
+	for _, want := range []string{"asset_inventory", "chart_manifest", "typography_contract", "slide_copy_plan", "audience_copy", "production_instruction"} {
+		if !strings.Contains(text, want) {
+			t.Fatalf("runtime binding missing %q:\n%s", want, text)
 		}
 	}
 }
@@ -334,7 +372,7 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	for _, entry := range manifest.Entries {
 		entries[entry.Name] = entry
 	}
-	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
+	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "svglide_local_runtime_binding", "svglide_visual_quality_overlay", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "generate_vega_lite_chart", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
 		if entries[want].Path == "" {
 			t.Fatalf("manifest missing %q: %+v", want, manifest.Entries)
 		}
@@ -348,6 +386,12 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	if !entries["mode_system_prompt_svg"].Always || !entries["svg_reference"].Always {
 		t.Fatalf("core prompt entries must be always available: %+v", manifest.Entries)
 	}
+	if entries["svglide_local_runtime_binding"].Role != "runtime_binding" || !entries["svglide_local_runtime_binding"].Always {
+		t.Fatalf("runtime binding entry = %+v, want always runtime_binding", entries["svglide_local_runtime_binding"])
+	}
+	if entries["svglide_visual_quality_overlay"].Role != "runtime_binding" || !entries["svglide_visual_quality_overlay"].Always {
+		t.Fatalf("visual quality overlay entry = %+v, want always runtime_binding", entries["svglide_visual_quality_overlay"])
+	}
 	if entries["activate_slides_edit"].Stage != StageSVGAuthor {
 		t.Fatalf("activate_slides_edit stage = %q, want %q", entries["activate_slides_edit"].Stage, StageSVGAuthor)
 	}
@@ -357,6 +401,9 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	if entries["generate_svg_chart"].Stage != StageAssets {
 		t.Fatalf("generate_svg_chart stage = %q, want %q", entries["generate_svg_chart"].Stage, StageAssets)
 	}
+	if entries["generate_vega_lite_chart"].Stage != StageAssets {
+		t.Fatalf("generate_vega_lite_chart stage = %q, want %q", entries["generate_vega_lite_chart"].Stage, StageAssets)
+	}
 	promptPaths, err := PromptPathsForStage(StageSVGAuthor)
 	if err != nil {
 		t.Fatal(err)
@@ -365,10 +412,13 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	if strings.Contains(paths, "source.full.md") {
 		t.Fatalf("SVG author prompt paths should not require source snapshot:\n%s", paths)
 	}
-	for _, want := range []string{"README.md", "mode_system_prompt_svg.md", "svg_reference.md", "tools/activate_slides_edit.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
+	for _, want := range []string{"README.md", "mode_system_prompt_svg.md", "svg_reference.md", "svglide_local_runtime_binding.md", "svglide_visual_quality_overlay.md", "tools/activate_slides_edit.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
 		if !strings.Contains(paths, want) {
 			t.Fatalf("SVG author prompt paths missing %q:\n%s", want, paths)
 		}
+	}
+	if strings.Contains(paths, "tools/slides_convert.md") || strings.Contains(paths, "tools/slides_parse_template.md") {
+		t.Fatalf("local SVG author prompt paths must not expose legacy tool prompts:\n%s", paths)
 	}
 }
 

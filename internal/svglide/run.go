@@ -1,9 +1,13 @@
 package svglide
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 const (
 	StageRequest               = "request"
+	StageRequestResolution     = "request_resolution"
 	StageResearch              = "research"
 	StageDesignBrief           = "design_brief"
 	StageOutline               = "outline"
@@ -21,24 +25,38 @@ const (
 	StatusNeedsRepair = "needs_repair"
 )
 
+const (
+	RouteProfileLocalSVGDeck      = "local_svg_deck"
+	routeProfileImportedPPTX      = "imported_pptx"
+	routeProfileTemplateReference = "template_reference"
+	routeProfileLegacyEditor      = "legacy_editor"
+)
+
+const (
+	VisualQualityModeStrict = "strict"
+	VisualQualityModeWarn   = "warn"
+)
+
 type Run struct {
-	Version      int           `json:"version"`
-	Runtime      string        `json:"runtime"`
-	Command      string        `json:"command"`
-	Title        string        `json:"title"`
-	Input        string        `json:"input,omitempty"`
-	Audience     string        `json:"audience,omitempty"`
-	DeliveryMode string        `json:"delivery_mode,omitempty"`
-	Pages        int           `json:"pages,omitempty"`
-	Out          string        `json:"out"`
-	CreatedAt    string        `json:"created_at"`
-	UpdatedAt    string        `json:"updated_at"`
-	CurrentStage string        `json:"current_stage"`
-	Stages       []Stage       `json:"stages"`
-	Artifacts    ArtifactPaths `json:"artifacts"`
-	Policy       Policy        `json:"policy"`
-	Agent        AgentSession  `json:"agent"`
-	Intent       Intent        `json:"intent"`
+	Version           int           `json:"version"`
+	Runtime           string        `json:"runtime"`
+	Command           string        `json:"command"`
+	RouteProfile      string        `json:"route_profile"`
+	Title             string        `json:"title"`
+	Input             string        `json:"input,omitempty"`
+	Audience          string        `json:"audience,omitempty"`
+	DeliveryMode      string        `json:"delivery_mode,omitempty"`
+	VisualQualityMode string        `json:"visual_quality_mode,omitempty"`
+	Pages             int           `json:"pages,omitempty"`
+	Out               string        `json:"out"`
+	CreatedAt         string        `json:"created_at"`
+	UpdatedAt         string        `json:"updated_at"`
+	CurrentStage      string        `json:"current_stage"`
+	Stages            []Stage       `json:"stages"`
+	Artifacts         ArtifactPaths `json:"artifacts"`
+	Policy            Policy        `json:"policy"`
+	Agent             AgentSession  `json:"agent"`
+	Intent            Intent        `json:"intent"`
 }
 
 type AgentSession struct {
@@ -87,6 +105,7 @@ type NewRunConfig struct {
 	Now          time.Time
 	AgentRuntime string
 	AgentID      string
+	RouteProfile string
 }
 
 func NewRun(cfg NewRunConfig) Run {
@@ -99,24 +118,30 @@ func NewRun(cfg NewRunConfig) Run {
 	if agentRuntime == "" {
 		agentRuntime = "codex"
 	}
+	routeProfile := strings.TrimSpace(cfg.RouteProfile)
+	if routeProfile == "" {
+		routeProfile = RouteProfileLocalSVGDeck
+	}
 	sourceMode := "local_file"
 	if cfg.Topic != "" {
 		sourceMode = "topic"
 	}
 	return Run{
-		Version:      1,
-		Runtime:      "agent",
-		Command:      "slides +create-svglide",
-		Title:        cfg.Title,
-		Input:        cfg.Input,
-		Audience:     cfg.Audience,
-		DeliveryMode: cfg.DeliveryMode,
-		Pages:        cfg.Pages,
-		Out:          cfg.Out,
-		CreatedAt:    ts,
-		UpdatedAt:    ts,
-		CurrentStage: StageRequest,
-		Stages:       DefaultStages(),
+		Version:           1,
+		Runtime:           "agent",
+		Command:           "slides +create-svglide",
+		RouteProfile:      routeProfile,
+		Title:             cfg.Title,
+		Input:             cfg.Input,
+		Audience:          cfg.Audience,
+		DeliveryMode:      cfg.DeliveryMode,
+		VisualQualityMode: VisualQualityModeStrict,
+		Pages:             cfg.Pages,
+		Out:               cfg.Out,
+		CreatedAt:         ts,
+		UpdatedAt:         ts,
+		CurrentStage:      StageRequest,
+		Stages:            DefaultStages(),
 		Artifacts: ArtifactPaths{
 			Deck:        "outline/deck.json",
 			SlidesDir:   "slides",
@@ -145,12 +170,13 @@ func NewRun(cfg NewRunConfig) Run {
 func DefaultStages() []Stage {
 	return []Stage{
 		{Name: StageRequest, Status: StatusPending, Inputs: []string{}, Outputs: []string{"request/request.json", "request/source_manifest.json"}, Receipt: "receipts/request.json"},
-		{Name: StageResearch, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json"}, Outputs: []string{"research/research_notes.md", "research/sources.json"}, Receipt: "receipts/research.json"},
-		{Name: StageDesignBrief, Status: StatusPending, Inputs: []string{"request/request.json", "research/research_notes.md"}, Outputs: []string{"brief/design_brief.json", "brief/visual_system.json"}, Receipt: "receipts/design_brief.json"},
-		{Name: StageOutline, Status: StatusPending, Inputs: []string{"brief/design_brief.json", "brief/visual_system.json"}, Outputs: []string{"outline/deck.json"}, Receipt: "receipts/outline.json"},
-		{Name: StageSlideContent, Status: StatusPending, Inputs: []string{"outline/deck.json", "research/research_notes.md"}, Outputs: []string{"content/slide_content.md", "content/slide_content.json"}, Receipt: "receipts/slide_content.json"},
-		{Name: StageAssets, Status: StatusPending, Inputs: []string{"content/slide_content.json", "brief/visual_system.json"}, Outputs: []string{"assets/assets_plan.json"}, Receipt: "receipts/assets.json"},
-		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_plan.json"}, Outputs: []string{"slides/*.svg"}, Receipt: "receipts/svg_author.json"},
-		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "quality_report.json", "anygen_semantic_report.json", "repair_queue.md", "preview.html", "receipts/delivery.json"}, Receipt: "receipts/validate_preview_repair.json"},
+		{Name: StageRequestResolution, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json"}, Outputs: []string{"request/entity_resolution.json"}, Receipt: "receipts/request_resolution.json"},
+		{Name: StageResearch, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json", "request/entity_resolution.json"}, Outputs: []string{"research/research_notes.md", "research/sources.json", "research/research_coverage.json"}, Receipt: "receipts/research.json"},
+		{Name: StageDesignBrief, Status: StatusPending, Inputs: []string{"request/request.json", "research/research_notes.md"}, Outputs: []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json"}, Receipt: "receipts/design_brief.json"},
+		{Name: StageOutline, Status: StatusPending, Inputs: []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json"}, Outputs: []string{"outline/deck.json"}, Receipt: "receipts/outline.json"},
+		{Name: StageSlideContent, Status: StatusPending, Inputs: []string{"outline/deck.json", "research/research_notes.md", "research/sources.json"}, Outputs: []string{"content/slide_content.md", "content/slide_content.json", "content/slide_copy_plan.json"}, Receipt: "receipts/slide_content.json"},
+		{Name: StageAssets, Status: StatusPending, Inputs: []string{"content/slide_content.json", "brief/visual_system.json"}, Outputs: []string{"assets/assets_plan.json", "assets/assets_manifest.json", "assets/asset_inventory.json", "assets/charts/chart_manifest.json"}, Receipt: "receipts/assets.json"},
+		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_manifest.json"}, Outputs: []string{"slides/*.svg"}, Receipt: "receipts/svg_author.json"},
+		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "receipts/rendered_visual.json", "quality_report.json", "anygen_semantic_report.json", "visual_receipts.json", "creative_quality_report.json", "repair_queue.md", "preview.html", "receipts/delivery.json"}, Receipt: "receipts/validate_preview_repair.json"},
 	}
 }

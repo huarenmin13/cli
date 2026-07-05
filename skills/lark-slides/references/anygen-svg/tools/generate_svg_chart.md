@@ -4,22 +4,29 @@ role: tool_prompt
 orchestrated_by: mode_system_prompt_svg
 invocation: conditional
 stage: assets
+profiles:
+  - local_svg_deck
+  - imported_pptx
+  - template_reference
+exposure: runtime
 order: 80
 cardinality: zero_or_more
 requires:
   - mode_system_prompt_svg
   - svg_reference
-condition: visual_type_chart
+condition: visual_type_chart_without_vega_lite_requirement
 trigger:
   - chart_visual_required
 consumes:
   - content/slide_content.json
-  - assets/assets_plan.json
+  - assets/assets_manifest.json
 produces:
   - assets/charts/*.svg
+  - assets/charts/chart_manifest.json
   - receipts/tool_calls/assets/generate_svg_chart.json
 completion_gate:
   - chart_asset_ready
+  - not_used_when_required_chart_renderer_is_vega_lite
 ---
 
 <!--
@@ -31,7 +38,9 @@ Rule: Do not edit semantics without refreshing the local source snapshot first.
 
 ## generate_svg_chart
 
-生成一张 SVG chart 文件。下含①工具描述 ②入参 schema（含 chart_type 路由规则，选型方法论唯一真相源，见 svgchartservice/service.go）③chart 子 agent 契约模板(svg_chart_contract.go.tmpl) ④设计简报(\_envelope.md，始终注入) ⑤signature snippets(snippets/\*.md，按 chart_type 动态选取)。
+生成一张 SVG chart 文件。仅用于 `visual_quality_contract.required_chart_renderer` 为空、`none` 或 `svg` 的场景；当 contract 指定 `vega-lite` 时，本工具只能作为非核心示意图 fallback，核心 chart 必须使用 `generate_vega_lite_chart`，并同时产出 `assets/charts/specs/*.vl.json`、`assets/charts/*.svg` 和 `assets/charts/chart_manifest.json`。
+
+下含①工具描述 ②入参 schema（含 chart_type 路由规则，选型方法论唯一真相源，见 svgchartservice/service.go）③chart 子 agent 契约模板(svg_chart_contract.go.tmpl) ④设计简报(\_envelope.md，始终注入) ⑤signature snippets(snippets/\*.md，按 chart_type 动态选取)。
 
 ① 工具描述：
 
@@ -1027,5 +1036,3 @@ Draw connectors **before** the bar rects (document order) so bars overlap them.
       stroke="[context]" stroke-width="1" stroke-dasharray="2,2"/>
 ```
 ````
-
-

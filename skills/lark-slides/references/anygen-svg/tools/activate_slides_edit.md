@@ -15,7 +15,7 @@ trigger:
 consumes:
   - outline/deck.json
   - content/slide_content.json
-  - assets/assets_plan.json
+  - assets/assets_manifest.json
 produces:
   - receipts/tool_calls/svg_author/activate_slides_edit.json
 completion_gate:

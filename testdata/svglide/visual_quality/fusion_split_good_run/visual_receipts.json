@@ -1,0 +1,23 @@
+{
+  "slides": [
+    {
+      "slide_id": "s1",
+      "story_job": "proof",
+      "layout_family": "image_text_fusion_split",
+      "layout_signature": "split_photo_argument",
+      "thumbnail_job": "product claim",
+      "visual_center": "hero image and claim",
+      "topic_fit_claim": "official product source supports the claim",
+      "information_density_plan": "one claim, one explanation, two proof points",
+      "page_difference_from_previous": "opening fusion page",
+      "primary_asset": "assets/images/hero.svg",
+      "asset_role": "product detail proof",
+      "font_role_usage": {"display": "Noto Serif CJK SC", "body": "Noto Sans CJK SC", "number": "Roboto Mono", "label": "PingFang SC"},
+      "composition_intent": "dark image edge fused into text panel",
+      "data_visual_rationale": "",
+      "source_evidence": ["official source"],
+      "fusion_spec": {"enabled": true, "seam_side": "right", "sampled_color": "#101820", "panel_color": "#111922", "fade_width": 120, "subject_safety": "subject is away from seam fade"},
+      "qa_expectations": ["no process text", "fusion seam is low contrast"]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <style>:root{--font-display:"Noto Serif CJK SC",serif;--font-body:"Noto Sans CJK SC",sans-serif;--font-number:"Roboto Mono",monospace;--font-label:"PingFang SC",sans-serif;}</style>
+  <rect width="960" height="540" fill="#101114"/>
+  <rect x="56" y="64" width="360" height="120" rx="12" fill="#17181d"/>
+  <rect x="56" y="214" width="360" height="120" rx="12" fill="#17181d"/>
+  <rect x="56" y="364" width="360" height="120" rx="12" fill="#17181d"/>
+  <text x="80" y="126" fill="#fff">接缝取色说明</text>
+</svg>

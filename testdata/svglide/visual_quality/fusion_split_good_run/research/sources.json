@@ -1,0 +1,5 @@
+{
+  "sources": [
+    {"id": "official", "path": "https://example.com/product", "title": "Official Product", "excerpt": "Product story", "usage": "support", "retrieval": "full_page"}
+  ]
+}

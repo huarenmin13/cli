@@ -25,6 +25,7 @@ func TestFakeAgentHappyPathProducesSVGDeck(t *testing.T) {
 
 	for _, stage := range []string{
 		StageRequest,
+		StageRequestResolution,
 		StageResearch,
 		StageDesignBrief,
 		StageOutline,
@@ -75,6 +76,17 @@ func TestFakeAgentHappyPathProducesSVGDeck(t *testing.T) {
 		if _, err := os.Stat(filepath.Join("demo", rel)); err != nil {
 			t.Fatalf("missing final artifact %s: %v", rel, err)
 		}
+	}
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var delivery DeliveryReceipt
+	if err := json.Unmarshal(raw, &delivery); err != nil {
+		t.Fatal(err)
+	}
+	if delivery.SemanticMetrics.VisibleLeakCount != 0 || delivery.SemanticMetrics.MissingFontTokenCount != 0 {
+		t.Fatalf("delivery semantic metrics = %+v, want no visible leaks and all font tokens", delivery.SemanticMetrics)
 	}
 }
 
@@ -203,20 +215,28 @@ func writeFakeAgentStageArtifacts(t *testing.T, stage string) {
 	switch stage {
 	case StageRequest:
 		return
+	case StageRequestResolution:
+		mustWriteTestFile(t, "demo/request/entity_resolution.json", `{"prompt_contract":`+promptContractJSON(StageRequestResolution)+`,"input_text":"介绍一部电影","resolved_entity":{"name":"介绍一部电影","type":"topic","confidence_bp":5000,"confidence_band":"medium","reason":"用户请求是开放主题，需要先研究确定内容方向"},"ambiguity":{"status":"resolved","candidates":[]},"research_required":true,"clarification_question":""}`)
 	case StageResearch:
 		mustWriteTestFile(t, "demo/research/research_notes.md", "# 电影资料\n\n用户提供主题。")
 		mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"user1","path":"topic://介绍一部电影","title":"用户主题","excerpt":"介绍一部电影","usage":"primary brief","retrieval":"user_provided"}]}`)
+		mustWriteTestFile(t, "demo/research/research_coverage.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"entity":{"name":"介绍一部电影","type":"topic"},"queries":[{"query":"介绍一部电影","purpose":"context"}],"sources":[{"id":"user1","title":"用户主题","url":"topic://介绍一部电影","retrieved_at":"2026-07-04T00:00:00Z","usage":"context","status":"retrieved"}],"coverage":{"identity_confirmed":false,"has_reliable_source":true,"minimum_source_count_met":true,"source_count":1,"topic_only_rationale":"开放主题需要用研究材料确定内容边界。"}}`)
 	case StageDesignBrief:
 		writeValidDesignBriefOutputs(t)
 	case StageOutline:
-		mustWriteTestFile(t, "demo/outline/deck.json", `{"prompt_contract":`+promptContractJSON(StageOutline)+`,"main_title":"电影介绍","style_instruction":{"aesthetic_direction":"Editorial cinematic deck","color_palette":{},"typography":{}},"slides":[{"id":"s1","title":"一部电影","summary":"用一个清晰观点介绍电影","role":"cover","key_message":"电影的核心吸引力","path":"slides/01.svg"}]}`)
+		mustWriteTestFile(t, "demo/outline/deck.json", `{"prompt_contract":`+promptContractJSON(StageOutline)+`,"main_title":"电影介绍","style_instruction":{"aesthetic_direction":"Editorial cinematic deck","color_palette":{},"typography":{}},"slides":[{"id":"s1","title":"一部电影","summary":"用一个清晰观点介绍电影","role":"cover","key_message":"电影的核心吸引力","layout_family":"character_product_focus","layout_archetype":"annotated_image","layout_signature":"image_claim","story_function":"hook","primary_asset_role":"cinematic topic anchor","fusion_candidate":false,"path":"slides/01.svg"}]}`)
 	case StageSlideContent:
 		mustWriteTestFile(t, "demo/content/slide_content.md", "# 一部电影\n\n电影的核心吸引力。")
+		mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"一部电影","body":"电影的核心吸引力","labels":["电影"]},"production_instruction":{"layout":"Use local hero image, no visible source note","asset_ids":["hero"]}}]}`)
 		mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"电影的核心吸引力","source_refs":["user1"],"visuals":[{"id":"hero","type":"image","instruction":"Use a cinematic hero image"}]}]}`)
 	case StageAssets:
 		mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"https://example.com/movie-hero.png","usage":"Cinematic hero image","status":"ready"}]}`)
+		mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","kind":"image","source_url":"https://example.com/movie-hero.png","local_path":"assets/images/movie-hero.png","usage":"Cinematic hero image","status":"ready"}]}`)
+		mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"items":[{"id":"hero","path":"assets/images/movie-hero.png","source_url":"https://example.com/movie-hero.png","width":1200,"height":800,"semantic_type":"hero","large_ok":true,"full_bleed_ok":true,"recommended_use":"cover image","avoid_reason":""}]}`)
+		mustWriteTestFile(t, "demo/assets/images/movie-hero.png", "png")
 	case StageSVGAuthor:
-		mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><image slide:role="image" href="https://example.com/movie-hero.png" x="520" y="80" width="320" height="240"/><text x="48" y="88">电影介绍</text><text x="48" y="150">电影的核心吸引力</text></svg>`)
+		mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<slide:note>Source: user1</slide:note><rect width="960" height="540" fill="#fff"/><image slide:role="image" href="../assets/images/movie-hero.png" x="520" y="80" width="320" height="240"/><text x="48" y="88">电影介绍</text><text x="48" y="150">电影的核心吸引力</text></svg>`)
+		mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"character_product_focus","layout_archetype":"annotated_image","layout_signature":"image_claim","thumbnail_job":"电影介绍","visual_center":"movie hero image and title","topic_fit_claim":"introduces the requested movie topic","information_density_plan":"one claim plus one visual anchor","page_difference_from_previous":"opening page","primary_asset":"assets/images/movie-hero.png","asset_role":"cinematic topic anchor","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"image-led cinematic introduction","data_visual_rationale":"","source_evidence":["user1 supports the topic"],"fusion_spec":{"enabled":false},"qa_expectations":["no visible process text"]}]}`)
 	default:
 		t.Fatalf("unexpected fake-agent stage %q", stage)
 	}

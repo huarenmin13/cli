@@ -4,6 +4,9 @@ role: tool_prompt
 orchestrated_by: mode_system_prompt_svg
 invocation: conditional
 stage: research
+profiles:
+  - imported_pptx
+exposure: legacy
 order: 90
 cardinality: zero_or_more
 requires:

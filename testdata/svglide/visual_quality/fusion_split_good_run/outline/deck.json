@@ -1,0 +1,19 @@
+{
+  "title": "Premium Product Story",
+  "slides": [
+    {
+      "id": "s1",
+      "title": "One Strong Claim",
+      "summary": "Fusion split positive example",
+      "role": "proof",
+      "visual_role": "product_focus",
+      "key_message": "The product detail anchors the story",
+      "layout_family": "image_text_fusion_split",
+      "layout_signature": "split_photo_argument",
+      "story_function": "proof",
+      "primary_asset_role": "product detail proof",
+      "fusion_candidate": true,
+      "path": "slides/01.svg"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "visual_quality_contract": {
+    "profile": "data_report",
+    "requires_real_images": true,
+    "min_image_coverage_bp": 10000,
+    "min_unique_images": 1,
+    "cover_requires_real_hero_image": true,
+    "forbid_preview_wrapper_images_as_real_images": true,
+    "reason": "A real public-company report needs at least one real raster hero image."
+  }
+}

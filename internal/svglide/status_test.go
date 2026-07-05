@@ -134,6 +134,26 @@ func TestNextTaskSeparatesAnyGenPromptsFromRuntimeAdapter(t *testing.T) {
 	}
 }
 
+func TestPromptContextIncludesLocalRuntimeVisualFloor(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[]}`)
+	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"visual_system":{}}`)
+	setCurrentStageForStatusTest(t, StageAssets)
+
+	next, err := NextTask("demo")
+	if err != nil {
+		t.Fatalf("NextTask: %v", err)
+	}
+
+	got := promptContextAssetPaths(next.AgentTask.PromptContext.Assets)
+	if !strings.Contains(got, "skills/lark-slides/references/anygen-svg/svglide_local_runtime_binding.md") {
+		t.Fatalf("assets stage prompt context missing runtime binding:\n%s", got)
+	}
+	if !strings.Contains(got, "skills/lark-slides/references/anygen-svg/svglide_visual_quality_overlay.md") {
+		t.Fatalf("assets stage prompt context missing visual quality overlay:\n%s", got)
+	}
+}
+
 func promptContextAssetPaths(assets []PromptContextAsset) string {
 	paths := make([]string, 0, len(assets))
 	for _, asset := range assets {
@@ -240,9 +260,11 @@ func TestNextTaskWritesPromptContextReceipt(t *testing.T) {
 
 func TestNextTaskResearchIncludesPPTXConditionalCall(t *testing.T) {
 	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("film", 8500, "high", "resolved", ""))
 	run := readStatusTestRunFile(t)
 	run.Input = "source.pptx"
 	run.Intent.Input = "source.pptx"
+	run.RouteProfile = routeProfileImportedPPTX
 	run.CurrentStage = StageResearch
 	writeStatusTestRunFile(t, run)
 
@@ -257,7 +279,9 @@ func TestNextTaskResearchIncludesPPTXConditionalCall(t *testing.T) {
 
 func TestNextTaskResearchIncludesTemplateConditionalCall(t *testing.T) {
 	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("film", 8500, "high", "resolved", ""))
 	run := readStatusTestRunFile(t)
+	run.RouteProfile = routeProfileTemplateReference
 	run.CurrentStage = StageResearch
 	writeStatusTestRunFile(t, run)
 	mustWriteTestFile(t, filepath.Join("demo", "request", "request.json"), `{"title":"Demo","input":"source.md","template":true}`)
@@ -671,7 +695,7 @@ rules:
   - id: no_silent_all_diagram_fallback
     kind: explicit_reason_required
     when: deck_has_zero_image_assets
-    artifact: assets/assets_plan.json
+    artifact: assets/assets_manifest.json
     field: no_image_reason
     severity: error
   - id: image_visual_requires_image_asset

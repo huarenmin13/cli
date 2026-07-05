@@ -1,0 +1,19 @@
+{
+  "title": "2026 FIFA World Cup Germany",
+  "slides": [
+    {
+      "id": "s1",
+      "title": "Germany 2026",
+      "summary": "Weak card-stack visual example",
+      "role": "cover",
+      "visual_role": "hero_cover",
+      "key_message": "Tournament outlook",
+      "layout_family": "quiet_synthesis",
+      "layout_signature": "card_stack",
+      "story_function": "hook",
+      "primary_asset_role": "none",
+      "fusion_candidate": false,
+      "path": "slides/01.svg"
+    }
+  ]
+}

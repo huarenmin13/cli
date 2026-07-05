@@ -23,6 +23,7 @@ type InitOptions struct {
 	Overwrite    bool
 	AgentRuntime string
 	AgentID      string
+	RouteProfile string
 }
 
 func InitRun(root string, opts InitOptions) error {
@@ -33,6 +34,7 @@ func InitRun(root string, opts InitOptions) error {
 	opts.Language = strings.TrimSpace(opts.Language)
 	opts.AgentRuntime = strings.TrimSpace(opts.AgentRuntime)
 	opts.AgentID = strings.TrimSpace(opts.AgentID)
+	opts.RouteProfile = strings.TrimSpace(opts.RouteProfile)
 	if root == "" {
 		return fmt.Errorf("out path is required")
 	}
@@ -163,6 +165,7 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 		Now:          opts.Now,
 		AgentRuntime: opts.AgentRuntime,
 		AgentID:      opts.AgentID,
+		RouteProfile: opts.RouteProfile,
 	})
 	run.Policy.Overwrite = opts.Overwrite
 	if err := writeJSON(filepath.Join(writeRoot, "run.json"), run); err != nil {

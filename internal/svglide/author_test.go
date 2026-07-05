@@ -381,7 +381,7 @@ func TestAuthorSlidesRendersPreparedImageAsset(t *testing.T) {
 	for _, want := range []string{
 		`<image slide:role="image"`,
 		`slide:shape-type="image"`,
-		`href="assets/images/hero.png"`,
+		`href="../assets/images/hero.png"`,
 	} {
 		if !strings.Contains(svg, want) {
 			t.Fatalf("prepared image asset missing %q:\n%s", want, svg)
@@ -394,6 +394,42 @@ func TestAuthorSlidesRendersPreparedImageAsset(t *testing.T) {
 	}
 	if !validation.OK {
 		t.Fatalf("ValidateRun OK = false, issues: %+v", validation.Issues)
+	}
+}
+
+func TestAuthorSlidesReadsAssetsManifestAndSerializesNotes(t *testing.T) {
+	initStatusTestRun(t)
+
+	mustWriteTestFile(t, "demo/brief/design_brief.json", `{"narrative_spine":"A to B","depth":"medium","tone":"clear"}`)
+	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Use the manifest hero image"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[]}`)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"hero","slide_id":"s1","kind":"image","local_path":"assets/images/hero.png","usage":"Hero image","status":"ready"}]}`)
+	mustWriteTestFile(t, "demo/assets/images/hero.png", "png")
+
+	run := readStatusTestRunFile(t)
+	run.CurrentStage = StageSVGAuthor
+	writeStatusTestRunFile(t, run)
+
+	if _, err := AuthorSlides("demo"); err != nil {
+		t.Fatal(err)
+	}
+
+	raw, err := os.ReadFile(filepath.Join("demo", "slides", "01.svg"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	svg := string(raw)
+	for _, want := range []string{
+		`<slide:note>Speaker note</slide:note>`,
+		`<image slide:role="image"`,
+		`href="../assets/images/hero.png"`,
+	} {
+		if !strings.Contains(svg, want) {
+			t.Fatalf("SVG missing %q:\n%s", want, svg)
+		}
 	}
 }
 
@@ -436,8 +472,10 @@ func writeAuthorInputsWithAnyGenContracts(t *testing.T, assets string) {
 		assets = strings.TrimSuffix(strings.TrimSpace(assets), "}") + `,"no_image_reason":"Text-only deck; no image assets required"}`
 	}
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"First claim","body":"First body line\nSecond body line","labels":[]},"production_instruction":{"layout":"Text-only","asset_ids":[]}},{"id":"s2","audience_copy":{"title":"Second claim","body":"Point A\nPoint B\nPoint C","labels":[]},"production_instruction":{"layout":"Text-only","asset_ids":[]}}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"First body line\nSecond body line","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-s1","type":"none","instruction":"Text-only"}]},{"id":"s2","content":"Point A\nPoint B\nPoint C","source_refs":["web1"],"visuals":[{"id":"none-s2","type":"none","instruction":"Text-only"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", assets)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", assets)
 }
 
 func readAuthorReceiptForTest(t *testing.T) map[string]any {
@@ -461,4 +499,54 @@ func mustWriteTestFile(t *testing.T, path string, content string) {
 	if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	if strings.HasSuffix(filepath.ToSlash(path), assetsPlanPath) {
+		manifestPath := filepath.Join(filepath.Dir(path), filepath.Base(assetsManifestPath))
+		if err := os.WriteFile(manifestPath, []byte(content), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		inventoryPath := filepath.Join(filepath.Dir(path), filepath.Base(assetInventoryPath))
+		if err := os.WriteFile(inventoryPath, []byte(testAssetInventoryJSON(content)), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		chartManifestPath := filepath.Join(filepath.Dir(path), "charts", "chart_manifest.json")
+		if err := os.MkdirAll(filepath.Dir(chartManifestPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(chartManifestPath, []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"renderer":"none","charts":[]}`), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+func testAssetInventoryJSON(assets string) string {
+	var file deckAssetsFile
+	if err := json.Unmarshal([]byte(assets), &file); err != nil {
+		return `{"prompt_contract":` + promptContractJSON(StageAssets) + `,"items":[]}`
+	}
+	items := make([]map[string]any, 0, len(file.Assets))
+	for _, asset := range file.Assets {
+		if assetStatus(asset) != "ready" {
+			continue
+		}
+		items = append(items, map[string]any{
+			"id":              assetID(asset),
+			"path":            assetPath(asset),
+			"source_url":      strings.TrimSpace(asset.SourceURL),
+			"width":           960,
+			"height":          540,
+			"semantic_type":   assetType(asset),
+			"large_ok":        true,
+			"full_bleed_ok":   true,
+			"recommended_use": strings.TrimSpace(asset.Usage),
+			"avoid_reason":    "",
+		})
+	}
+	raw, err := json.Marshal(map[string]any{
+		"prompt_contract": json.RawMessage(promptContractJSON(StageAssets)),
+		"items":           items,
+	})
+	if err != nil {
+		return `{"prompt_contract":` + promptContractJSON(StageAssets) + `,"items":[]}`
+	}
+	return string(raw)
 }

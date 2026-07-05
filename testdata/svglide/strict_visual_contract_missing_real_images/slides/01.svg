@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <style>
+    :root { --font-display: "Noto Serif CJK SC"; --font-body: "Noto Sans CJK SC"; --font-number: "Roboto Mono"; --font-label: "PingFang SC"; }
+  </style>
+  <image slide:role="image" href="../assets/images/generated-chip.svg" x="0" y="0" width="960" height="540"/>
+  <text x="56" y="120" font-family="Noto Serif CJK SC" font-size="64" fill="#fff">NVIDIA Q4 FY2024</text>
+</svg>

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -29,6 +30,9 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 	if report.Quality != "passed" {
 		t.Fatalf("Quality = %q, want passed: %+v", report.Quality, report)
 	}
+	if report.Creative != "passed" {
+		t.Fatalf("Creative = %q, want passed: %+v", report.Creative, report)
+	}
 	if !report.Reauthored {
 		t.Fatalf("Reauthored = false, want true: %+v", report)
 	}
@@ -39,6 +43,8 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 		"receipts/lint.json",
 		"receipts/preview.json",
 		"quality_report.json",
+		"creative_quality_report.json",
+		"visual_receipts.json",
 		"receipts/validate_preview_repair.json",
 	} {
 		if _, err := os.Stat(filepath.Join("demo", rel)); err != nil {
@@ -53,7 +59,7 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 	if receipt["status"] != "passed" {
 		t.Fatalf("receipt status = %v, want passed", receipt["status"])
 	}
-	if receipt["message"] != "lint, preview, quality, and semantic report passed after reauthoring" {
+	if receipt["message"] != "lint, preview, quality, creative, and semantic report passed after reauthoring" {
 		t.Fatalf("receipt message = %v, want semantic-aware pass message", receipt["message"])
 	}
 	if _, ok := receipt["artifacts"].([]any); !ok {
@@ -89,10 +95,31 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 	if err := json.Unmarshal(raw, &delivery); err != nil {
 		t.Fatalf("invalid delivery receipt: %v", err)
 	}
-	if delivery["status"] != "ready" || delivery["deck"] != "outline/deck.json" || delivery["preview"] != "preview.html" {
-		t.Fatalf("delivery receipt = %+v, want ready deck and preview paths", delivery)
+	if delivery["status"] != "ready" || delivery["deck"] != "outline/deck.json" {
+		t.Fatalf("delivery receipt = %+v, want ready deck path", delivery)
 	}
-	for _, key := range []string{"quality_report", "anygen_semantic_report"} {
+	if delivery["route_profile"] != RouteProfileLocalSVGDeck {
+		t.Fatalf("delivery route_profile = %v, want %s", delivery["route_profile"], RouteProfileLocalSVGDeck)
+	}
+	if delivery["orchestrator"] != "mode_system_prompt_svg" || delivery["runtime_binding"] != "svglide_local_runtime_binding" {
+		t.Fatalf("delivery prompt core = %+v, want orchestrator and runtime binding", delivery)
+	}
+	preview, ok := delivery["preview"].(map[string]any)
+	if !ok || preview["path"] != "preview.html" || preview["status"] != "passed" {
+		t.Fatalf("delivery preview = %+v, want preview object with passed status", delivery["preview"])
+	}
+	if _, ok := delivery["semantic_metrics"].(map[string]any); !ok {
+		t.Fatalf("delivery missing semantic_metrics: %+v", delivery)
+	}
+	if delivery["legacy_runtime_executed"] != false {
+		t.Fatalf("delivery legacy_runtime_executed = %v, want false", delivery["legacy_runtime_executed"])
+	}
+	for _, key := range []string{"core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids", "stage_status"} {
+		if delivery[key] == nil {
+			t.Fatalf("delivery missing %s: %+v", key, delivery)
+		}
+	}
+	for _, key := range []string{"quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report"} {
 		if delivery[key] == "" || delivery[key] == nil {
 			t.Fatalf("delivery receipt missing %s: %+v", key, delivery)
 		}
@@ -105,6 +132,22 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 		if _, err := os.Stat(filepath.Join("demo", rel)); err != nil {
 			t.Fatalf("delivery path %s missing: %v", rel, err)
 		}
+	}
+}
+
+func TestRepairRejectsLegacyRuntimeEvidenceForLocalProfile(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+	mustWriteTestFile(t, "demo/receipts/tool_calls/research/slides_convert.json", `{"call_id":"slides_convert","status":"done"}`)
+
+	report, err := RepairRun("demo")
+	if err == nil {
+		t.Fatalf("expected legacy runtime evidence to reject delivery, got report %+v", report)
+	}
+	if !strings.Contains(err.Error(), "legacy runtime") || !strings.Contains(err.Error(), "slides_convert") {
+		t.Fatalf("error = %v, want legacy runtime evidence for slides_convert", err)
 	}
 }
 
@@ -153,6 +196,58 @@ func TestRepairRunFailsWhenQualityFails(t *testing.T) {
 	if receipt["message"] != "quality gate failed" {
 		t.Fatalf("receipt message = %v, want quality gate failed", receipt["message"])
 	}
+	deliveryRaw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatalf("missing delivery receipt for failed quality repair: %v", err)
+	}
+	var delivery map[string]any
+	if err := json.Unmarshal(deliveryRaw, &delivery); err != nil {
+		t.Fatal(err)
+	}
+	if delivery["status"] != StatusNeedsRepair {
+		t.Fatalf("delivery status = %v, want %s", delivery["status"], StatusNeedsRepair)
+	}
+}
+
+func TestRepairRunWritesVisualQualityRepairQueue(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[
+		  {"id":"s1","title":"Cover","summary":"Cover","role":"cover","visual_role":"hero_cover","key_message":"Cover","path":"slides/01.svg"},
+		  {"id":"s2","title":"Process","summary":"Process","role":"process","visual_role":"evidence_grid","key_message":"Process","path":"slides/02.svg"}
+		]}`,
+	)
+	mustWriteTestFile(t, "demo/brief/visual_quality_contract.json", `{"visual_quality_contract":{"mode":"default_floor","deck_type":"brand_factory","must_have":{"evidence_page_min_visuals":4}}}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[
+	  {"id":"s1","content":"Cover","source_refs":["web1"],"visuals":[{"id":"cover","type":"image","instruction":"Cover image"}]},
+	  {"id":"s2","content":"Process","source_refs":["web1"],"visuals":[{"id":"p1","type":"image","instruction":"Process 1"},{"id":"p2","type":"image","instruction":"Process 2"}]}
+	]}`)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[
+	  {"id":"cover","slide_id":"s1","visual_id":"cover","kind":"image","local_path":"assets/images/cover.png","source_url":"https://example.com/cover.png","status":"ready","usage":"Cover"},
+	  {"id":"p1","slide_id":"s2","visual_id":"p1","kind":"image","local_path":"assets/images/p1.png","source_url":"https://example.com/p1.png","status":"ready","usage":"Process 1"},
+	  {"id":"p2","slide_id":"s2","visual_id":"p2","kind":"image","local_path":"assets/images/p2.png","source_url":"https://example.com/p2.png","status":"ready","usage":"Process 2"}
+	]}`)
+	mustWriteTestFile(t, "demo/assets/images/cover.png", "png")
+	mustWriteTestFile(t, "demo/assets/images/p1.png", "png")
+	mustWriteTestFile(t, "demo/assets/images/p2.png", "png")
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/cover.png" x="0" y="0" width="960" height="540"/></svg>`)
+	mustWriteTestFile(t, "demo/slides/02.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/p1.png" x="40" y="40" width="320" height="180"/><image slide:role="image" href="../assets/images/p2.png" x="400" y="40" width="320" height="180"/><text x="48" y="300">Process</text></svg>`)
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Quality != "failed" {
+		t.Fatalf("Quality = %q, want failed: %+v", report.Quality, report)
+	}
+	queue, err := os.ReadFile(filepath.Join("demo", "repair_queue.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(queue), "Add a dense evidence grid or process image matrix") {
+		t.Fatalf("repair queue = %q, want visual quality repair suggestion", string(queue))
+	}
 }
 
 func TestRepairReceiptMessagePrioritizesLintPreviewFailuresOverQuality(t *testing.T) {
@@ -165,7 +260,10 @@ func TestRepairReceiptMessagePrioritizesLintPreviewFailuresOverQuality(t *testin
 	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "failed", Semantic: "passed"}); got != "quality gate failed" {
 		t.Fatalf("quality-only message = %q, want quality gate failed", got)
 	}
-	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "passed", Semantic: "failed"}); got != "semantic gate failed" {
+	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "passed", Creative: "failed", Semantic: "passed"}); got != "creative quality gate failed" {
+		t.Fatalf("creative-only message = %q, want creative quality gate failed", got)
+	}
+	if got := repairReceiptMessage(RepairReport{Status: "failed", LintOK: true, Preview: "passed", Quality: "passed", Creative: "passed", Semantic: "failed"}); got != "semantic gate failed" {
 		t.Fatalf("semantic-only message = %q, want semantic gate failed", got)
 	}
 }
@@ -175,7 +273,7 @@ func TestRepairRunOnlyReauthorsFailedSlidePaths(t *testing.T) {
 		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
 		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"},{"id":"s2","title":"Second claim","summary":"Second summary","role":"content","key_message":"Second key message","path":"slides/02.svg"}]}`,
 	)
-	custom := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><text x="48" y="80">KEEP-CUSTOM-01</text></svg>`
+	custom := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">` + fontTokenStyleForTest() + `<rect width="960" height="540" fill="#fff"/><text x="48" y="80">KEEP-CUSTOM-01</text></svg>`
 	mustWriteTestFile(t, "demo/slides/01.svg", custom)
 
 	report, err := RepairRun("demo")

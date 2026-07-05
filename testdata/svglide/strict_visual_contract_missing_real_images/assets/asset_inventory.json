@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "id": "hero",
+      "path": "assets/images/generated-chip.svg",
+      "source_url": "",
+      "width": 960,
+      "height": 540,
+      "semantic_type": "generated_svg",
+      "large_ok": true,
+      "full_bleed_ok": true,
+      "recommended_use": "cover",
+      "avoid_reason": "Not a real raster image."
+    }
+  ]
+}

@@ -47,6 +47,23 @@ Inputs:
 - delivery_mode (required): "self_read" or "presented" — take this from the user's form answer; it drives words-per-slide more than anything.
 - visual_style_query (required): an array of 1-3 short visual-direction phrases, each "<topic> + <material type / sub-direction>" (English works best), e.g. ["Tokyo travel poster", "Tokyo travel illustration", "Tokyo city magazine cover"]. Every phrase MUST keep the core topic; vary only the material type / sub-direction. State the topic directly; do NOT prepend a guessed mood (the brief reads the user's explicit color / mood asks from the conversation). Drives the visual_system.
 - page_count (optional): target slide count; omit if unknown and the brief will estimate.
+
+For official-site brand/product/place requests, `imagery_treatment.other_pages` must not default to "vector diagrams" or "abstract illustrations". It must name the expected source-image families, for example `factory photos`, `product line photos`, `shop photos`, `process gallery`, and define which slide roles consume them.
+
+Visual quality benchmark handling:
+- If the user provides a baseline deck, screenshot, reference site, sample PPT, or previous generated result, treat it as a quality benchmark, not as a source to copy and not as something to avoid for differentiation.
+- Extract reusable quality criteria: first-screen impact, image scale and semantic relevance, page density and rhythm, typography hierarchy, contrast and premium feel, evidence richness for process/product/data/research pages.
+- Do not copy source HTML, SVG markup, exact coordinates, or proprietary visual assets from the benchmark unless the user explicitly provides them as reusable assets. The benchmark defines the minimum expected quality level.
+- If no benchmark is provided, use the default visual quality floor for the deck type.
+
+Default visual quality floor:
+- Every deck must define a visual quality floor before outline generation.
+- Cover pages need a strong hero image, strong composition, or deliberate poster treatment.
+- Real entity decks should prefer real images over generic decoration.
+- Image choices must support the slide claim, not merely decorate the page.
+- Process/craft/product/data evidence pages need enough visual evidence density.
+- Page rhythm must vary across cover, thesis, evidence, detail, and closing pages.
+- Report-like cards are acceptable only when the user asks for an operational report style.
 ```
 
 样式设计System Prompt

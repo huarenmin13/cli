@@ -1,0 +1,5 @@
+{
+  "sources": [
+    {"id": "fifa", "path": "https://www.fifa.com/", "title": "FIFA", "excerpt": "Tournament context", "usage": "support", "retrieval": "full_page"}
+  ]
+}

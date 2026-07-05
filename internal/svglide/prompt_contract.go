@@ -35,6 +35,8 @@ type PromptAssetContract struct {
 	Produces       []string `json:"produces,omitempty" yaml:"produces,omitempty"`
 	CompletionGate []string `json:"completion_gate,omitempty" yaml:"completion_gate,omitempty"`
 	PhaseAnchors   []string `json:"phase_anchors,omitempty" yaml:"phase_anchors,omitempty"`
+	Profiles       []string `json:"profiles,omitempty" yaml:"profiles,omitempty"`
+	Exposure       string   `json:"exposure,omitempty" yaml:"exposure,omitempty"`
 	Rules          []any    `json:"-" yaml:"rules,omitempty"`
 	Path           string   `json:"path" yaml:"-"`
 	SHA256         string   `json:"sha256" yaml:"-"`
@@ -132,6 +134,12 @@ func LoadAnyGenPromptAssets() ([]PromptAssetContract, error) {
 		if asset.ID != expectedID {
 			return nil, fmt.Errorf("%s: prompt asset id = %q, want %q", entry.Path, asset.ID, expectedID)
 		}
+		if len(asset.Profiles) == 0 {
+			asset.Profiles = slices.Clone(entry.Profiles)
+		}
+		if asset.Exposure == "" {
+			asset.Exposure = entry.Exposure
+		}
 		if ids[asset.ID] {
 			return nil, fmt.Errorf("duplicate prompt asset id %q", asset.ID)
 		}
@@ -185,7 +193,7 @@ func validatePromptAssetContract(asset PromptAssetContract) error {
 		return fmt.Errorf("missing invocation")
 	}
 	switch asset.Role {
-	case "source_snapshot", "reference_index", "semantic_contract":
+	case "source_snapshot", "reference_index", "semantic_contract", "runtime_binding":
 		if asset.Invocation != "reference" {
 			return fmt.Errorf("role %s must use invocation reference", asset.Role)
 		}
@@ -257,8 +265,25 @@ func BuildAnyGenOrchestrationGraph() (AnyGenOrchestrationGraph, error) {
 	}, nil
 }
 
-func BuildToolInvocationContract() (ToolInvocationContract, error) {
+func PromptAssetsForProfileStage(profile string, stage string) ([]PromptAssetContract, error) {
 	assets, err := LoadAnyGenPromptAssets()
+	if err != nil {
+		return nil, err
+	}
+	out := make([]PromptAssetContract, 0, len(assets))
+	for _, asset := range assets {
+		if !promptAssetAllowedForProfile(asset.Profiles, profile) {
+			continue
+		}
+		if asset.Role == "orchestrator" || asset.Role == "protocol_reference" || asset.AlwaysForPromptContext(stage) || asset.Stage == stage {
+			out = append(out, asset)
+		}
+	}
+	return out, nil
+}
+
+func BuildToolInvocationContract(run Run, stage string) (ToolInvocationContract, error) {
+	assets, err := PromptAssetsForProfileStage(run.RouteProfile, stage)
 	if err != nil {
 		return ToolInvocationContract{}, err
 	}
@@ -279,7 +304,7 @@ func BuildToolInvocationContract() (ToolInvocationContract, error) {
 }
 
 func RequiredPromptContractForStage(stage string, run Run) (StagePromptContract, error) {
-	assets, err := LoadAnyGenPromptAssets()
+	assets, err := PromptAssetsForProfileStage(run.RouteProfile, stage)
 	if err != nil {
 		return StagePromptContract{}, err
 	}
@@ -291,7 +316,7 @@ func RequiredPromptContractForStage(stage string, run Run) (StagePromptContract,
 		ProtocolReference: "svg_reference",
 	}
 	for _, asset := range assets {
-		if asset.Role == "orchestrator" || asset.Role == "protocol_reference" || asset.AlwaysForPromptContext(stage) {
+		if asset.Role == "orchestrator" || asset.Role == "protocol_reference" || asset.Role == "runtime_binding" || asset.AlwaysForPromptContext(stage) {
 			if asset.Invocation == "conditional" {
 				contract.ConditionalPromptIDs = appendUnique(contract.ConditionalPromptIDs, asset.ID)
 			} else {
@@ -316,11 +341,11 @@ func RequiredPromptContractForStage(stage string, run Run) (StagePromptContract,
 }
 
 func (asset PromptAssetContract) AlwaysForPromptContext(stage string) bool {
-	return asset.Role == "reference_index" || asset.Role == "semantic_contract" || asset.Stage == stage
+	return asset.Role == "reference_index" || asset.Role == "semantic_contract" || asset.Role == "runtime_binding" || asset.Stage == stage
 }
 
 func RequiredToolCallsForStage(stage string, run Run) ([]ToolCallRequirement, error) {
-	contract, err := BuildToolInvocationContract()
+	contract, err := BuildToolInvocationContract(run, stage)
 	if err != nil {
 		return nil, err
 	}
@@ -334,7 +359,7 @@ func RequiredToolCallsForStage(stage string, run Run) ([]ToolCallRequirement, er
 }
 
 func TriggeredConditionalToolCalls(stage string, run Run, safeRoot string) ([]ToolCallRequirement, error) {
-	contract, err := BuildToolInvocationContract()
+	contract, err := BuildToolInvocationContract(run, stage)
 	if err != nil {
 		return nil, err
 	}
@@ -437,8 +462,10 @@ func ValidatePromptContextForStage(safeRoot string, stageName string, run Run) (
 	if err != nil {
 		return PromptContextReceipt{}, err
 	}
+	allowedIDs := make(map[string]string, len(expectedContext.Assets))
 	requiredIDs := make(map[string]string, len(expectedContext.Assets))
 	for _, asset := range expectedContext.Assets {
+		allowedIDs[asset.ID] = asset.SHA256
 		if !asset.Required {
 			continue
 		}
@@ -453,17 +480,22 @@ func ValidatePromptContextForStage(safeRoot string, stageName string, run Run) (
 			return PromptContextReceipt{}, fmt.Errorf("stale_prompt_context: prompt %s hash %s want %s", id, got, want)
 		}
 	}
+	for _, asset := range receipt.AgentTask.PromptContext.Assets {
+		want, ok := allowedIDs[asset.ID]
+		if !ok {
+			return PromptContextReceipt{}, fmt.Errorf("prompt context asset %q is not allowed for route profile %q stage %q", asset.ID, run.RouteProfile, stageName)
+		}
+		if strings.TrimSpace(asset.SHA256) != "" && asset.SHA256 != want {
+			return PromptContextReceipt{}, fmt.Errorf("stale_prompt_context: prompt %s hash %s want %s", asset.ID, asset.SHA256, want)
+		}
+	}
 	for id, want := range receipt.AssetHashes {
-		path := promptPathByID(id)
-		if path == "" {
-			return PromptContextReceipt{}, fmt.Errorf("prompt context references unknown prompt id %q", id)
+		expectedHash, ok := allowedIDs[id]
+		if !ok {
+			return PromptContextReceipt{}, fmt.Errorf("prompt context asset %q is not allowed for route profile %q stage %q", id, run.RouteProfile, stageName)
 		}
-		got, err := promptAssetSHAStrict(path)
-		if err != nil {
-			return PromptContextReceipt{}, err
-		}
-		if got != want {
-			return PromptContextReceipt{}, fmt.Errorf("stale_prompt_context: prompt %s hash %s want %s", id, got, want)
+		if expectedHash != want {
+			return PromptContextReceipt{}, fmt.Errorf("stale_prompt_context: prompt %s hash %s want %s", id, want, expectedHash)
 		}
 	}
 	return receipt, nil
@@ -737,6 +769,8 @@ func validateToolReceiptArtifactsExist(safeRoot string, receiptPath string, fiel
 
 func stageObjective(stage string) string {
 	switch stage {
+	case StageRequestResolution:
+		return "识别用户请求的真实实体、主题类型、置信度和歧义；低置信度时阻断后续研究。"
 	case StageResearch:
 		return "基于用户主题和本地/网页资料建立 source material。"
 	case StageDesignBrief:
@@ -818,8 +852,14 @@ func conditionMatched(condition string, run Run, safeRoot string) (bool, error) 
 		}
 		return strings.Contains(string(raw), `"type":"chart"`) || strings.Contains(string(raw), `"type": "chart"`), nil
 	case "input_is_pptx":
+		if run.RouteProfile != routeProfileImportedPPTX {
+			return false, nil
+		}
 		return strings.EqualFold(filepath.Ext(run.Intent.Input), ".pptx") || strings.EqualFold(filepath.Ext(run.Input), ".pptx"), nil
 	case "template_requested":
+		if run.RouteProfile != routeProfileTemplateReference {
+			return false, nil
+		}
 		raw, err := readRunRegularArtifact(safeRoot, "request/request.json")
 		if err != nil {
 			return false, nil

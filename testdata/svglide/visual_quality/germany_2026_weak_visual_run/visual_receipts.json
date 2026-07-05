@@ -1,0 +1,23 @@
+{
+  "slides": [
+    {
+      "slide_id": "s1",
+      "story_job": "hook",
+      "layout_family": "quiet_synthesis",
+      "layout_signature": "card_stack",
+      "thumbnail_job": "cards",
+      "visual_center": "",
+      "topic_fit_claim": "",
+      "information_density_plan": "same",
+      "page_difference_from_previous": "same",
+      "primary_asset": "",
+      "asset_role": "none",
+      "font_role_usage": {"display": "Noto Serif CJK SC", "body": "Noto Sans CJK SC", "number": "Roboto Mono", "label": "PingFang SC"},
+      "composition_intent": "stacked cards",
+      "data_visual_rationale": "",
+      "source_evidence": ["fifa"],
+      "fusion_spec": {"enabled": false},
+      "qa_expectations": ["should fail weak visual gate"]
+    }
+  ]
+}

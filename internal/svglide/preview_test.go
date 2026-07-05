@@ -29,7 +29,7 @@ func TestWritePreviewWritesHTMLAndReceipt(t *testing.T) {
 		t.Fatal(err)
 	}
 	html := string(htmlRaw)
-	for _, want := range []string{"Demo - SVGlide Preview", `data="slides/01.svg"`, "01. Slide", "Key Message"} {
+	for _, want := range []string{"Demo - SVGlide Preview", `<link rel="icon" href="data:,">`, `data="slides/01.svg"`, "01. Slide", "Key Message"} {
 		if !strings.Contains(html, want) {
 			t.Fatalf("preview.html missing %q:\n%s", want, html)
 		}
@@ -38,6 +38,54 @@ func TestWritePreviewWritesHTMLAndReceipt(t *testing.T) {
 	receipt := readPreviewReceipt(t)
 	if receipt.Status != "passed" || len(receipt.Slides) != 1 || !receipt.Slides[0].Rendered {
 		t.Fatalf("preview receipt = %+v, want passed rendered slide", receipt)
+	}
+}
+
+func TestWritePreviewReportsMissingAssetsFromSVGAndManifest(t *testing.T) {
+	initValidateTestRun(t)
+	writeMinimalDeck(t, "demo", "slides/01.svg")
+	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><image slide:role="image" href="assets/images/missing.png"/></svg>`)
+	writeValidateTestFile(t, filepath.Join("demo", "assets", "assets_manifest.json"), `{"assets":[{"id":"hero","slide_id":"slide-1","kind":"image","local_path":"assets/images/missing.png","usage":"Hero image","status":"ready"}]}`)
+
+	report, err := WritePreview("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.MissingAssetCount != 1 {
+		t.Fatalf("MissingAssetCount = %d, want 1", report.MissingAssetCount)
+	}
+
+	receipt := readPreviewReceipt(t)
+	if receipt.MissingAssetCount != 1 {
+		t.Fatalf("receipt MissingAssetCount = %d, want 1", receipt.MissingAssetCount)
+	}
+}
+
+func TestWritePreviewFailsOnRenderedVisualOverflow(t *testing.T) {
+	initValidateTestRun(t)
+	writeMinimalDeck(t, "demo", "slides/01.svg")
+	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 1280 720"><text x="92" y="318" font-size="25">Revenue declined 4.3% year over year, but gross margin reached 46.6% and diluted EPS set a March-quarter record.</text></svg>`)
+
+	report, err := WritePreview("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" {
+		t.Fatalf("Status = %q, want failed: %+v", report.Status, report)
+	}
+	if report.RenderedVisual != renderedVisualReceiptPath || report.RenderedVisualIssueCount == 0 {
+		t.Fatalf("rendered visual fields = %q/%d, want receipt and issues", report.RenderedVisual, report.RenderedVisualIssueCount)
+	}
+	var visual RenderedVisualReport
+	raw, err := os.ReadFile(filepath.Join("demo", renderedVisualReceiptPath))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := json.Unmarshal(raw, &visual); err != nil {
+		t.Fatal(err)
+	}
+	if visual.Status != "failed" || !renderedVisualHasCode(visual, "svglide.rendered_visual.text_overflow") {
+		t.Fatalf("visual = %+v, want text overflow failure", visual)
 	}
 }
 

@@ -15,8 +15,12 @@ const defaultPreviewPath = "preview.html"
 const previewReceiptPath = "receipts/preview.json"
 
 type PreviewReport struct {
-	Status string               `json:"status"`
-	Slides []PreviewSlideReport `json:"slides"`
+	Status                   string               `json:"status"`
+	MissingAssetCount        int                  `json:"missing_asset_count"`
+	BrowserMissingAssetCount int                  `json:"browser_missing_asset_count"`
+	RenderedVisual           string               `json:"rendered_visual,omitempty"`
+	RenderedVisualIssueCount int                  `json:"rendered_visual_issue_count,omitempty"`
+	Slides                   []PreviewSlideReport `json:"slides"`
 }
 
 type PreviewSlideReport struct {
@@ -101,17 +105,53 @@ func WritePreview(root string) (PreviewReport, error) {
 			item.Path = "(slide)"
 			pageSlide.Path = item.Path
 			item.Message = "slide path must not be empty"
-		} else if _, err := readRunRegularArtifact(safeRoot, slidePath); err != nil {
+		} else if raw, err := readRunRegularArtifact(safeRoot, slidePath); err != nil {
 			item.Message = err.Error()
 		} else {
 			item.Rendered = true
 			pageSlide.Rendered = true
+			for _, ref := range activeSVGAssetRefs(string(raw)) {
+				resolvedHref, hrefErr := svgHrefRunPath(slidePath, ref.Href)
+				if hrefErr != nil {
+					report.BrowserMissingAssetCount++
+					item.Rendered = false
+					pageSlide.Rendered = false
+					item.Message = appendPreviewMessage(item.Message, hrefErr.Error())
+					continue
+				}
+				if strings.HasPrefix(resolvedHref, "data:") || strings.HasPrefix(resolvedHref, "http://") || strings.HasPrefix(resolvedHref, "https://") {
+					continue
+				}
+				if _, err := readRunRegularArtifact(safeRoot, resolvedHref); err != nil {
+					report.BrowserMissingAssetCount++
+					item.Rendered = false
+					pageSlide.Rendered = false
+					item.Message = appendPreviewMessage(item.Message, fmt.Sprintf("browser asset href %q resolves missing path %q", ref.Href, resolvedHref))
+				}
+			}
 		}
 		pageSlide.Message = item.Message
 		report.Slides = append(report.Slides, item)
 		pageSlides = append(pageSlides, pageSlide)
 	}
+	visualReport := EvaluateRenderedVisualRun(safeRoot, deck)
+	if err := writeRenderedVisualReport(safeRoot, visualReport); err != nil {
+		return report, err
+	}
+	report.RenderedVisual = renderedVisualReceiptPath
+	report.RenderedVisualIssueCount = visualReport.Metrics.IssueCount
+	if visualReport.Status != "passed" {
+		for i := range report.Slides {
+			if renderedVisualSlideFailed(visualReport, report.Slides[i].Path) {
+				report.Slides[i].Rendered = false
+				report.Slides[i].Message = appendPreviewMessage(report.Slides[i].Message, "rendered visual gate failed")
+				pageSlides[i].Rendered = false
+				pageSlides[i].Message = appendPreviewMessage(pageSlides[i].Message, "rendered visual gate failed")
+			}
+		}
+	}
 	report = normalizePreviewReport(report)
+	report.MissingAssetCount = MissingAssetCountForRun(safeRoot, run)
 
 	if err := writePreviewArtifacts(safeRoot, run, deck.Title, report, pageSlides); err != nil {
 		return report, err
@@ -125,6 +165,8 @@ func writeFailedPreview(safeRoot string, run Run, path string, message string) (
 		path = "(deck)"
 	}
 	report := normalizePreviewReport(PreviewReport{
+		MissingAssetCount: MissingAssetCountForRun(safeRoot, run),
+		RenderedVisual:    renderedVisualReceiptPath,
 		Slides: []PreviewSlideReport{{
 			Path:     path,
 			Rendered: false,
@@ -139,6 +181,20 @@ func writeFailedPreview(safeRoot string, run Run, path string, message string) (
 		Message:  message,
 	}}
 	if err := writePreviewArtifacts(safeRoot, run, run.Title, report, pageSlides); err != nil {
+		return report, err
+	}
+	visualReport := RenderedVisualReport{
+		Status:  "failed",
+		Metrics: RenderedVisualMetrics{Slides: 1, IssueCount: 1, OutOfCanvasCount: 1},
+		Issues: []RenderedVisualIssue{{
+			Path:     path,
+			Code:     "svglide.rendered_visual.preview_failed",
+			Message:  message,
+			Severity: "error",
+		}},
+		Slides: []RenderedVisualSlideItem{{Path: path, Status: "failed", IssueCount: 1}},
+	}
+	if err := writeRenderedVisualReport(safeRoot, visualReport); err != nil {
 		return report, err
 	}
 	return report, nil
@@ -159,6 +215,18 @@ func normalizePreviewReport(report PreviewReport) PreviewReport {
 		}
 	}
 	return report
+}
+
+func appendPreviewMessage(existing string, next string) string {
+	existing = strings.TrimSpace(existing)
+	next = strings.TrimSpace(next)
+	if existing == "" {
+		return next
+	}
+	if next == "" {
+		return existing
+	}
+	return existing + "; " + next
 }
 
 func previewSlideObjectPath(path string) (string, error) {
@@ -259,6 +327,7 @@ var previewTemplate = template.Must(template.New("preview").Parse(`<!doctype htm
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{.Title}} - SVGlide Preview</title>
+  <link rel="icon" href="data:,">
   <style>
     :root {
       color-scheme: light;

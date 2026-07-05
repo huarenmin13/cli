@@ -56,6 +56,7 @@ type SemanticRule struct {
 type AnyGenSemanticReport struct {
 	Status   string                    `json:"status"`
 	Contract SemanticContractReference `json:"contract"`
+	Metrics  SemanticMetrics           `json:"metrics"`
 	Findings []SemanticFinding         `json:"findings"`
 }
 
@@ -273,7 +274,29 @@ func EvaluateAnyGenSemanticsWithContract(root string, contract SemanticContract)
 	report := AnyGenSemanticReport{
 		Status:   "passed",
 		Contract: semanticContractReference(contract),
+		Metrics:  SemanticMetrics{},
 		Findings: []SemanticFinding{},
+	}
+	if metrics, err := ComputeSemanticMetrics(safeRoot, run); err == nil {
+		report.Metrics = metrics
+		if report.Metrics.VisibleLeakCount > 0 {
+			report.Findings = append(report.Findings, SemanticFinding{
+				RuleID:   "visible_copy_must_not_leak_internal_notes",
+				Kind:     "builtin",
+				Severity: "error",
+				Code:     "svglide.semantic.visible_leak",
+				Message:  "visible leak markers found in SVG output",
+			})
+		}
+		if report.Metrics.MissingFontTokenCount > 0 {
+			report.Findings = append(report.Findings, SemanticFinding{
+				RuleID:   "font_tokens_required",
+				Kind:     "builtin",
+				Severity: "error",
+				Code:     "svglide.semantic.font_tokens",
+				Message:  "font token system must include --font-display, --font-body, --font-number, and --font-label",
+			})
+		}
 	}
 	for _, rule := range contract.Rules {
 		report.Findings = append(report.Findings, ctx.evaluateRule(rule)...)
@@ -433,7 +456,7 @@ func (ctx *semanticEvaluationContext) evaluateVisualAssetTypeMatch(rule Semantic
 	}
 	assets, err := ctx.readAssets()
 	if err != nil {
-		return []SemanticFinding{semanticRuleFinding(rule, "assets/assets_plan.json", "", "svglide.semantic.assets", err.Error())}
+		return []SemanticFinding{semanticRuleFinding(rule, assetsManifestPath, "", "svglide.semantic.assets", err.Error())}
 	}
 
 	assetBySlideAndID := make(map[string]qualityAsset, len(assets.Assets))
@@ -467,11 +490,11 @@ func (ctx *semanticEvaluationContext) evaluateVisualAssetTypeMatch(rule Semantic
 			key := semanticSlideAssetKey(slideID, visual.ID)
 			asset, ok := assetBySlideAndID[key]
 			if !ok {
-				findings = append(findings, semanticRulePathFinding(rule, "assets/assets_plan.json", slideID+"/"+strings.TrimSpace(visual.ID), "svglide.semantic.asset_type", fmt.Sprintf("slide %q visual %q type %q has no matching asset", slideID, visual.ID, gotVisualType)))
+				findings = append(findings, semanticRulePathFinding(rule, assetsManifestPath, slideID+"/"+strings.TrimSpace(visual.ID), "svglide.semantic.asset_type", fmt.Sprintf("slide %q visual %q type %q has no matching asset", slideID, visual.ID, gotVisualType)))
 				continue
 			}
-			if strings.TrimSpace(asset.Type) != expectedAssetType {
-				findings = append(findings, semanticRulePathFinding(rule, "assets/assets_plan.json", slideID+"/"+strings.TrimSpace(visual.ID), "svglide.semantic.asset_type", fmt.Sprintf("slide %q visual %q type %q needs asset type %q, got %q", slideID, visual.ID, gotVisualType, expectedAssetType, asset.Type)))
+			if assetType(asset) != expectedAssetType {
+				findings = append(findings, semanticRulePathFinding(rule, assetsManifestPath, slideID+"/"+strings.TrimSpace(visual.ID), "svglide.semantic.asset_type", fmt.Sprintf("slide %q visual %q type %q needs asset type %q, got %q", slideID, visual.ID, gotVisualType, expectedAssetType, assetType(asset))))
 			}
 		}
 	}
@@ -509,39 +532,39 @@ func (ctx *semanticEvaluationContext) evaluateSVGContainsAssetHref(rule Semantic
 	}
 	assets, err := ctx.readAssets()
 	if err != nil {
-		return []SemanticFinding{semanticRuleFinding(rule, "assets/assets_plan.json", "", "svglide.semantic.assets", err.Error())}
+		return []SemanticFinding{semanticRuleFinding(rule, assetsManifestPath, "", "svglide.semantic.assets", err.Error())}
 	}
 	slidePathByID := make(map[string]string, len(deck.Slides))
 	for _, slide := range deck.Slides {
 		slidePathByID[strings.TrimSpace(slide.ID)] = strings.TrimSpace(slide.Path)
 	}
 
-	assetType := strings.TrimSpace(rule.AssetType)
-	assetStatus := strings.TrimSpace(rule.AssetStatus)
-	if assetStatus == "" {
-		assetStatus = "ready"
+	ruleAssetType := strings.TrimSpace(rule.AssetType)
+	ruleAssetStatus := strings.TrimSpace(rule.AssetStatus)
+	if ruleAssetStatus == "" {
+		ruleAssetStatus = "ready"
 	}
 	selector := strings.TrimSpace(rule.SVGSelector)
 	var findings []SemanticFinding
 	readyAssets := make(map[string]qualityAsset)
 	for _, asset := range assets.Assets {
-		if strings.TrimSpace(asset.Status) == "ready" {
-			if assetPath := strings.TrimSpace(asset.Path); assetPath != "" {
-				readyAssets[assetPath] = asset
+		if assetStatus(asset) == "ready" {
+			if path := assetPath(asset); path != "" {
+				readyAssets[path] = asset
 			}
 		}
 	}
 	for _, asset := range assets.Assets {
-		if assetType != "" && strings.TrimSpace(asset.Type) != assetType {
+		if ruleAssetType != "" && assetType(asset) != ruleAssetType {
 			continue
 		}
-		if strings.TrimSpace(asset.Status) != assetStatus {
+		if assetStatus(asset) != ruleAssetStatus {
 			continue
 		}
-		slideID := strings.TrimSpace(asset.SlideID)
+		slideID := assetSlideID(asset)
 		slidePath := strings.TrimSpace(slidePathByID[slideID])
 		if slidePath == "" {
-			findings = append(findings, semanticRulePathFinding(rule, "assets/assets_plan.json", slideID+"/"+strings.TrimSpace(asset.ID), "svglide.semantic.svg_href", fmt.Sprintf("asset %q references unknown slide %q", asset.ID, slideID)))
+			findings = append(findings, semanticRulePathFinding(rule, assetsManifestPath, slideID+"/"+assetID(asset), "svglide.semantic.svg_href", fmt.Sprintf("asset %q references unknown slide %q", assetID(asset), slideID)))
 			continue
 		}
 		slidePath, pathErr := previewSlideObjectPath(slidePath)
@@ -551,25 +574,25 @@ func (ctx *semanticEvaluationContext) evaluateSVGContainsAssetHref(rule Semantic
 		}
 		raw, err := readRunRegularArtifact(ctx.safeRoot, slidePath)
 		if err != nil {
-			findings = append(findings, semanticRulePathFinding(rule, slidePath, slideID+"/"+strings.TrimSpace(asset.ID), "svglide.semantic.svg_href", err.Error()))
+			findings = append(findings, semanticRulePathFinding(rule, slidePath, slideID+"/"+assetID(asset), "svglide.semantic.svg_href", err.Error()))
 			continue
 		}
 		svg := string(raw)
 		if selector != "" && !strings.Contains(svg, selector) {
-			findings = append(findings, semanticRulePathFinding(rule, slidePath, slideID+"/"+strings.TrimSpace(asset.ID), "svglide.semantic.svg_href", fmt.Sprintf("SVG does not contain selector %q for asset %q", selector, asset.ID)))
+			findings = append(findings, semanticRulePathFinding(rule, slidePath, slideID+"/"+assetID(asset), "svglide.semantic.svg_href", fmt.Sprintf("SVG does not contain selector %q for asset %q", selector, assetID(asset))))
 			continue
 		}
-		assetPath := strings.TrimSpace(asset.Path)
-		if assetPath == "" {
-			findings = append(findings, semanticRulePathFinding(rule, "assets/assets_plan.json", slideID+"/"+strings.TrimSpace(asset.ID), "svglide.semantic.svg_href", fmt.Sprintf("asset %q path must not be empty", asset.ID)))
+		path := assetPath(asset)
+		if path == "" {
+			findings = append(findings, semanticRulePathFinding(rule, assetsManifestPath, slideID+"/"+assetID(asset), "svglide.semantic.svg_href", fmt.Sprintf("asset %q path must not be empty", assetID(asset))))
 			continue
 		}
-		if err := validateReadyAssetPath(ctx.safeRoot, asset); err != nil {
-			findings = append(findings, semanticRulePathFinding(rule, "assets/assets_plan.json", slideID+"/"+strings.TrimSpace(asset.ID), "svglide.semantic.asset_path", err.Error()))
+		if err := validateReadyAssetPath(ctx.safeRoot, ctx.run, asset); err != nil {
+			findings = append(findings, semanticRulePathFinding(rule, assetsManifestPath, slideID+"/"+assetID(asset), "svglide.semantic.asset_path", err.Error()))
 			continue
 		}
-		if !svgHasImageHref(svg, assetPath) && !strings.Contains(svg, assetPath) && !strings.Contains(svg, html.EscapeString(assetPath)) {
-			findings = append(findings, semanticRulePathFinding(rule, slidePath, slideID+"/"+strings.TrimSpace(asset.ID), "svglide.semantic.svg_href", fmt.Sprintf("SVG does not reference ready asset %q href %q", asset.ID, assetPath)))
+		if !svgHasImageHref(svg, path) && !strings.Contains(svg, path) && !strings.Contains(svg, html.EscapeString(path)) {
+			findings = append(findings, semanticRulePathFinding(rule, slidePath, slideID+"/"+assetID(asset), "svglide.semantic.svg_href", fmt.Sprintf("SVG does not reference ready asset %q href %q", assetID(asset), path)))
 		}
 	}
 	for slideID, slidePath := range slidePathByID {
@@ -582,16 +605,21 @@ func (ctx *semanticEvaluationContext) evaluateSVGContainsAssetHref(rule Semantic
 			continue
 		}
 		for _, ref := range activeSVGAssetRefs(string(raw)) {
-			asset, ok := readyAssets[ref.Href]
+			resolvedHref, hrefErr := svgHrefRunPath(cleanSlidePath, ref.Href)
+			if hrefErr != nil {
+				findings = append(findings, semanticRulePathFinding(rule, cleanSlidePath, slideID, "svglide.semantic.browser_asset_path", hrefErr.Error()))
+				continue
+			}
+			asset, ok := readyAssets[resolvedHref]
 			if !ok {
-				findings = append(findings, semanticRulePathFinding(rule, cleanSlidePath, slideID, "svglide.semantic.unregistered_href", fmt.Sprintf("active SVG %s href %q is not registered as a ready asset", ref.Kind, ref.Href)))
+				findings = append(findings, semanticRulePathFinding(rule, cleanSlidePath, slideID, "svglide.semantic.browser_asset_path", fmt.Sprintf("active SVG %s href %q resolves to %q, which is not registered as a ready asset", ref.Kind, ref.Href, resolvedHref)))
 				continue
 			}
 			if err := validateActiveAssetRefType(ref, asset); err != nil {
 				findings = append(findings, semanticRulePathFinding(rule, cleanSlidePath, slideID, "svglide.semantic.asset_type", err.Error()))
 				continue
 			}
-			if err := validateReadyAssetPath(ctx.safeRoot, asset); err != nil {
+			if err := validateReadyAssetPath(ctx.safeRoot, ctx.run, asset); err != nil {
 				findings = append(findings, semanticRulePathFinding(rule, cleanSlidePath, slideID, "svglide.semantic.asset_path", err.Error()))
 			}
 		}
@@ -606,10 +634,10 @@ func (ctx *semanticEvaluationContext) semanticConditionMatched(rule SemanticRule
 	case "deck_has_zero_image_assets":
 		assets, err := ctx.readAssets()
 		if err != nil {
-			return false, []SemanticFinding{semanticRuleFinding(rule, "assets/assets_plan.json", "", "svglide.semantic.condition", err.Error())}
+			return false, []SemanticFinding{semanticRuleFinding(rule, assetsManifestPath, "", "svglide.semantic.condition", err.Error())}
 		}
 		for _, asset := range assets.Assets {
-			if strings.TrimSpace(asset.Type) == "image" {
+			if assetType(asset) == "image" {
 				return false, nil
 			}
 		}
@@ -631,21 +659,24 @@ func (ctx *semanticEvaluationContext) semanticConditionMatched(rule SemanticRule
 	}
 }
 
-func validateReadyAssetPath(safeRoot string, asset qualityAsset) error {
-	switch strings.TrimSpace(asset.Type) {
+func validateReadyAssetPath(safeRoot string, run Run, asset qualityAsset) error {
+	switch assetType(asset) {
 	case "chart":
-		return validateReadyChartAssetPath(safeRoot, asset.Path)
+		return validateReadyChartAssetPath(safeRoot, assetPath(asset))
 	default:
-		return validateReadyImageAssetPath(safeRoot, asset.Path)
+		return validateReadyImageAssetPath(safeRoot, run, assetPath(asset))
 	}
 }
 
-func validateReadyImageAssetPath(safeRoot string, raw string) error {
+func validateReadyImageAssetPath(safeRoot string, run Run, raw string) error {
 	path := strings.TrimSpace(raw)
 	if path == "" {
 		return fmt.Errorf("image asset path must not be empty")
 	}
 	if strings.HasPrefix(path, "https://") {
+		if normalizedRouteProfile(run.RouteProfile) == RouteProfileLocalSVGDeck {
+			return fmt.Errorf("local_svg_deck ready image asset path %q must be a local assets/images/<file>", raw)
+		}
 		return nil
 	}
 	if strings.Contains(path, "://") || strings.HasPrefix(path, "data:") {
@@ -716,15 +747,15 @@ func validatePreparedChartAssetPath(raw string) (string, error) {
 }
 
 func validateActiveAssetRefType(ref semanticActiveAssetRef, asset qualityAsset) error {
-	assetType := strings.TrimSpace(asset.Type)
+	kind := assetType(asset)
 	switch ref.Kind {
 	case "chart":
-		if assetType != "chart" {
-			return fmt.Errorf("active SVG chart href %q must reference a chart asset, got %q", ref.Href, asset.Type)
+		if kind != "chart" {
+			return fmt.Errorf("active SVG chart href %q must reference a chart asset, got %q", ref.Href, kind)
 		}
 	case "image":
-		if assetType != "image" {
-			return fmt.Errorf("active SVG image href %q must reference an image asset, got %q", ref.Href, asset.Type)
+		if kind != "image" {
+			return fmt.Errorf("active SVG image href %q must reference an image asset, got %q", ref.Href, kind)
 		}
 	case "use":
 		return fmt.Errorf("active SVG external use href %q is not supported; use an internal #fragment reference", ref.Href)
@@ -755,6 +786,25 @@ func svgHasImageHref(svg string, href string) bool {
 			}
 		}
 	}
+}
+
+func svgHrefRunPath(slidePath string, href string) (string, error) {
+	href = strings.TrimSpace(href)
+	if href == "" {
+		return "", fmt.Errorf("empty href")
+	}
+	if strings.HasPrefix(href, "data:") || strings.HasPrefix(href, "http://") || strings.HasPrefix(href, "https://") {
+		return href, nil
+	}
+	if filepath.IsAbs(href) || strings.Contains(href, `\`) || strings.Contains(href, ":") {
+		return "", fmt.Errorf("unsafe SVG href %q", href)
+	}
+	baseDir := filepath.ToSlash(filepath.Dir(slidePath))
+	clean := filepath.ToSlash(filepath.Clean(filepath.Join(baseDir, href)))
+	if clean == "." || strings.HasPrefix(clean, "../") || strings.HasPrefix(clean, "/") {
+		return "", fmt.Errorf("SVG href %q escapes run root from slide %q", href, slidePath)
+	}
+	return clean, nil
 }
 
 type semanticActiveAssetRef struct {

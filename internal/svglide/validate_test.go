@@ -934,11 +934,15 @@ func writeValidateTestFile(t *testing.T, path string, content string) {
 }
 
 func backgroundOnlySVG() string {
-	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/></svg>`
+	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">` + fontTokenStyleForTest() + `<rect width="960" height="540" fill="#fff"/></svg>`
 }
 
 func visibleTextSVG() string {
-	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`
+	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">` + fontTokenStyleForTest() + `<rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`
+}
+
+func fontTokenStyleForTest() string {
+	return `<style>:root{--font-display:"Noto Serif CJK SC",serif;--font-body:"Noto Sans CJK SC",sans-serif;--font-number:"Roboto Mono",monospace;--font-label:"PingFang SC",sans-serif;}</style>`
 }
 
 func validationIssuesContain(issues []ValidationIssue, needle string) bool {

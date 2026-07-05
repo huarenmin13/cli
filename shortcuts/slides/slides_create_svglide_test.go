@@ -348,6 +348,8 @@ func TestSlidesCreateSVGlideRepairActionAuthorsAndPreviews(t *testing.T) {
 
 func TestSlidesCreateSVGlideQualityActionOutputsReport(t *testing.T) {
 	initSVGlideShortcutRunWithAuthorInputs(t)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "slides", "01.svg"), svglideShortcutVisibleTextSVG())
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "visual_receipts.json"), `{"slides":[{"slide_id":"cover","story_job":"hook","layout_family":"quiet_synthesis","layout_signature":"single_claim_poster","thumbnail_job":"Slide","visual_center":"title claim","topic_fit_claim":"matches demo request","information_density_plan":"one clear point","page_difference_from_previous":"opening page","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"simple quality action fixture","data_visual_rationale":"","source_evidence":["web1 supports claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
 	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
 
 	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
@@ -382,8 +384,8 @@ func TestSlidesCreateSVGlideCompleteActionAdvancesRequestStage(t *testing.T) {
 		t.Fatal(err)
 	}
 	data := decodeShortcutData(t, stdout)
-	if data["current_stage"] != "research" {
-		t.Fatalf("current_stage = %v, want research; data=%+v", data["current_stage"], data)
+	if data["current_stage"] != "request_resolution" {
+		t.Fatalf("current_stage = %v, want request_resolution; data=%+v", data["current_stage"], data)
 	}
 	receiptPath := filepath.Join(dir, "run-demo", "receipts", "request.json")
 	raw, err := os.ReadFile(receiptPath)
@@ -467,6 +469,7 @@ func initSVGlideShortcutRunWithAuthorInputs(t *testing.T) {
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "research", "sources.json"), `{"sources":[{"id":"web1","path":"https://example.com/demo","title":"Demo source","excerpt":"Demo excerpt","usage":"support","retrieval":"full_page"}]}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "content", "slide_content.json"), `{"slides":[{"id":"cover","content":"Point A\nPoint B","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-cover","type":"none","instruction":"Text-only"}]}]}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_plan.json"), `{"assets":[],"no_image_reason":"Text-only deck; no image assets required"}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_manifest.json"), `{"assets":[],"no_image_reason":"Text-only deck; no image assets required"}`)
 }
 
 func initSVGlideShortcutRun(t *testing.T) string {
@@ -504,7 +507,7 @@ rules:
   - id: no_silent_all_diagram_fallback
     kind: explicit_reason_required
     when: deck_has_zero_image_assets
-    artifact: assets/assets_plan.json
+    artifact: assets/assets_manifest.json
     field: no_image_reason
     severity: error
   - id: image_visual_requires_image_asset
@@ -539,13 +542,18 @@ func writeSVGlideShortcutDeck(t *testing.T, slidePath string) {
 	t.Helper()
 	deck := map[string]any{
 		"title": "Demo",
-		"slides": []map[string]string{{
-			"id":          "cover",
-			"title":       "Slide",
-			"summary":     "Summary",
-			"role":        "cover",
-			"key_message": "Message",
-			"path":        slidePath,
+		"slides": []map[string]any{{
+			"id":                 "cover",
+			"title":              "Slide",
+			"summary":            "Summary",
+			"role":               "cover",
+			"key_message":        "Message",
+			"layout_family":      "quiet_synthesis",
+			"layout_signature":   "single_claim_poster",
+			"story_function":     "hook",
+			"primary_asset_role": "none",
+			"fusion_candidate":   false,
+			"path":               slidePath,
 		}},
 	}
 	raw, err := json.MarshalIndent(deck, "", "  ")
@@ -567,7 +575,7 @@ func writeSVGlideShortcutFile(t *testing.T, path string, content string) {
 }
 
 func svglideShortcutVisibleTextSVG() string {
-	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`
+	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><style>:root{--font-display:"Noto Serif CJK SC",serif;--font-body:"Noto Sans CJK SC",sans-serif;--font-number:"Roboto Mono",monospace;--font-label:"PingFang SC",sans-serif;}</style><rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`
 }
 
 func stringValue(value any) string {

@@ -17,10 +17,13 @@ consumes:
 produces:
   - receipts/lint.json
   - receipts/preview.json
+  - receipts/rendered_visual.json
   - quality_report.json
   - anygen_semantic_report.json
+  - visual_receipts.json
+  - creative_quality_report.json
 completion_gate:
-  - validate_preview_quality_semantic_passed
+  - validate_preview_rendered_visual_quality_semantic_creative_passed
 ---
 
 <!--
@@ -36,4 +39,8 @@ Rule: Do not edit semantics without refreshing the local source snapshot first.
 
 ```text
 Finish slide edit mode. Call this AFTER all slide_edit calls are completed. This restores the original model. The tool will verify that all slides have been edited — if any placeholder slides remain, the call will fail and you must edit them first.
+
+The local SVGlide runtime must include `receipts/rendered_visual.json`. Delivery is blocked when this receipt has `status=failed`, even if lint, semantic, creative, and quality reports otherwise pass.
+
+Delivery is also blocked when `quality_report.json` contains a visual asset issue, such as missing real imagery or a missing real cover hero for an entity-driven deck.
 ```

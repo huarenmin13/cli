@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <style>:root{--font-display:"Noto Serif CJK SC",serif;--font-body:"Noto Sans CJK SC",sans-serif;--font-number:"Roboto Mono",monospace;--font-label:"PingFang SC",sans-serif;}</style>
+  <rect width="960" height="540" fill="#111922"/>
+  <image slide:role="image" slide:shape-type="image" href="../assets/images/hero.svg" x="0" y="0" width="560" height="540"/>
+  <linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#101820" stop-opacity="0"/><stop offset="1" stop-color="#111922" stop-opacity="1"/></linearGradient>
+  <rect x="430" y="0" width="160" height="540" fill="url(#fade)"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="590" y="120" width="310" height="260">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:var(--font-body);color:#fff;">
+      <div style="font-family:var(--font-display);font-size:38px;line-height:1.12;font-weight:700;">One Strong Claim</div>
+      <div style="margin-top:22px;font-size:18px;line-height:1.45;color:#D8DEE8;">The product detail anchors the story with one focused visual proof.</div>
+    </div>
+  </foreignObject>
+</svg>

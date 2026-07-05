@@ -1,0 +1,20 @@
+{
+  "id": "kaneko_baseline_calibration",
+  "source": "human_derived_from_user_provided_benchmark",
+  "benchmark_usage": "quality_floor_only",
+  "deck_type": "brand_factory",
+  "minimums": {
+    "slide_count": 10,
+    "total_image_refs": 34,
+    "evidence_page_min_visuals": 12,
+    "strong_cover": true,
+    "semantic_image_coverage_min_bp": 9000
+  },
+  "quality_dimensions": [
+    "large hero image pressure",
+    "dark premium contrast",
+    "dense process evidence",
+    "short decisive headlines",
+    "real official imagery"
+  ]
+}

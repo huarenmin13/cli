@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "id": "nvidia-ir",
+      "path": "https://investor.nvidia.com/financial-info/financial-reports/default.aspx",
+      "title": "NVIDIA Investor Relations",
+      "excerpt": "Official financial reports page.",
+      "usage": "financial source",
+      "retrieval": "full_page"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
+	"path/filepath"
 	"strings"
 )
 
@@ -28,12 +29,20 @@ type authorDeck struct {
 }
 
 type authorDeckSlide struct {
-	ID         string `json:"id"`
-	Title      string `json:"title"`
-	Summary    string `json:"summary"`
-	Role       string `json:"role"`
-	KeyMessage string `json:"key_message"`
-	Path       string `json:"path"`
+	ID               string `json:"id"`
+	Title            string `json:"title"`
+	Summary          string `json:"summary"`
+	Role             string `json:"role"`
+	VisualRole       string `json:"visual_role"`
+	VisualIntent     string `json:"visual_intent"`
+	KeyMessage       string `json:"key_message"`
+	Path             string `json:"path"`
+	LayoutFamily     string `json:"layout_family"`
+	LayoutArchetype  string `json:"layout_archetype"`
+	LayoutSignature  string `json:"layout_signature"`
+	StoryFunction    string `json:"story_function"`
+	PrimaryAssetRole string `json:"primary_asset_role"`
+	FusionCandidate  bool   `json:"fusion_candidate"`
 }
 
 type authorSlideContentFile struct {
@@ -54,18 +63,7 @@ type authorSlideVisual struct {
 	Instruction string `json:"instruction"`
 }
 
-type authorAssetsFile struct {
-	Assets []authorAsset `json:"assets"`
-}
-
-type authorAsset struct {
-	ID      string `json:"id"`
-	SlideID string `json:"slide_id"`
-	Type    string `json:"type"`
-	Path    string `json:"path"`
-	Usage   string `json:"usage"`
-	Status  string `json:"status"`
-}
+type authorAsset = deckAsset
 
 type authorVisualSystem struct {
 	ColorSystem struct {
@@ -121,7 +119,7 @@ func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, err
 	if err != nil {
 		return AuthorReport{}, err
 	}
-	assetsBySlideID, err := readAuthorAssets(safeRoot, "assets/assets_plan.json")
+	assetsBySlideID, err := readAuthorAssets(safeRoot, assetsManifestPath)
 	if err != nil {
 		return AuthorReport{}, err
 	}
@@ -167,6 +165,9 @@ func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, err
 			return AuthorReport{}, err
 		}
 	}
+	if err := writeAuthorVisualReceipts(safeRoot, deck, contentByID, assetsBySlideID, selectedPaths); err != nil {
+		return AuthorReport{}, err
+	}
 	if err := writeJSON(receiptTarget, StageReceipt{
 		Stage:     StageSVGAuthor,
 		Status:    StatusDone,
@@ -175,6 +176,156 @@ func authorSlides(root string, selectedPaths map[string]bool) (AuthorReport, err
 		return AuthorReport{}, err
 	}
 	return report, nil
+}
+
+func writeAuthorVisualReceipts(safeRoot string, deck authorDeck, contentByID map[string]authorSlideContent, assetsBySlideID map[string][]authorAsset, selectedPaths map[string]bool) error {
+	existingByID := map[string]visualReceipt{}
+	if existing, err := readVisualReceipts(safeRoot); err == nil {
+		for _, receipt := range existing.Slides {
+			id := strings.TrimSpace(receipt.SlideID)
+			if id != "" {
+				existingByID[id] = receipt
+			}
+		}
+	}
+	out := visualReceiptsFile{Slides: make([]visualReceipt, 0, len(deck.Slides))}
+	for i, slide := range deck.Slides {
+		id := strings.TrimSpace(slide.ID)
+		receipt, ok := existingByID[id]
+		slidePath, pathErr := previewSlideObjectPath(slide.Path)
+		shouldRefresh := !ok || selectedPaths == nil || (pathErr == nil && selectedPaths[slidePath])
+		if shouldRefresh {
+			receipt = authorVisualReceiptForSlide(slide, contentByID[id], assetsBySlideID[id], i)
+		}
+		out.Slides = append(out.Slides, receipt)
+	}
+	target, err := ensureRunFileTargetForWrite(safeRoot, visualReceiptsPath)
+	if err != nil {
+		return err
+	}
+	return writeJSON(target, out)
+}
+
+func authorVisualReceiptForSlide(slide authorDeckSlide, content authorSlideContent, assets []authorAsset, index int) visualReceipt {
+	layoutFamily := firstNonEmpty(slide.LayoutFamily, inferAuthorLayoutFamily(slide, content, assets))
+	layoutSignature := firstNonEmpty(slide.LayoutSignature, inferAuthorLayoutSignature(layoutFamily, assets, index))
+	layoutArchetype := firstNonEmpty(slide.LayoutArchetype, inferAuthorLayoutArchetype(layoutFamily, layoutSignature))
+	primaryAsset, assetRole := authorPrimaryAssetEvidence(slide, assets)
+	pageDifference := "opening page"
+	if index > 0 {
+		pageDifference = "different content block and slide order from previous page"
+	}
+	dataRationale := ""
+	for _, visual := range content.Visuals {
+		if strings.TrimSpace(visual.Type) == "chart" {
+			dataRationale = firstNonEmpty(visual.Instruction, "chart visual requested by slide content")
+			break
+		}
+	}
+	return visualReceipt{
+		SlideID:                    strings.TrimSpace(slide.ID),
+		StoryJob:                   firstNonEmpty(slide.StoryFunction, slide.Role, "proof"),
+		LayoutFamily:               layoutFamily,
+		LayoutArchetype:            layoutArchetype,
+		LayoutSignature:            layoutSignature,
+		ThumbnailJob:               firstNonEmpty(slide.Title, slide.KeyMessage),
+		VisualCenter:               firstNonEmpty(primaryAsset, slide.Title, slide.KeyMessage),
+		TopicFitClaim:              firstNonEmpty(slide.KeyMessage, slide.Summary, content.Content),
+		InformationDensityPlan:     "one clear claim with supporting visual or concise text",
+		PageDifferenceFromPrevious: pageDifference,
+		PrimaryAsset:               primaryAsset,
+		AssetRole:                  assetRole,
+		FontRoleUsage: map[string]string{
+			"display": "Noto Serif CJK SC",
+			"body":    "Noto Sans CJK SC",
+			"number":  "Roboto Mono",
+			"label":   "PingFang SC",
+		},
+		CompositionIntent:   "local author fallback layout with topic-specific text and available assets",
+		DataVisualRationale: dataRationale,
+		SourceEvidence:      append([]string{}, content.SourceRefs...),
+		FusionSpec:          visualFusionReceipt{Enabled: false},
+		QAExpectations:      []string{"no process text", "font roles present", "layout is readable"},
+	}
+}
+
+func inferAuthorLayoutFamily(slide authorDeckSlide, content authorSlideContent, assets []authorAsset) string {
+	if len(assets) > 0 && isCoverSlide(slide) {
+		return "character_product_focus"
+	}
+	for _, visual := range content.Visuals {
+		switch strings.TrimSpace(visual.Type) {
+		case "chart", "table":
+			return "data_scoreboard"
+		}
+	}
+	if len(assets) > 1 {
+		return "evidence_board"
+	}
+	return "quiet_synthesis"
+}
+
+func inferAuthorLayoutSignature(layoutFamily string, assets []authorAsset, index int) string {
+	switch layoutFamily {
+	case "character_product_focus":
+		return "image_claim"
+	case "data_scoreboard":
+		return "data_panel"
+	case "evidence_board":
+		return "evidence_collage"
+	default:
+		if index%2 == 1 {
+			return "text_evidence_panel"
+		}
+		return "single_claim_poster"
+	}
+}
+
+func inferAuthorLayoutArchetype(layoutFamily string, layoutSignature string) string {
+	signature := strings.ToLower(strings.TrimSpace(layoutSignature))
+	switch {
+	case strings.Contains(signature, "waterfall") || strings.Contains(signature, "bridge"):
+		return "waterfall_bridge"
+	case strings.Contains(signature, "bubble") || strings.Contains(signature, "peer"):
+		return "peer_bubble_field"
+	case strings.Contains(signature, "ledger") || strings.Contains(signature, "statement"):
+		return "statement_ledger"
+	case strings.Contains(signature, "timeline") || strings.Contains(signature, "route"):
+		return "timeline_path"
+	case strings.Contains(signature, "risk") || strings.Contains(signature, "radar"):
+		return "risk_radar"
+	case strings.Contains(signature, "split") || strings.Contains(signature, "left_text_right_chart"):
+		return "image_argument_split"
+	case strings.Contains(signature, "evidence") || strings.Contains(signature, "collage"):
+		return "evidence_collage"
+	case strings.Contains(signature, "poster"):
+		return "poster_stat_lockup"
+	}
+	switch strings.TrimSpace(layoutFamily) {
+	case "full_bleed_hero":
+		return "full_bleed_photo_title"
+	case "data_scoreboard":
+		return "data_scoreboard"
+	case "evidence_board":
+		return "evidence_collage"
+	case "timeline_route":
+		return "timeline_path"
+	case "character_product_focus":
+		return "annotated_image"
+	case "image_text_fusion_split":
+		return "image_argument_split"
+	default:
+		return "poster_stat_lockup"
+	}
+}
+
+func authorPrimaryAssetEvidence(slide authorDeckSlide, assets []authorAsset) (string, string) {
+	for _, asset := range assets {
+		if path := assetPath(asset); path != "" {
+			return path, firstNonEmpty(slide.PrimaryAssetRole, asset.Usage, "topic anchor")
+		}
+	}
+	return "", firstNonEmpty(slide.PrimaryAssetRole, "none")
 }
 
 func readAuthorDeck(safeRoot string, deckPath string) (authorDeck, error) {
@@ -219,20 +370,16 @@ func readAuthorContent(safeRoot string, path string) (map[string]authorSlideCont
 }
 
 func readAuthorAssets(safeRoot string, path string) (map[string][]authorAsset, error) {
-	raw, err := readRunRegularArtifact(safeRoot, path)
+	file, err := readDeckAssetsArtifact(safeRoot, path)
 	if err != nil {
-		return nil, fmt.Errorf("read assets plan %q: %w", path, err)
-	}
-	var file authorAssetsFile
-	if err := json.Unmarshal(raw, &file); err != nil {
-		return nil, fmt.Errorf("read assets plan %q: %w", path, err)
+		return nil, fmt.Errorf("read assets manifest %q: %w", path, err)
 	}
 	bySlideID := make(map[string][]authorAsset, len(file.Assets))
 	for _, asset := range file.Assets {
-		if strings.TrimSpace(asset.Status) != "ready" {
+		if assetStatus(asset) != "ready" {
 			continue
 		}
-		slideID := strings.TrimSpace(asset.SlideID)
+		slideID := assetSlideID(asset)
 		bySlideID[slideID] = append(bySlideID[slideID], asset)
 	}
 	return bySlideID, nil
@@ -244,10 +391,10 @@ func selectAuthorRenderableImageAssets(safeRoot string, content authorSlideConte
 	}
 	assetByID := make(map[string]authorAsset, len(assets))
 	for _, asset := range assets {
-		if strings.TrimSpace(asset.Type) != "image" {
+		if assetType(asset) != "image" {
 			continue
 		}
-		id := strings.TrimSpace(asset.ID)
+		id := assetID(asset)
 		if id == "" {
 			continue
 		}
@@ -274,10 +421,10 @@ func selectAuthorRenderableImageAssets(safeRoot string, content authorSlideConte
 }
 
 func authorImageAssetUsable(_ string, asset authorAsset) bool {
-	if strings.TrimSpace(asset.Type) != "image" {
+	if assetType(asset) != "image" {
 		return false
 	}
-	path := strings.TrimSpace(asset.Path)
+	path := assetPath(asset)
 	return path != ""
 }
 
@@ -367,11 +514,15 @@ func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlid
 
 	var b strings.Builder
 	fmt.Fprintf(&b, `<svg xmlns="%s" xmlns:slide="%s" width="%d" height="%d" viewBox="0 0 960 540" slide:role="slide">`+"\n", svgNamespace, slideNamespace, defaultSlideWidth, defaultSlideHeight)
+	fmt.Fprintf(&b, "  <style>:root{--font-display:\"Noto Serif CJK SC\",\"Songti SC\",serif;--font-body:\"Noto Sans CJK SC\",\"PingFang SC\",sans-serif;--font-number:\"Roboto Mono\",\"SFMono-Regular\",monospace;--font-label:\"PingFang SC\",\"Noto Sans CJK SC\",sans-serif;}</style>\n")
+	if notes := strings.TrimSpace(content.Notes); notes != "" {
+		fmt.Fprintf(&b, "  <slide:note>%s</slide:note>\n", escapeText(notes))
+	}
 	fmt.Fprintf(&b, `  <rect x="0" y="0" width="960" height="540" fill="%s" data-role="background"/>`+"\n", escapeAttr(theme.Background))
 	fmt.Fprintf(&b, `  <rect x="0" y="0" width="960" height="8" fill="%s"/>`+"\n", escapeAttr(theme.Accent))
 	fmt.Fprintf(&b, `  <foreignObject x="56" y="48" width="%d" height="%d" slide:role="shape" slide:shape-type="text">`+"\n", contentWidth, contentHeight)
-	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;">`+"\n", escapeAttr(theme.Ink))
-	fmt.Fprintf(&b, `      <div style="font-size:%dpx;font-weight:700;line-height:1.16;margin-bottom:16px;">%s</div>`+"\n", theme.TitleSize, escapeText(title))
+	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:var(--font-body);color:%s;">`+"\n", escapeAttr(theme.Ink))
+	fmt.Fprintf(&b, `      <div style="font-family:var(--font-display);font-size:%dpx;font-weight:700;line-height:1.16;margin-bottom:16px;">%s</div>`+"\n", theme.TitleSize, escapeText(title))
 	if keyMessage != "" {
 		fmt.Fprintf(&b, `      <div style="font-size:%dpx;line-height:1.35;color:%s;margin-bottom:22px;">%s</div>`+"\n", maxInt(theme.BodySize+4, 18), escapeAttr(theme.Accent), escapeText(keyMessage))
 	}
@@ -384,19 +535,38 @@ func renderAuthorSVG(deckTitle string, slide authorDeckSlide, content authorSlid
 	fmt.Fprintf(&b, "  </foreignObject>\n")
 	if footnote != "" {
 		fmt.Fprintf(&b, `  <foreignObject x="56" y="456" width="520" height="18" slide:role="shape" slide:shape-type="text">`+"\n")
-		fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;font-size:12px;line-height:1.2;">%s</div>`+"\n", escapeAttr(theme.Muted), escapeText(footnote))
+		fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:var(--font-label);color:%s;font-size:12px;line-height:1.2;">%s</div>`+"\n", escapeAttr(theme.Muted), escapeText(footnote))
 		fmt.Fprintf(&b, "  </foreignObject>\n")
 	}
 	if heroAsset != nil {
-		fmt.Fprintf(&b, `  <image slide:role="image" slide:shape-type="image" href="%s" x="600" y="160" width="304" height="190"/>`+"\n", escapeAttr(heroAsset.Path))
+		fmt.Fprintf(&b, `  <image slide:role="image" slide:shape-type="image" href="%s" x="600" y="160" width="304" height="190"/>`+"\n", escapeAttr(svgHrefForRunAsset(slide.Path, assetPath(*heroAsset))))
 	}
 	fmt.Fprintf(&b, `  <foreignObject x="56" y="482" width="848" height="32" slide:role="shape" slide:shape-type="text">`+"\n")
-	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial, Helvetica, sans-serif;color:%s;font-size:12px;display:flex;justify-content:space-between;">`+"\n", escapeAttr(theme.Muted))
-	fmt.Fprintf(&b, "      <span>%s</span><span>%d / %d</span>\n", escapeText(footer), page, total)
+	fmt.Fprintf(&b, `    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:var(--font-label);color:%s;font-size:12px;display:flex;justify-content:space-between;">`+"\n", escapeAttr(theme.Muted))
+	fmt.Fprintf(&b, `      <span>%s</span><span style="font-family:var(--font-number)">%d / %d</span>`+"\n", escapeText(footer), page, total)
 	fmt.Fprintf(&b, "    </div>\n")
 	fmt.Fprintf(&b, "  </foreignObject>\n")
 	fmt.Fprintf(&b, "</svg>\n")
 	return b.String()
+}
+
+func svgHrefForRunAsset(slidePath string, runAssetPath string) string {
+	runAssetPath = strings.TrimSpace(runAssetPath)
+	if runAssetPath == "" ||
+		strings.HasPrefix(runAssetPath, "data:") ||
+		strings.HasPrefix(runAssetPath, "http://") ||
+		strings.HasPrefix(runAssetPath, "https://") {
+		return runAssetPath
+	}
+	cleanSlidePath, err := previewSlideObjectPath(slidePath)
+	if err != nil {
+		return runAssetPath
+	}
+	rel, err := filepath.Rel(filepath.ToSlash(filepath.Dir(cleanSlidePath)), filepath.ToSlash(runAssetPath))
+	if err != nil {
+		return runAssetPath
+	}
+	return filepath.ToSlash(rel)
 }
 
 func authorBodyLines(content string) []string {
@@ -432,10 +602,10 @@ func authorSourceFootnote(sourceRefs []string) string {
 func firstReadyAuthorImageAsset(assets []authorAsset) *authorAsset {
 	for i := range assets {
 		asset := &assets[i]
-		if strings.TrimSpace(asset.Type) != "image" {
+		if assetType(*asset) != "image" {
 			continue
 		}
-		if strings.TrimSpace(asset.Path) == "" {
+		if assetPath(*asset) == "" {
 			continue
 		}
 		return asset

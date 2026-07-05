@@ -10,6 +10,7 @@ func TestDefaultStagesAreOrdered(t *testing.T) {
 	stages := DefaultStages()
 	want := []string{
 		StageRequest,
+		StageRequestResolution,
 		StageResearch,
 		StageDesignBrief,
 		StageOutline,
@@ -66,16 +67,30 @@ func TestDefaultStagesFinalStageRequiresQualityReport(t *testing.T) {
 func TestDefaultStagesResearchInputsMatchPromptContract(t *testing.T) {
 	stages := DefaultStages()
 	research := mustStage(t, stages, StageResearch)
-	want := []string{"request/request.json", "request/source_manifest.json"}
+	want := []string{"request/request.json", "request/source_manifest.json", "request/entity_resolution.json"}
 	if !reflect.DeepEqual(research.Inputs, want) {
 		t.Fatalf("research Inputs = %v, want %v", research.Inputs, want)
+	}
+}
+
+func TestDefaultStagesRequestResolutionIsGateBetweenRequestAndResearch(t *testing.T) {
+	stages := DefaultStages()
+	requestResolution := mustStage(t, stages, StageRequestResolution)
+	if !reflect.DeepEqual(requestResolution.Inputs, []string{"request/request.json", "request/source_manifest.json"}) {
+		t.Fatalf("request_resolution Inputs = %v", requestResolution.Inputs)
+	}
+	if !reflect.DeepEqual(requestResolution.Outputs, []string{"request/entity_resolution.json"}) {
+		t.Fatalf("request_resolution Outputs = %v", requestResolution.Outputs)
+	}
+	if requestResolution.Receipt != "receipts/request_resolution.json" {
+		t.Fatalf("request_resolution Receipt = %q", requestResolution.Receipt)
 	}
 }
 
 func TestDefaultStagesOutlineInputsMatchPromptContract(t *testing.T) {
 	stages := DefaultStages()
 	outline := mustStage(t, stages, StageOutline)
-	want := []string{"brief/design_brief.json", "brief/visual_system.json"}
+	want := []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json"}
 	if !reflect.DeepEqual(outline.Inputs, want) {
 		t.Fatalf("outline Inputs = %v, want %v", outline.Inputs, want)
 	}
@@ -97,6 +112,9 @@ func TestNewRunSeparatesProtocolRuntimeFromAgentRuntime(t *testing.T) {
 	}
 	if run.Runtime != "agent" {
 		t.Fatalf("Runtime = %q, want agent", run.Runtime)
+	}
+	if run.RouteProfile != RouteProfileLocalSVGDeck {
+		t.Fatalf("RouteProfile = %q, want %q", run.RouteProfile, RouteProfileLocalSVGDeck)
 	}
 	if run.Agent.Runtime != "codex" {
 		t.Fatalf("Agent.Runtime = %q, want default codex", run.Agent.Runtime)

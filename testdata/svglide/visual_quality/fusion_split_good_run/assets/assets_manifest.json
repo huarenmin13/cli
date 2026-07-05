@@ -1,0 +1,5 @@
+{
+  "assets": [
+    {"id": "hero", "slide_id": "s1", "visual_id": "hero", "kind": "image", "local_path": "assets/images/hero.svg", "source_url": "https://example.com/product/hero.svg", "status": "ready", "usage": "Product hero"}
+  ]
+}

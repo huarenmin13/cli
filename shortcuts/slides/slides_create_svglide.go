@@ -30,6 +30,7 @@ var SlidesCreateSVGlide = common.Shortcut{
 		{Name: "language", Desc: "deck language for topic-only or local source init"},
 		{Name: "agent-runtime", Desc: "agent runtime name for init, e.g. codex, claude, cursor, fake-agent"},
 		{Name: "agent-id", Desc: "stable agent/session id for init"},
+		{Name: "route-profile", Desc: "SVGlide route profile for init", Enum: []string{"local_svg_deck", "imported_pptx", "template_reference", "legacy_editor"}},
 		{Name: "audience", Desc: "final audience for the deck"},
 		{Name: "delivery-mode", Desc: "delivery mode: presented, self_read, dual_mode", Enum: []string{"presented", "self_read", "dual_mode"}},
 		{Name: "pages", Type: "int", Desc: "target page count"},
@@ -49,6 +50,10 @@ var SlidesCreateSVGlide = common.Shortcut{
 			}
 			if strings.TrimSpace(runtime.Str("out")) == "" {
 				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--out is required for init").WithParam("--out")
+			}
+			routeProfile := strings.TrimSpace(runtime.Str("route-profile"))
+			if routeProfile != "" && routeProfile != "local_svg_deck" {
+				return errs.NewValidationError(errs.SubtypeInvalidArgument, "route profile %q is not implemented for +create-svglide local runtime", routeProfile).WithParam("--route-profile")
 			}
 			if hasInput {
 				if stat, err := runtime.FileIO().Stat(runtime.Str("input")); err != nil {
@@ -80,6 +85,7 @@ var SlidesCreateSVGlide = common.Shortcut{
 				Overwrite:    runtime.Bool("overwrite"),
 				AgentRuntime: runtime.Str("agent-runtime"),
 				AgentID:      runtime.Str("agent-id"),
+				RouteProfile: runtime.Str("route-profile"),
 			}); err != nil {
 				return err
 			}

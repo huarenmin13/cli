@@ -1,0 +1,14 @@
+{
+  "assets": [
+    {
+      "id": "hero",
+      "slide_id": "s1",
+      "visual_id": "hero",
+      "kind": "image",
+      "local_path": "assets/images/generated-chip.svg",
+      "source_url": "",
+      "status": "ready",
+      "usage": "Generated chip illustration"
+    }
+  ]
+}

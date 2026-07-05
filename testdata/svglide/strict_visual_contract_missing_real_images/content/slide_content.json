@@ -1,0 +1,16 @@
+{
+  "slides": [
+    {
+      "id": "s1",
+      "content": "NVIDIA Q4 FY2024 report cover.",
+      "source_refs": ["nvidia-ir"],
+      "visuals": [
+        {
+          "id": "hero",
+          "type": "image",
+          "instruction": "Use a real NVIDIA or AI chip hero image."
+        }
+      ]
+    }
+  ]
+}

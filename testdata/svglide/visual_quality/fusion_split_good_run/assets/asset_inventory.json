@@ -1,0 +1,5 @@
+{
+  "items": [
+    {"id": "hero", "path": "assets/images/hero.svg", "source_url": "https://example.com/product/hero.svg", "width": 960, "height": 540, "semantic_type": "product hero", "large_ok": true, "full_bleed_ok": true, "recommended_use": "fusion split hero", "avoid_reason": ""}
+  ]
+}

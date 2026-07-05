@@ -1,0 +1,19 @@
+{
+  "title": "NVIDIA Report",
+  "slides": [
+    {
+      "id": "s1",
+      "title": "NVIDIA Q4 FY2024",
+      "summary": "Generated SVG is not a real image.",
+      "role": "cover",
+      "visual_role": "hero_cover",
+      "key_message": "Generated SVG cannot satisfy a real-image contract.",
+      "layout_family": "full_bleed_hero",
+      "layout_signature": "generated_svg_hero",
+      "story_function": "hook",
+      "primary_asset_role": "company hero",
+      "fusion_candidate": false,
+      "path": "slides/01.svg"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "slides": [
+    {
+      "slide_id": "s1",
+      "story_job": "hook",
+      "layout_family": "full_bleed_hero",
+      "layout_signature": "generated_svg_hero",
+      "thumbnail_job": "financial report cover",
+      "visual_center": "company hero image",
+      "topic_fit_claim": "matches NVIDIA report topic but uses generated SVG",
+      "information_density_plan": "one cover claim with one hero visual",
+      "page_difference_from_previous": "opening page",
+      "primary_asset": "assets/images/generated-chip.svg",
+      "asset_role": "company hero",
+      "font_role_usage": {
+        "display": "Noto Serif CJK SC",
+        "body": "Noto Sans CJK SC",
+        "number": "Roboto Mono",
+        "label": "PingFang SC"
+      },
+      "composition_intent": "full-bleed cover",
+      "data_visual_rationale": "",
+      "source_evidence": ["NVIDIA investor relations source confirms entity context"],
+      "fusion_spec": {"enabled": false},
+      "qa_expectations": ["strict real-image gate must fail"]
+    }
+  ]
+}

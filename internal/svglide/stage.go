@@ -24,7 +24,11 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 	if err != nil {
 		return StatusReport{}, err
 	}
-	missingOutputs, err := missingRunPaths(safeRoot, stage.Outputs)
+	outputsForMissing := stage.Outputs
+	if stage.Name == StageValidatePreviewRepair {
+		outputsForMissing = outputsWithoutDeliveryReceipt(stage.Outputs)
+	}
+	missingOutputs, err := missingRunPaths(safeRoot, outputsForMissing)
 	if err != nil {
 		return StatusReport{}, err
 	}
@@ -56,6 +60,15 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 		if err := validateFinalStageReceiptsPassed(safeRoot); err != nil {
 			return StatusReport{}, err
 		}
+		deliveryRun := run
+		deliveryRun.Stages[index].Status = StatusDone
+		deliveryRun.CurrentStage = stage.Name
+		if _, err := writeDeliveryReceipt(safeRoot, deliveryRun); err != nil {
+			return StatusReport{}, err
+		}
+		if err := validateStageOutputSchema(safeRoot, deliveryReceiptPath, stageOutputSchemaPaths[deliveryReceiptPath]); err != nil {
+			return StatusReport{}, err
+		}
 	}
 
 	if err := writeStageReceipt(safeRoot, StageReceipt{
@@ -84,12 +97,23 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 	return InspectStatus(root)
 }
 
+func outputsWithoutDeliveryReceipt(outputs []string) []string {
+	filtered := make([]string, 0, len(outputs))
+	for _, output := range outputs {
+		if output == deliveryReceiptPath {
+			continue
+		}
+		filtered = append(filtered, output)
+	}
+	return filtered
+}
+
 type stageStatusReceipt struct {
 	Status string `json:"status"`
 }
 
 func validateFinalStageReceiptsPassed(safeRoot string) error {
-	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", "quality_report.json", "anygen_semantic_report.json"} {
+	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", renderedVisualReceiptPath, "quality_report.json", "anygen_semantic_report.json", creativeQualityReportPath} {
 		raw, err := readRunRegularArtifact(safeRoot, path)
 		if err != nil {
 			return fmt.Errorf("%s: read receipt: %w", path, err)
