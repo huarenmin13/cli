@@ -500,6 +500,56 @@ func TestCheckQualityAllowsAbsoluteReadyAssetPathInExperiment(t *testing.T) {
 	}
 }
 
+func TestQualityAllowsHeroPhotoJPGWhenFullBleedReady(t *testing.T) {
+	initStatusTestRun(t)
+	root := "demo"
+	writeMinimalImageQualityDeckForTest(t)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"hero","slide_id":"s1","kind":"image","local_path":"assets/images/hero.jpg","source_url":"https://example.com/hero.jpg","status":"ready","usage":"Hero"}]}`)
+	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"items":[{"id":"hero","path":"assets/images/hero.jpg","source_url":"https://example.com/hero.jpg","width":1600,"height":900,"semantic_type":"hero","large_ok":true,"full_bleed_ok":true,"recommended_use":"cover","avoid_reason":"","format":"jpg","has_alpha":false,"asset_role":"hero_photo","fit_role":"full_bleed","selection_reason":"high-resolution official hero photo"}]}`)
+
+	report, err := CheckQuality(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if qualityIssueCodesContain(report.Issues, "svglide.quality.image_role_format") {
+		t.Fatalf("hero jpg should not be rejected as PNG-only: %#v", report.Issues)
+	}
+}
+
+func TestQualityRejectsTransparentSubjectWithoutAlphaOrFallback(t *testing.T) {
+	initStatusTestRun(t)
+	root := "demo"
+	writeMinimalImageQualityDeckForTest(t)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 1280 720">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/product.jpg" x="120" y="80" width="520" height="360"/><text x="80" y="620">Cover</text></svg>`)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"product","slide_id":"s1","kind":"image","local_path":"assets/images/product.jpg","source_url":"https://example.com/product.jpg","status":"ready","usage":"Floating product"}]}`)
+	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"items":[{"id":"product","path":"assets/images/product.jpg","source_url":"https://example.com/product.jpg","width":1200,"height":800,"semantic_type":"product","large_ok":true,"full_bleed_ok":false,"recommended_use":"floating product","avoid_reason":"","format":"jpg","has_alpha":false,"asset_role":"floating_product","fit_role":"floating_subject","selection_reason":""}]}`)
+
+	report, err := CheckQuality(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !qualityIssueCodesContain(report.Issues, "svglide.quality.image_role_format") {
+		t.Fatalf("expected floating product jpg without alpha/format_exception_reason to fail: %#v", report.Issues)
+	}
+}
+
+func TestQualityAllowsTransparentSubjectWithFormatExceptionReason(t *testing.T) {
+	initStatusTestRun(t)
+	root := "demo"
+	writeMinimalImageQualityDeckForTest(t)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 1280 720">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/product.jpg" x="120" y="80" width="520" height="360"/><text x="80" y="620">Cover</text></svg>`)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"product","slide_id":"s1","kind":"image","local_path":"assets/images/product.jpg","source_url":"https://example.com/product.jpg","status":"ready","usage":"Floating product"}]}`)
+	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"items":[{"id":"product","path":"assets/images/product.jpg","source_url":"https://example.com/product.jpg","width":1200,"height":800,"semantic_type":"product","large_ok":true,"full_bleed_ok":false,"recommended_use":"floating product","avoid_reason":"","format":"jpg","has_alpha":false,"asset_role":"floating_product","fit_role":"floating_subject","selection_reason":"best official product image despite no transparent cutout","format_exception_reason":"official source only provides JPG; SVG author must mask/crop on clean background"}]}`)
+
+	report, err := CheckQuality(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if qualityIssueCodesContain(report.Issues, "svglide.quality.image_role_format") {
+		t.Fatalf("structured format_exception_reason should satisfy image format exception: %#v", report.Issues)
+	}
+}
+
 func TestCheckQualityRejectsEmptyVisuals(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)

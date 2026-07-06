@@ -1,0 +1,13 @@
+{
+  "prompt_contract": {},
+  "renderer": "vega-lite",
+  "charts": [
+    {
+      "id": "revenue",
+      "slide_id": "s1",
+      "renderer": "vega-lite",
+      "spec_path": "assets/charts/specs/revenue.vl.json",
+      "svg_path": "assets/charts/revenue.svg"
+    }
+  ]
+}

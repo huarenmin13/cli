@@ -25,6 +25,9 @@ consumes:
   - brief/visual_system.json
   - assets/assets_manifest.json
   - assets/asset_inventory.json
+  - assets/image_candidates.json
+  - assets/charts/chart_briefs.json
+  - assets/charts/chart_manifest.json
 produces:
   - slides/*.svg
   - receipts/tool_calls/svg_author/slides_edit.json
@@ -68,6 +71,14 @@ A text-only slide with decorative shapes signals skipped preparation. It is rare
 
 ## Image usage
 - NEVER reference a non-existent or non-local image. Always use absolute paths for images, fonts, and other resources.
+- Consume only images that are registered as ready assets in `assets/assets_manifest.json` and described in `assets/asset_inventory.json`; do not invent paths, download new images, or use unregistered screenshots during SVG authoring.
+- Follow `asset_inventory.asset_role` and `fit_role` when placing images:
+  - `hero_photo` with `fit_role=full_bleed`: use as full-bleed or dominant cover image with safe crop.
+  - `transparent_subject`, `floating_product`, `chip_device`: integrate as foreground subject, annotation base, or poster object; prefer alpha-aware placement and avoid boxed thumbnails.
+  - `scene_photo`, `factory_photo`, `store_photo`, `people_photo`: use as evidence-bearing photography; do not crop away the subject that proves the slide message.
+  - `ui_screenshot`, `product_screen`: preserve readability; do not blur or darken into background decoration.
+- Every ready image asset assigned to a slide must be referenced by that slide unless `asset_inventory.avoid_reason` explicitly says it is a backup.
+- A `full_bleed` or cover hero image must be visually dominant, not a small thumbnail.
 - Use ONLY the image path(s) prepared for the slide (to avoid duplicates). Place content images with concrete subjects (UI mockups, illustrations) as `<image slide:role="shape" slide:shape-type="image">` in a split or side layout — do not fade them to low opacity and use as full-screen backgrounds, which creates ghost-like visual noise behind foreground content.
 - When `assets_plan` contains real image assets for a slide, the SVG must reference them with `<image slide:role="image" slide:shape-type="image" ...>`.
 - When the visual contract requires real images, authoring six or more `type:none` slides in an 8-page deck is a quality failure unless the contract explicitly allows text-only output.
@@ -75,6 +86,13 @@ A text-only slide with decorative shapes signals skipped preparation. It is rare
 - For entity-driven decks, the cover must use a real cover hero image or a strong real subject visual. Examples: product/device photo, official company/brand image, venue/place photo, team/event photo, or chip/hardware photo for semiconductor reports.
 - A `no_image_reason` is valid only for explicitly chart-only, vector-only, or abstract data requests. Do not use "this is a data report" to bypass real imagery for a named company or brand.
 - Resolve image hrefs relative to the SVG file location. If slides live in `slides/*.svg` and assets live in `assets/...`, use `../assets/...` inside each slide SVG.
+
+## Chart usage
+- Standard charts are pre-rendered assets from Vega-Lite specs by the local Node renderer. During slide authoring, consume `assets/charts/chart_briefs.json`, `assets/charts/chart_manifest.json`, and the rendered `assets/charts/*.svg`; do not generate or modify chart SVGs in this stage.
+- Embed each standard chart only as `<rect slide:role="chart" href="../assets/charts/<id>.svg" x="..." y="..." width="..." height="..."/>`.
+- Do not use `<image slide:role="chart">`, `<g slide:role="chart">`, or hand-drawn bars/axes/lines/circles to represent a standard chart.
+- Use a chart only for a real quantitative relationship. Tactical maps, timelines, process diagrams, score bugs, stat callouts, and tables are not `slide:role="chart"` unless they come from a Vega-Lite chart manifest entry.
+- Keep the chart large enough to read; default minimum is 480×260 unless the chart brief requires more.
 
 ## Incremental processing
 - Slides are written and displayed as soon as each one is complete.
@@ -86,6 +104,8 @@ A text-only slide with decorative shapes signals skipped preparation. It is rare
 Compose every slide's layout from scratch to fit its specific content and the deck's aesthetic direction — follow "Design Thinking", "Aesthetic Guidelines", and "Layout Freedom" in `<svg_reference>`. Do NOT rotate through a fixed menu of canned patterns, and do NOT apply formulaic "diagram" templates — that produces the template-stamped feel we are avoiding. Favor unexpected, asymmetric, content-specific composition: overlap, diagonal flow, grid-breaking elements, a single dominant hero element, generous negative space. Vary the structural arrangement between adjacent slides while keeping the deck's background, surface treatment, and decoration density coherent across the whole deck.
 
 Use visual elements (shapes, lines, icons, accent bars, gradients, masks, image crops, timelines, maps, pitch diagrams, evidence grids, and typographic scale shifts) to break up text and build hierarchy; apply the accent color sparingly for emphasis; maintain white space and contrast. When text sits on a background image, prefer a full-bleed gradient veil, dark/light scrim, edge fade, or local contrast patch that belongs to the image composition. A bordered rounded text card is allowed only when it represents a distinct object such as a score bug, quote card, stat badge, callout label, or grouped comparison item.
+
+Content decides the carrier. Do not solve layout by creating a rounded rectangle first and filling it with text. For each slide, decide one dominant visual device before drawing: full-bleed image, large chart, annotated product image, timeline, table, quote spread, map, split editorial composition, or open data group. Use cards only after that device is clear.
 
 ### Layout rhythm discipline
 
@@ -99,9 +119,12 @@ Use visual elements (shapes, lines, icons, accent bars, gradients, masks, image 
 
 - Text containers are a last-mile readability device, not the default layout language.
 - Do not place the main message of most slides inside floating rounded rectangles.
+- Text does not default into cards. Prefer open text carriers when possible: whitespace grid, image dark zone, thin rule annotation, axis labels, footnotes, editorial image-text fusion.
 - A deck may repeat a small surface style, but it must not repeat the same "dark rounded box with title/value/body" construction as the dominant object across pages.
 - For every slide, first choose a content-specific visual structure: full-bleed editorial cover, split-image argument, tactical field, route map, timeline, evidence collage, annotated photograph, stat wall, chart page, or closing poster. Use cards only after that structure is clear.
+- A card is allowed only when it frames a real comparison, metric group, quote, or control-like panel, or when a complex background needs a readability surface.
 - If a slide uses multiple boxes, vary the family intentionally: borderless labels, direct-on-image type, connected nodes, table rows, image captions, or single large stat. Do not make every fact its own boxed panel.
+- In `content_thinking.Layout`, explicitly state `container_decision`, `text_carrier`, and `card_budget` for the slide.
 
 ### Rendered visual safety discipline
 
@@ -128,6 +151,8 @@ Use visual elements (shapes, lines, icons, accent bars, gradients, masks, image 
 - Incorporate charts when data is available; use large stat numbers for key metrics (e.g., "$150B" as a prominent element).
 - Each column may contain at most one chart/graph/image.
 - Only chart real, source-verified data — never fabricate numerical data.
+- Do not add charts to every page. Use a chart only when the slide needs quantitative comparison, trend, composition, distribution, or another explicit data relationship.
+- When a chart is used, include a conclusion-oriented title, unit, source, and direct labels or readable axes. If the data does not support those fields, use a non-chart visual structure instead.
 </visualization_requirements>
 
 <thinking_process_instructions>
@@ -136,7 +161,8 @@ Before writing the SVG, use the `content_thinking` parameter to document:
 2. **Layout**: what composition best fits this content, and how it differs from adjacent slides.
 3. **Key message**: the ONE takeaway, and how typography and spacing emphasize it.
 4. **Data visualization**: can any content be shown as a chart or large stat number instead of text?
-5. **Composition**: how you distribute elements across the canvas to avoid empty space.
+5. **Text carrier**: why text uses open grid, image dark zone, line annotation, axis annotation, card group, or metric panel; include the container fit plan when a card/panel exists.
+6. **Composition**: how you distribute elements across the canvas to avoid empty space.
 </thinking_process_instructions>
 
 <quality_standards>

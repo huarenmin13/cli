@@ -4,14 +4,11 @@ import "strings"
 
 const (
 	requiredChartRendererNone     = "none"
-	requiredChartRendererSVG      = "svg"
 	requiredChartRendererVegaLite = "vega-lite"
 )
 
 func normalizedRequiredChartRenderer(value string) string {
 	switch strings.TrimSpace(value) {
-	case requiredChartRendererSVG:
-		return requiredChartRendererSVG
 	case requiredChartRendererVegaLite:
 		return requiredChartRendererVegaLite
 	default:

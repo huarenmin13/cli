@@ -24,6 +24,18 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 	if err != nil {
 		return StatusReport{}, err
 	}
+	if stage.Name == StageAssets {
+		if err := ensureEmptyChartBriefsForNoChartDeck(safeRoot); err != nil {
+			return StatusReport{}, err
+		}
+		chartRender, err := RenderVegaLiteCharts(root)
+		if err != nil {
+			return StatusReport{}, err
+		}
+		if chartRender.Status != "passed" {
+			return StatusReport{}, fmt.Errorf("chart_render_failed: %s status is %q, want passed", chartRenderReceiptPath, chartRender.Status)
+		}
+	}
 	outputsForMissing := stage.Outputs
 	if stage.Name == StageValidatePreviewRepair {
 		outputsForMissing = outputsWithoutDeliveryReceipt(stage.Outputs)
@@ -49,6 +61,7 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 	if err := ValidateStageOutputs(root); err != nil {
 		return StatusReport{}, err
 	}
+	stageReceiptWritten := false
 	if stage.Name == StageValidatePreviewRepair {
 		semantic, err := EvaluateAnyGenSemantics(root)
 		if err != nil {
@@ -63,6 +76,14 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 		deliveryRun := run
 		deliveryRun.Stages[index].Status = StatusDone
 		deliveryRun.CurrentStage = stage.Name
+		if err := writeStageReceipt(safeRoot, StageReceipt{
+			Stage:     stage.Name,
+			Status:    StatusDone,
+			Artifacts: stage.Outputs,
+		}); err != nil {
+			return StatusReport{}, err
+		}
+		stageReceiptWritten = true
 		if _, err := writeDeliveryReceipt(safeRoot, deliveryRun); err != nil {
 			return StatusReport{}, err
 		}
@@ -71,12 +92,14 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 		}
 	}
 
-	if err := writeStageReceipt(safeRoot, StageReceipt{
-		Stage:     stage.Name,
-		Status:    StatusDone,
-		Artifacts: stage.Outputs,
-	}); err != nil {
-		return StatusReport{}, err
+	if !stageReceiptWritten {
+		if err := writeStageReceipt(safeRoot, StageReceipt{
+			Stage:     stage.Name,
+			Status:    StatusDone,
+			Artifacts: stage.Outputs,
+		}); err != nil {
+			return StatusReport{}, err
+		}
 	}
 
 	run.Stages[index].Status = StatusDone
@@ -113,7 +136,7 @@ type stageStatusReceipt struct {
 }
 
 func validateFinalStageReceiptsPassed(safeRoot string) error {
-	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", renderedVisualReceiptPath, "quality_report.json", "anygen_semantic_report.json", creativeQualityReportPath} {
+	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", renderedVisualReceiptPath, imageUsageReportPath, chartRenderReceiptPath, chartUsageReceiptPath, "quality_report.json", "anygen_semantic_report.json", creativeQualityReportPath, chartQualityReportPath} {
 		raw, err := readRunRegularArtifact(safeRoot, path)
 		if err != nil {
 			return fmt.Errorf("%s: read receipt: %w", path, err)

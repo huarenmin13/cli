@@ -24,6 +24,7 @@ Research and image sourcing:
 
 Page families:
 - Page families are a vocabulary, not a rotation template. Choose the composition from story and available assets first, then select the closest family.
+- Content decides the carrier. Decide what the slide must express first, then choose open grid, image dark zone, annotation, axis/table structure, metric panel, or card. Do not draw a card first and force text into it.
 - Every slide must choose one `layout_family` before SVG authoring.
 - Valid families: `full_bleed_hero`, `image_text_fusion_split`, `evidence_board`, `timeline_route`, `data_scoreboard`, `character_product_focus`, `quiet_synthesis`.
 - `image_text_fusion_split` may appear on at most 30% of slides, capped at 3 slides in a 10-slide deck, and must not appear on adjacent slides.
@@ -52,21 +53,26 @@ Image-text fusion:
 - Add an 80-180px same-color transparent gradient over the seam.
 - Do not place faces, product details, badges, scores, or key actions inside the seam fade area.
 - Keep text density to one claim, one short explanation, and two to four high-value metrics.
+- Text does not default into cards. Use a card only when it frames a real comparison, metric group, quote, or control-like panel, or when a complex background needs a readability surface.
 - Do not write process language such as `seam`, `sampling`, `prompt`, `source note`, `取色`, `接缝`, or `制作说明` into visible slide text.
 
 Typography:
 - Declare `font_display`, `font_body`, `font_number`, and `font_label` for every deck.
+- Typography is a topic identity system, not a checkbox. Finance, sports, luxury, product, and cultural decks must not reuse one generic default stack.
 - Do not set all font roles to `Arial, Helvetica, sans-serif`.
 - For Chinese decks, every visible role must include a concrete CJK font from the supported taxonomy, with generic fallback last.
 - Display and body stacks must differ unless the requested output is a plain operational report.
+- If the topic is financial, numeric/table roles must be explicit. If the topic is sports, display and score roles must feel athletic/editorial. If the topic is premium brand/product, display typography must carry brand/editorial character.
 - State how title, body, number, and label differ by family, weight, size range, and usage.
 
 Data visuals:
 - Do not add charts or data visuals unless the slide has numeric evidence in `source_evidence`.
 - Every chart/data visual must declare `data_visual_rationale` and the exact source refs that support it.
+- Vega-Lite is not a per-page default. Use it only for quantitative comparison, trend, composition, distribution, or another explicit data relationship.
 - Data visuals are not decorative fillers. If the story does not need a chart, use photo, typography, map, timeline, or SVG-native composition instead.
 
 Visual receipts:
-- Before writing SVG, prepare one receipt per slide with `slide_id`, `story_job`, `layout_family`, `layout_archetype`, `layout_signature`, `thumbnail_job`, `visual_center`, `topic_fit_claim`, `information_density_plan`, `page_difference_from_previous`, `primary_asset`, `asset_role`, `font_role_usage`, `composition_intent`, `data_visual_rationale`, `source_evidence`, `fusion_spec`, and `qa_expectations`.
+- Before writing SVG, prepare one receipt per slide with `slide_id`, `story_job`, `layout_family`, `layout_archetype`, `layout_signature`, `thumbnail_job`, `visual_center`, `topic_fit_claim`, `information_density_plan`, `page_difference_from_previous`, `primary_asset`, `asset_role`, `font_role_usage`, `composition_intent`, `data_visual_rationale`, `source_evidence`, `container_fit_plan`, `container_decision`, `text_carrier`, `shape_language`, `card_budget`, `chart_receipt`, `fusion_spec`, and `qa_expectations`.
+- `container_decision` must explain why the slide does or does not need a card/panel. `card_budget` is a limit, not encouragement to add cards.
 - The receipt is debug/output data only. Do not render receipt fields as visible page text.
 - If visual QA fails, repair the specific failed slide and update its receipt.

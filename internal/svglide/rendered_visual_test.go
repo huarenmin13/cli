@@ -30,6 +30,76 @@ func TestRenderedVisualGateDetectsTimelineCollision(t *testing.T) {
 	}
 }
 
+func TestRenderedVisualGateDetectsMetricCardInternalOverflow(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<rect x="930" y="134" width="190" height="118" rx="10" fill="#202420" stroke="#3d443f"/>
+<foreignObject x="950" y="239" width="150" height="129" style="font-size:16px">
+  <div xmlns="http://www.w3.org/1999/xhtml">current assets / liabilities</div>
+</foreignObject>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/05-ratios-peers.svg", []byte(svg))
+	if report.Status != "failed" || !renderedVisualHasCode(report, "svglide.rendered_visual.container_text_overflow") {
+		t.Fatalf("report = %+v, want container_text_overflow", report)
+	}
+}
+
+func TestRenderedVisualGateAllowsTextInsideCardPadding(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<rect x="100" y="100" width="280" height="150" rx="10" fill="#202420" stroke="#3d443f"/>
+<foreignObject x="124" y="126" width="220" height="84" style="font-size:18px">
+  <div xmlns="http://www.w3.org/1999/xhtml">A fitted note with room.</div>
+</foreignObject>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/01.svg", []byte(svg))
+	if report.Status != "passed" {
+		t.Fatalf("report = %+v, want passed", report)
+	}
+}
+
+func TestRenderedVisualGateDoesNotTreatChartBarsAsTextContainers(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<rect x="120" y="160" width="280" height="320" class="mark-bar" fill="#76b900"/>
+<text x="132" y="188" font-size="22">$22.1B</text>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/chart.svg", []byte(svg))
+	if report.Status != "passed" {
+		t.Fatalf("report = %+v, want passed for chart mark label", report)
+	}
+}
+
+func TestRenderedVisualGateDetectsForeignObjectOverlap(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<foreignObject x="120" y="120" width="260" height="80" style="font-size:22px"><p xmlns="http://www.w3.org/1999/xhtml">First label</p></foreignObject>
+<foreignObject x="180" y="150" width="260" height="80" style="font-size:22px"><p xmlns="http://www.w3.org/1999/xhtml">Second label</p></foreignObject>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/02.svg", []byte(svg))
+	if report.Status != "failed" || !renderedVisualHasCode(report, "svglide.rendered_visual.foreign_object_collision") {
+		t.Fatalf("report = %+v, want foreign_object_collision", report)
+	}
+}
+
+func TestRenderedVisualGateDetectsTightLineHeight(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<foreignObject x="120" y="120" width="420" height="90" style="font-size:20px;line-height:20px"><p xmlns="http://www.w3.org/1999/xhtml">Dense label copy with enough words to wrap into two lines.</p></foreignObject>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/03.svg", []byte(svg))
+	if report.Status != "failed" || !renderedVisualHasCode(report, "svglide.rendered_visual.tight_line_height") {
+		t.Fatalf("report = %+v, want tight_line_height", report)
+	}
+}
+
+func TestRenderedVisualGateDetectsBoldOveruse(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<text x="100" y="120" font-size="34" font-weight="800">Revenue acceleration is the story</text>
+<text x="100" y="180" font-size="28" font-weight="800">Margins expand while supply stays tight</text>
+<text x="100" y="236" font-size="24" font-weight="800">Every sentence should not be bold</text>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/04.svg", []byte(svg))
+	if report.Status != "failed" || !renderedVisualHasCode(report, "svglide.rendered_visual.bold_overuse") {
+		t.Fatalf("report = %+v, want bold_overuse", report)
+	}
+}
+
 func TestRenderedVisualGateAllowsFittedText(t *testing.T) {
 	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide"><text x="92" y="120" font-size="24">Short title</text><foreignObject x="92" y="180" width="520" height="90" style="font-size:24px"><p xmlns="http://www.w3.org/1999/xhtml">One fitted sentence.</p></foreignObject></svg>`
 	report := evaluateRenderedVisualSVG("slides/01.svg", []byte(svg))

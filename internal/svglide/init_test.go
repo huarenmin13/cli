@@ -103,7 +103,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		t.Fatal(err)
 	}
 	prompt := string(promptRaw)
-	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/generate_svg_chart.md", "tools/generate_vega_lite_chart.md"} {
+	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/resolve_image_assets.md", "tools/generate_svg_chart.md", "tools/generate_vega_lite_chart.md"} {
 		if !strings.Contains(prompt, want) {
 			t.Fatalf("prompt manifest missing %q:\n%s", want, prompt)
 		}
@@ -130,8 +130,11 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"slide_copy_plan.schema.json",
 		"assets_plan.schema.json",
 		"assets_manifest.schema.json",
+		"image_candidates.schema.json",
 		"asset_inventory.schema.json",
 		"chart_manifest.schema.json",
+		"image_usage.schema.json",
+		"chart_quality.schema.json",
 		"typography_contract.schema.json",
 		"quality.schema.json",
 		"receipt.schema.json",
@@ -161,8 +164,11 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"minItems"`, `"visuals"`, `"chart"`, `"table"`, `"crop"`}},
 		{name: "slide_copy_plan.schema.json", want: []string{`"audience_copy"`, `"production_instruction"`}},
 		{name: "assets_plan.schema.json", want: []string{`"experiment_unrestricted_assets"`, `"slide_id"`, `"status"`, `"deferred"`, `"chart"`, `"table"`, `"crop"`}},
-		{name: "asset_inventory.schema.json", want: []string{`"large_ok"`, `"full_bleed_ok"`, `"recommended_use"`}},
+		{name: "image_candidates.schema.json", want: []string{`"requires_real_images"`, `"format_exception_reason"`, `"selection_reason"`}},
+		{name: "asset_inventory.schema.json", want: []string{`"large_ok"`, `"candidate_id"`, `"format_exception_reason"`}},
+		{name: "image_usage.schema.json", want: []string{`"area_bp"`, `"usage_status"`}},
 		{name: "chart_manifest.schema.json", want: []string{`"vega-lite"`, `"spec_path"`, `"svg_path"`}},
+		{name: "chart_quality.schema.json", want: []string{`"missing_unit_count"`, `"missing_source_count"`, `"decorative_chart_count"`}},
 		{name: "typography_contract.schema.json", want: []string{`"display"`, `"number"`, `"label"`}},
 		{name: "quality.schema.json", want: []string{`"metrics"`, `"real_image_assets"`, `"vega_lite_spec_assets"`}},
 	} {
@@ -201,7 +207,7 @@ func TestLocalRuntimeBindingMentionsCopyPlanAndAssetInventory(t *testing.T) {
 		t.Fatal(err)
 	}
 	text := string(raw)
-	for _, want := range []string{"asset_inventory", "chart_manifest", "typography_contract", "slide_copy_plan", "audience_copy", "production_instruction"} {
+	for _, want := range []string{"image_candidates", "asset_inventory", "image_usage", "chart_manifest", "typography_contract", "slide_copy_plan", "audience_copy", "production_instruction"} {
 		if !strings.Contains(text, want) {
 			t.Fatalf("runtime binding missing %q:\n%s", want, text)
 		}
@@ -372,7 +378,7 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	for _, entry := range manifest.Entries {
 		entries[entry.Name] = entry
 	}
-	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "svglide_local_runtime_binding", "svglide_visual_quality_overlay", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "generate_vega_lite_chart", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
+	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "svglide_local_runtime_binding", "svglide_visual_quality_overlay", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "resolve_image_assets", "generate_vega_lite_chart", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
 		if entries[want].Path == "" {
 			t.Fatalf("manifest missing %q: %+v", want, manifest.Entries)
 		}
@@ -403,6 +409,9 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	}
 	if entries["generate_vega_lite_chart"].Stage != StageAssets {
 		t.Fatalf("generate_vega_lite_chart stage = %q, want %q", entries["generate_vega_lite_chart"].Stage, StageAssets)
+	}
+	if entries["resolve_image_assets"].Stage != StageAssets {
+		t.Fatalf("resolve_image_assets stage = %q, want %q", entries["resolve_image_assets"].Stage, StageAssets)
 	}
 	promptPaths, err := PromptPathsForStage(StageSVGAuthor)
 	if err != nil {

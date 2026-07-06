@@ -51,7 +51,8 @@ completion_gate:
 - `tools/slides_edit.md`: slide authoring/editing。
 - `tools/finish_slides_edit.md`: final finishing and validation gate。
 - `tools/compute_custom_shape_bbox.md`: custom shape bbox calculation。
-- `tools/generate_svg_chart.md`: chart generation prompt asset; current SVGlide phase keeps native chart implementation deferred.
+- `tools/generate_vega_lite_chart.md`: standard chart spec prompt; Node renderer owns SVG output.
+- `tools/generate_svg_chart.md`: legacy/reference-only chart prompt; not a standard local SVG deck chart producer.
 - `tools/slides_convert.md`: conversion helper prompt.
 - `tools/slides_parse_template.md`: template parsing prompt.
 

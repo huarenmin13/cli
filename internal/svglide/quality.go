@@ -24,37 +24,53 @@ type QualityIssue struct {
 }
 
 type QualityMetrics struct {
-	Slides                           int  `json:"slides"`
-	Sources                          int  `json:"sources"`
-	WebSources                       int  `json:"web_sources"`
-	Assets                           int  `json:"assets"`
-	SlidesWithSourceRef              int  `json:"slides_with_source_refs"`
-	SlidesWithVisuals                int  `json:"slides_with_visuals"`
-	SlidesWithImageAssets            int  `json:"slides_with_image_assets"`
-	ImageCoverageBP                  int  `json:"image_coverage_bp"`
-	UniqueImageAssets                int  `json:"unique_image_assets"`
-	OfficialImageAssets              int  `json:"official_image_assets"`
-	RealImageAssets                  int  `json:"real_image_assets"`
-	SlidesWithRealImageAssets        int  `json:"slides_with_real_image_assets"`
-	GeneratedSVGAssets               int  `json:"generated_svg_assets"`
-	ChartSVGAssets                   int  `json:"chart_svg_assets"`
-	VegaLiteSpecAssets               int  `json:"vega_lite_spec_assets"`
-	PreviewWrapperImageCount         int  `json:"preview_wrapper_image_count"`
-	CoverRealHeroImage               bool `json:"cover_real_hero_image"`
-	TypographyContractPresent        bool `json:"typography_contract_present"`
-	TotalImageRefs                   int  `json:"total_image_refs"`
-	StrongCover                      bool `json:"strong_cover"`
-	EvidencePageMaxVisuals           int  `json:"evidence_page_max_visuals"`
-	RepeatedLayoutRatioBP            int  `json:"repeated_layout_ratio_bp"`
-	VisualRoleCoverageBP             int  `json:"visual_role_coverage_bp"`
-	RenderedVisualIssueCount         int  `json:"rendered_visual_issue_count"`
-	RenderedVisualTextOverflowCount  int  `json:"rendered_visual_text_overflow_count"`
-	RenderedVisualTextCollisionCount int  `json:"rendered_visual_text_collision_count"`
-	RenderedVisualOutOfCanvasCount   int  `json:"rendered_visual_out_of_canvas_count"`
-	VisualAssetRequired              bool `json:"visual_asset_required"`
-	VisualAssetIssueCount            int  `json:"visual_asset_issue_count"`
-	CoverRealHeroRequired            bool `json:"cover_real_hero_required"`
-	CoverRealHeroPresent             bool `json:"cover_real_hero_present"`
+	Slides                                   int  `json:"slides"`
+	Sources                                  int  `json:"sources"`
+	WebSources                               int  `json:"web_sources"`
+	Assets                                   int  `json:"assets"`
+	SlidesWithSourceRef                      int  `json:"slides_with_source_refs"`
+	SlidesWithVisuals                        int  `json:"slides_with_visuals"`
+	SlidesWithImageAssets                    int  `json:"slides_with_image_assets"`
+	ImageCoverageBP                          int  `json:"image_coverage_bp"`
+	UniqueImageAssets                        int  `json:"unique_image_assets"`
+	OfficialImageAssets                      int  `json:"official_image_assets"`
+	RealImageAssets                          int  `json:"real_image_assets"`
+	SlidesWithRealImageAssets                int  `json:"slides_with_real_image_assets"`
+	GeneratedSVGAssets                       int  `json:"generated_svg_assets"`
+	ChartSVGAssets                           int  `json:"chart_svg_assets"`
+	VegaLiteSpecAssets                       int  `json:"vega_lite_spec_assets"`
+	PreviewWrapperImageCount                 int  `json:"preview_wrapper_image_count"`
+	CoverRealHeroImage                       bool `json:"cover_real_hero_image"`
+	TypographyContractPresent                bool `json:"typography_contract_present"`
+	TotalImageRefs                           int  `json:"total_image_refs"`
+	StrongCover                              bool `json:"strong_cover"`
+	EvidencePageMaxVisuals                   int  `json:"evidence_page_max_visuals"`
+	RepeatedLayoutRatioBP                    int  `json:"repeated_layout_ratio_bp"`
+	VisualRoleCoverageBP                     int  `json:"visual_role_coverage_bp"`
+	RenderedVisualIssueCount                 int  `json:"rendered_visual_issue_count"`
+	RenderedVisualTextOverflowCount          int  `json:"rendered_visual_text_overflow_count"`
+	RenderedVisualTextCollisionCount         int  `json:"rendered_visual_text_collision_count"`
+	RenderedVisualOutOfCanvasCount           int  `json:"rendered_visual_out_of_canvas_count"`
+	RenderedVisualContainerTextOverflowCount int  `json:"rendered_visual_container_text_overflow_count"`
+	RenderedVisualContainerPaddingRiskCount  int  `json:"rendered_visual_container_padding_risk_count"`
+	RenderedVisualForeignObjectOverlapCount  int  `json:"rendered_visual_foreign_object_overlap_count"`
+	RenderedVisualTightLineHeightCount       int  `json:"rendered_visual_tight_line_height_count"`
+	RenderedVisualBoldOveruseCount           int  `json:"rendered_visual_bold_overuse_count"`
+	RenderedVisualSmallTextPaddingRiskCount  int  `json:"rendered_visual_small_text_padding_risk_count"`
+	VisualAssetRequired                      bool `json:"visual_asset_required"`
+	VisualAssetIssueCount                    int  `json:"visual_asset_issue_count"`
+	CoverRealHeroRequired                    bool `json:"cover_real_hero_required"`
+	CoverRealHeroPresent                     bool `json:"cover_real_hero_present"`
+	ImageCandidateCount                      int  `json:"image_candidate_count"`
+	SelectedImageCandidateCount              int  `json:"selected_image_candidate_count"`
+	ImageRoleFormatIssueCount                int  `json:"image_role_format_issue_count"`
+	TransparentSubjectAssets                 int  `json:"transparent_subject_assets"`
+	SelectedImagesReferenced                 int  `json:"selected_images_referenced"`
+	SelectedImagesUnreferenced               int  `json:"selected_images_unreferenced"`
+	ImageUsageIssueCount                     int  `json:"image_usage_issue_count"`
+	CoverHeroAreaBP                          int  `json:"cover_hero_area_bp"`
+	FullBleedImageUsageCount                 int  `json:"full_bleed_image_usage_count"`
+	ChartUsageIssueCount                     int  `json:"chart_usage_issue_count"`
 }
 
 type qualitySourcesFile struct {
@@ -312,6 +328,9 @@ func CheckQuality(root string) (QualityReport, error) {
 				continue
 			}
 			hasVisual = true
+			if visualType == "chart" && chartManifestPresent && chartManifestHasSlideVisual(chartManifest, id, visual.ID) {
+				continue
+			}
 			key := id + "/" + strings.TrimSpace(visual.ID)
 			asset, ok := assetsBySlideAndID[key]
 			if !ok && visualTypeIsDeferredOnly(visualType) {
@@ -383,6 +402,14 @@ func CheckQuality(root string) (QualityReport, error) {
 	if report.Metrics.Slides > 0 {
 		report.Metrics.ImageCoverageBP = report.Metrics.SlidesWithRealImageAssets * 10000 / report.Metrics.Slides
 	}
+	if candidates, err := readImageCandidates(safeRoot); err == nil {
+		report.Metrics.ImageCandidateCount = len(candidates.Candidates)
+		for _, candidate := range candidates.Candidates {
+			if candidate.Selected {
+				report.Metrics.SelectedImageCandidateCount++
+			}
+		}
+	}
 	coverHasRealImageAsset := false
 	for _, slide := range deck.Slides {
 		id := strings.TrimSpace(slide.ID)
@@ -393,19 +420,70 @@ func CheckQuality(root string) (QualityReport, error) {
 			}
 		}
 	}
+	enforceImageRoleFormat(&report, inventory)
+	imageUsage := EvaluateImageUsageRun(safeRoot, deck, assets, inventory)
+	if err := writeImageUsageReport(safeRoot, imageUsage); err != nil {
+		return QualityReport{}, err
+	}
+	for _, slide := range imageUsage.Slides {
+		for _, used := range slide.Assets {
+			report.Metrics.SelectedImagesReferenced++
+			if used.FitRole == "full_bleed" {
+				report.Metrics.FullBleedImageUsageCount++
+			}
+			if isCoverSlideID(deck, slide.SlideID) && used.FitRole == "full_bleed" && used.AreaBP > report.Metrics.CoverHeroAreaBP {
+				report.Metrics.CoverHeroAreaBP = used.AreaBP
+			}
+		}
+	}
+	for _, issue := range imageUsage.Issues {
+		report.Metrics.ImageUsageIssueCount++
+		if issue.Code == "svglide.quality.image_usage_missing" {
+			report.Metrics.SelectedImagesUnreferenced++
+		}
+		report.Issues = append(report.Issues, qualityIssue(issue.Path, issue.Code, issue.Message))
+	}
 	if chartManifestPresent {
 		if manifestChartCount := countChartSVGEntries(chartManifest); manifestChartCount > report.Metrics.ChartSVGAssets {
 			report.Metrics.ChartSVGAssets = manifestChartCount
 		}
 		report.Metrics.VegaLiteSpecAssets = countVegaLiteSpecEntries(chartManifest)
 		enforceChartManifest(&report, safeRoot, visualContract, chartManifest)
-	} else if chartManifestErr != nil && visualContractRequiresChartManifest(visualContract) {
+		chartBriefs, _, chartBriefErr := readChartBriefs(safeRoot)
+		if chartBriefErr != nil {
+			report.Issues = append(report.Issues, qualityIssue(
+				chartBriefsPath,
+				"svglide.quality.chart_briefs",
+				fmt.Sprintf("chart briefs cannot be read: %v", chartBriefErr),
+			))
+		}
+		chartUsage := EvaluateChartUsageRun(safeRoot, deck, chartManifest, chartBriefs)
+		if err := writeChartUsageReport(safeRoot, chartUsage); err != nil {
+			return QualityReport{}, err
+		}
+		for _, issue := range chartUsage.Issues {
+			report.Metrics.ChartUsageIssueCount++
+			report.Issues = append(report.Issues, qualityIssue(issue.Path, issue.Code, issue.Message))
+		}
+	} else if visualContractRequiresChartManifest(visualContract) {
+		message := "visual contract requires chart manifest"
+		if chartManifestErr != nil {
+			message = fmt.Sprintf("visual contract requires chart manifest: %v", chartManifestErr)
+		}
 		report.Issues = append(report.Issues, qualityIssue(
 			chartManifestPath,
 			"svglide.quality.missing_chart_manifest",
-			fmt.Sprintf("visual contract requires chart manifest: %v", chartManifestErr),
+			message,
 		))
+		if err := writeChartUsageReport(safeRoot, ChartUsageReport{Status: "passed", Charts: []ChartUsageChart{}, Issues: []ChartUsageIssue{}}); err != nil {
+			return QualityReport{}, err
+		}
+	} else {
+		if err := writeChartUsageReport(safeRoot, ChartUsageReport{Status: "passed", Charts: []ChartUsageChart{}, Issues: []ChartUsageIssue{}}); err != nil {
+			return QualityReport{}, err
+		}
 	}
+	enforceChartQualityReport(&report, root, visualContract)
 	if typographyContractPresent && typographyContractHasRequiredRoles(typographyContract) {
 		report.Metrics.TypographyContractPresent = true
 	} else if typographyContractErr != nil && visualContractRequiresTypography(visualContract) {
@@ -496,6 +574,41 @@ func CheckQuality(root string) (QualityReport, error) {
 	return report, nil
 }
 
+func enforceImageRoleFormat(report *QualityReport, inventory assetInventoryFile) {
+	for _, item := range inventory.Items {
+		role := strings.TrimSpace(item.AssetRole)
+		format := strings.ToLower(strings.TrimSpace(item.Format))
+		needsAlpha := role == "transparent_subject" || role == "floating_product" || role == "logo" || role == "chip_device"
+		if needsAlpha {
+			report.Metrics.TransparentSubjectAssets++
+		}
+		if !needsAlpha {
+			continue
+		}
+		if item.HasAlpha || format == "svg" {
+			continue
+		}
+		if strings.TrimSpace(item.FormatExceptionReason) != "" {
+			continue
+		}
+		report.Metrics.ImageRoleFormatIssueCount++
+		report.Issues = append(report.Issues, qualityIssue(
+			assetInventoryPath,
+			"svglide.quality.image_role_format",
+			fmt.Sprintf("asset %q role %q should prefer transparent PNG/SVG or provide format_exception_reason", item.ID, role),
+		))
+	}
+}
+
+func isCoverSlideID(deck authorDeck, slideID string) bool {
+	for _, slide := range deck.Slides {
+		if strings.TrimSpace(slide.ID) == strings.TrimSpace(slideID) {
+			return isCoverSlide(slide)
+		}
+	}
+	return false
+}
+
 func enforceRenderedVisualQualityGate(report *QualityReport, renderedVisual RenderedVisualReport, present bool, readErr error) {
 	if readErr != nil {
 		report.Issues = append(report.Issues, qualityIssue(
@@ -517,12 +630,67 @@ func enforceRenderedVisualQualityGate(report *QualityReport, renderedVisual Rend
 	report.Metrics.RenderedVisualTextOverflowCount = renderedVisual.Metrics.TextOverflowCount
 	report.Metrics.RenderedVisualTextCollisionCount = renderedVisual.Metrics.TextCollisionCount
 	report.Metrics.RenderedVisualOutOfCanvasCount = renderedVisual.Metrics.OutOfCanvasCount
+	report.Metrics.RenderedVisualContainerTextOverflowCount = renderedVisual.Metrics.ContainerTextOverflowCount
+	report.Metrics.RenderedVisualContainerPaddingRiskCount = renderedVisual.Metrics.ContainerPaddingRiskCount
+	report.Metrics.RenderedVisualForeignObjectOverlapCount = renderedVisual.Metrics.ForeignObjectOverlapCount
+	report.Metrics.RenderedVisualTightLineHeightCount = renderedVisual.Metrics.TightLineHeightCount
+	report.Metrics.RenderedVisualBoldOveruseCount = renderedVisual.Metrics.BoldOveruseCount
+	report.Metrics.RenderedVisualSmallTextPaddingRiskCount = renderedVisual.Metrics.SmallTextPaddingRiskCount
 	if renderedVisual.Status != "passed" {
 		report.Issues = append(report.Issues, qualityIssue(
 			renderedVisualReceiptPath,
 			"svglide.quality.rendered_visual",
 			fmt.Sprintf("rendered visual gate failed with %d issue(s)", renderedVisual.Metrics.IssueCount),
 		))
+	}
+}
+
+func chartManifestHasSlideVisual(manifest chartManifestFile, slideID string, visualID string) bool {
+	slideID = strings.TrimSpace(slideID)
+	visualID = strings.TrimSpace(visualID)
+	for _, chart := range manifest.Charts {
+		if strings.TrimSpace(chart.SlideID) == slideID && strings.TrimSpace(chart.ID) == visualID {
+			return true
+		}
+	}
+	return false
+}
+
+func enforceChartQualityReport(report *QualityReport, root string, contract qualityVisualContract) {
+	chartReport, err := CheckChartQuality(root)
+	if err != nil {
+		if visualContractRequiresChartManifest(contract) {
+			report.Issues = append(report.Issues, qualityIssue(
+				chartQualityReportPath,
+				"svglide.quality.chart_quality",
+				fmt.Sprintf("cannot compute chart quality report: %v", err),
+			))
+		}
+		return
+	}
+	if normalizedRequiredChartRenderer(contract.RequiredChartRenderer) != requiredChartRendererVegaLite {
+		return
+	}
+	if chartReport.Metrics.VegaLiteCharts < contract.MinVegaLiteSpecs {
+		report.Issues = append(report.Issues, qualityIssue(
+			chartQualityReportPath,
+			"svglide.quality.chart_quality",
+			fmt.Sprintf("visual contract requires at least %d Vega-Lite chart(s), got %d", contract.MinVegaLiteSpecs, chartReport.Metrics.VegaLiteCharts),
+		))
+	}
+	if chartReport.Status == "passed" {
+		return
+	}
+	for _, issue := range chartReport.Issues {
+		if issue.Severity != "error" {
+			continue
+		}
+		report.Issues = append(report.Issues, QualityIssue{
+			Path:     issue.Path,
+			Code:     issue.Code,
+			Message:  issue.Message,
+			Severity: "error",
+		})
 	}
 }
 

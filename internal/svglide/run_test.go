@@ -62,6 +62,12 @@ func TestDefaultStagesFinalStageRequiresQualityReport(t *testing.T) {
 	if !stringSliceContains(final.Outputs, "quality_report.json") {
 		t.Fatalf("final outputs = %+v, want quality_report.json", final.Outputs)
 	}
+	if !stringSliceContains(final.Outputs, "receipts/chart_quality.json") {
+		t.Fatalf("final outputs = %+v, want receipts/chart_quality.json", final.Outputs)
+	}
+	if !stringSliceContains(final.Outputs, imageUsageReportPath) {
+		t.Fatalf("final outputs = %+v, want %s", final.Outputs, imageUsageReportPath)
+	}
 }
 
 func TestDefaultStagesResearchInputsMatchPromptContract(t *testing.T) {

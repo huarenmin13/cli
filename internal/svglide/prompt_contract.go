@@ -851,6 +851,17 @@ func conditionMatched(condition string, run Run, safeRoot string) (bool, error) 
 			return false, nil
 		}
 		return strings.Contains(string(raw), `"type":"chart"`) || strings.Contains(string(raw), `"type": "chart"`), nil
+	case "required_chart_renderer_vega_lite":
+		if contractRequiresVegaLiteChart(safeRoot) {
+			return true, nil
+		}
+		raw, err := readRunRegularArtifact(safeRoot, "content/slide_content.json")
+		if err != nil {
+			return false, nil
+		}
+		return strings.Contains(string(raw), `"type":"chart"`) || strings.Contains(string(raw), `"type": "chart"`), nil
+	case "legacy_or_non_chart_svg_visual_reference_only":
+		return run.RouteProfile == routeProfileImportedPPTX || run.RouteProfile == routeProfileLegacyEditor, nil
 	case "input_is_pptx":
 		if run.RouteProfile != routeProfileImportedPPTX {
 			return false, nil
@@ -873,4 +884,17 @@ func conditionMatched(condition string, run Run, safeRoot string) (bool, error) 
 	default:
 		return false, nil
 	}
+}
+
+func contractRequiresVegaLiteChart(safeRoot string) bool {
+	for _, rel := range []string{"brief/visual_quality_contract.json", "request/entity_resolution.json"} {
+		raw, err := readRunRegularArtifact(safeRoot, rel)
+		if err != nil {
+			continue
+		}
+		if strings.Contains(string(raw), `"required_chart_renderer":"vega-lite"`) || strings.Contains(string(raw), `"required_chart_renderer": "vega-lite"`) {
+			return true
+		}
+	}
+	return false
 }

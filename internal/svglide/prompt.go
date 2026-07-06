@@ -85,7 +85,7 @@ func DefaultSchemas() map[string]string {
 	        "min_official_images": {"type": "integer"},
 	        "allow_repeated_hero_only": {"type": "boolean"},
 	        "cover_requires_real_hero_image": {"type": "boolean"},
-	        "required_chart_renderer": {"type": "string", "enum": ["none", "svg", "vega-lite"]},
+	        "required_chart_renderer": {"type": "string", "enum": ["none", "vega-lite"]},
 	        "min_chart_svg_assets": {"type": "integer"},
 	        "min_vega_lite_specs": {"type": "integer"},
 	        "typography_contract_required": {"type": "boolean"},
@@ -240,6 +240,9 @@ func DefaultSchemas() map[string]string {
         },
         "page_family_budget": {"type": "object"},
         "asset_strategy": {"type": "object"},
+        "typography_identity": {"type": "object"},
+        "shape_language_budget": {"type": "object"},
+        "chart_posture": {"type": "object"},
         "recurring_hero_rationale": {"type": "string"},
         "single_source_rationale": {"type": "string"}
       }
@@ -465,6 +468,43 @@ func DefaultSchemas() map[string]string {
   }
 }
 `,
+		"image_candidates.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["prompt_contract", "candidates"],
+  "properties": {
+    "prompt_contract": {"type": "object"},
+    "requires_real_images": {"type": "boolean"},
+    "no_image_reason": {"type": "string"},
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "query", "source_url", "source_class", "format", "width", "height", "has_alpha", "asset_role", "fit_role", "score_bp", "selected", "selection_reason", "rejection_reason"],
+        "properties": {
+          "id": {"type": "string"},
+          "query": {"type": "string"},
+          "source_url": {"type": "string"},
+          "source_class": {"type": "string", "enum": ["official", "press", "media", "web", "user_provided", "unknown"]},
+          "format": {"type": "string", "enum": ["png", "jpg", "jpeg", "webp", "avif", "svg", "unknown"]},
+          "width": {"type": "integer"},
+          "height": {"type": "integer"},
+          "has_alpha": {"type": "boolean"},
+          "asset_role": {"type": "string", "enum": ["hero_photo", "scene_photo", "factory_photo", "store_photo", "people_photo", "transparent_subject", "floating_product", "logo", "chip_device", "ui_screenshot", "product_screen", "chart", "other"]},
+          "fit_role": {"type": "string", "enum": ["full_bleed", "split_panel", "floating_subject", "annotation_base", "thumbnail", "logo_lockup", "chart_embed", "other"]},
+          "local_path": {"type": "string"},
+          "score_bp": {"type": "integer"},
+          "selected": {"type": "boolean"},
+          "selection_reason": {"type": "string"},
+          "format_exception_reason": {"type": "string"},
+          "rejection_reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
 		"asset_inventory.schema.json": `{
   "type": "object",
   "additionalProperties": false,
@@ -487,7 +527,43 @@ func DefaultSchemas() map[string]string {
           "large_ok": {"type": "boolean"},
           "full_bleed_ok": {"type": "boolean"},
           "recommended_use": {"type": "string"},
-          "avoid_reason": {"type": "string"}
+          "avoid_reason": {"type": "string"},
+          "format": {"type": "string", "enum": ["png", "jpg", "jpeg", "webp", "avif", "svg", "unknown"]},
+          "has_alpha": {"type": "boolean"},
+          "asset_role": {"type": "string", "enum": ["hero_photo", "scene_photo", "factory_photo", "store_photo", "people_photo", "transparent_subject", "floating_product", "logo", "chip_device", "ui_screenshot", "product_screen", "chart", "other"]},
+          "fit_role": {"type": "string", "enum": ["full_bleed", "split_panel", "floating_subject", "annotation_base", "thumbnail", "logo_lockup", "chart_embed", "other"]},
+          "candidate_id": {"type": "string"},
+          "selection_reason": {"type": "string"},
+          "format_exception_reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
+		"chart_briefs.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["prompt_contract", "charts"],
+  "properties": {
+    "prompt_contract": {"type": "object"},
+    "charts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slide_id", "purpose", "takeaway", "renderer", "data_source_ids", "unit"],
+        "properties": {
+          "id": {"type": "string"},
+          "slide_id": {"type": "string"},
+          "purpose": {"type": "string"},
+          "takeaway": {"type": "string"},
+          "renderer": {"type": "string", "enum": ["vega-lite"]},
+          "data_source_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "unit": {"type": "string"},
+          "min_width": {"type": "integer"},
+          "min_height": {"type": "integer"},
+          "fallback_policy": {"type": "string"}
         }
       }
     }
@@ -500,7 +576,7 @@ func DefaultSchemas() map[string]string {
   "required": ["prompt_contract", "renderer", "charts"],
   "properties": {
     "prompt_contract": {"type": "object"},
-    "renderer": {"type": "string", "enum": ["none", "svg", "vega-lite"]},
+    "renderer": {"type": "string", "enum": ["none", "vega-lite", "legacy-imported"]},
     "charts": {
       "type": "array",
       "items": {
@@ -510,10 +586,144 @@ func DefaultSchemas() map[string]string {
         "properties": {
           "id": {"type": "string"},
           "slide_id": {"type": "string"},
-          "renderer": {"type": "string", "enum": ["svg", "vega-lite"]},
+          "renderer": {"type": "string", "enum": ["vega-lite", "legacy-imported"]},
+          "brief_id": {"type": "string"},
           "spec_path": {"type": "string"},
           "svg_path": {"type": "string"},
-          "source_id": {"type": "string"}
+          "source_id": {"type": "string"},
+          "unit": {"type": "string"},
+          "takeaway": {"type": "string"},
+          "render_receipt": {"type": "string"},
+          "title": {"type": "string"},
+          "why_chart_is_needed": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
+		"chart_render.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "renderer", "charts", "issues"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "renderer": {"type": "string", "enum": ["node-vega-lite"]},
+    "charts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slide_id", "spec_path", "svg_path", "spec_sha256", "svg_sha256", "command"],
+        "properties": {
+          "id": {"type": "string"},
+          "slide_id": {"type": "string"},
+          "spec_path": {"type": "string"},
+          "svg_path": {"type": "string"},
+          "spec_sha256": {"type": "string"},
+          "svg_sha256": {"type": "string"},
+          "command": {"type": "string"}
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "path": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
+		"chart_quality.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "metrics", "issues", "charts"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["charts", "vega_lite_charts", "missing_axis_count", "missing_unit_count", "missing_source_count", "missing_direct_label_count", "decorative_chart_count"],
+      "properties": {
+        "charts": {"type": "integer"},
+        "vega_lite_charts": {"type": "integer"},
+        "missing_axis_count": {"type": "integer"},
+        "missing_unit_count": {"type": "integer"},
+        "missing_source_count": {"type": "integer"},
+        "missing_direct_label_count": {"type": "integer"},
+        "decorative_chart_count": {"type": "integer"}
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "code", "message", "severity"],
+        "properties": {
+          "path": {"type": "string"},
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "severity": {"type": "string"}
+        }
+      }
+    },
+    "charts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slide_id", "renderer", "svg_path"],
+        "properties": {
+          "id": {"type": "string"},
+          "slide_id": {"type": "string"},
+          "renderer": {"type": "string"},
+          "svg_path": {"type": "string"},
+          "spec_path": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
+		"chart_usage.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "charts", "issues"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "charts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slide_id", "svg_path", "reference_count"],
+        "properties": {
+          "id": {"type": "string"},
+          "slide_id": {"type": "string"},
+          "svg_path": {"type": "string"},
+          "reference_count": {"type": "integer"}
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "path": {"type": "string"},
+          "message": {"type": "string"}
         }
       }
     }
@@ -572,13 +782,83 @@ func DefaultSchemas() map[string]string {
 	        "rendered_visual_text_overflow_count": {"type": "integer"},
 	        "rendered_visual_text_collision_count": {"type": "integer"},
 	        "rendered_visual_out_of_canvas_count": {"type": "integer"},
+	        "rendered_visual_container_text_overflow_count": {"type": "integer"},
+	        "rendered_visual_container_padding_risk_count": {"type": "integer"},
+	        "rendered_visual_foreign_object_overlap_count": {"type": "integer"},
+	        "rendered_visual_tight_line_height_count": {"type": "integer"},
+	        "rendered_visual_bold_overuse_count": {"type": "integer"},
+	        "rendered_visual_small_text_padding_risk_count": {"type": "integer"},
 	        "visual_asset_required": {"type": "boolean"},
 	        "visual_asset_issue_count": {"type": "integer"},
 	        "cover_real_hero_required": {"type": "boolean"},
-	        "cover_real_hero_present": {"type": "boolean"}
+	        "cover_real_hero_present": {"type": "boolean"},
+	        "image_candidate_count": {"type": "integer"},
+	        "selected_image_candidate_count": {"type": "integer"},
+	        "image_role_format_issue_count": {"type": "integer"},
+	        "transparent_subject_assets": {"type": "integer"},
+	        "selected_images_referenced": {"type": "integer"},
+	        "selected_images_unreferenced": {"type": "integer"},
+	        "image_usage_issue_count": {"type": "integer"},
+	        "cover_hero_area_bp": {"type": "integer"},
+	        "full_bleed_image_usage_count": {"type": "integer"},
+	        "chart_usage_issue_count": {"type": "integer"}
 	      }
 	    }
 	  }
+}
+`,
+		"image_usage.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "slides", "issues"],
+  "properties": {
+    "status": {"type": "string", "enum": ["passed", "failed"]},
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["slide_id", "assets"],
+        "properties": {
+          "slide_id": {"type": "string"},
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["asset_id", "path", "href", "asset_role", "fit_role", "x", "y", "width", "height", "area_bp", "usage_status"],
+              "properties": {
+                "asset_id": {"type": "string"},
+                "path": {"type": "string"},
+                "href": {"type": "string"},
+                "asset_role": {"type": "string"},
+                "fit_role": {"type": "string"},
+                "x": {"type": "number"},
+                "y": {"type": "number"},
+                "width": {"type": "number"},
+                "height": {"type": "number"},
+                "area_bp": {"type": "integer"},
+                "usage_status": {"type": "string", "enum": ["matched", "missing", "role_mismatch", "area_too_small"]}
+              }
+            }
+          }
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "path", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "path": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    }
+  }
 }
 `,
 		"receipt.schema.json": `{
@@ -651,14 +931,20 @@ func DefaultSchemas() map[string]string {
     "metrics": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["slides", "issue_count", "out_of_canvas_count", "text_overflow_count", "text_collision_count", "unsafe_edge_count"],
+      "required": ["slides", "issue_count", "out_of_canvas_count", "text_overflow_count", "text_collision_count", "unsafe_edge_count", "container_text_overflow_count", "container_padding_risk_count", "foreign_object_overlap_count", "tight_line_height_count", "bold_overuse_count", "small_text_padding_risk_count"],
       "properties": {
         "slides": {"type": "integer"},
         "issue_count": {"type": "integer"},
         "out_of_canvas_count": {"type": "integer"},
         "text_overflow_count": {"type": "integer"},
         "text_collision_count": {"type": "integer"},
-        "unsafe_edge_count": {"type": "integer"}
+        "unsafe_edge_count": {"type": "integer"},
+        "container_text_overflow_count": {"type": "integer"},
+        "container_padding_risk_count": {"type": "integer"},
+        "foreign_object_overlap_count": {"type": "integer"},
+        "tight_line_height_count": {"type": "integer"},
+        "bold_overuse_count": {"type": "integer"},
+        "small_text_padding_risk_count": {"type": "integer"}
       }
     },
     "issues": {
@@ -766,7 +1052,7 @@ func DefaultSchemas() map[string]string {
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["slide_id", "story_job", "layout_family", "layout_archetype", "layout_signature", "thumbnail_job", "visual_center", "topic_fit_claim", "information_density_plan", "page_difference_from_previous", "primary_asset", "asset_role", "font_role_usage", "composition_intent", "data_visual_rationale", "source_evidence", "fusion_spec", "qa_expectations"],
+        "required": ["slide_id", "story_job", "layout_family", "layout_archetype", "layout_signature", "thumbnail_job", "visual_center", "topic_fit_claim", "information_density_plan", "page_difference_from_previous", "primary_asset", "asset_role", "font_role_usage", "composition_intent", "data_visual_rationale", "source_evidence", "container_fit_plan", "container_decision", "text_carrier", "typography_role_usage", "shape_language", "card_budget", "chart_receipt", "fusion_spec", "qa_expectations"],
         "properties": {
           "slide_id": {"type": "string"},
           "story_job": {"type": "string"},
@@ -784,6 +1070,32 @@ func DefaultSchemas() map[string]string {
           "composition_intent": {"type": "string"},
           "data_visual_rationale": {"type": "string"},
           "source_evidence": {"type": "array", "items": {"type": "string"}},
+          "container_fit_plan": {"type": "string"},
+          "container_decision": {"type": "string"},
+          "text_carrier": {"type": "string", "enum": ["open_grid", "image_dark_zone", "line_annotation", "axis_annotation", "card_group", "metric_panel"]},
+          "typography_role_usage": {"type": "object"},
+          "shape_language": {"type": "string"},
+          "card_budget": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["card_count", "why_cards_are_needed"],
+            "properties": {
+              "card_count": {"type": "integer"},
+              "why_cards_are_needed": {"type": "string"}
+            }
+          },
+          "chart_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["chart_id", "renderer", "unit", "source", "why_chart_is_needed"],
+            "properties": {
+              "chart_id": {"type": "string"},
+              "renderer": {"type": "string", "enum": ["vega-lite", "none", "legacy-imported"]},
+              "unit": {"type": "string"},
+              "source": {"type": "string"},
+              "why_chart_is_needed": {"type": "string"}
+            }
+          },
           "fusion_spec": {"type": "object"},
           "qa_expectations": {"type": "array", "items": {"type": "string"}}
         }
@@ -822,6 +1134,8 @@ func DefaultSchemas() map[string]string {
         "missing_visual_receipts": {"type": "integer"},
         "process_leak_count": {"type": "integer"},
         "generic_font_slide_count": {"type": "integer"},
+        "topic_typography_mismatch_count": {"type": "integer"},
+        "typography_role_collapse_count": {"type": "integer"},
         "distinct_layout_family_count": {"type": "integer"},
         "distinct_layout_archetype_count": {"type": "integer"},
         "layout_archetype_max_ratio_bp": {"type": "integer"},
@@ -829,6 +1143,13 @@ func DefaultSchemas() map[string]string {
         "left_right_chart_archetype_count": {"type": "integer"},
         "layout_signature_max_ratio_bp": {"type": "integer"},
         "adjacent_layout_repetition_count": {"type": "integer"},
+        "card_dominant_slide_count": {"type": "integer"},
+        "dark_card_template_slide_count": {"type": "integer"},
+        "shape_language_max_ratio_bp": {"type": "integer"},
+        "decorative_image_only_count": {"type": "integer"},
+        "weak_cover_visual_impact_count": {"type": "integer"},
+        "default_card_text_container_count": {"type": "integer"},
+        "open_text_carrier_slide_count": {"type": "integer"},
         "fusion_slide_count": {"type": "integer"},
         "fusion_adjacent_count": {"type": "integer"},
         "weak_slide_count": {"type": "integer"},
@@ -842,7 +1163,7 @@ func DefaultSchemas() map[string]string {
 		"delivery.schema.json": `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["status", "route_profile", "orchestrator", "runtime_binding", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report", "semantic_metrics", "stage_status", "legacy_runtime_executed", "legacy_tool_ids", "legacy_artifact_matches", "core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids"],
+  "required": ["status", "route_profile", "orchestrator", "runtime_binding", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report", "semantic_metrics", "stage_status", "full_chain_evidence", "legacy_runtime_executed", "legacy_tool_ids", "legacy_artifact_matches", "core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids"],
   "properties": {
     "status": {"type": "string", "enum": ["ready", "needs_repair"]},
     "route_profile": {"type": "string"},
@@ -872,7 +1193,46 @@ func DefaultSchemas() map[string]string {
     "legacy_artifact_matches": {"type": "array", "items": {"type": "string"}},
     "core_prompt_ids": {"type": "array", "items": {"type": "string"}},
     "observed_prompt_ids": {"type": "array", "items": {"type": "string"}},
-    "blocked_prompt_ids": {"type": "array", "items": {"type": "string"}}
+    "blocked_prompt_ids": {"type": "array", "items": {"type": "string"}},
+    "full_chain_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_json", "request", "source_manifest", "entity_resolution", "research_notes", "sources", "research_coverage", "design_brief", "visual_system", "typography_contract", "outline", "slide_content", "asset_manifest", "rendered_visual", "quality_report", "creative_quality_report", "chart_render_report", "chart_usage_report", "chart_quality_report", "delivery", "stage_receipts", "screenshot_evidence", "manual_patch"],
+      "properties": {
+        "run_json": {"type": "string"},
+        "request": {"type": "string"},
+        "source_manifest": {"type": "string"},
+        "entity_resolution": {"type": "string"},
+        "research_notes": {"type": "string"},
+        "sources": {"type": "string"},
+        "research_coverage": {"type": "string"},
+        "design_brief": {"type": "string"},
+        "visual_system": {"type": "string"},
+        "typography_contract": {"type": "string"},
+        "outline": {"type": "string"},
+        "slide_content": {"type": "string"},
+        "asset_manifest": {"type": "string"},
+        "rendered_visual": {"type": "string"},
+        "quality_report": {"type": "string"},
+        "creative_quality_report": {"type": "string"},
+        "chart_render_report": {"type": "string"},
+        "chart_usage_report": {"type": "string"},
+        "chart_quality_report": {"type": "string"},
+        "delivery": {"type": "string"},
+        "stage_receipts": {"type": "object"},
+        "screenshot_evidence": {"type": "array", "items": {"type": "string"}},
+        "manual_patch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["applied", "files"],
+          "properties": {
+            "applied": {"type": "boolean"},
+            "files": {"type": "array", "items": {"type": "string"}},
+            "reason": {"type": "string"}
+          }
+        }
+      }
+    }
   }
 }
 `,

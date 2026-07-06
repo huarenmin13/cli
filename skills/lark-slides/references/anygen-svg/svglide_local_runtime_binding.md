@@ -16,16 +16,22 @@ This file binds native AnyGen SVG Slides concepts to the local SVGlide run direc
 | `.slides project` | run directory, `preview.html`, `receipts/delivery.json` |
 | `ToolResolveDesignBrief` | `brief/design_brief.json`, `brief/visual_system.json`, `brief/typography_contract.json` |
 | `ToolSlideOutline` | `outline/deck.json` |
+| `ToolResolveImageAssets` | `assets/image_candidates.json`, `assets/assets_manifest.json`, `assets/asset_inventory.json`, and `receipts/tool_calls/assets/resolve_image_assets.json` |
 | `ToolSlideEdit` | `slides/*.svg` plus a tool-call receipt |
 | `ToolFinishSlidesEdit` | lint, preview, quality, semantic, and repair artifacts |
 | `show_form` | automatic CLI inference; low confidence writes a blocker before research |
 | `handover` | Go-generated `receipts/delivery.json` |
 | `slide_copy_plan` | local `content/slide_copy_plan.json`; only `audience_copy` may enter visible SVG text |
+| `image_candidates` | local `assets/image_candidates.json`; searched candidates, selected/rejected decisions, role/format fit, and source URLs |
 | `asset_inventory` | local `assets/asset_inventory.json`; real objects and external images must be inventoried before visual generation |
-| `chart_manifest` | local `assets/charts/chart_manifest.json`; Vega-Lite chart specs and rendered SVGs must be listed before slide authoring |
+| `chart_briefs` / `chart_manifest` | local `assets/charts/chart_briefs.json` and `assets/charts/chart_manifest.json`; agent writes chart intent/spec metadata, runtime renders SVG assets |
 | `visual_quality_contract` | local `request/entity_resolution.json` or `brief/visual_quality_contract.json`; quality gates enforce the visual floor before delivery |
-| `visual_receipts.json` | author-side per-slide design decision receipt: layout family, asset role, fusion spec, QA expectations |
+| `visual_receipts.json` | author-side per-slide design decision receipt: layout family, asset role, text carrier, container decision, card budget, chart receipt, fusion spec, QA expectations |
 | `receipts/rendered_visual.json` | deterministic rendered visual gate: text-fit, canvas bounds, label collision, and unsafe edge checks |
+| `receipts/image_usage.json` | deterministic image usage gate: selected ready images must be referenced by slide SVGs and full-bleed hero images must be visually dominant |
+| `receipts/chart_render.json` | deterministic Node renderer receipt: Vega-Lite specs are rendered by local `vega-lite` + `vega`, with spec/SVG hashes |
+| `receipts/chart_usage.json` | deterministic chart usage gate: standard charts must be embedded as `<rect slide:role="chart">` and not hand-drawn in slide SVG |
+| `receipts/chart_quality.json` | deterministic chart gate: units, source notes, labels or axes, Vega-Lite registration, and decorative-chart rejection |
 | `creative_quality_report.json` | runtime-side deterministic gate: typography, layout rhythm, asset/source reuse, research coverage, process leakage, fusion checks, weak pages |
 | production-only instructions | local gates reject visible `production_instruction`, `Sources:`, source-note text, and layout instructions |
 
@@ -50,13 +56,29 @@ Strict visual contract execution order:
 
 1. Resolve `request/entity_resolution.json.visual_quality_contract`.
 2. Write `brief/typography_contract.json` during design brief resolution.
-3. If real images are required, download and inventory raster image assets before SVG authoring.
-4. If `required_chart_renderer=vega-lite`, write `assets/charts/specs/*.vl.json`, render `assets/charts/*.svg`, and register both in `assets/charts/chart_manifest.json`.
+3. Run `ToolResolveImageAssets`: write `assets/image_candidates.json`; if real images are required, download/copy and inventory raster image assets before SVG authoring.
+4. If `required_chart_renderer=vega-lite`, write `assets/charts/chart_briefs.json`, `assets/charts/specs/*.vl.json`, and `assets/charts/chart_manifest.json`; StageAssets completion invokes the local Node renderer (`vega-lite` + `vega`) to create `assets/charts/*.svg` and `receipts/chart_render.json`.
 5. Author `slides/*.svg` only after required visual artifacts exist.
-6. Run lint, preview, rendered visual, semantic, creative, and quality gates.
+6. Run lint, preview, rendered visual, image usage, chart render, chart usage, chart quality, semantic, creative, and quality gates.
 7. During quality, enforce the visual asset gate: entity-driven decks need real subject imagery and a real cover hero image unless the user explicitly requested chart-only/vector-only output.
-8. Do not call delivery ready unless `receipts/rendered_visual.json.status=passed` and `quality_report.json.status=passed`.
+8. Do not call delivery ready unless `receipts/rendered_visual.json.status=passed`, `receipts/image_usage.json.status=passed`, `receipts/chart_render.json.status=passed`, `receipts/chart_usage.json.status=passed`, `receipts/chart_quality.json.status=passed`, and `quality_report.json.status=passed`.
 9. If any strict gate fails, delivery status is `needs_repair`; do not present the deck as complete.
+
+## Complete Chain Evidence
+
+A complete local SVGlide generation must be launched through the unified runtime entrypoint and must leave a run directory evidence chain:
+
+`request -> research -> design_brief -> outline -> slide_content -> resolve_image_assets/chart_briefs/chart_specs -> node_chart_render -> svg_author -> validate/preview/repair -> rendered_visual -> image_usage -> chart_usage -> chart_quality -> quality_report -> delivery`.
+
+Minimum evidence:
+
+- `run.json` exists and names the local SVG deck route.
+- Stage receipts exist for request, request resolution, research, design brief, outline, slide content, assets, SVG authoring, and validate/preview/repair.
+- Core artifacts exist: `request/request.json`, `research/sources.json`, `brief/design_brief.json`, `brief/visual_system.json`, `brief/typography_contract.json`, `outline/deck.json`, `content/slide_content.json`, `content/slide_copy_plan.json`, `assets/image_candidates.json`, `assets/assets_manifest.json`, `assets/asset_inventory.json`, `assets/charts/chart_briefs.json`, `assets/charts/chart_manifest.json`, `slides/*.svg`, `preview.html`, `receipts/rendered_visual.json`, `receipts/image_usage.json`, `receipts/chart_render.json`, `receipts/chart_usage.json`, `receipts/chart_quality.json`, `creative_quality_report.json`, `quality_report.json`, `visual_receipts.json`, and `receipts/delivery.json`.
+- Screenshot evidence such as `contact-sheet.png` or `screenshots/slide-*.png` must be present before claiming screenshot-level quality.
+- Manual edits are allowed only when delivery evidence marks `manual_patch.applied=true`, lists the touched files, and explains the reason.
+
+Without `run.json`, it is not a complete chain. Without stage receipts, it is not a complete chain. Without `quality_report.json`, `receipts/image_usage.json`, `receipts/chart_render.json`, `receipts/chart_usage.json`, `receipts/chart_quality.json`, rendered visual evidence, and screenshot evidence, it is not a complete chain. Manual repairs without `manual_patch` evidence must not be described as an unattended complete-chain result.
 
 When a user provides a benchmark deck, screenshot, reference site, or previous generated output, treat it as `quality_floor_only`. Extract reusable quality dimensions, but do not copy source HTML, SVG markup, exact coordinates, or proprietary assets.
 
@@ -89,6 +111,15 @@ Every outline item must include:
 - `primary_asset_role`: how the main asset proves, clarifies, or anchors the slide.
 - `fusion_candidate`: boolean, true only when the image has a safe seam side and one core claim.
 
+Every visual receipt must also include:
+
+- `container_fit_plan`: how visible text stays inside panels, cards, image dark zones, or open grid boundaries.
+- `text_carrier`: `open_grid`, `image_dark_zone`, `line_annotation`, `axis_annotation`, `card_group`, or `metric_panel`.
+- `container_decision`: why this slide does or does not need a card/panel.
+- `shape_language`: the dominant visual device, such as `full_bleed_photo`, `annotated_image`, `chart_forward`, `editorial_split`, `sparse_quote`, `timeline`, `table_report`, or `metric_dashboard`.
+- `card_budget`: `card_count` plus `why_cards_are_needed`; use it to limit card use, not to encourage cards.
+- `chart_receipt`: chart id, renderer, unit, source, and why the chart is needed; `renderer=none` when the slide has no chart.
+
 Do not deliver:
 
 - a deck where `requires_real_images=true` is satisfied by generated SVG, chart SVG, preview wrapper images, or pure vector diagrams;
@@ -103,6 +134,7 @@ Do not deliver:
 - a deck where a single source URL provides more than 40% of visual assets without `single_source_rationale`;
 - an `image_text_fusion_split` page without seam-side color choice, fade width, subject safety judgment, and reduced text density;
 - a chart or data visual without `data_visual_rationale` and numeric `source_evidence`;
+- a chart inserted because charts are available rather than because the slide needs quantitative comparison, trend, composition, or distribution;
 - a deck where pages 2-9 repeat the same visible skeleton even if chart data or text changes;
 - a deck with fewer than 5 distinct `layout_archetype` values when it has 8-12 slides;
 - a financial report where most analysis pages are `left_text_right_chart` or equivalent split compositions.

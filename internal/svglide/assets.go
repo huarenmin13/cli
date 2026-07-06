@@ -39,16 +39,23 @@ type assetInventoryFile struct {
 }
 
 type assetInventoryItem struct {
-	ID             string `json:"id"`
-	Path           string `json:"path"`
-	SourceURL      string `json:"source_url"`
-	Width          int    `json:"width"`
-	Height         int    `json:"height"`
-	SemanticType   string `json:"semantic_type"`
-	LargeOK        bool   `json:"large_ok"`
-	FullBleedOK    bool   `json:"full_bleed_ok"`
-	RecommendedUse string `json:"recommended_use"`
-	AvoidReason    string `json:"avoid_reason"`
+	ID                    string `json:"id"`
+	Path                  string `json:"path"`
+	SourceURL             string `json:"source_url"`
+	Width                 int    `json:"width"`
+	Height                int    `json:"height"`
+	SemanticType          string `json:"semantic_type"`
+	LargeOK               bool   `json:"large_ok"`
+	FullBleedOK           bool   `json:"full_bleed_ok"`
+	RecommendedUse        string `json:"recommended_use"`
+	AvoidReason           string `json:"avoid_reason"`
+	Format                string `json:"format"`
+	HasAlpha              bool   `json:"has_alpha"`
+	AssetRole             string `json:"asset_role"`
+	FitRole               string `json:"fit_role"`
+	CandidateID           string `json:"candidate_id"`
+	SelectionReason       string `json:"selection_reason"`
+	FormatExceptionReason string `json:"format_exception_reason"`
 }
 
 func readDeckAssetsArtifact(safeRoot string, path string) (deckAssetsFile, error) {

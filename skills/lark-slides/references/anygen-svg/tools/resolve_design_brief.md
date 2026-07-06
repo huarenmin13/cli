@@ -64,6 +64,18 @@ Default visual quality floor:
 - Process/craft/product/data evidence pages need enough visual evidence density.
 - Page rhythm must vary across cover, thesis, evidence, detail, and closing pages.
 - Report-like cards are acceptable only when the user asks for an operational report style.
+- Typography is a topic identity system: choose role-specific display, body, label, and numeric/data font stacks. Do not reuse the same default stack across finance, sports, luxury, product, and cultural decks.
+- Content decides the carrier: set a deck-level shape-language budget before outline generation. Cards are allowed for comparisons, metric groups, quotes, and complex-background readability, but they must not become the default text container.
+- Decide the chart posture before asset generation. Vega-Lite is for quantitative comparison, trend, composition, distribution, or another explicit data relationship; it is not required on every page.
+- If the deck needs auditable data charts, the downstream chart plan must preserve units, source notes, direct labels or readable axes, and conclusion-oriented chart titles.
+
+Image asset role strategy:
+- Choose image roles before asset search. Do not write "prefer PNG" as a global rule.
+- `logo`, `transparent_subject`, `floating_product`, `chip_device`: prefer transparent PNG or SVG logo because these assets must blend into the SVG composition.
+- `hero_photo`, `scene_photo`, `factory_photo`, `store_photo`, `people_photo`: prefer high-resolution real photos from official or source-traceable pages; JPG/WebP/PNG are all acceptable.
+- `ui_screenshot`, `product_screen`: prefer PNG when available, but reject blurry or low-resolution PNG screenshots.
+- `chart`: use Vega-Lite SVG when quantitative comparison, trend, composition, distribution, or another explicit data relationship is needed.
+- The design brief must describe which roles the deck needs and which slide roles consume them.
 ```
 
 样式设计System Prompt
@@ -118,6 +130,7 @@ Deconstruct the chosen direction across the 7 dimensions below. Every dimension 
 - **Body font**: same
 - **Chinese font direction**: pick **concrete** font names from the taxonomy below (do NOT just write a loose category like "a hei-ti")
 - **Hierarchy**: how many levels, and whether the size jumps are aggressive or gentle
+- **Topic identity**: explain why display/body/label/numeric roles fit the deck type. Finance needs explicit numeric/table roles; sports needs athletic/editorial display or score roles; premium brand/product needs display type with brand/editorial character.
 - **DON'T**: explicitly list font types that must not be used
 
 Chinese font taxonomy (for zh / zh-en typography; serif display = 宋体家族 for premium/editorial). Keep these font names verbatim — they are the only ones the render engine supports:
@@ -138,6 +151,8 @@ Pairing: sans title ↔ sans body / serif ↔ serif / rounded ↔ rounded. Never
 
 #### Dimension 3: Layout language
 This describes visual composition technique ONLY, NOT content density or information architecture. The same layout language (e.g. "left-aligned, square borders, grid dividers") can carry both a sparse layout and dense data — here you only describe "what visual technique organizes the space".
+- **Text carrier rule**: content decides whether text sits in open grid, image dark zone, line annotation, axis annotation, card group, or metric panel. Do not make rounded cards the default way to hold prose.
+- **Shape-language budget**: define which visual devices should dominate this deck, and cap repeated card/panel structures so adjacent pages differ by visible device, not only by copy.
 - **Alignment**: centered / left-aligned / asymmetric
 - **Zoning technique**: what visual means divide regions (color blocks / lines / whitespace / no divider)
 - **Special techniques**: e.g. vertical text, bleed cropping, overlapping stacking

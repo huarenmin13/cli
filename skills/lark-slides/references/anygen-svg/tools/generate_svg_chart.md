@@ -14,18 +14,18 @@ cardinality: zero_or_more
 requires:
   - mode_system_prompt_svg
   - svg_reference
-condition: visual_type_chart_without_vega_lite_requirement
+condition: legacy_or_non_chart_svg_visual_reference_only
 trigger:
-  - chart_visual_required
+  - imported_pptx_legacy_chart_reference
+  - non_chart_diagram_reference
 consumes:
   - content/slide_content.json
   - assets/assets_manifest.json
 produces:
-  - assets/charts/*.svg
-  - assets/charts/chart_manifest.json
+  - assets/assets_manifest.json
   - receipts/tool_calls/assets/generate_svg_chart.json
 completion_gate:
-  - chart_asset_ready
+  - not_a_standard_chart_producer
   - not_used_when_required_chart_renderer_is_vega_lite
 ---
 
@@ -38,9 +38,11 @@ Rule: Do not edit semantics without refreshing the local source snapshot first.
 
 ## generate_svg_chart
 
-生成一张 SVG chart 文件。仅用于 `visual_quality_contract.required_chart_renderer` 为空、`none` 或 `svg` 的场景；当 contract 指定 `vega-lite` 时，本工具只能作为非核心示意图 fallback，核心 chart 必须使用 `generate_vega_lite_chart`，并同时产出 `assets/charts/specs/*.vl.json`、`assets/charts/*.svg` 和 `assets/charts/chart_manifest.json`。
+This tool is not a valid producer for standard SVGlide chart assets. Standard chart assets must come from Vega-Lite spec rendered by the local Node renderer (`vega-lite` + `vega`). This file may only describe legacy/reference behavior or non-chart diagrams when explicitly routed outside `slide:role="chart"`.
 
-下含①工具描述 ②入参 schema（含 chart_type 路由规则，选型方法论唯一真相源，见 svgchartservice/service.go）③chart 子 agent 契约模板(svg_chart_contract.go.tmpl) ④设计简报(\_envelope.md，始终注入) ⑤signature snippets(snippets/\*.md，按 chart_type 动态选取)。
+本工具不再作为本地 SVG deck 的标准 chart 生产路径。核心 chart 必须使用 `generate_vega_lite_chart` 写 `assets/charts/chart_briefs.json`、`assets/charts/specs/*.vl.json` 和 `assets/charts/chart_manifest.json`，再由本地 Node renderer 生成 `assets/charts/*.svg` 与 `receipts/chart_render.json`。
+
+下含历史工具描述、历史入参 schema、chart 子 agent 契约模板(svg_chart_contract.go.tmpl)、设计简报(\_envelope.md，始终注入)、signature snippets(snippets/\*.md，按历史 chart type 动态选取)。这些内容只供 legacy/reference 阅读，不能覆盖本地标准 chart contract。
 
 ① 工具描述：
 
@@ -48,7 +50,7 @@ Rule: Do not edit semantics without refreshing the local source snapshot first.
 Generate ONE SVG chart as a standalone file. Output viewBox is fixed at 960×600. Returns file_path (where the SVG was written), drive_token, and design_path (auditable design.md sidecar).
 ```
 
-② 入参 schema（generate_svg_chart 参数逐个；chart_type 路由规则 = 选型方法论唯一真相源，见 svgchartservice/service.go）：
+② 入参 schema（legacy generate_svg_chart 参数逐个；历史 chart type 路由说明见 svgchartservice/service.go）：
 
 ```text
 generate_svg_chart 入参 schema

@@ -69,7 +69,7 @@ Every slide is authored directly in the **SVG protocol**: a standard SVG documen
 - {{.ToolComputeCustomShapeBbox}} — measure the true bounding box of `<path slide:shape-type="custom">` paths; call it before writing custom paths so `slide:width`/`slide:height` match the real geometry instead of being guessed
 - {{.ToolSlideOrganize}} — add / delete pages after the project is created
 - {{.ToolResolveDesignBrief}} — resolve the deck's design brief (narrative_spine + depth + tone, plus a derived visual_system); call it in Phase 4 (after the goal/audience/delivery form, before the outline form). Its narrative_spine shapes the outline; its tone/density/visual_system are inferred (never ask the user to pick a tone/palette)
-- {{.ToolGenerateSvgChart}} / `generate_vega_lite_chart` — generate data charts as SVG assets to embed; use Vega-Lite when `visual_quality_contract.required_chart_renderer=vega-lite`
+- `generate_vega_lite_chart` — write standard chart briefs and Vega-Lite specs; the local Node renderer (`vega-lite` + `vega`) converts specs to SVG assets during StageAssets completion
 - {{.ToolAssignImageSearchAgent}} — find specific real-world images on the web; use image generation for everything else
 - `show_form` — two uses: the Phase 2 first form (goal / audience / delivery), and the Phase 5 outline review (a single sortable-list, outline only). Content density, tone, and visual are inferred by the design brief — never asked in a form
 - web search + `get_web_page_contents` — build source material when the user gives only a topic
@@ -126,9 +126,9 @@ This becomes the deck's locked style — carry its `aesthetic_direction`, `color
 Then plan visuals per slide — images AND charts together: how many images each needs and what aspect ratio, and for every slide whose point rests on a real quantitative data series (trend, multi-category comparison, part-to-whole split, distribution, 2D positioning) a chart. These are generated as assets BEFORE slide_edit, the same as images. Follow `visual_quality_contract` exactly:
 - If `requires_real_images=true`, do not replace real images with generated SVG, vector diagrams, gradient art, chart-only pages, or slide preview wrappers. If real images cannot be used, write the concrete blocker and let quality fail instead of silently downgrading.
 - If `cover_requires_real_hero_image=true`, the cover must use a real raster image asset (`png`, `jpg`, `jpeg`, `webp`, or `avif`) through `<image slide:role="image">`.
-- If `required_chart_renderer=vega-lite`, every core chart must have both `assets/charts/specs/*.vl.json` and `assets/charts/*.svg`, listed in `assets/charts/chart_manifest.json`; do not use hand-written SVG charts for those core charts.
+- If `required_chart_renderer=vega-lite`, every core chart must start from `assets/charts/chart_briefs.json`, have `assets/charts/specs/*.vl.json`, be listed in `assets/charts/chart_manifest.json`, and be rendered by the local Node renderer into `assets/charts/*.svg` with `receipts/chart_render.json`; do not hand-write chart SVG for those core charts.
 - If `typography_contract_required=true`, write `brief/typography_contract.json` before SVG authoring and use its display/body/number/label roles consistently.
-Once {{.ToolSlideOutline}} has created the project, call the required chart generator for every planned chart; slide_edit then embeds each returned `.svg` by `<rect slide:role="chart" href="...">`. A real data series goes through the chart asset path — never hand-draw it from primitives. (See <visuals> and <chart_workflow>.)
+Once {{.ToolSlideOutline}} has created the project, write chart briefs and Vega-Lite specs for every planned standard chart; StageAssets completion renders the SVG assets; slide_edit then embeds each rendered `.svg` by `<rect slide:role="chart" href="...">`. A real data series goes through the chart asset path — never hand-draw it from primitives. (See <visuals> and <chart_workflow>.)
 
 ### Phase 8 — Generate & deliver
 1. **{{.ToolSlideOutline}}** — pass the confirmed outline (main_title, pages, and the style_instruction locked in Phase 7). Creates the project directory, `outline.json`, style, and one empty `.svg` per slide. The language of your arguments sets the slide language. IMPORTANT: it overwrites ALL slide files — never call it again after slides are written (use {{.ToolSlideOrganize}} to add/delete pages later).
@@ -182,20 +182,15 @@ Visuals re-engage attention and carry meaning. Plan them deliberately; don't dec
 </about_slides_outline>
 
 <chart_workflow>
-For source-verifiable metrics, call {{.ToolGenerateSvgChart}} (for single numbers or trivial 2-bucket comparisons, prefer a text callout — a chart would feel empty). If a deck needs several charts, dispatch the calls in parallel in one turn.
+For source-verifiable quantitative relationships, first write `assets/charts/chart_briefs.json`. For each brief whose `renderer` is `vega-lite`, generate `assets/charts/specs/<id>.vl.json` and update `assets/charts/chart_manifest.json` with `renderer=vega-lite`, `brief_id`, `spec_path`, `svg_path`, `source_id`, `unit`, `takeaway`, and `render_receipt=receipts/chart_render.json`.
 
-Key parameters:
-- `takeaway`: decide this FIRST — it drives the chart_type routing. A complete sentence stating the exact conclusion (e.g., "EU led activation in Q3, reaching 67%"). Must be faithful to the data — don't say "doubled" if the data shows 1.2×. Keep ≤30 CJK / ≤60 Latin chars.
-- `chart_type`: route by what the TAKEAWAY claims, not by what the data looks like (a list of percentages is NOT automatically a composition). The full routing table, the composition gate deciding when `pie`/`doughnut` is allowed versus a sorted `bar`, and the defaults live in the tool's `chart_type` parameter description — follow it strictly. When in doubt: sorted `bar`. One claim per chart.
-- `emphasis`: `{ "who": "..." }` — the protagonist entity to highlight; optional `de_emphasis` to mute others.
-- `data`: JSON matching the chart_type. Keep peer series ≤3 (+ optional "Other"); aggregate the rest before calling.
-- `style`: `{ "theme": "light"|"dark"|"image", "accent": "rgba(...)", "bg": "rgba(...)" }` — match the destination slide's palette.
-- `width` / `height` (REQUIRED, px): the chart's real on-slide display size — the subagent derives its text sizes from `width`, so pass the actual embed width (never declare 800 then embed at 480). Fixed 1.6 (16:10) ratio: `height = round(width / 1.6)`. Respect the floor in the tool's `width` description: hard floor 480px — a narrower slot should get a full-width band or a text callout instead of a chart.
-- `output_path`: `/home/user/workspace/slides/<project>/resources/charts/<name>.svg`.
+The local SVGlide runtime renders each spec to `assets/charts/<id>.svg` with the local Node renderer (`vega-lite` + `vega`) before StageAssets completes. Do not hand-write the chart SVG.
 
-Embed the returned chart as a `<rect slide:role="chart">` referencing the `.svg` by `href` (the engine renders the chart SVG inside the rect — it is NOT a drawn rectangle), at the SAME width/height you passed to the tool:
+Use a chart only when the slide needs a quantitative relationship: trend, multi-category comparison, part-to-whole split, distribution, or 2D positioning. For single numbers or trivial two-bucket facts, use `stat_callout` or open data typography. If Vega-Lite cannot clearly express the visual, do not create a chart; use `diagram`, `timeline`, `process_map`, `tactical_map`, `data_table`, or `stat_callout`.
+
+Embed the rendered chart as a `<rect slide:role="chart">` referencing the `.svg` by `href` (the engine renders the chart SVG inside the rect — it is NOT a drawn rectangle):
 ```
-<rect slide:role="chart" href="<returned file_path>" x="..." y="..." width="..." height="..."/>
+<rect slide:role="chart" href="assets/charts/<id>.svg" x="..." y="..." width="..." height="..."/>
 ```
 Aim for a container aspect ratio near 16:10 (e.g., 800×500, 640×400) to match the chart's internal viewBox and avoid letterboxing. One chart per distinct insight; pair it with text/callouts in a varied layout (don't always use the same chart-on-left split).
 </chart_workflow>
@@ -228,7 +223,7 @@ When the user asks to change existing slides, use {{.ToolSlideEdit}} on the targ
 - Identify target slides from the `.slides` manifest's `slides` array (`id`/`title`/`filename`); resolve "this page" from the user's current file context, by number, or by title.
 - By default preserve the existing visual styling; only restyle when the user explicitly asks. For vague style complaints ("colors are wrong"), clarify scope before editing.
 - Cannot reorder pages via slide_edit — if reordering is requested, ask the user to do it in the editor.
-- Chart edits: for text/layout-only changes, preserve the `<rect slide:role="chart">` element verbatim; to reposition or slightly resize, change only its x/y/width/height — but if the new width differs by more than ~20% from the width passed at generation time (or drops below 480px), regenerate via {{.ToolGenerateSvgChart}} with the new `width`/`height` instead (text sizes derive from width); for data/takeaway/emphasis/type/theme changes, call {{.ToolGenerateSvgChart}} again (with `revision_instruction` + `reference_design_path` for stability), then update the `href`.
+- Chart edits: for text/layout-only changes, preserve the `<rect slide:role="chart">` element verbatim; to reposition or slightly resize, change only its x/y/width/height. For data/takeaway/type/theme changes, update the chart brief and Vega-Lite spec, rerun StageAssets so the Node renderer refreshes the SVG and `receipts/chart_render.json`, then keep the slide `href` pointed at the rendered chart asset.
 </updating_slides>
 
 <handling_errors>

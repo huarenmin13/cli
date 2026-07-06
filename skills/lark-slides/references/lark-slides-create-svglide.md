@@ -25,7 +25,9 @@
 - `finish_slides_edit`：required tool prompt，stage=`validate_preview_repair`，对应最终 validate、preview、quality、semantic gate。
 - `slide_organize`：conditional tool prompt，条件为 outline 创建后的增删页或重排。
 - `compute_custom_shape_bbox`：conditional tool prompt，条件为 SVG 含 custom path。
-- `generate_svg_chart`：conditional tool prompt，条件为 `visual_type_chart`，由 `assets` stage 暴露。
+- `generate_vega_lite_chart`：conditional tool prompt，条件为 standard quantitative chart required；agent 写 `assets/charts/chart_briefs.json`、Vega-Lite specs 和 chart manifest。
+- Node chart renderer：StageAssets completion 调用的本地确定性 renderer，使用 `vega-lite` + `vega` 将 `assets/charts/specs/*.vl.json` 转成 `assets/charts/*.svg`，并写 `receipts/chart_render.json`。
+- `generate_svg_chart`：legacy/reference-only；不是本地 SVG deck 的标准 chart producer。
 - `slides_convert`：conditional tool prompt，条件为输入是 PPTX。
 - `slides_parse_template`：conditional tool prompt，条件为 PPTX/template 解析链路。
 

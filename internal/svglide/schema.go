@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -35,9 +36,12 @@ var stageOutputSchemaPaths = map[string]string{
 	"content/slide_content.json":        "schemas/slide_content.schema.json",
 	"content/slide_copy_plan.json":      "schemas/slide_copy_plan.schema.json",
 	"assets/assets_plan.json":           "schemas/assets_plan.schema.json",
+	"assets/image_candidates.json":      "schemas/image_candidates.schema.json",
 	"assets/assets_manifest.json":       "schemas/assets_manifest.schema.json",
 	"assets/asset_inventory.json":       "schemas/asset_inventory.schema.json",
+	"assets/charts/chart_briefs.json":   "schemas/chart_briefs.schema.json",
 	"assets/charts/chart_manifest.json": "schemas/chart_manifest.schema.json",
+	"receipts/chart_render.json":        "schemas/chart_render.schema.json",
 	"quality_report.json":               "schemas/quality.schema.json",
 	"anygen_semantic_report.json":       "schemas/anygen_semantic_report.schema.json",
 	"visual_receipts.json":              "schemas/visual_receipts.schema.json",
@@ -45,6 +49,9 @@ var stageOutputSchemaPaths = map[string]string{
 	"receipts/lint.json":                "schemas/lint.schema.json",
 	"receipts/preview.json":             "schemas/preview.schema.json",
 	"receipts/rendered_visual.json":     "schemas/rendered_visual.schema.json",
+	"receipts/image_usage.json":         "schemas/image_usage.schema.json",
+	"receipts/chart_usage.json":         "schemas/chart_usage.schema.json",
+	"receipts/chart_quality.json":       "schemas/chart_quality.schema.json",
 	"receipts/delivery.json":            "schemas/delivery.schema.json",
 }
 
@@ -110,7 +117,7 @@ const AnyGenSemanticReportSchema = `{
 const DeliveryReceiptSchema = `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["status", "route_profile", "orchestrator", "runtime_binding", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report", "semantic_metrics", "stage_status", "legacy_runtime_executed", "legacy_tool_ids", "legacy_artifact_matches", "core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids"],
+  "required": ["status", "route_profile", "orchestrator", "runtime_binding", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report", "semantic_metrics", "stage_status", "full_chain_evidence", "legacy_runtime_executed", "legacy_tool_ids", "legacy_artifact_matches", "core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids"],
   "properties": {
     "status": {"type": "string", "enum": ["ready", "needs_repair"]},
     "route_profile": {"type": "string"},
@@ -139,6 +146,45 @@ const DeliveryReceiptSchema = `{
     "creative_quality_report": {"type": "string"},
     "semantic_metrics": {"type": "object"},
     "stage_status": {"type": "object"},
+    "full_chain_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_json", "request", "source_manifest", "entity_resolution", "research_notes", "sources", "research_coverage", "design_brief", "visual_system", "typography_contract", "outline", "slide_content", "asset_manifest", "rendered_visual", "quality_report", "creative_quality_report", "chart_render_report", "chart_usage_report", "chart_quality_report", "delivery", "stage_receipts", "screenshot_evidence", "manual_patch"],
+      "properties": {
+        "run_json": {"type": "string"},
+        "request": {"type": "string"},
+        "source_manifest": {"type": "string"},
+        "entity_resolution": {"type": "string"},
+        "research_notes": {"type": "string"},
+        "sources": {"type": "string"},
+        "research_coverage": {"type": "string"},
+        "design_brief": {"type": "string"},
+        "visual_system": {"type": "string"},
+        "typography_contract": {"type": "string"},
+        "outline": {"type": "string"},
+        "slide_content": {"type": "string"},
+        "asset_manifest": {"type": "string"},
+        "rendered_visual": {"type": "string"},
+        "quality_report": {"type": "string"},
+        "creative_quality_report": {"type": "string"},
+        "chart_render_report": {"type": "string"},
+        "chart_usage_report": {"type": "string"},
+        "chart_quality_report": {"type": "string"},
+        "delivery": {"type": "string"},
+        "stage_receipts": {"type": "object"},
+        "screenshot_evidence": {"type": "array", "items": {"type": "string"}},
+        "manual_patch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["applied", "files"],
+          "properties": {
+            "applied": {"type": "boolean"},
+            "files": {"type": "array", "items": {"type": "string"}},
+            "reason": {"type": "string"}
+          }
+        }
+      }
+    },
     "legacy_runtime_executed": {"type": "boolean"},
     "legacy_tool_ids": {"type": "array", "items": {"type": "string"}},
     "legacy_artifact_matches": {"type": "array", "items": {"type": "string"}},
@@ -196,6 +242,12 @@ func ValidateStageOutputs(root string) error {
 		}
 	case StageAssets:
 		if err := ValidateAssetInventoryGate(safeRoot); err != nil {
+			return err
+		}
+		if err := ValidateImageCandidatesGate(safeRoot); err != nil {
+			return err
+		}
+		if err := ValidateChartBriefsGate(safeRoot); err != nil {
 			return err
 		}
 	}
@@ -524,7 +576,9 @@ func validateStageOutputSchema(safeRoot, artifactPath, schemaPath string) error 
 		return fmt.Errorf("%s: read artifact: %w", artifactPath, err)
 	}
 	schemaRaw, err := readRunRegularArtifact(safeRoot, schemaPath)
-	if err != nil {
+	if artifactPath == deliveryReceiptPath && schemaPath == stageOutputSchemaPaths[deliveryReceiptPath] {
+		schemaRaw = []byte(DeliveryReceiptSchema)
+	} else if err != nil {
 		return fmt.Errorf("%s: read schema %s: %w", artifactPath, schemaPath, err)
 	}
 	schema, err := decodeLiteJSONSchema(schemaRaw)
@@ -590,6 +644,11 @@ func validateJSONValue(schema liteJSONSchema, value any, fieldPath string) error
 	case "integer":
 		if !isJSONInteger(value) {
 			return fmt.Errorf("field %s expected integer, got %s", displayFieldPath(fieldPath), jsonValueType(value))
+		}
+		return nil
+	case "number":
+		if !isJSONNumber(value) {
+			return fmt.Errorf("field %s expected number, got %s", displayFieldPath(fieldPath), jsonValueType(value))
 		}
 		return nil
 	case "boolean":
@@ -680,6 +739,18 @@ func isJSONInteger(value any) bool {
 	case json.Number:
 		return isCanonicalJSONInteger(typed.String())
 	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+		return true
+	default:
+		return false
+	}
+}
+
+func isJSONNumber(value any) bool {
+	switch typed := value.(type) {
+	case json.Number:
+		_, err := strconv.ParseFloat(typed.String(), 64)
+		return err == nil
+	case float64:
 		return true
 	default:
 		return false

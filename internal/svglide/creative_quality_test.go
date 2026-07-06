@@ -75,6 +75,35 @@ func TestCheckCreativeQualityRejectsDataVisualWithoutNumericEvidence(t *testing.
 	}
 }
 
+func TestCreativeQualityDetectsDefaultCardTextContainer(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteCreativeQualityBaseDeck(t, "quiet_synthesis", "editorial_text", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<rect width="960" height="540" fill="#f7f6f1"/><rect x="64" y="70" width="360" height="320" rx="24" fill="#101319"/><text x="96" y="140" fill="#fff">Athlete story</text><text x="96" y="202" fill="#fff">Every major claim is simply placed inside a rounded card.</text></svg>`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"quiet_synthesis","layout_archetype":"single_claim_poster","layout_signature":"editorial_text","thumbnail_job":"text card","visual_center":"main text block","topic_fit_claim":"introduces the sports topic","information_density_plan":"one main claim and supporting explanation","page_difference_from_previous":"opening page with a text-led composition","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"plain text card for a simple claim","data_visual_rationale":"","source_evidence":["official athlete bio"],"fusion_spec":{"enabled":false},"qa_expectations":["use open editorial text when no panel is needed"]}]}`)
+
+	report, err := CheckCreativeQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" || report.Metrics.DefaultCardTextContainerCount != 1 || !creativeIssueCodesContain(report.Issues, "svglide.creative.default_card_text_container") {
+		t.Fatalf("report = %+v, want default_card_text_container failure", report)
+	}
+}
+
+func TestCreativeQualityDetectsTopicTypographyMismatch(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteCreativeQualityBaseDeck(t, "character_product_focus", "sports_profile", creativeQualityGoodSVG())
+	mustWriteTestFile(t, "demo/brief/typography_contract.json", `{"profile":"sports_editorial","roles":{"display":{"family":"Noto Serif CJK SC","weight":"700","size":"42","usage":"cover title"},"body":{"family":"Noto Sans CJK SC","weight":"400","size":"18","usage":"body copy"},"number":{"family":"Roboto Mono","weight":"700","size":"34","usage":"scores"},"label":{"family":"PingFang SC","weight":"600","size":"13","usage":"labels"}},"rules":["sports deck typography should carry athletic score identity"]}`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"character_product_focus","layout_archetype":"annotated_image","layout_signature":"sports_profile","thumbnail_job":"sports profile","visual_center":"athlete profile and opening claim","topic_fit_claim":"matches the sports profile topic","information_density_plan":"one claim plus athlete context","page_difference_from_previous":"opening page","primary_asset":"assets/images/athlete.png","asset_role":"sports topic anchor","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"sports editorial profile","data_visual_rationale":"","source_evidence":["league profile"],"fusion_spec":{"enabled":false},"qa_expectations":["typography carries sports identity"]}]}`)
+
+	report, err := CheckCreativeQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" || report.Metrics.TopicTypographyMismatchCount != 1 || !creativeIssueCodesContain(report.Issues, "svglide.typography.identity.profile_mismatch") {
+		t.Fatalf("report = %+v, want typography profile mismatch failure", report)
+	}
+}
+
 func TestCheckCreativeQualityRejectsRepeatedLayoutArchetype(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteRepeatedArchetypeDeck(t)

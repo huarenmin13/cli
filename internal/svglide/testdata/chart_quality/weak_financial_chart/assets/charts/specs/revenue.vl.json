@@ -1,0 +1,22 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "quarter",
+      "type": "nominal",
+      "axis": null
+    },
+    "y": {
+      "field": "revenue",
+      "type": "quantitative",
+      "axis": null
+    }
+  },
+  "data": {
+    "values": [
+      {"quarter": "Q1", "revenue": 12},
+      {"quarter": "Q2", "revenue": 14}
+    ]
+  }
+}

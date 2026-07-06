@@ -160,10 +160,12 @@ func TestCompleteCurrentStageRejectsFailedValidatePreviewRepairReceipts(t *testi
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"failed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"failed","missing_asset_count":0,"slides":[{"path":"slides/01.svg","rendered":false}]}`)
 	mustWritePassedRenderedVisualForTest(t)
+	mustWritePassedImageUsageForTest(t)
 	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":1,"assets":0,"slides_with_source_refs":1,"slides_with_visuals":0,"slides_with_image_assets":0,"image_coverage_bp":0,"unique_image_assets":0,"official_image_assets":0}}`)
 	mustWritePassedSemanticReportForTest(t)
 	mustWriteBasicVisualReceiptsForTest(t)
 	mustWritePassedCreativeReportForTest(t)
+	mustWritePassedChartQualityForTest(t)
 	mustWriteDeliveryReceiptForTest(t)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
@@ -193,10 +195,14 @@ func TestCompleteCurrentStageRejectsFailedQualityReport(t *testing.T) {
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"passed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"passed","missing_asset_count":0,"slides":[{"path":"slides/01.svg","rendered":true}]}`)
 	mustWritePassedRenderedVisualForTest(t)
+	mustWritePassedImageUsageForTest(t)
+	mustWritePassedChartRenderForTest(t)
+	mustWritePassedChartUsageForTest(t)
 	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"failed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":0,"assets":0,"slides_with_source_refs":1,"slides_with_visuals":0,"slides_with_image_assets":0,"image_coverage_bp":0,"unique_image_assets":0,"official_image_assets":0}}`)
 	mustWritePassedSemanticReportForTest(t)
 	mustWriteBasicVisualReceiptsForTest(t)
 	mustWritePassedCreativeReportForTest(t)
+	mustWritePassedChartQualityForTest(t)
 	mustWriteDeliveryReceiptForTest(t)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
@@ -233,10 +239,14 @@ func TestCompleteFinalStageRecomputesSemanticReport(t *testing.T) {
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"passed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"passed","missing_asset_count":0,"slides":[{"path":"slides/01.svg","rendered":true}]}`)
 	mustWritePassedRenderedVisualForTest(t)
+	mustWritePassedImageUsageForTest(t)
+	mustWritePassedChartRenderForTest(t)
+	mustWritePassedChartUsageForTest(t)
 	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":0,"assets":1,"slides_with_source_refs":1,"slides_with_visuals":1,"slides_with_image_assets":1,"image_coverage_bp":10000,"unique_image_assets":1,"official_image_assets":0}}`)
 	mustWritePassedSemanticReportForTest(t)
 	mustWriteBasicVisualReceiptsForTest(t)
 	mustWritePassedCreativeReportForTest(t)
+	mustWritePassedChartQualityForTest(t)
 	mustWriteDeliveryReceiptForTest(t)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
@@ -276,6 +286,109 @@ func TestCompleteFinalStageRegeneratesDeliveryReceipt(t *testing.T) {
 	}
 	if delivery.StageStatus[StageValidatePreviewRepair] != StatusDone {
 		t.Fatalf("delivery stage_status = %+v, want final stage done", delivery.StageStatus)
+	}
+}
+
+func TestDeliveryRejectsMissingFullChainEvidence(t *testing.T) {
+	writePassingFinalStageArtifactsForTest(t)
+
+	if _, err := CompleteCurrentStage("demo"); err != nil {
+		t.Fatalf("final completion should write needs_repair delivery for incomplete chain: %v", err)
+	}
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var delivery DeliveryReceipt
+	if err := json.Unmarshal(raw, &delivery); err != nil {
+		t.Fatal(err)
+	}
+	if delivery.Status != StatusNeedsRepair {
+		t.Fatalf("delivery status = %q, want %q for missing full-chain receipts: %+v", delivery.Status, StatusNeedsRepair, delivery.FullChainEvidence)
+	}
+	if delivery.FullChainEvidence.RunJSON != "run.json" || delivery.FullChainEvidence.QualityReport != "quality_report.json" || delivery.FullChainEvidence.RenderedVisual != renderedVisualReceiptPath {
+		t.Fatalf("delivery full_chain_evidence missing core artifact paths: %+v", delivery.FullChainEvidence)
+	}
+	if delivery.FullChainEvidence.StageReceipts[StageResearch] != "" {
+		t.Fatalf("research receipt evidence = %q, want empty missing receipt marker", delivery.FullChainEvidence.StageReceipts[StageResearch])
+	}
+}
+
+func TestDeliveryMarksManualPatchEvidence(t *testing.T) {
+	writePassingFinalStageArtifactsForTest(t)
+	mustWriteFullChainStageReceiptsForTest(t)
+	mustWriteFullChainEvidenceArtifactsForTest(t)
+	mustWriteTestFile(t, "demo/receipts/manual_patch.json", `{"applied":true,"files":["slides/01.svg","assets/assets_manifest.json"],"reason":"manual final polish"}`)
+
+	if _, err := CompleteCurrentStage("demo"); err != nil {
+		t.Fatalf("final completion should accept explicitly marked manual patch evidence: %v", err)
+	}
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var delivery DeliveryReceipt
+	if err := json.Unmarshal(raw, &delivery); err != nil {
+		t.Fatal(err)
+	}
+	if delivery.Status != StatusReady {
+		t.Fatalf("delivery status = %q, want %q with complete chain and marked manual patch", delivery.Status, StatusReady)
+	}
+	manual := delivery.FullChainEvidence.ManualPatch
+	if !manual.Applied || len(manual.Files) != 2 || manual.Files[0] != "assets/assets_manifest.json" || manual.Files[1] != "slides/01.svg" || manual.Reason != "manual final polish" {
+		t.Fatalf("manual_patch evidence = %+v, want applied files and reason", manual)
+	}
+}
+
+func TestDeliveryRejectsMissingScreenshotEvidence(t *testing.T) {
+	writePassingFinalStageArtifactsForTest(t)
+	mustWriteFullChainStageReceiptsForTest(t)
+	mustWriteFullChainEvidenceArtifactsForTest(t)
+	if err := os.Remove(filepath.Join("demo", "contact-sheet.png")); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := CompleteCurrentStage("demo"); err != nil {
+		t.Fatalf("final completion should write needs_repair delivery for missing screenshot evidence: %v", err)
+	}
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var delivery DeliveryReceipt
+	if err := json.Unmarshal(raw, &delivery); err != nil {
+		t.Fatal(err)
+	}
+	if delivery.Status != StatusNeedsRepair {
+		t.Fatalf("delivery status = %q, want %q without screenshot evidence: %+v", delivery.Status, StatusNeedsRepair, delivery.FullChainEvidence)
+	}
+	if len(delivery.FullChainEvidence.ScreenshotEvidence) != 0 {
+		t.Fatalf("screenshot evidence = %+v, want empty", delivery.FullChainEvidence.ScreenshotEvidence)
+	}
+}
+
+func TestDeliveryRejectsInvalidStageReceiptEvidence(t *testing.T) {
+	writePassingFinalStageArtifactsForTest(t)
+	mustWriteFullChainStageReceiptsForTest(t)
+	mustWriteFullChainEvidenceArtifactsForTest(t)
+	mustWriteTestFile(t, "demo/receipts/research.json", `{"stage":"wrong_stage","status":"done"}`)
+
+	if _, err := CompleteCurrentStage("demo"); err != nil {
+		t.Fatalf("final completion should write needs_repair delivery for invalid stage receipt evidence: %v", err)
+	}
+	raw, err := os.ReadFile(filepath.Join("demo", "receipts", "delivery.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var delivery DeliveryReceipt
+	if err := json.Unmarshal(raw, &delivery); err != nil {
+		t.Fatal(err)
+	}
+	if delivery.Status != StatusNeedsRepair {
+		t.Fatalf("delivery status = %q, want %q for invalid stage receipt evidence: %+v", delivery.Status, StatusNeedsRepair, delivery.FullChainEvidence)
+	}
+	if delivery.FullChainEvidence.StageReceipts[StageResearch] != "receipts/research.json" {
+		t.Fatalf("research receipt path = %q, want recorded but invalid evidence path", delivery.FullChainEvidence.StageReceipts[StageResearch])
 	}
 }
 
@@ -708,12 +821,44 @@ func mustWritePassedSemanticReportForTest(t *testing.T) {
 
 func mustWritePassedRenderedVisualForTest(t *testing.T) {
 	t.Helper()
-	mustWriteTestFile(t, "demo/receipts/rendered_visual.json", `{"status":"passed","metrics":{"slides":1,"issue_count":0,"out_of_canvas_count":0,"text_overflow_count":0,"text_collision_count":0,"unsafe_edge_count":0},"issues":[],"slides":[{"path":"slides/01.svg","status":"passed","issue_count":0}]}`)
+	mustWriteTestFile(t, "demo/receipts/rendered_visual.json", `{"status":"passed","metrics":{"slides":1,"issue_count":0,"out_of_canvas_count":0,"text_overflow_count":0,"text_collision_count":0,"unsafe_edge_count":0,"container_text_overflow_count":0,"container_padding_risk_count":0,"foreign_object_overlap_count":0,"tight_line_height_count":0,"bold_overuse_count":0,"small_text_padding_risk_count":0},"issues":[],"slides":[{"path":"slides/01.svg","status":"passed","issue_count":0}]}`)
+}
+
+func mustWritePassedImageUsageForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, filepath.Join("demo", imageUsageReportPath), `{"status":"passed","slides":[{"slide_id":"s1","assets":[]}],"issues":[]}`)
+}
+
+func mustWritePassedChartQualityForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/receipts/chart_quality.json", `{"status":"passed","metrics":{"charts":0,"vega_lite_charts":0,"missing_axis_count":0,"missing_unit_count":0,"missing_source_count":0,"missing_direct_label_count":0,"decorative_chart_count":0},"issues":[],"charts":[]}`)
+}
+
+func mustWritePassedChartRenderForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/receipts/chart_render.json", `{"status":"passed","renderer":"node-vega-lite","charts":[],"issues":[]}`)
+}
+
+func mustWritePassedChartUsageForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/receipts/chart_usage.json", `{"status":"passed","charts":[],"issues":[]}`)
+}
+
+func mustWriteNoChartAssetsForTest(t *testing.T) {
+	t.Helper()
+	if _, err := os.Stat(filepath.Join("demo", "content", "slide_content.json")); os.IsNotExist(err) {
+		mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"No chart fixture","source_refs":[],"visuals":[{"id":"none-s1","type":"none","instruction":"No chart"}]}]}`)
+	} else if err != nil {
+		t.Fatal(err)
+	}
+	mustWriteTestFile(t, "demo/assets/charts/chart_briefs.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"charts":[]}`)
+	mustWriteTestFile(t, "demo/assets/charts/chart_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"renderer":"none","charts":[]}`)
+	mustWritePassedChartRenderForTest(t)
 }
 
 func mustWriteBasicVisualReceiptsForTest(t *testing.T) {
 	t.Helper()
-	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"quiet_synthesis","layout_archetype":"poster_stat_lockup","layout_signature":"single_claim_poster","thumbnail_job":"readable title","visual_center":"title block","topic_fit_claim":"matches demo topic","information_density_plan":"one claim with support","page_difference_from_previous":"opening page","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"quiet synthesis","data_visual_rationale":"","source_evidence":["web1 supports claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"quiet_synthesis","layout_archetype":"poster_stat_lockup","layout_signature":"single_claim_poster","thumbnail_job":"readable title","visual_center":"title block","topic_fit_claim":"matches demo topic","information_density_plan":"one claim with support","page_difference_from_previous":"opening page","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"quiet synthesis","data_visual_rationale":"","source_evidence":["web1 supports claim"],"container_fit_plan":"open grid text with no forced card","container_decision":"no card needed for simple claim","text_carrier":"open_grid","typography_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"shape_language":"minimal","card_budget":{"card_count":0,"why_cards_are_needed":"none"},"chart_receipt":{"chart_id":"","renderer":"none","unit":"","source":"","why_chart_is_needed":""},"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
 }
 
 func mustWritePassedCreativeReportForTest(t *testing.T) {
@@ -723,7 +868,36 @@ func mustWritePassedCreativeReportForTest(t *testing.T) {
 
 func mustWriteDeliveryReceiptForTest(t *testing.T) {
 	t.Helper()
-	mustWriteTestFile(t, "demo/receipts/delivery.json", `{"status":"ready","route_profile":"local_svg_deck","orchestrator":"mode_system_prompt_svg","runtime_binding":"svglide_local_runtime_binding","deck":"outline/deck.json","slides_dir":"slides","slides":["slides/01.svg"],"preview":{"path":"preview.html","status":"passed","missing_asset_count":0},"quality_report":"quality_report.json","anygen_semantic_report":"anygen_semantic_report.json","visual_receipts":"visual_receipts.json","creative_quality_report":"creative_quality_report.json","semantic_metrics":{"slide_count":1,"slides_with_slide_role":1,"image_count":0,"text_count":1,"note_count":0,"source_ref_count":0,"missing_asset_count":0,"slides_without_source_refs":0,"visible_leak_count":0,"font_token_count":4,"missing_font_token_count":0},"stage_status":{"validate_preview_repair":"pending"},"legacy_runtime_executed":false,"legacy_tool_ids":[],"legacy_artifact_matches":[],"core_prompt_ids":["mode_system_prompt_svg","svg_reference","svglide_local_runtime_binding"],"observed_prompt_ids":[],"blocked_prompt_ids":["slides_convert","slides_parse_template"]}`)
+	mustWriteTestFile(t, "demo/receipts/delivery.json", `{"status":"ready","route_profile":"local_svg_deck","orchestrator":"mode_system_prompt_svg","runtime_binding":"svglide_local_runtime_binding","deck":"outline/deck.json","slides_dir":"slides","slides":["slides/01.svg"],"preview":{"path":"preview.html","status":"passed","missing_asset_count":0},"quality_report":"quality_report.json","anygen_semantic_report":"anygen_semantic_report.json","visual_receipts":"visual_receipts.json","creative_quality_report":"creative_quality_report.json","semantic_metrics":{"slide_count":1,"slides_with_slide_role":1,"image_count":0,"text_count":1,"note_count":0,"source_ref_count":0,"missing_asset_count":0,"slides_without_source_refs":0,"visible_leak_count":0,"font_token_count":4,"missing_font_token_count":0},"stage_status":{"validate_preview_repair":"pending"},"full_chain_evidence":{"run_json":"run.json","request":"request/request.json","source_manifest":"request/source_manifest.json","entity_resolution":"request/entity_resolution.json","research_notes":"research/research_notes.md","sources":"research/sources.json","research_coverage":"research/research_coverage.json","design_brief":"brief/design_brief.json","visual_system":"brief/visual_system.json","typography_contract":"brief/typography_contract.json","outline":"outline/deck.json","slide_content":"content/slide_content.json","asset_manifest":"assets/assets_manifest.json","rendered_visual":"receipts/rendered_visual.json","quality_report":"quality_report.json","creative_quality_report":"creative_quality_report.json","chart_render_report":"receipts/chart_render.json","chart_usage_report":"receipts/chart_usage.json","chart_quality_report":"receipts/chart_quality.json","delivery":"receipts/delivery.json","stage_receipts":{},"screenshot_evidence":["contact-sheet.png"],"manual_patch":{"applied":false,"files":[]}},"legacy_runtime_executed":false,"legacy_tool_ids":[],"legacy_artifact_matches":[],"core_prompt_ids":["mode_system_prompt_svg","svg_reference","svglide_local_runtime_binding"],"observed_prompt_ids":[],"blocked_prompt_ids":["slides_convert","slides_parse_template"]}`)
+}
+
+func mustWriteFullChainStageReceiptsForTest(t *testing.T) {
+	t.Helper()
+	for _, stage := range DefaultStages() {
+		if stage.Name == StageValidatePreviewRepair {
+			continue
+		}
+		mustWriteTestFile(t, filepath.Join("demo", stage.Receipt), `{"stage":"`+stage.Name+`","status":"done"}`)
+	}
+}
+
+func mustWriteFullChainEvidenceArtifactsForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("topic", 5000, "medium", "resolved", ""))
+	mustWriteTestFile(t, "demo/research/research_notes.md", "# research\n")
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/research/research_coverage.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"entity":{"name":"给阿嬷的情书","type":"topic"},"queries":[{"query":"给阿嬷的情书","purpose":"context"}],"sources":[{"id":"web1","title":"Web Source","url":"https://example.com/page","retrieved_at":"2026-07-04T00:00:00Z","usage":"context","status":"retrieved"}],"coverage":{"identity_confirmed":false,"has_reliable_source":true,"minimum_source_count_met":true,"source_count":1,"topic_only_rationale":"开放主题测试链路需要研究材料确定内容边界。"}}`)
+	if _, err := os.Stat(filepath.Join("demo", "brief", "design_brief.json")); os.IsNotExist(err) {
+		mustWriteTestFile(t, "demo/brief/design_brief.json", `{"narrative_spine":"A to B","depth":"medium","tone":"clear"}`)
+	}
+	if _, err := os.Stat(filepath.Join("demo", "brief", "visual_system.json")); os.IsNotExist(err) {
+		mustWriteTestFile(t, "demo/brief/visual_system.json", `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"editorial report"}`)
+	}
+	mustWriteTestFile(t, "demo/brief/typography_contract.json", `{"prompt_contract":`+promptContractJSON(StageDesignBrief)+`,"profile":"editorial_report","roles":{"display":{"family":"Noto Serif CJK SC","weight":"700","size":"42","usage":"cover and section titles"},"body":{"family":"Noto Sans CJK SC","weight":"400","size":"18","usage":"body copy"},"number":{"family":"Roboto Mono","weight":"700","size":"34","usage":"figures"},"label":{"family":"PingFang SC","weight":"600","size":"13","usage":"labels and captions"}},"rules":["Use concrete font roles; do not fall back to generic browser stacks."]}`)
+	mustWritePassedChartRenderForTest(t)
+	mustWritePassedChartUsageForTest(t)
+	mustWritePassedChartQualityForTest(t)
+	mustWriteTestFile(t, "demo/contact-sheet.png", "png")
 }
 
 func writePassingFinalStageArtifactsForTest(t *testing.T) {
@@ -738,10 +912,14 @@ func writePassingFinalStageArtifactsForTest(t *testing.T) {
 	mustWriteTestFile(t, "demo/receipts/lint.json", `{"status":"passed","issues":[]}`)
 	mustWriteTestFile(t, "demo/receipts/preview.json", `{"status":"passed","missing_asset_count":0,"slides":[{"path":"slides/01.svg","rendered":true}]}`)
 	mustWritePassedRenderedVisualForTest(t)
+	mustWritePassedImageUsageForTest(t)
+	mustWritePassedChartUsageForTest(t)
 	mustWriteTestFile(t, "demo/quality_report.json", `{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":1,"assets":0,"slides_with_source_refs":1,"slides_with_visuals":0,"slides_with_image_assets":0,"image_coverage_bp":0,"unique_image_assets":0,"official_image_assets":0}}`)
 	mustWritePassedSemanticReportForTest(t)
 	mustWriteBasicVisualReceiptsForTest(t)
 	mustWritePassedCreativeReportForTest(t)
+	mustWritePassedChartRenderForTest(t)
+	mustWritePassedChartQualityForTest(t)
 	mustWriteTestFile(t, "demo/repair_queue.md", "# repair\n")
 	mustWriteTestFile(t, "demo/preview.html", "<!doctype html><title>preview</title>")
 	writePromptContextReceiptWithoutToolCallsForTest(t, StageValidatePreviewRepair)

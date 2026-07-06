@@ -470,6 +470,11 @@ func initSVGlideShortcutRunWithAuthorInputs(t *testing.T) {
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "content", "slide_content.json"), `{"slides":[{"id":"cover","content":"Point A\nPoint B","notes":"Speaker note","source_refs":["web1"],"visuals":[{"id":"none-cover","type":"none","instruction":"Text-only"}]}]}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_plan.json"), `{"assets":[],"no_image_reason":"Text-only deck; no image assets required"}`)
 	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "assets_manifest.json"), `{"assets":[],"no_image_reason":"Text-only deck; no image assets required"}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "image_candidates.json"), `{"requires_real_images":false,"no_image_reason":"Text-only deck; no image assets required","candidates":[]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "asset_inventory.json"), `{"items":[]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "charts", "chart_briefs.json"), `{"charts":[]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "charts", "chart_manifest.json"), `{"renderer":"none","charts":[]}`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "receipts", "chart_render.json"), `{"status":"passed","renderer":"node-vega-lite","charts":[],"issues":[]}`)
 }
 
 func initSVGlideShortcutRun(t *testing.T) string {

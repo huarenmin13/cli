@@ -42,6 +42,7 @@ func TestRepairRunAuthorsMissingSlidesAndWritesFinalReceipt(t *testing.T) {
 		"preview.html",
 		"receipts/lint.json",
 		"receipts/preview.json",
+		"receipts/chart_quality.json",
 		"quality_report.json",
 		"creative_quality_report.json",
 		"visual_receipts.json",
@@ -78,6 +79,8 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
 		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
 	)
+	mustWriteFullChainStageReceiptsForTest(t)
+	mustWriteFullChainEvidenceArtifactsForTest(t)
 
 	report, err := RepairRun("demo")
 	if err != nil {
@@ -123,6 +126,14 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 		if delivery[key] == "" || delivery[key] == nil {
 			t.Fatalf("delivery receipt missing %s: %+v", key, delivery)
 		}
+	}
+	fullChain, ok := delivery["full_chain_evidence"].(map[string]any)
+	if !ok || fullChain["chart_render_report"] != chartRenderReceiptPath || fullChain["chart_usage_report"] != chartUsageReceiptPath || fullChain["chart_quality_report"] != chartQualityReportPath {
+		t.Fatalf("delivery full_chain_evidence missing chart reports: %+v", delivery["full_chain_evidence"])
+	}
+	screenshots, ok := fullChain["screenshot_evidence"].([]any)
+	if !ok || len(screenshots) == 0 {
+		t.Fatalf("delivery full_chain_evidence missing screenshots: %+v", fullChain)
 	}
 	slides, ok := delivery["slides"].([]any)
 	if !ok || len(slides) != 1 || slides[0] != "slides/01.svg" {

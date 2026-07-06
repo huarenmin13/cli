@@ -277,6 +277,8 @@ func TestValidateStageOutputsRejectsInvalidQualityReportSchema(t *testing.T) {
 		t.Fatal(err)
 	}
 	mustWritePassedRenderedVisualForTest(t)
+	mustWritePassedImageUsageForTest(t)
+	mustWritePassedChartUsageForTest(t)
 	if err := os.WriteFile(filepath.Join("demo", "quality_report.json"), []byte(`{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":0,"assets":0,"slides_with_source_refs":1}}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
@@ -287,6 +289,19 @@ func TestValidateStageOutputsRejectsInvalidQualityReportSchema(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "quality_report.json") {
 		t.Fatalf("error = %v, want path quality_report.json", err)
+	}
+}
+
+func TestValidateStageOutputsRejectsVisualReceiptsMissingContainerContract(t *testing.T) {
+	writePassingFinalStageArtifactsForTest(t)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"quiet_synthesis","layout_archetype":"poster_stat_lockup","layout_signature":"single_claim_poster","thumbnail_job":"readable title","visual_center":"title block","topic_fit_claim":"matches demo topic","information_density_plan":"one claim with support","page_difference_from_previous":"opening page","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"quiet synthesis","data_visual_rationale":"","source_evidence":["web1 supports claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
+
+	err := ValidateStageOutputs("demo")
+	if err == nil {
+		t.Fatal("expected visual receipts schema validation error")
+	}
+	if !strings.Contains(err.Error(), "visual_receipts.json") || !strings.Contains(err.Error(), "container_fit_plan") {
+		t.Fatalf("error = %v, want visual_receipts.json and container_fit_plan", err)
 	}
 }
 
@@ -353,6 +368,10 @@ func TestValidateStageOutputsRejectsAssetsMissingStatus(t *testing.T) {
 	if err := os.WriteFile(filepath.Join("demo", "assets", "assets_plan.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","type":"image","path":"https://example.com/a.png","usage":"hero image"}]}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	mustWriteTestFile(t, "demo/assets/image_candidates.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"requires_real_images":false,"no_image_reason":"schema failure fixture","candidates":[]}`)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[]}`)
+	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"items":[]}`)
+	mustWriteNoChartAssetsForTest(t)
 
 	err := ValidateStageOutputs("demo")
 	if err == nil {
@@ -381,10 +400,13 @@ func TestValidateStageOutputsAcceptsExperimentAssetPaths(t *testing.T) {
 			if err := os.WriteFile(filepath.Join("demo", "assets", "assets_manifest.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"a1","slide_id":"s1","kind":"image","local_path":"`+tt.path+`","usage":"hero image","status":"ready"}]}`), 0o644); err != nil {
 				t.Fatal(err)
 			}
-			if err := os.WriteFile(filepath.Join("demo", "assets", "asset_inventory.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"items":[{"id":"a1","path":"`+tt.path+`","source_url":"","width":960,"height":540,"semantic_type":"image","large_ok":true,"full_bleed_ok":true,"recommended_use":"hero image","avoid_reason":""}]}`), 0o644); err != nil {
+			if err := os.WriteFile(filepath.Join("demo", "assets", "image_candidates.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"requires_real_images":false,"candidates":[{"id":"cand-a1","query":"hero image","source_url":"`+tt.path+`","source_class":"user_provided","format":"png","width":960,"height":540,"has_alpha":true,"asset_role":"hero_photo","fit_role":"split_panel","local_path":"`+tt.path+`","score_bp":9000,"selected":true,"selection_reason":"test fixture selected image","format_exception_reason":"","rejection_reason":""}]}`), 0o644); err != nil {
 				t.Fatal(err)
 			}
-			mustWriteTestFile(t, "demo/assets/charts/chart_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"renderer":"none","charts":[]}`)
+			if err := os.WriteFile(filepath.Join("demo", "assets", "asset_inventory.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"items":[{"id":"a1","path":"`+tt.path+`","source_url":"","width":960,"height":540,"semantic_type":"image","large_ok":true,"full_bleed_ok":true,"recommended_use":"hero image","avoid_reason":"","format":"png","has_alpha":true,"asset_role":"hero_photo","fit_role":"split_panel","candidate_id":"cand-a1","selection_reason":"test fixture selected image","format_exception_reason":""}]}`), 0o644); err != nil {
+				t.Fatal(err)
+			}
+			mustWriteNoChartAssetsForTest(t)
 
 			err := ValidateStageOutputs("demo")
 			if err != nil {
@@ -443,8 +465,11 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 		"slide_copy_plan.schema.json",
 		"assets_plan.schema.json",
 		"assets_manifest.schema.json",
+		"image_candidates.schema.json",
 		"asset_inventory.schema.json",
 		"chart_manifest.schema.json",
+		"image_usage.schema.json",
+		"chart_quality.schema.json",
 		"typography_contract.schema.json",
 		"quality.schema.json",
 	} {
@@ -485,11 +510,20 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	if !strings.Contains(schemas["assets_manifest.schema.json"], `"local_path"`) || !strings.Contains(schemas["assets_manifest.schema.json"], `"source_url"`) {
 		t.Fatalf("assets manifest schema missing local_path/source_url: %s", schemas["assets_manifest.schema.json"])
 	}
-	if !strings.Contains(schemas["asset_inventory.schema.json"], `"large_ok"`) || !strings.Contains(schemas["asset_inventory.schema.json"], `"full_bleed_ok"`) {
+	if !strings.Contains(schemas["image_candidates.schema.json"], `"query"`) || !strings.Contains(schemas["image_candidates.schema.json"], `"format_exception_reason"`) {
+		t.Fatalf("image candidates schema missing query/format exception fields: %s", schemas["image_candidates.schema.json"])
+	}
+	if !strings.Contains(schemas["asset_inventory.schema.json"], `"large_ok"`) || !strings.Contains(schemas["asset_inventory.schema.json"], `"candidate_id"`) {
 		t.Fatalf("asset inventory schema missing image suitability fields: %s", schemas["asset_inventory.schema.json"])
+	}
+	if !strings.Contains(schemas["image_usage.schema.json"], `"area_bp"`) || !strings.Contains(schemas["image_usage.schema.json"], `"usage_status"`) {
+		t.Fatalf("image usage schema missing usage metrics: %s", schemas["image_usage.schema.json"])
 	}
 	if !strings.Contains(schemas["chart_manifest.schema.json"], `"vega-lite"`) || !strings.Contains(schemas["chart_manifest.schema.json"], `"spec_path"`) {
 		t.Fatalf("chart manifest schema missing Vega-Lite fields: %s", schemas["chart_manifest.schema.json"])
+	}
+	if !strings.Contains(schemas["chart_quality.schema.json"], `"missing_unit_count"`) || !strings.Contains(schemas["chart_quality.schema.json"], `"decorative_chart_count"`) {
+		t.Fatalf("chart quality schema missing core metrics: %s", schemas["chart_quality.schema.json"])
 	}
 	if !strings.Contains(schemas["typography_contract.schema.json"], `"display"`) || !strings.Contains(schemas["typography_contract.schema.json"], `"number"`) {
 		t.Fatalf("typography contract schema missing font roles: %s", schemas["typography_contract.schema.json"])
@@ -502,7 +536,7 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	if !strings.Contains(schemas["quality.schema.json"], `"metrics"`) {
 		t.Fatalf("quality schema missing metrics: %s", schemas["quality.schema.json"])
 	}
-	for _, want := range []string{`"strong_cover"`, `"evidence_page_max_visuals"`, `"repeated_layout_ratio_bp"`, `"visual_role_coverage_bp"`, `"real_image_assets"`, `"vega_lite_spec_assets"`, `"typography_contract_present"`} {
+	for _, want := range []string{`"strong_cover"`, `"evidence_page_max_visuals"`, `"repeated_layout_ratio_bp"`, `"visual_role_coverage_bp"`, `"real_image_assets"`, `"vega_lite_spec_assets"`, `"typography_contract_present"`, `"image_role_format_issue_count"`, `"image_usage_issue_count"`} {
 		if !strings.Contains(schemas["quality.schema.json"], want) {
 			t.Fatalf("quality schema missing %s: %s", want, schemas["quality.schema.json"])
 		}
@@ -607,10 +641,18 @@ func TestCompleteSlideContentRejectsEmptySourceRefs(t *testing.T) {
 func TestCompleteAssetsRejectsManifestAssetMissingInventoryEntry(t *testing.T) {
 	initStatusTestRun(t)
 	setCurrentStageForStatusTest(t, StageAssets)
+	mustWriteTestFile(t, "demo/request/request.json", `{"title":"Demo","input":"source.md","pages":1}`)
+	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("topic", 5000, "medium", "resolved", ""))
+	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"identity","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"prompt_contract":`+promptContractJSON(StageDesignBrief)+`,"system":{"name":"demo","theme":"editorial","palette":["#000000","#ffffff"],"type_scale":{"title":48},"layout_principles":["clear hierarchy"]}}`)
+	mustWriteTestFile(t, "demo/outline/deck.json", validSchemaDeckJSON("slides/01.svg"))
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Claim","source_refs":["s1"],"visuals":[{"id":"v1","type":"image","instruction":"Use hero"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero","status":"ready"}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"assets":[{"id":"hero","slide_id":"s1","kind":"image","local_path":"assets/images/hero.png","usage":"Hero","status":"ready"}]}`)
+	mustWriteTestFile(t, "demo/assets/image_candidates.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"requires_real_images":true,"candidates":[{"id":"cand-hero","query":"hero photo","source_url":"https://example.com/hero.png","source_class":"user_provided","format":"png","width":1200,"height":800,"has_alpha":false,"asset_role":"hero_photo","fit_role":"full_bleed","local_path":"assets/images/hero.png","score_bp":9000,"selected":true,"selection_reason":"user-provided hero image","format_exception_reason":"","rejection_reason":""}]}`)
 	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"items":[]}`)
-	writePromptContextReceiptWithoutToolCallsForTest(t, StageAssets)
+	writePromptContextReceiptForTest(t, StageAssets, map[string]string{})
+	writeToolCallReceiptForTest(t, StageAssets, "resolve_image_assets")
 
 	_, err := CompleteCurrentStage("demo")
 	if err == nil {

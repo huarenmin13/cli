@@ -36,6 +36,7 @@ type DeliveryReceipt struct {
 	CreativeQualityReport string                  `json:"creative_quality_report"`
 	SemanticMetrics       SemanticMetrics         `json:"semantic_metrics"`
 	StageStatus           map[string]string       `json:"stage_status"`
+	FullChainEvidence     FullChainEvidence       `json:"full_chain_evidence"`
 	LegacyRuntimeExecuted bool                    `json:"legacy_runtime_executed"`
 	LegacyToolIDs         []string                `json:"legacy_tool_ids"`
 	LegacyArtifactMatches []string                `json:"legacy_artifact_matches"`
@@ -48,6 +49,38 @@ type DeliveryPreviewEvidence struct {
 	Path              string `json:"path"`
 	Status            string `json:"status"`
 	MissingAssetCount int    `json:"missing_asset_count"`
+}
+
+type FullChainEvidence struct {
+	RunJSON               string            `json:"run_json"`
+	Request               string            `json:"request"`
+	SourceManifest        string            `json:"source_manifest"`
+	EntityResolution      string            `json:"entity_resolution"`
+	ResearchNotes         string            `json:"research_notes"`
+	Sources               string            `json:"sources"`
+	ResearchCoverage      string            `json:"research_coverage"`
+	DesignBrief           string            `json:"design_brief"`
+	VisualSystem          string            `json:"visual_system"`
+	TypographyContract    string            `json:"typography_contract"`
+	Outline               string            `json:"outline"`
+	SlideContent          string            `json:"slide_content"`
+	AssetManifest         string            `json:"asset_manifest"`
+	RenderedVisual        string            `json:"rendered_visual"`
+	QualityReport         string            `json:"quality_report"`
+	CreativeQualityReport string            `json:"creative_quality_report"`
+	ChartRenderReport     string            `json:"chart_render_report"`
+	ChartUsageReport      string            `json:"chart_usage_report"`
+	ChartQualityReport    string            `json:"chart_quality_report"`
+	Delivery              string            `json:"delivery"`
+	StageReceipts         map[string]string `json:"stage_receipts"`
+	ScreenshotEvidence    []string          `json:"screenshot_evidence"`
+	ManualPatch           ManualPatchStatus `json:"manual_patch"`
+}
+
+type ManualPatchStatus struct {
+	Applied bool     `json:"applied"`
+	Files   []string `json:"files"`
+	Reason  string   `json:"reason,omitempty"`
 }
 
 func RepairRun(root string) (RepairReport, error) {
@@ -136,18 +169,15 @@ func repairRun(root string, evaluateSemantic func(string) (AnyGenSemanticReport,
 		anyGenSemanticReportPath,
 		visualReceiptsPath,
 		creativeQualityReportPath,
+		chartRenderReceiptPath,
+		chartUsageReceiptPath,
+		chartQualityReportPath,
 		"repair_queue.md",
 		previewPath,
 	}
 	if report.Status == "passed" {
-		if _, err := writeDeliveryReceiptWithStatus(safeRoot, run, StatusReady); err != nil {
-			return report, err
-		}
 		artifacts = append(artifacts, deliveryReceiptPath)
 	} else if report.LintOK && report.Preview == "passed" {
-		if _, err := writeDeliveryReceiptWithStatus(safeRoot, run, StatusNeedsRepair); err != nil {
-			return report, err
-		}
 		artifacts = append(artifacts, deliveryReceiptPath)
 	}
 	if err := writeStageReceipt(safeRoot, StageReceipt{
@@ -158,11 +188,21 @@ func repairRun(root string, evaluateSemantic func(string) (AnyGenSemanticReport,
 	}); err != nil {
 		return report, err
 	}
+	if report.Status == "passed" {
+		if _, err := writeDeliveryReceiptWithStatus(safeRoot, run, StatusReady); err != nil {
+			return report, err
+		}
+	} else if report.LintOK && report.Preview == "passed" {
+		if _, err := writeDeliveryReceiptWithStatus(safeRoot, run, StatusNeedsRepair); err != nil {
+			return report, err
+		}
+	}
 
 	return report, nil
 }
 
 const deliveryReceiptPath = "receipts/delivery.json"
+const deliveryChartQualityReportPath = "receipts/chart_quality.json"
 
 func writeDeliveryReceipt(safeRoot string, run Run) (DeliveryReceipt, error) {
 	return writeDeliveryReceiptWithStatus(safeRoot, run, StatusReady)
@@ -171,6 +211,9 @@ func writeDeliveryReceipt(safeRoot string, run Run) (DeliveryReceipt, error) {
 func writeDeliveryReceiptWithStatus(safeRoot string, run Run, status string) (DeliveryReceipt, error) {
 	receipt, err := generateDeliveryReceiptWithStatus(safeRoot, run, status)
 	if err != nil {
+		return DeliveryReceipt{}, err
+	}
+	if err := writeDeliveryReceiptSchema(safeRoot); err != nil {
 		return DeliveryReceipt{}, err
 	}
 	if err := ValidateDeliveryReceiptAgainstRun(receipt, run); err != nil {
@@ -184,6 +227,14 @@ func writeDeliveryReceiptWithStatus(safeRoot string, run Run, status string) (De
 		return DeliveryReceipt{}, err
 	}
 	return receipt, nil
+}
+
+func writeDeliveryReceiptSchema(safeRoot string) error {
+	target, err := ensureRunFileTargetForWrite(safeRoot, "schemas/delivery.schema.json")
+	if err != nil {
+		return err
+	}
+	return writeText(target, DeliveryReceiptSchema)
 }
 
 func GenerateDeliveryReceipt(safeRoot string, run Run) (DeliveryReceipt, error) {
@@ -218,7 +269,7 @@ func generateDeliveryReceiptWithStatus(safeRoot string, run Run, status string) 
 	if previewPath == "" {
 		previewPath = defaultPreviewPath
 	}
-	requiredReports := []string{previewPath, "quality_report.json", anyGenSemanticReportPath, creativeQualityReportPath}
+	requiredReports := []string{previewPath, "quality_report.json", anyGenSemanticReportPath, creativeQualityReportPath, chartRenderReceiptPath, chartUsageReceiptPath, chartQualityReportPath}
 	if status == StatusReady {
 		requiredReports = append(requiredReports, visualReceiptsPath)
 	}
@@ -243,6 +294,13 @@ func generateDeliveryReceiptWithStatus(safeRoot string, run Run, status string) 
 	if err != nil {
 		return DeliveryReceipt{}, err
 	}
+	fullChainEvidence, fullChainComplete, err := buildDeliveryFullChainEvidence(safeRoot, run, previewPath)
+	if err != nil {
+		return DeliveryReceipt{}, err
+	}
+	if status == StatusReady && !fullChainComplete {
+		status = StatusNeedsRepair
+	}
 	receipt := DeliveryReceipt{
 		Status:                status,
 		RouteProfile:          normalizedRouteProfile(run.RouteProfile),
@@ -258,6 +316,7 @@ func generateDeliveryReceiptWithStatus(safeRoot string, run Run, status string) 
 		CreativeQualityReport: creativeQualityReportPath,
 		SemanticMetrics:       semantic.Metrics,
 		StageStatus:           deliveryStageStatus(run),
+		FullChainEvidence:     fullChainEvidence,
 		LegacyRuntimeExecuted: legacy.LegacyRuntimeExecuted,
 		LegacyToolIDs:         legacy.LegacyToolIDs,
 		LegacyArtifactMatches: legacy.LegacyArtifactMatches,
@@ -442,6 +501,197 @@ func legacyPromptIDSets(run Run) (map[string]bool, map[string]bool, error) {
 	return legacyIDs, blockedIDs, nil
 }
 
+func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string) (FullChainEvidence, bool, error) {
+	manualPatch, err := readManualPatchStatus(safeRoot, previewPath)
+	if err != nil {
+		return FullChainEvidence{}, false, err
+	}
+	evidence := FullChainEvidence{
+		Delivery:           deliveryReceiptPath,
+		StageReceipts:      map[string]string{},
+		ScreenshotEvidence: []string{},
+		ManualPatch:        manualPatch,
+	}
+
+	requiredArtifactsComplete := true
+	for _, item := range []struct {
+		rel string
+		set func(string)
+	}{
+		{"run.json", func(path string) { evidence.RunJSON = path }},
+		{"request/request.json", func(path string) { evidence.Request = path }},
+		{"request/source_manifest.json", func(path string) { evidence.SourceManifest = path }},
+		{"request/entity_resolution.json", func(path string) { evidence.EntityResolution = path }},
+		{"research/research_notes.md", func(path string) { evidence.ResearchNotes = path }},
+		{"research/sources.json", func(path string) { evidence.Sources = path }},
+		{"research/research_coverage.json", func(path string) { evidence.ResearchCoverage = path }},
+		{"brief/design_brief.json", func(path string) { evidence.DesignBrief = path }},
+		{"brief/visual_system.json", func(path string) { evidence.VisualSystem = path }},
+		{"brief/typography_contract.json", func(path string) { evidence.TypographyContract = path }},
+		{"outline/deck.json", func(path string) { evidence.Outline = path }},
+		{"content/slide_content.json", func(path string) { evidence.SlideContent = path }},
+		{"assets/assets_manifest.json", func(path string) { evidence.AssetManifest = path }},
+		{renderedVisualReceiptPath, func(path string) { evidence.RenderedVisual = path }},
+		{"quality_report.json", func(path string) { evidence.QualityReport = path }},
+		{creativeQualityReportPath, func(path string) { evidence.CreativeQualityReport = path }},
+		{chartRenderReceiptPath, func(path string) { evidence.ChartRenderReport = path }},
+		{chartUsageReceiptPath, func(path string) { evidence.ChartUsageReport = path }},
+		{deliveryChartQualityReportPath, func(path string) { evidence.ChartQualityReport = path }},
+	} {
+		path, err := existingDeliveryEvidencePath(safeRoot, item.rel)
+		if err != nil {
+			return FullChainEvidence{}, false, err
+		}
+		item.set(path)
+		if path == "" {
+			requiredArtifactsComplete = false
+		}
+	}
+
+	stageReceiptsComplete := true
+	for _, stage := range DefaultStages() {
+		path, err := existingDeliveryEvidencePath(safeRoot, stage.Receipt)
+		if err != nil {
+			return FullChainEvidence{}, false, err
+		}
+		evidence.StageReceipts[stage.Name] = path
+		if path == "" {
+			stageReceiptsComplete = false
+			continue
+		}
+		valid, err := validDeliveryStageReceipt(safeRoot, stage, path)
+		if err != nil {
+			return FullChainEvidence{}, false, err
+		}
+		if !valid {
+			stageReceiptsComplete = false
+		}
+	}
+
+	screenshots, err := screenshotEvidencePaths(safeRoot)
+	if err != nil {
+		return FullChainEvidence{}, false, err
+	}
+	evidence.ScreenshotEvidence = screenshots
+	return evidence, requiredArtifactsComplete && stageReceiptsComplete && len(screenshots) > 0, nil
+}
+
+func existingDeliveryEvidencePath(safeRoot string, rel string) (string, error) {
+	exists, err := runRegularFileExists(safeRoot, rel)
+	if err != nil {
+		return "", err
+	}
+	if !exists {
+		return "", nil
+	}
+	return filepath.ToSlash(filepath.Clean(rel)), nil
+}
+
+func validDeliveryStageReceipt(safeRoot string, stage Stage, rel string) (bool, error) {
+	raw, err := readRunRegularArtifact(safeRoot, rel)
+	if err != nil {
+		return false, err
+	}
+	var receipt StageReceipt
+	if err := json.Unmarshal(raw, &receipt); err != nil {
+		return false, nil
+	}
+	if strings.TrimSpace(receipt.Stage) != stage.Name {
+		return false, nil
+	}
+	switch strings.TrimSpace(receipt.Status) {
+	case StatusDone, "passed":
+		return true, nil
+	default:
+		return false, nil
+	}
+}
+
+func screenshotEvidencePaths(safeRoot string) ([]string, error) {
+	paths := []string{}
+	for _, pattern := range []string{
+		filepath.Join(safeRoot, "screenshots", "*"),
+		filepath.Join(safeRoot, "contact-sheet*"),
+		filepath.Join(safeRoot, "contact_sheet*"),
+		filepath.Join(safeRoot, "receipts", "screenshots", "*"),
+		filepath.Join(safeRoot, "receipts", "contact-sheet*"),
+		filepath.Join(safeRoot, "receipts", "contact_sheet*"),
+	} {
+		matches, err := filepath.Glob(pattern)
+		if err != nil {
+			return nil, err
+		}
+		for _, match := range matches {
+			info, err := os.Lstat(match)
+			if err != nil {
+				if os.IsNotExist(err) {
+					continue
+				}
+				return nil, err
+			}
+			if !info.Mode().IsRegular() {
+				continue
+			}
+			rel, err := filepath.Rel(safeRoot, match)
+			if err != nil {
+				return nil, err
+			}
+			paths = appendUnique(paths, filepath.ToSlash(rel))
+		}
+	}
+	sort.Strings(paths)
+	return paths, nil
+}
+
+func readManualPatchStatus(safeRoot string, previewPath string) (ManualPatchStatus, error) {
+	const manualPatchPath = "receipts/manual_patch.json"
+	exists, err := runRegularFileExists(safeRoot, manualPatchPath)
+	if err != nil {
+		return ManualPatchStatus{}, err
+	}
+	if !exists {
+		return ManualPatchStatus{Files: []string{}}, nil
+	}
+	raw, err := readRunRegularArtifact(safeRoot, manualPatchPath)
+	if err != nil {
+		return ManualPatchStatus{}, err
+	}
+	var patch ManualPatchStatus
+	if err := json.Unmarshal(raw, &patch); err != nil {
+		return ManualPatchStatus{}, fmt.Errorf("%s: invalid JSON: %w", manualPatchPath, err)
+	}
+	if !patch.Applied && len(patch.Files) == 0 && strings.TrimSpace(patch.Reason) == "" {
+		var wrapped struct {
+			ManualPatch ManualPatchStatus `json:"manual_patch"`
+		}
+		if err := json.Unmarshal(raw, &wrapped); err != nil {
+			return ManualPatchStatus{}, fmt.Errorf("%s: invalid JSON: %w", manualPatchPath, err)
+		}
+		patch = wrapped.ManualPatch
+	}
+	return normalizeManualPatchStatus(patch, previewPath), nil
+}
+
+func normalizeManualPatchStatus(patch ManualPatchStatus, previewPath string) ManualPatchStatus {
+	files := make([]string, 0, len(patch.Files))
+	previewPath = filepath.ToSlash(filepath.Clean(strings.TrimSpace(previewPath)))
+	for _, file := range patch.Files {
+		clean := filepath.ToSlash(filepath.Clean(strings.TrimSpace(file)))
+		if clean == "." || filepath.IsAbs(clean) || strings.HasPrefix(clean, "../") {
+			continue
+		}
+		if strings.HasPrefix(clean, "slides/") || strings.HasPrefix(clean, "assets/") || clean == previewPath {
+			files = appendUnique(files, clean)
+		}
+	}
+	sort.Strings(files)
+	return ManualPatchStatus{
+		Applied: patch.Applied || len(files) > 0,
+		Files:   files,
+		Reason:  strings.TrimSpace(patch.Reason),
+	}
+}
+
 func readDeliveryPreviewEvidence(safeRoot string, previewPath string) (DeliveryPreviewEvidence, error) {
 	raw, err := readRunRegularArtifact(safeRoot, previewReceiptPath)
 	if err != nil {
@@ -595,6 +845,18 @@ func qualityRepairSuggestion(code string) string {
 		return "Vary slide rhythm across hero, thesis, evidence, detail, comparison, and closing layouts."
 	case "svglide.quality.low_semantic_image_coverage":
 		return "Replace decorative or generic visuals with images that prove the slide message."
+	case "svglide.chart_render.missing_node":
+		return "Install or expose Node.js v20+ and rerun StageAssets completion."
+	case "svglide.chart_render.missing_node_dependencies":
+		return "Run npm --prefix internal/svglide/chart_renderer install, then rerun StageAssets completion."
+	case "svglide.chart_quality.invalid_spec_json":
+		return "Regenerate the Vega-Lite spec as valid JSON."
+	case "svglide.chart_quality.unknown_source_id":
+		return "Use a source_id present in research/sources.json."
+	case "svglide.chart_usage.not_referenced":
+		return "Embed the rendered chart with <rect slide:role=\"chart\" href=\"assets/charts/<id>.svg\" .../>."
+	case "svglide.chart_usage.hand_drawn_chart":
+		return "Replace hand-drawn chart primitives with a rendered Vega-Lite chart asset."
 	default:
 		return ""
 	}

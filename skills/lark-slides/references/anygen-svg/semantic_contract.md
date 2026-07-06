@@ -44,5 +44,5 @@ rules:
 
 4. `requires_real_images=true` 时，真实图片只统计 raster image 资产：`png`、`jpg`、`jpeg`、`webp`、`avif`。`generated_svg`、chart SVG、slide preview wrapper image 不计入真实图片。
 5. `cover_requires_real_hero_image=true` 时，封面必须有真实 raster image 资产，并以 `<image slide:role="image">` 形成可见 hero。
-6. `required_chart_renderer=vega-lite` 时，核心 chart 必须同时有 Vega-Lite spec、渲染后的 SVG、以及 `assets/charts/chart_manifest.json` 记录。
+6. `required_chart_renderer=vega-lite` 时，核心 chart 必须同时有 `assets/charts/chart_briefs.json`、Vega-Lite spec、Node renderer 生成的 SVG、`receipts/chart_render.json`、`receipts/chart_usage.json`、以及 `assets/charts/chart_manifest.json` 记录；本地 SVG deck 不允许用手写 SVG chart 冒充标准 chart。
 7. `typography_contract_required=true` 时，必须有 `brief/typography_contract.json`，并定义 display/body/number/label 四类字体角色。

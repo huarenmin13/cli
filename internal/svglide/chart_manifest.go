@@ -15,15 +15,26 @@ type chartManifestFile struct {
 }
 
 type chartManifestEntry struct {
-	ID       string `json:"id"`
-	SlideID  string `json:"slide_id"`
-	Renderer string `json:"renderer"`
-	SpecPath string `json:"spec_path"`
-	SVGPath  string `json:"svg_path"`
-	SourceID string `json:"source_id"`
+	ID            string `json:"id"`
+	SlideID       string `json:"slide_id"`
+	Renderer      string `json:"renderer"`
+	BriefID       string `json:"brief_id,omitempty"`
+	SpecPath      string `json:"spec_path"`
+	SVGPath       string `json:"svg_path"`
+	SourceID      string `json:"source_id"`
+	Unit          string `json:"unit,omitempty"`
+	Takeaway      string `json:"takeaway,omitempty"`
+	RenderReceipt string `json:"render_receipt,omitempty"`
 }
 
 func readChartManifest(safeRoot string) (chartManifestFile, bool, error) {
+	exists, err := runRegularFileExists(safeRoot, chartManifestPath)
+	if err != nil {
+		return chartManifestFile{}, false, err
+	}
+	if !exists {
+		return chartManifestFile{}, false, nil
+	}
 	raw, err := readRunRegularArtifact(safeRoot, chartManifestPath)
 	if err != nil {
 		return chartManifestFile{}, false, err

@@ -504,6 +504,14 @@ func mustWriteTestFile(t *testing.T, path string, content string) {
 		if err := os.WriteFile(manifestPath, []byte(content), 0o644); err != nil {
 			t.Fatal(err)
 		}
+		candidatesPath := filepath.Join(filepath.Dir(path), filepath.Base(imageCandidatesPath))
+		if _, err := os.Stat(candidatesPath); os.IsNotExist(err) {
+			if err := os.WriteFile(candidatesPath, []byte(testImageCandidatesJSON(content)), 0o644); err != nil {
+				t.Fatal(err)
+			}
+		} else if err != nil {
+			t.Fatal(err)
+		}
 		inventoryPath := filepath.Join(filepath.Dir(path), filepath.Base(assetInventoryPath))
 		if err := os.WriteFile(inventoryPath, []byte(testAssetInventoryJSON(content)), 0o644); err != nil {
 			t.Fatal(err)
@@ -512,7 +520,18 @@ func mustWriteTestFile(t *testing.T, path string, content string) {
 		if err := os.MkdirAll(filepath.Dir(chartManifestPath), 0o755); err != nil {
 			t.Fatal(err)
 		}
+		chartBriefsPath := filepath.Join(filepath.Dir(path), "charts", "chart_briefs.json")
+		if err := os.WriteFile(chartBriefsPath, []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"charts":[]}`), 0o644); err != nil {
+			t.Fatal(err)
+		}
 		if err := os.WriteFile(chartManifestPath, []byte(`{"prompt_contract":`+promptContractJSON(StageAssets)+`,"renderer":"none","charts":[]}`), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		chartRenderPath := filepath.Join(filepath.Dir(filepath.Dir(path)), chartRenderReceiptPath)
+		if err := os.MkdirAll(filepath.Dir(chartRenderPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(chartRenderPath, []byte(`{"status":"passed","renderer":"node-vega-lite","charts":[],"issues":[]}`), 0o644); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -528,17 +547,27 @@ func testAssetInventoryJSON(assets string) string {
 		if assetStatus(asset) != "ready" {
 			continue
 		}
+		format := strings.TrimPrefix(assetExt(asset), ".")
+		if format == "" {
+			format = "unknown"
+		}
 		items = append(items, map[string]any{
-			"id":              assetID(asset),
-			"path":            assetPath(asset),
-			"source_url":      strings.TrimSpace(asset.SourceURL),
-			"width":           960,
-			"height":          540,
-			"semantic_type":   assetType(asset),
-			"large_ok":        true,
-			"full_bleed_ok":   true,
-			"recommended_use": strings.TrimSpace(asset.Usage),
-			"avoid_reason":    "",
+			"id":               assetID(asset),
+			"path":             assetPath(asset),
+			"source_url":       strings.TrimSpace(asset.SourceURL),
+			"width":            960,
+			"height":           540,
+			"semantic_type":    assetType(asset),
+			"large_ok":         true,
+			"full_bleed_ok":    true,
+			"recommended_use":  strings.TrimSpace(asset.Usage),
+			"avoid_reason":     "",
+			"format":           format,
+			"has_alpha":        assetExt(asset) == ".png",
+			"asset_role":       "hero_photo",
+			"fit_role":         "split_panel",
+			"candidate_id":     "cand-" + assetID(asset),
+			"selection_reason": "test fixture selected image",
 		})
 	}
 	raw, err := json.Marshal(map[string]any{
@@ -547,6 +576,59 @@ func testAssetInventoryJSON(assets string) string {
 	})
 	if err != nil {
 		return `{"prompt_contract":` + promptContractJSON(StageAssets) + `,"items":[]}`
+	}
+	return string(raw)
+}
+
+func testImageCandidatesJSON(assets string) string {
+	var file deckAssetsFile
+	if err := json.Unmarshal([]byte(assets), &file); err != nil {
+		return `{"prompt_contract":` + promptContractJSON(StageAssets) + `,"requires_real_images":false,"no_image_reason":"invalid test asset fixture; no image candidates","candidates":[]}`
+	}
+	candidates := make([]map[string]any, 0, len(file.Assets))
+	for _, asset := range file.Assets {
+		if !isRasterImageAsset(asset) {
+			continue
+		}
+		path := assetPath(asset)
+		sourceURL := strings.TrimSpace(asset.SourceURL)
+		if sourceURL == "" {
+			sourceURL = strings.TrimSpace(asset.Path)
+		}
+		format := strings.TrimPrefix(assetExt(asset), ".")
+		if format == "" {
+			format = "unknown"
+		}
+		candidates = append(candidates, map[string]any{
+			"id":                      "cand-" + assetID(asset),
+			"query":                   strings.TrimSpace(asset.Usage),
+			"source_url":              sourceURL,
+			"source_class":            "user_provided",
+			"format":                  format,
+			"width":                   960,
+			"height":                  540,
+			"has_alpha":               assetExt(asset) == ".png",
+			"asset_role":              "hero_photo",
+			"fit_role":                "split_panel",
+			"local_path":              path,
+			"score_bp":                9000,
+			"selected":                true,
+			"selection_reason":        "test fixture selected image",
+			"format_exception_reason": "",
+			"rejection_reason":        "",
+		})
+	}
+	payload := map[string]any{
+		"prompt_contract":      json.RawMessage(promptContractJSON(StageAssets)),
+		"requires_real_images": len(candidates) > 0,
+		"candidates":           candidates,
+	}
+	if len(candidates) == 0 {
+		payload["no_image_reason"] = "test fixture has no real raster image assets"
+	}
+	raw, err := json.Marshal(payload)
+	if err != nil {
+		return `{"prompt_contract":` + promptContractJSON(StageAssets) + `,"requires_real_images":false,"no_image_reason":"test fixture has no real raster image assets","candidates":[]}`
 	}
 	return string(raw)
 }

@@ -21,12 +21,18 @@ type RenderedVisualReport struct {
 }
 
 type RenderedVisualMetrics struct {
-	Slides             int `json:"slides"`
-	IssueCount         int `json:"issue_count"`
-	OutOfCanvasCount   int `json:"out_of_canvas_count"`
-	TextOverflowCount  int `json:"text_overflow_count"`
-	TextCollisionCount int `json:"text_collision_count"`
-	UnsafeEdgeCount    int `json:"unsafe_edge_count"`
+	Slides                     int `json:"slides"`
+	IssueCount                 int `json:"issue_count"`
+	OutOfCanvasCount           int `json:"out_of_canvas_count"`
+	TextOverflowCount          int `json:"text_overflow_count"`
+	TextCollisionCount         int `json:"text_collision_count"`
+	UnsafeEdgeCount            int `json:"unsafe_edge_count"`
+	ContainerTextOverflowCount int `json:"container_text_overflow_count"`
+	ContainerPaddingRiskCount  int `json:"container_padding_risk_count"`
+	ForeignObjectOverlapCount  int `json:"foreign_object_overlap_count"`
+	TightLineHeightCount       int `json:"tight_line_height_count"`
+	BoldOveruseCount           int `json:"bold_overuse_count"`
+	SmallTextPaddingRiskCount  int `json:"small_text_padding_risk_count"`
 }
 
 type RenderedVisualIssue struct {
@@ -58,12 +64,31 @@ type renderedVisualBox struct {
 	Width          float64
 	Height         float64
 	RequiredHeight float64
+	FontSize       float64
+	LineHeight     float64
+	FontWeight     float64
+}
+
+type renderedVisualContainer struct {
+	Path      string
+	ElementID string
+	Kind      string
+	X         float64
+	Y         float64
+	Width     float64
+	Height    float64
+	RX        float64
+	Fill      string
+	Stroke    string
+	Opacity   float64
 }
 
 type renderedVisualParseState struct {
 	TranslateX float64
 	TranslateY float64
 	FontSize   float64
+	LineHeight float64
+	FontWeight float64
 	TextAnchor string
 	InText     bool
 	InForeign  bool
@@ -75,9 +100,11 @@ type renderedVisualParseState struct {
 }
 
 var renderedStyleNumberPattern = regexp.MustCompile(`(?i)(font-size|line-height)\s*:\s*([0-9.]+)`)
+var renderedFontWeightNumberPattern = regexp.MustCompile(`(?i)font-weight\s*:\s*([0-9.]+|bold|bolder)`)
 var renderedTransformTranslatePattern = regexp.MustCompile(`(?i)translate\(\s*([\-0-9.]+)(?:[\s,]+([\-0-9.]+))?`)
 var renderedHTMLTagPattern = regexp.MustCompile(`(?is)<[^>]+>`)
 var renderedWhitespacePattern = regexp.MustCompile(`\s+`)
+var renderedStyleValuePattern = regexp.MustCompile(`(?i)(fill|stroke|opacity)\s*:\s*([^;]+)`)
 
 func EvaluateRenderedVisualRun(safeRoot string, deck previewDeck) RenderedVisualReport {
 	report := RenderedVisualReport{
@@ -140,15 +167,25 @@ func evaluateRenderedVisualSVG(path string, raw []byte) RenderedVisualReport {
 		height = defaultSlideHeight
 	}
 	boxes := renderedVisualTextBoxes(raw, path)
+	containers := renderedVisualContainers(raw, path, width, height)
 	report := RenderedVisualReport{
 		Status: "passed",
 		Issues: []RenderedVisualIssue{},
 		Slides: []RenderedVisualSlideItem{{Path: path, Status: "passed"}},
 	}
 	const edge = 6.0
+	var boldChars, totalChars int
+	var firstBold renderedVisualBox
 	for _, box := range boxes {
 		if box.Width <= 0 || box.Height <= 0 {
 			continue
+		}
+		totalChars += len([]rune(box.Text))
+		if box.FontWeight >= 700 {
+			boldChars += len([]rune(box.Text))
+			if firstBold.Text == "" {
+				firstBold = box
+			}
 		}
 		if box.Kind == "foreignObject" && box.RequiredHeight > box.Height*1.15 {
 			issueBox := box
@@ -167,10 +204,38 @@ func evaluateRenderedVisualSVG(path string, raw []byte) RenderedVisualReport {
 		if box.X < edge || box.Y < edge || box.X+box.Width > width-edge || box.Y+box.Height > height-edge {
 			report.Issues = append(report.Issues, renderedVisualIssue(path, "svglide.rendered_visual.unsafe_edge", "estimated text box is too close to slide edge", box))
 		}
+		if box.Kind == "foreignObject" && box.FontSize > 0 && box.LineHeight > 0 && box.LineHeight < box.FontSize*1.12 {
+			report.Issues = append(report.Issues, renderedVisualIssue(path, "svglide.rendered_visual.tight_line_height", "foreignObject line-height is too tight for readable wrapped text", box))
+		}
+		if container, ok := nearestRenderedContainer(box, containers); ok {
+			content := renderedBoxVisibleContentBounds(box)
+			padding := renderedContainerPadding(container)
+			if content.Y+content.Height > container.Y+container.Height-padding {
+				report.Issues = append(report.Issues, renderedVisualContainerIssue(path, "svglide.rendered_visual.container_text_overflow", "estimated text content exceeds visible card/container bottom padding", box, container))
+			} else if box.FontSize > 0 && box.FontSize <= 16 {
+				minMargin := minRenderedBoxMargin(content, container)
+				riskPadding := math.Max(10, box.FontSize*0.75)
+				if minMargin < riskPadding {
+					report.Issues = append(report.Issues, renderedVisualContainerIssue(path, "svglide.rendered_visual.small_text_padding_risk", "small text is too close to visible card/container edge", box, container))
+				}
+			}
+			if content.X < container.X+padding || content.X+content.Width > container.X+container.Width-padding {
+				report.Issues = append(report.Issues, renderedVisualContainerIssue(path, "svglide.rendered_visual.container_padding_risk", "estimated text content violates visible card/container horizontal padding", box, container))
+			}
+		}
+	}
+	if totalChars >= 40 && boldChars*100 > totalChars*65 && firstBold.Text != "" {
+		report.Issues = append(report.Issues, renderedVisualIssue(path, "svglide.rendered_visual.bold_overuse", "more than 65% of visible text is bold, flattening typographic hierarchy", firstBold))
 	}
 	for i := 0; i < len(boxes); i++ {
 		for j := i + 1; j < len(boxes); j++ {
 			a, b := boxes[i], boxes[j]
+			if a.Kind == "foreignObject" && b.Kind == "foreignObject" {
+				if renderedBoxesOverlap(a, b, 3) {
+					report.Issues = append(report.Issues, renderedVisualIssue(path, "svglide.rendered_visual.foreign_object_collision", fmt.Sprintf("estimated foreignObject boxes collide: %q and %q", a.Text, b.Text), a))
+				}
+				continue
+			}
 			if a.Kind == "foreignObject" || b.Kind == "foreignObject" {
 				continue
 			}
@@ -207,6 +272,8 @@ func renderedVisualTextBoxes(raw []byte, path string) []renderedVisualBox {
 			next.ElementID = renderedAttrValue(t.Attr, "id")
 			next.TextAnchor = firstRenderedNonEmpty(renderedAttrValue(t.Attr, "text-anchor"), current.TextAnchor)
 			next.FontSize = firstPositive(parseFloatAttr(t.Attr, "font-size"), parseStyleNumber(renderedAttrValue(t.Attr, "style"), "font-size"), current.FontSize)
+			next.LineHeight = firstPositive(normalizeRenderedLineHeight(parseStyleNumber(renderedAttrValue(t.Attr, "style"), "line-height"), next.FontSize), current.LineHeight)
+			next.FontWeight = firstPositive(parseFontWeightValue(renderedAttrValue(t.Attr, "font-weight")), parseFontWeightStyle(renderedAttrValue(t.Attr, "style")), current.FontWeight)
 			dx, dy := parseTranslate(renderedAttrValue(t.Attr, "transform"))
 			next.TranslateX += dx
 			next.TranslateY += dy
@@ -218,13 +285,16 @@ func renderedVisualTextBoxes(raw []byte, path string) []renderedVisualBox {
 			case "foreignObject":
 				next.InForeign = true
 				next.Foreign = renderedVisualBox{
-					Path:      path,
-					ElementID: next.ElementID,
-					Kind:      "foreignObject",
-					X:         parseFloatAttr(t.Attr, "x") + next.TranslateX,
-					Y:         parseFloatAttr(t.Attr, "y") + next.TranslateY,
-					Width:     parseFloatAttr(t.Attr, "width"),
-					Height:    parseFloatAttr(t.Attr, "height"),
+					Path:       path,
+					ElementID:  next.ElementID,
+					Kind:       "foreignObject",
+					X:          parseFloatAttr(t.Attr, "x") + next.TranslateX,
+					Y:          parseFloatAttr(t.Attr, "y") + next.TranslateY,
+					Width:      parseFloatAttr(t.Attr, "width"),
+					Height:     parseFloatAttr(t.Attr, "height"),
+					FontSize:   next.FontSize,
+					LineHeight: next.LineHeight,
+					FontWeight: next.FontWeight,
 				}
 			}
 			stack = append(stack, next)
@@ -253,14 +323,17 @@ func renderedVisualTextBoxes(raw []byte, path string) []renderedVisualBox {
 						x -= width
 					}
 					boxes = append(boxes, renderedVisualBox{
-						Path:      path,
-						ElementID: top.ElementID,
-						Kind:      "text",
-						Text:      text,
-						X:         x,
-						Y:         top.TextY - top.FontSize*0.86,
-						Width:     width,
-						Height:    top.FontSize * 1.15,
+						Path:       path,
+						ElementID:  top.ElementID,
+						Kind:       "text",
+						Text:       text,
+						X:          x,
+						Y:          top.TextY - top.FontSize*0.86,
+						Width:      width,
+						Height:     top.FontSize * 1.15,
+						FontSize:   top.FontSize,
+						LineHeight: top.LineHeight,
+						FontWeight: top.FontWeight,
 					})
 				}
 			case "foreignObject":
@@ -269,6 +342,9 @@ func renderedVisualTextBoxes(raw []byte, path string) []renderedVisualBox {
 					requiredHeight := estimateForeignObjectTextHeight(text, top.FontSize, top.Foreign.Width)
 					top.Foreign.Text = text
 					top.Foreign.RequiredHeight = requiredHeight
+					top.Foreign.FontSize = top.FontSize
+					top.Foreign.LineHeight = top.LineHeight
+					top.Foreign.FontWeight = top.FontWeight
 					boxes = append(boxes, top.Foreign)
 				}
 			}
@@ -288,6 +364,18 @@ func renderedVisualFinalize(report *RenderedVisualReport) {
 			report.Metrics.TextCollisionCount++
 		case "svglide.rendered_visual.unsafe_edge":
 			report.Metrics.UnsafeEdgeCount++
+		case "svglide.rendered_visual.container_text_overflow":
+			report.Metrics.ContainerTextOverflowCount++
+		case "svglide.rendered_visual.container_padding_risk":
+			report.Metrics.ContainerPaddingRiskCount++
+		case "svglide.rendered_visual.foreign_object_collision":
+			report.Metrics.ForeignObjectOverlapCount++
+		case "svglide.rendered_visual.tight_line_height":
+			report.Metrics.TightLineHeightCount++
+		case "svglide.rendered_visual.bold_overuse":
+			report.Metrics.BoldOveruseCount++
+		case "svglide.rendered_visual.small_text_padding_risk":
+			report.Metrics.SmallTextPaddingRiskCount++
 		default:
 			report.Metrics.OutOfCanvasCount++
 		}
@@ -302,6 +390,12 @@ func renderedVisualFinalize(report *RenderedVisualReport) {
 			report.Slides[i].Status = "passed"
 		}
 	}
+}
+
+func renderedVisualContainerIssue(path, code, message string, box renderedVisualBox, container renderedVisualContainer) RenderedVisualIssue {
+	issue := renderedVisualIssue(path, code, message, box)
+	issue.Message = fmt.Sprintf("%s; nearest container x=%.2f y=%.2f width=%.2f height=%.2f", message, container.X, container.Y, container.Width, container.Height)
+	return issue
 }
 
 func renderedVisualIssue(path, code, message string, box renderedVisualBox) RenderedVisualIssue {
@@ -355,6 +449,139 @@ func renderedBoxesOverlap(a, b renderedVisualBox, pad float64) bool {
 		a.X+a.Width+pad > b.X &&
 		a.Y < b.Y+b.Height+pad &&
 		a.Y+a.Height+pad > b.Y
+}
+
+func renderedVisualContainers(raw []byte, path string, slideWidth, slideHeight float64) []renderedVisualContainer {
+	decoder := xml.NewDecoder(bytes.NewReader(raw))
+	type state struct {
+		translateX float64
+		translateY float64
+	}
+	stack := []state{{}}
+	var containers []renderedVisualContainer
+	for {
+		token, err := decoder.Token()
+		if err != nil {
+			break
+		}
+		switch t := token.(type) {
+		case xml.StartElement:
+			current := stack[len(stack)-1]
+			next := current
+			dx, dy := parseTranslate(renderedAttrValue(t.Attr, "transform"))
+			next.translateX += dx
+			next.translateY += dy
+			if t.Name.Local == "rect" {
+				if renderedVisualRectLooksLikeChartMark(t.Attr) {
+					stack = append(stack, next)
+					continue
+				}
+				container := renderedVisualContainer{
+					Path:      path,
+					ElementID: renderedAttrValue(t.Attr, "id"),
+					Kind:      "rect",
+					X:         parseFloatAttr(t.Attr, "x") + next.translateX,
+					Y:         parseFloatAttr(t.Attr, "y") + next.translateY,
+					Width:     parseFloatAttr(t.Attr, "width"),
+					Height:    parseFloatAttr(t.Attr, "height"),
+					RX:        parseFloatAttr(t.Attr, "rx"),
+					Fill:      firstRenderedNonEmpty(renderedAttrValue(t.Attr, "fill"), parseStyleValue(renderedAttrValue(t.Attr, "style"), "fill")),
+					Stroke:    firstRenderedNonEmpty(renderedAttrValue(t.Attr, "stroke"), parseStyleValue(renderedAttrValue(t.Attr, "style"), "stroke")),
+					Opacity:   firstPositive(parseFloatAttr(t.Attr, "opacity"), parseFloatLoose(parseStyleValue(renderedAttrValue(t.Attr, "style"), "opacity")), 1),
+				}
+				if isRenderedVisualContainer(container, slideWidth, slideHeight) {
+					containers = append(containers, container)
+				}
+			}
+			stack = append(stack, next)
+		case xml.EndElement:
+			if len(stack) > 1 {
+				stack = stack[:len(stack)-1]
+			}
+		}
+	}
+	return containers
+}
+
+func isRenderedVisualContainer(container renderedVisualContainer, slideWidth, slideHeight float64) bool {
+	if container.Width <= 0 || container.Height <= 0 || slideWidth <= 0 || slideHeight <= 0 {
+		return false
+	}
+	if container.Width/slideWidth < 0.04 || container.Height/slideHeight < 0.04 {
+		return false
+	}
+	fill := strings.ToLower(strings.TrimSpace(container.Fill))
+	stroke := strings.ToLower(strings.TrimSpace(container.Stroke))
+	hasVisualStyle := container.RX > 0 || (fill != "" && fill != "none" && fill != "transparent") || (stroke != "" && stroke != "none" && stroke != "transparent")
+	if !hasVisualStyle {
+		return false
+	}
+	areaRatio := (container.Width * container.Height) / (slideWidth * slideHeight)
+	if areaRatio > 0.55 {
+		return false
+	}
+	touchesEdges := container.X <= 2 && container.Y <= 2 && container.X+container.Width >= slideWidth-2 && container.Y+container.Height >= slideHeight-2
+	return !(areaRatio > 0.70 && touchesEdges)
+}
+
+func renderedVisualRectLooksLikeChartMark(attrs []xml.Attr) bool {
+	haystack := strings.ToLower(strings.Join([]string{
+		renderedAttrValue(attrs, "id"),
+		renderedAttrValue(attrs, "class"),
+		renderedAttrValue(attrs, "role"),
+		renderedAttrValue(attrs, "aria-label"),
+		renderedAttrValue(attrs, "data-mark"),
+		renderedAttrValue(attrs, "data-role"),
+	}, " "))
+	for _, token := range []string{"mark-bar", "mark bar", "bar-mark", "axis", "tick", "plot", "vega", "data-point", "datapoint"} {
+		if strings.Contains(haystack, token) {
+			return true
+		}
+	}
+	return false
+}
+
+func nearestRenderedContainer(box renderedVisualBox, containers []renderedVisualContainer) (renderedVisualContainer, bool) {
+	content := renderedBoxVisibleContentBounds(box)
+	centerX := content.X + content.Width/2
+	var best renderedVisualContainer
+	var bestArea float64
+	for _, container := range containers {
+		if centerX < container.X || centerX > container.X+container.Width {
+			continue
+		}
+		overlapsVertically := content.Y < container.Y+container.Height && content.Y+content.Height > container.Y
+		startsInside := box.Y >= container.Y && box.Y <= container.Y+container.Height
+		if !overlapsVertically && !startsInside {
+			continue
+		}
+		area := container.Width * container.Height
+		if bestArea == 0 || area < bestArea {
+			best = container
+			bestArea = area
+		}
+	}
+	return best, bestArea > 0
+}
+
+func renderedBoxVisibleContentBounds(box renderedVisualBox) renderedVisualBox {
+	out := box
+	if box.Kind == "foreignObject" && box.RequiredHeight > 0 {
+		out.Height = box.RequiredHeight
+	}
+	return out
+}
+
+func renderedContainerPadding(container renderedVisualContainer) float64 {
+	shortSide := math.Min(container.Width, container.Height)
+	return math.Max(12, math.Min(24, shortSide*0.10))
+}
+
+func minRenderedBoxMargin(box renderedVisualBox, container renderedVisualContainer) float64 {
+	return math.Min(
+		math.Min(box.X-container.X, container.X+container.Width-(box.X+box.Width)),
+		math.Min(box.Y-container.Y, container.Y+container.Height-(box.Y+box.Height)),
+	)
 }
 
 func estimateForeignObjectTextHeight(text string, fontSize float64, width float64) float64 {
@@ -424,6 +651,43 @@ func parseStyleNumber(style, name string) float64 {
 		}
 	}
 	return 0
+}
+
+func parseStyleValue(style, name string) string {
+	for _, match := range renderedStyleValuePattern.FindAllStringSubmatch(style, -1) {
+		if len(match) == 3 && strings.EqualFold(match[1], name) {
+			return strings.TrimSpace(match[2])
+		}
+	}
+	return ""
+}
+
+func parseFontWeightStyle(style string) float64 {
+	match := renderedFontWeightNumberPattern.FindStringSubmatch(style)
+	if len(match) != 2 {
+		return 0
+	}
+	return parseFontWeightValue(match[1])
+}
+
+func parseFontWeightValue(value string) float64 {
+	value = strings.TrimSpace(strings.ToLower(value))
+	switch value {
+	case "bold", "bolder":
+		return 700
+	default:
+		return parseFloatLoose(value)
+	}
+}
+
+func normalizeRenderedLineHeight(value, fontSize float64) float64 {
+	if value <= 0 {
+		return 0
+	}
+	if value < 4 && fontSize > 0 {
+		return value * fontSize
+	}
+	return value
 }
 
 func parseTranslate(transform string) (float64, float64) {

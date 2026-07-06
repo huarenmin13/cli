@@ -32,6 +32,8 @@ type CreativeQualityMetrics struct {
 	MissingVisualReceipts         int `json:"missing_visual_receipts"`
 	ProcessLeakCount              int `json:"process_leak_count"`
 	GenericFontSlideCount         int `json:"generic_font_slide_count"`
+	TopicTypographyMismatchCount  int `json:"topic_typography_mismatch_count"`
+	TypographyRoleCollapseCount   int `json:"typography_role_collapse_count"`
 	DistinctLayoutFamilyCount     int `json:"distinct_layout_family_count"`
 	DistinctLayoutArchetypeCount  int `json:"distinct_layout_archetype_count"`
 	LayoutArchetypeMaxRatioBP     int `json:"layout_archetype_max_ratio_bp"`
@@ -39,6 +41,13 @@ type CreativeQualityMetrics struct {
 	LeftRightChartArchetypeCount  int `json:"left_right_chart_archetype_count"`
 	LayoutSignatureMaxRatioBP     int `json:"layout_signature_max_ratio_bp"`
 	AdjacentLayoutRepetitionCount int `json:"adjacent_layout_repetition_count"`
+	CardDominantSlideCount        int `json:"card_dominant_slide_count"`
+	DarkCardTemplateSlideCount    int `json:"dark_card_template_slide_count"`
+	ShapeLanguageMaxRatioBP       int `json:"shape_language_max_ratio_bp"`
+	DecorativeImageOnlyCount      int `json:"decorative_image_only_count"`
+	WeakCoverVisualImpactCount    int `json:"weak_cover_visual_impact_count"`
+	DefaultCardTextContainerCount int `json:"default_card_text_container_count"`
+	OpenTextCarrierSlideCount     int `json:"open_text_carrier_slide_count"`
 	FusionSlideCount              int `json:"fusion_slide_count"`
 	FusionAdjacentCount           int `json:"fusion_adjacent_count"`
 	WeakSlideCount                int `json:"weak_slide_count"`
@@ -64,11 +73,31 @@ type visualReceipt struct {
 	PrimaryAsset               string              `json:"primary_asset"`
 	AssetRole                  string              `json:"asset_role"`
 	FontRoleUsage              map[string]string   `json:"font_role_usage"`
+	TypographyRoleUsage        map[string]string   `json:"typography_role_usage"`
 	CompositionIntent          string              `json:"composition_intent"`
 	DataVisualRationale        string              `json:"data_visual_rationale"`
 	SourceEvidence             []string            `json:"source_evidence"`
+	ContainerFitPlan           string              `json:"container_fit_plan"`
+	ContainerDecision          string              `json:"container_decision"`
+	TextCarrier                string              `json:"text_carrier"`
+	ShapeLanguage              string              `json:"shape_language"`
+	CardBudget                 visualCardBudget    `json:"card_budget"`
+	ChartReceipt               visualChartReceipt  `json:"chart_receipt"`
 	FusionSpec                 visualFusionReceipt `json:"fusion_spec"`
 	QAExpectations             []string            `json:"qa_expectations"`
+}
+
+type visualCardBudget struct {
+	CardCount         int    `json:"card_count"`
+	WhyCardsAreNeeded string `json:"why_cards_are_needed"`
+}
+
+type visualChartReceipt struct {
+	ChartID          string `json:"chart_id"`
+	Renderer         string `json:"renderer"`
+	Unit             string `json:"unit"`
+	Source           string `json:"source"`
+	WhyChartIsNeeded string `json:"why_chart_is_needed"`
 }
 
 type visualFusionReceipt struct {
@@ -110,12 +139,34 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 		}
 	}
 
+	if contract, present, contractErr := readTypographyContract(safeRoot); present {
+		if contractErr != nil {
+			addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.invalid_contract", contractErr.Error(), "error")
+		} else {
+			deckType := strings.Join([]string{run.Title, run.Intent.Topic, deck.Title, contract.Profile}, " ")
+			identity := evaluateTypographyIdentity(contract, deckType)
+			if identity.GenericFallbackOnly {
+				addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.too_generic", "typography contract uses only generic/browser fallback font stacks", "error")
+			}
+			if identity.RepeatedDefaultStack {
+				report.Metrics.TypographyRoleCollapseCount++
+				addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.role_collapse", "typography contract must keep display, body, and numeric/label roles distinct enough to carry visual identity", "error")
+			}
+			if identity.ProfileMismatch {
+				report.Metrics.TopicTypographyMismatchCount++
+				addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.profile_mismatch", "typography contract does not match the deck topic/profile identity", "error")
+			}
+		}
+	}
+
 	familyCounts := make(map[string]int)
 	archetypeCounts := make(map[string]int)
 	layoutCounts := make(map[string]int)
+	shapeLanguageCounts := make(map[string]int)
 	var previousLayout string
 	var previousArchetype string
 	var previousFamily string
+	var previousDarkCardTemplate bool
 	for i, slide := range deck.Slides {
 		id := strings.TrimSpace(slide.ID)
 		receipt, hasReceipt := receiptBySlide[id]
@@ -174,6 +225,38 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 			continue
 		}
 		svg := string(raw)
+		shapeSummary := analyzeShapeLanguage(svg)
+		shapeLanguage := firstNonEmpty(receipt.ShapeLanguage, shapeLanguageSignature(shapeSummary, receipt))
+		if shapeLanguage != "" {
+			shapeLanguageCounts[shapeLanguage]++
+		}
+		if isCardDominantSlide(shapeSummary) {
+			report.Metrics.CardDominantSlideCount++
+		}
+		darkCardTemplate := isDarkCardTemplateSlide(shapeSummary)
+		if darkCardTemplate {
+			report.Metrics.DarkCardTemplateSlideCount++
+			if previousDarkCardTemplate {
+				addCreativeIssue(&report, mode, slidePath, "svglide.creative.dark_card_template_repetition", fmt.Sprintf("slide %q repeats the adjacent dark rounded-card template", id), "error")
+			}
+		}
+		previousDarkCardTemplate = darkCardTemplate
+		textCarrier := classifyTextCarrier(svg, receipt)
+		if isOpenTextCarrier(textCarrier) {
+			report.Metrics.OpenTextCarrierSlideCount++
+		}
+		if hasReceipt && isDefaultCardTextContainer(shapeSummary, textCarrier, receipt) {
+			report.Metrics.DefaultCardTextContainerCount++
+			addCreativeIssue(&report, mode, slidePath, "svglide.creative.default_card_text_container", fmt.Sprintf("slide %q uses rounded cards as the default text container without a content reason", id), "error")
+		}
+		if hasReceipt && isDecorativeImageOnlySlide(svg, receipt) {
+			report.Metrics.DecorativeImageOnlyCount++
+			addCreativeIssue(&report, mode, slidePath, "svglide.creative.decorative_image_only", fmt.Sprintf("slide %q uses imagery as decoration rather than a topic visual", id), "error")
+		}
+		if hasReceipt && isCoverSlide(slide) && !hasStrongCoverVisualImpact(svg, receipt) {
+			report.Metrics.WeakCoverVisualImpactCount++
+			addCreativeIssue(&report, mode, slidePath, "svglide.creative.weak_cover_visual_impact", fmt.Sprintf("slide %q cover lacks a strong topic-specific visual", id), "error")
+		}
 		leaks := countCreativeProcessLeaks(svg)
 		if leaks > 0 {
 			report.Metrics.ProcessLeakCount += leaks
@@ -197,6 +280,7 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 	report.Metrics.DistinctLayoutArchetypeCount = len(archetypeCounts)
 	report.Metrics.LayoutArchetypeMaxRatioBP = maxLayoutSignatureRatioBP(archetypeCounts, len(deck.Slides))
 	report.Metrics.LayoutSignatureMaxRatioBP = maxLayoutSignatureRatioBP(layoutCounts, len(deck.Slides))
+	report.Metrics.ShapeLanguageMaxRatioBP = maxLayoutSignatureRatioBP(shapeLanguageCounts, len(deck.Slides))
 	if len(deck.Slides) >= 8 && report.Metrics.DistinctLayoutArchetypeCount < minDistinctLayoutArchetypes(len(deck.Slides)) {
 		addCreativeIssue(&report, mode, deckPath, "svglide.creative.layout_archetype_diversity", fmt.Sprintf("deck has %d distinct layout_archetype values, want >= %d", report.Metrics.DistinctLayoutArchetypeCount, minDistinctLayoutArchetypes(len(deck.Slides))), "error")
 	}
@@ -211,6 +295,12 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 	}
 	if limit := maxFusionSlides(len(deck.Slides)); report.Metrics.FusionSlideCount > limit {
 		addCreativeIssue(&report, mode, deckPath, "svglide.creative.fusion_overuse", fmt.Sprintf("image_text_fusion_split count is %d, want <= %d", report.Metrics.FusionSlideCount, limit), "error")
+	}
+	if len(deck.Slides) >= 8 && report.Metrics.CardDominantSlideCount*10000/len(deck.Slides) > 3500 {
+		addCreativeIssue(&report, mode, deckPath, "svglide.creative.card_dominant_overuse", fmt.Sprintf("card-dominant slide ratio is %d bp, want <= 3500 bp", report.Metrics.CardDominantSlideCount*10000/len(deck.Slides)), "error")
+	}
+	if len(deck.Slides) >= 8 && report.Metrics.OpenTextCarrierSlideCount*10000/len(deck.Slides) < 4000 {
+		addCreativeIssue(&report, mode, deckPath, "svglide.creative.open_text_carrier_underuse", fmt.Sprintf("open text carrier ratio is %d bp, want >= 4000 bp", report.Metrics.OpenTextCarrierSlideCount*10000/len(deck.Slides)), "error")
 	}
 
 	for _, issue := range report.Issues {
@@ -465,9 +555,291 @@ func weakReceiptText(value string) bool {
 }
 
 var roundedRectPattern = regexp.MustCompile(`(?is)<rect\b[^>]*(\brx\s*=|\bry\s*=)`)
+var svgRectTagForCreativePattern = regexp.MustCompile(`(?is)<rect\b[^>]*>`)
+var svgTextBlockForCreativePattern = regexp.MustCompile(`(?is)<(?:text|foreignObject)\b`)
+var svgFillForCreativePattern = regexp.MustCompile(`(?i)\bfill\s*=\s*"([^"]+)"`)
+var svgStrokeForCreativePattern = regexp.MustCompile(`(?i)\bstroke\s*=\s*"([^"]+)"`)
+
+type shapeLanguageSummary struct {
+	RectCount          int
+	RoundedCardCount   int
+	LargePanelCount    int
+	DarkFillCount      int
+	StrokePanelCount   int
+	ImageCount         int
+	ImageAreaBP        int
+	LargestImageAreaBP int
+	TextBlockCount     int
+}
+
+type textCarrierKind string
+
+const (
+	textCarrierOpenGrid       textCarrierKind = "open_grid"
+	textCarrierImageDarkZone  textCarrierKind = "image_dark_zone"
+	textCarrierLineAnnotation textCarrierKind = "line_annotation"
+	textCarrierAxisAnnotation textCarrierKind = "axis_annotation"
+	textCarrierCardGroup      textCarrierKind = "card_group"
+	textCarrierMetricPanel    textCarrierKind = "metric_panel"
+)
 
 func countRoundedTextPanels(svg string) int {
 	return len(roundedRectPattern.FindAllStringIndex(svg, -1))
+}
+
+func analyzeShapeLanguage(svg string) shapeLanguageSummary {
+	width, height := svgViewBoxSize(svg)
+	if width <= 0 {
+		width = defaultSlideWidth
+	}
+	if height <= 0 {
+		height = defaultSlideHeight
+	}
+	canvasArea := width * height
+	if canvasArea <= 0 {
+		canvasArea = defaultSlideWidth * defaultSlideHeight
+	}
+	summary := shapeLanguageSummary{
+		ImageCount:     countSVGImageElements(svg),
+		TextBlockCount: len(svgTextBlockForCreativePattern.FindAllStringIndex(svg, -1)),
+	}
+	for _, tag := range svgRectTagForCreativePattern.FindAllString(svg, -1) {
+		summary.RectCount++
+		attrs := svgNumericAttrs(tag)
+		areaBP := creativeAreaBP(attrs["width"], attrs["height"], canvasArea)
+		isBackground := areaBP >= 9000 && attrs["x"] <= 1 && attrs["y"] <= 1
+		if !isBackground && rectTagHasRoundedCorners(tag) && areaBP >= 300 {
+			summary.RoundedCardCount++
+		}
+		if !isBackground && areaBP >= 1200 {
+			summary.LargePanelCount++
+		}
+		if !isBackground && isDarkCreativeFill(rectCreativeAttr(tag, svgFillForCreativePattern)) {
+			summary.DarkFillCount++
+		}
+		if !isBackground && rectCreativeAttr(tag, svgStrokeForCreativePattern) != "" {
+			summary.StrokePanelCount++
+		}
+	}
+	for _, tag := range svgImageTagPattern.FindAllString(svg, -1) {
+		attrs := svgNumericAttrs(tag)
+		areaBP := creativeAreaBP(attrs["width"], attrs["height"], canvasArea)
+		summary.ImageAreaBP += areaBP
+		if areaBP > summary.LargestImageAreaBP {
+			summary.LargestImageAreaBP = areaBP
+		}
+	}
+	if summary.ImageAreaBP > 10000 {
+		summary.ImageAreaBP = 10000
+	}
+	return summary
+}
+
+func isCardDominantSlide(summary shapeLanguageSummary) bool {
+	if summary.TextBlockCount == 0 {
+		return false
+	}
+	if summary.RoundedCardCount >= 3 && summary.ImageCount == 0 {
+		return true
+	}
+	return summary.RoundedCardCount >= 2 && summary.LargePanelCount >= 2 && summary.ImageAreaBP < 2000
+}
+
+func isDarkCardTemplateSlide(summary shapeLanguageSummary) bool {
+	return summary.RoundedCardCount >= 2 && summary.DarkFillCount >= 2 && summary.TextBlockCount > 0
+}
+
+func isDecorativeImageOnlySlide(svg string, receipt visualReceipt) bool {
+	if countSVGImageElements(svg) == 0 {
+		return false
+	}
+	summary := analyzeShapeLanguage(svg)
+	if summary.LargestImageAreaBP >= 1000 {
+		return false
+	}
+	return containsAny(strings.ToLower(strings.Join([]string{receipt.AssetRole, receipt.CompositionIntent}, " ")), []string{"decorative", "ornament", "texture", "background", "装饰", "纹理"})
+}
+
+func hasStrongCoverVisualImpact(svg string, receipt visualReceipt) bool {
+	if !receiptRequiresStrongCoverVisual(receipt) {
+		return true
+	}
+	if strings.TrimSpace(receipt.PrimaryAsset+receipt.AssetRole) == "" {
+		return true
+	}
+	if hasFullBleedImage(svg) {
+		return true
+	}
+	summary := analyzeShapeLanguage(svg)
+	return summary.LargestImageAreaBP >= 4500
+}
+
+func receiptRequiresStrongCoverVisual(receipt visualReceipt) bool {
+	haystack := strings.ToLower(strings.Join([]string{
+		receipt.LayoutFamily,
+		receipt.LayoutArchetype,
+		receipt.LayoutSignature,
+		receipt.ShapeLanguage,
+		receipt.ContainerDecision,
+		receipt.CompositionIntent,
+		receipt.AssetRole,
+		strings.Join(receipt.QAExpectations, " "),
+	}, " "))
+	return containsAny(haystack, []string{
+		"full_bleed", "full-bleed", "hero_cover", "cover hero", "strong cover", "strong visual",
+		"主视觉", "强视觉", "封面大图", "全屏图", "封面主视觉",
+	})
+}
+
+func classifyTextCarrier(svg string, receipt visualReceipt) textCarrierKind {
+	if carrier := parseReceiptTextCarrier(receipt.TextCarrier); carrier != "" {
+		return carrier
+	}
+	shape := analyzeShapeLanguage(svg)
+	haystack := strings.ToLower(strings.Join([]string{receipt.ContainerDecision, receipt.CompositionIntent, receipt.LayoutFamily, receipt.LayoutArchetype, receipt.LayoutSignature}, " "))
+	switch {
+	case containsAny(haystack, []string{"axis", "annotation", "坐标"}):
+		return textCarrierAxisAnnotation
+	case containsAny(haystack, []string{"line annotation", "callout", "rule", "标注", "引线"}):
+		return textCarrierLineAnnotation
+	case containsAny(haystack, []string{"metric", "scoreboard", "kpi", "指标"}):
+		return textCarrierMetricPanel
+	case shape.RoundedCardCount > 0 && shape.TextBlockCount > 0:
+		return textCarrierCardGroup
+	case shape.ImageCount > 0 && shape.DarkFillCount > 0:
+		return textCarrierImageDarkZone
+	default:
+		return textCarrierOpenGrid
+	}
+}
+
+func parseReceiptTextCarrier(value string) textCarrierKind {
+	switch textCarrierKind(strings.TrimSpace(value)) {
+	case textCarrierOpenGrid, textCarrierImageDarkZone, textCarrierLineAnnotation, textCarrierAxisAnnotation, textCarrierCardGroup, textCarrierMetricPanel:
+		return textCarrierKind(strings.TrimSpace(value))
+	default:
+		return ""
+	}
+}
+
+func isOpenTextCarrier(kind textCarrierKind) bool {
+	switch kind {
+	case textCarrierOpenGrid, textCarrierImageDarkZone, textCarrierLineAnnotation, textCarrierAxisAnnotation:
+		return true
+	default:
+		return false
+	}
+}
+
+func isDefaultCardTextContainer(summary shapeLanguageSummary, carrier textCarrierKind, receipt visualReceipt) bool {
+	if carrier != textCarrierCardGroup || summary.RoundedCardCount == 0 || summary.TextBlockCount == 0 {
+		return false
+	}
+	if receiptJustifiesCards(receipt) {
+		return false
+	}
+	if summary.ImageAreaBP >= 2500 || hasDataVisualIntent("", receipt.LayoutFamily, receipt) {
+		return false
+	}
+	return true
+}
+
+func receiptJustifiesCards(receipt visualReceipt) bool {
+	if receipt.CardBudget.CardCount > 0 && strings.TrimSpace(receipt.CardBudget.WhyCardsAreNeeded) != "" {
+		return true
+	}
+	haystack := strings.ToLower(strings.Join([]string{
+		receipt.ContainerDecision,
+		receipt.CompositionIntent,
+		receipt.InformationDensityPlan,
+		receipt.DataVisualRationale,
+		receipt.AssetRole,
+	}, " "))
+	return containsAny(haystack, []string{
+		"comparison", "compare", "metric", "kpi", "scoreboard", "quote", "control", "panel", "table", "chart", "group",
+		"比较", "对比", "指标", "引用", "面板", "表格", "图表", "分组", "复杂背景", "background complexity",
+	})
+}
+
+func shapeLanguageSignature(summary shapeLanguageSummary, receipt visualReceipt) string {
+	switch {
+	case strings.TrimSpace(receipt.ShapeLanguage) != "":
+		return strings.TrimSpace(receipt.ShapeLanguage)
+	case summary.ImageAreaBP >= 4500:
+		return "image_forward"
+	case summary.RoundedCardCount >= 3:
+		return "card_grid"
+	case summary.RoundedCardCount > 0:
+		return "card_text_panel"
+	case hasDataVisualIntent("", receipt.LayoutFamily, receipt):
+		return "chart_forward"
+	case summary.StrokePanelCount > 0:
+		return "rule_annotation"
+	default:
+		return "open_text"
+	}
+}
+
+func rectTagHasRoundedCorners(tag string) bool {
+	return roundedRectPattern.MatchString(tag)
+}
+
+func rectCreativeAttr(tag string, pattern *regexp.Regexp) string {
+	match := pattern.FindStringSubmatch(tag)
+	if len(match) != 2 {
+		return ""
+	}
+	return strings.TrimSpace(match[1])
+}
+
+func creativeAreaBP(width float64, height float64, canvasArea float64) int {
+	if width <= 0 || height <= 0 || canvasArea <= 0 {
+		return 0
+	}
+	return int(width * height * 10000 / canvasArea)
+}
+
+func isDarkCreativeFill(value string) bool {
+	value = strings.ToLower(strings.TrimSpace(value))
+	if value == "" || value == "none" || strings.HasPrefix(value, "url(") {
+		return false
+	}
+	switch value {
+	case "black", "#000", "#000000", "#111", "#111111", "#101010", "#101319":
+		return true
+	}
+	if strings.HasPrefix(value, "#") {
+		hex := strings.TrimPrefix(value, "#")
+		if len(hex) == 3 {
+			hex = strings.Repeat(hex[0:1], 2) + strings.Repeat(hex[1:2], 2) + strings.Repeat(hex[2:3], 2)
+		}
+		if len(hex) != 6 {
+			return false
+		}
+		r := parseHexByte(hex[0:2])
+		g := parseHexByte(hex[2:4])
+		b := parseHexByte(hex[4:6])
+		return r+g+b < 180
+	}
+	return strings.Contains(value, "rgb(0") || strings.Contains(value, "rgb(16") || strings.Contains(value, "rgb(17")
+}
+
+func parseHexByte(value string) int {
+	out := 0
+	for _, r := range value {
+		out *= 16
+		switch {
+		case r >= '0' && r <= '9':
+			out += int(r - '0')
+		case r >= 'a' && r <= 'f':
+			out += int(r-'a') + 10
+		case r >= 'A' && r <= 'F':
+			out += int(r-'A') + 10
+		default:
+			return 255
+		}
+	}
+	return out
 }
 
 func hasDataVisualIntent(svg string, layoutFamily string, receipt visualReceipt) bool {

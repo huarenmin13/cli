@@ -216,11 +216,23 @@ func authorVisualReceiptForSlide(slide authorDeckSlide, content authorSlideConte
 		pageDifference = "different content block and slide order from previous page"
 	}
 	dataRationale := ""
+	chartReceipt := visualChartReceipt{Renderer: "none"}
 	for _, visual := range content.Visuals {
 		if strings.TrimSpace(visual.Type) == "chart" {
 			dataRationale = firstNonEmpty(visual.Instruction, "chart visual requested by slide content")
+			chartReceipt = visualChartReceipt{
+				ChartID:          strings.TrimSpace(visual.ID),
+				Renderer:         "none",
+				WhyChartIsNeeded: dataRationale,
+			}
 			break
 		}
+	}
+	fontRoles := map[string]string{
+		"display": "Noto Serif CJK SC",
+		"body":    "Noto Sans CJK SC",
+		"number":  "Roboto Mono",
+		"label":   "PingFang SC",
 	}
 	return visualReceipt{
 		SlideID:                    strings.TrimSpace(slide.ID),
@@ -235,17 +247,22 @@ func authorVisualReceiptForSlide(slide authorDeckSlide, content authorSlideConte
 		PageDifferenceFromPrevious: pageDifference,
 		PrimaryAsset:               primaryAsset,
 		AssetRole:                  assetRole,
-		FontRoleUsage: map[string]string{
-			"display": "Noto Serif CJK SC",
-			"body":    "Noto Sans CJK SC",
-			"number":  "Roboto Mono",
-			"label":   "PingFang SC",
+		FontRoleUsage:              fontRoles,
+		TypographyRoleUsage:        fontRoles,
+		CompositionIntent:          "local author fallback layout with topic-specific text and available assets",
+		DataVisualRationale:        dataRationale,
+		SourceEvidence:             append([]string{}, content.SourceRefs...),
+		ContainerFitPlan:           "use open grid by default; use cards only for explicit grouping or complex image backgrounds",
+		ContainerDecision:          "content decides carrier; no default card wrapper",
+		TextCarrier:                "open_grid",
+		ShapeLanguage:              "minimal",
+		CardBudget: visualCardBudget{
+			CardCount:         0,
+			WhyCardsAreNeeded: "none: default text carrier is open layout",
 		},
-		CompositionIntent:   "local author fallback layout with topic-specific text and available assets",
-		DataVisualRationale: dataRationale,
-		SourceEvidence:      append([]string{}, content.SourceRefs...),
-		FusionSpec:          visualFusionReceipt{Enabled: false},
-		QAExpectations:      []string{"no process text", "font roles present", "layout is readable"},
+		ChartReceipt:   chartReceipt,
+		FusionSpec:     visualFusionReceipt{Enabled: false},
+		QAExpectations: []string{"no process text", "font roles present", "layout is readable"},
 	}
 }
 
