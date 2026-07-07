@@ -62,6 +62,7 @@ var stageOutputSchemaPaths = map[string]string{
 	"receipts/screenshot_evidence.json":  "schemas/screenshot_evidence.schema.json",
 	"receipts/chart_quality.json":        "schemas/chart_quality.schema.json",
 	"receipts/delivery.json":             "schemas/delivery.schema.json",
+	"publish/request_evidence.json":      "schemas/svg_publish_request_evidence.schema.json",
 	"publish/online_slide.json":          "schemas/online_slide.schema.json",
 	"receipts/publish_online.json":       "schemas/publish_online.schema.json",
 }
@@ -216,6 +217,7 @@ const DeliveryReceiptSchema = `{
         "chart_render_report": {"type": "string"},
         "chart_usage_report": {"type": "string"},
         "chart_quality_report": {"type": "string"},
+        "svg_publish_request_evidence": {"type": "string"},
         "online_slide": {"type": "string"},
         "delivery": {"type": "string"},
         "stage_receipts": {"type": "object"},

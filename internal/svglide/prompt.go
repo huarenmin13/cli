@@ -1542,6 +1542,36 @@ func DefaultSchemas() map[string]string {
   }
 }
 `,
+		"svg_publish_request_evidence.schema.json": `{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "content_type", "slide_count", "slides", "forbidden_format_detected", "issues", "created_at"],
+  "properties": {
+    "status": {"type": "string"},
+    "content_type": {"type": "string", "enum": ["svg"]},
+    "title": {"type": "string"},
+    "slide_count": {"type": "integer"},
+    "forbidden_format_detected": {"type": "boolean"},
+    "created_at": {"type": "string"},
+    "issues": {"type": "array", "items": {"type": "object"}},
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "content_root", "sha256", "content_bytes", "content_prefix"],
+        "properties": {
+          "path": {"type": "string"},
+          "content_root": {"type": "string"},
+          "sha256": {"type": "string"},
+          "content_bytes": {"type": "integer"},
+          "content_prefix": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+`,
 		"publish_online.schema.json": `{
   "type": "object",
   "additionalProperties": false,
@@ -1644,6 +1674,7 @@ func DefaultSchemas() map[string]string {
         "chart_render_report": {"type": "string"},
         "chart_usage_report": {"type": "string"},
         "chart_quality_report": {"type": "string"},
+        "svg_publish_request_evidence": {"type": "string"},
         "online_slide": {"type": "string"},
         "delivery": {"type": "string"},
         "stage_receipts": {"type": "object"},

@@ -30,12 +30,12 @@ type OnlinePublishReceipt struct {
 }
 
 type OnlinePublisher interface {
-	Publish(root string) (OnlineSlidePublishReport, error)
+	Publish(root string, evidence SVGPublishRequestEvidence) (OnlineSlidePublishReport, error)
 }
 
 type MissingOnlinePublisher struct{}
 
-func (MissingOnlinePublisher) Publish(root string) (OnlineSlidePublishReport, error) {
+func (MissingOnlinePublisher) Publish(root string, evidence SVGPublishRequestEvidence) (OnlineSlidePublishReport, error) {
 	return OnlineSlidePublishReport{
 		Status:            StatusBlocked,
 		Publisher:         "missing",
@@ -65,10 +65,29 @@ func PublishOnlineRun(root string, publisher OnlinePublisher) (OnlineSlidePublis
 		}
 		return report, fmt.Errorf("publish_online status is %q", report.Status)
 	}
+	evidence, err := buildSVGPublishRequestEvidence(safeRoot, run)
+	if writeErr := writeSVGPublishRequestEvidence(safeRoot, evidence); writeErr != nil {
+		if err != nil {
+			return OnlineSlidePublishReport{}, fmt.Errorf("%w; write SVG publish request evidence: %v", err, writeErr)
+		}
+		return OnlineSlidePublishReport{}, writeErr
+	}
+	if err != nil {
+		report := OnlineSlidePublishReport{
+			Status:            StatusBlocked,
+			Publisher:         "svg_payload_gate",
+			BlockedReasonCode: "svglide.publish_online.svg_payload_gate_failed",
+			Message:           err.Error(),
+		}
+		if writeErr := writeOnlinePublishArtifacts(safeRoot, report); writeErr != nil {
+			return report, fmt.Errorf("%w; write publish artifacts: %v", err, writeErr)
+		}
+		return report, fmt.Errorf("publish_online blocked by SVG payload gate: %w", err)
+	}
 	if publisher == nil {
 		publisher = MissingOnlinePublisher{}
 	}
-	report, err := publisher.Publish(safeRoot)
+	report, err := publisher.Publish(root, evidence)
 	if err != nil {
 		if writeErr := writeOnlinePublishArtifacts(safeRoot, report); writeErr != nil {
 			return report, fmt.Errorf("%w; write publish artifacts: %v", err, writeErr)

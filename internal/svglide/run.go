@@ -198,7 +198,7 @@ func DefaultStagesForDelivery(target string) []Stage {
 		Name:    StagePublishOnline,
 		Status:  StatusPending,
 		Inputs:  []string{"slides/*.svg", deliveryReceiptPath},
-		Outputs: []string{onlineSlideReportPath, onlinePublishReceiptRel},
+		Outputs: []string{svgPublishRequestEvidencePath, onlineSlideReportPath, onlinePublishReceiptRel},
 		Receipt: onlinePublishReceiptRel,
 	})
 	return stages

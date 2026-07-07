@@ -12,13 +12,14 @@ import (
 )
 
 type RepairReport struct {
-	Status     string `json:"status"`
-	LintOK     bool   `json:"lint_ok"`
-	Preview    string `json:"preview"`
-	Quality    string `json:"quality"`
-	Creative   string `json:"creative"`
-	Semantic   string `json:"semantic"`
-	Reauthored bool   `json:"reauthored"`
+	Status      string `json:"status"`
+	LintOK      bool   `json:"lint_ok"`
+	Preview     string `json:"preview"`
+	Quality     string `json:"quality"`
+	Creative    string `json:"creative"`
+	Semantic    string `json:"semantic"`
+	Reauthored  bool   `json:"reauthored"`
+	NextCommand string `json:"next_command,omitempty"`
 }
 
 type DeliveryReceipt struct {
@@ -83,6 +84,7 @@ type FullChainEvidence struct {
 	ChartRenderReport      string            `json:"chart_render_report"`
 	ChartUsageReport       string            `json:"chart_usage_report"`
 	ChartQualityReport     string            `json:"chart_quality_report"`
+	SVGPublishRequest      string            `json:"svg_publish_request_evidence,omitempty"`
 	OnlineSlide            string            `json:"online_slide,omitempty"`
 	Delivery               string            `json:"delivery"`
 	StageReceipts          map[string]string `json:"stage_receipts"`
@@ -224,6 +226,11 @@ func repairRun(root string, evaluateSemantic func(string) (AnyGenSemanticReport,
 			return report, err
 		}
 	}
+	nextCommand, err := nextCommandAfterRepair(safeRoot, root, run, report.Status == "passed")
+	if err != nil {
+		return report, err
+	}
+	report.NextCommand = nextCommand
 
 	return report, nil
 }
@@ -665,8 +672,26 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 		return FullChainEvidence{}, false, err
 	}
 	evidence.OnlineSlide = onlineSlidePath
-	if (run.DeliveryTarget == DeliveryTargetOnlineSlide || run.DeliveryTarget == DeliveryTargetBoth) && onlineSlidePath == "" {
-		requiredArtifactsComplete = false
+	if requiresOnlineDelivery(run.DeliveryTarget) {
+		if onlineSlidePath == "" {
+			requiredArtifactsComplete = false
+		}
+		svgPublishRequestPath, err := existingDeliveryEvidencePath(safeRoot, svgPublishRequestEvidencePath)
+		if err != nil {
+			return FullChainEvidence{}, false, err
+		}
+		evidence.SVGPublishRequest = svgPublishRequestPath
+		if svgPublishRequestPath == "" {
+			requiredArtifactsComplete = false
+		} else {
+			valid, err := validSVGPublishRequestEvidence(safeRoot)
+			if err != nil {
+				return FullChainEvidence{}, false, err
+			}
+			if !valid {
+				requiredArtifactsComplete = false
+			}
+		}
 	}
 
 	stageReceiptsComplete := true
@@ -700,6 +725,31 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 	}
 	evidence.ScreenshotEvidence = screenshots
 	return evidence, requiredArtifactsComplete && stageReceiptsComplete && promptContextsComplete && len(screenshots) > 0, nil
+}
+
+func requiresOnlineDelivery(target string) bool {
+	target = normalizeDeliveryTarget(target)
+	return target == DeliveryTargetOnlineSlide || target == DeliveryTargetBoth
+}
+
+func validSVGPublishRequestEvidence(safeRoot string) (bool, error) {
+	raw, err := readRunRegularArtifact(safeRoot, svgPublishRequestEvidencePath)
+	if err != nil {
+		return false, nil
+	}
+	var evidence SVGPublishRequestEvidence
+	if err := json.Unmarshal(raw, &evidence); err != nil {
+		return false, nil
+	}
+	if evidence.Status != "passed" || evidence.ContentType != "svg" || evidence.ForbiddenFormatDetected || evidence.SlideCount == 0 || len(evidence.Slides) != evidence.SlideCount {
+		return false, nil
+	}
+	for _, slide := range evidence.Slides {
+		if strings.TrimSpace(slide.Path) == "" || slide.ContentRoot != "svg" || strings.TrimSpace(slide.SHA256) == "" {
+			return false, nil
+		}
+	}
+	return true, nil
 }
 
 func validPromptManifestEvidence(safeRoot string, run Run) (bool, error) {

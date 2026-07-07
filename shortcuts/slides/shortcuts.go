@@ -10,6 +10,7 @@ func Shortcuts() []common.Shortcut {
 	return []common.Shortcut{
 		SlidesCreate,
 		SlidesCreateSVGlide,
+		SlidesPublishSVGlide,
 		SlidesMediaUpload,
 		SlidesReplaceSlide,
 		SlidesReplacePages,
