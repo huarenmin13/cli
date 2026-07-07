@@ -15,12 +15,12 @@ import (
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
-// SlidesXMLGet fetches the full XML presentation content and writes it to a
-// local file, keeping the terminal output small for large decks.
+// SlidesXMLGet fetches the full XML presentation content. When --output is
+// provided it writes to a local file; otherwise it prints the XML to stdout.
 var SlidesXMLGet = common.Shortcut{
 	Service:     "slides",
 	Command:     "+xml-get",
-	Description: "Fetch full presentation XML and save it to a local file",
+	Description: "Fetch full presentation XML",
 	Risk:        "read",
 	Scopes:      []string{"slides:presentation:read"},
 	// wiki:node:read is required only when --presentation is a wiki URL.
@@ -28,7 +28,7 @@ var SlidesXMLGet = common.Shortcut{
 	AuthTypes:         []string{"user", "bot"},
 	Flags: []common.Flag{
 		{Name: "presentation", Desc: "xml_presentation_id, slides URL, or wiki URL that resolves to slides", Required: true},
-		{Name: "output", Desc: "local XML output path; existing file is overwritten", Required: true},
+		{Name: "output", Desc: "local XML output path; existing file is overwritten; omit to print XML to stdout"},
 		{Name: "revision-id", Type: "int", Default: "-1", Desc: "presentation revision_id; -1 means latest"},
 		{Name: "remove-attr-id", Type: "bool", Desc: "remove XML id attributes in the returned content; useful for read-only inspection, not precise block editing"},
 	},
@@ -42,14 +42,11 @@ var SlidesXMLGet = common.Shortcut{
 				return err
 			}
 		}
-		if strings.TrimSpace(runtime.Str("output")) == "" {
-			return errs.NewValidationError(errs.SubtypeInvalidArgument, "--output cannot be empty").WithParam("--output")
-		}
-		if _, err := runtime.ResolveSavePath(runtime.Str("output")); err != nil {
-			return errs.NewValidationError(errs.SubtypeInvalidArgument, "--output invalid: %v", err).WithParam("--output").WithCause(err)
-		}
-		if runtime.Int("revision-id") < -1 {
-			return errs.NewValidationError(errs.SubtypeInvalidArgument, "--revision-id must be -1 or a non-negative integer").WithParam("--revision-id")
+		outputPath := strings.TrimSpace(runtime.Str("output"))
+		if outputPath != "" {
+			if _, err := runtime.ResolveSavePath(outputPath); err != nil {
+				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--output invalid: %v", err).WithParam("--output").WithCause(err)
+			}
 		}
 		return nil
 	},
@@ -67,7 +64,7 @@ var SlidesXMLGet = common.Shortcut{
 				Desc("[1] Resolve wiki node to slides presentation").
 				Params(map[string]interface{}{"token": ref.Token})
 		} else {
-			dry.Desc("Fetch full presentation XML and save it to a local file")
+			dry.Desc("Fetch full presentation XML")
 		}
 		params := map[string]interface{}{
 			"revision_id": runtime.Int("revision-id"),
@@ -80,7 +77,10 @@ var SlidesXMLGet = common.Shortcut{
 			validate.EncodePathSegment(presentationID),
 		)).
 			Params(params)
-		return dry.Set("output", runtime.Str("output")).Set("stdout_content", "suppressed; XML content is saved to --output during execution")
+		if outputPath := strings.TrimSpace(runtime.Str("output")); outputPath != "" {
+			return dry.Set("output", outputPath).Set("stdout_content", "suppressed; XML content is saved to --output during execution")
+		}
+		return dry.Set("output", "<stdout>").Set("stdout_content", "XML content is printed to stdout during execution")
 	},
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		ref, err := parsePresentationRef(runtime.Str("presentation"))
@@ -113,7 +113,14 @@ var SlidesXMLGet = common.Shortcut{
 		if content == "" {
 			return errs.NewInternalError(errs.SubtypeInvalidResponse, "slides xml get returned empty xml_presentation.content")
 		}
-		outputPath := runtime.Str("output")
+		outputPath := strings.TrimSpace(runtime.Str("output"))
+		if outputPath == "" {
+			if _, err := fmt.Fprint(runtime.IO().Out, content); err != nil {
+				return errs.NewInternalError(errs.SubtypeFileIO, "write XML content to stdout: %v", err).WithCause(err)
+			}
+			return nil
+		}
+
 		result, err := runtime.FileIO().Save(outputPath, fileio.SaveOptions{
 			ContentType:   "application/xml",
 			ContentLength: int64(len(content)),
