@@ -19,10 +19,12 @@ trigger:
   - initial_deck_generation
   - slide_revision
 consumes:
+  - request/theme_contract.json
   - outline/deck.json
   - content/slide_content.json
   - content/slide_copy_plan.json
   - brief/visual_system.json
+  - brief/visual_quality_contract.json
   - assets/assets_manifest.json
   - assets/asset_inventory.json
   - assets/image_candidates.json
@@ -68,8 +70,12 @@ A text-only slide with decorative shapes signals skipped preparation. It is rare
 - DO NOT wrap with `<presentation>` — each item edits one slide at a time.
 - The slide's `id` should match the filename (e.g., `slide_01_cover.svg` uses `id="cover"`).
 - Local SVGlide binding: only render `audience_copy` into visible SVG text. Never render `production_instruction`, `Sources:`, `source note`, asset selection rationale, or layout instructions as visible audience copy.
+- Local SVGlide content binding: when `content/slide_content.json` contains `central_claim`, `audience_takeaway`, `supporting_points`, `source_bound_facts`, `examples_or_parameters`, `visual_data_items`, or `so_what`, use those structured audience fields as the visible content source. Do not treat the legacy `content` field as final body copy when it is only a label list or compact planning skeleton.
+- Local SVGlide online-parser target: author parser-safe SVG only. Root canvas must be 960×540 (`width="960" height="540" viewBox="0 0 960 540"`); visible text must be direct XHTML children inside text `foreignObject`; foreground geometry must declare parser `slide:shape-type`; never use native SVG `<text>/<tspan>`, root `<style>`, `class`, CSS variables, or `<foreignObject><div>...`.
 
 ## Image usage
+- Read `request/theme_contract.json` before authoring. Each slide must execute its theme page role, asset role, and layout rhythm instead of falling back to a generic card/chart/text page.
+- Read `brief/visual_quality_contract.json` before authoring. If `media_pressure` is set, each page's image placement must help satisfy it; registering assets is not enough.
 - NEVER reference a non-existent or non-local image. Always use absolute paths for images, fonts, and other resources.
 - Consume only images that are registered as ready assets in `assets/assets_manifest.json` and described in `assets/asset_inventory.json`; do not invent paths, download new images, or use unregistered screenshots during SVG authoring.
 - Follow `asset_inventory.asset_role` and `fit_role` when placing images:
@@ -79,10 +85,14 @@ A text-only slide with decorative shapes signals skipped preparation. It is rare
   - `ui_screenshot`, `product_screen`: preserve readability; do not blur or darken into background decoration.
 - Every ready image asset assigned to a slide must be referenced by that slide unless `asset_inventory.avoid_reason` explicitly says it is a backup.
 - A `full_bleed` or cover hero image must be visually dominant, not a small thumbnail.
+- A dominant real image page must place a real image at or above `media_pressure.dominant_image_min_area_bp` of the SVG canvas. Use the actual SVG `viewBox`, not a fixed canvas assumption.
+- If the outline expects a dominant image and no suitable asset exists, stop and return to asset selection rather than authoring a chart/text-only substitute.
+- Do not let more pages than `media_pressure.max_consecutive_infographic_only_pages` become chart/table/diagram-only when the contract forbids it.
 - Use ONLY the image path(s) prepared for the slide (to avoid duplicates). Place content images with concrete subjects (UI mockups, illustrations) as `<image slide:role="shape" slide:shape-type="image">` in a split or side layout — do not fade them to low opacity and use as full-screen backgrounds, which creates ghost-like visual noise behind foreground content.
 - When `assets_plan` contains real image assets for a slide, the SVG must reference them with `<image slide:role="image" slide:shape-type="image" ...>`.
 - When the visual contract requires real images, authoring six or more `type:none` slides in an 8-page deck is a quality failure unless the contract explicitly allows text-only output.
 - If the deck is about a company, brand, product, person, place, team, event, film, book, or financial-report company, use at least one real, source-traceable subject image in the deck. Charts alone are not sufficient for these subjects.
+- If the deck is a technical paper, research report, model analysis, or report deep dive, use registered `paper_screenshot`, `paper_figure`, `source_page_screenshot`, `repo_screenshot`, or `official_logo` assets where they support the claim. A decorative diagram or abstract line system does not satisfy evidence-image requirements.
 - For entity-driven decks, the cover must use a real cover hero image or a strong real subject visual. Examples: product/device photo, official company/brand image, venue/place photo, team/event photo, or chip/hardware photo for semiconductor reports.
 - A `no_image_reason` is valid only for explicitly chart-only, vector-only, or abstract data requests. Do not use "this is a data report" to bypass real imagery for a named company or brand.
 - Resolve image hrefs relative to the SVG file location. If slides live in `slides/*.svg` and assets live in `assets/...`, use `../assets/...` inside each slide SVG.
@@ -93,6 +103,22 @@ A text-only slide with decorative shapes signals skipped preparation. It is rare
 - Do not use `<image slide:role="chart">`, `<g slide:role="chart">`, or hand-drawn bars/axes/lines/circles to represent a standard chart.
 - Use a chart only for a real quantitative relationship. Tactical maps, timelines, process diagrams, score bugs, stat callouts, and tables are not `slide:role="chart"` unless they come from a Vega-Lite chart manifest entry.
 - Keep the chart large enough to read; default minimum is 480×260 unless the chart brief requires more.
+
+## Analysis diagram discipline
+- Tactical maps, risk radars, coordinate/axis diagrams, process diagrams, and analytical fields are evidence objects, not decorative geometry.
+- Do not draw lanes, circles, arrows, axes, bubbles, radar zones, or field regions unless `source_evidence` can explain what each geometric relationship means. A source that only proves the final score, team bio, or player career total is not enough to justify tactical geometry.
+- A valid tactical/risk/analysis diagram must bind geometry to at least one concrete source-backed event or measurement: minute, zone, channel, pass/shot/touch sequence, heat map, xG, possession, pressure line, or comparable sourced data.
+- If that binding is unavailable, use a real match/photo evidence page, score timeline, quote/evidence collage, or open editorial statement instead of a fake tactical diagram.
+- In `visual_receipts.json`, write the geometry binding inside `source_evidence` itself, not only in `visual_center` or `data_visual_rationale`.
+- In `visual_receipts.json`, write how each page executes `request/theme_contract.json`: the page role, the required asset/evidence role when applicable, the chosen text carrier, and why the layout archetype is visibly different from adjacent pages.
+
+## Diagram visual-form discipline
+- For every `visuals[]` item whose `type` is `diagram`, `map`, `icon`, or `illustration`, read and execute its `visual_form`. Valid forms are `four_quadrant`, `spectrum`, `map_route`, `process_flow`, `parameter_matrix`, `sensory_wheel`, `object_callout`, and `generic`.
+- Do not silently downgrade different forms into the same node-line diagram. `four_quadrant` must look like a quadrant, `spectrum` like a color/value spectrum, `map_route` like a map/path, `process_flow` like ordered steps, `parameter_matrix` like a matrix/grid, `sensory_wheel` like a radial wheel, and `object_callout` like an annotated object.
+- Add `data-svglide-visual-form="<visual_form>"` on the SVG group that implements the diagram. The quality gate uses this marker plus real SVG geometry to detect mismatch and repetition.
+- Use `generic` only when the slide truly needs a simple generic mark. In a normal 8-12 slide deck, repeated `generic` diagrams are a quality failure.
+- If the requested `visual_form` cannot be implemented with the available evidence or assets, stop and repair `content/slide_content.json` or the asset plan; do not author a substitute generic diagram.
+- Use `visual_data_items` to construct diagrams, maps, matrices, charts, and callouts. If `visual_data_items` is empty for a semantic visual form, repair `content/slide_content.json` before drawing; do not invent labels, nodes, routes, or metrics in SVG authoring.
 
 ## Incremental processing
 - Slides are written and displayed as soon as each one is complete.
@@ -131,7 +157,10 @@ Content decides the carrier. Do not solve layout by creating a rounded rectangle
 - Treat the SVG viewBox as a hard canvas. Keep meaningful text, charts, labels, and non-bleed imagery inside a 48px safe area unless the element is an intentional full-bleed image/background.
 - Every title, subtitle, label, and metric must pass text-fit before delivery. If estimated text length exceeds its container, reduce font size, increase container size, wrap deliberately, or split the message.
 - `foreignObject` text boxes must have enough height for the planned line count. Do not rely on clipping or hidden overflow.
-- Standalone `<text>` must be used only for short labels or numbers. Long prose must use a fitted `foreignObject` or multiple manually placed lines.
+- Do not use standalone SVG `<text>` at all in local SVGlide output. Short labels, numbers, captions, and chart annotations still use fitted `foreignObject` text shapes with direct XHTML `<p>`/heading children.
+- A text `foreignObject` must not use a `<div>` wrapper. The direct child must be `<p>`, `<h1>`, `<h2>`, `<h3>`, `<small>`, `<ul>`, or `<ol>` with inline concrete style values.
+- Do not use root `<style>`, `class`, or CSS variables; parser-safe text uses inline concrete `font-family`, `font-size`, `line-height`, `font-weight`, and `color`.
+- Foreground primitive geometry is not parser-safe unless it has explicit slide semantics: `rect`/rounded rect use `slide:role="shape"` plus `slide:shape-type="rect"` or `round-rect`; `circle`/`ellipse` use `slide:shape-type="ellipse"`; custom `path`/`polygon`/`polyline` use `slide:shape-type="custom"` with `slide:width` and `slide:height`.
 - Timeline labels and axis labels must have non-overlapping estimated boxes. If adjacent labels collide, stagger them, reduce type, or move one label to a callout.
 - Before finalizing each SVG, perform a manual canvas check: no visible text cut at the right/bottom edge, no labels glued together, and no important object partly outside the slide unless it is an intentional image bleed.
 </layout_and_design>
@@ -144,6 +173,7 @@ Content decides the carrier. Do not solve layout by creating a rounded rectangle
 - Avoid decks where repeated rounded text boxes become the primary visual system.
 - Avoid converting every score, person, or takeaway into a bordered card when a direct label, image annotation, axis, route marker, or typographic lockup would carry the message better.
 - Do not deliver any SVG that would fail the rendered visual gate: out-of-canvas text, clipped foreignObject text, collided timeline/axis labels, or important content outside the safe area.
+- Do not deliver any SVG that would fail parser-safe lint: native `<text>/<tspan>`, root `<style>`, CSS `class`, `var(--*)`, wrong canvas size, foreground geometry missing parser `slide:shape-type`, or text `foreignObject` with direct `<div>`.
 - Do not deliver an entity-driven deck with zero real image assets or a cover without a real subject visual unless the user explicitly requested chart-only/vector-only output.
 </prohibited_practices>
 

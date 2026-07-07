@@ -41,6 +41,7 @@ completion_gate:
 - `mode_system_prompt_svg.md`: SVG Slides 模式的系统级生成要求。
 - `svg_reference.md`: SVG 协议、元素、角色和约束的权威参考。
 - `semantic_contract.md`: 本地 semantic gate 使用的机器可读规则实例。
+- `slide_font_catalog.md`: Slide canonical 字体和主题 preset 绑定，约束 `typography_contract.json` 的字体选择。
 
 ## Tool Prompts
 

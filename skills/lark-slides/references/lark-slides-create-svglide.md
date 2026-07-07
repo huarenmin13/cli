@@ -2,7 +2,7 @@
 
 `slides +create-svglide` 是 AnyGen SVG Slides 的 agent runtime adapter。它不是 Codex-only workbench；Codex 只是 `agent.runtime=codex` 的一种实现，其他 agent 也必须通过同一套 CLI runtime protocol 执行。
 
-本文档只定义 adapter 协议边界、run-dir 结构、receipt、schema、preview、quality、semantic gate 和 delivery receipt。它不复制 AnyGen prompt 正文，不负责创意生成本身，不接入真实图片 provider，不进入 Feishu/SXSD/live-create 链路。
+本文档只定义 adapter 协议边界、run-dir 结构、receipt、schema、preview、quality、semantic gate 和 delivery receipt。它不复制 AnyGen prompt 正文，不负责创意生成本身，不接入真实图片 provider，不进入 Feishu/SXSD/live-create 链路。若用户请求线上交付但当前 runtime 没有真实 publisher，必须写出 `publish/online_slide.json.status=blocked`，不能用本地 HTML 或截图冒充线上 slide。
 
 ## 权威顺序
 
@@ -19,10 +19,12 @@
 
 - `mode_system_prompt_svg` 是唯一 orchestrator。
 - `svg_reference` 是唯一 protocol authority。
+- `resolve_delivery_contract`：required tool prompt，stage=`request_resolution`，把本地预览、线上交付、真实素材要求写入 `request/delivery_contract.json`。
 - `resolve_design_brief`：required tool prompt，stage=`design_brief`。
 - `slide_outline`：required tool prompt，stage=`outline`。
 - `activate_slides_edit` -> `slides_edit`：required tool prompt chain，stage=`svg_author`。
 - `finish_slides_edit`：required tool prompt，stage=`validate_preview_repair`，对应最终 validate、preview、quality、semantic gate。
+- `publish_online`：required tool prompt，仅当 run 包含 `publish_online` stage 时出现；没有真实 Lark Slides publisher 时必须阻塞。
 - `slide_organize`：conditional tool prompt，条件为 outline 创建后的增删页或重排。
 - `compute_custom_shape_bbox`：conditional tool prompt，条件为 SVG 含 custom path。
 - `generate_vega_lite_chart`：conditional tool prompt，条件为 standard quantitative chart required；agent 写 `assets/charts/chart_briefs.json`、Vega-Lite specs 和 chart manifest。
@@ -47,7 +49,7 @@ adapter 不负责：
 
 - 改写 AnyGen prompt 正文或替 agent 做创意判断。
 - 自动研究、自动搜图、自动生图或接入真实图片 provider。
-- 发布到 Feishu、创建 `.slides`、返回 `xml_presentation_id`、调用 `slide_engine`、SXSD 或 Slides OpenAPI。
+- 静默发布到 Feishu、创建 `.slides`、返回 `xml_presentation_id`、调用 `slide_engine`、SXSD 或 Slides OpenAPI。线上交付只能通过显式 `publish_online` stage 记录真实发布结果；无 publisher 时记录 blocked。
 - 原生实现 chart、table、图片裁剪；这些需求必须通过 AnyGen 语义和本地 artifact 显式表达。
 
 `author` action 只是诊断和占位能力，用于 smoke、协议调试或缺失 SVG 补齐；它不是 AnyGen authoring 的等价实现。
@@ -57,10 +59,10 @@ adapter 不负责：
 标准循环是：
 
 ```text
-init -> complete(request bootstrap) -> [next -> agent_task -> prompt_context -> tool_calls -> artifact -> complete]* -> next(final gate) -> repair -> complete -> delivery
+init -> complete(request bootstrap) -> [next -> agent_task -> prompt_context -> tool_calls -> artifact -> complete]* -> next(final gate) -> repair -> complete -> [publish when delivery_target=online_slide|both] -> delivery
 ```
 
-`init` 只建立 run-dir、请求、manifest 和 schema，并已写好 `request/request.json` 与 `request/source_manifest.json`。`request` stage 是 bootstrap 校验阶段，不需要 agent 再生成 request 产物。`agent.runtime` 记录执行者，例如 `codex`、`claude`、`cursor`、`fake-agent`；runtime protocol 本身不因 agent 名称改变。
+`init` 只建立 run-dir、请求、manifest 和 schema，并已写好 `request/request.json`、`request/source_manifest.json` 与 `request/delivery_contract.json`。`request` stage 是 bootstrap 校验阶段，不需要 agent 再生成 request 产物。`agent.runtime` 记录执行者，例如 `codex`、`claude`、`cursor`、`fake-agent`；runtime protocol 本身不因 agent 名称改变。
 
 `next` 是每个 stage 的唯一调度入口。agent 必须先调用 `next`，再按 `next.agent_task` 写 tool call receipt 和 stage artifact。`complete` 只接受当前 stage 的产物；跨 stage 复用旧 `prompt_context` 必须 fail-closed。
 
@@ -176,8 +178,10 @@ required tool prompt 缺 receipt 时，`complete` 必须失败。conditional too
 
 `repair` passed 后必须写出 `receipts/delivery.json`。delivery receipt 至少应能指向：
 
+- `request/delivery_contract.json` 中的目标。
 - run-dir。
 - `slides/*.svg`。
+- `publish/online_slide.json`，当 `delivery_target=online_slide|both` 时必须存在且 `status=passed`。
 - `preview.html`。
 - `receipts/lint.json`、`receipts/preview.json`、`quality_report.json`、`anygen_semantic_report.json`。
 
