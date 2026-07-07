@@ -278,7 +278,11 @@ func TestValidateStageOutputsRejectsInvalidQualityReportSchema(t *testing.T) {
 	}
 	mustWritePassedRenderedVisualForTest(t)
 	mustWritePassedImageUsageForTest(t)
+	mustWritePassedMediaPressureForTest(t)
 	mustWritePassedChartUsageForTest(t)
+	mustWritePassedContentPayloadForTest(t)
+	mustWritePassedEditorialQualityForTest(t)
+	mustWritePassedScreenshotEvidenceForTest(t)
 	if err := os.WriteFile(filepath.Join("demo", "quality_report.json"), []byte(`{"status":"passed","issues":[],"metrics":{"slides":1,"sources":1,"web_sources":0,"assets":0,"slides_with_source_refs":1}}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
@@ -294,7 +298,7 @@ func TestValidateStageOutputsRejectsInvalidQualityReportSchema(t *testing.T) {
 
 func TestValidateStageOutputsRejectsVisualReceiptsMissingContainerContract(t *testing.T) {
 	writePassingFinalStageArtifactsForTest(t)
-	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"quiet_synthesis","layout_archetype":"poster_stat_lockup","layout_signature":"single_claim_poster","thumbnail_job":"readable title","visual_center":"title block","topic_fit_claim":"matches demo topic","information_density_plan":"one claim with support","page_difference_from_previous":"opening page","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"quiet synthesis","data_visual_rationale":"","source_evidence":["web1 supports claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"quiet_synthesis","layout_archetype":"poster_stat_lockup","layout_signature":"single_claim_poster","thumbnail_job":"readable title","visual_center":"title block","topic_fit_claim":"matches demo topic","information_density_plan":"one claim with support","page_difference_from_previous":"opening page","primary_asset":"","asset_role":"none","font_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"composition_intent":"quiet synthesis","data_visual_rationale":"","source_evidence":["web1 supports claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
 
 	err := ValidateStageOutputs("demo")
 	if err == nil {
@@ -308,7 +312,9 @@ func TestValidateStageOutputsRejectsVisualReceiptsMissingContainerContract(t *te
 func TestValidateStageOutputsRejectsSourcesMissingRetrieval(t *testing.T) {
 	initStatusTestRun(t)
 	setCurrentStageForStatusTest(t, StageResearch)
-	if err := os.WriteFile(filepath.Join("demo", "research", "sources.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"supporting evidence"}]}`), 0o644); err != nil {
+	mustWriteTestFile(t, "demo/research/research_plan.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"entity":{"name":"给阿嬷的情书","type":"topic","requires_confirmation":false},"identifiers":[{"id":"id_topic","type":"topic_phrase","value":"给阿嬷的情书","confidence_bp":9000,"reason":"schema fixture"}],"evidence_needs":[{"id":"need_context","type":"context","required":true}],"source_ladders":[{"identifier_id":"id_topic","evidence_need_id":"need_context","required_source_classes":["general_web_search"],"fallback_source_classes":[],"forbidden_only_source_classes":[]}],"minimum_coverage":{"min_retrieved_sources":1,"identity_source_required":false,"all_required_source_classes_attempted":true},"failure_policy":{"block_if_required_source_class_missing":true,"block_if_only_general_search":false,"clarify_if_identity_unconfirmed_after_ladder":true}}`)
+	mustWriteTestFile(t, "demo/research/queries.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"queries":[{"id":"q_s1","plan_identifier_id":"id_topic","source_class":"general_web_search","method":"search_query","query_or_url":"给阿嬷的情书","purpose":"context","status":"retrieved","retrieved_source_ids":["s1"]}]}`)
+	if err := os.WriteFile(filepath.Join("demo", "research", "sources.json"), []byte(`{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"supporting evidence","query_id":"q_s1","source_class":"general_web_search","authority_tier":"general"}]}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -329,17 +335,17 @@ func TestValidateStageOutputsRejectsSlideContentMissingSourceRefsOrVisualIds(t *
 	}{
 		{
 			name: "missing source_refs",
-			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}]}]}`,
+			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}],"so_what":"This isolates the missing source_refs field."}]}`,
 			want: "source_refs",
 		},
 		{
 			name: "missing visual id",
-			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[{"type":"none","instruction":"No visual needed"}]}]}`,
+			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":["s1"],"visuals":[{"type":"none","instruction":"No visual needed"}],"so_what":"This isolates the missing visual id field."}]}`,
 			want: "visuals[0].id",
 		},
 		{
 			name: "empty visuals",
-			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[]}]}`,
+			raw:  `{"prompt_contract":` + promptContractJSON(StageSlideContent) + `,"slides":[{"id":"s1","content":"Plan","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":["s1"],"visuals":[],"so_what":"This isolates the empty visuals field."}]}`,
 			want: "visuals",
 		},
 	}
@@ -359,6 +365,47 @@ func TestValidateStageOutputsRejectsSlideContentMissingSourceRefsOrVisualIds(t *
 				t.Fatalf("error = %v, want content/slide_content.json and %s", err, tt.want)
 			}
 		})
+	}
+}
+
+func TestValidateSlideContentSourceRefsGateRejectsDiagramMissingVisualForm(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"s1","path":"https://example.com","title":"Source","excerpt":"Excerpt","usage":"support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[{"id":"v1","type":"diagram","instruction":"Draw a process diagram"}]}]}`)
+
+	err := ValidateSlideContentSourceRefsGate("demo")
+	if err == nil {
+		t.Fatal("expected missing visual_form to fail")
+	}
+	if !strings.Contains(err.Error(), "visual_form") {
+		t.Fatalf("error = %v, want visual_form", err)
+	}
+}
+
+func TestSlideContentSchemaRequiresStructuredPayload(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageSlideContent)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","source_refs":["s1"],"visuals":[{"id":"v1","type":"none","instruction":"Text only"}]}]}`)
+
+	err := ValidateStageOutputs("demo")
+	if err == nil {
+		t.Fatal("expected slide content schema to require structured payload")
+	}
+	if !strings.Contains(err.Error(), "central_claim") {
+		t.Fatalf("error = %v, want central_claim required", err)
+	}
+}
+
+func TestSlideContentSchemaAcceptsStructuredPayload(t *testing.T) {
+	initStatusTestRun(t)
+	setCurrentStageForStatusTest(t, StageSlideContent)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Source","excerpt":"Excerpt","usage":"support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.md", "# slides\n")
+	mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"Claim","body":"Body","labels":[]},"production_instruction":{"layout":"Text-only","asset_ids":[]}}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":["s1"],"visuals":[{"id":"v1","type":"none","instruction":"Text-only"}],"so_what":"This structured payload should pass schema validation."}]}`)
+
+	if err := ValidateStageOutputs("demo"); err != nil {
+		t.Fatalf("structured slide content rejected: %v", err)
 	}
 }
 
@@ -459,6 +506,8 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	schemas := DefaultSchemas()
 	for _, name := range []string{
 		"entity_resolution.schema.json",
+		"research_plan.schema.json",
+		"research_queries.schema.json",
 		"sources.schema.json",
 		"research_coverage.schema.json",
 		"slide_content.schema.json",
@@ -472,6 +521,7 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 		"chart_quality.schema.json",
 		"typography_contract.schema.json",
 		"quality.schema.json",
+		"content_payload.schema.json",
 	} {
 		if strings.TrimSpace(schemas[name]) == "" {
 			t.Fatalf("schema %s is missing", name)
@@ -479,6 +529,15 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	}
 	if !strings.Contains(schemas["sources.schema.json"], `"retrieval"`) {
 		t.Fatalf("sources schema missing retrieval contract: %s", schemas["sources.schema.json"])
+	}
+	if !strings.Contains(schemas["research_plan.schema.json"], `"source_ladders"`) || !strings.Contains(schemas["research_plan.schema.json"], `"required_source_classes"`) {
+		t.Fatalf("research plan schema missing source ladder contract: %s", schemas["research_plan.schema.json"])
+	}
+	if !strings.Contains(schemas["research_queries.schema.json"], `"source_class"`) || !strings.Contains(schemas["research_queries.schema.json"], `"retrieved_source_ids"`) {
+		t.Fatalf("research queries schema missing source linkage contract: %s", schemas["research_queries.schema.json"])
+	}
+	if !strings.Contains(schemas["sources.schema.json"], `"query_id"`) || !strings.Contains(schemas["sources.schema.json"], `"authority_tier"`) {
+		t.Fatalf("sources schema missing research query provenance fields: %s", schemas["sources.schema.json"])
 	}
 	if !strings.Contains(schemas["research_coverage.schema.json"], `"source_count"`) || !strings.Contains(schemas["research_coverage.schema.json"], `"topic_only_rationale"`) {
 		t.Fatalf("research coverage schema missing coverage fields: %s", schemas["research_coverage.schema.json"])
@@ -492,6 +551,9 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	if !strings.Contains(schemas["slide_content.schema.json"], `"visuals"`) {
 		t.Fatalf("slide content schema missing visuals: %s", schemas["slide_content.schema.json"])
 	}
+	if !strings.Contains(schemas["slide_content.schema.json"], `"visual_form"`) || !strings.Contains(schemas["slide_content.schema.json"], `"sensory_wheel"`) {
+		t.Fatalf("slide content schema missing visual_form contract: %s", schemas["slide_content.schema.json"])
+	}
 	if !strings.Contains(schemas["deck.schema.json"], `"visual_role"`) || !strings.Contains(schemas["deck.schema.json"], `"visual_intent"`) {
 		t.Fatalf("deck schema missing visual role fields: %s", schemas["deck.schema.json"])
 	}
@@ -500,6 +562,9 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	}
 	if strings.TrimSpace(schemas["visual_receipts.schema.json"]) == "" || strings.TrimSpace(schemas["creative_quality.schema.json"]) == "" {
 		t.Fatalf("visual quality schemas are missing: receipts=%q creative=%q", schemas["visual_receipts.schema.json"], schemas["creative_quality.schema.json"])
+	}
+	if !strings.Contains(schemas["creative_quality.schema.json"], `"visual_skeleton_max_ratio_bp"`) || !strings.Contains(schemas["creative_quality.schema.json"], `"visual_intent_mismatch_count"`) {
+		t.Fatalf("creative quality schema missing visual skeleton metrics: %s", schemas["creative_quality.schema.json"])
 	}
 	if !strings.Contains(schemas["slide_copy_plan.schema.json"], `"audience_copy"`) || !strings.Contains(schemas["slide_copy_plan.schema.json"], `"production_instruction"`) {
 		t.Fatalf("slide copy plan schema missing audience_copy/production_instruction: %s", schemas["slide_copy_plan.schema.json"])
@@ -525,7 +590,7 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	if !strings.Contains(schemas["chart_quality.schema.json"], `"missing_unit_count"`) || !strings.Contains(schemas["chart_quality.schema.json"], `"decorative_chart_count"`) {
 		t.Fatalf("chart quality schema missing core metrics: %s", schemas["chart_quality.schema.json"])
 	}
-	if !strings.Contains(schemas["typography_contract.schema.json"], `"display"`) || !strings.Contains(schemas["typography_contract.schema.json"], `"number"`) {
+	if !strings.Contains(schemas["typography_contract.schema.json"], `"display"`) || !strings.Contains(schemas["typography_contract.schema.json"], `"number"`) || !strings.Contains(schemas["typography_contract.schema.json"], `"selected_moods"`) || !strings.Contains(schemas["typography_contract.schema.json"], `"font_source"`) {
 		t.Fatalf("typography contract schema missing font roles: %s", schemas["typography_contract.schema.json"])
 	}
 	for _, want := range []string{`"experiment_unrestricted_assets"`, `"chart"`, `"table"`, `"crop"`, `"deferred"`} {
@@ -536,10 +601,13 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 	if !strings.Contains(schemas["quality.schema.json"], `"metrics"`) {
 		t.Fatalf("quality schema missing metrics: %s", schemas["quality.schema.json"])
 	}
-	for _, want := range []string{`"strong_cover"`, `"evidence_page_max_visuals"`, `"repeated_layout_ratio_bp"`, `"visual_role_coverage_bp"`, `"real_image_assets"`, `"vega_lite_spec_assets"`, `"typography_contract_present"`, `"image_role_format_issue_count"`, `"image_usage_issue_count"`} {
+	for _, want := range []string{`"strong_cover"`, `"evidence_page_max_visuals"`, `"repeated_layout_ratio_bp"`, `"visual_role_coverage_bp"`, `"real_image_assets"`, `"vega_lite_spec_assets"`, `"typography_contract_present"`, `"image_role_format_issue_count"`, `"image_usage_issue_count"`, `"content_payload_issue_count"`, `"sparse_label_list_count"`} {
 		if !strings.Contains(schemas["quality.schema.json"], want) {
 			t.Fatalf("quality schema missing %s: %s", want, schemas["quality.schema.json"])
 		}
+	}
+	if !strings.Contains(schemas["content_payload.schema.json"], `"sparse_label_list_count"`) || !strings.Contains(schemas["content_payload.schema.json"], `"source_binding_issue_count"`) {
+		t.Fatalf("content payload schema missing core metrics: %s", schemas["content_payload.schema.json"])
 	}
 	for _, want := range []string{`"cover_requires_real_hero_image"`, `"required_chart_renderer"`, `"typography_contract_required"`} {
 		if !strings.Contains(schemas["entity_resolution.schema.json"], want) {
@@ -555,7 +623,8 @@ func TestCompleteResearchRejectsCoverageSourceIDsNotInSources(t *testing.T) {
 	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("film", 8500, "high", "resolved", ""))
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"identity","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/research/research_coverage.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"entity":{"name":"给阿嬷的情书","type":"film"},"queries":[{"query":"给阿嬷的情书 电影","purpose":"entity_disambiguation"}],"sources":[{"id":"missing","title":"Missing","url":"https://example.com/missing","retrieved_at":"2026-07-04T00:00:00Z","usage":"identity","status":"retrieved"}],"coverage":{"identity_confirmed":true,"has_reliable_source":true,"minimum_source_count_met":true,"source_count":1,"topic_only_rationale":""}}`)
-	writePromptContextReceiptWithoutToolCallsForTest(t, StageResearch)
+	writePromptContextReceiptForTest(t, StageResearch, map[string]string{})
+	writeToolCallReceiptForTest(t, StageResearch, "plan_research")
 
 	_, err := CompleteCurrentStage("demo")
 	if err == nil {
@@ -573,7 +642,8 @@ func TestCompleteResearchRejectsCoverageEntityTypeDowngrade(t *testing.T) {
 	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("film", 8500, "high", "resolved", ""))
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"context","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/research/research_coverage.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"entity":{"name":"给阿嬷的情书","type":"topic"},"queries":[{"query":"给阿嬷的情书","purpose":"context"}],"sources":[{"id":"s1","title":"Example","url":"https://example.com","retrieved_at":"2026-07-04T00:00:00Z","usage":"context","status":"retrieved"}],"coverage":{"identity_confirmed":false,"has_reliable_source":true,"minimum_source_count_met":true,"source_count":1,"topic_only_rationale":"伪装成开放主题以跳过 identity source。"}}`)
-	writePromptContextReceiptWithoutToolCallsForTest(t, StageResearch)
+	writePromptContextReceiptForTest(t, StageResearch, map[string]string{})
+	writeToolCallReceiptForTest(t, StageResearch, "plan_research")
 
 	_, err := CompleteCurrentStage("demo")
 	if err == nil {
@@ -590,7 +660,7 @@ func TestCompleteSlideContentRejectsUnknownSourceRefs(t *testing.T) {
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"identity","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.md", "# slides\n")
 	mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"Claim","body":"Body","labels":[]},"production_instruction":{"layout":"Text-only","asset_ids":[]}}]}`)
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","source_refs":["missing"],"visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}]}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":["missing"],"visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}],"so_what":"This isolates the unknown slide-level source ref."}]}`)
 	writePromptContextReceiptWithoutToolCallsForTest(t, StageSlideContent)
 
 	_, err := CompleteCurrentStage("demo")
@@ -608,7 +678,7 @@ func TestSlideCopyPlanRejectsProductionInstructionInAudienceCopy(t *testing.T) {
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"identity","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.md", "# slides\n")
 	mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"产品页必须让眼镜完整出现","body":"Claim","labels":[]},"production_instruction":{"layout":"图片要完整，不要裁切","asset_ids":[]}}]}`)
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Claim","source_refs":["s1"],"visuals":[{"id":"v1","type":"none","instruction":"Text-only"}]}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Claim","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":["s1"],"visuals":[{"id":"v1","type":"none","instruction":"Text-only"}],"so_what":"This keeps slide content valid while copy plan fails."}]}`)
 	writePromptContextReceiptWithoutToolCallsForTest(t, StageSlideContent)
 
 	_, err := CompleteCurrentStage("demo")
@@ -626,7 +696,7 @@ func TestCompleteSlideContentRejectsEmptySourceRefs(t *testing.T) {
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"identity","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.md", "# slides\n")
 	mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"Claim","body":"Body","labels":[]},"production_instruction":{"layout":"Text-only","asset_ids":[]}}]}`)
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","source_refs":[],"visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}]}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Plan","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":[],"visuals":[{"id":"v1","type":"none","instruction":"No visual needed"}],"so_what":"This isolates the empty source_refs field."}]}`)
 	writePromptContextReceiptWithoutToolCallsForTest(t, StageSlideContent)
 
 	_, err := CompleteCurrentStage("demo")
@@ -645,8 +715,9 @@ func TestCompleteAssetsRejectsManifestAssetMissingInventoryEntry(t *testing.T) {
 	mustWriteTestFile(t, "demo/request/entity_resolution.json", validEntityResolutionJSON("topic", 5000, "medium", "resolved", ""))
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"s1","path":"https://example.com","title":"Example","excerpt":"Ex","usage":"identity","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"prompt_contract":`+promptContractJSON(StageDesignBrief)+`,"system":{"name":"demo","theme":"editorial","palette":["#000000","#ffffff"],"type_scale":{"title":48},"layout_principles":["clear hierarchy"]}}`)
+	mustWriteTestFile(t, "demo/brief/visual_quality_contract.json", `{"prompt_contract":`+promptContractJSON(StageDesignBrief)+`,"visual_quality_contract":{"profile":"brand_official_site","requires_real_images":true,"topic_archetype":"brand_official_site","media_pressure":{"min_real_image_pages":1,"min_dominant_real_image_pages":1,"dominant_image_min_area_bp":3000,"require_cover_dominant_real_image":true,"max_consecutive_infographic_only_pages":2,"min_unique_real_images":1},"editorial_quality_target":{"minimum_score":80,"require_media_pressure_passed":true}}}`)
 	mustWriteTestFile(t, "demo/outline/deck.json", validSchemaDeckJSON("slides/01.svg"))
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Claim","source_refs":["s1"],"visuals":[{"id":"v1","type":"image","instruction":"Use hero"}]}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Claim","central_claim":"This slide has a concrete claim for validation.","audience_takeaway":"The audience understands the validation target.","supporting_points":[{"text":"The first sourced point carries enough explanatory detail.","source_refs":["s1"]},{"text":"The second sourced point carries enough explanatory detail.","source_refs":["s1"]}],"source_bound_facts":[{"fact":"This is a source-bound validation fact.","source_ref":"s1","usage":"evidence"}],"source_refs":["s1"],"visuals":[{"id":"v1","type":"image","instruction":"Use hero"}],"so_what":"This keeps slide content valid while asset inventory fails."}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero","status":"ready"}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"assets":[{"id":"hero","slide_id":"s1","kind":"image","local_path":"assets/images/hero.png","usage":"Hero","status":"ready"}]}`)
 	mustWriteTestFile(t, "demo/assets/image_candidates.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"requires_real_images":true,"candidates":[{"id":"cand-hero","query":"hero photo","source_url":"https://example.com/hero.png","source_class":"user_provided","format":"png","width":1200,"height":800,"has_alpha":false,"asset_role":"hero_photo","fit_role":"full_bleed","local_path":"assets/images/hero.png","score_bp":9000,"selected":true,"selection_reason":"user-provided hero image","format_exception_reason":"","rejection_reason":""}]}`)

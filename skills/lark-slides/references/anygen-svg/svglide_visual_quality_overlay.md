@@ -45,6 +45,19 @@ Layout rhythm hard gate:
 - If a slide uses a chart, its archetype must explain the chart's narrative job. Do not use charts as the default right-side filler.
 - Before SVG authoring, inspect the storyboard. If slides 2-9 can be described by the same sentence, revise the storyboard first.
 
+Diagram visual-form hard gate:
+- `diagram`, `map`, `icon`, and `illustration` visuals must declare `visual_form` in `content/slide_content.json`.
+- Valid `visual_form` values are `four_quadrant`, `spectrum`, `map_route`, `process_flow`, `parameter_matrix`, `sensory_wheel`, `object_callout`, and `generic`.
+- The SVG must render the declared form as a distinct geometry skeleton and mark the implementing group with `data-svglide-visual-form`.
+- Metadata diversity is not enough. If several slides differ only in `layout_signature` text but render the same node-line/card/grid skeleton, the deck fails visual quality.
+- Repeated `generic` diagrams are allowed only for incidental marks, not as the main visual language of multiple content pages.
+
+Content payload floor:
+- Visual quality is invalid if the page is content-poor. A page with strong styling but only labels, generic headings, or unexplained process nodes fails the gate.
+- Every substantive slide must carry one explicit `central_claim`, explanatory `supporting_points`, source-bound facts or concrete parameters, and a clear `so_what` or `audience_takeaway`.
+- Every diagram, map, matrix, chart, process, or callout must have `visual_data_items` that explain what each visual item means. Do not draw geometry whose meaning is not present in the content payload.
+- Label lists such as tea categories, process step names, KPI names, regions, player names, or tasting terms are planning skeletons only. They are not sufficient audience content unless the structured payload supplies explanation and evidence.
+
 Image-text fusion:
 - Use `image_text_fusion_split` only when the page has one strong image and one core claim.
 - The image edge next to the text panel must contain a low-luminance, low-texture, low-information region.
@@ -58,10 +71,10 @@ Image-text fusion:
 
 Typography:
 - Declare `font_display`, `font_body`, `font_number`, and `font_label` for every deck.
-- Typography is a topic identity system, not a checkbox. Finance, sports, luxury, product, and cultural decks must not reuse one generic default stack.
-- Do not set all font roles to `Arial, Helvetica, sans-serif`.
-- For Chinese decks, every visible role must include a concrete CJK font from the supported taxonomy, with generic fallback last.
-- Display and body stacks must differ unless the requested output is a plain operational report.
+- Typography is a topic identity system, not a checkbox. Finance, sports, luxury, product, and cultural decks must not reuse one generic default family.
+- Do not set all font roles to `Arial`, `Inter`, or another generic-looking default.
+- For Chinese decks, visible roles must use concrete canonical CJK-capable `font_family` values from `<slide_font_catalog>`.
+- Display and body families must differ unless the requested output is a plain operational report.
 - If the topic is financial, numeric/table roles must be explicit. If the topic is sports, display and score roles must feel athletic/editorial. If the topic is premium brand/product, display typography must carry brand/editorial character.
 - State how title, body, number, and label differ by family, weight, size range, and usage.
 

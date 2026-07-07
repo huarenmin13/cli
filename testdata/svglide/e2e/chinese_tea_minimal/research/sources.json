@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "id": "tea-source",
+      "path": "https://tea.example.org/chinese-tea-guide",
+      "title": "Chinese Tea Guide",
+      "excerpt": "Chinese tea can be explained through taxonomy, region, craft, tasting, brewing, teaware, and contemporary scenes.",
+      "usage": "primary cultural and process evidence",
+      "retrieval": "full_page"
+    }
+  ]
+}

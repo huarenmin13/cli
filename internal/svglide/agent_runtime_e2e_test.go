@@ -63,7 +63,7 @@ func TestFakeAgentHappyPathProducesSVGDeck(t *testing.T) {
 	if repair.Status != "passed" {
 		t.Fatalf("repair status = %q, want passed: %+v", repair.Status, repair)
 	}
-	mustWriteTestFile(t, "demo/contact-sheet.png", "png")
+	mustWritePassedScreenshotEvidenceForTest(t)
 	if _, err := CompleteCurrentStage("demo"); err != nil {
 		t.Fatalf("complete %s: %v", StageValidatePreviewRepair, err)
 	}
@@ -71,6 +71,10 @@ func TestFakeAgentHappyPathProducesSVGDeck(t *testing.T) {
 		"slides/01.svg",
 		"preview.html",
 		"receipts/image_usage.json",
+		"receipts/media_pressure.json",
+		"receipts/content_payload.json",
+		"receipts/editorial_quality.json",
+		"receipts/screenshot_evidence.json",
 		"receipts/chart_quality.json",
 		"quality_report.json",
 		"anygen_semantic_report.json",
@@ -115,11 +119,13 @@ func TestFakeAgentChartChainRendersAndValidatesVegaLite(t *testing.T) {
 	}
 	setCurrentStageForStatusTest(t, StageAssets)
 	mustWriteTestFile(t, "demo/request/entity_resolution.json", `{"prompt_contract":`+promptContractJSON(StageRequestResolution)+`,"input_text":"chart-only revenue comparison","resolved_entity":{"name":"chart-only revenue comparison","type":"topic","confidence_bp":9000,"confidence_band":"high","reason":"chart-only E2E fixture"},"ambiguity":{"status":"resolved","candidates":[]},"research_required":true,"visual_quality_contract":{"profile":"data_report","requires_real_images":false,"required_chart_renderer":"vega-lite","min_chart_svg_assets":1,"min_vega_lite_specs":1,"reason":"chart-only E2E"},"clarification_question":""}`)
+	mustWriteTestFile(t, "demo/request/theme_contract.json", `{"prompt_contract":`+promptContractJSON(StageRequestResolution)+`,"theme_contract":{"content_type":{"primary":"data_report","secondary":["chart_only"]},"subject_type":{"primary":"topic","named_entity":false,"entity_name":"chart-only revenue comparison"},"delivery_format":{"primary":"self_read","density":"medium"},"evidence_type":{"primary":"quantitative_comparison","requires_sources":true},"asset_needs":{"requires_real_images":false,"required_roles":[],"min_real_image_pages":0,"min_dominant_real_image_pages":0,"min_unique_real_images":0,"cover_requires_dominant_real_image":false},"layout_rhythm":{"min_slide_count":1,"min_distinct_layout_archetypes":1,"max_adjacent_same_archetype":0,"required_page_roles":["cover","chart","closing"]},"typography_identity":{"profile":"data_report","display_category":"sans","body_category":"sans","number_category":"mono"},"quality_floor":{"profile":"chart_only","reason":"chart-only E2E fixture; no raster images required."},"rationale":"This fixture verifies Vega-Lite chart rendering without real image requirements."}}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"web1","path":"https://example.com/filing","title":"Company filing","excerpt":"Segment revenue data","usage":"chart data","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/brief/visual_system.json", `{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#76B900"},"typography":{"title":32,"body":16},"layout_language":"financial chart page"}`)
+	mustWriteTestFile(t, "demo/brief/visual_quality_contract.json", `{"visual_quality_contract":{"profile":"data_report","requires_real_images":false,"required_chart_renderer":"vega-lite","min_chart_svg_assets":1,"min_vega_lite_specs":1,"topic_archetype":"","media_pressure":{},"editorial_quality_target":{},"reason":"chart-only E2E fixture"}}`)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"prompt_contract":`+promptContractJSON(StageOutline)+`,"title":"Chart Deck","slides":[{"id":"s1","title":"Data center leads","summary":"Revenue mix comparison","role":"content","key_message":"Data center revenue leads the mix","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"Data center leads","body":"Data center revenue leads the mix","labels":["Revenue $B","Source: web1"]},"production_instruction":{"layout":"Embed the rendered chart asset with rect role","asset_ids":["revenue_mix"]}}]}`)
-	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Data center revenue leads the mix","source_refs":["web1"],"visuals":[{"id":"revenue_mix","type":"chart","instruction":"Compare segment revenue"}]}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"Data center revenue leads the mix","central_claim":"Data center revenue is the dominant segment in this comparison.","audience_takeaway":"The audience should read the chart as a segment mix proof point, not decoration.","supporting_points":[{"text":"The chart compares reported segment revenue values from the filing source.","source_refs":["web1"]},{"text":"The data center bar is intentionally the visual anchor because it leads the mix.","source_refs":["web1"]}],"source_bound_facts":[{"fact":"Segment revenue data comes from the company filing source.","source_ref":"web1","usage":"visual_data"}],"visual_data_items":[{"label":"Data Center","value":"22.1","role":"metric","explanation":"Largest segment in the comparison.","source_ref":"web1"},{"label":"Gaming","value":"2.9","role":"metric","explanation":"Secondary segment for contrast.","source_ref":"web1"},{"label":"Professional Visualization","value":"0.5","role":"metric","explanation":"Smaller segment for scale context.","source_ref":"web1"}],"source_refs":["web1"],"visuals":[{"id":"revenue_mix","type":"chart","instruction":"Compare segment revenue"}],"so_what":"This proves the slide's message with a real quantitative relationship."}]}`)
 	mustWriteTestFile(t, "demo/assets/image_candidates.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"requires_real_images":false,"no_image_reason":"chart-only E2E fixture; no raster image required.","candidates":[]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[],"no_image_reason":"chart-only E2E fixture; no raster image required."}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"assets":[],"no_image_reason":"chart-only E2E fixture; no raster image required."}`)
@@ -162,8 +168,8 @@ func TestFakeAgentChartChainRendersAndValidatesVegaLite(t *testing.T) {
 	}
 	assertNextTaskHasRuntimeProtocolFields(t, next, StageSVGAuthor)
 	writeFakeAgentReceiptsFromNext(t, next)
-	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<slide:note>Source: web1</slide:note><rect width="960" height="540" fill="#fff"/><text x="48" y="72">Data center leads</text><rect slide:role="chart" href="../assets/charts/revenue_mix.svg" x="80" y="120" width="720" height="360"/></svg>`)
-	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"evidence","layout_family":"data_report","layout_archetype":"chart_forward","layout_signature":"hero_chart_with_title","thumbnail_job":"chart","visual_center":"Vega-Lite rendered revenue chart","topic_fit_claim":"uses chart evidence for revenue comparison","information_density_plan":"one chart plus one title","page_difference_from_previous":"single-slide chart fixture","primary_asset":"assets/charts/revenue_mix.svg","asset_role":"chart evidence","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"chart-forward financial evidence","data_visual_rationale":"Revenue comparison needs a standard chart","source_evidence":["web1 supports revenue data"],"container_fit_plan":"chart has open canvas and title outside chart bounds","container_decision":"no text card needed","text_carrier":"axis_annotation","typography_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"shape_language":"chart_forward","card_budget":{"card_count":0,"why_cards_are_needed":"none"},"chart_receipt":{"chart_id":"revenue_mix","renderer":"vega-lite","unit":"$B","source":"web1","why_chart_is_needed":"compare segment revenue"},"fusion_spec":{"enabled":false},"qa_expectations":["chart is rendered asset, not hand drawn"]}]}`)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><slide:note>Source: web1</slide:note><rect width="960" height="540" fill="#fff"/>`+parserSafeTextBody()+`<rect slide:role="chart" href="../assets/charts/revenue_mix.svg" x="80" y="120" width="720" height="360"/></svg>`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"evidence","layout_family":"data_report","layout_archetype":"chart_forward","layout_signature":"hero_chart_with_title","thumbnail_job":"chart","visual_center":"Vega-Lite rendered revenue chart","topic_fit_claim":"uses chart evidence for revenue comparison","information_density_plan":"one chart plus one title","page_difference_from_previous":"single-slide chart fixture","primary_asset":"assets/charts/revenue_mix.svg","asset_role":"chart evidence","font_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"composition_intent":"chart-forward financial evidence","data_visual_rationale":"Revenue comparison needs a standard chart","source_evidence":["web1 supports revenue data"],"container_fit_plan":"chart has open canvas and title outside chart bounds","container_decision":"no text card needed","text_carrier":"axis_annotation","typography_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"shape_language":"chart_forward","card_budget":{"card_count":0,"why_cards_are_needed":"none"},"chart_receipt":{"chart_id":"revenue_mix","renderer":"vega-lite","unit":"$B","source":"web1","why_chart_is_needed":"compare segment revenue"},"fusion_spec":{"enabled":false},"qa_expectations":["chart is rendered asset, not hand drawn"]}]}`)
 
 	status, err = CompleteCurrentStage("demo")
 	if err != nil {
@@ -190,6 +196,62 @@ func TestFakeAgentChartChainRendersAndValidatesVegaLite(t *testing.T) {
 	if usage.Status != "passed" || len(usage.Charts) != 1 {
 		t.Fatalf("chart usage = %+v, want one passed chart", usage)
 	}
+}
+
+func TestE2EChineseTeaThemeContractQualityGate(t *testing.T) {
+	root := copySVGlideE2EFixtureToTempRun(t, "testdata/svglide/e2e/chinese_tea_minimal")
+	if err := ValidateStageOutputs(root); err != nil {
+		t.Fatalf("ValidateStageOutputs returned %v", err)
+	}
+	report, err := CheckQuality(root)
+	if err != nil {
+		t.Fatalf("CheckQuality returned %v", err)
+	}
+	if report.Status != "passed" {
+		t.Fatalf("quality status = %q, issues = %#v", report.Status, report.Issues)
+	}
+	if !report.Metrics.ThemeContractPresent || !report.Metrics.ThemeAssetNeedsApplied || report.Metrics.DominantRealImagePages < 3 {
+		t.Fatalf("metrics = %+v, want theme contract applied with at least 3 dominant real-image pages", report.Metrics)
+	}
+	creative, err := CheckCreativeQuality(root)
+	if err != nil {
+		t.Fatalf("CheckCreativeQuality returned %v", err)
+	}
+	if creative.Status != "passed" {
+		t.Fatalf("creative status = %q, issues = %#v", creative.Status, creative.Issues)
+	}
+}
+
+func TestE2EChineseTeaRejectsGenericVectorOnlyDeck(t *testing.T) {
+	root := copySVGlideE2EFixtureToTempRun(t, "testdata/svglide/e2e/chinese_tea_minimal")
+	mustWriteTestFile(t, filepath.Join(root, "assets", "assets_manifest.json"), `{"assets":[]}`)
+	mustWriteTestFile(t, filepath.Join(root, "assets", "asset_inventory.json"), `{"items":[]}`)
+	mustWriteTestFile(t, filepath.Join(root, "assets", "image_candidates.json"), `{"requires_real_images":true,"candidates":[]}`)
+
+	report, err := CheckQuality(root)
+	if err != nil {
+		t.Fatalf("CheckQuality returned %v", err)
+	}
+	if report.Status != "failed" || !qualityIssueCodesContain(report.Issues, "svglide.media_pressure.real_image_pages") {
+		t.Fatalf("report = %#v, want real-image media pressure failure", report)
+	}
+}
+
+func copySVGlideE2EFixtureToTempRun(t *testing.T, fixtureRel string) string {
+	t.Helper()
+	repoRoot, err := filepath.Abs(filepath.Join("..", ".."))
+	if err != nil {
+		t.Fatal(err)
+	}
+	cwd := t.TempDir()
+	t.Chdir(cwd)
+	writeDefaultSemanticContractForTest(t)
+	runRoot := filepath.Join(cwd, "fixture")
+	copyTestDir(t, filepath.Join(repoRoot, fixtureRel), runRoot)
+	for name, schema := range DefaultSchemas() {
+		mustWriteTestFile(t, filepath.Join("fixture", "schemas", name), schema)
+	}
+	return "fixture"
 }
 
 func assertNextTaskHasRuntimeProtocolFields(t *testing.T, next NextTaskReport, stage string) {
@@ -321,6 +383,7 @@ func writeFakeAgentStageArtifacts(t *testing.T, stage string) {
 		return
 	case StageRequestResolution:
 		mustWriteTestFile(t, "demo/request/entity_resolution.json", `{"prompt_contract":`+promptContractJSON(StageRequestResolution)+`,"input_text":"介绍一部电影","resolved_entity":{"name":"介绍一部电影","type":"topic","confidence_bp":5000,"confidence_band":"medium","reason":"用户请求是开放主题，需要先研究确定内容方向"},"ambiguity":{"status":"resolved","candidates":[]},"research_required":true,"clarification_question":""}`)
+		mustWriteTestFile(t, "demo/request/theme_contract.json", validThemeContractJSON())
 	case StageResearch:
 		mustWriteTestFile(t, "demo/research/research_notes.md", "# 电影资料\n\n用户提供主题。")
 		mustWriteTestFile(t, "demo/research/sources.json", `{"prompt_contract":`+promptContractJSON(StageResearch)+`,"sources":[{"id":"user1","path":"topic://介绍一部电影","title":"用户主题","excerpt":"介绍一部电影","usage":"primary brief","retrieval":"user_provided"}]}`)
@@ -332,16 +395,16 @@ func writeFakeAgentStageArtifacts(t *testing.T, stage string) {
 	case StageSlideContent:
 		mustWriteTestFile(t, "demo/content/slide_content.md", "# 一部电影\n\n电影的核心吸引力。")
 		mustWriteTestFile(t, "demo/content/slide_copy_plan.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","audience_copy":{"title":"一部电影","body":"电影的核心吸引力","labels":["电影"]},"production_instruction":{"layout":"Use local hero image, no visible source note","asset_ids":["hero"]}}]}`)
-		mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"电影的核心吸引力","source_refs":["user1"],"visuals":[{"id":"hero","type":"image","instruction":"Use a cinematic hero image"}]}]}`)
+		mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"电影的核心吸引力","central_claim":"这页用一个清晰观点说明电影为什么值得被介绍。","audience_takeaway":"观众应先获得电影主题的核心吸引力，再进入后续分析。","supporting_points":[{"text":"用户请求是介绍一部电影，因此封面需要先建立主题识别。","source_refs":["user1"]},{"text":"视觉和标题共同承担开场钩子，而不是只放一个片名。","source_refs":["user1"]}],"source_bound_facts":[{"fact":"用户主题要求生成电影介绍。","source_ref":"user1","usage":"context"}],"source_refs":["user1"],"visuals":[{"id":"hero","type":"image","instruction":"Use a cinematic hero image"}],"so_what":"这页应作为有观点的开场，而不是空泛标题页。"}]}`)
 	case StageAssets:
 		mustWriteTestFile(t, "demo/assets/image_candidates.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"requires_real_images":true,"candidates":[{"id":"cand-hero","query":"movie hero image","source_url":"https://example.com/movie-hero.png","source_class":"user_provided","format":"png","width":1200,"height":800,"has_alpha":false,"asset_role":"hero_photo","fit_role":"split_panel","local_path":"assets/images/movie-hero.png","score_bp":9000,"selected":true,"selection_reason":"user-provided cinematic hero image","format_exception_reason":"","rejection_reason":""}]}`)
 		mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"https://example.com/movie-hero.png","usage":"Cinematic hero image","status":"ready"}]}`)
 		mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","kind":"image","source_url":"https://example.com/movie-hero.png","local_path":"assets/images/movie-hero.png","usage":"Cinematic hero image","status":"ready"}]}`)
 		mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"prompt_contract":`+promptContractJSON(StageAssets)+`,"items":[{"id":"hero","path":"assets/images/movie-hero.png","source_url":"https://example.com/movie-hero.png","width":1200,"height":800,"semantic_type":"hero","large_ok":true,"full_bleed_ok":false,"recommended_use":"cover split image","avoid_reason":"","format":"png","has_alpha":false,"asset_role":"hero_photo","fit_role":"split_panel","candidate_id":"cand-hero","selection_reason":"user-provided cinematic hero image","format_exception_reason":""}]}`)
-		mustWriteTestFile(t, "demo/assets/images/movie-hero.png", "png")
+		mustWriteTestPNGFile(t, "demo/assets/images/movie-hero.png")
 	case StageSVGAuthor:
-		mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<slide:note>Source: user1</slide:note><rect width="960" height="540" fill="#fff"/><image slide:role="image" href="../assets/images/movie-hero.png" x="520" y="80" width="320" height="240"/><text x="48" y="88">电影介绍</text><text x="48" y="150">电影的核心吸引力</text></svg>`)
-		mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"character_product_focus","layout_archetype":"annotated_image","layout_signature":"image_claim","thumbnail_job":"电影介绍","visual_center":"movie hero image and title","topic_fit_claim":"introduces the requested movie topic","information_density_plan":"one claim plus one visual anchor","page_difference_from_previous":"opening page","primary_asset":"assets/images/movie-hero.png","asset_role":"cinematic topic anchor","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"image-led cinematic introduction","data_visual_rationale":"","source_evidence":["user1 supports the topic"],"container_fit_plan":"text sits in image-safe open area with no default card","container_decision":"image-led open composition","text_carrier":"image_dark_zone","typography_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"shape_language":"image_annotation","card_budget":{"card_count":0,"why_cards_are_needed":"none"},"chart_receipt":{"chart_id":"","renderer":"none","unit":"","source":"","why_chart_is_needed":""},"fusion_spec":{"enabled":false},"qa_expectations":["no visible process text"]}]}`)
+		mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><slide:note>Source: user1</slide:note><rect width="960" height="540" fill="#fff"/><image slide:role="image" href="../assets/images/movie-hero.png" x="520" y="80" width="320" height="240"/><foreignObject x="48" y="72" width="360" height="120" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Inter,Arial,sans-serif;font-size:28px;line-height:1.25;color:#111;">电影介绍</p><p xmlns="http://www.w3.org/1999/xhtml" style="margin:12px 0 0 0;font-family:Inter,Arial,sans-serif;font-size:20px;line-height:1.35;color:#333;">电影的核心吸引力</p></foreignObject></svg>`)
+		mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"hook","layout_family":"character_product_focus","layout_archetype":"annotated_image","layout_signature":"image_claim","thumbnail_job":"电影介绍","visual_center":"movie hero image and title","topic_fit_claim":"introduces the requested movie topic","information_density_plan":"one claim plus one visual anchor","page_difference_from_previous":"opening page","primary_asset":"assets/images/movie-hero.png","asset_role":"cinematic topic anchor","font_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"composition_intent":"image-led cinematic introduction","data_visual_rationale":"","source_evidence":["user1 supports the topic"],"container_fit_plan":"text sits in image-safe open area with no default card","container_decision":"image-led open composition","text_carrier":"image_dark_zone","typography_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"shape_language":"image_annotation","card_budget":{"card_count":0,"why_cards_are_needed":"none"},"chart_receipt":{"chart_id":"","renderer":"none","unit":"","source":"","why_chart_is_needed":""},"fusion_spec":{"enabled":false},"qa_expectations":["no visible process text"]}]}`)
 	default:
 		t.Fatalf("unexpected fake-agent stage %q", stage)
 	}

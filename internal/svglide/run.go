@@ -15,6 +15,7 @@ const (
 	StageAssets                = "assets"
 	StageSVGAuthor             = "svg_author"
 	StageValidatePreviewRepair = "validate_preview_repair"
+	StagePublishOnline         = "publish_online"
 
 	StatusPending     = "pending"
 	StatusReady       = "ready"
@@ -46,6 +47,7 @@ type Run struct {
 	Input             string        `json:"input,omitempty"`
 	Audience          string        `json:"audience,omitempty"`
 	DeliveryMode      string        `json:"delivery_mode,omitempty"`
+	DeliveryTarget    string        `json:"delivery_target,omitempty"`
 	VisualQualityMode string        `json:"visual_quality_mode,omitempty"`
 	Pages             int           `json:"pages,omitempty"`
 	Out               string        `json:"out"`
@@ -83,6 +85,7 @@ type ArtifactPaths struct {
 	Deck        string `json:"deck"`
 	SlidesDir   string `json:"slides_dir"`
 	Preview     string `json:"preview"`
+	OnlineSlide string `json:"online_slide,omitempty"`
 	RepairQueue string `json:"repair_queue"`
 }
 
@@ -94,18 +97,19 @@ type Policy struct {
 }
 
 type NewRunConfig struct {
-	Title        string
-	Input        string
-	Topic        string
-	Language     string
-	Audience     string
-	DeliveryMode string
-	Pages        int
-	Out          string
-	Now          time.Time
-	AgentRuntime string
-	AgentID      string
-	RouteProfile string
+	Title          string
+	Input          string
+	Topic          string
+	Language       string
+	Audience       string
+	DeliveryMode   string
+	DeliveryTarget string
+	Pages          int
+	Out            string
+	Now            time.Time
+	AgentRuntime   string
+	AgentID        string
+	RouteProfile   string
 }
 
 func NewRun(cfg NewRunConfig) Run {
@@ -126,6 +130,7 @@ func NewRun(cfg NewRunConfig) Run {
 	if cfg.Topic != "" {
 		sourceMode = "topic"
 	}
+	contract := ResolveDeliveryContract(cfg.Title, cfg.Topic, cfg.DeliveryTarget)
 	return Run{
 		Version:           1,
 		Runtime:           "agent",
@@ -135,21 +140,23 @@ func NewRun(cfg NewRunConfig) Run {
 		Input:             cfg.Input,
 		Audience:          cfg.Audience,
 		DeliveryMode:      cfg.DeliveryMode,
+		DeliveryTarget:    contract.DeliveryTarget,
 		VisualQualityMode: VisualQualityModeStrict,
 		Pages:             cfg.Pages,
 		Out:               cfg.Out,
 		CreatedAt:         ts,
 		UpdatedAt:         ts,
 		CurrentStage:      StageRequest,
-		Stages:            DefaultStages(),
+		Stages:            DefaultStagesForDelivery(contract.DeliveryTarget),
 		Artifacts: ArtifactPaths{
 			Deck:        "outline/deck.json",
 			SlidesDir:   "slides",
 			Preview:     "preview.html",
+			OnlineSlide: onlineSlideReportPath,
 			RepairQueue: "repair_queue.md",
 		},
 		Policy: Policy{
-			PublishEnabled:         false,
+			PublishEnabled:         contract.RequiresOnlineSlide,
 			NetworkByAgent:         true,
 			ImageGenerationByAgent: true,
 			Overwrite:              false,
@@ -170,13 +177,29 @@ func NewRun(cfg NewRunConfig) Run {
 func DefaultStages() []Stage {
 	return []Stage{
 		{Name: StageRequest, Status: StatusPending, Inputs: []string{}, Outputs: []string{"request/request.json", "request/source_manifest.json"}, Receipt: "receipts/request.json"},
-		{Name: StageRequestResolution, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json"}, Outputs: []string{"request/entity_resolution.json"}, Receipt: "receipts/request_resolution.json"},
-		{Name: StageResearch, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json", "request/entity_resolution.json"}, Outputs: []string{"research/research_notes.md", "research/sources.json", "research/research_coverage.json"}, Receipt: "receipts/research.json"},
-		{Name: StageDesignBrief, Status: StatusPending, Inputs: []string{"request/request.json", "research/research_notes.md"}, Outputs: []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json"}, Receipt: "receipts/design_brief.json"},
-		{Name: StageOutline, Status: StatusPending, Inputs: []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json"}, Outputs: []string{"outline/deck.json"}, Receipt: "receipts/outline.json"},
-		{Name: StageSlideContent, Status: StatusPending, Inputs: []string{"outline/deck.json", "research/research_notes.md", "research/sources.json"}, Outputs: []string{"content/slide_content.md", "content/slide_content.json", "content/slide_copy_plan.json"}, Receipt: "receipts/slide_content.json"},
-		{Name: StageAssets, Status: StatusPending, Inputs: []string{"content/slide_content.json", "brief/visual_system.json"}, Outputs: []string{"assets/image_candidates.json", "assets/assets_plan.json", "assets/assets_manifest.json", "assets/asset_inventory.json", "assets/charts/chart_briefs.json", "assets/charts/chart_manifest.json", "receipts/chart_render.json"}, Receipt: "receipts/assets.json"},
-		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_manifest.json", "assets/charts/chart_briefs.json", "assets/charts/chart_manifest.json"}, Outputs: []string{"slides/*.svg"}, Receipt: "receipts/svg_author.json"},
-		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "receipts/rendered_visual.json", "receipts/image_usage.json", "receipts/chart_usage.json", "quality_report.json", "anygen_semantic_report.json", "visual_receipts.json", "creative_quality_report.json", "receipts/chart_quality.json", "repair_queue.md", "preview.html", "receipts/delivery.json"}, Receipt: "receipts/validate_preview_repair.json"},
+		{Name: StageRequestResolution, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json"}, Outputs: []string{"request/entity_resolution.json", "request/theme_contract.json", deliveryContractPath}, Receipt: "receipts/request_resolution.json"},
+		{Name: StageResearch, Status: StatusPending, Inputs: []string{"request/request.json", "request/source_manifest.json", "request/entity_resolution.json", "request/theme_contract.json", deliveryContractPath}, Outputs: []string{"research/research_plan.json", "research/queries.json", "research/research_notes.md", "research/sources.json", "research/research_coverage.json"}, Receipt: "receipts/research.json"},
+		{Name: StageDesignBrief, Status: StatusPending, Inputs: []string{"request/request.json", "request/theme_contract.json", "research/research_notes.md"}, Outputs: []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json", "brief/visual_quality_contract.json"}, Receipt: "receipts/design_brief.json"},
+		{Name: StageOutline, Status: StatusPending, Inputs: []string{"request/theme_contract.json", "brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json", "brief/visual_quality_contract.json"}, Outputs: []string{"outline/deck.json"}, Receipt: "receipts/outline.json"},
+		{Name: StageSlideContent, Status: StatusPending, Inputs: []string{"request/theme_contract.json", "outline/deck.json", "research/research_notes.md", "research/sources.json"}, Outputs: []string{"content/slide_content.md", "content/slide_content.json", "content/slide_copy_plan.json"}, Receipt: "receipts/slide_content.json"},
+		{Name: StageAssets, Status: StatusPending, Inputs: []string{"request/theme_contract.json", "content/slide_content.json", "brief/visual_system.json"}, Outputs: []string{"assets/image_candidates.json", "assets/assets_plan.json", "assets/assets_manifest.json", "assets/asset_inventory.json", "assets/charts/chart_briefs.json", "assets/charts/chart_manifest.json", "receipts/chart_render.json"}, Receipt: "receipts/assets.json"},
+		{Name: StageSVGAuthor, Status: StatusPending, Inputs: []string{"request/theme_contract.json", "outline/deck.json", "content/slide_content.json", "brief/visual_system.json", "assets/assets_manifest.json", "assets/charts/chart_briefs.json", "assets/charts/chart_manifest.json"}, Outputs: []string{"slides/*.svg"}, Receipt: "receipts/svg_author.json"},
+		{Name: StageValidatePreviewRepair, Status: StatusPending, Inputs: []string{"slides/*.svg"}, Outputs: []string{"receipts/lint.json", "receipts/preview.json", "receipts/rendered_visual.json", "receipts/image_usage.json", "receipts/media_pressure.json", "receipts/chart_usage.json", "receipts/content_payload.json", "quality_report.json", "anygen_semantic_report.json", "visual_receipts.json", "creative_quality_report.json", "receipts/editorial_quality.json", "receipts/screenshot_evidence.json", "receipts/chart_quality.json", "repair_queue.md", "preview.html", "receipts/delivery.json"}, Receipt: "receipts/validate_preview_repair.json"},
 	}
+}
+
+func DefaultStagesForDelivery(target string) []Stage {
+	stages := DefaultStages()
+	target = normalizeDeliveryTarget(target)
+	if target != DeliveryTargetOnlineSlide && target != DeliveryTargetBoth {
+		return stages
+	}
+	stages = append(stages, Stage{
+		Name:    StagePublishOnline,
+		Status:  StatusPending,
+		Inputs:  []string{"slides/*.svg", deliveryReceiptPath},
+		Outputs: []string{onlineSlideReportPath, onlinePublishReceiptRel},
+		Receipt: onlinePublishReceiptRel,
+	})
+	return stages
 }

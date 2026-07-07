@@ -19,6 +19,7 @@ type SemanticMetrics struct {
 	VisibleLeakCount        int `json:"visible_leak_count"`
 	FontTokenCount          int `json:"font_token_count"`
 	MissingFontTokenCount   int `json:"missing_font_token_count"`
+	ParserUnsafeCount       int `json:"parser_unsafe_count"`
 }
 
 func MissingAssetCountForRun(safeRoot string, run Run) int {
@@ -83,9 +84,7 @@ func ComputeSemanticMetrics(safeRoot string, run Run) (SemanticMetrics, error) {
 		metrics.VisibleLeakCount += countVisibleLeakMarkers(svg)
 		fontTokens := countFontTokens(svg)
 		metrics.FontTokenCount += fontTokens
-		if fontTokens < 4 {
-			metrics.MissingFontTokenCount += 4 - fontTokens
-		}
+		metrics.ParserUnsafeCount += len(lintParserSafeSVG(slidePath, raw))
 		if strings.Contains(svg, `slide:role="slide"`) || strings.Contains(svg, `slide:role='slide'`) {
 			metrics.SlidesWithSlideRole++
 		}

@@ -194,6 +194,9 @@ func lintSVG(path string, raw []byte) []ValidationIssue {
 	if rootIsSVG && !hasVisibleContent {
 		issues = append(issues, ValidationIssue{Path: path, Code: "svglide.visible_content", Message: "slide contains only background/placeholder content"})
 	}
+	if rootIsSVG {
+		issues = append(issues, lintParserSafeSVG(path, raw)...)
+	}
 	return issues
 }
 

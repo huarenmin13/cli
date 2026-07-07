@@ -1,0 +1,14 @@
+{
+  "prompt_contract": {},
+  "input_text": "品中国茶",
+  "resolved_entity": {
+    "name": "中国茶",
+    "type": "topic",
+    "confidence_bp": 9000,
+    "confidence_band": "high",
+    "reason": "开放文化与饮品主题，需要按主题维度组织内容。"
+  },
+  "ambiguity": {"status": "resolved", "candidates": []},
+  "research_required": true,
+  "clarification_question": ""
+}

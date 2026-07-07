@@ -22,27 +22,31 @@ type RepairReport struct {
 }
 
 type DeliveryReceipt struct {
-	Status                string                  `json:"status"`
-	RouteProfile          string                  `json:"route_profile"`
-	Orchestrator          string                  `json:"orchestrator"`
-	RuntimeBinding        string                  `json:"runtime_binding"`
-	Deck                  string                  `json:"deck"`
-	SlidesDir             string                  `json:"slides_dir"`
-	Slides                []string                `json:"slides"`
-	Preview               DeliveryPreviewEvidence `json:"preview"`
-	QualityReport         string                  `json:"quality_report"`
-	AnyGenSemanticReport  string                  `json:"anygen_semantic_report"`
-	VisualReceipts        string                  `json:"visual_receipts"`
-	CreativeQualityReport string                  `json:"creative_quality_report"`
-	SemanticMetrics       SemanticMetrics         `json:"semantic_metrics"`
-	StageStatus           map[string]string       `json:"stage_status"`
-	FullChainEvidence     FullChainEvidence       `json:"full_chain_evidence"`
-	LegacyRuntimeExecuted bool                    `json:"legacy_runtime_executed"`
-	LegacyToolIDs         []string                `json:"legacy_tool_ids"`
-	LegacyArtifactMatches []string                `json:"legacy_artifact_matches"`
-	CorePromptIDs         []string                `json:"core_prompt_ids"`
-	ObservedPromptIDs     []string                `json:"observed_prompt_ids"`
-	BlockedPromptIDs      []string                `json:"blocked_prompt_ids"`
+	Status                 string                   `json:"status"`
+	DeliveryTarget         string                   `json:"delivery_target"`
+	RouteProfile           string                   `json:"route_profile"`
+	Orchestrator           string                   `json:"orchestrator"`
+	RuntimeBinding         string                   `json:"runtime_binding"`
+	Deck                   string                   `json:"deck"`
+	SlidesDir              string                   `json:"slides_dir"`
+	Slides                 []string                 `json:"slides"`
+	Preview                DeliveryPreviewEvidence  `json:"preview"`
+	OnlineSlide            OnlineSlidePublishReport `json:"online_slide"`
+	RealAssetEvidence      RealAssetEvidence        `json:"real_asset_evidence"`
+	QualityReport          string                   `json:"quality_report"`
+	AnyGenSemanticReport   string                   `json:"anygen_semantic_report"`
+	VisualReceipts         string                   `json:"visual_receipts"`
+	CreativeQualityReport  string                   `json:"creative_quality_report"`
+	EditorialQualityReport string                   `json:"editorial_quality_report"`
+	SemanticMetrics        SemanticMetrics          `json:"semantic_metrics"`
+	StageStatus            map[string]string        `json:"stage_status"`
+	FullChainEvidence      FullChainEvidence        `json:"full_chain_evidence"`
+	LegacyRuntimeExecuted  bool                     `json:"legacy_runtime_executed"`
+	LegacyToolIDs          []string                 `json:"legacy_tool_ids"`
+	LegacyArtifactMatches  []string                 `json:"legacy_artifact_matches"`
+	CorePromptIDs          []string                 `json:"core_prompt_ids"`
+	ObservedPromptIDs      []string                 `json:"observed_prompt_ids"`
+	BlockedPromptIDs       []string                 `json:"blocked_prompt_ids"`
 }
 
 type DeliveryPreviewEvidence struct {
@@ -52,35 +56,50 @@ type DeliveryPreviewEvidence struct {
 }
 
 type FullChainEvidence struct {
-	RunJSON               string            `json:"run_json"`
-	Request               string            `json:"request"`
-	SourceManifest        string            `json:"source_manifest"`
-	EntityResolution      string            `json:"entity_resolution"`
-	ResearchNotes         string            `json:"research_notes"`
-	Sources               string            `json:"sources"`
-	ResearchCoverage      string            `json:"research_coverage"`
-	DesignBrief           string            `json:"design_brief"`
-	VisualSystem          string            `json:"visual_system"`
-	TypographyContract    string            `json:"typography_contract"`
-	Outline               string            `json:"outline"`
-	SlideContent          string            `json:"slide_content"`
-	AssetManifest         string            `json:"asset_manifest"`
-	RenderedVisual        string            `json:"rendered_visual"`
-	QualityReport         string            `json:"quality_report"`
-	CreativeQualityReport string            `json:"creative_quality_report"`
-	ChartRenderReport     string            `json:"chart_render_report"`
-	ChartUsageReport      string            `json:"chart_usage_report"`
-	ChartQualityReport    string            `json:"chart_quality_report"`
-	Delivery              string            `json:"delivery"`
-	StageReceipts         map[string]string `json:"stage_receipts"`
-	ScreenshotEvidence    []string          `json:"screenshot_evidence"`
-	ManualPatch           ManualPatchStatus `json:"manual_patch"`
+	RunJSON                string            `json:"run_json"`
+	PromptManifest         string            `json:"prompt_manifest"`
+	PromptContextReceipts  map[string]string `json:"prompt_context_receipts"`
+	Request                string            `json:"request"`
+	SourceManifest         string            `json:"source_manifest"`
+	DeliveryContract       string            `json:"delivery_contract,omitempty"`
+	EntityResolution       string            `json:"entity_resolution"`
+	ThemeContract          string            `json:"theme_contract"`
+	ResearchPlan           string            `json:"research_plan"`
+	Queries                string            `json:"queries"`
+	ResearchNotes          string            `json:"research_notes"`
+	Sources                string            `json:"sources"`
+	ResearchCoverage       string            `json:"research_coverage"`
+	DesignBrief            string            `json:"design_brief"`
+	VisualSystem           string            `json:"visual_system"`
+	TypographyContract     string            `json:"typography_contract"`
+	Outline                string            `json:"outline"`
+	SlideContent           string            `json:"slide_content"`
+	AssetManifest          string            `json:"asset_manifest"`
+	RenderedVisual         string            `json:"rendered_visual"`
+	MediaPressureReport    string            `json:"media_pressure_report"`
+	QualityReport          string            `json:"quality_report"`
+	CreativeQualityReport  string            `json:"creative_quality_report"`
+	EditorialQualityReport string            `json:"editorial_quality_report"`
+	ChartRenderReport      string            `json:"chart_render_report"`
+	ChartUsageReport       string            `json:"chart_usage_report"`
+	ChartQualityReport     string            `json:"chart_quality_report"`
+	OnlineSlide            string            `json:"online_slide,omitempty"`
+	Delivery               string            `json:"delivery"`
+	StageReceipts          map[string]string `json:"stage_receipts"`
+	ScreenshotEvidence     []string          `json:"screenshot_evidence"`
+	ManualPatch            ManualPatchStatus `json:"manual_patch"`
 }
 
 type ManualPatchStatus struct {
 	Applied bool     `json:"applied"`
 	Files   []string `json:"files"`
 	Reason  string   `json:"reason,omitempty"`
+}
+
+type RealAssetEvidence struct {
+	Required           bool `json:"required"`
+	Satisfied          bool `json:"satisfied"`
+	SelectedRealImages int  `json:"selected_real_images"`
 }
 
 func RepairRun(root string) (RepairReport, error) {
@@ -157,6 +176,11 @@ func repairRun(root string, evaluateSemantic func(string) (AnyGenSemanticReport,
 	if report.LintOK && report.Preview == "passed" && report.Quality == "passed" && report.Creative == "passed" && report.Semantic == "passed" {
 		report.Status = "passed"
 	}
+	if report.Status == "passed" {
+		if err := writeRequiredToolCallReceipts(safeRoot, StageValidatePreviewRepair, run); err != nil {
+			return report, err
+		}
+	}
 
 	previewPath := strings.TrimSpace(run.Artifacts.Preview)
 	if previewPath == "" {
@@ -169,6 +193,9 @@ func repairRun(root string, evaluateSemantic func(string) (AnyGenSemanticReport,
 		anyGenSemanticReportPath,
 		visualReceiptsPath,
 		creativeQualityReportPath,
+		editorialQualityReportPath,
+		mediaPressureReportPath,
+		screenshotEvidenceReportPath,
 		chartRenderReceiptPath,
 		chartUsageReceiptPath,
 		chartQualityReportPath,
@@ -286,6 +313,26 @@ func generateDeliveryReceiptWithStatus(safeRoot string, run Run, status string) 
 	if err != nil {
 		return DeliveryReceipt{}, err
 	}
+	deliveryContract, _, err := readDeliveryContract(safeRoot, run)
+	if err != nil {
+		return DeliveryReceipt{}, err
+	}
+	onlineSlide, onlineSlidePresent, err := readOnlineSlidePublishReport(safeRoot)
+	if err != nil {
+		return DeliveryReceipt{}, err
+	}
+	if !onlineSlidePresent {
+		onlineSlide = OnlineSlidePublishReport{
+			Status:            StatusBlocked,
+			Publisher:         "missing",
+			BlockedReasonCode: "svglide.publish_online.missing_report",
+			Message:           "publish/online_slide.json is missing",
+		}
+	}
+	realAssetEvidence, err := deliveryRealAssetEvidence(safeRoot, deliveryContract)
+	if err != nil {
+		return DeliveryReceipt{}, err
+	}
 	semantic, err := readDeliverySemanticReport(safeRoot)
 	if err != nil {
 		return DeliveryReceipt{}, err
@@ -301,30 +348,79 @@ func generateDeliveryReceiptWithStatus(safeRoot string, run Run, status string) 
 	if status == StatusReady && !fullChainComplete {
 		status = StatusNeedsRepair
 	}
+	corePromptIDs, err := CorePromptIDsForRun(run)
+	if err != nil {
+		return DeliveryReceipt{}, err
+	}
+	blockedPromptIDs := append([]string{}, legacy.BlockedPromptIDs...)
+	if status == StatusReady && deliveryContract.RequiresRealImages && !realAssetEvidence.Satisfied {
+		status = StatusBlocked
+		blockedPromptIDs = appendUnique(blockedPromptIDs, "resolve_image_assets")
+	}
+	if status == StatusReady && deliveryContract.RequiresOnlineSlide && onlineSlide.Status != "passed" {
+		status = StatusBlocked
+		blockedPromptIDs = appendUnique(blockedPromptIDs, "publish_online")
+	}
 	receipt := DeliveryReceipt{
-		Status:                status,
-		RouteProfile:          normalizedRouteProfile(run.RouteProfile),
-		Orchestrator:          "mode_system_prompt_svg",
-		RuntimeBinding:        "svglide_local_runtime_binding",
-		Deck:                  deckPath,
-		SlidesDir:             slidesDir,
-		Slides:                slides,
-		Preview:               preview,
-		QualityReport:         "quality_report.json",
-		AnyGenSemanticReport:  anyGenSemanticReportPath,
-		VisualReceipts:        visualReceiptsPath,
-		CreativeQualityReport: creativeQualityReportPath,
-		SemanticMetrics:       semantic.Metrics,
-		StageStatus:           deliveryStageStatus(run),
-		FullChainEvidence:     fullChainEvidence,
-		LegacyRuntimeExecuted: legacy.LegacyRuntimeExecuted,
-		LegacyToolIDs:         legacy.LegacyToolIDs,
-		LegacyArtifactMatches: legacy.LegacyArtifactMatches,
-		CorePromptIDs:         []string{"mode_system_prompt_svg", "svg_reference", "svglide_local_runtime_binding"},
-		ObservedPromptIDs:     legacy.ObservedPromptIDs,
-		BlockedPromptIDs:      legacy.BlockedPromptIDs,
+		Status:                 status,
+		DeliveryTarget:         deliveryContract.DeliveryTarget,
+		RouteProfile:           normalizedRouteProfile(run.RouteProfile),
+		Orchestrator:           "mode_system_prompt_svg",
+		RuntimeBinding:         "svglide_local_runtime_binding",
+		Deck:                   deckPath,
+		SlidesDir:              slidesDir,
+		Slides:                 slides,
+		Preview:                preview,
+		OnlineSlide:            onlineSlide,
+		RealAssetEvidence:      realAssetEvidence,
+		QualityReport:          "quality_report.json",
+		AnyGenSemanticReport:   anyGenSemanticReportPath,
+		VisualReceipts:         visualReceiptsPath,
+		CreativeQualityReport:  creativeQualityReportPath,
+		EditorialQualityReport: editorialQualityReportPath,
+		SemanticMetrics:        semantic.Metrics,
+		StageStatus:            deliveryStageStatus(run),
+		FullChainEvidence:      fullChainEvidence,
+		LegacyRuntimeExecuted:  legacy.LegacyRuntimeExecuted,
+		LegacyToolIDs:          legacy.LegacyToolIDs,
+		LegacyArtifactMatches:  legacy.LegacyArtifactMatches,
+		CorePromptIDs:          corePromptIDs,
+		ObservedPromptIDs:      legacy.ObservedPromptIDs,
+		BlockedPromptIDs:       blockedPromptIDs,
 	}
 	return receipt, nil
+}
+
+func deliveryRealAssetEvidence(safeRoot string, contract DeliveryContract) (RealAssetEvidence, error) {
+	evidence := RealAssetEvidence{
+		Required:           contract.RequiresRealImages,
+		Satisfied:          !contract.RequiresRealImages,
+		SelectedRealImages: 0,
+	}
+	inventory, err := readAssetInventory(safeRoot)
+	if err != nil {
+		return evidence, nil
+	}
+	for _, item := range inventory.Items {
+		if strings.TrimSpace(item.Path) == "" {
+			continue
+		}
+		if isEvidenceRealImageInventoryItem(item) {
+			evidence.SelectedRealImages++
+		}
+	}
+	if contract.RequiresRealImages && evidence.SelectedRealImages > 0 {
+		evidence.Satisfied = true
+	}
+	return evidence, nil
+}
+
+func isEvidenceRealImageInventoryItem(item assetInventoryItem) bool {
+	format := strings.ToLower(strings.TrimSpace(item.Format))
+	if format == "" || format == "svg" || format == "unknown" {
+		return false
+	}
+	return strings.TrimSpace(item.SourceURL) != ""
 }
 
 func creativeStatusFromQuality(safeRoot string) string {
@@ -507,10 +603,11 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 		return FullChainEvidence{}, false, err
 	}
 	evidence := FullChainEvidence{
-		Delivery:           deliveryReceiptPath,
-		StageReceipts:      map[string]string{},
-		ScreenshotEvidence: []string{},
-		ManualPatch:        manualPatch,
+		Delivery:              deliveryReceiptPath,
+		PromptContextReceipts: map[string]string{},
+		StageReceipts:         map[string]string{},
+		ScreenshotEvidence:    []string{},
+		ManualPatch:           manualPatch,
 	}
 
 	requiredArtifactsComplete := true
@@ -519,9 +616,14 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 		set func(string)
 	}{
 		{"run.json", func(path string) { evidence.RunJSON = path }},
+		{"prompt_manifest.json", func(path string) { evidence.PromptManifest = path }},
 		{"request/request.json", func(path string) { evidence.Request = path }},
 		{"request/source_manifest.json", func(path string) { evidence.SourceManifest = path }},
+		{deliveryContractPath, func(path string) { evidence.DeliveryContract = path }},
 		{"request/entity_resolution.json", func(path string) { evidence.EntityResolution = path }},
+		{"request/theme_contract.json", func(path string) { evidence.ThemeContract = path }},
+		{"research/research_plan.json", func(path string) { evidence.ResearchPlan = path }},
+		{"research/queries.json", func(path string) { evidence.Queries = path }},
 		{"research/research_notes.md", func(path string) { evidence.ResearchNotes = path }},
 		{"research/sources.json", func(path string) { evidence.Sources = path }},
 		{"research/research_coverage.json", func(path string) { evidence.ResearchCoverage = path }},
@@ -532,8 +634,10 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 		{"content/slide_content.json", func(path string) { evidence.SlideContent = path }},
 		{"assets/assets_manifest.json", func(path string) { evidence.AssetManifest = path }},
 		{renderedVisualReceiptPath, func(path string) { evidence.RenderedVisual = path }},
+		{mediaPressureReportPath, func(path string) { evidence.MediaPressureReport = path }},
 		{"quality_report.json", func(path string) { evidence.QualityReport = path }},
 		{creativeQualityReportPath, func(path string) { evidence.CreativeQualityReport = path }},
+		{editorialQualityReportPath, func(path string) { evidence.EditorialQualityReport = path }},
 		{chartRenderReceiptPath, func(path string) { evidence.ChartRenderReport = path }},
 		{chartUsageReceiptPath, func(path string) { evidence.ChartUsageReport = path }},
 		{deliveryChartQualityReportPath, func(path string) { evidence.ChartQualityReport = path }},
@@ -547,9 +651,26 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 			requiredArtifactsComplete = false
 		}
 	}
+	if evidence.PromptManifest != "" {
+		valid, err := validPromptManifestEvidence(safeRoot, run)
+		if err != nil {
+			return FullChainEvidence{}, false, err
+		}
+		if !valid {
+			requiredArtifactsComplete = false
+		}
+	}
+	onlineSlidePath, err := existingDeliveryEvidencePath(safeRoot, onlineSlideReportPath)
+	if err != nil {
+		return FullChainEvidence{}, false, err
+	}
+	evidence.OnlineSlide = onlineSlidePath
+	if (run.DeliveryTarget == DeliveryTargetOnlineSlide || run.DeliveryTarget == DeliveryTargetBoth) && onlineSlidePath == "" {
+		requiredArtifactsComplete = false
+	}
 
 	stageReceiptsComplete := true
-	for _, stage := range DefaultStages() {
+	for _, stage := range run.Stages {
 		path, err := existingDeliveryEvidencePath(safeRoot, stage.Receipt)
 		if err != nil {
 			return FullChainEvidence{}, false, err
@@ -568,12 +689,81 @@ func buildDeliveryFullChainEvidence(safeRoot string, run Run, previewPath string
 		}
 	}
 
-	screenshots, err := screenshotEvidencePaths(safeRoot)
+	promptContextsComplete, err := collectPromptContextReceiptEvidence(safeRoot, run, evidence.PromptContextReceipts)
+	if err != nil {
+		return FullChainEvidence{}, false, err
+	}
+
+	screenshots, err := screenshotEvidencePathsFromReport(safeRoot)
 	if err != nil {
 		return FullChainEvidence{}, false, err
 	}
 	evidence.ScreenshotEvidence = screenshots
-	return evidence, requiredArtifactsComplete && stageReceiptsComplete && len(screenshots) > 0, nil
+	return evidence, requiredArtifactsComplete && stageReceiptsComplete && promptContextsComplete && len(screenshots) > 0, nil
+}
+
+func validPromptManifestEvidence(safeRoot string, run Run) (bool, error) {
+	raw, err := readRunRegularArtifact(safeRoot, "prompt_manifest.json")
+	if err != nil {
+		return false, nil
+	}
+	var recorded PromptManifest
+	if err := json.Unmarshal(raw, &recorded); err != nil {
+		return false, nil
+	}
+	current, err := ResolvedPromptManifest()
+	if err != nil {
+		return false, err
+	}
+	recordedByID := map[string]PromptManifestEntry{}
+	for _, entry := range recorded.Entries {
+		recordedByID[entry.ID] = entry
+	}
+	currentByID := map[string]PromptManifestEntry{}
+	for _, entry := range current.Entries {
+		currentByID[entry.ID] = entry
+	}
+	coreIDs, err := CorePromptIDsForRun(run)
+	if err != nil {
+		return false, err
+	}
+	for _, id := range coreIDs {
+		recordedEntry, ok := recordedByID[id]
+		if !ok {
+			return false, nil
+		}
+		currentEntry, ok := currentByID[id]
+		if !ok {
+			return false, nil
+		}
+		if recordedEntry.Path != currentEntry.Path || recordedEntry.SHA256 != currentEntry.SHA256 {
+			return false, nil
+		}
+	}
+	return true, nil
+}
+
+func collectPromptContextReceiptEvidence(safeRoot string, run Run, out map[string]string) (bool, error) {
+	complete := true
+	for _, stage := range run.Stages {
+		if stage.Name == StageRequest {
+			continue
+		}
+		rel := promptContextReceiptPath(stage.Name)
+		path, err := existingDeliveryEvidencePath(safeRoot, rel)
+		if err != nil {
+			return false, err
+		}
+		out[stage.Name] = path
+		if path == "" {
+			complete = false
+			continue
+		}
+		if _, err := ValidatePromptContextForStage(safeRoot, stage.Name, run); err != nil {
+			complete = false
+		}
+	}
+	return complete, nil
 }
 
 func existingDeliveryEvidencePath(safeRoot string, rel string) (string, error) {

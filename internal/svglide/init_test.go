@@ -36,6 +36,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"prompt_manifest.json",
 		"request/request.json",
 		"request/source_manifest.json",
+		"request/delivery_contract.json",
 		"research",
 		"brief",
 		"outline",
@@ -45,6 +46,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"receipts",
 		"slides",
 		"assets/images",
+		"publish",
 	} {
 		if _, err := os.Stat(filepath.Join(root, name)); err != nil {
 			t.Fatalf("missing %s: %v", name, err)
@@ -73,7 +75,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 	if err := json.Unmarshal(requestRaw, &request); err != nil {
 		t.Fatal(err)
 	}
-	if request["title"] != "Demo" || request["input"] != wantInput || request["audience"] != "产品负责人" || request["delivery_mode"] != "self_read" || request["pages"] != float64(8) {
+	if request["title"] != "Demo" || request["input"] != wantInput || request["audience"] != "产品负责人" || request["delivery_mode"] != "self_read" || request["delivery_target"] != DeliveryTargetLocalPreview || request["pages"] != float64(8) {
 		t.Fatalf("unexpected request.json: %+v", request)
 	}
 
@@ -103,7 +105,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		t.Fatal(err)
 	}
 	prompt := string(promptRaw)
-	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/resolve_image_assets.md", "tools/generate_svg_chart.md", "tools/generate_vega_lite_chart.md"} {
+	for _, want := range []string{"mode_system_prompt_svg", "svg_reference", "tools/slides_edit.md", "tools/resolve_delivery_contract.md", "tools/resolve_image_assets.md", "tools/generate_svg_chart.md", "tools/generate_vega_lite_chart.md", "tools/publish_online.md"} {
 		if !strings.Contains(prompt, want) {
 			t.Fatalf("prompt manifest missing %q:\n%s", want, prompt)
 		}
@@ -125,6 +127,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 	}
 	for _, name := range []string{
 		"source_manifest.schema.json",
+		"delivery_contract.schema.json",
 		"sources.schema.json",
 		"slide_content.schema.json",
 		"slide_copy_plan.schema.json",
@@ -140,6 +143,8 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"receipt.schema.json",
 		"lint.schema.json",
 		"preview.schema.json",
+		"online_slide.schema.json",
+		"publish_online.schema.json",
 	} {
 		raw, err := os.ReadFile(filepath.Join(root, "schemas", name))
 		if err != nil {
@@ -158,19 +163,22 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		want []string
 	}{
 		{name: "request.schema.json", want: []string{`"purpose"`, `"language"`, `"visual_style_query"`}},
+		{name: "delivery_contract.schema.json", want: []string{`"delivery_target"`, `"requires_online_slide"`, `"requires_real_images"`}},
 		{name: "design_brief.schema.json", want: []string{`"visual_system"`, `"narrative_spine"`, `"depth"`, `"tone"`}},
 		{name: "deck.schema.json", want: []string{`"main_title"`, `"style_instruction"`, `"aesthetic_direction"`}},
 		{name: "sources.schema.json", want: []string{`"retrieval"`}},
-		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"minItems"`, `"visuals"`, `"chart"`, `"table"`, `"crop"`}},
+		{name: "slide_content.schema.json", want: []string{`"source_refs"`, `"central_claim"`, `"supporting_points"`, `"source_bound_facts"`, `"visuals"`, `"chart"`, `"table"`, `"crop"`}},
 		{name: "slide_copy_plan.schema.json", want: []string{`"audience_copy"`, `"production_instruction"`}},
 		{name: "assets_plan.schema.json", want: []string{`"experiment_unrestricted_assets"`, `"slide_id"`, `"status"`, `"deferred"`, `"chart"`, `"table"`, `"crop"`}},
-		{name: "image_candidates.schema.json", want: []string{`"requires_real_images"`, `"format_exception_reason"`, `"selection_reason"`}},
+		{name: "image_candidates.schema.json", want: []string{`"requires_real_images"`, `"format_exception_reason"`, `"selection_reason"`, `"paper_screenshot"`}},
 		{name: "asset_inventory.schema.json", want: []string{`"large_ok"`, `"candidate_id"`, `"format_exception_reason"`}},
 		{name: "image_usage.schema.json", want: []string{`"area_bp"`, `"usage_status"`}},
 		{name: "chart_manifest.schema.json", want: []string{`"vega-lite"`, `"spec_path"`, `"svg_path"`}},
 		{name: "chart_quality.schema.json", want: []string{`"missing_unit_count"`, `"missing_source_count"`, `"decorative_chart_count"`}},
 		{name: "typography_contract.schema.json", want: []string{`"display"`, `"number"`, `"label"`}},
-		{name: "quality.schema.json", want: []string{`"metrics"`, `"real_image_assets"`, `"vega_lite_spec_assets"`}},
+		{name: "quality.schema.json", want: []string{`"metrics"`, `"real_image_assets"`, `"vega_lite_spec_assets"`, `"content_payload_issue_count"`}},
+		{name: "online_slide.schema.json", want: []string{`"presentation_id"`, `"blocked_reason_code"`}},
+		{name: "content_payload.schema.json", want: []string{`"sparse_label_list_count"`, `"source_binding_issue_count"`}},
 	} {
 		raw, err := os.ReadFile(filepath.Join(root, "schemas", tc.name))
 		if err != nil {
@@ -378,7 +386,7 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	for _, entry := range manifest.Entries {
 		entries[entry.Name] = entry
 	}
-	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "svglide_local_runtime_binding", "svglide_visual_quality_overlay", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "resolve_image_assets", "generate_vega_lite_chart", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
+	for _, want := range []string{"anygen_source_full", "anygen_svg_readme", "mode_system_prompt_svg", "svg_reference", "svglide_local_runtime_binding", "svglide_visual_quality_overlay", "slide_font_catalog", "resolve_theme_contract", "plan_research", "resolve_design_brief", "slide_outline", "activate_slides_edit", "slides_edit", "finish_slides_edit", "resolve_image_assets", "generate_vega_lite_chart", "generate_svg_chart", "slides_convert", "slides_parse_template"} {
 		if entries[want].Path == "" {
 			t.Fatalf("manifest missing %q: %+v", want, manifest.Entries)
 		}
@@ -397,6 +405,24 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	}
 	if entries["svglide_visual_quality_overlay"].Role != "runtime_binding" || !entries["svglide_visual_quality_overlay"].Always {
 		t.Fatalf("visual quality overlay entry = %+v, want always runtime_binding", entries["svglide_visual_quality_overlay"])
+	}
+	if entries["slide_font_catalog"].Role != "runtime_binding" || !entries["slide_font_catalog"].Always {
+		t.Fatalf("slide font catalog entry = %+v, want always runtime_binding", entries["slide_font_catalog"])
+	}
+	if entries["resolve_theme_contract"].Path != "skills/lark-slides/references/anygen-svg/tools/resolve_theme_contract.md" {
+		t.Fatalf("resolve_theme_contract path = %q", entries["resolve_theme_contract"].Path)
+	}
+	if entries["resolve_theme_contract"].Stage != StageRequestResolution {
+		t.Fatalf("resolve_theme_contract stage = %q, want %q", entries["resolve_theme_contract"].Stage, StageRequestResolution)
+	}
+	if !stringSliceContains(entries["resolve_theme_contract"].Produces, "request/theme_contract.json") {
+		t.Fatalf("resolve_theme_contract produces = %v, want request/theme_contract.json", entries["resolve_theme_contract"].Produces)
+	}
+	if entries["plan_research"].Stage != StageResearch {
+		t.Fatalf("plan_research stage = %q, want %q", entries["plan_research"].Stage, StageResearch)
+	}
+	if !stringSliceContains(entries["plan_research"].Produces, "research/research_plan.json") || !stringSliceContains(entries["plan_research"].Produces, "research/queries.json") {
+		t.Fatalf("plan_research produces = %v, want research plan and queries", entries["plan_research"].Produces)
 	}
 	if entries["activate_slides_edit"].Stage != StageSVGAuthor {
 		t.Fatalf("activate_slides_edit stage = %q, want %q", entries["activate_slides_edit"].Stage, StageSVGAuthor)
@@ -421,7 +447,7 @@ func TestDefaultPromptManifestContracts(t *testing.T) {
 	if strings.Contains(paths, "source.full.md") {
 		t.Fatalf("SVG author prompt paths should not require source snapshot:\n%s", paths)
 	}
-	for _, want := range []string{"README.md", "mode_system_prompt_svg.md", "svg_reference.md", "svglide_local_runtime_binding.md", "svglide_visual_quality_overlay.md", "tools/activate_slides_edit.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
+	for _, want := range []string{"README.md", "mode_system_prompt_svg.md", "svg_reference.md", "svglide_local_runtime_binding.md", "svglide_visual_quality_overlay.md", "slide_font_catalog.md", "tools/activate_slides_edit.md", "tools/slides_edit.md", "tools/compute_custom_shape_bbox.md"} {
 		if !strings.Contains(paths, want) {
 			t.Fatalf("SVG author prompt paths missing %q:\n%s", want, paths)
 		}

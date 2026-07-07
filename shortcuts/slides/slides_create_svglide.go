@@ -22,8 +22,8 @@ var SlidesCreateSVGlide = common.Shortcut{
 	Scopes:      []string{},
 	LocalOnly:   true,
 	Flags: []common.Flag{
-		{Name: "action", Desc: "runtime action: init, status, next, complete, author, validate, preview, quality, repair", Required: true, Enum: []string{"init", "status", "next", "complete", "author", "validate", "preview", "quality", "repair"}},
-		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview/quality/repair"},
+		{Name: "action", Desc: "runtime action: init, status, next, complete, author, validate, preview, screenshot, quality, repair, publish", Required: true, Enum: []string{"init", "status", "next", "complete", "author", "validate", "preview", "screenshot", "quality", "repair", "publish"}},
+		{Name: "run", Desc: "existing run directory for status/next/complete/author/validate/preview/screenshot/quality/repair/publish"},
 		{Name: "title", Desc: "deck title for init"},
 		{Name: "input", Desc: "local source markdown/text path for init"},
 		{Name: "topic", Desc: "topic-only deck intent for init; mutually exclusive with --input"},
@@ -33,6 +33,7 @@ var SlidesCreateSVGlide = common.Shortcut{
 		{Name: "route-profile", Desc: "SVGlide route profile for init", Enum: []string{"local_svg_deck", "imported_pptx", "template_reference", "legacy_editor"}},
 		{Name: "audience", Desc: "final audience for the deck"},
 		{Name: "delivery-mode", Desc: "delivery mode: presented, self_read, dual_mode", Enum: []string{"presented", "self_read", "dual_mode"}},
+		{Name: "delivery-target", Desc: "delivery target: local_preview, online_slide, both", Enum: []string{"local_preview", "online_slide", "both"}},
 		{Name: "pages", Type: "int", Desc: "target page count"},
 		{Name: "out", Desc: "output run directory for init"},
 		{Name: "overwrite", Type: "bool", Desc: "allow init to overwrite an existing run directory"},
@@ -50,6 +51,10 @@ var SlidesCreateSVGlide = common.Shortcut{
 			}
 			if strings.TrimSpace(runtime.Str("out")) == "" {
 				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--out is required for init").WithParam("--out")
+			}
+			deliveryTarget := strings.TrimSpace(runtime.Str("delivery-target"))
+			if deliveryTarget == svglide.DeliveryTargetLocalPreview && svglide.DeliveryTargetConflictsWithOnlineSignal(runtime.Str("title"), runtime.Str("topic"), deliveryTarget) {
+				return errs.NewValidationError(errs.SubtypeInvalidArgument, "request asks for online delivery, but --delivery-target=local_preview would downgrade it").WithParam("--delivery-target")
 			}
 			routeProfile := strings.TrimSpace(runtime.Str("route-profile"))
 			if routeProfile != "" && routeProfile != "local_svg_deck" {
@@ -75,17 +80,18 @@ var SlidesCreateSVGlide = common.Shortcut{
 		case "init":
 			out := runtime.Str("out")
 			if err := svglide.InitRun(out, svglide.InitOptions{
-				Title:        runtime.Str("title"),
-				Input:        runtime.Str("input"),
-				Topic:        runtime.Str("topic"),
-				Language:     runtime.Str("language"),
-				Audience:     runtime.Str("audience"),
-				DeliveryMode: runtime.Str("delivery-mode"),
-				Pages:        runtime.Int("pages"),
-				Overwrite:    runtime.Bool("overwrite"),
-				AgentRuntime: runtime.Str("agent-runtime"),
-				AgentID:      runtime.Str("agent-id"),
-				RouteProfile: runtime.Str("route-profile"),
+				Title:          runtime.Str("title"),
+				Input:          runtime.Str("input"),
+				Topic:          runtime.Str("topic"),
+				Language:       runtime.Str("language"),
+				Audience:       runtime.Str("audience"),
+				DeliveryMode:   runtime.Str("delivery-mode"),
+				DeliveryTarget: runtime.Str("delivery-target"),
+				Pages:          runtime.Int("pages"),
+				Overwrite:      runtime.Bool("overwrite"),
+				AgentRuntime:   runtime.Str("agent-runtime"),
+				AgentID:        runtime.Str("agent-id"),
+				RouteProfile:   runtime.Str("route-profile"),
 			}); err != nil {
 				return err
 			}
@@ -145,6 +151,13 @@ var SlidesCreateSVGlide = common.Shortcut{
 			}
 			runtime.Out(report, nil)
 			return nil
+		case "screenshot":
+			report, err := svglide.CaptureScreenshots(runtime.Str("run"))
+			if err != nil {
+				return err
+			}
+			runtime.Out(report, nil)
+			return nil
 		case "quality":
 			report, err := svglide.CheckQuality(runtime.Str("run"))
 			if err != nil {
@@ -155,6 +168,14 @@ var SlidesCreateSVGlide = common.Shortcut{
 		case "repair":
 			report, err := svglide.RepairRun(runtime.Str("run"))
 			if err != nil {
+				return err
+			}
+			runtime.Out(report, nil)
+			return nil
+		case "publish":
+			report, err := svglide.PublishOnlineRun(runtime.Str("run"), nil)
+			if err != nil {
+				runtime.Out(report, nil)
 				return err
 			}
 			runtime.Out(report, nil)

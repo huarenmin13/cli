@@ -47,6 +47,18 @@ func CompleteCurrentStage(root string) (StatusReport, error) {
 	if len(missingOutputs) > 0 {
 		return StatusReport{}, fmt.Errorf("current stage %q missing outputs: %s", stage.Name, strings.Join(missingOutputs, ", "))
 	}
+	if stage.Name == StagePublishOnline {
+		publishReport, present, err := readOnlineSlidePublishReport(safeRoot)
+		if err != nil {
+			return StatusReport{}, err
+		}
+		if !present {
+			return StatusReport{}, fmt.Errorf("publish_online missing %s", onlineSlideReportPath)
+		}
+		if publishReport.Status != "passed" {
+			return StatusReport{}, fmt.Errorf("publish_online status is %q, want passed", publishReport.Status)
+		}
+	}
 
 	promptReceipt, err := ValidatePromptContextForStage(safeRoot, stage.Name, run)
 	if err != nil {
@@ -136,7 +148,7 @@ type stageStatusReceipt struct {
 }
 
 func validateFinalStageReceiptsPassed(safeRoot string) error {
-	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", renderedVisualReceiptPath, imageUsageReportPath, chartRenderReceiptPath, chartUsageReceiptPath, "quality_report.json", "anygen_semantic_report.json", creativeQualityReportPath, chartQualityReportPath} {
+	for _, path := range []string{"receipts/lint.json", "receipts/preview.json", renderedVisualReceiptPath, imageUsageReportPath, mediaPressureReportPath, chartRenderReceiptPath, chartUsageReceiptPath, "quality_report.json", "anygen_semantic_report.json", creativeQualityReportPath, editorialQualityReportPath, screenshotEvidenceReportPath, chartQualityReportPath} {
 		raw, err := readRunRegularArtifact(safeRoot, path)
 		if err != nil {
 			return fmt.Errorf("%s: read receipt: %w", path, err)

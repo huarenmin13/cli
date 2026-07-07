@@ -1,0 +1,10 @@
+{
+  "mode": "experiment_unrestricted_assets",
+  "assets": [
+    {"id": "tea_mountain", "slide_id": "s1", "visual_id": "tea_mountain", "kind": "image", "local_path": "assets/images/tea_mountain.jpg", "source_url": "https://tea.example.org/images/tea-mountain.jpg", "status": "ready", "usage": "cover tea mountain"},
+    {"id": "tea_region", "slide_id": "s3", "visual_id": "tea_region", "kind": "image", "local_path": "assets/images/tea_region.jpg", "source_url": "https://tea.example.org/images/tea-region.jpg", "status": "ready", "usage": "region image"},
+    {"id": "tea_process", "slide_id": "s4", "visual_id": "tea_process", "kind": "image", "local_path": "assets/images/tea_process.jpg", "source_url": "https://tea.example.org/images/tea-process.jpg", "status": "ready", "usage": "process image"},
+    {"id": "tea_ware", "slide_id": "s7", "visual_id": "tea_ware", "kind": "image", "local_path": "assets/images/tea_ware.jpg", "source_url": "https://tea.example.org/images/tea-ware.jpg", "status": "ready", "usage": "teaware image"},
+    {"id": "tea_scene", "slide_id": "s8", "visual_id": "tea_scene", "kind": "image", "local_path": "assets/images/tea_scene.jpg", "source_url": "https://tea.example.org/images/tea-scene.jpg", "status": "ready", "usage": "modern tea scene"}
+  ]
+}

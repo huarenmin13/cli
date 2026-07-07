@@ -1,0 +1,11 @@
+<svg width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#F4EFE4"/>
+  <image slide:role="image" slide:shape-type="image" href="../assets/images/tea_region.jpg" x="70" y="118" width="690" height="390"/>
+  <foreignObject x="70" y="44" width="260" height="68" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif CJK SC,sans-serif;color:#1F2A22;font-size:34px;line-height:1.12;font-weight:700;">产区决定底色</p>
+  </foreignObject>
+  <path slide:role="shape" slide:shape-type="custom" slide:width="90" slide:height="206" d="M780 160 C835 210 825 310 870 366" fill="none" stroke="#2F7D54" stroke-width="3"/>
+  <foreignObject x="760" y="402" width="170" height="36" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:18px;line-height:1.12;font-weight:400;">地域、海拔与气候</p>
+  </foreignObject>
+</svg>

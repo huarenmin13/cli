@@ -38,29 +38,29 @@ Beyond schema-correctness, the bar for SVG-protocol slides is visual EXCELLENCE:
 {{if not .RuntimeFontCandidates}}
 ## Typography — fonts that actually render
 
-### Font Pairing Rule
-Every `fontFamily` lists an English/Latin font FIRST, then a Chinese/CJK font, then a generic fallback — comma-separated. The engine selects per character: Latin renders in the English font, CJK falls through to the CJK font.
-- `fontFamily="Playfair Display, 寒蝉锦书宋, serif"`  — correct (serif pairing)
-- `fontFamily="DM Sans, 黑体, sans-serif"`            — correct (sans pairing)
-- `fontFamily="钟齐流江毛草, cursive"`                 — WRONG (no English font)
-- `fontFamily="黑体, DM Sans, sans-serif"`            — WRONG (Chinese first)
+### Slide canonical font rule
+For SVGlide online Slide creation, every visible text element must use exactly one canonical Slide `font_family` value from `<slide_font_catalog>`. Do not write comma-separated CSS font stacks.
+- `font-family: Playfair Display` — correct
+- `font-family: Noto Serif SC` — correct
+- `font-family: Playfair Display, ChillJinshuSongMedium, serif` — WRONG for online Slide creation
+- `font-family: 黑体, sans-serif` — WRONG; use canonical `SimHei`
 
-Use a DISPLAY value on titles/hero numbers and a BODY value on prose — two different `fontFamily` strings, both held consistent across every slide.
+Use a DISPLAY value on titles/hero numbers and a BODY value on prose — two different canonical `font_family` values, both held consistent across every slide.
 
 ### English fonts
 - Serif / editorial / premium — PREFER for titles: `Playfair Display` · `EB Garamond` · `Lora` · `Libre Baskerville` · `PT Serif` · `Merriweather` · `Crimson Text` · `Vollkorn` · `Bitter`
 - Display / impact titles: `Anton` · `Bebas Neue` · `Oswald` · `Abril Fatface` · `Fjalla One` · `Archivo Narrow`
-- Refined sans body: `DM Sans` · `Montserrat` · `Poppins` · `Raleway` · `Work Sans` · `Questrial`
+- Refined sans body: `DM Sans 9pt` · `Montserrat` · `Poppins` · `Raleway` · `Work Sans` · `Questrial`
 
-### Chinese fonts (title font sets the tone; body font ensures readability)
-- Body (both langs): `黑体` neutral sans · `宋体` neutral serif · `思源宋体` elegant serif, 7 weights
-- Serif / editorial / 高级感 (titles + body): `寒蝉端黑宋` hei-song hybrid, precise · `寒蝉锦书宋` classical song-ti · `思源宋体` best for long reading
-- 楷书 / 书法 / cultural (titles only): `马善政毛笔楷体` traditional brush kai-shu · `有字库龙藏体` hard-pen handwriting · `钟齐流江毛草` wild cursive (wuxia only) · `钟齐志莽行书` running script (wuxia only)
-- Tech / brand / clean (titles + body): `寒蝉德黑体` DIN-style industrial · `标小智无界黑` esports impact · `寒蝉云墨黑` ink-textured hei · `黑体` neutral modern
-- Creative / personality (titles only): `站酷庆科黄油体` butter-like fullness · `荆南缘默体` unique artistic · `抖音美好体` high brand recognition · `寒蝉团圆体 黑体` rounded hei · `站酷小薇体` delicate serif
-- Rounded / warm / cute (titles + body): `寒蝉全圆体` most rounded · `寒蝉团圆体 圆体` warm rounded · `资源圆体` Japanese-style rounded · `霞鹜 975 圆体` gentle healing
+### Chinese canonical fonts (title font sets the tone; body font ensures readability)
+- Body: `Noto Sans SC` neutral sans · `SimHei` system hei-ti · `Songti SC` neutral serif · `Noto Serif SC` elegant serif
+- Serif / editorial / 高级感: `ChillDuanHeiSong_CompactRegular` precise hei-song hybrid · `ChillJinshuSongMedium` classical song-ti · `Noto Serif SC` best for long reading
+- 楷书 / 书法 / cultural: `Ma Shan Zheng` traditional brush kai-shu · `Long Cang` hard-pen handwriting · `Liu Jian Mao Cao` wild cursive · `Zhi Mang Xing` running script
+- Tech / brand / clean: `ChillDINGothic SemiBold` industrial · `LogoSC Unbounded Sans` esports impact · `ChillYunmoGothicBold` ink-textured hei · `Noto Sans SC` neutral modern
+- Creative / personality: `ZCOOL QingKe HuangYou` full display · `Kingnamype Yuanmo SC` artistic · `DouyinSans` high brand recognition · `ChillReunion_Sans` rounded hei · `ZCOOL XiaoWei` delicate serif
+- Rounded / warm / cute: `ChillRoundF` most rounded · `ChillReunion_Round` warm rounded · `Resource Han Rounded CN` rounded reading · `975Maru SC` gentle healing
 
-Suggested pairings: `Playfair Display` + `寒蝉锦书宋` (editorial/premium) · `EB Garamond` + `马善政毛笔楷体` (literary/cultural) · `Oswald` + `寒蝉德黑体` (bold/impact) · `DM Sans` + `黑体` (tech) · `Montserrat` + `抖音美好体` (corporate/brand).
+Suggested pairings: `Playfair Display` + `ChillJinshuSongMedium` (editorial/premium) · `EB Garamond` + `Ma Shan Zheng` (literary/cultural) · `Oswald` + `ChillDINGothic SemiBold` (bold/impact) · `DM Sans 9pt` + `Noto Sans SC` (tech) · `Montserrat` + `DouyinSans` (corporate/brand).
 {{end}}
 
 ## Layout Freedom
@@ -198,7 +198,7 @@ B. Shape WITH text (colored/rounded/bordered box that also holds text): `<g slid
 
 - Text styling (BOTH forms) — put EVERYTHING in `style="..."` (CSS, semicolon-separated). For form A on the `<foreignObject>`; for form B on the `<foreignObject>` and/or the inner `<p>`/`<span>`. The slide engine reads CSS directly:
   - `font-size:20px` — base font size in pixels (REQUIRED; always include the `px` suffix)
-  - `font-family:Arial, 黑体, sans-serif` — font family stack
+  - `font-family:Noto Sans SC` — one canonical Slide font family
   - `color:rgba(...)` — text color (defaults to black; set explicitly on non-white backgrounds)
   - `font-weight:700` (bold) / `font-style:italic` / `text-decoration:underline` / `text-decoration:line-through` — decorations
   - `text-align:center` — left / center / right / justify
@@ -365,7 +365,7 @@ Inline Styled Text: `<span style="...">` — use when you need styling that does
 - IMPORTANT: ALL styling goes inside `style="..."`. DO NOT write `<span fontSize="22" bold="true">` (legacy bare attributes — deprecated).
 - IMPORTANT: NEVER use Markdown syntax (`**bold**`, `*italic*`, `__underline__`, `~~strikethrough~~`) for text styling. Use the HTML tags above.
 - CSS properties supported inside `style="..."`:
-  - `font-size:Npx`, `font-family:..., ..., serif`
+  - `font-size:Npx`, `font-family:Noto Sans SC`
   - `color:rgba(...)`, `background-color:rgba(...)`
   - `font-weight:700` (bold), `font-style:italic`, `text-decoration:underline` / `text-decoration:line-through` / `text-decoration:underline line-through`
 - Bare attribute kept on `<span>` for private editor semantics (NOT a CSS property — leave outside `style`):

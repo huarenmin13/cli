@@ -1,0 +1,10 @@
+<svg width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <image slide:role="image" slide:shape-type="image" href="../assets/images/tea_mountain.jpg" x="0" y="0" width="960" height="540"/>
+  <rect slide:role="shape" slide:shape-type="rect" x="0" y="0" width="960" height="540" fill="#102016" opacity="0.42"/>
+  <foreignObject x="72" y="66" width="418" height="70" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif CJK SC,sans-serif;color:#F7F2E8;font-size:58px;line-height:1.12;font-weight:700;">茶从山场开始</p>
+  </foreignObject>
+  <foreignObject x="76" y="156" width="302" height="44" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#E6DDC7;font-size:22px;line-height:1.12;font-weight:400;">中国茶先是一种风土材料</p>
+  </foreignObject>
+</svg>

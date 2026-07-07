@@ -580,7 +580,7 @@ func writeSVGlideShortcutFile(t *testing.T, path string, content string) {
 }
 
 func svglideShortcutVisibleTextSVG() string {
-	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540"><style>:root{--font-display:"Noto Serif CJK SC",serif;--font-body:"Noto Sans CJK SC",sans-serif;--font-number:"Roboto Mono",monospace;--font-label:"PingFang SC",sans-serif;}</style><rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`
+	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff" slide:role="shape" slide:shape-type="rect"/><foreignObject x="48" y="56" width="420" height="120" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif SC,serif;font-size:36px;line-height:1.2;color:#111827;">Hello</p></foreignObject><slide:note>Source: web1</slide:note></svg>`
 }
 
 func stringValue(value any) string {

@@ -636,6 +636,7 @@ func initStatusTestRunAt(t *testing.T, root string) string {
 			t.Fatal(err)
 		}
 	}
+	mustWriteTestFile(t, filepath.Join(root, "request", "theme_contract.json"), validThemeContractJSON())
 	if err := os.MkdirAll(filepath.Join(root, "receipts", "prompt_context"), 0o755); err != nil {
 		t.Fatal(err)
 	}

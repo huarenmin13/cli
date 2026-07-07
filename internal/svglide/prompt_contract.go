@@ -567,7 +567,7 @@ func ValidateToolCallReceiptsForStage(safeRoot string, stageName string, run Run
 }
 
 func ValidateArtifactPromptContractForStage(safeRoot string, stageName string, outputs []string) error {
-	if stageName == StageRequest || stageName == StageValidatePreviewRepair {
+	if stageName == StageRequest || stageName == StageValidatePreviewRepair || stageName == StagePublishOnline {
 		return nil
 	}
 	for _, output := range outputs {
@@ -785,6 +785,8 @@ func stageObjective(stage string) string {
 		return "调用/遵守 activate_slides_edit 和 slides_edit，按 svg_reference 写完整 SVG slides。"
 	case StageValidatePreviewRepair:
 		return "调用/遵守 finish_slides_edit，执行 validate、preview、quality、semantic repair。"
+	case StagePublishOnline:
+		return "按 delivery_contract 执行线上发布；没有真实 publisher 时必须写 blocked，不能用本地 preview 冒充线上 slide。"
 	default:
 		return "初始化或推进当前 SVGlide run stage。"
 	}

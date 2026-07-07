@@ -288,13 +288,13 @@ func EvaluateAnyGenSemanticsWithContract(root string, contract SemanticContract)
 				Message:  "visible leak markers found in SVG output",
 			})
 		}
-		if report.Metrics.MissingFontTokenCount > 0 {
+		if report.Metrics.ParserUnsafeCount > 0 {
 			report.Findings = append(report.Findings, SemanticFinding{
-				RuleID:   "font_tokens_required",
+				RuleID:   "parser_safe_svg_required",
 				Kind:     "builtin",
 				Severity: "error",
-				Code:     "svglide.semantic.font_tokens",
-				Message:  "font token system must include --font-display, --font-body, --font-number, and --font-label",
+				Code:     "svglide.semantic.parser_safe",
+				Message:  "SVG output contains parser-unsafe structures for the online slide parser",
 			})
 		}
 	}

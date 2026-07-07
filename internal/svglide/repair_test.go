@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -122,6 +123,21 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 			t.Fatalf("delivery missing %s: %+v", key, delivery)
 		}
 	}
+	corePromptIDs, ok := delivery["core_prompt_ids"].([]any)
+	if !ok {
+		t.Fatalf("delivery core_prompt_ids = %T, want array", delivery["core_prompt_ids"])
+	}
+	corePromptIDStrings := make([]string, 0, len(corePromptIDs))
+	for _, id := range corePromptIDs {
+		corePromptIDStrings = append(corePromptIDStrings, id.(string))
+	}
+	wantCorePromptIDs, err := CorePromptIDsForProfile(RouteProfileLocalSVGDeck)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !slices.Equal(corePromptIDStrings, wantCorePromptIDs) {
+		t.Fatalf("core_prompt_ids = %v, want manifest-derived %v", corePromptIDStrings, wantCorePromptIDs)
+	}
 	for _, key := range []string{"quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report"} {
 		if delivery[key] == "" || delivery[key] == nil {
 			t.Fatalf("delivery receipt missing %s: %+v", key, delivery)
@@ -130,6 +146,13 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 	fullChain, ok := delivery["full_chain_evidence"].(map[string]any)
 	if !ok || fullChain["chart_render_report"] != chartRenderReceiptPath || fullChain["chart_usage_report"] != chartUsageReceiptPath || fullChain["chart_quality_report"] != chartQualityReportPath {
 		t.Fatalf("delivery full_chain_evidence missing chart reports: %+v", delivery["full_chain_evidence"])
+	}
+	if fullChain["prompt_manifest"] != "prompt_manifest.json" {
+		t.Fatalf("delivery full_chain_evidence prompt_manifest = %v, want prompt_manifest.json", fullChain["prompt_manifest"])
+	}
+	promptContexts, ok := fullChain["prompt_context_receipts"].(map[string]any)
+	if !ok || promptContexts[StageResearch] != promptContextReceiptPath(StageResearch) || promptContexts[StageValidatePreviewRepair] != promptContextReceiptPath(StageValidatePreviewRepair) {
+		t.Fatalf("delivery full_chain_evidence prompt_context_receipts = %+v", fullChain["prompt_context_receipts"])
 	}
 	screenshots, ok := fullChain["screenshot_evidence"].([]any)
 	if !ok || len(screenshots) == 0 {
@@ -239,9 +262,9 @@ func TestRepairRunWritesVisualQualityRepairQueue(t *testing.T) {
 	  {"id":"p1","slide_id":"s2","visual_id":"p1","kind":"image","local_path":"assets/images/p1.png","source_url":"https://example.com/p1.png","status":"ready","usage":"Process 1"},
 	  {"id":"p2","slide_id":"s2","visual_id":"p2","kind":"image","local_path":"assets/images/p2.png","source_url":"https://example.com/p2.png","status":"ready","usage":"Process 2"}
 	]}`)
-	mustWriteTestFile(t, "demo/assets/images/cover.png", "png")
-	mustWriteTestFile(t, "demo/assets/images/p1.png", "png")
-	mustWriteTestFile(t, "demo/assets/images/p2.png", "png")
+	mustWriteTestPNGFile(t, "demo/assets/images/cover.png")
+	mustWriteTestPNGFile(t, "demo/assets/images/p1.png")
+	mustWriteTestPNGFile(t, "demo/assets/images/p2.png")
 	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/cover.png" x="0" y="0" width="960" height="540"/></svg>`)
 	mustWriteTestFile(t, "demo/slides/02.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/p1.png" x="40" y="40" width="320" height="180"/><image slide:role="image" href="../assets/images/p2.png" x="400" y="40" width="320" height="180"/><text x="48" y="300">Process</text></svg>`)
 
@@ -284,7 +307,7 @@ func TestRepairRunOnlyReauthorsFailedSlidePaths(t *testing.T) {
 		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
 		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"},{"id":"s2","title":"Second claim","summary":"Second summary","role":"content","key_message":"Second key message","path":"slides/02.svg"}]}`,
 	)
-	custom := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">` + fontTokenStyleForTest() + `<rect width="960" height="540" fill="#fff"/><text x="48" y="80">KEEP-CUSTOM-01</text></svg>`
+	custom := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><foreignObject x="48" y="56" width="360" height="64" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Inter,Arial,sans-serif;font-size:28px;line-height:1.2;color:#111;">KEEP-CUSTOM-01</p></foreignObject></svg>`
 	mustWriteTestFile(t, "demo/slides/01.svg", custom)
 
 	report, err := RepairRun("demo")

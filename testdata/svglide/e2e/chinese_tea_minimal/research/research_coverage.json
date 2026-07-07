@@ -1,0 +1,6 @@
+{
+  "entity": {"name": "中国茶", "type": "topic"},
+  "queries": [{"query": "Chinese tea taxonomy region craft brewing teaware", "purpose": "topic coverage"}],
+  "sources": [{"id": "tea-source", "title": "Chinese Tea Guide", "url": "https://tea.example.org/chinese-tea-guide", "retrieved_at": "2026-07-07T00:00:00Z", "usage": "primary", "status": "retrieved"}],
+  "coverage": {"identity_confirmed": false, "has_reliable_source": true, "minimum_source_count_met": true, "source_count": 1, "topic_only_rationale": "Open cultural topic fixture."}
+}

@@ -1,0 +1,20 @@
+<svg width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#101A14"/>
+  <foreignObject x="60" y="40" width="335" height="68" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif CJK SC,sans-serif;color:#F7F2E8;font-size:34px;line-height:1.12;font-weight:700;">工艺改变风味路径</p>
+  </foreignObject>
+  <image slide:role="image" slide:shape-type="image" href="../assets/images/tea_process.jpg" x="60" y="120" width="640" height="360"/>
+  <line x1="742" y1="168" x2="872" y2="168" stroke="#C9B37E" stroke-width="2"/>
+  <foreignObject x="742" y="192" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#F7F2E8;font-size:20px;line-height:1.12;font-weight:400;">采摘</p>
+  </foreignObject>
+  <foreignObject x="742" y="250" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#F7F2E8;font-size:20px;line-height:1.12;font-weight:400;">杀青</p>
+  </foreignObject>
+  <foreignObject x="742" y="308" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#F7F2E8;font-size:20px;line-height:1.12;font-weight:400;">揉捻</p>
+  </foreignObject>
+  <foreignObject x="742" y="366" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#F7F2E8;font-size:20px;line-height:1.12;font-weight:400;">干燥</p>
+  </foreignObject>
+</svg>

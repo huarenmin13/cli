@@ -1,0 +1,13 @@
+{
+  "slides": [
+    {"id": "s1", "content": "中国茶先是一种风土材料。", "source_refs": ["tea-source"], "visuals": [{"id": "tea_mountain", "type": "image", "instruction": "Tea mountain cover photo"}]},
+    {"id": "s2", "content": "六大茶类来自工艺分化。", "source_refs": ["tea-source"], "visuals": [{"id": "none-s2", "type": "none", "instruction": "Taxonomy built with native SVG labels"}]},
+    {"id": "s3", "content": "地域、海拔和气候决定茶的底色。", "source_refs": ["tea-source"], "visuals": [{"id": "tea_region", "type": "image", "instruction": "Region and mountain evidence photo"}]},
+    {"id": "s4", "content": "风味是在工艺步骤里被塑造的。", "source_refs": ["tea-source"], "visuals": [{"id": "tea_process", "type": "image", "instruction": "Craft process evidence photo"}]},
+    {"id": "s5", "content": "品鉴是一套观察顺序。", "source_refs": ["tea-source"], "visuals": [{"id": "none-s5", "type": "none", "instruction": "Sensory method annotation"}]},
+    {"id": "s6", "content": "冲泡参数是对茶性的响应。", "source_refs": ["tea-source"], "visuals": [{"id": "none-s6", "type": "none", "instruction": "Parameter ledger"}]},
+    {"id": "s7", "content": "器具让品饮从味觉变成场景。", "source_refs": ["tea-source"], "visuals": [{"id": "tea_ware", "type": "image", "instruction": "Teaware evidence photo"}]},
+    {"id": "s8", "content": "中国茶正在进入新的生活场景。", "source_refs": ["tea-source"], "visuals": [{"id": "tea_scene", "type": "image", "instruction": "Tea table scene photo"}]},
+    {"id": "s9", "content": "喝茶是理解材料、时间和人的关系。", "source_refs": ["tea-source"], "visuals": [{"id": "none-s9", "type": "none", "instruction": "Closing synthesis"}]}
+  ]
+}

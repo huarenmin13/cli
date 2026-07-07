@@ -1,0 +1,20 @@
+{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "design_brief",
+    "context_receipt": "receipts/prompt_context/design_brief.json",
+    "orchestrator": "mode_system_prompt_svg",
+    "protocol_reference": "svg_reference",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference"]
+  },
+  "profile": "guochao_culture tea editorial",
+  "font_source": "slide_font_theme_presets",
+  "selected_moods": ["culture_heritage"],
+  "roles": {
+    "display": {"family": "ChillJinshuSongMedium", "weight": "700", "size": "44", "usage": "cover and section titles"},
+    "body": {"family": "Noto Serif SC", "weight": "400", "size": "18", "usage": "reading body"},
+    "number": {"family": "Noto Sans SC", "weight": "600", "size": "24", "usage": "brewing parameters"},
+    "label": {"family": "ChillDuanHeiSong_CompactRegular", "weight": "600", "size": "13", "usage": "annotations"}
+  },
+  "rules": ["Use cultural serif display and readable body text; avoid Inter/Aptos-only typography."]
+}

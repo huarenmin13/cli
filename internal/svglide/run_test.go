@@ -73,9 +73,18 @@ func TestDefaultStagesFinalStageRequiresQualityReport(t *testing.T) {
 func TestDefaultStagesResearchInputsMatchPromptContract(t *testing.T) {
 	stages := DefaultStages()
 	research := mustStage(t, stages, StageResearch)
-	want := []string{"request/request.json", "request/source_manifest.json", "request/entity_resolution.json"}
+	want := []string{"request/request.json", "request/source_manifest.json", "request/entity_resolution.json", "request/theme_contract.json", deliveryContractPath}
 	if !reflect.DeepEqual(research.Inputs, want) {
 		t.Fatalf("research Inputs = %v, want %v", research.Inputs, want)
+	}
+}
+
+func TestDefaultStagesResearchOutputsRequirePlanAndQueries(t *testing.T) {
+	stages := DefaultStages()
+	research := mustStage(t, stages, StageResearch)
+	want := []string{"research/research_plan.json", "research/queries.json", "research/research_notes.md", "research/sources.json", "research/research_coverage.json"}
+	if !reflect.DeepEqual(research.Outputs, want) {
+		t.Fatalf("research Outputs = %v, want %v", research.Outputs, want)
 	}
 }
 
@@ -85,7 +94,7 @@ func TestDefaultStagesRequestResolutionIsGateBetweenRequestAndResearch(t *testin
 	if !reflect.DeepEqual(requestResolution.Inputs, []string{"request/request.json", "request/source_manifest.json"}) {
 		t.Fatalf("request_resolution Inputs = %v", requestResolution.Inputs)
 	}
-	if !reflect.DeepEqual(requestResolution.Outputs, []string{"request/entity_resolution.json"}) {
+	if !reflect.DeepEqual(requestResolution.Outputs, []string{"request/entity_resolution.json", "request/theme_contract.json", deliveryContractPath}) {
 		t.Fatalf("request_resolution Outputs = %v", requestResolution.Outputs)
 	}
 	if requestResolution.Receipt != "receipts/request_resolution.json" {
@@ -93,10 +102,24 @@ func TestDefaultStagesRequestResolutionIsGateBetweenRequestAndResearch(t *testin
 	}
 }
 
+func TestDefaultStagesIncludeThemeContractAfterRequestResolution(t *testing.T) {
+	stages := DefaultStages()
+	requestResolution := mustStage(t, stages, StageRequestResolution)
+	if !stringSliceContains(requestResolution.Outputs, "request/theme_contract.json") {
+		t.Fatalf("request_resolution Outputs = %v, want request/theme_contract.json", requestResolution.Outputs)
+	}
+	for _, stageName := range []string{StageResearch, StageDesignBrief, StageOutline, StageSlideContent, StageAssets, StageSVGAuthor} {
+		stage := mustStage(t, stages, stageName)
+		if !stringSliceContains(stage.Inputs, "request/theme_contract.json") {
+			t.Fatalf("%s Inputs = %v, want request/theme_contract.json", stageName, stage.Inputs)
+		}
+	}
+}
+
 func TestDefaultStagesOutlineInputsMatchPromptContract(t *testing.T) {
 	stages := DefaultStages()
 	outline := mustStage(t, stages, StageOutline)
-	want := []string{"brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json"}
+	want := []string{"request/theme_contract.json", "brief/design_brief.json", "brief/visual_system.json", "brief/typography_contract.json", "brief/visual_quality_contract.json"}
 	if !reflect.DeepEqual(outline.Inputs, want) {
 		t.Fatalf("outline Inputs = %v, want %v", outline.Inputs, want)
 	}
@@ -143,6 +166,9 @@ func TestNewRunSeparatesProtocolRuntimeFromAgentRuntime(t *testing.T) {
 	if run.DeliveryMode != "self_read" {
 		t.Fatalf("DeliveryMode = %q, want self_read", run.DeliveryMode)
 	}
+	if run.DeliveryTarget != DeliveryTargetLocalPreview {
+		t.Fatalf("DeliveryTarget = %q, want %q", run.DeliveryTarget, DeliveryTargetLocalPreview)
+	}
 	if run.Pages != 8 {
 		t.Fatalf("Pages = %d, want 8", run.Pages)
 	}
@@ -163,6 +189,7 @@ func TestNewRunSeparatesProtocolRuntimeFromAgentRuntime(t *testing.T) {
 		Deck:        "outline/deck.json",
 		SlidesDir:   "slides",
 		Preview:     "preview.html",
+		OnlineSlide: onlineSlideReportPath,
 		RepairQueue: "repair_queue.md",
 	}
 	if run.Artifacts != wantArtifacts {
@@ -180,6 +207,27 @@ func TestNewRunSeparatesProtocolRuntimeFromAgentRuntime(t *testing.T) {
 	}
 	if run.Policy != wantPolicy {
 		t.Fatalf("Policy = %+v, want %+v", run.Policy, wantPolicy)
+	}
+}
+
+func TestNewRunOnlineDeliveryAddsPublishStage(t *testing.T) {
+	run := NewRun(NewRunConfig{
+		Title:          "Online Demo",
+		Topic:          "生成真实美观的线上 SVG PPT",
+		DeliveryTarget: DeliveryTargetOnlineSlide,
+	})
+	if run.DeliveryTarget != DeliveryTargetOnlineSlide {
+		t.Fatalf("DeliveryTarget = %q, want online_slide", run.DeliveryTarget)
+	}
+	if !run.Policy.PublishEnabled {
+		t.Fatal("PublishEnabled = false, want true")
+	}
+	final := run.Stages[len(run.Stages)-1]
+	if final.Name != StagePublishOnline {
+		t.Fatalf("final stage = %q, want %q", final.Name, StagePublishOnline)
+	}
+	if !stringSliceContains(final.Outputs, onlineSlideReportPath) {
+		t.Fatalf("publish outputs = %v, want %s", final.Outputs, onlineSlideReportPath)
 	}
 }
 

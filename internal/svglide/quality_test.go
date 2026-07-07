@@ -64,6 +64,33 @@ func TestCheckQualityRejectsSlideContentWithoutSourceRefs(t *testing.T) {
 	}
 }
 
+func TestCheckQualityFailsSparseContentPayload(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"品中国茶","slides":[{"id":"s1","title":"六大茶类","summary":"Tea types","role":"content","key_message":"分类来自工艺","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"tea-source","path":"https://example.com/tea","title":"Tea Source","excerpt":"Tea facts","usage":"Support","retrieval":"full_page"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"prompt_contract":`+promptContractJSON(StageSlideContent)+`,"slides":[{"id":"s1","content":"白茶\n绿茶\n黄茶\n乌龙\n红茶\n黑茶","central_claim":"","audience_takeaway":"","supporting_points":[],"source_bound_facts":[],"source_refs":["tea-source"],"visuals":[{"id":"types","type":"diagram","instruction":"Tea type matrix","visual_form":"parameter_matrix"}],"so_what":""}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[],"no_image_reason":"Content payload regression fixture; no image assets required"}`)
+	mustWriteTestFile(t, "demo/slides/01.svg", visibleTextSVG())
+	mustWriteQualityVisualReceiptForTest(t, "s1", "quiet_synthesis", "single_claim_poster")
+
+	report, err := CheckQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" {
+		t.Fatalf("status = %q, want failed", report.Status)
+	}
+	if !qualityIssueCodesContain(report.Issues, "svglide.quality.content_payload_failed") {
+		t.Fatalf("issues = %+v, want svglide.quality.content_payload_failed", report.Issues)
+	}
+	if report.ContentPayload == nil || report.ContentPayload.Metrics.SparseLabelListCount == 0 {
+		t.Fatalf("content_payload = %+v, want sparse label issue", report.ContentPayload)
+	}
+	if _, err := os.Stat(filepath.Join("demo", contentPayloadReportPath)); err != nil {
+		t.Fatalf("missing %s: %v", contentPayloadReportPath, err)
+	}
+}
+
 func TestCheckQualityRejectsMissingVisualAsset(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
@@ -111,18 +138,47 @@ func TestCheckQualityFailsEntityDeckWithoutRealVisualAssets(t *testing.T) {
 	}
 }
 
+func TestCheckQualityAppliesThemeAssetNeedsOverChartOnlyNoImageReason(t *testing.T) {
+	initStatusTestRun(t)
+	mustWriteTestFile(t, "demo/request/request.json", `{"title":"品中国茶","topic":"品中国茶主题 slides，chart-only vector treatment"}`)
+	mustWriteTestFile(t, "demo/request/theme_contract.json", chineseTeaThemeContractJSONForTest())
+	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"品中国茶","slides":[{"id":"s1","title":"Cover","summary":"Cover","role":"cover","visual_role":"hero_cover","key_message":"Tea culture opening","path":"slides/01.svg"}]}`)
+	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"local1","path":"tea.md","title":"Tea notes","excerpt":"Input","usage":"support","retrieval":"local_file"}]}`)
+	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Tea culture opening","source_refs":["local1"],"visuals":[{"id":"none","type":"none","instruction":"Vector-only text composition"}]}]}`)
+	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[],"no_image_reason":"Chart-only vector-only treatment; no photos requested."}`)
+	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[],"no_image_reason":"Chart-only vector-only treatment; no photos requested."}`)
+	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"items":[]}`)
+	mustWriteTestFile(t, "demo/slides/01.svg", visibleTextSVG())
+	mustWriteQualityVisualReceiptForTest(t, "s1", "quiet_synthesis", "single_claim_poster")
+
+	report, err := CheckQuality("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "failed" {
+		t.Fatalf("status = %q, want failed when theme needs real images", report.Status)
+	}
+	if !report.Metrics.ThemeContractPresent || !report.Metrics.ThemeAssetNeedsApplied {
+		t.Fatalf("metrics = %+v, want theme contract present and applied", report.Metrics)
+	}
+	if !report.Metrics.VisualAssetRequired {
+		t.Fatalf("visual_asset_required = false, want true from theme contract")
+	}
+	if report.Metrics.MediaPressureIssueCount == 0 {
+		t.Fatalf("media_pressure_issue_count = 0, want theme media pressure failure")
+	}
+	if !qualityIssueCodesContain(report.Issues, "svglide.quality.visual_asset.real_image_missing") {
+		t.Fatalf("issues = %+v, want visual real image missing", report.Issues)
+	}
+}
+
 func TestCheckQualityPassesAnyGenReadyRun(t *testing.T) {
 	initStatusTestRun(t)
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero image","status":"ready"}]}`)
-	if err := os.MkdirAll(filepath.Join("demo", "assets", "images"), 0o755); err != nil {
-		t.Fatal(err)
-	}
-	if err := os.WriteFile(filepath.Join("demo", "assets", "images", "hero.png"), []byte("png"), 0o644); err != nil {
-		t.Fatal(err)
-	}
+	mustWriteTestPNGFile(t, filepath.Join("demo", "assets", "images", "hero.png"))
 	mustWriteQualitySlideWithImage(t, "assets/images/hero.png")
 
 	report, err := CheckQuality("demo")
@@ -196,7 +252,7 @@ func TestCheckQualityRejectsBrandOfficialSiteWithLowImageCoverage(t *testing.T) 
 	mustWriteTestFile(t, "demo/assets/asset_inventory.json", `{"items":[
 	  {"id":"asset-cover","path":"assets/images/hero.png","source_url":"file:///Users/bytedance/Downloads/image_gwnb.png","width":1704,"height":868,"semantic_type":"brand hero","large_ok":true,"full_bleed_ok":true,"recommended_use":"cover","avoid_reason":""}
 	]}`)
-	mustWriteTestFile(t, "demo/assets/images/hero.png", "png")
+	mustWriteTestPNGFile(t, "demo/assets/images/hero.png")
 	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/hero.png"/><text>Cover</text></svg>`)
 	mustWriteTestFile(t, "demo/slides/08.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/hero.png"/><text>Closing</text></svg>`)
 
@@ -219,7 +275,7 @@ func TestCheckQualityRejectsWeakCoverWhenVisualContractRequiresStrongCover(t *te
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Cover","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"hero","slide_id":"s1","visual_id":"hero","kind":"image","local_path":"assets/images/hero.png","source_url":"https://example.com/hero.png","status":"ready","usage":"Hero"}]}`)
-	mustWriteTestFile(t, "demo/assets/images/hero.png", "png")
+	mustWriteTestPNGFile(t, "demo/assets/images/hero.png")
 	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/hero.png" x="40" y="40" width="320" height="180"/><text x="48" y="260">Cover</text></svg>`)
 
 	report, err := CheckQuality("demo")
@@ -411,9 +467,9 @@ func TestCheckQualityRejectsLowEvidenceDensityWhenVisualContractRequiresEvidence
 	  {"id":"p1","slide_id":"s2","visual_id":"p1","kind":"image","local_path":"assets/images/p1.png","source_url":"https://example.com/p1.png","status":"ready","usage":"Process 1"},
 	  {"id":"p2","slide_id":"s2","visual_id":"p2","kind":"image","local_path":"assets/images/p2.png","source_url":"https://example.com/p2.png","status":"ready","usage":"Process 2"}
 	]}`)
-	mustWriteTestFile(t, "demo/assets/images/cover.png", "png")
-	mustWriteTestFile(t, "demo/assets/images/p1.png", "png")
-	mustWriteTestFile(t, "demo/assets/images/p2.png", "png")
+	mustWriteTestPNGFile(t, "demo/assets/images/cover.png")
+	mustWriteTestPNGFile(t, "demo/assets/images/p1.png")
+	mustWriteTestPNGFile(t, "demo/assets/images/p2.png")
 	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/cover.png" x="0" y="0" width="960" height="540"/></svg>`)
 	mustWriteTestFile(t, "demo/slides/02.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="../assets/images/p1.png" x="40" y="40" width="320" height="180"/><image slide:role="image" href="../assets/images/p2.png" x="400" y="40" width="320" height="180"/><text x="48" y="300">Process</text></svg>`)
 
@@ -485,9 +541,7 @@ func TestCheckQualityAllowsAbsoluteReadyAssetPathInExperiment(t *testing.T) {
 	mustWriteTestFile(t, "demo/research/sources.json", `{"sources":[{"id":"web1","path":"https://example.com/page","title":"Web Source","excerpt":"Input","usage":"Support","retrieval":"full_page"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Claim","source_refs":["web1"],"visuals":[{"id":"hero","type":"image","instruction":"Hero image"}]}]}`)
 	outside := filepath.Join(t.TempDir(), "hero.png")
-	if err := os.WriteFile(outside, []byte("png"), 0o644); err != nil {
-		t.Fatal(err)
-	}
+	mustWriteTestPNGFile(t, outside)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"assets":[{"id":"hero","slide_id":"s1","type":"image","path":"`+outside+`","usage":"Hero image","status":"ready"}]}`)
 	mustWriteQualitySlideWithImage(t, outside)
 
@@ -690,7 +744,7 @@ func TestAnyGenSemanticReportRejectsBrowserRelativeMissingImageHref(t *testing.T
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Cover","source_refs":[],"visuals":[{"id":"hero","type":"image","instruction":"Hero"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero","status":"ready"}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"hero","slide_id":"s1","visual_id":"hero","kind":"image","local_path":"assets/images/hero.png","source_url":"https://example.com/hero.png","status":"ready","usage":"Hero"}]}`)
-	mustWriteTestFile(t, "demo/assets/images/hero.png", "png")
+	mustWriteTestPNGFile(t, "demo/assets/images/hero.png")
 	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<image slide:role="image" href="assets/images/hero.png" x="0" y="0" width="960" height="540"/></svg>`)
 
 	report, err := EvaluateAnyGenSemantics("demo")
@@ -711,8 +765,8 @@ func TestAnyGenSemanticReportAllowsBrowserRelativeImageHrefAndNoteSources(t *tes
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Cover","source_refs":["kaneko-home"],"visuals":[{"id":"hero","type":"image","instruction":"Hero"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", `{"mode":"experiment_unrestricted_assets","assets":[{"id":"hero","slide_id":"s1","type":"image","path":"assets/images/hero.png","usage":"Hero","status":"ready"}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"hero","slide_id":"s1","visual_id":"hero","kind":"image","local_path":"assets/images/hero.png","source_url":"https://example.com/hero.png","status":"ready","usage":"Hero"}]}`)
-	mustWriteTestFile(t, "demo/assets/images/hero.png", "png")
-	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<slide:note>Sources: kaneko-home</slide:note><image slide:role="image" href="../assets/images/hero.png" x="0" y="0" width="960" height="540"/></svg>`)
+	mustWriteTestPNGFile(t, "demo/assets/images/hero.png")
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><slide:note>Sources: kaneko-home</slide:note><image slide:role="image" href="../assets/images/hero.png" x="0" y="0" width="960" height="540"/></svg>`)
 
 	report, err := EvaluateAnyGenSemantics("demo")
 	if err != nil {
@@ -836,7 +890,7 @@ func writeSemanticDeckWithSlideBody(t *testing.T, assetsPlan string, slideBody s
 	mustWriteTestFile(t, "demo/outline/deck.json", `{"title":"Chart Deck","slides":[{"id":"s1","title":"Revenue","summary":"Revenue summary","role":"content","key_message":"Revenue changed","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Revenue changed","source_refs":[],"visuals":[{"id":"chart1","type":"chart","instruction":"Revenue chart"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_plan.json", assetsPlan)
-	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<rect width="960" height="540" fill="#fff"/>`+slideBody+`<text x="48" y="500">Revenue</text></svg>`)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/>`+slideBody+parserSafeTextBody()+`</svg>`)
 }
 
 func TestCheckQualityCountsSlidesWithVisualsPerPage(t *testing.T) {
@@ -848,9 +902,7 @@ func TestCheckQualityCountsSlidesWithVisualsPerPage(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join("demo", "assets", "images"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join("demo", "assets", "images", "hero.png"), []byte("png"), 0o644); err != nil {
-		t.Fatal(err)
-	}
+	mustWriteTestPNGFile(t, filepath.Join("demo", "assets", "images", "hero.png"))
 	if err := os.WriteFile(filepath.Join("demo", "assets", "images", "logo.svg"), []byte("<svg/>"), 0o644); err != nil {
 		t.Fatal(err)
 	}
@@ -877,9 +929,7 @@ func TestCheckQualityAllowsSymlinkReadyAssetPathInExperiment(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join("demo", "assets", "images"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join("outside-hero.png"), []byte("png"), 0o644); err != nil {
-		t.Fatal(err)
-	}
+	mustWriteTestPNGFile(t, filepath.Join("outside-hero.png"))
 	if err := os.Symlink(filepath.Join("..", "..", "outside-hero.png"), filepath.Join("demo", "assets", "images", "hero.png")); err != nil {
 		t.Fatal(err)
 	}
@@ -929,19 +979,19 @@ func mustWriteVegaLiteQualityDeck(t *testing.T) {
 	mustWriteTestFile(t, "demo/content/slide_content.json", `{"slides":[{"id":"s1","content":"Revenue expanded","source_refs":["10k"],"visuals":[{"id":"revenue","type":"chart","instruction":"Revenue chart"}]}]}`)
 	mustWriteTestFile(t, "demo/assets/assets_manifest.json", `{"assets":[{"id":"revenue","slide_id":"s1","visual_id":"revenue","kind":"chart","local_path":"assets/charts/revenue.svg","source_url":"","status":"ready","usage":"Revenue chart"}],"no_image_reason":"Financial chart page; no photo required"}`)
 	mustWriteTestFile(t, "demo/assets/charts/revenue.svg", `<svg xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100"/></svg>`)
-	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<rect width="960" height="540" fill="#fff"/><rect slide:role="chart" href="../assets/charts/revenue.svg" x="80" y="96" width="720" height="320"/><text x="48" y="480">Revenue: 60.9B</text></svg>`)
-	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"proof","layout_family":"data_scoreboard","layout_archetype":"data_scoreboard","layout_signature":"single_chart","thumbnail_job":"chart proof","visual_center":"revenue chart","topic_fit_claim":"matches financial report","information_density_plan":"one main chart and one sourced note","page_difference_from_previous":"first chart page","primary_asset":"assets/charts/revenue.svg","asset_role":"financial proof","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"financial analysis chart","data_visual_rationale":"shows revenue change with sourced numbers","source_evidence":["FY revenue 60.9 billion from 10k"],"fusion_spec":{"enabled":false},"qa_expectations":["chart has numeric evidence"]}]}`)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><rect slide:role="chart" href="../assets/charts/revenue.svg" x="80" y="96" width="720" height="320"/>`+parserSafeTextBody()+`</svg>`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"s1","story_job":"proof","layout_family":"data_scoreboard","layout_archetype":"data_scoreboard","layout_signature":"single_chart","thumbnail_job":"chart proof","visual_center":"revenue chart","topic_fit_claim":"matches financial report","information_density_plan":"one main chart and one sourced note","page_difference_from_previous":"first chart page","primary_asset":"assets/charts/revenue.svg","asset_role":"financial proof","font_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"composition_intent":"financial analysis chart","data_visual_rationale":"shows revenue change with sourced numbers","source_evidence":["FY revenue 60.9 billion from 10k"],"fusion_spec":{"enabled":false},"qa_expectations":["chart has numeric evidence"]}]}`)
 }
 
 func mustWriteQualitySlideWithImage(t *testing.T, href string) {
 	t.Helper()
-	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<rect width="960" height="540" fill="#fff"/><image slide:role="image" href="`+svgHrefForTestAsset(href)+`" x="40" y="40" width="320" height="180"/><text x="48" y="260">Claim</text></svg>`)
+	mustWriteTestFile(t, "demo/slides/01.svg", `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><image slide:role="image" href="`+svgHrefForTestAsset(href)+`" x="40" y="40" width="320" height="180"/>`+parserSafeTextBody()+`</svg>`)
 	mustWriteQualityVisualReceiptForTest(t, "s1", "character_product_focus", "image_claim")
 }
 
 func mustWriteQualityVisualReceiptForTest(t *testing.T, slideID string, family string, signature string) {
 	t.Helper()
-	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"`+slideID+`","story_job":"hook","layout_family":"`+family+`","layout_archetype":"`+inferAuthorLayoutArchetype(family, signature)+`","layout_signature":"`+signature+`","thumbnail_job":"readable claim","visual_center":"topic claim and supporting visual","topic_fit_claim":"matches the requested topic","information_density_plan":"one clear claim with supporting proof","page_difference_from_previous":"distinct opening treatment","primary_asset":"hero","asset_role":"topic anchor","font_role_usage":{"display":"Noto Serif CJK SC","body":"Noto Sans CJK SC","number":"Roboto Mono","label":"PingFang SC"},"composition_intent":"focused editorial slide","data_visual_rationale":"","source_evidence":["web1 supports this claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
+	mustWriteTestFile(t, "demo/visual_receipts.json", `{"slides":[{"slide_id":"`+slideID+`","story_job":"hook","layout_family":"`+family+`","layout_archetype":"`+inferAuthorLayoutArchetype(family, signature)+`","layout_signature":"`+signature+`","thumbnail_job":"readable claim","visual_center":"topic claim and supporting visual","topic_fit_claim":"matches the requested topic","information_density_plan":"one clear claim with supporting proof","page_difference_from_previous":"distinct opening treatment","primary_asset":"hero","asset_role":"topic anchor","font_role_usage":{"display":"Noto Serif SC","body":"Noto Sans SC","number":"Roboto Mono","label":"Noto Sans SC"},"composition_intent":"focused editorial slide","data_visual_rationale":"","source_evidence":["web1 supports this claim"],"fusion_spec":{"enabled":false},"qa_expectations":["no process text"]}]}`)
 }
 
 func svgHrefForTestAsset(path string) string {

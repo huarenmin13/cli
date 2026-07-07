@@ -1,0 +1,18 @@
+{
+  "visual_quality_contract": {
+    "profile": "culture_editorial",
+    "requires_real_images": true,
+    "topic_archetype": "cultural_lifestyle_editorial",
+    "cover_requires_real_hero_image": true,
+    "typography_contract_required": true,
+    "media_pressure": {
+      "min_real_image_pages": 4,
+      "min_dominant_real_image_pages": 3,
+      "dominant_image_min_area_bp": 3000,
+      "require_cover_dominant_real_image": true,
+      "max_consecutive_infographic_only_pages": 2,
+      "min_unique_real_images": 4
+    },
+    "reason": "Tea culture requires material, region, process, teaware, and scene evidence."
+  }
+}

@@ -14,14 +14,18 @@ trigger:
 consumes:
   - request/request.json
   - request/source_manifest.json
+  - request/theme_contract.json
   - research/research_notes.md
 produces:
   - brief/design_brief.json
   - brief/visual_system.json
+  - brief/typography_contract.json
+  - brief/visual_quality_contract.json
   - receipts/tool_calls/design_brief/resolve_design_brief.json
 completion_gate:
   - design_brief_schema_valid
   - visual_system_schema_valid
+  - visual_quality_contract_schema_valid
 ---
 
 <!--
@@ -58,6 +62,10 @@ Visual quality benchmark handling:
 
 Default visual quality floor:
 - Every deck must define a visual quality floor before outline generation.
+- Write that floor to `brief/visual_quality_contract.json` as a separate artifact. Do not leave it only inside prose.
+- `request/theme_contract.json` is authoritative. `visual_quality_contract.topic_archetype` is a compatibility hint only; if the topic is outside the known archetype list, keep the concrete `theme_contract.content_type.primary` and write explicit media/typography/layout rules instead of forcing a wrong archetype.
+- `visual_quality_contract.media_pressure` must define `min_real_image_pages`, `min_dominant_real_image_pages`, `dominant_image_min_area_bp`, `require_cover_dominant_real_image`, `max_consecutive_infographic_only_pages`, and `min_unique_real_images` whenever real visual assets are part of the quality floor.
+- `visual_quality_contract.editorial_quality_target` must define the minimum visual score and limits for card dominance, repeated shape language, and consecutive infographic-only pages.
 - Cover pages need a strong hero image, strong composition, or deliberate poster treatment.
 - Real entity decks should prefer real images over generic decoration.
 - Image choices must support the slide claim, not merely decorate the page.
@@ -68,6 +76,7 @@ Default visual quality floor:
 - Content decides the carrier: set a deck-level shape-language budget before outline generation. Cards are allowed for comparisons, metric groups, quotes, and complex-background readability, but they must not become the default text container.
 - Decide the chart posture before asset generation. Vega-Lite is for quantitative comparison, trend, composition, distribution, or another explicit data relationship; it is not required on every page.
 - If the deck needs auditable data charts, the downstream chart plan must preserve units, source notes, direct labels or readable axes, and conclusion-oriented chart titles.
+- Decide the analysis-diagram posture before outline generation. Tactical maps, risk radars, pitch/field diagrams, and coordinate analyses are allowed only when the research can bind geometry to concrete events or measurements; otherwise plan real imagery, timelines, evidence collages, or editorial statement pages.
 
 Image asset role strategy:
 - Choose image roles before asset search. Do not write "prefer PNG" as a global rule.
@@ -76,6 +85,15 @@ Image asset role strategy:
 - `ui_screenshot`, `product_screen`: prefer PNG when available, but reject blurry or low-resolution PNG screenshots.
 - `chart`: use Vega-Lite SVG when quantitative comparison, trend, composition, distribution, or another explicit data relationship is needed.
 - The design brief must describe which roles the deck needs and which slide roles consume them.
+- Separate `evidence_images` from `decorative_images`. Evidence images are source-bound proof or subject anchors and can be required for delivery; decorative images are never allowed to satisfy a real-image requirement.
+- For technical paper / research report decks, do not mark the topic as image-free by default. Use `paper_screenshot`, `paper_figure`, `source_page_screenshot`, `official_logo`, or a blocked evidence plan.
+
+Topic archetype defaults for `brief/visual_quality_contract.json`:
+- Named company financial report: `topic_archetype=financial_company_report`, cover requires a dominant real company/product/infrastructure image, at least 2 dominant real-image pages, max 3 consecutive infographic-only pages.
+- Premium product or official brand deck: `topic_archetype=premium_product_brand` or `brand_official_site`, cover requires a dominant real product/brand image, at least 4 dominant real-image pages in an 8-page deck, max 2 consecutive infographic-only pages.
+- Sports or event editorial deck: `topic_archetype=sports_editorial` or `event_editorial`, cover requires a dominant real event/team/athlete image, at least 3 dominant real-image pages in an 8-page deck, max 2 consecutive infographic-only pages.
+- Cultural / lifestyle / food / beverage editorial deck: use `theme_contract.content_type.primary` such as `cultural_lifestyle_editorial` or `food_beverage_culture`; cover requires a dominant real material/scene image; at least 4 real-image pages in a 9-slide deck; include taxonomy, place/region, process/craft, tasting/usage, object/tool, and modern-context roles when relevant.
+- Chart-only or abstract strategy decks may set `topic_archetype=""`, but only when the user explicitly asks for chart-only/vector-only output or no real-world entity is being presented.
 ```
 
 样式设计System Prompt
@@ -128,26 +146,32 @@ Deconstruct the chosen direction across the 7 dimensions below. Every dimension 
 - **Display / title font**: category (serif / sans / handwriting / mono), weight, case, letter-spacing
 - **Subtitle / label font**: same
 - **Body font**: same
-- **Chinese font direction**: pick **concrete** font names from the taxonomy below (do NOT just write a loose category like "a hei-ti")
+- **Slide font mood**: pick 1-3 `selected_moods` from `<slide_font_catalog>` and keep them stable for the whole deck.
+- **Chinese font direction**: pick **canonical Slide `font_family` values** from `<slide_font_catalog>` / the taxonomy below (do NOT just write a loose category like "a hei-ti"; do NOT write display labels unless they are also the canonical family).
 - **Hierarchy**: how many levels, and whether the size jumps are aggressive or gentle
 - **Topic identity**: explain why display/body/label/numeric roles fit the deck type. Finance needs explicit numeric/table roles; sports needs athletic/editorial display or score roles; premium brand/product needs display type with brand/editorial character.
 - **DON'T**: explicitly list font types that must not be used
 
-Chinese font taxonomy (for zh / zh-en typography; serif display = 宋体家族 for premium/editorial). Keep these font names verbatim — they are the only ones the render engine supports:
-- tech: 寒蝉德黑体, 黑体 ; body 黑体
-- brand / business: 抖音美好体, 寒蝉云墨黑 ; body 黑体
-- creative / design: 寒蝉团圆体, 站酷庆科黄油体, 荆南缘默体 ; body 黑体
-- guochao / culture: 马善政毛笔楷体, 寒蝉锦书宋, 思源宋体
-- literary / reading: 站酷小薇体, 有字库龙藏体 ; body 寒蝉锦书宋 / 思源宋体
-- casual / entertainment: 寒蝉全圆体, 寒蝉团圆体, 霞鹜975圆体
-- education: 霞鹜975圆体, 寒蝉团圆体 ; body 资源圆体
-- minimal / report: 黑体, 寒蝉端黑宋 ; body 黑体 / 宋体 (the ONLY theme where 黑体 as a title is fine)
-- medical: 寒蝉德黑体, 寒蝉云墨黑, 黑体
-- finance / legal / consulting / academic: 寒蝉端黑宋, 思源宋体 (serif, authoritative)
-- gaming / esports: 标小智无界黑, 抖音美好体
-- feminine / fashion: 站酷小薇体, 寒蝉锦书宋 ; body 思源宋体
-- food / lifestyle: 寒蝉全圆体, 站酷庆科黄油体 ; body 资源圆体
-Pairing: sans title ↔ sans body / serif ↔ serif / rounded ↔ rounded. Never use calligraphy fonts (钟齐流江毛草) for body. Never stack two stylized fonts.
+Chinese canonical font taxonomy (for zh / zh-en typography; serif display = 宋体家族 for premium/editorial). Keep the left-side canonical `font_family` values verbatim:
+- tech: `ChillDINGothic SemiBold`, `ChillDuanSans WideSemiBold`, `LogoSC Unbounded Sans`; body `Noto Sans SC`, `SimHei`
+- brand / business: `DouyinSans`, `ChillYunmoGothicBold`; body `Noto Sans SC`, `SimHei`
+- creative / design: `ChillReunion_Sans`, `ChillReunion_Round`, `ZCOOL QingKe HuangYou`, `Kingnamype Yuanmo SC`; body `Noto Sans SC`
+- guochao / culture: `Ma Shan Zheng`, `ChillJinshuSongMedium`, `Noto Serif SC`, `Songti SC`
+- literary / reading: `ZCOOL XiaoWei`, `Long Cang`; body `ChillJinshuSongMedium`, `Noto Serif SC`, `Songti SC`
+- casual / entertainment: `ChillRoundF`, `ChillReunion_Round`, `975Maru SC`
+- education: `975Maru SC`, `ChillReunion_Round`; body `Resource Han Rounded CN`, `Noto Sans SC`
+- minimal / report: `SimHei`, `ChillDuanHeiSong_CompactRegular`; body `Noto Sans SC`, `Songti SC`
+- medical: `ChillDINGothic SemiBold`, `ChillYunmoGothicBold`, `Noto Sans SC`
+- finance / legal / consulting / academic: `ChillDuanHeiSong_CompactRegular`, `Noto Serif SC`, `Songti SC`
+- gaming / esports: `LogoSC Unbounded Sans`, `DouyinSans`
+- feminine / fashion: `ZCOOL XiaoWei`, `ChillJinshuSongMedium`; body `Noto Serif SC`
+- food / lifestyle: `ChillRoundF`, `ZCOOL QingKe HuangYou`; body `Resource Han Rounded CN`
+Pairing: sans title ↔ sans body / serif ↔ serif / rounded ↔ rounded. Never use calligraphy fonts such as `Liu Jian Mao Cao` for body. Never stack two stylized fonts.
+
+When writing `brief/typography_contract.json`, include:
+- `font_source: "slide_font_theme_presets"`
+- `selected_moods`: exact preset names from `<slide_font_catalog>`
+- `roles.display/body/number/label.family`: one canonical `font_family` each, selected from the union of the chosen mood role candidate pools
 
 #### Dimension 3: Layout language
 This describes visual composition technique ONLY, NOT content density or information architecture. The same layout language (e.g. "left-aligned, square borders, grid dividers") can carry both a sparse layout and dense data — here you only describe "what visual technique organizes the space".
@@ -219,7 +243,7 @@ Verify all items before output:
 - [ ] All 7 dimensions filled, no gaps
 - [ ] The visual direction honors the user's explicit color / mood / font asks from the conversation (if any)
 - [ ] Color system has concrete hex values, not a vague "warm tone"
-- [ ] Typography has concrete categories (serif / sans / handwriting) + concrete Chinese font names, not "a nice font"
+- [ ] Typography has concrete categories (serif / sans / handwriting) + canonical Slide `font_family` values, not "a nice font"
 - [ ] Every dimension has a DON'T list — say both what to use and what NOT to use
 - [ ] Mood "like what" / "not like what" are concrete scene analogies, not abstract adjectives
 - [ ] The document contains no implementation code (no CSS, no prompt) — it describes the visual design only

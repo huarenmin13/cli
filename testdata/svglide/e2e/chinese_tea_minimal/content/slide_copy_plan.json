@@ -1,0 +1,13 @@
+{
+  "slides": [
+    {"id": "s1", "audience_copy": {"title": "茶从山场开始", "body": "中国茶先是一种风土材料。", "labels": ["风土", "材料"]}, "production_instruction": {"layout": "full bleed tea mountain hero", "asset_ids": ["tea_mountain"]}},
+    {"id": "s2", "audience_copy": {"title": "六大茶类是加工方法", "body": "茶类差异来自加工和氧化程度。", "labels": ["绿", "白", "黄", "青", "红", "黑"]}, "production_instruction": {"layout": "radial taxonomy"}},
+    {"id": "s3", "audience_copy": {"title": "产区决定底色", "body": "地域、海拔和气候决定茶的底色。", "labels": ["产区", "海拔"]}, "production_instruction": {"layout": "map plus photo", "asset_ids": ["tea_region"]}},
+    {"id": "s4", "audience_copy": {"title": "工艺改变风味路径", "body": "风味是在工艺步骤里被塑造的。", "labels": ["杀青", "揉捻", "发酵"]}, "production_instruction": {"layout": "process strip", "asset_ids": ["tea_process"]}},
+    {"id": "s5", "audience_copy": {"title": "品茶先看香气层次", "body": "香气、汤感、回甘和余韵构成观察顺序。", "labels": ["香气", "汤感", "回甘"]}, "production_instruction": {"layout": "sensory wheel"}},
+    {"id": "s6", "audience_copy": {"title": "冲泡参数服务茶性", "body": "水温、克重、时间和器具共同决定萃取。", "labels": ["85-95C", "3-5g", "20-60s"]}, "production_instruction": {"layout": "parameter ledger"}},
+    {"id": "s7", "audience_copy": {"title": "器具改变观看方式", "body": "茶具改变色泽、香气和仪式。", "labels": ["盖碗", "壶", "杯"]}, "production_instruction": {"layout": "teaware annotation", "asset_ids": ["tea_ware"]}},
+    {"id": "s8", "audience_copy": {"title": "现代茶席连接日常", "body": "中国茶正在进入新的生活场景。", "labels": ["茶席", "日常"]}, "production_instruction": {"layout": "scene split", "asset_ids": ["tea_scene"]}},
+    {"id": "s9", "audience_copy": {"title": "喝懂一杯茶", "body": "喝茶是理解材料、时间和人的关系。", "labels": ["风土", "工艺", "人"]}, "production_instruction": {"layout": "closing poster"}}
+  ]
+}

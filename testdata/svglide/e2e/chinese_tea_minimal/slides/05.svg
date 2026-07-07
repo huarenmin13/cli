@@ -1,0 +1,21 @@
+<svg width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#F7F2E8"/>
+  <foreignObject x="72" y="50" width="352" height="72" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif CJK SC,sans-serif;color:#1F2A22;font-size:36px;line-height:1.12;font-weight:700;">品茶先看香气层次</p>
+  </foreignObject>
+  <circle slide:role="shape" slide:shape-type="ellipse" cx="350" cy="300" r="88" fill="none" stroke="#2F7D54" stroke-width="3"/>
+  <circle slide:role="shape" slide:shape-type="ellipse" cx="510" cy="300" r="88" fill="none" stroke="#B58B3B" stroke-width="3"/>
+  <circle slide:role="shape" slide:shape-type="ellipse" cx="670" cy="300" r="88" fill="none" stroke="#7B5E42" stroke-width="3"/>
+  <foreignObject x="318" y="285" width="90" height="44" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:22px;line-height:1.12;font-weight:400;">香气</p>
+  </foreignObject>
+  <foreignObject x="478" y="285" width="90" height="44" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:22px;line-height:1.12;font-weight:400;">汤感</p>
+  </foreignObject>
+  <foreignObject x="638" y="285" width="90" height="44" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:22px;line-height:1.12;font-weight:400;">回甘</p>
+  </foreignObject>
+  <foreignObject x="74" y="424" width="372" height="36" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#6C695C;font-size:18px;line-height:1.12;font-weight:400;">从鼻腔、口腔到余韵，建立观察顺序。</p>
+  </foreignObject>
+</svg>

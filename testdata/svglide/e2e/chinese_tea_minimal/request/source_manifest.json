@@ -1,0 +1,5 @@
+{
+  "sources": [
+    {"id": "user-topic", "kind": "prompt", "path": "topic://品中国茶"}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "prompt_contract": {},
+  "theme_contract": {
+    "content_type": {"primary": "cultural_lifestyle_editorial", "secondary": ["food_beverage_culture", "education_explainer"]},
+    "subject_type": {"primary": "culture_practice", "named_entity": false, "entity_name": "中国茶"},
+    "delivery_format": {"primary": "self_read", "density": "medium_high"},
+    "evidence_type": {"primary": "taxonomy_process_region", "requires_sources": true},
+    "asset_needs": {
+      "requires_real_images": true,
+      "required_roles": ["tea_mountain", "tea_leaf_macro", "brewing_process", "tea_ware", "tea_soup", "tea_table_scene"],
+      "min_real_image_pages": 4,
+      "min_dominant_real_image_pages": 3,
+      "min_unique_real_images": 4,
+      "cover_requires_dominant_real_image": true
+    },
+    "layout_rhythm": {
+      "min_slide_count": 9,
+      "min_distinct_layout_archetypes": 6,
+      "max_adjacent_same_archetype": 0,
+      "required_page_roles": ["cover", "taxonomy", "region_map", "craft_process", "tasting_method", "brewing_parameters", "teaware", "modern_consumption", "closing"]
+    },
+    "typography_identity": {
+      "profile": "guochao_culture",
+      "display_category": "serif_or_songti",
+      "body_category": "songti_or_reading",
+      "number_category": "sans_or_mono"
+    },
+    "quality_floor": {"profile": "culture_editorial", "reason": "Tea culture decks need real material, process, region, and tasting evidence."},
+    "rationale": "The request is an open cultural/lifestyle topic, not a finance, brand, or sports archetype."
+  }
+}

@@ -24,35 +24,46 @@ type liteJSONSchema struct {
 }
 
 var stageOutputSchemaPaths = map[string]string{
-	"request/request.json":              "schemas/request.schema.json",
-	"request/source_manifest.json":      "schemas/source_manifest.schema.json",
-	"request/entity_resolution.json":    "schemas/entity_resolution.schema.json",
-	"research/sources.json":             "schemas/sources.schema.json",
-	"research/research_coverage.json":   "schemas/research_coverage.schema.json",
-	"brief/design_brief.json":           "schemas/design_brief.schema.json",
-	"brief/visual_system.json":          "schemas/visual_system.schema.json",
-	"brief/typography_contract.json":    "schemas/typography_contract.schema.json",
-	"outline/deck.json":                 "schemas/deck.schema.json",
-	"content/slide_content.json":        "schemas/slide_content.schema.json",
-	"content/slide_copy_plan.json":      "schemas/slide_copy_plan.schema.json",
-	"assets/assets_plan.json":           "schemas/assets_plan.schema.json",
-	"assets/image_candidates.json":      "schemas/image_candidates.schema.json",
-	"assets/assets_manifest.json":       "schemas/assets_manifest.schema.json",
-	"assets/asset_inventory.json":       "schemas/asset_inventory.schema.json",
-	"assets/charts/chart_briefs.json":   "schemas/chart_briefs.schema.json",
-	"assets/charts/chart_manifest.json": "schemas/chart_manifest.schema.json",
-	"receipts/chart_render.json":        "schemas/chart_render.schema.json",
-	"quality_report.json":               "schemas/quality.schema.json",
-	"anygen_semantic_report.json":       "schemas/anygen_semantic_report.schema.json",
-	"visual_receipts.json":              "schemas/visual_receipts.schema.json",
-	"creative_quality_report.json":      "schemas/creative_quality.schema.json",
-	"receipts/lint.json":                "schemas/lint.schema.json",
-	"receipts/preview.json":             "schemas/preview.schema.json",
-	"receipts/rendered_visual.json":     "schemas/rendered_visual.schema.json",
-	"receipts/image_usage.json":         "schemas/image_usage.schema.json",
-	"receipts/chart_usage.json":         "schemas/chart_usage.schema.json",
-	"receipts/chart_quality.json":       "schemas/chart_quality.schema.json",
-	"receipts/delivery.json":            "schemas/delivery.schema.json",
+	"request/request.json":               "schemas/request.schema.json",
+	"request/source_manifest.json":       "schemas/source_manifest.schema.json",
+	"request/delivery_contract.json":     "schemas/delivery_contract.schema.json",
+	"request/entity_resolution.json":     "schemas/entity_resolution.schema.json",
+	"request/theme_contract.json":        "schemas/theme_contract.schema.json",
+	"research/research_plan.json":        "schemas/research_plan.schema.json",
+	"research/queries.json":              "schemas/research_queries.schema.json",
+	"research/sources.json":              "schemas/sources.schema.json",
+	"research/research_coverage.json":    "schemas/research_coverage.schema.json",
+	"brief/design_brief.json":            "schemas/design_brief.schema.json",
+	"brief/visual_system.json":           "schemas/visual_system.schema.json",
+	"brief/typography_contract.json":     "schemas/typography_contract.schema.json",
+	"brief/visual_quality_contract.json": "schemas/visual_quality_contract.schema.json",
+	"outline/deck.json":                  "schemas/deck.schema.json",
+	"content/slide_content.json":         "schemas/slide_content.schema.json",
+	"content/slide_copy_plan.json":       "schemas/slide_copy_plan.schema.json",
+	"assets/assets_plan.json":            "schemas/assets_plan.schema.json",
+	"assets/image_candidates.json":       "schemas/image_candidates.schema.json",
+	"assets/assets_manifest.json":        "schemas/assets_manifest.schema.json",
+	"assets/asset_inventory.json":        "schemas/asset_inventory.schema.json",
+	"assets/charts/chart_briefs.json":    "schemas/chart_briefs.schema.json",
+	"assets/charts/chart_manifest.json":  "schemas/chart_manifest.schema.json",
+	"receipts/chart_render.json":         "schemas/chart_render.schema.json",
+	"quality_report.json":                "schemas/quality.schema.json",
+	"anygen_semantic_report.json":        "schemas/anygen_semantic_report.schema.json",
+	"visual_receipts.json":               "schemas/visual_receipts.schema.json",
+	"creative_quality_report.json":       "schemas/creative_quality.schema.json",
+	"receipts/lint.json":                 "schemas/lint.schema.json",
+	"receipts/preview.json":              "schemas/preview.schema.json",
+	"receipts/rendered_visual.json":      "schemas/rendered_visual.schema.json",
+	"receipts/image_usage.json":          "schemas/image_usage.schema.json",
+	"receipts/media_pressure.json":       "schemas/media_pressure.schema.json",
+	"receipts/chart_usage.json":          "schemas/chart_usage.schema.json",
+	"receipts/content_payload.json":      "schemas/content_payload.schema.json",
+	"receipts/editorial_quality.json":    "schemas/editorial_quality.schema.json",
+	"receipts/screenshot_evidence.json":  "schemas/screenshot_evidence.schema.json",
+	"receipts/chart_quality.json":        "schemas/chart_quality.schema.json",
+	"receipts/delivery.json":             "schemas/delivery.schema.json",
+	"publish/online_slide.json":          "schemas/online_slide.schema.json",
+	"receipts/publish_online.json":       "schemas/publish_online.schema.json",
 }
 
 const AnyGenSemanticReportSchema = `{
@@ -76,7 +87,7 @@ const AnyGenSemanticReportSchema = `{
     "metrics": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["slide_count", "slides_with_slide_role", "image_count", "text_count", "note_count", "source_ref_count", "missing_asset_count", "slides_without_source_refs", "visible_leak_count", "font_token_count", "missing_font_token_count"],
+      "required": ["slide_count", "slides_with_slide_role", "image_count", "text_count", "note_count", "source_ref_count", "missing_asset_count", "slides_without_source_refs", "visible_leak_count", "font_token_count", "missing_font_token_count", "parser_unsafe_count"],
       "properties": {
         "slide_count": {"type": "integer"},
         "slides_with_slide_role": {"type": "integer"},
@@ -88,7 +99,8 @@ const AnyGenSemanticReportSchema = `{
         "slides_without_source_refs": {"type": "integer"},
         "visible_leak_count": {"type": "integer"},
         "font_token_count": {"type": "integer"},
-        "missing_font_token_count": {"type": "integer"}
+        "missing_font_token_count": {"type": "integer"},
+        "parser_unsafe_count": {"type": "integer"}
       }
     },
     "findings": {
@@ -117,9 +129,10 @@ const AnyGenSemanticReportSchema = `{
 const DeliveryReceiptSchema = `{
   "type": "object",
   "additionalProperties": false,
-  "required": ["status", "route_profile", "orchestrator", "runtime_binding", "deck", "slides_dir", "slides", "preview", "quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report", "semantic_metrics", "stage_status", "full_chain_evidence", "legacy_runtime_executed", "legacy_tool_ids", "legacy_artifact_matches", "core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids"],
+  "required": ["status", "delivery_target", "route_profile", "orchestrator", "runtime_binding", "deck", "slides_dir", "slides", "preview", "online_slide", "real_asset_evidence", "quality_report", "anygen_semantic_report", "visual_receipts", "creative_quality_report", "editorial_quality_report", "semantic_metrics", "stage_status", "full_chain_evidence", "legacy_runtime_executed", "legacy_tool_ids", "legacy_artifact_matches", "core_prompt_ids", "observed_prompt_ids", "blocked_prompt_ids"],
   "properties": {
-    "status": {"type": "string", "enum": ["ready", "needs_repair"]},
+    "status": {"type": "string", "enum": ["ready", "needs_repair", "blocked"]},
+    "delivery_target": {"type": "string", "enum": ["local_preview", "online_slide", "both"]},
     "route_profile": {"type": "string"},
     "orchestrator": {"type": "string"},
     "runtime_binding": {"type": "string"},
@@ -140,21 +153,52 @@ const DeliveryReceiptSchema = `{
         "missing_asset_count": {"type": "integer"}
       }
     },
+    "online_slide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "publisher"],
+      "properties": {
+        "status": {"type": "string"},
+        "presentation_id": {"type": "string"},
+        "url": {"type": "string"},
+        "slide_count": {"type": "integer"},
+        "publisher": {"type": "string"},
+        "blocked_reason_code": {"type": "string"},
+        "message": {"type": "string"}
+      }
+    },
+    "real_asset_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "satisfied", "selected_real_images"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "satisfied": {"type": "boolean"},
+        "selected_real_images": {"type": "integer"}
+      }
+    },
     "quality_report": {"type": "string"},
     "anygen_semantic_report": {"type": "string"},
     "visual_receipts": {"type": "string"},
     "creative_quality_report": {"type": "string"},
+    "editorial_quality_report": {"type": "string"},
     "semantic_metrics": {"type": "object"},
     "stage_status": {"type": "object"},
     "full_chain_evidence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["run_json", "request", "source_manifest", "entity_resolution", "research_notes", "sources", "research_coverage", "design_brief", "visual_system", "typography_contract", "outline", "slide_content", "asset_manifest", "rendered_visual", "quality_report", "creative_quality_report", "chart_render_report", "chart_usage_report", "chart_quality_report", "delivery", "stage_receipts", "screenshot_evidence", "manual_patch"],
+      "required": ["run_json", "prompt_manifest", "prompt_context_receipts", "request", "source_manifest", "entity_resolution", "theme_contract", "research_plan", "queries", "research_notes", "sources", "research_coverage", "design_brief", "visual_system", "typography_contract", "outline", "slide_content", "asset_manifest", "rendered_visual", "media_pressure_report", "quality_report", "creative_quality_report", "editorial_quality_report", "chart_render_report", "chart_usage_report", "chart_quality_report", "delivery", "stage_receipts", "screenshot_evidence", "manual_patch"],
       "properties": {
         "run_json": {"type": "string"},
+        "prompt_manifest": {"type": "string"},
+        "prompt_context_receipts": {"type": "object"},
         "request": {"type": "string"},
         "source_manifest": {"type": "string"},
+        "delivery_contract": {"type": "string"},
         "entity_resolution": {"type": "string"},
+        "theme_contract": {"type": "string"},
+        "research_plan": {"type": "string"},
+        "queries": {"type": "string"},
         "research_notes": {"type": "string"},
         "sources": {"type": "string"},
         "research_coverage": {"type": "string"},
@@ -165,11 +209,14 @@ const DeliveryReceiptSchema = `{
         "slide_content": {"type": "string"},
         "asset_manifest": {"type": "string"},
         "rendered_visual": {"type": "string"},
+        "media_pressure_report": {"type": "string"},
         "quality_report": {"type": "string"},
         "creative_quality_report": {"type": "string"},
+        "editorial_quality_report": {"type": "string"},
         "chart_render_report": {"type": "string"},
         "chart_usage_report": {"type": "string"},
         "chart_quality_report": {"type": "string"},
+        "online_slide": {"type": "string"},
         "delivery": {"type": "string"},
         "stage_receipts": {"type": "object"},
         "screenshot_evidence": {"type": "array", "items": {"type": "string"}},
@@ -226,10 +273,19 @@ func ValidateStageOutputs(root string) error {
 	}
 	switch stage.Name {
 	case StageRequestResolution:
+		if err := ValidateDeliveryContractGate(safeRoot); err != nil {
+			return err
+		}
 		if err := ValidateRequestResolutionGate(safeRoot); err != nil {
 			return err
 		}
+		if err := ValidateThemeContractGate(safeRoot); err != nil {
+			return err
+		}
 	case StageResearch:
+		if err := ValidateResearchPlanGate(safeRoot); err != nil {
+			return err
+		}
 		if err := ValidateResearchCoverageGate(safeRoot); err != nil {
 			return err
 		}
@@ -265,7 +321,12 @@ type entityResolutionArtifact struct {
 	Ambiguity struct {
 		Status string `json:"status"`
 	} `json:"ambiguity"`
-	ResearchRequired      bool   `json:"research_required"`
+	ResearchRequired             bool `json:"research_required"`
+	RequiresResearchConfirmation bool `json:"requires_research_confirmation"`
+	Identifiers                  []struct {
+		Type  string `json:"type"`
+		Value string `json:"value"`
+	} `json:"identifiers"`
 	ClarificationQuestion string `json:"clarification_question"`
 }
 
@@ -307,16 +368,35 @@ func ValidateRequestResolutionGate(safeRoot string) error {
 		return nil
 	}
 	if resolution.ResolvedEntity.ConfidenceBP < 7000 {
+		if resolution.ResearchRequired && resolution.RequiresResearchConfirmation && hasStrongResearchIdentifier(resolution.Identifiers) {
+			return nil
+		}
 		return fmt.Errorf("request_resolution_gate: confidence_bp %d below 7000 for real-world entity type %q", resolution.ResolvedEntity.ConfidenceBP, entityType)
 	}
 	return nil
 }
 
+func hasStrongResearchIdentifier(identifiers []struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}) bool {
+	for _, identifier := range identifiers {
+		switch strings.TrimSpace(identifier.Type) {
+		case "ticker", "official_url", "product_model", "paper_doi", "law_code":
+			return true
+		}
+	}
+	return false
+}
+
 type sourcesArtifactForGate struct {
 	Sources []struct {
-		ID        string `json:"id"`
-		Usage     string `json:"usage"`
-		Retrieval string `json:"retrieval"`
+		ID            string `json:"id"`
+		Usage         string `json:"usage"`
+		Retrieval     string `json:"retrieval"`
+		QueryID       string `json:"query_id"`
+		SourceClass   string `json:"source_class"`
+		AuthorityTier string `json:"authority_tier"`
 	} `json:"sources"`
 }
 
@@ -414,12 +494,7 @@ func ValidateSlideContentSourceRefsGate(safeRoot string) error {
 	if err != nil {
 		return fmt.Errorf("content/slide_content.json: read artifact: %w", err)
 	}
-	var content struct {
-		Slides []struct {
-			ID         string   `json:"id"`
-			SourceRefs []string `json:"source_refs"`
-		} `json:"slides"`
-	}
+	var content contentPayloadFile
 	if err := json.Unmarshal(raw, &content); err != nil {
 		return fmt.Errorf("content/slide_content.json: invalid JSON: %w", err)
 	}
@@ -433,8 +508,29 @@ func ValidateSlideContentSourceRefsGate(safeRoot string) error {
 				return fmt.Errorf("slide_content_source_refs_gate: slide %q source_refs contains unknown source id %q", slide.ID, ref)
 			}
 		}
+		for _, visual := range slide.Visuals {
+			if requiresConcreteVisualForm(visual.Type) && normalizeAuthorVisualForm(visual.VisualForm) == "" {
+				return fmt.Errorf("slide_content_visual_form_gate: slide %q visual %q type %q must declare visual_form", slide.ID, strings.TrimSpace(visual.ID), strings.TrimSpace(visual.Type))
+			}
+		}
+	}
+	report, err := evaluateContentPayloadAtRoot(safeRoot)
+	if err != nil {
+		return err
+	}
+	if report.Metrics.IssueCount > 0 {
+		return fmt.Errorf("slide_content_payload_gate: %s", summarizeContentPayloadIssues(report.Issues))
 	}
 	return nil
+}
+
+func requiresConcreteVisualForm(visualType string) bool {
+	switch strings.TrimSpace(visualType) {
+	case "diagram", "map", "icon", "illustration":
+		return true
+	default:
+		return false
+	}
 }
 
 type slideCopyPlanArtifact struct {

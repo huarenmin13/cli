@@ -1,0 +1,22 @@
+<svg width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#F7F2E8"/>
+  <foreignObject x="92" y="126" width="333" height="68" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif CJK SC,sans-serif;color:#1F2A22;font-size:54px;line-height:1.12;font-weight:700;">喝懂一杯茶</p>
+  </foreignObject>
+  <foreignObject x="98" y="222" width="326" height="44" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#6C695C;font-size:22px;line-height:1.12;font-weight:400;">理解材料、时间和人的关系</p>
+  </foreignObject>
+  <line x1="96" y1="300" x2="620" y2="300" stroke="#2F7D54" stroke-width="3"/>
+  <foreignObject x="96" y="334" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">风土</p>
+  </foreignObject>
+  <foreignObject x="254" y="334" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">工艺</p>
+  </foreignObject>
+  <foreignObject x="412" y="334" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">冲泡</p>
+  </foreignObject>
+  <foreignObject x="570" y="334" width="90" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">场景</p>
+  </foreignObject>
+</svg>

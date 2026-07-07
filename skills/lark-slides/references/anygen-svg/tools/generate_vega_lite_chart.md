@@ -20,6 +20,7 @@ trigger:
   - financial_report_chart_required
   - data_report_chart_required
 consumes:
+  - request/theme_contract.json
   - content/slide_content.json
   - research/sources.json
   - assets/assets_manifest.json
@@ -41,7 +42,7 @@ Vega-Lite 是数据关系表达工具，不是页面装饰工具。只在 slide 
 
 执行顺序：
 
-1. 先读取 `assets/charts/chart_briefs.json`，只为其中 `renderer=vega-lite` 的 brief 生成 spec。
+1. 先读取 `request/theme_contract.json` 和 `assets/charts/chart_briefs.json`，只为其中 `renderer=vega-lite` 且服务于主题证据需求的 brief 生成 spec。
 2. 为每个核心 chart 写 Vega-Lite JSON spec 到 `assets/charts/specs/<chart-id>.vl.json`。
 3. 写入或更新 `assets/charts/chart_manifest.json`，登记 `renderer=vega-lite`、`brief_id`、`spec_path`、`svg_path`、`slide_id`、`source_id`、`unit`、`takeaway`、`render_receipt=receipts/chart_render.json`。
 4. 不要写 `assets/charts/*.svg`。本地 SVGlide runtime 会在 StageAssets completion 调用 Node renderer (`vega-lite` + `vega`) 渲染 SVG，并写 `receipts/chart_render.json`。

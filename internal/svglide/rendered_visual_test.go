@@ -43,6 +43,31 @@ func TestRenderedVisualGateDetectsMetricCardInternalOverflow(t *testing.T) {
 	}
 }
 
+func TestRenderedVisualGateDetectsPathPanelInternalOverflow(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<path id="panel" d="M 930 134 H 1120 V 252 H 930 Z" fill="#202420" stroke="#3d443f"/>
+<foreignObject x="950" y="239" width="150" height="129" style="font-size:16px">
+  <div xmlns="http://www.w3.org/1999/xhtml">current assets / liabilities</div>
+</foreignObject>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/05-ratios-peers.svg", []byte(svg))
+	if report.Status != "failed" || !renderedVisualHasCode(report, "svglide.rendered_visual.container_text_overflow") {
+		t.Fatalf("report = %+v, want container_text_overflow for path panel", report)
+	}
+}
+
+func TestRenderedVisualGateDetectsForeignObjectWrapperPaddingRisk(t *testing.T) {
+	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
+<foreignObject x="100" y="100" width="260" height="120" style="background-color:#202420;font-size:15px">
+  <div xmlns="http://www.w3.org/1999/xhtml">Text starts at the visual wrapper edge instead of respecting inner padding.</div>
+</foreignObject>
+</svg>`
+	report := evaluateRenderedVisualSVG("slides/06.svg", []byte(svg))
+	if report.Status != "failed" || !renderedVisualHasCode(report, "svglide.rendered_visual.container_padding_risk") {
+		t.Fatalf("report = %+v, want container_padding_risk for foreignObject wrapper", report)
+	}
+}
+
 func TestRenderedVisualGateAllowsTextInsideCardPadding(t *testing.T) {
 	svg := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 1280 720" slide:role="slide">
 <rect x="100" y="100" width="280" height="150" rx="10" fill="#202420" stroke="#3d443f"/>

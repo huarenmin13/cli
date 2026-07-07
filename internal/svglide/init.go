@@ -12,18 +12,19 @@ import (
 )
 
 type InitOptions struct {
-	Title        string
-	Input        string
-	Topic        string
-	Language     string
-	Audience     string
-	DeliveryMode string
-	Pages        int
-	Now          time.Time
-	Overwrite    bool
-	AgentRuntime string
-	AgentID      string
-	RouteProfile string
+	Title          string
+	Input          string
+	Topic          string
+	Language       string
+	Audience       string
+	DeliveryMode   string
+	DeliveryTarget string
+	Pages          int
+	Now            time.Time
+	Overwrite      bool
+	AgentRuntime   string
+	AgentID        string
+	RouteProfile   string
 }
 
 func InitRun(root string, opts InitOptions) error {
@@ -32,6 +33,7 @@ func InitRun(root string, opts InitOptions) error {
 	opts.Input = strings.TrimSpace(opts.Input)
 	opts.Topic = strings.TrimSpace(opts.Topic)
 	opts.Language = strings.TrimSpace(opts.Language)
+	opts.DeliveryTarget = strings.TrimSpace(opts.DeliveryTarget)
 	opts.AgentRuntime = strings.TrimSpace(opts.AgentRuntime)
 	opts.AgentID = strings.TrimSpace(opts.AgentID)
 	opts.RouteProfile = strings.TrimSpace(opts.RouteProfile)
@@ -145,6 +147,7 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 		"outline",
 		"content",
 		"assets/images",
+		"publish",
 		"slides",
 		"schemas",
 		"receipts",
@@ -154,30 +157,32 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 		}
 	}
 	run := NewRun(NewRunConfig{
-		Title:        opts.Title,
-		Input:        opts.Input,
-		Topic:        opts.Topic,
-		Language:     opts.Language,
-		Audience:     opts.Audience,
-		DeliveryMode: opts.DeliveryMode,
-		Pages:        opts.Pages,
-		Out:          runRoot,
-		Now:          opts.Now,
-		AgentRuntime: opts.AgentRuntime,
-		AgentID:      opts.AgentID,
-		RouteProfile: opts.RouteProfile,
+		Title:          opts.Title,
+		Input:          opts.Input,
+		Topic:          opts.Topic,
+		Language:       opts.Language,
+		Audience:       opts.Audience,
+		DeliveryMode:   opts.DeliveryMode,
+		DeliveryTarget: opts.DeliveryTarget,
+		Pages:          opts.Pages,
+		Out:            runRoot,
+		Now:            opts.Now,
+		AgentRuntime:   opts.AgentRuntime,
+		AgentID:        opts.AgentID,
+		RouteProfile:   opts.RouteProfile,
 	})
 	run.Policy.Overwrite = opts.Overwrite
 	if err := writeJSON(filepath.Join(writeRoot, "run.json"), run); err != nil {
 		return err
 	}
 	request := map[string]any{
-		"title":         opts.Title,
-		"audience":      opts.Audience,
-		"delivery_mode": opts.DeliveryMode,
-		"pages":         opts.Pages,
-		"intent":        run.Intent,
-		"agent":         run.Agent,
+		"title":           opts.Title,
+		"audience":        opts.Audience,
+		"delivery_mode":   opts.DeliveryMode,
+		"delivery_target": run.DeliveryTarget,
+		"pages":           opts.Pages,
+		"intent":          run.Intent,
+		"agent":           run.Agent,
 	}
 	if opts.Input != "" {
 		request["input"] = opts.Input
@@ -198,6 +203,9 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 	if err := writeJSON(filepath.Join(writeRoot, "request", "source_manifest.json"), map[string]any{
 		"sources": []map[string]string{source},
 	}); err != nil {
+		return err
+	}
+	if err := writeDeliveryContractFile(writeRoot, opts); err != nil {
 		return err
 	}
 	return writeStaticFiles(writeRoot)

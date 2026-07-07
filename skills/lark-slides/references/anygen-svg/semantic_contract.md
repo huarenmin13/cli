@@ -46,3 +46,4 @@ rules:
 5. `cover_requires_real_hero_image=true` 时，封面必须有真实 raster image 资产，并以 `<image slide:role="image">` 形成可见 hero。
 6. `required_chart_renderer=vega-lite` 时，核心 chart 必须同时有 `assets/charts/chart_briefs.json`、Vega-Lite spec、Node renderer 生成的 SVG、`receipts/chart_render.json`、`receipts/chart_usage.json`、以及 `assets/charts/chart_manifest.json` 记录；本地 SVG deck 不允许用手写 SVG chart 冒充标准 chart。
 7. `typography_contract_required=true` 时，必须有 `brief/typography_contract.json`，并定义 display/body/number/label 四类字体角色。
+8. `parser_unsafe_count>0` 时，delivery 必须失败。parser-safe SVG 禁止 native `<text>/<tspan>`、root `<style>`、CSS `class`、CSS variables、非 960×540 根画布、前景几何缺失 parser `slide:shape-type`，以及 text `foreignObject` 的 direct `<div>` 包装。

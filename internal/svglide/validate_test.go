@@ -59,7 +59,7 @@ func TestValidateRunRejectsBackgroundOnlySVGAndWritesRepairArtifacts(t *testing.
 	}
 }
 
-func TestValidateRunPassesVisibleTextSVG(t *testing.T) {
+func TestValidateRunPassesParserSafeForeignObjectTextSVG(t *testing.T) {
 	initValidateTestRun(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), visibleTextSVG())
@@ -81,6 +81,82 @@ func TestValidateRunPassesVisibleTextSVG(t *testing.T) {
 	}
 	if strings.TrimSpace(string(queue)) != "No repair needed." {
 		t.Fatalf("repair queue = %q, want no repair text", string(queue))
+	}
+}
+
+func TestValidateRunPassesParserSafeForegroundShapes(t *testing.T) {
+	initValidateTestRun(t)
+	writeMinimalDeck(t, "demo", "slides/01.svg")
+	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><rect slide:role="shape" slide:shape-type="rect" x="80" y="90" width="220" height="120" fill="#111"/><circle slide:role="shape" slide:shape-type="ellipse" cx="420" cy="150" r="28" fill="#f00"/><path slide:role="shape" slide:shape-type="custom" slide:width="120" slide:height="20" d="M80 300 H200" stroke="#333"/><foreignObject x="48" y="360" width="300" height="80" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml">Hello</p></foreignObject></svg>`)
+
+	report, err := ValidateRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !report.OK {
+		t.Fatalf("OK = false, issues = %+v", report.Issues)
+	}
+}
+
+func TestValidateRunRejectsParserUnsafeSVG(t *testing.T) {
+	tests := []struct {
+		name string
+		svg  string
+		code string
+	}{
+		{
+			name: "native text",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`,
+			code: "svglide.parser_safe.text",
+		},
+		{
+			name: "style element",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><style>:root{--font-body:Inter}</style><rect width="960" height="540" fill="#fff"/><foreignObject x="48" y="64" width="300" height="80" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml">Hello</p></foreignObject></svg>`,
+			code: "svglide.parser_safe.style",
+		},
+		{
+			name: "class attribute",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><g class="metric"><foreignObject x="48" y="64" width="300" height="80" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml">Hello</p></foreignObject></g></svg>`,
+			code: "svglide.parser_safe.class",
+		},
+		{
+			name: "css variable",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><foreignObject x="48" y="64" width="300" height="80" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="font-family:var(--font-body)">Hello</p></foreignObject></svg>`,
+			code: "svglide.parser_safe.css_var",
+		},
+		{
+			name: "wrong canvas",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="1280" height="720" slide:role="slide" viewBox="0 0 1280 720"><rect width="1280" height="720" fill="#fff"/><foreignObject x="64" y="64" width="300" height="80" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml">Hello</p></foreignObject></svg>`,
+			code: "svglide.parser_safe.canvas",
+		},
+		{
+			name: "div inside foreignObject",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><foreignObject x="48" y="64" width="300" height="80" slide:role="shape" slide:shape-type="text"><div xmlns="http://www.w3.org/1999/xhtml">Hello</div></foreignObject></svg>`,
+			code: "svglide.parser_safe.foreign_object",
+		},
+		{
+			name: "foreground rect without parser shape type",
+			svg:  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><rect x="80" y="90" width="220" height="120" fill="#111" slide:role="shape"/><circle cx="420" cy="150" r="28" fill="#f00" slide:role="shape"/><foreignObject x="48" y="250" width="300" height="80" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml">Hello</p></foreignObject></svg>`,
+			code: "svglide.parser_safe.shape_type",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			initValidateTestRun(t)
+			writeMinimalDeck(t, "demo", "slides/01.svg")
+			writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), tt.svg)
+
+			report, err := ValidateRun("demo")
+			if err != nil {
+				t.Fatal(err)
+			}
+			if report.OK {
+				t.Fatalf("OK = true, want false")
+			}
+			if !validationIssuesContainCode(report.Issues, tt.code) {
+				t.Fatalf("issues = %+v, want %s", report.Issues, tt.code)
+			}
+		})
 	}
 }
 
@@ -603,27 +679,27 @@ func TestValidateRunIgnoresGeometryAndImageRoleInsideExcludedContent(t *testing.
 	}{
 		{
 			name: "defs image",
-			body: `<defs><image href="assets/images/defs.png" width="-4px" height="120"/></defs><text x="48" y="80">Hello</text>`,
+			body: `<defs><image href="assets/images/defs.png" width="-4px" height="120"/></defs>` + parserSafeTextBody(),
 		},
 		{
 			name: "pattern image",
-			body: `<pattern id="p"><image href="assets/images/pattern.png" width="120" height="0%"/></pattern><text x="48" y="80">Hello</text>`,
+			body: `<pattern id="p"><image href="assets/images/pattern.png" width="120" height="0%"/></pattern>` + parserSafeTextBody(),
 		},
 		{
 			name: "mask image",
-			body: `<mask id="m"><image href="assets/images/mask.png" width="auto" height="-4px"/></mask><text x="48" y="80">Hello</text>`,
+			body: `<mask id="m"><image href="assets/images/mask.png" width="auto" height="-4px"/></mask>` + parserSafeTextBody(),
 		},
 		{
 			name: "display none image",
-			body: `<g display="none"><image href="assets/images/hidden.png" width="-4px" height="120"/></g><text x="48" y="80">Hello</text>`,
+			body: `<g display="none"><image href="assets/images/hidden.png" width="-4px" height="120"/></g>` + parserSafeTextBody(),
 		},
 		{
 			name: "visibility hidden image",
-			body: `<g visibility="hidden"><image href="assets/images/hidden.png" width="120" height="-4px"/></g><text x="48" y="80">Hello</text>`,
+			body: `<g visibility="hidden"><image href="assets/images/hidden.png" width="120" height="-4px"/></g>` + parserSafeTextBody(),
 		},
 		{
 			name: "marker image role",
-			body: `<marker id="mk"><image href="assets/images/marker.png" width="120" height="80"/></marker><text x="48" y="80">Hello</text>`,
+			body: `<marker id="mk"><image href="assets/images/marker.png" width="120" height="80"/></marker>` + parserSafeTextBody(),
 		},
 	}
 	for _, tt := range tests {
@@ -712,7 +788,7 @@ func TestValidateRunAllowsExperimentImageHrefInsideExcludedContent(t *testing.T)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
   <defs><image href="file:///tmp/secret.png" width="-4px" height="120"/></defs>
-  <text x="48" y="80">Hello</text>
+  `+parserSafeTextBody()+`
 </svg>`)
 
 	report, err := ValidateRun("demo")
@@ -758,9 +834,9 @@ func TestValidateRunRejectsDimensionUnits(t *testing.T) {
 			name: "auto width",
 			svg: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" viewBox="0 0 960 540" slide:role="slide">
   <foreignObject x="10" y="10" width="auto" height="20" slide:role="shape" slide:shape-type="text">
-    <div xmlns="http://www.w3.org/1999/xhtml">Fine</div>
+    <p xmlns="http://www.w3.org/1999/xhtml">Fine</p>
   </foreignObject>
-  <text x="48" y="80">Hello</text>
+  ` + parserSafeTextBody() + `
 </svg>`,
 			want: false,
 		},
@@ -934,15 +1010,19 @@ func writeValidateTestFile(t *testing.T, path string, content string) {
 }
 
 func backgroundOnlySVG() string {
-	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">` + fontTokenStyleForTest() + `<rect width="960" height="540" fill="#fff"/></svg>`
+	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/></svg>`
 }
 
 func visibleTextSVG() string {
-	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">` + fontTokenStyleForTest() + `<rect width="960" height="540" fill="#fff"/><text x="48" y="80">Hello</text></svg>`
+	return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><foreignObject x="48" y="56" width="320" height="64" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Inter,Arial,sans-serif;font-size:28px;line-height:1.2;color:#111;">Hello</p></foreignObject></svg>`
+}
+
+func parserSafeTextBody() string {
+	return `<foreignObject x="48" y="56" width="320" height="64" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Inter,Arial,sans-serif;font-size:28px;line-height:1.2;color:#111;">Hello</p></foreignObject>`
 }
 
 func fontTokenStyleForTest() string {
-	return `<style>:root{--font-display:"Noto Serif CJK SC",serif;--font-body:"Noto Sans CJK SC",sans-serif;--font-number:"Roboto Mono",monospace;--font-label:"PingFang SC",sans-serif;}</style>`
+	return `<style>:root{--font-display:Noto Serif SC;--font-body:Noto Sans SC;--font-number:Roboto Mono;--font-label:Noto Sans SC;}</style>`
 }
 
 func validationIssuesContain(issues []ValidationIssue, needle string) bool {

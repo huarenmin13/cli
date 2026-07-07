@@ -12,8 +12,11 @@ condition: always
 trigger:
   - create_project_structure
 consumes:
+  - request/theme_contract.json
   - brief/design_brief.json
   - brief/visual_system.json
+  - brief/typography_contract.json
+  - brief/visual_quality_contract.json
 produces:
   - outline/deck.json
   - receipts/tool_calls/outline/slide_outline.json
@@ -60,6 +63,23 @@ Visual role assignment:
 - Each slide outline item should include `visual_intent`, explaining how the visual supports the message. Weak intents such as "add a relevant image" are not acceptable. The intent must say what the image proves or clarifies.
 - Each slide outline item should also avoid generic "card grid" as the visual plan unless the user requested a dashboard/report. Name the page-specific visual structure instead: poster cover, route map, annotated photograph, field diagram, image-led comparison, evidence collage, chart page, or closing poster.
 - Across the deck, do not let rounded text panels become the dominant visual rhythm. If several slides need facts or metrics, assign different structures before slides_edit starts.
+
+Media pressure rhythm:
+- Read `brief/visual_quality_contract.json` before finalizing the outline.
+- If `media_pressure.min_dominant_real_image_pages` is set, reserve enough slide roles for dominant real imagery before planning charts/diagrams.
+- If `media_pressure.max_consecutive_infographic_only_pages` is set, do not schedule a longer run of chart/table/diagram-only pages.
+- For `financial_company_report`, the cover must be a real company/product/infrastructure hero page; at least one interior page should also use real subject imagery, not only charts.
+- Do not plan tactical maps, pitch diagrams, risk radars, or coordinate analyses unless the research stage has source-backed geometry or event data. If only scores, biographies, or generic context are available, plan a real-image evidence page, timeline, evidence collage, or editorial statement page instead.
+- For `premium_product_brand` / `brand_official_site`, product/detail/usage/source photos should appear across the deck, not only on cover and closing.
+- For `sports_editorial` / `event_editorial`, alternate analysis pages with real event/team/player photo pages so the deck reads like editorial coverage, not a stat dashboard.
+- Each outline item should make `visual_intent` concrete enough to support media pressure, e.g. "dominant data-center/GPU image proves the AI infrastructure subject" rather than "use a relevant image".
+
+Theme contract rhythm:
+- Read `request/theme_contract.json`.
+- Reserve all `layout_rhythm.required_page_roles` before choosing decorative sectioning.
+- Do not map different required roles to the same visible skeleton.
+- If `layout_rhythm.min_slide_count` exceeds the user's unspecified default, use the theme floor.
+- For cultural / food / beverage / lifestyle topics, include concrete material pages such as taxonomy, region/place, process/craft, tasting/use method, object/tool, modern adoption, and closing synthesis.
 
 Layout storyboard assignment:
 - Before finalizing `outline/deck.json`, create a layout storyboard for all slides.

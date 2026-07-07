@@ -1,0 +1,17 @@
+<svg width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#F7F2E8"/>
+  <foreignObject x="64" y="42" width="335" height="68" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif CJK SC,sans-serif;color:#1F2A22;font-size:34px;line-height:1.12;font-weight:700;">器具改变观看方式</p>
+  </foreignObject>
+  <image slide:role="image" slide:shape-type="image" href="../assets/images/tea_ware.jpg" x="80" y="116" width="600" height="360"/>
+  <line x1="710" y1="184" x2="850" y2="184" stroke="#2F7D54" stroke-width="2"/>
+  <foreignObject x="710" y="206" width="146" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">盖碗看汤色</p>
+  </foreignObject>
+  <foreignObject x="710" y="266" width="146" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">壶强调聚香</p>
+  </foreignObject>
+  <foreignObject x="710" y="326" width="146" height="40" slide:role="shape" slide:shape-type="text">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Sans CJK SC,sans-serif;color:#1F2A22;font-size:20px;line-height:1.12;font-weight:400;">杯承接入口</p>
+  </foreignObject>
+</svg>

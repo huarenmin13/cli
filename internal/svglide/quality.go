@@ -11,9 +11,10 @@ import (
 )
 
 type QualityReport struct {
-	Status  string         `json:"status"`
-	Issues  []QualityIssue `json:"issues"`
-	Metrics QualityMetrics `json:"metrics"`
+	Status         string                `json:"status"`
+	Issues         []QualityIssue        `json:"issues"`
+	Metrics        QualityMetrics        `json:"metrics"`
+	ContentPayload *ContentPayloadReport `json:"content_payload,omitempty"`
 }
 
 type QualityIssue struct {
@@ -57,6 +58,8 @@ type QualityMetrics struct {
 	RenderedVisualTightLineHeightCount       int  `json:"rendered_visual_tight_line_height_count"`
 	RenderedVisualBoldOveruseCount           int  `json:"rendered_visual_bold_overuse_count"`
 	RenderedVisualSmallTextPaddingRiskCount  int  `json:"rendered_visual_small_text_padding_risk_count"`
+	ThemeContractPresent                     bool `json:"theme_contract_present"`
+	ThemeAssetNeedsApplied                   bool `json:"theme_asset_needs_applied"`
 	VisualAssetRequired                      bool `json:"visual_asset_required"`
 	VisualAssetIssueCount                    int  `json:"visual_asset_issue_count"`
 	CoverRealHeroRequired                    bool `json:"cover_real_hero_required"`
@@ -70,7 +73,14 @@ type QualityMetrics struct {
 	ImageUsageIssueCount                     int  `json:"image_usage_issue_count"`
 	CoverHeroAreaBP                          int  `json:"cover_hero_area_bp"`
 	FullBleedImageUsageCount                 int  `json:"full_bleed_image_usage_count"`
+	MediaPressureIssueCount                  int  `json:"media_pressure_issue_count"`
+	DominantRealImagePages                   int  `json:"dominant_real_image_pages"`
+	MaxConsecutiveInfographicPages           int  `json:"max_consecutive_infographic_pages"`
 	ChartUsageIssueCount                     int  `json:"chart_usage_issue_count"`
+	ContentPayloadIssueCount                 int  `json:"content_payload_issue_count"`
+	SparseLabelListCount                     int  `json:"sparse_label_list_count"`
+	MissingEvidencePayloadCount              int  `json:"missing_evidence_payload_count"`
+	MissingVisualDataItemsCount              int  `json:"missing_visual_data_items_count"`
 }
 
 type qualitySourcesFile struct {
@@ -114,24 +124,27 @@ type qualityEntityResolutionFile struct {
 }
 
 type qualityVisualContract struct {
-	Profile                                string                `json:"profile"`
-	RequiresRealImages                     bool                  `json:"requires_real_images"`
-	MinImageCoverageBP                     int                   `json:"min_image_coverage_bp"`
-	MinUniqueImages                        int                   `json:"min_unique_images"`
-	MinOfficialImages                      int                   `json:"min_official_images"`
-	AllowRepeatedHeroOnly                  bool                  `json:"allow_repeated_hero_only"`
-	CoverRequiresRealHeroImage             bool                  `json:"cover_requires_real_hero_image"`
-	RequiredChartRenderer                  string                `json:"required_chart_renderer"`
-	MinChartSVGAssets                      int                   `json:"min_chart_svg_assets"`
-	MinVegaLiteSpecs                       int                   `json:"min_vega_lite_specs"`
-	TypographyContractRequired             bool                  `json:"typography_contract_required"`
-	ForbidPreviewWrapperImagesAsRealImages bool                  `json:"forbid_preview_wrapper_images_as_real_images"`
-	Reason                                 string                `json:"reason"`
-	Mode                                   string                `json:"mode"`
-	BenchmarkAvailable                     bool                  `json:"benchmark_available"`
-	BenchmarkUsage                         string                `json:"benchmark_usage"`
-	DeckType                               string                `json:"deck_type"`
-	MustHave                               qualityVisualMustHave `json:"must_have"`
+	Profile                                string                 `json:"profile"`
+	RequiresRealImages                     bool                   `json:"requires_real_images"`
+	MinImageCoverageBP                     int                    `json:"min_image_coverage_bp"`
+	MinUniqueImages                        int                    `json:"min_unique_images"`
+	MinOfficialImages                      int                    `json:"min_official_images"`
+	AllowRepeatedHeroOnly                  bool                   `json:"allow_repeated_hero_only"`
+	CoverRequiresRealHeroImage             bool                   `json:"cover_requires_real_hero_image"`
+	RequiredChartRenderer                  string                 `json:"required_chart_renderer"`
+	MinChartSVGAssets                      int                    `json:"min_chart_svg_assets"`
+	MinVegaLiteSpecs                       int                    `json:"min_vega_lite_specs"`
+	TypographyContractRequired             bool                   `json:"typography_contract_required"`
+	ForbidPreviewWrapperImagesAsRealImages bool                   `json:"forbid_preview_wrapper_images_as_real_images"`
+	Reason                                 string                 `json:"reason"`
+	Mode                                   string                 `json:"mode"`
+	BenchmarkAvailable                     bool                   `json:"benchmark_available"`
+	BenchmarkUsage                         string                 `json:"benchmark_usage"`
+	DeckType                               string                 `json:"deck_type"`
+	TopicArchetype                         string                 `json:"topic_archetype"`
+	MediaPressure                          mediaPressureContract  `json:"media_pressure"`
+	EditorialQualityTarget                 editorialQualityTarget `json:"editorial_quality_target"`
+	MustHave                               qualityVisualMustHave  `json:"must_have"`
 }
 
 type qualityVisualMustHave struct {
@@ -178,6 +191,11 @@ func CheckQuality(root string) (QualityReport, error) {
 	}
 	entity := readQualityEntityResolution(safeRoot)
 	visualContract := readQualityVisualContract(safeRoot, entity.VisualQualityContract)
+	themeContract, themeContractPresent, themeContractErr := readThemeContract(safeRoot)
+	themeContractApplies := themeContractPresent && themeContractErr == nil && themeContractEnforcesQuality(themeContract)
+	if themeContractApplies {
+		visualContract = applyThemeContractToVisualContract(visualContract, themeContract)
+	}
 	inventory := readQualityAssetInventory(safeRoot)
 	chartManifest, chartManifestPresent, chartManifestErr := readChartManifest(safeRoot)
 	typographyContract, typographyContractPresent, typographyContractErr := readTypographyContract(safeRoot)
@@ -195,9 +213,44 @@ func CheckQuality(root string) (QualityReport, error) {
 		Issues:  []QualityIssue{},
 		Metrics: QualityMetrics{},
 	}
+	contentPayload, contentPayloadErr := evaluateContentPayloadAtRoot(safeRoot)
+	if contentPayloadErr != nil {
+		report.Issues = append(report.Issues, qualityIssue(
+			"content/slide_content.json",
+			"svglide.quality.content_payload",
+			fmt.Sprintf("content payload cannot be evaluated: %v", contentPayloadErr),
+		))
+	} else {
+		if err := writeContentPayloadReport(safeRoot, contentPayload); err != nil {
+			return QualityReport{}, err
+		}
+		report.ContentPayload = &contentPayload
+		report.Metrics.ContentPayloadIssueCount = contentPayload.Metrics.IssueCount
+		report.Metrics.SparseLabelListCount = contentPayload.Metrics.SparseLabelListCount
+		report.Metrics.MissingEvidencePayloadCount = contentPayload.Metrics.MissingCentralClaimCount + contentPayload.Metrics.MissingSupportingPointsCount + contentPayload.Metrics.MissingSourceBoundFactCount + contentPayload.Metrics.SourceBindingIssueCount
+		report.Metrics.MissingVisualDataItemsCount = contentPayload.Metrics.MissingVisualDataItemsCount
+		if contentPayload.Status != "passed" {
+			report.Issues = append(report.Issues, qualityIssue(
+				contentPayloadReportPath,
+				"svglide.quality.content_payload_failed",
+				fmt.Sprintf("content payload contract failed: %s", summarizeContentPayloadIssues(contentPayload.Issues)),
+			))
+		}
+	}
 	report.Metrics.Slides = len(deck.Slides)
 	report.Metrics.Sources = len(sources.Sources)
 	report.Metrics.Assets = len(assets.Assets)
+	report.Metrics.ThemeContractPresent = themeContractPresent
+	if themeContractApplies && themeContract.ThemeContract.AssetNeeds.RequiresRealImages {
+		report.Metrics.ThemeAssetNeedsApplied = true
+	}
+	if themeContractPresent && themeContractErr != nil {
+		report.Issues = append(report.Issues, qualityIssue(
+			themeContractPath,
+			"svglide.quality.theme_contract",
+			fmt.Sprintf("theme contract cannot be read: %v", themeContractErr),
+		))
+	}
 
 	sourceIDs := make(map[string]bool, len(sources.Sources))
 	hasLocalOrUserProvidedSource := false
@@ -443,6 +496,16 @@ func CheckQuality(root string) (QualityReport, error) {
 		}
 		report.Issues = append(report.Issues, qualityIssue(issue.Path, issue.Code, issue.Message))
 	}
+	mediaPressure := EvaluateMediaPressureRun(deck, visualContract, imageUsage)
+	if err := writeMediaPressureReport(safeRoot, mediaPressure); err != nil {
+		return QualityReport{}, err
+	}
+	report.Metrics.MediaPressureIssueCount = mediaPressure.Metrics.IssueCount
+	report.Metrics.DominantRealImagePages = mediaPressure.Metrics.DominantRealImagePages
+	report.Metrics.MaxConsecutiveInfographicPages = mediaPressure.Metrics.MaxConsecutiveInfographicPages
+	for _, issue := range mediaPressure.Issues {
+		report.Issues = append(report.Issues, qualityIssue(issue.Path, issue.Code, issue.Message))
+	}
 	if chartManifestPresent {
 		if manifestChartCount := countChartSVGEntries(chartManifest); manifestChartCount > report.Metrics.ChartSVGAssets {
 			report.Metrics.ChartSVGAssets = manifestChartCount
@@ -548,12 +611,34 @@ func CheckQuality(root string) (QualityReport, error) {
 			Severity: "error",
 		})
 		report.Status = "failed"
+		editorial := EvaluateEditorialQualityExecutionFailure(visualContract, mediaPressure, creativeErr)
+		if err := writeEditorialQualityReport(safeRoot, editorial); err != nil {
+			return report, err
+		}
 	} else {
 		if err := writeJSON(filepath.Join(safeRoot, creativeQualityReportPath), creative); err != nil {
 			return report, err
 		}
 		if creative.Status != "passed" {
 			for _, issue := range creative.Issues {
+				if issue.Severity != "error" {
+					continue
+				}
+				report.Issues = append(report.Issues, QualityIssue{
+					Path:     issue.Path,
+					Code:     issue.Code,
+					Message:  issue.Message,
+					Severity: "error",
+				})
+			}
+			report.Status = "failed"
+		}
+		editorial := EvaluateEditorialQualityRun(visualContract, mediaPressure, creative, contentPayload)
+		if err := writeEditorialQualityReport(safeRoot, editorial); err != nil {
+			return report, err
+		}
+		if editorial.Status != "passed" {
+			for _, issue := range editorial.Issues {
 				if issue.Severity != "error" {
 					continue
 				}
@@ -696,15 +781,16 @@ func enforceChartQualityReport(report *QualityReport, root string, contract qual
 
 func enforceRequestDerivedVisualAssetGate(report *QualityReport, safeRoot string, coverHasRealImageAsset bool) {
 	assetGate := EvaluateVisualAssetGate(VisualAssetGateInput{
-		RequestText:          qualityRequestText(safeRoot),
-		EntityKind:           qualityEntityKind(safeRoot),
-		Slides:               report.Metrics.Slides,
-		RealImageAssets:      report.Metrics.RealImageAssets,
-		OfficialImageAssets:  report.Metrics.OfficialImageAssets,
-		SlidesWithRealImages: report.Metrics.SlidesWithRealImageAssets,
-		CoverRealHeroImage:   report.Metrics.CoverRealHeroImage || coverHasRealImageAsset,
-		NoImageReason:        qualityNoImageReason(safeRoot),
-		ExplicitChartOnly:    qualityRequestExplicitChartOnly(safeRoot),
+		RequestText:             qualityRequestText(safeRoot),
+		EntityKind:              qualityEntityKind(safeRoot),
+		Slides:                  report.Metrics.Slides,
+		RealImageAssets:         report.Metrics.RealImageAssets,
+		OfficialImageAssets:     report.Metrics.OfficialImageAssets,
+		SlidesWithRealImages:    report.Metrics.SlidesWithRealImageAssets,
+		CoverRealHeroImage:      report.Metrics.CoverRealHeroImage || coverHasRealImageAsset,
+		NoImageReason:           qualityNoImageReason(safeRoot),
+		ExplicitChartOnly:       qualityRequestExplicitChartOnly(safeRoot),
+		ThemeRequiresRealImages: qualityThemeRequiresRealImages(safeRoot) || qualityDeliveryRequiresRealImages(safeRoot),
 	})
 	report.Metrics.VisualAssetRequired = assetGate.Required
 	report.Metrics.VisualAssetIssueCount = assetGate.IssueCount
@@ -721,7 +807,7 @@ func enforceRequestDerivedVisualAssetGate(report *QualityReport, safeRoot string
 
 func visualTypeIsDeferredOnly(value string) bool {
 	switch strings.TrimSpace(value) {
-	case "chart", "table", "crop":
+	case "chart", "table", "crop", "diagram", "map", "icon", "illustration":
 		return true
 	default:
 		return false
@@ -796,11 +882,23 @@ func isZeroVisualContract(contract qualityVisualContract) bool {
 		contract.MinChartSVGAssets == 0 &&
 		contract.MinVegaLiteSpecs == 0 &&
 		strings.TrimSpace(contract.RequiredChartRenderer) == "" &&
+		strings.TrimSpace(contract.TopicArchetype) == "" &&
+		isZeroMediaPressureContract(contract.MediaPressure) &&
+		isZeroEditorialQualityTarget(contract.EditorialQualityTarget) &&
 		contract.MustHave.SemanticImageCoverageMinBP == 0 &&
 		contract.MustHave.EvidencePageMinVisuals == 0 &&
 		contract.MustHave.MaxRepeatedLayoutRatioBP == 0 &&
 		contract.MustHave.TotalImageRefsMin == 0 &&
 		len(contract.MustHave.VisualRolesRequired) == 0
+}
+
+func isZeroMediaPressureContract(contract mediaPressureContract) bool {
+	return contract.MinRealImagePages == 0 &&
+		contract.MinDominantRealImagePages == 0 &&
+		contract.DominantImageMinAreaBP == 0 &&
+		!contract.RequireCoverDominantRealImage &&
+		contract.MaxConsecutiveInfographicOnlyPages == 0 &&
+		contract.MinUniqueRealImages == 0
 }
 
 func readQualityAssetInventory(safeRoot string) assetInventoryFile {

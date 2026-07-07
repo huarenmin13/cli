@@ -44,6 +44,9 @@ type CreativeQualityMetrics struct {
 	CardDominantSlideCount        int `json:"card_dominant_slide_count"`
 	DarkCardTemplateSlideCount    int `json:"dark_card_template_slide_count"`
 	ShapeLanguageMaxRatioBP       int `json:"shape_language_max_ratio_bp"`
+	VisualSkeletonMaxRatioBP      int `json:"visual_skeleton_max_ratio_bp"`
+	AdjacentVisualSkeletonCount   int `json:"adjacent_visual_skeleton_count"`
+	VisualIntentMismatchCount     int `json:"visual_intent_mismatch_count"`
 	DecorativeImageOnlyCount      int `json:"decorative_image_only_count"`
 	WeakCoverVisualImpactCount    int `json:"weak_cover_visual_impact_count"`
 	DefaultCardTextContainerCount int `json:"default_card_text_container_count"`
@@ -52,6 +55,7 @@ type CreativeQualityMetrics struct {
 	FusionAdjacentCount           int `json:"fusion_adjacent_count"`
 	WeakSlideCount                int `json:"weak_slide_count"`
 	ChartWithoutEvidenceCount     int `json:"chart_without_evidence_count"`
+	PseudoAnalysisDiagramCount    int `json:"pseudo_analysis_diagram_count"`
 	WarningCount                  int `json:"warning_count"`
 }
 
@@ -125,6 +129,11 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 		Issues:  []CreativeQualityIssue{},
 		Metrics: CreativeQualityMetrics{Slides: len(deck.Slides)},
 	}
+	themeContract, themeContractPresent, themeContractErr := readThemeContract(safeRoot)
+	if themeContractPresent && themeContractErr != nil {
+		addCreativeIssue(&report, mode, themeContractPath, "svglide.creative.theme_contract", themeContractErr.Error(), "error")
+	}
+	themeContractApplies := themeContractPresent && themeContractErr == nil && themeContractEnforcesQuality(themeContract)
 
 	receipts, receiptErr := readVisualReceipts(safeRoot)
 	if receiptErr != nil {
@@ -138,12 +147,22 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 			receiptBySlide[id] = receipt
 		}
 	}
+	contentByID := map[string]authorSlideContent{}
+	if content, err := readAuthorContent(safeRoot, "content/slide_content.json"); err == nil {
+		contentByID = content
+	}
 
 	if contract, present, contractErr := readTypographyContract(safeRoot); present {
 		if contractErr != nil {
 			addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.invalid_contract", contractErr.Error(), "error")
 		} else {
-			deckType := strings.Join([]string{run.Title, run.Intent.Topic, deck.Title, contract.Profile}, " ")
+			deckType := strings.Join([]string{
+				run.Title,
+				run.Intent.Topic,
+				deck.Title,
+				contract.Profile,
+				themeTypographyDeckType(themeContract, themeContractApplies),
+			}, " ")
 			identity := evaluateTypographyIdentity(contract, deckType)
 			if identity.GenericFallbackOnly {
 				addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.too_generic", "typography contract uses only generic/browser fallback font stacks", "error")
@@ -156,6 +175,30 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 				report.Metrics.TopicTypographyMismatchCount++
 				addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.identity.profile_mismatch", "typography contract does not match the deck topic/profile identity", "error")
 			}
+			catalogValidation, catalogErr := validateTypographyAgainstFontCatalog(contract)
+			if catalogErr != nil {
+				addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.load_failed", catalogErr.Error(), "error")
+			} else {
+				if catalogValidation.MissingSource {
+					addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.missing_font_source", `typography contract must set font_source to "slide_font_theme_presets"`, "error")
+				}
+				if catalogValidation.MissingSelectedMood {
+					addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.missing_selected_moods", "typography contract must declare selected_moods from slide_font_theme_presets.json", "error")
+				}
+				if len(catalogValidation.UnknownMoods) > 0 {
+					addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.unknown_mood", fmt.Sprintf("selected_moods contains unknown preset(s): %s", strings.Join(catalogValidation.UnknownMoods, ", ")), "error")
+				}
+				if len(catalogValidation.StackRoles) > 0 {
+					addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.css_stack", fmt.Sprintf("font roles must use one Slide canonical font_family, not CSS stacks: %s", sortedRoleFontPairs(catalogValidation.StackRoles)), "error")
+				}
+				if len(catalogValidation.UnsupportedRoles) > 0 {
+					addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.unsupported_font", fmt.Sprintf("font roles use font_family values absent from slide_supported_fonts.json: %s", sortedRoleFontPairs(catalogValidation.UnsupportedRoles)), "error")
+				}
+				if len(catalogValidation.PresetMismatchRoles) > 0 {
+					report.Metrics.TopicTypographyMismatchCount++
+					addCreativeIssue(&report, mode, typographyContractPath, "svglide.typography.catalog.preset_mismatch", fmt.Sprintf("font roles are not in the selected mood preset candidate pools: %s", sortedRoleFontPairs(catalogValidation.PresetMismatchRoles)), "error")
+				}
+			}
 		}
 	}
 
@@ -163,9 +206,11 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 	archetypeCounts := make(map[string]int)
 	layoutCounts := make(map[string]int)
 	shapeLanguageCounts := make(map[string]int)
+	visualSkeletonCounts := make(map[string]int)
 	var previousLayout string
 	var previousArchetype string
 	var previousFamily string
+	var previousVisualSkeleton string
 	var previousDarkCardTemplate bool
 	for i, slide := range deck.Slides {
 		id := strings.TrimSpace(slide.ID)
@@ -230,6 +275,20 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 		if shapeLanguage != "" {
 			shapeLanguageCounts[shapeLanguage]++
 		}
+		skeletonSummary := analyzeVisualSkeleton(svg)
+		visualSkeleton := visualSkeletonSignature(skeletonSummary)
+		if visualSkeleton != "" {
+			visualSkeletonCounts[visualSkeleton]++
+			if i > 0 && visualSkeleton == previousVisualSkeleton && isRepeatedVisualSkeletonRisk(visualSkeleton) {
+				report.Metrics.AdjacentVisualSkeletonCount++
+				addCreativeIssue(&report, mode, slidePath, "svglide.creative.adjacent_visual_skeleton", fmt.Sprintf("slide %q repeats adjacent visual skeleton %q", id, visualSkeleton), "error")
+			}
+			previousVisualSkeleton = visualSkeleton
+		}
+		if expectedForm := expectedSlideVisualForm(contentByID[id]); expectedForm != "" && !visualSkeletonMatchesForm(skeletonSummary, expectedForm) {
+			report.Metrics.VisualIntentMismatchCount++
+			addCreativeIssue(&report, mode, slidePath, "svglide.creative.visual_intent_mismatch", fmt.Sprintf("slide %q declares visual_form %q but rendered SVG skeleton is %q", id, expectedForm, visualSkeleton), "error")
+		}
 		if isCardDominantSlide(shapeSummary) {
 			report.Metrics.CardDominantSlideCount++
 		}
@@ -274,6 +333,10 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 			report.Metrics.ChartWithoutEvidenceCount++
 			addCreativeIssue(&report, mode, slidePath, "svglide.creative.chart_without_evidence", fmt.Sprintf("slide %q uses data/chart visual language without numeric source_evidence", id), "error")
 		}
+		if hasReceipt && isPseudoAnalysisDiagram(svg, receipt, layoutFamily, layoutArchetype, layoutSignature) {
+			report.Metrics.PseudoAnalysisDiagramCount++
+			addCreativeIssue(&report, mode, slidePath, "svglide.creative.pseudo_analysis_diagram", fmt.Sprintf("slide %q uses tactical/risk/analysis diagram language without source-bound geometry evidence or a real visual anchor", id), "error")
+		}
 	}
 
 	report.Metrics.DistinctLayoutFamilyCount = len(familyCounts)
@@ -281,6 +344,7 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 	report.Metrics.LayoutArchetypeMaxRatioBP = maxLayoutSignatureRatioBP(archetypeCounts, len(deck.Slides))
 	report.Metrics.LayoutSignatureMaxRatioBP = maxLayoutSignatureRatioBP(layoutCounts, len(deck.Slides))
 	report.Metrics.ShapeLanguageMaxRatioBP = maxLayoutSignatureRatioBP(shapeLanguageCounts, len(deck.Slides))
+	report.Metrics.VisualSkeletonMaxRatioBP = maxLayoutSignatureRatioBP(visualSkeletonCounts, len(deck.Slides))
 	if len(deck.Slides) >= 8 && report.Metrics.DistinctLayoutArchetypeCount < minDistinctLayoutArchetypes(len(deck.Slides)) {
 		addCreativeIssue(&report, mode, deckPath, "svglide.creative.layout_archetype_diversity", fmt.Sprintf("deck has %d distinct layout_archetype values, want >= %d", report.Metrics.DistinctLayoutArchetypeCount, minDistinctLayoutArchetypes(len(deck.Slides))), "error")
 	}
@@ -293,6 +357,9 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 	if len(deck.Slides) >= 8 && report.Metrics.LayoutSignatureMaxRatioBP > 3000 {
 		addCreativeIssue(&report, mode, deckPath, "svglide.creative.layout_overuse", fmt.Sprintf("most common layout_signature ratio is %d bp, want <= 3000 bp", report.Metrics.LayoutSignatureMaxRatioBP), "error")
 	}
+	if len(deck.Slides) >= 5 && report.Metrics.VisualSkeletonMaxRatioBP > 3500 && repeatedVisualSkeletonRisk(visualSkeletonCounts) {
+		addCreativeIssue(&report, mode, deckPath, "svglide.creative.visual_skeleton_repetition", fmt.Sprintf("most common rendered visual skeleton ratio is %d bp, want <= 3500 bp for diagram/chart-heavy decks", report.Metrics.VisualSkeletonMaxRatioBP), "error")
+	}
 	if limit := maxFusionSlides(len(deck.Slides)); report.Metrics.FusionSlideCount > limit {
 		addCreativeIssue(&report, mode, deckPath, "svglide.creative.fusion_overuse", fmt.Sprintf("image_text_fusion_split count is %d, want <= %d", report.Metrics.FusionSlideCount, limit), "error")
 	}
@@ -301,6 +368,9 @@ func CheckCreativeQuality(root string) (CreativeQualityReport, error) {
 	}
 	if len(deck.Slides) >= 8 && report.Metrics.OpenTextCarrierSlideCount*10000/len(deck.Slides) < 4000 {
 		addCreativeIssue(&report, mode, deckPath, "svglide.creative.open_text_carrier_underuse", fmt.Sprintf("open text carrier ratio is %d bp, want >= 4000 bp", report.Metrics.OpenTextCarrierSlideCount*10000/len(deck.Slides)), "error")
+	}
+	if themeContractApplies {
+		enforceThemeLayoutRhythm(&report, mode, deckPath, deck, receiptBySlide, themeContract.ThemeContract)
 	}
 
 	for _, issue := range report.Issues {
@@ -422,6 +492,110 @@ func maxLeftRightChartArchetypes(slides int) int {
 	return 1
 }
 
+func themeTypographyDeckType(theme ThemeContractFile, applies bool) string {
+	if !applies {
+		return ""
+	}
+	contract := theme.ThemeContract
+	return strings.Join([]string{
+		contract.ContentType.Primary,
+		contract.SubjectType.Primary,
+		contract.TypographyIdentity.Profile,
+	}, " ")
+}
+
+func enforceThemeLayoutRhythm(report *CreativeQualityReport, mode, deckPath string, deck authorDeck, receiptBySlide map[string]visualReceipt, contract ThemeContract) {
+	rhythm := contract.LayoutRhythm
+	if rhythm.MinSlideCount > 0 && len(deck.Slides) < rhythm.MinSlideCount {
+		addCreativeIssue(report, mode, deckPath, "svglide.creative.theme_min_slide_count", fmt.Sprintf("theme contract requires at least %d slide(s), got %d", rhythm.MinSlideCount, len(deck.Slides)), "error")
+	}
+	if rhythm.MinDistinctLayoutArchetypes > 0 && report.Metrics.DistinctLayoutArchetypeCount < rhythm.MinDistinctLayoutArchetypes {
+		addCreativeIssue(report, mode, deckPath, "svglide.creative.theme_layout_archetype_diversity", fmt.Sprintf("theme contract requires at least %d distinct layout archetype(s), got %d", rhythm.MinDistinctLayoutArchetypes, report.Metrics.DistinctLayoutArchetypeCount), "error")
+	}
+	if report.Metrics.AdjacentLayoutArchetypeCount > rhythm.MaxAdjacentSameArchetype {
+		addCreativeIssue(report, mode, deckPath, "svglide.creative.theme_adjacent_layout_archetype", fmt.Sprintf("theme contract allows at most %d adjacent repeated layout archetype(s), got %d", rhythm.MaxAdjacentSameArchetype, report.Metrics.AdjacentLayoutArchetypeCount), "error")
+	}
+	for _, role := range nonEmptyStrings(rhythm.RequiredPageRoles) {
+		if deckHasThemePageRole(deck, receiptBySlide, role) {
+			continue
+		}
+		addCreativeIssue(report, mode, deckPath, "svglide.creative.theme_required_page_role", fmt.Sprintf("theme contract requires page role %q", role), "error")
+	}
+}
+
+func deckHasThemePageRole(deck authorDeck, receiptBySlide map[string]visualReceipt, role string) bool {
+	for _, slide := range deck.Slides {
+		receipt := receiptBySlide[strings.TrimSpace(slide.ID)]
+		haystack := strings.ToLower(strings.Join([]string{
+			slide.Role,
+			slide.VisualRole,
+			slide.Title,
+			slide.Summary,
+			slide.KeyMessage,
+			slide.LayoutFamily,
+			slide.LayoutArchetype,
+			slide.LayoutSignature,
+			slide.StoryFunction,
+			slide.PrimaryAssetRole,
+			receipt.StoryJob,
+			receipt.LayoutFamily,
+			receipt.LayoutArchetype,
+			receipt.LayoutSignature,
+			receipt.ThumbnailJob,
+			receipt.VisualCenter,
+			receipt.AssetRole,
+			receipt.CompositionIntent,
+		}, " "))
+		if themePageRoleMatches(haystack, role) {
+			return true
+		}
+	}
+	return false
+}
+
+func themePageRoleMatches(haystack string, role string) bool {
+	want := strings.ToLower(strings.TrimSpace(role))
+	want = strings.ReplaceAll(want, "-", "_")
+	haystack = strings.ReplaceAll(strings.ToLower(haystack), "-", "_")
+	if want == "" {
+		return true
+	}
+	if strings.Contains(haystack, want) {
+		return true
+	}
+	switch want {
+	case "cover":
+		return containsAny(haystack, []string{"cover", "hero", "opening", "hook", "封面"})
+	case "closing", "close":
+		return containsAny(haystack, []string{"closing", "close", "synthesis", "ending", "结尾", "总结"})
+	case "taxonomy":
+		return containsAny(haystack, []string{"taxonomy", "classification", "category", "type", "分类", "类别"})
+	case "region_map":
+		return containsAny(haystack, []string{"region", "origin", "map", "geography", "产区", "地图", "地域"})
+	case "craft_process":
+		return containsAny(haystack, []string{"craft", "process", "production", "making", "工艺", "流程", "制作"})
+	case "tasting_method":
+		return containsAny(haystack, []string{"tasting", "taste", "method", "flavor", "品鉴", "品茶", "风味"})
+	case "brewing_parameters":
+		return containsAny(haystack, []string{"brewing", "parameter", "steep", "temperature", "冲泡", "参数", "水温"})
+	case "teaware":
+		return containsAny(haystack, []string{"teaware", "tea ware", "utensil", "vessel", "茶具", "器具"})
+	case "modern_consumption":
+		return containsAny(haystack, []string{"modern", "consumption", "scene", "consumer", "生活", "消费", "场景"})
+	default:
+		parts := strings.Fields(strings.ReplaceAll(want, "_", " "))
+		if len(parts) == 0 {
+			return false
+		}
+		for _, part := range parts {
+			if !strings.Contains(haystack, part) {
+				return false
+			}
+		}
+		return true
+	}
+}
+
 func countCreativeProcessLeaks(svg string) int {
 	visible := strings.ToLower(visibleSemanticText(svg))
 	count := 0
@@ -477,6 +651,9 @@ func svgHasGenericFontProblem(svg string) bool {
 
 func isGenericOrBrowserFontStack(value string) bool {
 	value = strings.ToLower(strings.TrimSpace(value))
+	if strings.Contains(value, ",") {
+		return true
+	}
 	value = strings.Trim(value, `"'`)
 	for _, token := range []string{",", " "} {
 		value = strings.ReplaceAll(value, token, "")
@@ -506,9 +683,16 @@ func containsCJK(text string) bool {
 
 func hasConcreteCJKFont(svg string) bool {
 	lower := strings.ToLower(svg)
+	if catalog, err := loadSlideSupportedFonts(); err == nil {
+		for _, font := range catalog.Fonts {
+			if font.Lang == "zh" && strings.Contains(lower, strings.ToLower(font.FontFamily)) {
+				return true
+			}
+		}
+	}
 	for _, token := range []string{
-		"noto sans cjk", "noto serif cjk", "source han sans", "source han serif",
-		"pingfang", "hiragino sans gb", "microsoft yahei", "songti sc",
+		"noto sans sc", "noto serif sc", "source han sans", "source han serif",
+		"simhei", "kaiti sc", "songti sc",
 		"思源黑体", "思源宋体", "微软雅黑", "黑体", "宋体",
 	} {
 		if strings.Contains(lower, strings.ToLower(token)) {
@@ -843,10 +1027,10 @@ func parseHexByte(value string) int {
 }
 
 func hasDataVisualIntent(svg string, layoutFamily string, receipt visualReceipt) bool {
-	if strings.TrimSpace(layoutFamily) == "data_scoreboard" {
+	if strings.TrimSpace(receipt.DataVisualRationale) != "" {
 		return true
 	}
-	if strings.TrimSpace(receipt.DataVisualRationale) != "" {
+	if strings.TrimSpace(receipt.ChartReceipt.ChartID) != "" || strings.TrimSpace(receipt.ChartReceipt.Renderer) == "vega-lite" || strings.TrimSpace(receipt.ChartReceipt.Unit) != "" {
 		return true
 	}
 	lower := strings.ToLower(svg)
@@ -868,6 +1052,58 @@ func hasNumericSourceEvidence(receipt visualReceipt) bool {
 		}
 	}
 	return false
+}
+
+func isPseudoAnalysisDiagram(svg string, receipt visualReceipt, layoutFamily string, layoutArchetype string, layoutSignature string) bool {
+	haystack := strings.ToLower(strings.Join([]string{
+		layoutFamily,
+		layoutArchetype,
+		layoutSignature,
+		receipt.ThumbnailJob,
+		receipt.VisualCenter,
+		receipt.TopicFitClaim,
+		receipt.CompositionIntent,
+		receipt.ShapeLanguage,
+	}, " "))
+	if containsAny(haystack, []string{
+		"no_diagram", "no diagram", "no fake map", "without diagram",
+		"不画伪", "不用伪", "不要伪", "不使用伪", "无图解",
+	}) {
+		return false
+	}
+	if !containsAny(haystack, []string{
+		"tactical", "pitch", "pitch-map", "field diagram", "risk_radar", "risk radar",
+		"radar", "analysis diagram", "coordinate", "coordinates", "zone diagram",
+		"战术", "球场", "风险雷达", "雷达", "分析图", "坐标", "区域图",
+	}) {
+		return false
+	}
+	if countSVGImageElements(svg) > 0 || strings.Contains(strings.ToLower(svg), `slide:role="chart"`) {
+		return false
+	}
+	if diagramHasSourceBoundGeometry(receipt) {
+		return false
+	}
+	return true
+}
+
+func diagramHasSourceBoundGeometry(receipt visualReceipt) bool {
+	sourceText := strings.ToLower(strings.Join(receipt.SourceEvidence, " "))
+	if strings.TrimSpace(sourceText) == "" {
+		return false
+	}
+	hasEventOrData := containsDigit(sourceText) || containsAny(sourceText, []string{
+		"minute", "minutes", "min", "goal", "assist", "shot", "xg", "touch",
+		"pass", "carry", "possession", "sequence", "heat map", "heatmap", "opta",
+		"statsbomb", "fbref", "sofascore", "whoscored", "fifa technical",
+		"分钟", "进球", "助攻", "射门", "触球", "传球", "推进", "控球", "热区", "技术报告",
+	})
+	hasGeometry := containsAny(sourceText, []string{
+		"zone", "lane", "channel", "half-space", "box", "penalty area", "final third",
+		"left flank", "right flank", "central", "back line", "defensive line", "pressing",
+		"区域", "通道", "肋部", "禁区", "边路", "中路", "后防线", "压迫", "防线",
+	})
+	return hasEventOrData && hasGeometry
 }
 
 func containsDigit(value string) bool {

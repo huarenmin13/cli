@@ -120,7 +120,7 @@ func TestAnyGenSemanticReportIncludesMetrics(t *testing.T) {
 	writeValidateTestFile(t, filepath.Join("demo", "content", "slide_content.json"), `{"slides":[{"id":"slide-1","content":"Claim","notes":"Speaker note","source_refs":["s1"],"visuals":[{"id":"hero","type":"image","instruction":"Use hero"}]}]}`)
 	writeValidateTestFile(t, filepath.Join("demo", "assets", "assets_manifest.json"), `{"assets":[{"id":"hero","slide_id":"slide-1","kind":"image","local_path":"assets/images/hero.png","usage":"Hero image","status":"ready"}]}`)
 	writeValidateTestFile(t, filepath.Join("demo", "assets", "images", "hero.png"), "png")
-	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<slide:note>Speaker note</slide:note><image slide:role="image" href="../assets/images/hero.png"/><text x="1" y="1">Claim</text></svg>`)
+	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><slide:note>Speaker note</slide:note><image slide:role="image" href="../assets/images/hero.png" x="0" y="0" width="320" height="180"/>`+parserSafeTextBody()+`</svg>`)
 
 	report, err := EvaluateAnyGenSemantics("demo")
 	if err != nil {
@@ -132,8 +132,8 @@ func TestAnyGenSemanticReportIncludesMetrics(t *testing.T) {
 	if report.Metrics.MissingAssetCount != 0 {
 		t.Fatalf("MissingAssetCount = %d, want 0", report.Metrics.MissingAssetCount)
 	}
-	if report.Metrics.VisibleLeakCount != 0 || report.Metrics.FontTokenCount != 4 || report.Metrics.MissingFontTokenCount != 0 {
-		t.Fatalf("metrics = %+v, want no visible leaks and all font tokens", report.Metrics)
+	if report.Metrics.VisibleLeakCount != 0 || report.Metrics.FontTokenCount != 0 || report.Metrics.MissingFontTokenCount != 0 || report.Metrics.ParserUnsafeCount != 0 {
+		t.Fatalf("metrics = %+v, want no visible leaks, font-token requirements, or parser-unsafe structures", report.Metrics)
 	}
 }
 
@@ -166,7 +166,7 @@ func TestAnyGenSemanticReportRejectsVisibleInstructionLeak(t *testing.T) {
 	writeMinimalDeck(t, "demo", "slides/01.svg")
 	writeValidateTestFile(t, filepath.Join("demo", "content", "slide_content.json"), `{"slides":[{"id":"slide-1","content":"Claim","source_refs":["s1"],"visuals":[{"id":"none","type":"none","instruction":"Text only"}]}]}`)
 	writeValidateTestFile(t, filepath.Join("demo", "assets", "assets_manifest.json"), `{"assets":[],"no_image_reason":"Text-only deck"}`)
-	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" viewBox="0 0 960 540">`+fontTokenStyleForTest()+`<text x="1" y="1">Sources: https://example.com</text><text x="1" y="40">产品页必须让眼镜完整出现</text></svg>`)
+	writeValidateTestFile(t, filepath.Join("demo", "slides", "01.svg"), `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><rect width="960" height="540" fill="#fff"/><foreignObject x="48" y="56" width="640" height="120" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Inter,Arial,sans-serif;font-size:22px;line-height:1.3;color:#111;">Sources: https://example.com 产品页必须让眼镜完整出现</p></foreignObject></svg>`)
 
 	report, err := EvaluateAnyGenSemantics("demo")
 	if err != nil {
@@ -180,7 +180,7 @@ func TestAnyGenSemanticReportRejectsVisibleInstructionLeak(t *testing.T) {
 	}
 }
 
-func TestAnyGenSemanticReportRejectsMissingFontTokens(t *testing.T) {
+func TestAnyGenSemanticReportRejectsParserUnsafeSVG(t *testing.T) {
 	initValidateTestRun(t)
 	writeDefaultSemanticContractForTest(t)
 	writeMinimalDeck(t, "demo", "slides/01.svg")
@@ -195,8 +195,8 @@ func TestAnyGenSemanticReportRejectsMissingFontTokens(t *testing.T) {
 	if report.Status != "failed" {
 		t.Fatalf("status = %q, want failed: %+v", report.Status, report)
 	}
-	if !semanticFindingsContain(report.Findings, "font token") {
-		t.Fatalf("findings = %+v, want font token finding", report.Findings)
+	if !semanticFindingsContain(report.Findings, "parser-unsafe") {
+		t.Fatalf("findings = %+v, want parser-safe finding", report.Findings)
 	}
 }
 

@@ -1,0 +1,5 @@
+{
+  "color_system": {"background": "#F7F2E8", "ink": "#1F2A22", "muted": "#6C695C", "accent": "#2F7D54"},
+  "typography": {"display": "Noto Serif CJK SC", "body": "Noto Sans CJK SC", "number": "Roboto Mono", "label": "PingFang SC"},
+  "layout_language": "culture editorial image evidence, open text carriers, thin annotation rules"
+}

@@ -104,7 +104,8 @@ var renderedFontWeightNumberPattern = regexp.MustCompile(`(?i)font-weight\s*:\s*
 var renderedTransformTranslatePattern = regexp.MustCompile(`(?i)translate\(\s*([\-0-9.]+)(?:[\s,]+([\-0-9.]+))?`)
 var renderedHTMLTagPattern = regexp.MustCompile(`(?is)<[^>]+>`)
 var renderedWhitespacePattern = regexp.MustCompile(`\s+`)
-var renderedStyleValuePattern = regexp.MustCompile(`(?i)(fill|stroke|opacity)\s*:\s*([^;]+)`)
+var renderedStyleValuePattern = regexp.MustCompile(`(?i)(fill|stroke|opacity|background|background-color)\s*:\s*([^;]+)`)
+var renderedPathTokenPattern = regexp.MustCompile(`[A-Za-z]|[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?`)
 
 func EvaluateRenderedVisualRun(safeRoot string, deck previewDeck) RenderedVisualReport {
 	report := RenderedVisualReport{
@@ -471,7 +472,8 @@ func renderedVisualContainers(raw []byte, path string, slideWidth, slideHeight f
 			dx, dy := parseTranslate(renderedAttrValue(t.Attr, "transform"))
 			next.translateX += dx
 			next.translateY += dy
-			if t.Name.Local == "rect" {
+			switch t.Name.Local {
+			case "rect":
 				if renderedVisualRectLooksLikeChartMark(t.Attr) {
 					stack = append(stack, next)
 					continue
@@ -487,6 +489,45 @@ func renderedVisualContainers(raw []byte, path string, slideWidth, slideHeight f
 					RX:        parseFloatAttr(t.Attr, "rx"),
 					Fill:      firstRenderedNonEmpty(renderedAttrValue(t.Attr, "fill"), parseStyleValue(renderedAttrValue(t.Attr, "style"), "fill")),
 					Stroke:    firstRenderedNonEmpty(renderedAttrValue(t.Attr, "stroke"), parseStyleValue(renderedAttrValue(t.Attr, "style"), "stroke")),
+					Opacity:   firstPositive(parseFloatAttr(t.Attr, "opacity"), parseFloatLoose(parseStyleValue(renderedAttrValue(t.Attr, "style"), "opacity")), 1),
+				}
+				if isRenderedVisualContainer(container, slideWidth, slideHeight) {
+					containers = append(containers, container)
+				}
+			case "path":
+				if renderedVisualRectLooksLikeChartMark(t.Attr) {
+					stack = append(stack, next)
+					continue
+				}
+				x, y, width, height, ok := renderedPathBounds(renderedAttrValue(t.Attr, "d"))
+				if ok {
+					container := renderedVisualContainer{
+						Path:      path,
+						ElementID: renderedAttrValue(t.Attr, "id"),
+						Kind:      "path",
+						X:         x + next.translateX,
+						Y:         y + next.translateY,
+						Width:     width,
+						Height:    height,
+						Fill:      renderedContainerFill(t.Attr),
+						Stroke:    renderedContainerStroke(t.Attr),
+						Opacity:   firstPositive(parseFloatAttr(t.Attr, "opacity"), parseFloatLoose(parseStyleValue(renderedAttrValue(t.Attr, "style"), "opacity")), 1),
+					}
+					if isRenderedVisualContainer(container, slideWidth, slideHeight) {
+						containers = append(containers, container)
+					}
+				}
+			case "foreignObject":
+				container := renderedVisualContainer{
+					Path:      path,
+					ElementID: renderedAttrValue(t.Attr, "id"),
+					Kind:      "foreignObject",
+					X:         parseFloatAttr(t.Attr, "x") + next.translateX,
+					Y:         parseFloatAttr(t.Attr, "y") + next.translateY,
+					Width:     parseFloatAttr(t.Attr, "width"),
+					Height:    parseFloatAttr(t.Attr, "height"),
+					Fill:      renderedContainerFill(t.Attr),
+					Stroke:    renderedContainerStroke(t.Attr),
 					Opacity:   firstPositive(parseFloatAttr(t.Attr, "opacity"), parseFloatLoose(parseStyleValue(renderedAttrValue(t.Attr, "style"), "opacity")), 1),
 				}
 				if isRenderedVisualContainer(container, slideWidth, slideHeight) {
@@ -617,6 +658,154 @@ func estimateRenderedTextWidth(text string, fontSize float64) float64 {
 		}
 	}
 	return units * fontSize
+}
+
+func renderedContainerFill(attrs []xml.Attr) string {
+	style := renderedAttrValue(attrs, "style")
+	return firstRenderedNonEmpty(
+		renderedAttrValue(attrs, "fill"),
+		parseStyleValue(style, "fill"),
+		parseStyleValue(style, "background-color"),
+		parseStyleValue(style, "background"),
+	)
+}
+
+func renderedContainerStroke(attrs []xml.Attr) string {
+	style := renderedAttrValue(attrs, "style")
+	return firstRenderedNonEmpty(
+		renderedAttrValue(attrs, "stroke"),
+		parseStyleValue(style, "stroke"),
+	)
+}
+
+func renderedPathBounds(d string) (float64, float64, float64, float64, bool) {
+	tokens := renderedPathTokenPattern.FindAllString(strings.TrimSpace(d), -1)
+	if len(tokens) == 0 {
+		return 0, 0, 0, 0, false
+	}
+	i := 0
+	cmd := byte(0)
+	var curX, curY float64
+	minX, minY := math.Inf(1), math.Inf(1)
+	maxX, maxY := math.Inf(-1), math.Inf(-1)
+	hasPoint := false
+	addPoint := func(x, y float64) {
+		minX = math.Min(minX, x)
+		minY = math.Min(minY, y)
+		maxX = math.Max(maxX, x)
+		maxY = math.Max(maxY, y)
+		hasPoint = true
+	}
+	for i < len(tokens) {
+		if renderedPathTokenIsCommand(tokens[i]) {
+			cmd = tokens[i][0]
+			i++
+			continue
+		}
+		if cmd == 0 {
+			return 0, 0, 0, 0, false
+		}
+		relative := cmd >= 'a' && cmd <= 'z'
+		switch renderedPathCommandUpper(cmd) {
+		case 'M', 'L', 'T':
+			if i+1 >= len(tokens) {
+				i = len(tokens)
+				continue
+			}
+			x, y := parseFloatLoose(tokens[i]), parseFloatLoose(tokens[i+1])
+			if relative {
+				x += curX
+				y += curY
+			}
+			curX, curY = x, y
+			addPoint(curX, curY)
+			i += 2
+		case 'H':
+			x := parseFloatLoose(tokens[i])
+			if relative {
+				x += curX
+			}
+			curX = x
+			addPoint(curX, curY)
+			i++
+		case 'V':
+			y := parseFloatLoose(tokens[i])
+			if relative {
+				y += curY
+			}
+			curY = y
+			addPoint(curX, curY)
+			i++
+		case 'C':
+			if i+5 >= len(tokens) {
+				i = len(tokens)
+				continue
+			}
+			for offset := 0; offset <= 4; offset += 2 {
+				x, y := parseFloatLoose(tokens[i+offset]), parseFloatLoose(tokens[i+offset+1])
+				if relative {
+					x += curX
+					y += curY
+				}
+				addPoint(x, y)
+				if offset == 4 {
+					curX, curY = x, y
+				}
+			}
+			i += 6
+		case 'S', 'Q':
+			if i+3 >= len(tokens) {
+				i = len(tokens)
+				continue
+			}
+			for offset := 0; offset <= 2; offset += 2 {
+				x, y := parseFloatLoose(tokens[i+offset]), parseFloatLoose(tokens[i+offset+1])
+				if relative {
+					x += curX
+					y += curY
+				}
+				addPoint(x, y)
+				if offset == 2 {
+					curX, curY = x, y
+				}
+			}
+			i += 4
+		case 'A':
+			if i+6 >= len(tokens) {
+				i = len(tokens)
+				continue
+			}
+			x, y := parseFloatLoose(tokens[i+5]), parseFloatLoose(tokens[i+6])
+			if relative {
+				x += curX
+				y += curY
+			}
+			curX, curY = x, y
+			addPoint(curX, curY)
+			i += 7
+		default:
+			i++
+		}
+	}
+	if !hasPoint || maxX <= minX || maxY <= minY {
+		return 0, 0, 0, 0, false
+	}
+	return minX, minY, maxX - minX, maxY - minY, true
+}
+
+func renderedPathTokenIsCommand(token string) bool {
+	if len(token) != 1 {
+		return false
+	}
+	ch := token[0]
+	return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')
+}
+
+func renderedPathCommandUpper(cmd byte) byte {
+	if cmd >= 'a' && cmd <= 'z' {
+		return cmd - ('a' - 'A')
+	}
+	return cmd
 }
 
 func renderedAttrValue(attrs []xml.Attr, name string) string {
