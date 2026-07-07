@@ -6,6 +6,9 @@ package slides
 import (
 	"context"
 	"fmt"
+	"path/filepath"
+	"regexp"
+	"strings"
 
 	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/internal/svglide"
@@ -97,6 +100,13 @@ func (p svglideRuntimeOnlinePublisher) Publish(root string, evidence svglide.SVG
 		SlideCount:     0,
 		Publisher:      "lark_slides_xml_presentations",
 	}
+	rewrittenSlides, uploadedImages, err := p.rewriteLocalSVGImages(root, presentationID, evidence, slideContents)
+	if err != nil {
+		report.Status = svglide.StatusFailed
+		report.Message = fmt.Sprintf("uploading SVG image assets failed: %v", err)
+		return report, err
+	}
+	slideContents = rewrittenSlides
 	slideURL := fmt.Sprintf(
 		"/open-apis/slides_ai/v1/xml_presentations/%s/slide",
 		validate.EncodePathSegment(presentationID),
@@ -117,12 +127,139 @@ func (p svglideRuntimeOnlinePublisher) Publish(root string, evidence svglide.SVG
 		}
 		report.SlideCount = i + 1
 	}
+	if uploadedImages > 0 {
+		report.Message = fmt.Sprintf("uploaded %d SVG image asset(s)", uploadedImages)
+	}
 	if grant := common.AutoGrantCurrentUserDrivePermission(p.runtime, presentationID, "slides"); grant != nil {
 		if message, ok := grant["message"].(string); ok {
 			report.Message = message
 		}
 	}
 	return report, nil
+}
+
+var svgImageHrefAttrRegex = regexp.MustCompile(`(?is)<image\b[^>]*?\b(?:xlink:href|href)\s*=\s*(["'])([^"']+)(["'])`)
+
+func (p svglideRuntimeOnlinePublisher) rewriteLocalSVGImages(root, presentationID string, evidence svglide.SVGPublishRequestEvidence, slideContents []string) ([]string, int, error) {
+	if len(slideContents) == 0 {
+		return slideContents, 0, nil
+	}
+	tokensByPath := map[string]string{}
+	tokensBySlideHref := map[string]string{}
+	uploaded := 0
+	for i, slideContent := range slideContents {
+		slidePath := ""
+		if i < len(evidence.Slides) {
+			slidePath = evidence.Slides[i].Path
+		}
+		for _, match := range svgImageHrefAttrRegex.FindAllStringSubmatch(slideContent, -1) {
+			if len(match) < 4 || match[1] != match[3] {
+				continue
+			}
+			href := strings.TrimSpace(match[2])
+			filePath, fileSize, ok, err := p.resolveLocalSVGImage(root, slidePath, href)
+			if err != nil {
+				return slideContents, uploaded, err
+			}
+			if !ok {
+				continue
+			}
+			token, exists := tokensByPath[filePath]
+			if !exists {
+				token, err = uploadSlidesMedia(p.runtime, filePath, filepath.Base(filePath), fileSize, presentationID)
+				if err != nil {
+					return slideContents, uploaded, fmt.Errorf("%s: %w", href, err)
+				}
+				tokensByPath[filePath] = token
+				uploaded++
+			}
+			tokensBySlideHref[svgImageHrefKey(i, href)] = token
+		}
+	}
+	if len(tokensBySlideHref) == 0 {
+		return slideContents, uploaded, nil
+	}
+	rewritten := make([]string, len(slideContents))
+	for i, slideContent := range slideContents {
+		rewritten[i] = svgImageHrefAttrRegex.ReplaceAllStringFunc(slideContent, func(match string) string {
+			sub := svgImageHrefAttrRegex.FindStringSubmatch(match)
+			if len(sub) < 4 || sub[1] != sub[3] {
+				return match
+			}
+			href := strings.TrimSpace(sub[2])
+			token, ok := tokensBySlideHref[svgImageHrefKey(i, href)]
+			if !ok {
+				return match
+			}
+			oldQuoted := fmt.Sprintf("%s%s%s", sub[1], sub[2], sub[3])
+			newQuoted := fmt.Sprintf("%s%s%s", sub[1], token, sub[3])
+			return strings.Replace(match, oldQuoted, newQuoted, 1)
+		})
+	}
+	return rewritten, uploaded, nil
+}
+
+func (p svglideRuntimeOnlinePublisher) resolveLocalSVGImage(root, slidePath, href string) (string, int64, bool, error) {
+	raw := strings.TrimSpace(href)
+	if raw == "" || !svgImageHrefCanBeLocal(raw) {
+		return "", 0, false, nil
+	}
+	filePath := strings.TrimPrefix(raw, "file://")
+	if !filepath.IsAbs(filePath) {
+		filePath = filepath.Join(root, filepath.Dir(slidePath), filePath)
+	}
+	filePath = filepath.Clean(filePath)
+	absRoot, err := filepath.Abs(root)
+	if err != nil {
+		return "", 0, false, err
+	}
+	absFile, err := filepath.Abs(filePath)
+	if err != nil {
+		return "", 0, false, err
+	}
+	rel, err := filepath.Rel(absRoot, absFile)
+	if err != nil {
+		return "", 0, false, err
+	}
+	relSlash := filepath.ToSlash(rel)
+	if relSlash == ".." || strings.HasPrefix(relSlash, "../") {
+		return "", 0, false, fmt.Errorf("SVG image href %q in %s resolves outside run root", href, slidePath)
+	}
+	stat, err := p.runtime.FileIO().Stat(filePath)
+	if err != nil {
+		if svgImageHrefLooksLikePath(raw) {
+			return "", 0, false, fmt.Errorf("SVG image href %q in %s does not resolve to a local file under run root", href, slidePath)
+		}
+		return "", 0, false, nil
+	}
+	if !stat.Mode().IsRegular() {
+		return "", 0, false, fmt.Errorf("SVG image href %q in %s is not a regular file", href, slidePath)
+	}
+	return filePath, stat.Size(), true, nil
+}
+
+func svgImageHrefCanBeLocal(href string) bool {
+	lower := strings.ToLower(strings.TrimSpace(href))
+	return !strings.HasPrefix(lower, "http://") &&
+		!strings.HasPrefix(lower, "https://") &&
+		!strings.HasPrefix(lower, "data:") &&
+		!strings.HasPrefix(lower, "#")
+}
+
+func svgImageHrefLooksLikePath(href string) bool {
+	if strings.HasPrefix(href, ".") || strings.HasPrefix(href, "/") || strings.HasPrefix(strings.ToLower(href), "file://") || strings.ContainsAny(href, `/\`) {
+		return true
+	}
+	switch strings.ToLower(filepath.Ext(href)) {
+	case ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".svg":
+		return true
+	default:
+		return false
+	}
+}
+
+func svgImageHrefKey(slideIndex int, href string) string {
+	return fmt.Sprintf("%d\x00%s", slideIndex, strings.TrimSpace(href))
 }
 
 func firstNonEmpty(values ...string) string {

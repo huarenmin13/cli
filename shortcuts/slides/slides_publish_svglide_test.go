@@ -78,6 +78,70 @@ func TestSlidesPublishSVGlideCreatesPresentationWithRawSVGContent(t *testing.T) 
 	}
 }
 
+func TestSlidesPublishSVGlideUploadsLocalSVGImagesBeforeSlideCreate(t *testing.T) {
+	initSVGlidePublishShortcutSmokeRun(t, `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" width="960" height="540" slide:role="slide" viewBox="0 0 960 540"><image slide:role="image" slide:shape-type="image" href="../assets/images/portrait.png" x="0" y="0" width="960" height="540"/><foreignObject x="48" y="56" width="420" height="120" slide:role="shape" slide:shape-type="text"><p xmlns="http://www.w3.org/1999/xhtml" style="margin:0;font-family:Noto Serif SC,serif;font-size:36px;line-height:1.2;color:#111827;">Hello</p></foreignObject></svg>`)
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "assets", "images", "portrait.png"), "png")
+	f, stdout, _, reg := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+	reg.Register(&httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/slides_ai/v1/xml_presentations",
+		Body: map[string]interface{}{
+			"code": 0,
+			"msg":  "ok",
+			"data": map[string]interface{}{
+				"xml_presentation_id": "pres_svg_img",
+				"revision_id":         1,
+				"url":                 "https://tenant.example.com/slides/pres_svg_img",
+			},
+		},
+	})
+	uploadStub := &httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/drive/v1/medias/upload_all",
+		Body:   map[string]interface{}{"code": 0, "data": map[string]interface{}{"file_token": "tok_portrait"}},
+	}
+	reg.Register(uploadStub)
+	slideStub := &httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/slides_ai/v1/xml_presentations/pres_svg_img/slide",
+		Body: map[string]interface{}{
+			"code": 0,
+			"msg":  "ok",
+			"data": map[string]interface{}{"slide_id": "slide_1", "revision_id": 2},
+		},
+	}
+	reg.Register(slideStub)
+
+	err := runSlidesShortcut(t, f, stdout, SlidesPublishSVGlide, []string{
+		"+publish-svglide",
+		"--run", "run-demo",
+		"--allow-smoke-publish",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["status"] != "passed" || data["presentation_id"] != "pres_svg_img" || data["slide_count"] != float64(1) {
+		t.Fatalf("publish data = %+v, want passed pres_svg_img one slide", data)
+	}
+	var body map[string]interface{}
+	if err := json.Unmarshal(slideStub.CapturedBody, &body); err != nil {
+		t.Fatal(err)
+	}
+	slide, _ := body["slide"].(map[string]interface{})
+	content, _ := slide["content"].(string)
+	if !strings.HasPrefix(strings.TrimSpace(content), "<svg ") {
+		t.Fatalf("slide.content = %.80q, want raw SVG", content)
+	}
+	if strings.Contains(content, "../assets/images/portrait.png") {
+		t.Fatalf("slide content still contains local image href: %s", content)
+	}
+	if !strings.Contains(content, `href="tok_portrait"`) {
+		t.Fatalf("slide content missing uploaded token: %s", content)
+	}
+}
+
 func TestSlidesCreateThenPublishSVGlideSmoke(t *testing.T) {
 	dir := t.TempDir()
 	withSlidesTestWorkingDir(t, dir)

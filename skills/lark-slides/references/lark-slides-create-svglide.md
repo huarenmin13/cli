@@ -67,6 +67,7 @@ adapter 负责：
 - `+publish-svglide` 成功后必须写 `publish/online_slide.json` 和 `receipts/publish_online.json`。
 - 线上交付成功不能只看 URL，必须回读 presentation content，确认仍包含 `<svg ... slide:role="slide">`，且不是 `<slide>` XML、HTML、PDF、截图或 `data:image` 兜底。
 - `+create-svglide --action publish` 只用于本地 publish gate/缺省 publisher 检查；没有真实 publisher 时必须 blocked，不能伪装成线上发布成功。
+- 上线前清理实验壳时，按 [`svglide-online-publish-prelaunch-cleanup-checklist.md`](svglide-online-publish-prelaunch-cleanup-checklist.md) 执行；清理实验壳不等于移除 raw SVG 发布证据链。
 
 `author` action 只是诊断和占位能力，用于 smoke、协议调试或缺失 SVG 补齐；它不是 AnyGen authoring 的等价实现。
 

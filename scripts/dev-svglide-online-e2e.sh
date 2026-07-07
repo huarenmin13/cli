@@ -13,6 +13,8 @@ Environment:
   SVGLIDE_AGENT_HOOK optional executable called as: hook <run-dir> <stage> <next-json>
 
 Notes:
+  SVGLIDE_PRELAUNCH_REMOVE_PPE: this is a dev-only live E2E harness. Do not
+  ship PPE / Whistle / pre-release routing as production publish logic.
   The script assumes network routing, Whistle, PPE headers, and auth are already configured.
   Stage artifact authoring is intentionally delegated to SVGLIDE_AGENT_HOOK; the script owns
   CLI orchestration, publish evidence, online publish, readback, and SVG hard checks.
