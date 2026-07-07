@@ -208,6 +208,21 @@ func TestNewRunSeparatesProtocolRuntimeFromAgentRuntime(t *testing.T) {
 	if run.Policy != wantPolicy {
 		t.Fatalf("Policy = %+v, want %+v", run.Policy, wantPolicy)
 	}
+	if run.ExecutionProfile != ExecutionProfileFullChain {
+		t.Fatalf("ExecutionProfile = %q, want %q", run.ExecutionProfile, ExecutionProfileFullChain)
+	}
+	if !run.FullChainRequired {
+		t.Fatal("FullChainRequired = false, want true for default runs")
+	}
+	if run.SmokeTest {
+		t.Fatal("SmokeTest = true, want false for default runs")
+	}
+	if run.ManualPatchAllowed {
+		t.Fatal("ManualPatchAllowed = true, want false for full-chain runs")
+	}
+	if run.ArtifactReusePolicy != ArtifactReusePolicyFreshRunOnly {
+		t.Fatalf("ArtifactReusePolicy = %q, want %q", run.ArtifactReusePolicy, ArtifactReusePolicyFreshRunOnly)
+	}
 }
 
 func TestNewRunOnlineDeliveryAddsPublishStage(t *testing.T) {
@@ -228,6 +243,23 @@ func TestNewRunOnlineDeliveryAddsPublishStage(t *testing.T) {
 	}
 	if !stringSliceContains(final.Outputs, onlineSlideReportPath) {
 		t.Fatalf("publish outputs = %v, want %s", final.Outputs, onlineSlideReportPath)
+	}
+}
+
+func TestNewRunSmokeProfileIsExplicitlyMarked(t *testing.T) {
+	run := NewRun(NewRunConfig{
+		Title:            "Smoke Demo",
+		Topic:            "smoke",
+		ExecutionProfile: ExecutionProfileSmoke,
+	})
+	if run.ExecutionProfile != ExecutionProfileSmoke {
+		t.Fatalf("ExecutionProfile = %q, want %q", run.ExecutionProfile, ExecutionProfileSmoke)
+	}
+	if run.FullChainRequired {
+		t.Fatal("FullChainRequired = true, want false for smoke runs")
+	}
+	if !run.SmokeTest {
+		t.Fatal("SmokeTest = false, want true for smoke runs")
 	}
 }
 

@@ -4,6 +4,14 @@
 
 本文档只定义 adapter 协议边界、run-dir 结构、receipt、schema、preview、quality、semantic gate 和 delivery receipt。它不复制 AnyGen prompt 正文，不负责创意生成本身，不接入真实图片 provider。`slides +create-svglide` 只负责本地生成和质量门禁；线上发布固定走 `slides +publish-svglide`。禁止把本地 HTML、截图、PDF 或上传的静态文件冒充线上 slide。
 
+## 默认执行契约
+
+除非用户明确说这是 smoke test、接口探测、协议调试或最小复现，`slides +create-svglide` 的默认执行形态都是 `execution_profile=full_chain`。
+
+full-chain run 必须从本次 `init` 产生的新 run-dir 开始，按 runtime protocol 依次完成 request resolution、research、design brief、outline、slide content、assets、SVG author、validate/preview/repair，再按交付目标进入 publish。禁止复用旧 run-dir、旧 slide、旧 HTML、旧截图、旧人工样例或未由当前 run 生成的素材清单来冒充本次生成结果。
+
+`execution_profile=smoke` 只能用于显式测试。smoke run 必须在 `run.json` 中标记 `smoke_test=true`，默认不能发布；只有 `+publish-svglide --allow-smoke-publish` 才允许进入线上 smoke 链路。任何没有 `run.json`、stage receipts、prompt context receipts、`quality_report.json`、rendered screenshot/gate 和 `receipts/delivery.json` 的产物，都不能声称是完整 SVGlide 链路。
+
 ## 权威顺序
 
 1. AnyGen reference index：`skills/lark-slides/references/anygen-svg/README.md`
@@ -71,6 +79,8 @@ init -> complete(request bootstrap) -> [next -> agent_task -> prompt_context -> 
 ```
 
 `init` 只建立 run-dir、请求、manifest 和 schema，并已写好 `request/request.json`、`request/source_manifest.json` 与 `request/delivery_contract.json`。`request` stage 是 bootstrap 校验阶段，不需要 agent 再生成 request 产物。`agent.runtime` 记录执行者，例如 `codex`、`claude`、`cursor`、`fake-agent`；runtime protocol 本身不因 agent 名称改变。
+
+`execution_profile=full_chain` 是默认值，表示本次生成必须产出完整证据链并通过本地质量 gate 后才允许发布。`execution_profile=smoke` 只表示最小协议验证，不代表真实生成能力；任何对用户交付的正式 deck 都不得默认使用 smoke。
 
 `next` 是每个 stage 的唯一调度入口。agent 必须先调用 `next`，再按 `next.agent_task` 写 tool call receipt 和 stage artifact。`complete` 只接受当前 stage 的产物；跨 stage 复用旧 `prompt_context` 必须 fail-closed。
 
@@ -238,6 +248,7 @@ lark-cli slides +create-svglide \
   --topic "介绍《给阿嬷的情书》这部电影" \
   --language zh \
   --agent-runtime fake-agent \
+  --execution-profile full_chain \
   --out ./.lark-slides/svglide-runs/dear-you-film-intro
 ```
 
@@ -253,7 +264,20 @@ lark-cli slides +create-svglide \
   --delivery-mode self_read \
   --pages 8 \
   --agent-runtime codex \
+  --execution-profile full_chain \
   --out ./.lark-slides/svglide-runs/demo
+```
+
+只做协议 smoke 时必须显式标记：
+
+```bash
+lark-cli slides +create-svglide \
+  --as user \
+  --action init \
+  --title "SVGlide smoke" \
+  --topic "最小 SVG slide 协议验证" \
+  --smoke \
+  --out ./.lark-slides/svglide-runs/smoke
 ```
 
 初始化后先推进 bootstrap request stage；它只校验 `init` 已写好的 request 产物：
@@ -284,6 +308,12 @@ lark-cli slides +create-svglide --as user --action complete --run ./.lark-slides
 ```bash
 lark-cli slides +publish-svglide --as user --run ./.lark-slides/svglide-runs/demo
 lark-cli slides xml_presentations get --as user --params '{"xml_presentation_id":"<presentation_id>"}'
+```
+
+smoke run 的线上探测必须显式允许，且结果不能作为正式生成能力证明：
+
+```bash
+lark-cli slides +publish-svglide --as user --run ./.lark-slides/svglide-runs/smoke --allow-smoke-publish
 ```
 
 发布验收必须同时满足：

@@ -17,7 +17,7 @@ import (
 )
 
 func TestSlidesPublishSVGlideCreatesPresentationWithRawSVGContent(t *testing.T) {
-	initSVGlidePublishShortcutRun(t, svglideShortcutVisibleTextSVG())
+	initSVGlidePublishShortcutSmokeRun(t, svglideShortcutVisibleTextSVG())
 	f, stdout, _, reg := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
 	createStub := &httpmock.Stub{
 		Method: "POST",
@@ -47,6 +47,7 @@ func TestSlidesPublishSVGlideCreatesPresentationWithRawSVGContent(t *testing.T) 
 	err := runSlidesShortcut(t, f, stdout, SlidesPublishSVGlide, []string{
 		"+publish-svglide",
 		"--run", "run-demo",
+		"--allow-smoke-publish",
 		"--as", "user",
 	})
 	if err != nil {
@@ -91,6 +92,7 @@ func TestSlidesCreateThenPublishSVGlideSmoke(t *testing.T) {
 		"--title", "SVGlide Online Smoke",
 		"--input", "source.md",
 		"--delivery-target", "online_slide",
+		"--smoke",
 		"--out", "run-demo",
 		"--as", "user",
 	}); err != nil {
@@ -131,6 +133,7 @@ func TestSlidesCreateThenPublishSVGlideSmoke(t *testing.T) {
 	if err := runSlidesShortcut(t, f, stdout, SlidesPublishSVGlide, []string{
 		"+publish-svglide",
 		"--run", "run-demo",
+		"--allow-smoke-publish",
 		"--as", "user",
 	}); err != nil {
 		t.Fatal(err)
@@ -160,12 +163,13 @@ func TestSlidesCreateThenPublishSVGlideSmoke(t *testing.T) {
 }
 
 func TestSlidesPublishSVGlideBlocksNonSVGBeforeCallingAPI(t *testing.T) {
-	initSVGlidePublishShortcutRun(t, `<slide xmlns="http://www.larkoffice.com/sml/2.0"><data/></slide>`)
+	initSVGlidePublishShortcutSmokeRun(t, `<slide xmlns="http://www.larkoffice.com/sml/2.0"><data/></slide>`)
 	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
 
 	err := runSlidesShortcut(t, f, stdout, SlidesPublishSVGlide, []string{
 		"+publish-svglide",
 		"--run", "run-demo",
+		"--allow-smoke-publish",
 		"--as", "user",
 	})
 	if err == nil {
@@ -184,6 +188,24 @@ func TestSlidesPublishSVGlideBlocksNonSVGBeforeCallingAPI(t *testing.T) {
 	}
 }
 
+func TestSlidesPublishSVGlideBlocksSmokeWithoutAllowFlag(t *testing.T) {
+	initSVGlidePublishShortcutSmokeRun(t, svglideShortcutVisibleTextSVG())
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesPublishSVGlide, []string{
+		"+publish-svglide",
+		"--run", "run-demo",
+		"--as", "user",
+	})
+	if err == nil {
+		t.Fatal("expected smoke publish to block without --allow-smoke-publish")
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["status"] != svglide.StatusBlocked || data["blocked_reason_code"] != "svglide.publish_online.smoke_publish_not_allowed" {
+		t.Fatalf("publish data = %+v, want smoke_publish_not_allowed blocked", data)
+	}
+}
+
 func TestSlidesPublishSVGlideRegistered(t *testing.T) {
 	for _, shortcut := range Shortcuts() {
 		if shortcut.Command == "+publish-svglide" {
@@ -191,6 +213,26 @@ func TestSlidesPublishSVGlideRegistered(t *testing.T) {
 		}
 	}
 	t.Fatal("slides +publish-svglide shortcut is not registered")
+}
+
+func initSVGlidePublishShortcutSmokeRun(t *testing.T, svgContent string) {
+	t.Helper()
+	dir := t.TempDir()
+	withSlidesTestWorkingDir(t, dir)
+	if err := os.WriteFile("source.md", []byte("# Demo"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := svglide.InitRun("run-demo", svglide.InitOptions{
+		Title:            "SVGlide Online Smoke",
+		Input:            "source.md",
+		DeliveryTarget:   svglide.DeliveryTargetOnlineSlide,
+		ExecutionProfile: svglide.ExecutionProfileSmoke,
+		Now:              time.Date(2026, 7, 7, 20, 0, 0, 0, time.UTC),
+	}); err != nil {
+		t.Fatal(err)
+	}
+	writeSVGlideShortcutDeck(t, "slides/01.svg")
+	writeSVGlideShortcutFile(t, filepath.Join("run-demo", "slides", "01.svg"), svgContent)
 }
 
 func initSVGlidePublishShortcutRun(t *testing.T, svgContent string) {

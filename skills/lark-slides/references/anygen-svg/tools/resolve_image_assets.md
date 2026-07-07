@@ -42,6 +42,12 @@ completion_gate:
 
 Use this prompt when a SVGlide deck needs real visual assets. It turns image search and selection into auditable local artifacts. The adapter does not provide an image provider; the agent must use available browsing, search, or local-file capabilities, then write the artifacts below.
 
+## Fresh-run boundary
+
+A fresh run forbids reusing previous run outputs; it does not forbid fresh external assets. If the user asks to clear old dependencies, avoid old run-dir assets, old screenshots, old HTML previews, old downloaded images, and old hand-built samples. Still acquire new real images when the current request, outline, or visual quality contract needs them.
+
+If a slide requests a real-world portrait, place, product, brand, event, classroom scene, document, source page, chart source, or material/process evidence, the default is `requires_real_images=true` unless the user explicitly requested pure vector/no-image output. Do not silently downgrade these needs to generated SVG decoration.
+
 ## Decision order
 
 1. Read `request/theme_contract.json`, then `brief/visual_quality_contract.json` and slide visual intent.

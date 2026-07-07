@@ -31,6 +31,8 @@ var SlidesCreateSVGlide = common.Shortcut{
 		{Name: "agent-runtime", Desc: "agent runtime name for init, e.g. codex, claude, cursor, fake-agent"},
 		{Name: "agent-id", Desc: "stable agent/session id for init"},
 		{Name: "route-profile", Desc: "SVGlide route profile for init", Enum: []string{"local_svg_deck", "imported_pptx", "template_reference", "legacy_editor"}},
+		{Name: "execution-profile", Desc: "execution profile: full_chain by default, or smoke for explicit test/smoke runs", Enum: []string{"full_chain", "smoke"}},
+		{Name: "smoke", Type: "bool", Desc: "shortcut for --execution-profile=smoke; smoke runs are not publishable unless explicitly allowed"},
 		{Name: "audience", Desc: "final audience for the deck"},
 		{Name: "delivery-mode", Desc: "delivery mode: presented, self_read, dual_mode", Enum: []string{"presented", "self_read", "dual_mode"}},
 		{Name: "delivery-target", Desc: "delivery target: local_preview, online_slide, both", Enum: []string{"local_preview", "online_slide", "both"}},
@@ -79,19 +81,24 @@ var SlidesCreateSVGlide = common.Shortcut{
 		switch action {
 		case "init":
 			out := runtime.Str("out")
+			executionProfile := runtime.Str("execution-profile")
+			if runtime.Bool("smoke") {
+				executionProfile = svglide.ExecutionProfileSmoke
+			}
 			if err := svglide.InitRun(out, svglide.InitOptions{
-				Title:          runtime.Str("title"),
-				Input:          runtime.Str("input"),
-				Topic:          runtime.Str("topic"),
-				Language:       runtime.Str("language"),
-				Audience:       runtime.Str("audience"),
-				DeliveryMode:   runtime.Str("delivery-mode"),
-				DeliveryTarget: runtime.Str("delivery-target"),
-				Pages:          runtime.Int("pages"),
-				Overwrite:      runtime.Bool("overwrite"),
-				AgentRuntime:   runtime.Str("agent-runtime"),
-				AgentID:        runtime.Str("agent-id"),
-				RouteProfile:   runtime.Str("route-profile"),
+				Title:            runtime.Str("title"),
+				Input:            runtime.Str("input"),
+				Topic:            runtime.Str("topic"),
+				Language:         runtime.Str("language"),
+				Audience:         runtime.Str("audience"),
+				DeliveryMode:     runtime.Str("delivery-mode"),
+				DeliveryTarget:   runtime.Str("delivery-target"),
+				Pages:            runtime.Int("pages"),
+				Overwrite:        runtime.Bool("overwrite"),
+				AgentRuntime:     runtime.Str("agent-runtime"),
+				AgentID:          runtime.Str("agent-id"),
+				RouteProfile:     runtime.Str("route-profile"),
+				ExecutionProfile: executionProfile,
 			}); err != nil {
 				return err
 			}
@@ -100,13 +107,15 @@ var SlidesCreateSVGlide = common.Shortcut{
 				return err
 			}
 			runtime.Out(map[string]any{
-				"action":        action,
-				"protocol":      "anygen-svg-slides",
-				"run":           out,
-				"agent_runtime": runtime.Str("agent-runtime"),
-				"next_command":  status.NextCommand,
-				"stage_loop":    []string{"next", "write_artifacts", "complete"},
-				"final_loop":    []string{"next", "repair", "complete"},
+				"action":            action,
+				"protocol":          "anygen-svg-slides",
+				"run":               out,
+				"agent_runtime":     runtime.Str("agent-runtime"),
+				"delivery_target":   status.DeliveryTarget,
+				"execution_profile": executionProfileForShortcutResponse(executionProfile),
+				"next_command":      status.NextCommand,
+				"stage_loop":        []string{"next", "write_artifacts", "complete"},
+				"final_loop":        []string{"next", "repair", "complete"},
 			}, nil)
 			return nil
 		case "status":
@@ -184,4 +193,12 @@ var SlidesCreateSVGlide = common.Shortcut{
 			return errs.NewValidationError(errs.SubtypeInvalidArgument, "unsupported --action %q", action).WithParam("--action")
 		}
 	},
+}
+
+func executionProfileForShortcutResponse(profile string) string {
+	profile = strings.TrimSpace(profile)
+	if profile == "" {
+		return svglide.ExecutionProfileFullChain
+	}
+	return profile
 }

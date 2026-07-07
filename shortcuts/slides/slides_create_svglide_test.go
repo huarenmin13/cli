@@ -52,6 +52,9 @@ func TestSlidesCreateSVGlideInitShortcut(t *testing.T) {
 	if !strings.Contains(stringValue(data["next_command"]), "--action complete --run run-demo") {
 		t.Fatalf("next_command = %v, want request bootstrap complete action", data["next_command"])
 	}
+	if data["execution_profile"] != "full_chain" {
+		t.Fatalf("execution_profile = %v, want full_chain", data["execution_profile"])
+	}
 }
 
 func TestSlidesCreateSVGlideInitShortcutAcceptsTopicOnlyAgentRuntime(t *testing.T) {
@@ -106,11 +109,48 @@ func TestSlidesCreateSVGlideInitShortcutAcceptsTopicOnlyAgentRuntime(t *testing.
 }
 
 func TestSlidesCreateSVGlideAgentRuntimeFlagsRegistered(t *testing.T) {
-	for _, name := range []string{"topic", "language", "agent-runtime", "agent-id"} {
+	for _, name := range []string{"topic", "language", "agent-runtime", "agent-id", "execution-profile", "smoke"} {
 		flag := findSVGlideShortcutFlag(t, name)
 		if strings.TrimSpace(flag.Desc) == "" {
 			t.Fatalf("flag %s missing description", name)
 		}
+	}
+}
+
+func TestSlidesCreateSVGlideSmokeFlagMarksRunAsSmoke(t *testing.T) {
+	dir := t.TempDir()
+	withSlidesTestWorkingDir(t, dir)
+	if err := os.WriteFile("source.md", []byte("# Smoke"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
+
+	err := runSlidesShortcut(t, f, stdout, SlidesCreateSVGlide, []string{
+		"+create-svglide",
+		"--action", "init",
+		"--title", "Smoke",
+		"--input", "source.md",
+		"--smoke",
+		"--out", "run-smoke",
+		"--as", "user",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	data := decodeShortcutData(t, stdout)
+	if data["execution_profile"] != "smoke" {
+		t.Fatalf("execution_profile = %v, want smoke", data["execution_profile"])
+	}
+	raw, err := os.ReadFile(filepath.Join(dir, "run-smoke", "run.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var run map[string]any
+	if err := json.Unmarshal(raw, &run); err != nil {
+		t.Fatal(err)
+	}
+	if run["execution_profile"] != "smoke" || run["smoke_test"] != true || run["full_chain_required"] != false {
+		t.Fatalf("run profile fields = %+v", run)
 	}
 }
 

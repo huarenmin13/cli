@@ -12,19 +12,20 @@ import (
 )
 
 type InitOptions struct {
-	Title          string
-	Input          string
-	Topic          string
-	Language       string
-	Audience       string
-	DeliveryMode   string
-	DeliveryTarget string
-	Pages          int
-	Now            time.Time
-	Overwrite      bool
-	AgentRuntime   string
-	AgentID        string
-	RouteProfile   string
+	Title            string
+	Input            string
+	Topic            string
+	Language         string
+	Audience         string
+	DeliveryMode     string
+	DeliveryTarget   string
+	Pages            int
+	Now              time.Time
+	Overwrite        bool
+	AgentRuntime     string
+	AgentID          string
+	RouteProfile     string
+	ExecutionProfile string
 }
 
 func InitRun(root string, opts InitOptions) error {
@@ -37,6 +38,7 @@ func InitRun(root string, opts InitOptions) error {
 	opts.AgentRuntime = strings.TrimSpace(opts.AgentRuntime)
 	opts.AgentID = strings.TrimSpace(opts.AgentID)
 	opts.RouteProfile = strings.TrimSpace(opts.RouteProfile)
+	opts.ExecutionProfile = strings.TrimSpace(opts.ExecutionProfile)
 	if root == "" {
 		return fmt.Errorf("out path is required")
 	}
@@ -157,19 +159,20 @@ func writeRunDirectory(writeRoot string, runRoot string, opts InitOptions) error
 		}
 	}
 	run := NewRun(NewRunConfig{
-		Title:          opts.Title,
-		Input:          opts.Input,
-		Topic:          opts.Topic,
-		Language:       opts.Language,
-		Audience:       opts.Audience,
-		DeliveryMode:   opts.DeliveryMode,
-		DeliveryTarget: opts.DeliveryTarget,
-		Pages:          opts.Pages,
-		Out:            runRoot,
-		Now:            opts.Now,
-		AgentRuntime:   opts.AgentRuntime,
-		AgentID:        opts.AgentID,
-		RouteProfile:   opts.RouteProfile,
+		Title:            opts.Title,
+		Input:            opts.Input,
+		Topic:            opts.Topic,
+		Language:         opts.Language,
+		Audience:         opts.Audience,
+		DeliveryMode:     opts.DeliveryMode,
+		DeliveryTarget:   opts.DeliveryTarget,
+		Pages:            opts.Pages,
+		Out:              runRoot,
+		Now:              opts.Now,
+		AgentRuntime:     opts.AgentRuntime,
+		AgentID:          opts.AgentID,
+		RouteProfile:     opts.RouteProfile,
+		ExecutionProfile: opts.ExecutionProfile,
 	})
 	run.Policy.Overwrite = opts.Overwrite
 	if err := writeJSON(filepath.Join(writeRoot, "run.json"), run); err != nil {

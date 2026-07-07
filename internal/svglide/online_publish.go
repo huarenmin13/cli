@@ -33,6 +33,10 @@ type OnlinePublisher interface {
 	Publish(root string, evidence SVGPublishRequestEvidence) (OnlineSlidePublishReport, error)
 }
 
+type PublishOnlineOptions struct {
+	AllowSmokePublish bool
+}
+
 type MissingOnlinePublisher struct{}
 
 func (MissingOnlinePublisher) Publish(root string, evidence SVGPublishRequestEvidence) (OnlineSlidePublishReport, error) {
@@ -45,9 +49,39 @@ func (MissingOnlinePublisher) Publish(root string, evidence SVGPublishRequestEvi
 }
 
 func PublishOnlineRun(root string, publisher OnlinePublisher) (OnlineSlidePublishReport, error) {
+	return PublishOnlineRunWithOptions(root, publisher, PublishOnlineOptions{})
+}
+
+func PublishOnlineRunWithOptions(root string, publisher OnlinePublisher, opts PublishOnlineOptions) (OnlineSlidePublishReport, error) {
 	safeRoot, run, err := readRun(root)
 	if err != nil {
 		return OnlineSlidePublishReport{}, err
+	}
+	if run.SmokeTest && !opts.AllowSmokePublish {
+		report := OnlineSlidePublishReport{
+			Status:            StatusBlocked,
+			Publisher:         "smoke_guard",
+			BlockedReasonCode: "svglide.publish_online.smoke_publish_not_allowed",
+			Message:           "smoke SVGlide runs cannot be published unless --allow-smoke-publish is explicitly set",
+		}
+		if writeErr := writeOnlinePublishArtifacts(safeRoot, report); writeErr != nil {
+			return report, writeErr
+		}
+		return report, fmt.Errorf("publish_online blocked: %s", report.BlockedReasonCode)
+	}
+	if run.FullChainRequired {
+		if err := validateFullChainReadyForPublish(safeRoot, run); err != nil {
+			report := OnlineSlidePublishReport{
+				Status:            StatusBlocked,
+				Publisher:         "full_chain_gate",
+				BlockedReasonCode: "svglide.publish_online.full_chain_incomplete",
+				Message:           err.Error(),
+			}
+			if writeErr := writeOnlinePublishArtifacts(safeRoot, report); writeErr != nil {
+				return report, writeErr
+			}
+			return report, fmt.Errorf("publish_online blocked by full-chain gate: %w", err)
+		}
 	}
 	contract, _, err := readDeliveryContract(safeRoot, run)
 	if err != nil {
@@ -110,6 +144,111 @@ func PublishOnlineRun(root string, publisher OnlinePublisher) (OnlineSlidePublis
 		return report, fmt.Errorf("publish_online status is %q", report.Status)
 	}
 	return report, nil
+}
+
+func validateFullChainReadyForPublish(safeRoot string, run Run) error {
+	if normalizeExecutionProfile(run.ExecutionProfile) != ExecutionProfileFullChain {
+		return nil
+	}
+	if !run.FullChainRequired {
+		return nil
+	}
+	for _, stage := range run.Stages {
+		if stage.Name == StagePublishOnline {
+			break
+		}
+		if stage.Status != StatusDone {
+			return fmt.Errorf("stage %q status is %q, want done before publish", stage.Name, stage.Status)
+		}
+		path, err := existingDeliveryEvidencePath(safeRoot, stage.Receipt)
+		if err != nil {
+			return err
+		}
+		if path == "" {
+			return fmt.Errorf("stage %q receipt %s is missing", stage.Name, stage.Receipt)
+		}
+		valid, err := validDeliveryStageReceipt(safeRoot, stage, path)
+		if err != nil {
+			return err
+		}
+		if !valid {
+			return fmt.Errorf("stage %q receipt %s is not passed/done", stage.Name, stage.Receipt)
+		}
+	}
+	localEvidence := []string{
+		"run.json",
+		"prompt_manifest.json",
+		"request/request.json",
+		"request/source_manifest.json",
+		"request/entity_resolution.json",
+		"request/theme_contract.json",
+		deliveryContractPath,
+		"research/research_plan.json",
+		"research/queries.json",
+		"research/research_notes.md",
+		"research/sources.json",
+		"research/research_coverage.json",
+		"brief/design_brief.json",
+		"brief/visual_system.json",
+		"brief/typography_contract.json",
+		"brief/visual_quality_contract.json",
+		"outline/deck.json",
+		"content/slide_content.md",
+		"content/slide_content.json",
+		"content/slide_copy_plan.json",
+		"assets/image_candidates.json",
+		"assets/assets_plan.json",
+		"assets/assets_manifest.json",
+		"assets/asset_inventory.json",
+		"assets/charts/chart_briefs.json",
+		"assets/charts/chart_manifest.json",
+		chartRenderReceiptPath,
+		"receipts/lint.json",
+		"receipts/preview.json",
+		renderedVisualReceiptPath,
+		imageUsageReportPath,
+		mediaPressureReportPath,
+		chartUsageReceiptPath,
+		contentPayloadReportPath,
+		"quality_report.json",
+		anyGenSemanticReportPath,
+		visualReceiptsPath,
+		creativeQualityReportPath,
+		editorialQualityReportPath,
+		screenshotEvidenceReportPath,
+		chartQualityReportPath,
+		deliveryReceiptPath,
+	}
+	for _, rel := range localEvidence {
+		exists, err := runRegularFileExists(safeRoot, rel)
+		if err != nil {
+			return err
+		}
+		if !exists {
+			return fmt.Errorf("full-chain evidence %s is missing", rel)
+		}
+	}
+	for _, stage := range run.Stages {
+		if stage.Name == StageRequest || stage.Name == StagePublishOnline {
+			continue
+		}
+		rel := promptContextReceiptPath(stage.Name)
+		exists, err := runRegularFileExists(safeRoot, rel)
+		if err != nil {
+			return err
+		}
+		if !exists {
+			return fmt.Errorf("prompt context receipt %s is missing", rel)
+		}
+	}
+	slides, err := publishSlidePaths(safeRoot, run)
+	if err != nil {
+		return err
+	}
+	if len(slides) == 0 {
+		return fmt.Errorf("full-chain evidence has no slides")
+	}
+	return nil
 }
 
 func writeOnlinePublishArtifacts(safeRoot string, report OnlineSlidePublishReport) error {

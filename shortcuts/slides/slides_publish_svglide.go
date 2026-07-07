@@ -24,11 +24,14 @@ var SlidesPublishSVGlide = common.Shortcut{
 	Flags: []common.Flag{
 		{Name: "run", Desc: "existing SVGlide run directory", Required: true},
 		{Name: "title", Desc: "optional presentation title override"},
+		{Name: "allow-smoke-publish", Type: "bool", Desc: "allow explicitly marked smoke runs to publish; disabled by default"},
 	},
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
-		report, err := svglide.PublishOnlineRun(runtime.Str("run"), svglideRuntimeOnlinePublisher{
+		report, err := svglide.PublishOnlineRunWithOptions(runtime.Str("run"), svglideRuntimeOnlinePublisher{
 			runtime: runtime,
 			title:   runtime.Str("title"),
+		}, svglide.PublishOnlineOptions{
+			AllowSmokePublish: runtime.Bool("allow-smoke-publish"),
 		})
 		if err != nil {
 			runtime.Out(report, nil)

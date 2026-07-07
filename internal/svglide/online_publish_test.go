@@ -9,9 +9,9 @@ import (
 )
 
 func TestPublishOnlineMissingPublisherBlocks(t *testing.T) {
-	root := setupPublishOnlineTestRun(t)
+	root := setupPublishOnlineSmokeTestRun(t)
 	writePublishOnlineSVGPayloadForTest(t)
-	report, err := PublishOnlineRun(root, nil)
+	report, err := PublishOnlineRunWithOptions(root, nil, PublishOnlineOptions{AllowSmokePublish: true})
 	if err == nil {
 		t.Fatal("PublishOnlineRun err = nil, want blocked error")
 	}
@@ -36,11 +36,11 @@ func TestPublishOnlineMissingPublisherBlocks(t *testing.T) {
 }
 
 func TestPublishOnlinePassesSVGRequestEvidenceToPublisher(t *testing.T) {
-	root := setupPublishOnlineTestRun(t)
+	root := setupPublishOnlineSmokeTestRun(t)
 	writePublishOnlineSVGPayloadForTest(t)
 	publisher := &recordingOnlinePublisher{}
 
-	report, err := PublishOnlineRun(root, publisher)
+	report, err := PublishOnlineRunWithOptions(root, publisher, PublishOnlineOptions{AllowSmokePublish: true})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -59,13 +59,30 @@ func TestPublishOnlinePassesSVGRequestEvidenceToPublisher(t *testing.T) {
 	assertSVGPublishRequestEvidencePassed(t, root)
 }
 
-func TestPublishOnlineBlocksBeforePublisherWhenPayloadIsNotSVG(t *testing.T) {
+func TestPublishOnlineFullChainBlocksIncompleteRunBeforePublisher(t *testing.T) {
 	root := setupPublishOnlineTestRun(t)
+	writePublishOnlineSVGPayloadForTest(t)
+	publisher := &recordingOnlinePublisher{}
+
+	report, err := PublishOnlineRun(root, publisher)
+	if err == nil {
+		t.Fatal("PublishOnlineRun err = nil, want full-chain incomplete error")
+	}
+	if publisher.Called {
+		t.Fatal("publisher should not be called before full-chain evidence is complete")
+	}
+	if report.Status != StatusBlocked || report.BlockedReasonCode != "svglide.publish_online.full_chain_incomplete" {
+		t.Fatalf("report = %+v, want full_chain_incomplete blocked", report)
+	}
+}
+
+func TestPublishOnlineBlocksBeforePublisherWhenPayloadIsNotSVG(t *testing.T) {
+	root := setupPublishOnlineSmokeTestRun(t)
 	mustWriteTestFile(t, filepath.Join(root, "outline", "deck.json"), `{"slides":[{"id":"s1","path":"slides/01.svg"}]}`)
 	mustWriteTestFile(t, filepath.Join(root, "slides", "01.svg"), `<slide xmlns="http://www.larkoffice.com/sml/2.0"><data/></slide>`)
 	publisher := &recordingOnlinePublisher{}
 
-	report, err := PublishOnlineRun(root, publisher)
+	report, err := PublishOnlineRunWithOptions(root, publisher, PublishOnlineOptions{AllowSmokePublish: true})
 	if err == nil {
 		t.Fatal("PublishOnlineRun err = nil, want SVG payload gate error")
 	}
@@ -87,6 +104,23 @@ func TestPublishOnlineBlocksBeforePublisherWhenPayloadIsNotSVG(t *testing.T) {
 	if evidence.Status != "failed" || !evidence.ForbiddenFormatDetected {
 		t.Fatalf("evidence = %+v, want failed forbidden format", evidence)
 	}
+}
+
+func setupPublishOnlineSmokeTestRun(t *testing.T) string {
+	t.Helper()
+	cwd := t.TempDir()
+	t.Chdir(cwd)
+	root := "demo"
+	if err := InitRun(root, InitOptions{
+		Title:            "Online Smoke Demo",
+		Topic:            "生成线上 SVG PPT smoke",
+		DeliveryTarget:   DeliveryTargetOnlineSlide,
+		ExecutionProfile: ExecutionProfileSmoke,
+		Now:              time.Date(2026, 7, 7, 20, 0, 0, 0, time.UTC),
+	}); err != nil {
+		t.Fatal(err)
+	}
+	return root
 }
 
 func setupPublishOnlineTestRun(t *testing.T) string {

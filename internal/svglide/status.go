@@ -14,6 +14,7 @@ import (
 
 type StatusReport struct {
 	CurrentStage   string   `json:"current_stage"`
+	DeliveryTarget string   `json:"delivery_target,omitempty"`
 	MissingInputs  []string `json:"missing_inputs"`
 	MissingOutputs []string `json:"missing_outputs"`
 	NextCommand    string   `json:"next_command"`
@@ -69,16 +70,83 @@ func InspectStatus(root string) (StatusReport, error) {
 	if err != nil {
 		return StatusReport{}, err
 	}
+	nextCommand, err := nextCommandForRunStatus(safeRoot, root, run, stage, missingOutputs)
+	if err != nil {
+		return StatusReport{}, err
+	}
+	return StatusReport{
+		CurrentStage:   stage.Name,
+		DeliveryTarget: run.DeliveryTarget,
+		MissingInputs:  missingInputs,
+		MissingOutputs: missingOutputs,
+		NextCommand:    nextCommand,
+	}, nil
+}
+
+func nextCommandForRunStatus(safeRoot string, root string, run Run, stage Stage, missingOutputs []string) (string, error) {
+	if requiresOnlinePublish(run) {
+		published, err := onlinePublishAlreadyPassed(safeRoot)
+		if err != nil {
+			return "", err
+		}
+		if !published && localGateReadyForPublish(stage, missingOutputs) {
+			return publishSVGlideCommand(root), nil
+		}
+	}
 	nextAction := "next"
 	if len(missingOutputs) == 0 {
 		nextAction = "complete"
 	}
-	return StatusReport{
-		CurrentStage:   stage.Name,
-		MissingInputs:  missingInputs,
-		MissingOutputs: missingOutputs,
-		NextCommand:    fmt.Sprintf("lark-cli slides +create-svglide --action %s --run %s", nextAction, shellQuote(root)),
-	}, nil
+	return createSVGlideCommand(root, nextAction), nil
+}
+
+func nextCommandAfterRepair(safeRoot string, root string, run Run, passed bool) (string, error) {
+	if passed && requiresOnlinePublish(run) {
+		published, err := onlinePublishAlreadyPassed(safeRoot)
+		if err != nil {
+			return "", err
+		}
+		if !published {
+			return publishSVGlideCommand(root), nil
+		}
+	}
+	stage, err := currentStage(run)
+	if err != nil {
+		return "", err
+	}
+	missingOutputs, err := missingRunPaths(safeRoot, stage.Outputs)
+	if err != nil {
+		return "", err
+	}
+	return nextCommandForRunStatus(safeRoot, root, run, stage, missingOutputs)
+}
+
+func localGateReadyForPublish(stage Stage, missingOutputs []string) bool {
+	if stage.Name == StagePublishOnline {
+		return true
+	}
+	return stage.Name == StageValidatePreviewRepair && len(missingOutputs) == 0
+}
+
+func requiresOnlinePublish(run Run) bool {
+	target := normalizeDeliveryTarget(run.DeliveryTarget)
+	return target == DeliveryTargetOnlineSlide || target == DeliveryTargetBoth || run.Policy.PublishEnabled
+}
+
+func onlinePublishAlreadyPassed(safeRoot string) (bool, error) {
+	report, present, err := readOnlineSlidePublishReport(safeRoot)
+	if err != nil {
+		return false, err
+	}
+	return present && report.Status == "passed", nil
+}
+
+func createSVGlideCommand(root string, action string) string {
+	return fmt.Sprintf("lark-cli slides +create-svglide --action %s --run %s", action, shellQuote(root))
+}
+
+func publishSVGlideCommand(root string) string {
+	return fmt.Sprintf("lark-cli slides +publish-svglide --as user --run %s", shellQuote(root))
 }
 
 func NextTask(root string) (NextTaskReport, error) {

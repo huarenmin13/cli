@@ -38,27 +38,41 @@ const (
 	VisualQualityModeWarn   = "warn"
 )
 
+const (
+	ExecutionProfileFullChain = "full_chain"
+	ExecutionProfileSmoke     = "smoke"
+)
+
+const (
+	ArtifactReusePolicyFreshRunOnly = "fresh_run_only"
+)
+
 type Run struct {
-	Version           int           `json:"version"`
-	Runtime           string        `json:"runtime"`
-	Command           string        `json:"command"`
-	RouteProfile      string        `json:"route_profile"`
-	Title             string        `json:"title"`
-	Input             string        `json:"input,omitempty"`
-	Audience          string        `json:"audience,omitempty"`
-	DeliveryMode      string        `json:"delivery_mode,omitempty"`
-	DeliveryTarget    string        `json:"delivery_target,omitempty"`
-	VisualQualityMode string        `json:"visual_quality_mode,omitempty"`
-	Pages             int           `json:"pages,omitempty"`
-	Out               string        `json:"out"`
-	CreatedAt         string        `json:"created_at"`
-	UpdatedAt         string        `json:"updated_at"`
-	CurrentStage      string        `json:"current_stage"`
-	Stages            []Stage       `json:"stages"`
-	Artifacts         ArtifactPaths `json:"artifacts"`
-	Policy            Policy        `json:"policy"`
-	Agent             AgentSession  `json:"agent"`
-	Intent            Intent        `json:"intent"`
+	Version             int           `json:"version"`
+	Runtime             string        `json:"runtime"`
+	Command             string        `json:"command"`
+	RouteProfile        string        `json:"route_profile"`
+	ExecutionProfile    string        `json:"execution_profile"`
+	FullChainRequired   bool          `json:"full_chain_required"`
+	SmokeTest           bool          `json:"smoke_test,omitempty"`
+	ManualPatchAllowed  bool          `json:"manual_patch_allowed"`
+	ArtifactReusePolicy string        `json:"artifact_reuse_policy"`
+	Title               string        `json:"title"`
+	Input               string        `json:"input,omitempty"`
+	Audience            string        `json:"audience,omitempty"`
+	DeliveryMode        string        `json:"delivery_mode,omitempty"`
+	DeliveryTarget      string        `json:"delivery_target,omitempty"`
+	VisualQualityMode   string        `json:"visual_quality_mode,omitempty"`
+	Pages               int           `json:"pages,omitempty"`
+	Out                 string        `json:"out"`
+	CreatedAt           string        `json:"created_at"`
+	UpdatedAt           string        `json:"updated_at"`
+	CurrentStage        string        `json:"current_stage"`
+	Stages              []Stage       `json:"stages"`
+	Artifacts           ArtifactPaths `json:"artifacts"`
+	Policy              Policy        `json:"policy"`
+	Agent               AgentSession  `json:"agent"`
+	Intent              Intent        `json:"intent"`
 }
 
 type AgentSession struct {
@@ -97,19 +111,20 @@ type Policy struct {
 }
 
 type NewRunConfig struct {
-	Title          string
-	Input          string
-	Topic          string
-	Language       string
-	Audience       string
-	DeliveryMode   string
-	DeliveryTarget string
-	Pages          int
-	Out            string
-	Now            time.Time
-	AgentRuntime   string
-	AgentID        string
-	RouteProfile   string
+	Title            string
+	Input            string
+	Topic            string
+	Language         string
+	Audience         string
+	DeliveryMode     string
+	DeliveryTarget   string
+	Pages            int
+	Out              string
+	Now              time.Time
+	AgentRuntime     string
+	AgentID          string
+	RouteProfile     string
+	ExecutionProfile string
 }
 
 func NewRun(cfg NewRunConfig) Run {
@@ -126,28 +141,34 @@ func NewRun(cfg NewRunConfig) Run {
 	if routeProfile == "" {
 		routeProfile = RouteProfileLocalSVGDeck
 	}
+	executionProfile := normalizeExecutionProfile(cfg.ExecutionProfile)
 	sourceMode := "local_file"
 	if cfg.Topic != "" {
 		sourceMode = "topic"
 	}
 	contract := ResolveDeliveryContract(cfg.Title, cfg.Topic, cfg.DeliveryTarget)
 	return Run{
-		Version:           1,
-		Runtime:           "agent",
-		Command:           "slides +create-svglide",
-		RouteProfile:      routeProfile,
-		Title:             cfg.Title,
-		Input:             cfg.Input,
-		Audience:          cfg.Audience,
-		DeliveryMode:      cfg.DeliveryMode,
-		DeliveryTarget:    contract.DeliveryTarget,
-		VisualQualityMode: VisualQualityModeStrict,
-		Pages:             cfg.Pages,
-		Out:               cfg.Out,
-		CreatedAt:         ts,
-		UpdatedAt:         ts,
-		CurrentStage:      StageRequest,
-		Stages:            DefaultStagesForDelivery(contract.DeliveryTarget),
+		Version:             1,
+		Runtime:             "agent",
+		Command:             "slides +create-svglide",
+		RouteProfile:        routeProfile,
+		ExecutionProfile:    executionProfile,
+		FullChainRequired:   executionProfile == ExecutionProfileFullChain,
+		SmokeTest:           executionProfile == ExecutionProfileSmoke,
+		ManualPatchAllowed:  false,
+		ArtifactReusePolicy: ArtifactReusePolicyFreshRunOnly,
+		Title:               cfg.Title,
+		Input:               cfg.Input,
+		Audience:            cfg.Audience,
+		DeliveryMode:        cfg.DeliveryMode,
+		DeliveryTarget:      contract.DeliveryTarget,
+		VisualQualityMode:   VisualQualityModeStrict,
+		Pages:               cfg.Pages,
+		Out:                 cfg.Out,
+		CreatedAt:           ts,
+		UpdatedAt:           ts,
+		CurrentStage:        StageRequest,
+		Stages:              DefaultStagesForDelivery(contract.DeliveryTarget),
 		Artifacts: ArtifactPaths{
 			Deck:        "outline/deck.json",
 			SlidesDir:   "slides",
@@ -171,6 +192,15 @@ func NewRun(cfg NewRunConfig) Run {
 			Input:      cfg.Input,
 			Language:   cfg.Language,
 		},
+	}
+}
+
+func normalizeExecutionProfile(profile string) string {
+	switch strings.TrimSpace(profile) {
+	case ExecutionProfileSmoke:
+		return ExecutionProfileSmoke
+	default:
+		return ExecutionProfileFullChain
 	}
 }
 
