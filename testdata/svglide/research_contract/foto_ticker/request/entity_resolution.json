@@ -1,0 +1,31 @@
+{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "request_resolution",
+    "context_receipt": "receipts/prompt_context/request_resolution.json",
+    "orchestrator": "mode_system_prompt_svg",
+    "protocol_reference": "svg_reference",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference"]
+  },
+  "input_text": "美股 FOTO 基金",
+  "resolved_entity": {
+    "name": "FOTO",
+    "type": "financial_ticker_candidate",
+    "confidence_bp": 6500,
+    "confidence_band": "medium",
+    "reason": "Ticker-like token; must be confirmed by vertical sources."
+  },
+  "ambiguity": {"status": "resolved", "candidates": ["FOTO"]},
+  "research_required": true,
+  "requires_research_confirmation": true,
+  "identifiers": [
+    {
+      "type": "ticker",
+      "value": "FOTO",
+      "market_hint": "US",
+      "confidence_bp": 6500,
+      "reason": "3-5 uppercase ticker-like token in a fund request."
+    }
+  ],
+  "clarification_question": ""
+}

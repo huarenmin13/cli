@@ -11,6 +11,8 @@ const imageCandidatesPath = "assets/image_candidates.json"
 type imageCandidatesFile struct {
 	RequiresRealImages bool             `json:"requires_real_images"`
 	NoImageReason      string           `json:"no_image_reason"`
+	AttemptedSources   []string         `json:"attempted_sources"`
+	FailureReasonCode  string           `json:"failure_reason_code"`
 	Candidates         []imageCandidate `json:"candidates"`
 }
 
@@ -31,6 +33,7 @@ type imageCandidate struct {
 	SelectionReason       string `json:"selection_reason"`
 	FormatExceptionReason string `json:"format_exception_reason"`
 	RejectionReason       string `json:"rejection_reason"`
+	EvidenceRole          string `json:"evidence_role"`
 }
 
 func readImageCandidates(safeRoot string) (imageCandidatesFile, error) {
@@ -58,6 +61,9 @@ func ValidateImageCandidatesGate(safeRoot string) error {
 	if err != nil {
 		return err
 	}
+	run, _ := readRunFile(safeRoot)
+	deliveryContract, _, _ := readDeliveryContract(safeRoot, run)
+	requiresRealImages := candidates.RequiresRealImages || deliveryContract.RequiresRealImages
 	hasRasterAsset := false
 	for _, asset := range manifest.Assets {
 		if isRasterImageAsset(asset) {
@@ -65,7 +71,7 @@ func ValidateImageCandidatesGate(safeRoot string) error {
 			break
 		}
 	}
-	if !candidates.RequiresRealImages && len(candidates.Candidates) == 0 {
+	if !requiresRealImages && len(candidates.Candidates) == 0 {
 		if strings.TrimSpace(candidates.NoImageReason) == "" {
 			return fmt.Errorf("image_candidates_gate: no real image candidates; set no_image_reason when requires_real_images=false")
 		}
@@ -74,7 +80,7 @@ func ValidateImageCandidatesGate(safeRoot string) error {
 		}
 		return nil
 	}
-	if candidates.RequiresRealImages {
+	if requiresRealImages {
 		if err := validateImageCandidateSearchBreadth(candidates); err != nil {
 			return err
 		}
@@ -173,6 +179,8 @@ func validateImageCandidateSearchBreadth(file imageCandidatesFile) error {
 					userProvidedImportantRoles[role] = true
 				}
 			}
+		} else if strings.TrimSpace(candidate.RejectionReason) == "" {
+			return fmt.Errorf("image_candidates_gate: rejected candidate %q has empty rejection_reason", candidate.ID)
 		}
 	}
 	if selectedCount == 0 {
@@ -194,7 +202,7 @@ func validateImageCandidateSearchBreadth(file imageCandidatesFile) error {
 
 func isImportantImageRole(role string) bool {
 	switch role {
-	case "hero_photo", "scene_photo", "factory_photo", "store_photo", "people_photo", "transparent_subject", "floating_product", "logo", "chip_device", "ui_screenshot", "product_screen":
+	case "hero_photo", "scene_photo", "factory_photo", "store_photo", "people_photo", "transparent_subject", "floating_product", "logo", "chip_device", "ui_screenshot", "product_screen", "paper_screenshot", "paper_figure", "repo_screenshot", "official_logo", "source_page_screenshot":
 		return true
 	default:
 		return false

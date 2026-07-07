@@ -9,15 +9,16 @@ import (
 )
 
 type VisualAssetGateInput struct {
-	RequestText          string
-	EntityKind           string
-	Slides               int
-	RealImageAssets      int
-	OfficialImageAssets  int
-	SlidesWithRealImages int
-	CoverRealHeroImage   bool
-	NoImageReason        string
-	ExplicitChartOnly    bool
+	RequestText             string
+	EntityKind              string
+	Slides                  int
+	RealImageAssets         int
+	OfficialImageAssets     int
+	SlidesWithRealImages    int
+	CoverRealHeroImage      bool
+	NoImageReason           string
+	ExplicitChartOnly       bool
+	ThemeRequiresRealImages bool
 }
 
 type VisualAssetGateResult struct {
@@ -52,6 +53,12 @@ func EvaluateVisualAssetGate(input VisualAssetGateInput) VisualAssetGateResult {
 			Message: "entity-driven deck requires at least one real image asset; charts and typography are not enough",
 		})
 	}
+	if strings.TrimSpace(input.NoImageReason) != "" && invalidRealImageNoImageReason(input.NoImageReason) {
+		result.Issues = append(result.Issues, VisualAssetIssue{
+			Code:    "svglide.visual_asset.no_image_reason_invalid",
+			Message: "no_image_reason cannot override required real/evidence imagery; provide searched evidence assets or mark the run blocked",
+		})
+	}
 	if !input.CoverRealHeroImage {
 		result.Issues = append(result.Issues, VisualAssetIssue{
 			Code:    "svglide.visual_asset.cover_real_hero_missing",
@@ -66,25 +73,36 @@ func EvaluateVisualAssetGate(input VisualAssetGateInput) VisualAssetGateResult {
 }
 
 func visualAssetRequired(input VisualAssetGateInput) bool {
+	if input.ThemeRequiresRealImages {
+		return true
+	}
 	if input.ExplicitChartOnly {
 		return false
 	}
 	kind := strings.ToLower(strings.TrimSpace(input.EntityKind))
 	switch kind {
-	case "company", "brand", "product", "person", "place", "location", "team", "event", "film", "book":
+	case "company", "brand", "product", "person", "place", "location", "team", "event", "film", "book", "paper", "technical_paper", "technical_paper_topic", "research_report":
 		return true
 	}
 	text := strings.ToLower(input.RequestText)
 	for _, hint := range []string{
 		"financial report for ", "nvidia", "apple", "leica", "kaneko", "world cup", "olympic",
-		"公司", "品牌", "产品", "球队", "队", "球员", "城市", "地点", "电影",
-		"company", "brand", "product", "team", "player", "city", "museum", "restaurant",
+		"公司", "品牌", "产品", "球队", "队", "球员", "城市", "地点", "电影", "论文", "深度解析", "研究报告",
+		"company", "brand", "product", "team", "player", "city", "museum", "restaurant", "paper", "technical report", "arxiv", "deep dive", "research report",
 	} {
 		if strings.Contains(text, hint) {
 			return true
 		}
 	}
 	return false
+}
+
+func invalidRealImageNoImageReason(reason string) bool {
+	reason = strings.ToLower(strings.TrimSpace(reason))
+	if reason == "" {
+		return false
+	}
+	return !containsAny(reason, []string{"explicit_vector_only", "user_requested_no_images", "用户明确要求不要图片", "纯向量", "不要图片", "no images", "no photos", "vector-only", "chart-only"})
 }
 
 func qualityRequestText(root string) string {
@@ -145,6 +163,20 @@ func qualityRequestExplicitChartOnly(root string) bool {
 		strings.Contains(text, "no raster") ||
 		strings.Contains(text, "仅图表") ||
 		strings.Contains(text, "不要图片")
+}
+
+func qualityThemeRequiresRealImages(root string) bool {
+	theme, present, err := readThemeContract(root)
+	return present && err == nil && themeContractEnforcesQuality(theme) && theme.ThemeContract.AssetNeeds.RequiresRealImages
+}
+
+func qualityDeliveryRequiresRealImages(root string) bool {
+	_, run, err := readRun(root)
+	if err != nil {
+		return false
+	}
+	contract, _, err := readDeliveryContract(root, run)
+	return err == nil && contract.RequiresRealImages
 }
 
 func readJSONIfExists(path string, dst any) error {

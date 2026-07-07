@@ -1,0 +1,42 @@
+{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "research",
+    "context_receipt": "receipts/prompt_context/research.json",
+    "orchestrator": "mode_system_prompt_svg",
+    "protocol_reference": "svg_reference",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference"]
+  },
+  "queries": [
+    {
+      "id": "q_quote",
+      "plan_identifier_id": "id_foto",
+      "source_class": "finance_quote",
+      "method": "direct_url",
+      "query_or_url": "https://finance.yahoo.com/quote/FOTO/",
+      "purpose": "identity",
+      "status": "retrieved",
+      "retrieved_source_ids": ["src_quote"]
+    },
+    {
+      "id": "q_issuer",
+      "plan_identifier_id": "id_foto",
+      "source_class": "issuer_site",
+      "method": "search_query",
+      "query_or_url": "FOTO ETF issuer official site",
+      "purpose": "facts",
+      "status": "retrieved",
+      "retrieved_source_ids": ["src_issuer"]
+    },
+    {
+      "id": "q_regulator",
+      "plan_identifier_id": "id_foto",
+      "source_class": "exchange_or_regulator",
+      "method": "regulator_search",
+      "query_or_url": "FOTO ETF prospectus SEC exchange listing",
+      "purpose": "data",
+      "status": "retrieved",
+      "retrieved_source_ids": ["src_regulator"]
+    }
+  ]
+}

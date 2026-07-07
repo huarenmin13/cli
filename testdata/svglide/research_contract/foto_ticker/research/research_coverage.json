@@ -1,0 +1,28 @@
+{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "research",
+    "context_receipt": "receipts/prompt_context/research.json",
+    "orchestrator": "mode_system_prompt_svg",
+    "protocol_reference": "svg_reference",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference"]
+  },
+  "entity": {"name": "FOTO", "type": "financial_ticker_candidate"},
+  "queries": [
+    {"query": "https://finance.yahoo.com/quote/FOTO/", "purpose": "entity_disambiguation"},
+    {"query": "FOTO ETF issuer official site", "purpose": "facts"},
+    {"query": "FOTO ETF prospectus SEC exchange listing", "purpose": "facts"}
+  ],
+  "sources": [
+    {"id": "src_quote", "title": "FOTO quote page", "url": "https://finance.yahoo.com/quote/FOTO/", "retrieved_at": "2026-07-04T00:00:00Z", "usage": "identity", "status": "retrieved"},
+    {"id": "src_issuer", "title": "Issuer FOTO fund page", "url": "https://issuer.example/foto", "retrieved_at": "2026-07-04T00:00:00Z", "usage": "context", "status": "retrieved"},
+    {"id": "src_regulator", "title": "FOTO prospectus or exchange filing", "url": "https://sec.example/foto", "retrieved_at": "2026-07-04T00:00:00Z", "usage": "data", "status": "retrieved"}
+  ],
+  "coverage": {
+    "identity_confirmed": true,
+    "has_reliable_source": true,
+    "minimum_source_count_met": true,
+    "source_count": 3,
+    "topic_only_rationale": ""
+  }
+}

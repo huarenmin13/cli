@@ -1,0 +1,21 @@
+{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "request_resolution",
+    "orchestrator": "mode_system_prompt_svg"
+  },
+  "input_text": "品中国茶",
+  "resolved_entity": {
+    "name": "中国茶",
+    "type": "topic",
+    "confidence_bp": 9000,
+    "confidence_band": "high",
+    "reason": "用户请求是开放文化/生活方式主题，不是单一命名实体。"
+  },
+  "ambiguity": {
+    "status": "resolved",
+    "candidates": []
+  },
+  "research_required": true,
+  "clarification_question": ""
+}

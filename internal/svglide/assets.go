@@ -15,9 +15,10 @@ const (
 )
 
 type deckAssetsFile struct {
-	Assets        []deckAsset `json:"assets"`
-	NoImageReason string      `json:"no_image_reason"`
-	Mode          string      `json:"mode"`
+	PromptContract json.RawMessage `json:"prompt_contract,omitempty"`
+	Assets         []deckAsset     `json:"assets"`
+	NoImageReason  string          `json:"no_image_reason"`
+	Mode           string          `json:"mode"`
 }
 
 type deckAsset struct {
@@ -87,7 +88,73 @@ func readAssetsManifest(safeRoot string) (deckAssetsFile, error) {
 	if err != nil {
 		return deckAssetsFile{}, fmt.Errorf("read assets manifest %q: %w", assetsManifestPath, err)
 	}
+	file, changed, err := normalizeAssetsManifestFromPlan(safeRoot, file)
+	if err != nil {
+		return deckAssetsFile{}, err
+	}
+	if changed {
+		target, err := ensureRunFileTargetForWrite(safeRoot, assetsManifestPath)
+		if err != nil {
+			return deckAssetsFile{}, err
+		}
+		if err := writeJSON(target, file); err != nil {
+			return deckAssetsFile{}, err
+		}
+	}
 	return file, nil
+}
+
+func normalizeAssetsManifestFromPlan(safeRoot string, manifest deckAssetsFile) (deckAssetsFile, bool, error) {
+	plan, err := readDeckAssetsArtifact(safeRoot, assetsPlanPath)
+	if err != nil {
+		return manifest, false, nil
+	}
+	changed := false
+	if len(manifest.PromptContract) == 0 && len(plan.PromptContract) > 0 {
+		manifest.PromptContract = plan.PromptContract
+		changed = true
+	}
+	if strings.TrimSpace(manifest.Mode) == "" && strings.TrimSpace(plan.Mode) != "" {
+		manifest.Mode = plan.Mode
+		changed = true
+	}
+	if strings.TrimSpace(manifest.NoImageReason) == "" && strings.TrimSpace(plan.NoImageReason) != "" {
+		manifest.NoImageReason = plan.NoImageReason
+		changed = true
+	}
+	existing := make(map[string]bool, len(manifest.Assets))
+	for _, asset := range manifest.Assets {
+		key := assetManifestConsistencyKey(asset)
+		if key != "" {
+			existing[key] = true
+		}
+	}
+	for _, asset := range plan.Assets {
+		key := assetManifestConsistencyKey(asset)
+		if key == "" || existing[key] {
+			continue
+		}
+		status := assetStatus(asset)
+		if status != "ready" && status != "deferred" && status != "needs_generation" {
+			continue
+		}
+		manifest.Assets = append(manifest.Assets, asset)
+		existing[key] = true
+		changed = true
+	}
+	return manifest, changed, nil
+}
+
+func assetManifestConsistencyKey(asset deckAsset) string {
+	slideID := assetSlideID(asset)
+	id := assetID(asset)
+	if id == "" {
+		id = strings.TrimSpace(asset.VisualID)
+	}
+	if slideID == "" || id == "" {
+		return ""
+	}
+	return slideID + "/" + id
 }
 
 func assetType(asset deckAsset) string {

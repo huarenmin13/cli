@@ -1,0 +1,48 @@
+{
+  "prompt_contract": {
+    "protocol": "anygen-svg-slides",
+    "stage": "research",
+    "context_receipt": "receipts/prompt_context/research.json",
+    "orchestrator": "mode_system_prompt_svg",
+    "protocol_reference": "svg_reference",
+    "required_prompt_ids": ["mode_system_prompt_svg", "svg_reference"]
+  },
+  "entity": {
+    "name": "FOTO",
+    "type": "financial_ticker_candidate",
+    "requires_confirmation": true
+  },
+  "identifiers": [
+    {
+      "id": "id_foto",
+      "type": "ticker",
+      "value": "FOTO",
+      "market_hint": "US",
+      "confidence_bp": 6500,
+      "reason": "Ticker-like token in a US fund request."
+    }
+  ],
+  "evidence_needs": [
+    {"id": "need_identity", "type": "identity", "required": true},
+    {"id": "need_data", "type": "data", "required": true}
+  ],
+  "source_ladders": [
+    {
+      "identifier_id": "id_foto",
+      "evidence_need_id": "need_identity",
+      "required_source_classes": ["finance_quote", "issuer_site", "exchange_or_regulator"],
+      "fallback_source_classes": ["trusted_financial_media"],
+      "forbidden_only_source_classes": ["general_web_search"]
+    }
+  ],
+  "minimum_coverage": {
+    "min_retrieved_sources": 3,
+    "identity_source_required": true,
+    "all_required_source_classes_attempted": true
+  },
+  "failure_policy": {
+    "block_if_required_source_class_missing": true,
+    "block_if_only_general_search": true,
+    "clarify_if_identity_unconfirmed_after_ladder": true
+  }
+}
