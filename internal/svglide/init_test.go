@@ -143,6 +143,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		"receipt.schema.json",
 		"lint.schema.json",
 		"preview.schema.json",
+		"svg_publish_request_evidence.schema.json",
 		"online_slide.schema.json",
 		"publish_online.schema.json",
 	} {
@@ -177,6 +178,7 @@ func TestInitRunWritesDirectoryContract(t *testing.T) {
 		{name: "chart_quality.schema.json", want: []string{`"missing_unit_count"`, `"missing_source_count"`, `"decorative_chart_count"`}},
 		{name: "typography_contract.schema.json", want: []string{`"display"`, `"number"`, `"label"`}},
 		{name: "quality.schema.json", want: []string{`"metrics"`, `"real_image_assets"`, `"vega_lite_spec_assets"`, `"content_payload_issue_count"`}},
+		{name: "svg_publish_request_evidence.schema.json", want: []string{`"content_type"`, `"content_root"`, `"forbidden_format_detected"`}},
 		{name: "online_slide.schema.json", want: []string{`"presentation_id"`, `"blocked_reason_code"`}},
 		{name: "content_payload.schema.json", want: []string{`"sparse_label_list_count"`, `"source_binding_issue_count"`}},
 	} {

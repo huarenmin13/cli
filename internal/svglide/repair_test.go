@@ -169,6 +169,32 @@ func TestRepairWritesDeliveryReceipt(t *testing.T) {
 	}
 }
 
+func TestRepairPromptsPublishSVGlideWhenOnlineTargetPassesLocalGate(t *testing.T) {
+	initAuthorDemoRun(t,
+		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,
+		`{"title":"Demo Deck","slides":[{"id":"s1","title":"First claim","summary":"First summary","role":"cover","key_message":"First key message","path":"slides/01.svg"}]}`,
+	)
+	run := readStatusTestRunFile(t)
+	run.DeliveryTarget = DeliveryTargetOnlineSlide
+	run.Policy.PublishEnabled = true
+	run.Stages = DefaultStagesForDelivery(DeliveryTargetOnlineSlide)
+	run.CurrentStage = StageValidatePreviewRepair
+	writeStatusTestRunFile(t, run)
+	mustWriteTestFile(t, deliveryContractPathForTest(), `{"delivery_contract":{"delivery_target":"online_slide","requires_online_slide":true,"requires_local_preview":false,"requires_real_images":false,"reason":"online target fixture","detected_signals":["线上"]}}`)
+
+	report, err := RepairRun("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Status != "passed" {
+		t.Fatalf("Status = %q, want passed: %+v", report.Status, report)
+	}
+	want := "lark-cli slides +publish-svglide --as user --run demo"
+	if report.NextCommand != want {
+		t.Fatalf("NextCommand = %q, want %q", report.NextCommand, want)
+	}
+}
+
 func TestRepairRejectsLegacyRuntimeEvidenceForLocalProfile(t *testing.T) {
 	initAuthorDemoRun(t,
 		`{"color_system":{"background":"#FFFFFF","ink":"#111827","muted":"#6B7280","accent":"#2563EB"},"typography":{"title":32,"body":16},"layout_language":"analyst deck"}`,

@@ -2,7 +2,7 @@
 
 `slides +create-svglide` 是 AnyGen SVG Slides 的 agent runtime adapter。它不是 Codex-only workbench；Codex 只是 `agent.runtime=codex` 的一种实现，其他 agent 也必须通过同一套 CLI runtime protocol 执行。
 
-本文档只定义 adapter 协议边界、run-dir 结构、receipt、schema、preview、quality、semantic gate 和 delivery receipt。它不复制 AnyGen prompt 正文，不负责创意生成本身，不接入真实图片 provider，不进入 Feishu/SXSD/live-create 链路。若用户请求线上交付但当前 runtime 没有真实 publisher，必须写出 `publish/online_slide.json.status=blocked`，不能用本地 HTML 或截图冒充线上 slide。
+本文档只定义 adapter 协议边界、run-dir 结构、receipt、schema、preview、quality、semantic gate 和 delivery receipt。它不复制 AnyGen prompt 正文，不负责创意生成本身，不接入真实图片 provider。`slides +create-svglide` 只负责本地生成和质量门禁；线上发布固定走 `slides +publish-svglide`。禁止把本地 HTML、截图、PDF 或上传的静态文件冒充线上 slide。
 
 ## 权威顺序
 
@@ -45,12 +45,20 @@ adapter 负责：
 - 校验 `receipts/tool_calls/<stage>/`、stage artifact 的 `prompt_contract`、schema、SVG lint、preview、quality、semantic report。
 - 在 `repair` 通过后写出 `receipts/delivery.json`。
 
-adapter 不负责：
+`slides +create-svglide` adapter 不负责：
 
 - 改写 AnyGen prompt 正文或替 agent 做创意判断。
 - 自动研究、自动搜图、自动生图或接入真实图片 provider。
-- 静默发布到 Feishu、创建 `.slides`、返回 `xml_presentation_id`、调用 `slide_engine`、SXSD 或 Slides OpenAPI。线上交付只能通过显式 `publish_online` stage 记录真实发布结果；无 publisher 时记录 blocked。
+- 静默发布到 Feishu、创建 `.slides`、返回 `xml_presentation_id`、调用 `slide_engine` 或 SXSD。
 - 原生实现 chart、table、图片裁剪；这些需求必须通过 AnyGen 语义和本地 artifact 显式表达。
+
+线上发布边界：
+
+- 固定入口：`lark-cli slides +publish-svglide --as user --run <run-dir>`。
+- `+publish-svglide` 在调用 Slides OpenAPI 前必须先写 `publish/request_evidence.json`，证明每页 payload 是 raw `<svg>`。
+- `+publish-svglide` 成功后必须写 `publish/online_slide.json` 和 `receipts/publish_online.json`。
+- 线上交付成功不能只看 URL，必须回读 presentation content，确认仍包含 `<svg ... slide:role="slide">`，且不是 `<slide>` XML、HTML、PDF、截图或 `data:image` 兜底。
+- `+create-svglide --action publish` 只用于本地 publish gate/缺省 publisher 检查；没有真实 publisher 时必须 blocked，不能伪装成线上发布成功。
 
 `author` action 只是诊断和占位能力，用于 smoke、协议调试或缺失 SVG 补齐；它不是 AnyGen authoring 的等价实现。
 
@@ -65,6 +73,12 @@ init -> complete(request bootstrap) -> [next -> agent_task -> prompt_context -> 
 `init` 只建立 run-dir、请求、manifest 和 schema，并已写好 `request/request.json`、`request/source_manifest.json` 与 `request/delivery_contract.json`。`request` stage 是 bootstrap 校验阶段，不需要 agent 再生成 request 产物。`agent.runtime` 记录执行者，例如 `codex`、`claude`、`cursor`、`fake-agent`；runtime protocol 本身不因 agent 名称改变。
 
 `next` 是每个 stage 的唯一调度入口。agent 必须先调用 `next`，再按 `next.agent_task` 写 tool call receipt 和 stage artifact。`complete` 只接受当前 stage 的产物；跨 stage 复用旧 `prompt_context` 必须 fail-closed。
+
+当 `delivery_target=online_slide` 或 `both` 且本地质量已通过，但 `publish/online_slide.json.status` 尚未 `passed` 时，`status` 和 `repair` 输出的下一步必须指向：
+
+```bash
+lark-cli slides +publish-svglide --as user --run <run-dir>
+```
 
 ## Markdown 读取边界
 
@@ -264,6 +278,23 @@ lark-cli slides +create-svglide --as user --action next --run ./.lark-slides/svg
 lark-cli slides +create-svglide --as user --action repair --run ./.lark-slides/svglide-runs/demo
 lark-cli slides +create-svglide --as user --action complete --run ./.lark-slides/svglide-runs/demo
 ```
+
+如果目标是线上 slide，且 `repair` / `status` 提示发布，则走固定发布入口：
+
+```bash
+lark-cli slides +publish-svglide --as user --run ./.lark-slides/svglide-runs/demo
+lark-cli slides xml_presentations get --as user --params '{"xml_presentation_id":"<presentation_id>"}'
+```
+
+发布验收必须同时满足：
+
+- `publish/request_evidence.json.status=passed`
+- `publish/request_evidence.json.content_type=svg`
+- `publish/request_evidence.json.forbidden_format_detected=false`
+- `publish/online_slide.json.status=passed`
+- `receipts/publish_online.json.status=passed`
+- 回读 content 中 `<svg ` 和 `slide:role="slide"` 数量与 `request_evidence.slide_count` 一致
+- 回读 content 不包含 `<slide `、HTML 或 `data:image` 兜底
 
 单独定位本地 gate：
 

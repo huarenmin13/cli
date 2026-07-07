@@ -522,6 +522,7 @@ func TestDefaultSchemasIncludeAnyGenQualityContracts(t *testing.T) {
 		"typography_contract.schema.json",
 		"quality.schema.json",
 		"content_payload.schema.json",
+		"svg_publish_request_evidence.schema.json",
 	} {
 		if strings.TrimSpace(schemas[name]) == "" {
 			t.Fatalf("schema %s is missing", name)

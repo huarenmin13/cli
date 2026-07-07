@@ -21,9 +21,11 @@ consumes:
   - slides/*.svg
   - receipts/delivery.json
 produces:
+  - publish/request_evidence.json
   - publish/online_slide.json
   - receipts/publish_online.json
 completion_gate:
+  - svg_publish_request_evidence_passed
   - online_slide_delivery_status_recorded
 ---
 
@@ -33,14 +35,18 @@ Use this stage only when `request/delivery_contract.json.delivery_contract.deliv
 
 ## Rules
 
+- Online publishing has one fixed CLI entrypoint: `lark-cli slides +publish-svglide --as user --run <run-dir>`.
+- `slides +create-svglide` remains the local generation and gate entrypoint. `slides +create-svglide --action publish` may exercise the local publish gate, but without a real publisher it must only return `blocked`.
 - Do not claim online delivery from `preview.html`, local screenshots, a PDF file, or a local HTML upload.
 - Do not fabricate `presentation_id`, Feishu URL, or PDF download URL.
+- Before calling any online publisher, the CLI must write `publish/request_evidence.json` and it must prove every request payload slide is raw `<svg>` content. Slides XML, SXSD, HTML, screenshots, data URLs, or raster fallback must fail closed.
 - If no real Lark Slides publisher is configured, write a blocked report with `blocked_reason_code=svglide.publish_online.missing_publisher`.
 - `receipts/delivery.json.status` must remain `blocked` until `publish/online_slide.json.status=passed`.
+- A successful URL is not sufficient proof. The publisher or e2e harness must read back the presentation content and verify the returned content still contains the same number of `<svg ... slide:role="slide">` payloads and does not contain `<slide `, HTML, or `data:image` fallback content.
 
 ## Output
 
-Write `publish/online_slide.json`:
+Write `publish/request_evidence.json` and `publish/online_slide.json`:
 
 ```json
 {

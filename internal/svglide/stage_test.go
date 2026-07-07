@@ -335,6 +335,51 @@ func TestDeliveryRejectsMissingFullChainEvidence(t *testing.T) {
 	}
 }
 
+func TestDeliveryRejectsOnlineTargetWithoutSVGPublishRequestEvidence(t *testing.T) {
+	writePassingOnlineFinalStageArtifactsForTest(t)
+	mustWriteFullChainStageReceiptsForTest(t)
+	mustWriteValidatePreviewRepairStageReceiptForTest(t)
+	mustWriteFullChainEvidenceArtifactsForTest(t)
+	mustWritePassedOnlineSlideReportForTest(t)
+
+	run := readStatusTestRunFile(t)
+	receipt, err := writeDeliveryReceiptWithStatus("demo", run, StatusReady)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if receipt.Status != StatusNeedsRepair {
+		t.Fatalf("delivery status = %q, want %q when SVG publish request evidence is missing: %+v", receipt.Status, StatusNeedsRepair, receipt.FullChainEvidence)
+	}
+	if receipt.FullChainEvidence.SVGPublishRequest != "" {
+		t.Fatalf("svg publish request evidence = %q, want empty missing marker", receipt.FullChainEvidence.SVGPublishRequest)
+	}
+}
+
+func TestDeliveryAcceptsOnlineTargetWithSVGPublishRequestEvidence(t *testing.T) {
+	writePassingOnlineFinalStageArtifactsForTest(t)
+	mustWriteFullChainStageReceiptsForTest(t)
+	mustWriteValidatePreviewRepairStageReceiptForTest(t)
+	mustWriteFullChainEvidenceArtifactsForTest(t)
+	mustWritePassedOnlineSlideReportForTest(t)
+	if evidence, err := BuildAndWriteSVGPublishRequestEvidence("demo"); err != nil {
+		t.Fatalf("BuildAndWriteSVGPublishRequestEvidence failed: %v", err)
+	} else if evidence.Status != "passed" || evidence.ContentType != "svg" || evidence.SlideCount != 1 {
+		t.Fatalf("publish request evidence = %+v, want one passed SVG slide", evidence)
+	}
+
+	run := readStatusTestRunFile(t)
+	receipt, err := writeDeliveryReceiptWithStatus("demo", run, StatusReady)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if receipt.Status != StatusReady {
+		t.Fatalf("delivery status = %q, want %q with complete online SVG evidence: %+v", receipt.Status, StatusReady, receipt.FullChainEvidence)
+	}
+	if receipt.FullChainEvidence.SVGPublishRequest != svgPublishRequestEvidencePath {
+		t.Fatalf("svg publish request evidence = %q, want %q", receipt.FullChainEvidence.SVGPublishRequest, svgPublishRequestEvidencePath)
+	}
+}
+
 func TestDeliveryMarksManualPatchEvidence(t *testing.T) {
 	writePassingFinalStageArtifactsForTest(t)
 	mustWriteFullChainStageReceiptsForTest(t)
@@ -962,7 +1007,8 @@ func mustWriteDeliveryReceiptForTest(t *testing.T) {
 
 func mustWriteFullChainStageReceiptsForTest(t *testing.T) {
 	t.Helper()
-	for _, stage := range DefaultStages() {
+	run := readStatusTestRunFile(t)
+	for _, stage := range run.Stages {
 		if stage.Name == StageValidatePreviewRepair {
 			continue
 		}
@@ -972,6 +1018,44 @@ func mustWriteFullChainStageReceiptsForTest(t *testing.T) {
 		}
 	}
 	writePromptContextReceiptWithoutToolCallsForTest(t, StageValidatePreviewRepair)
+}
+
+func writePassingOnlineFinalStageArtifactsForTest(t *testing.T) {
+	t.Helper()
+	writePassingFinalStageArtifactsForTest(t)
+	run := readStatusTestRunFile(t)
+	run.DeliveryTarget = DeliveryTargetOnlineSlide
+	run.Stages = DefaultStagesForDelivery(DeliveryTargetOnlineSlide)
+	run.CurrentStage = StageValidatePreviewRepair
+	for i := range run.Stages {
+		if run.Stages[i].Name == StageValidatePreviewRepair {
+			run.Stages[i].Status = StatusDone
+		}
+	}
+	writeStatusTestRunFile(t, run)
+	mustWriteTestFile(t, deliveryContractPathForTest(), `{"delivery_contract":{"delivery_target":"online_slide","requires_online_slide":true,"requires_local_preview":false,"requires_real_images":false,"reason":"online target fixture","detected_signals":["线上"]}}`)
+}
+
+func deliveryContractPathForTest() string {
+	return filepath.Join("demo", deliveryContractPath)
+}
+
+func mustWritePassedOnlineSlideReportForTest(t *testing.T) {
+	t.Helper()
+	if err := writeOnlinePublishArtifacts("demo", OnlineSlidePublishReport{
+		Status:         "passed",
+		Publisher:      "recording-test",
+		PresentationID: "pres_svg",
+		URL:            "https://example.larkoffice.com/slides/pres_svg",
+		SlideCount:     1,
+	}); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func mustWriteValidatePreviewRepairStageReceiptForTest(t *testing.T) {
+	t.Helper()
+	mustWriteTestFile(t, filepath.Join("demo", "receipts", StageValidatePreviewRepair+".json"), `{"stage":"`+StageValidatePreviewRepair+`","status":"done"}`)
 }
 
 func mustWriteFullChainEvidenceArtifactsForTest(t *testing.T) {

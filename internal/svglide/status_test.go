@@ -71,6 +71,66 @@ func TestStatusQuotesNextCommandRunPath(t *testing.T) {
 	}
 }
 
+func TestStatusPromptsPublishSVGlideWhenOnlineLocalGateReady(t *testing.T) {
+	initStatusTestRun(t)
+	writePassingOnlineFinalStageArtifactsForTest(t)
+	mustWriteOnlineDeliveryReceiptForStatusTest(t)
+
+	status, err := InspectStatus("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "lark-cli slides +publish-svglide --as user --run demo"
+	if status.NextCommand != want {
+		t.Fatalf("NextCommand = %q, want %q", status.NextCommand, want)
+	}
+}
+
+func TestStatusPromptsCompleteAfterOnlinePublishPassed(t *testing.T) {
+	initStatusTestRun(t)
+	writePassingOnlineFinalStageArtifactsForTest(t)
+	mustWriteOnlineDeliveryReceiptForStatusTest(t)
+	mustWritePassedOnlineSlideReportForTest(t)
+
+	status, err := InspectStatus("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "lark-cli slides +create-svglide --action complete --run demo"
+	if status.NextCommand != want {
+		t.Fatalf("NextCommand = %q, want %q", status.NextCommand, want)
+	}
+}
+
+func TestStatusPromptsPublishSVGlideAtPublishStageUntilPassed(t *testing.T) {
+	initStatusTestRun(t)
+	writePassingOnlineFinalStageArtifactsForTest(t)
+	mustWriteOnlineDeliveryReceiptForStatusTest(t)
+	run := readStatusTestRunFile(t)
+	run.CurrentStage = StagePublishOnline
+	writeStatusTestRunFile(t, run)
+
+	status, err := InspectStatus("demo")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "lark-cli slides +publish-svglide --as user --run demo"
+	if status.NextCommand != want {
+		t.Fatalf("NextCommand = %q, want %q", status.NextCommand, want)
+	}
+}
+
+func mustWriteOnlineDeliveryReceiptForStatusTest(t *testing.T) {
+	t.Helper()
+	run := readStatusTestRunFile(t)
+	if _, err := writeDeliveryReceiptWithStatus("demo", run, StatusReady); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestNextTaskReturnsAnyGenPromptContextAssets(t *testing.T) {
 	initStatusTestRun(t)
 
