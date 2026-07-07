@@ -1,0 +1,3566 @@
+{
+  "version": "2026-07-07-initial",
+  "status": "heuristic_initial_tags",
+  "source_font_catalog": "internal/svglide/font_catalog/slide_supported_fonts.json",
+  "source_theme_presets": "internal/svglide/font_catalog/slide_font_theme_presets.json",
+  "review_policy": "These tags are a first-pass classification. Human sample review may update type_tags, mood_tags, recommended_roles, and notes without changing canonical font_family values.",
+  "counts": {
+    "total": 139,
+    "preset_seeded": 65,
+    "heuristic_only": 74,
+    "by_lang": {
+      "en": 109,
+      "ja": 2,
+      "zh": 28
+    }
+  },
+  "fonts": [
+    {
+      "font_family": "Abel",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Abel"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Abril Fatface",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Abril Fatface"
+      },
+      "type_tags": [
+        "serif",
+        "display"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Acme",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Acme"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Alegreya",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Alegreya"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Alegreya Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Alegreya Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Amatic SC",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Amatic SC"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Anton",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Anton"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast"
+      ],
+      "recommended_roles": [
+        "display",
+        "number"
+      ],
+      "preset_usage": [
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Archivo Narrow",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Archivo Narrow"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "engineering",
+        "impact",
+        "industrial"
+      ],
+      "recommended_roles": [
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "industrial_engineering"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Arial",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Arial"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "friendly",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "education_readable"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Arial Black",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Arial Black"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Arial Narrow",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Arial Narrow"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "impact"
+      ],
+      "recommended_roles": [
+        "label",
+        "number"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Arimo",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Arimo"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Arvo",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Arvo"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Asap",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Asap"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Barlow",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Barlow"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "engineering",
+        "industrial",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "industrial_engineering"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Barlow Condensed",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Barlow Condensed"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "engineering",
+        "impact",
+        "industrial"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "industrial_engineering",
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Bebas Neue",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Bebas Neue"
+      },
+      "type_tags": [
+        "condensed",
+        "display"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "editorial",
+        "impact",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast",
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Bitter",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Bitter"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Bree Serif",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Bree Serif"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Cabin",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Cabin"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Cairo",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Cairo"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Calibri",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Calibri"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Calibri Light",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Calibri Light"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Catamaran",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Catamaran"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Comfortaa",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Comfortaa"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "playful",
+        "pop",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Comic Sans Ms",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Comic Sans Ms"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Crimson Text",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Crimson Text"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Cuprum",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Cuprum"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Dancing Script",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Dancing Script"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "DM Sans 9pt",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "DM Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "modern",
+        "product",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "startup_product"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Dosis",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Dosis"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "EB Garamond",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "EB Garamond"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Exo",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Exo"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "futuristic",
+        "gaming",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "gaming_sci_fi"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Exo 2",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Exo 2"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "futuristic",
+        "gaming",
+        "modern",
+        "readable",
+        "technical"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "gaming_sci_fi",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Fira Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Fira Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Fjalla One",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Fjalla One"
+      },
+      "type_tags": [
+        "condensed",
+        "display"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "impact"
+      ],
+      "recommended_roles": [
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Francois One",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Francois One"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Garamond",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Garamond"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Georgia",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Georgia"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Heebo",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Heebo"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Hind SemiBold",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Hind"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Hind Siliguri SemiBold",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Hind Siliguri"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "IBM Plex Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "IBM Plex Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "clinical",
+        "finance",
+        "institutional",
+        "modern",
+        "readable",
+        "scientific",
+        "technical"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "data_scientific",
+        "finance_institutional",
+        "medical_clean",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Inconsolata",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Inconsolata"
+      },
+      "type_tags": [
+        "mono"
+      ],
+      "mood_tags": [
+        "finance",
+        "institutional",
+        "modern",
+        "numeric",
+        "readable",
+        "scientific",
+        "technical"
+      ],
+      "recommended_roles": [
+        "number"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "data_scientific",
+        "finance_institutional",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Indie Flower",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Indie Flower"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Inter",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Inter"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "finance",
+        "institutional",
+        "modern",
+        "product",
+        "readable",
+        "technical"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "finance_institutional",
+        "startup_product",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Josefin Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Josefin Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "editorial",
+        "luxury",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast",
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Kanit",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Kanit"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Karla",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Karla"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Lato",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Lato"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "clinical",
+        "editorial",
+        "luxury",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "fashion_high_contrast",
+        "luxury_editorial",
+        "medical_clean"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Libre Baskerville",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Libre Baskerville"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Libre Franklin",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Libre Franklin"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "finance",
+        "institutional",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "finance_institutional"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Lobster",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Lobster"
+      },
+      "type_tags": [
+        "script",
+        "display"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Lora",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Lora"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "lifestyle",
+        "luxury",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast",
+        "luxury_editorial",
+        "warm_lifestyle"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Maven Pro",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Maven Pro"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Merriweather",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Merriweather"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Merriweather Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Merriweather Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Microsoft Sans Serif",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Microsoft Sans Serif"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Montserrat",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Montserrat"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "editorial",
+        "finance",
+        "institutional",
+        "lifestyle",
+        "luxury",
+        "modern",
+        "playful",
+        "pop",
+        "product",
+        "readable",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "fashion_high_contrast",
+        "finance_institutional",
+        "luxury_editorial",
+        "startup_product",
+        "warm_lifestyle",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Mukta SemiBold",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Mukta"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Mulish",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Mulish"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "NanumGothic",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Nanum Gothic"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Noto Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Noto Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable",
+        "scientific"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "data_scientific"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Noto Sans KR",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "본고딕"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Noto Serif",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Noto Serif"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Nunito",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Nunito"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "lifestyle",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "warm_lifestyle"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Nunito Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Nunito Sans"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "lifestyle",
+        "playful",
+        "pop",
+        "readable",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "education_readable",
+        "warm_lifestyle",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Open Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Open Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "clinical",
+        "friendly",
+        "modern",
+        "product",
+        "readable",
+        "scientific"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "data_scientific",
+        "education_readable",
+        "medical_clean",
+        "startup_product"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Oswald",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Oswald"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "impact"
+      ],
+      "recommended_roles": [
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Overpass",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Overpass"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Oxygen",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Oxygen"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Pacifico",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Pacifico"
+      },
+      "type_tags": [
+        "script",
+        "display"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Play",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Play"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "futuristic",
+        "gaming"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "gaming_sci_fi"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Playfair Display",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Playfair Display"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast",
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Poiret One",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Poiret One"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Poppins",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Poppins"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "modern",
+        "product",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "startup_product"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Prompt",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Prompt"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "PT Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "PT Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "PT Sans Caption",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "PT Sans Caption"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "PT Sans Narrow",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "PT Sans Narrow"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "impact"
+      ],
+      "recommended_roles": [
+        "label",
+        "number"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "PT Serif",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "PT Serif"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Questrial",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Questrial"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Quicksand",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Quicksand"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "lifestyle",
+        "playful",
+        "pop",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "warm_lifestyle",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Rajdhani SemiBold",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Rajdhani"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "futuristic",
+        "gaming",
+        "modern",
+        "readable",
+        "technical"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "gaming_sci_fi",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Raleway",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Raleway"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "editorial",
+        "luxury",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Righteous",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Righteous"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "playful",
+        "pop"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Roboto",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Roboto"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "authoritative",
+        "classic",
+        "clean",
+        "clinical",
+        "cultural",
+        "editorial",
+        "engineering",
+        "finance",
+        "formal",
+        "friendly",
+        "futuristic",
+        "gaming",
+        "industrial",
+        "institutional",
+        "lifestyle",
+        "luxury",
+        "modern",
+        "playful",
+        "pop",
+        "readable",
+        "technical",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "culture_heritage",
+        "education_readable",
+        "finance_institutional",
+        "gaming_sci_fi",
+        "government_formal",
+        "industrial_engineering",
+        "luxury_editorial",
+        "medical_clean",
+        "tech_ai_precision",
+        "warm_lifestyle",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Roboto Condensed",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Roboto Condensed"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "editorial",
+        "engineering",
+        "finance",
+        "impact",
+        "industrial",
+        "institutional",
+        "luxury",
+        "modern",
+        "technical"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "fashion_high_contrast",
+        "finance_institutional",
+        "industrial_engineering",
+        "sports_broadcast",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Roboto Mono",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Roboto Mono"
+      },
+      "type_tags": [
+        "mono"
+      ],
+      "mood_tags": [
+        "clean",
+        "clinical",
+        "engineering",
+        "finance",
+        "friendly",
+        "futuristic",
+        "gaming",
+        "industrial",
+        "institutional",
+        "modern",
+        "numeric",
+        "product",
+        "readable",
+        "scientific",
+        "technical"
+      ],
+      "recommended_roles": [
+        "number"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "data_scientific",
+        "education_readable",
+        "finance_institutional",
+        "gaming_sci_fi",
+        "industrial_engineering",
+        "medical_clean",
+        "startup_product",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Roboto Slab",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Roboto Slab"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial",
+        "readable",
+        "scientific"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "data_scientific"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Rokkitt",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Rokkitt"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Rubik",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Rubik"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Serif",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Serif"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Shadows Into Light",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Shadows Into Light"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Signika",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Signika"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Slabo 27px",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Slabo 27px"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Source Code Pro",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Source Code Pro"
+      },
+      "type_tags": [
+        "mono"
+      ],
+      "mood_tags": [
+        "clean",
+        "clinical",
+        "engineering",
+        "finance",
+        "friendly",
+        "industrial",
+        "institutional",
+        "modern",
+        "numeric",
+        "readable",
+        "scientific",
+        "technical"
+      ],
+      "recommended_roles": [
+        "display",
+        "number"
+      ],
+      "preset_usage": [
+        "corporate_neutral",
+        "data_scientific",
+        "education_readable",
+        "finance_institutional",
+        "industrial_engineering",
+        "medical_clean",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Tahoma",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Tahoma"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Teko",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Teko"
+      },
+      "type_tags": [
+        "condensed",
+        "display"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "engineering",
+        "futuristic",
+        "gaming",
+        "impact",
+        "industrial"
+      ],
+      "recommended_roles": [
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "gaming_sci_fi",
+        "industrial_engineering",
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Times New Roman",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Times New Roman"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Titillium Web SemiBold",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Titillium Web"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "modern",
+        "technical"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Trebuchet MS",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Trebuchet MS"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Ubuntu",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Ubuntu"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Ubuntu Condensed",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Ubuntu Condensed"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "impact"
+      ],
+      "recommended_roles": [
+        "label",
+        "number"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Varela Round",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Varela Round"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Verdana",
+      "lang": "en",
+      "source": "system",
+      "display_name": {
+        "en": "Verdana"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Vollkorn",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Vollkorn"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Work Sans",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Work Sans"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Yanone Kaffeesatz",
+      "lang": "en",
+      "source": "web",
+      "display_name": {
+        "en": "Yanone Kaffeesatz"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "impact"
+      ],
+      "recommended_roles": [
+        "label",
+        "number"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Hiragino Mincho",
+      "lang": "ja",
+      "source": "system",
+      "display_name": {
+        "en": "Hiragino Mincho"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Noto Sans JP",
+      "lang": "ja",
+      "source": "web",
+      "display_name": {
+        "ja": "源ノ角ゴシック"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "975Maru SC",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "霞鹜 975 圆体",
+        "en": "XiaWu957-Yuan"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "lifestyle",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "warm_lifestyle"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillDINGothic SemiBold",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉德黑体",
+        "en": "ChillDINGothic"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "editorial",
+        "engineering",
+        "industrial",
+        "luxury",
+        "modern",
+        "readable",
+        "technical"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "industrial_engineering",
+        "luxury_editorial",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillDuanHeiSong_CompactRegular",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉端黑宋",
+        "zh-TW": "寒蟬端黑宋"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "cultural",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "culture_heritage"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillDuanSans WideSemiBold",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉端黑体",
+        "en": "ChillDuanSans"
+      },
+      "type_tags": [
+        "condensed"
+      ],
+      "mood_tags": [
+        "athletic",
+        "broadcast",
+        "engineering",
+        "impact",
+        "industrial"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "industrial_engineering",
+        "sports_broadcast"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillJinshuSongMedium",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉锦书宋",
+        "zh-TW": "寒蟬錦書宋"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "cultural",
+        "editorial",
+        "luxury"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "culture_heritage",
+        "fashion_high_contrast",
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillReunion_Round",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉团圆体 圆体"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillReunion_Sans",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉团圆体 黑体"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "engineering",
+        "friendly",
+        "industrial",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [
+        "industrial_engineering"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillRoundF",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "en": "ChillRoundF",
+        "zh": "寒蝉全圆体"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "playful",
+        "pop",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ChillYunmoGothicBold",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "寒蝉云墨黑",
+        "en": "ChillYunmoGothicBold"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "DouyinSans",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "抖音美好体",
+        "en": "DouyinSans"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "modern",
+        "playful",
+        "pop",
+        "product"
+      ],
+      "recommended_roles": [
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "startup_product",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Kaiti SC",
+      "lang": "zh",
+      "source": "system",
+      "display_name": {
+        "zh": "楷体",
+        "en": "KaiTi"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "calligraphic",
+        "classic",
+        "cultural",
+        "decorative",
+        "expressive",
+        "poetic"
+      ],
+      "recommended_roles": [
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic",
+        "culture_heritage"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Kaiti SC Black",
+      "lang": "zh",
+      "source": "system",
+      "display_name": {
+        "zh": "楷体 黑体",
+        "en": "KaiTi Black"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "decorative",
+        "expressive"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Kingnamype Yuanmo SC",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "荆南缘默体",
+        "en": "Kingnamype Yuanmo SC"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "clean",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "label"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "Liu Jian Mao Cao",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "钟齐流江毛笔草体",
+        "en": "Liu Jian Mao Cao"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "calligraphic",
+        "decorative",
+        "expressive",
+        "poetic"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "LogoSC Unbounded Sans",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "标小智无界黑",
+        "en": "LogoSC Unbounded Sans"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "futuristic",
+        "gaming",
+        "modern",
+        "technical"
+      ],
+      "recommended_roles": [
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "gaming_sci_fi",
+        "tech_ai_precision"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Long Cang",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "有字库龙藏体",
+        "en": "Long Cang"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "calligraphic",
+        "decorative",
+        "expressive",
+        "poetic"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Ma Shan Zheng",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "钟齐马善政毛笔楷书",
+        "en": "Ma Shan Zheng"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "calligraphic",
+        "decorative",
+        "expressive",
+        "poetic"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Noto Sans SC",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "en": "Noto Sans SC",
+        "zh": "思源黑体"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "athletic",
+        "authoritative",
+        "broadcast",
+        "calligraphic",
+        "classic",
+        "clean",
+        "clinical",
+        "cultural",
+        "editorial",
+        "engineering",
+        "finance",
+        "formal",
+        "friendly",
+        "futuristic",
+        "gaming",
+        "industrial",
+        "institutional",
+        "lifestyle",
+        "luxury",
+        "modern",
+        "playful",
+        "poetic",
+        "pop",
+        "product",
+        "readable",
+        "scientific",
+        "technical",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic",
+        "corporate_neutral",
+        "culture_heritage",
+        "data_scientific",
+        "education_readable",
+        "finance_institutional",
+        "gaming_sci_fi",
+        "government_formal",
+        "industrial_engineering",
+        "luxury_editorial",
+        "medical_clean",
+        "sports_broadcast",
+        "startup_product",
+        "tech_ai_precision",
+        "warm_lifestyle",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Noto Serif SC",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "en": "Noto Serif SC",
+        "zh": "思源宋体"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "authoritative",
+        "calligraphic",
+        "classic",
+        "cultural",
+        "editorial",
+        "formal",
+        "luxury",
+        "poetic",
+        "readable",
+        "scientific"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic",
+        "culture_heritage",
+        "data_scientific",
+        "fashion_high_contrast",
+        "government_formal",
+        "luxury_editorial"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Resource Han Rounded CN",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "资源圆体"
+      },
+      "type_tags": [
+        "rounded"
+      ],
+      "mood_tags": [
+        "friendly",
+        "lifestyle",
+        "playful",
+        "pop",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "warm_lifestyle",
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "SimHei",
+      "lang": "zh",
+      "source": "system",
+      "display_name": {
+        "zh": "黑体",
+        "en": "SimHei"
+      },
+      "type_tags": [
+        "sans"
+      ],
+      "mood_tags": [
+        "authoritative",
+        "calligraphic",
+        "classic",
+        "clean",
+        "cultural",
+        "finance",
+        "formal",
+        "friendly",
+        "institutional",
+        "poetic",
+        "readable"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label",
+        "number"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic",
+        "corporate_neutral",
+        "culture_heritage",
+        "education_readable",
+        "finance_institutional",
+        "government_formal"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Songti SC",
+      "lang": "zh",
+      "source": "system",
+      "display_name": {
+        "zh": "宋体",
+        "en": "Songti SC"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "authoritative",
+        "calligraphic",
+        "classic",
+        "cultural",
+        "editorial",
+        "formal",
+        "lifestyle",
+        "luxury",
+        "poetic",
+        "warm"
+      ],
+      "recommended_roles": [
+        "body",
+        "display",
+        "label"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic",
+        "culture_heritage",
+        "government_formal",
+        "luxury_editorial",
+        "warm_lifestyle"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Songti SC Black",
+      "lang": "zh",
+      "source": "system",
+      "display_name": {
+        "zh": "宋体 黑体",
+        "en": "Songti SC Black"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "authoritative",
+        "classic",
+        "editorial",
+        "formal"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "government_formal"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Songti SC Light",
+      "lang": "zh",
+      "source": "system",
+      "display_name": {
+        "zh": "宋体 细体",
+        "en": "Songti SC Light"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "ZCOOL KuaiLe",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "站酷快乐体",
+        "en": "ZCOOL KuaiLe"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [
+        "playful",
+        "pop"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "youth_pop"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "ZCOOL QingKe HuangYou",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "站酷庆科黄油体",
+        "en": "ZCOOL QingKe HuangYou"
+      },
+      "type_tags": [
+        "display"
+      ],
+      "mood_tags": [],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [],
+      "review_status": "heuristic",
+      "notes": ""
+    },
+    {
+      "font_family": "ZCOOL XiaoWei",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "站酷小薇体",
+        "en": "ZCOOL XiaoWei"
+      },
+      "type_tags": [
+        "serif"
+      ],
+      "mood_tags": [
+        "classic",
+        "cultural",
+        "editorial"
+      ],
+      "recommended_roles": [
+        "body",
+        "display"
+      ],
+      "preset_usage": [
+        "culture_heritage"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    },
+    {
+      "font_family": "Zhi Mang Xing",
+      "lang": "zh",
+      "source": "web",
+      "display_name": {
+        "zh": "钟齐志莽行书",
+        "en": "Zhi Mang Xing"
+      },
+      "type_tags": [
+        "script"
+      ],
+      "mood_tags": [
+        "calligraphic",
+        "decorative",
+        "expressive",
+        "poetic"
+      ],
+      "recommended_roles": [
+        "display"
+      ],
+      "preset_usage": [
+        "calligraphy_poetic"
+      ],
+      "review_status": "preset_seeded",
+      "notes": ""
+    }
+  ]
+}

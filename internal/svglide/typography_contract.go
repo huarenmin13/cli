@@ -11,6 +11,8 @@ const typographyContractPath = "brief/typography_contract.json"
 type typographyContractFile struct {
 	PromptContract json.RawMessage               `json:"prompt_contract,omitempty"`
 	Profile        string                        `json:"profile"`
+	SelectedMoods  []string                      `json:"selected_moods,omitempty"`
+	FontSource     string                        `json:"font_source,omitempty"`
 	Roles          map[string]typographyFontRole `json:"roles"`
 	Rules          []string                      `json:"rules"`
 }
@@ -94,6 +96,8 @@ func typographyProfileMismatch(contract typographyContractFile, deckType string)
 		return !hasSportsTypographyIdentity(contract)
 	case containsAny(profile, []string{"luxury", "premium", "brand", "fashion", "高端", "奢侈", "品牌"}):
 		return !hasPremiumDisplayIdentity(contract)
+	case containsAny(profile, []string{"culture", "cultural", "heritage", "tea", "food", "beverage", "lifestyle", "guochao", "文化", "茶", "饮食", "生活方式", "国潮"}):
+		return !hasCulturalTypographyIdentity(contract)
 	default:
 		return false
 	}
@@ -132,6 +136,29 @@ func hasPremiumDisplayIdentity(contract typographyContractFile) bool {
 		return false
 	}
 	return containsAny(family, []string{"serif", "didot", "bodoni", "garamond", "caslon", "editorial", "songti", "宋", "明朝"})
+}
+
+func hasCulturalTypographyIdentity(contract typographyContractFile) bool {
+	display, ok := contract.Roles["display"]
+	if !ok {
+		return false
+	}
+	displayFamily := strings.ToLower(display.Family)
+	if displayFamily == "" || containsAny(displayFamily, []string{"arial", "helvetica", "aptos", "inter", "system-ui"}) {
+		return false
+	}
+	if containsAny(displayFamily, []string{
+		"serif", "songti", "source han serif", "noto serif", "fangsong", "kaiti",
+		"宋", "明", "楷", "仿宋", "garamond", "caslon", "literata", "editorial",
+	}) {
+		return true
+	}
+	body, hasBody := contract.Roles["body"]
+	if !hasBody {
+		return false
+	}
+	bodyFamily := strings.ToLower(body.Family)
+	return containsAny(bodyFamily, []string{"source han serif", "noto serif", "songti", "宋", "明", "hiragino mincho"})
 }
 
 func normalizedFontFamilyStack(value string) string {

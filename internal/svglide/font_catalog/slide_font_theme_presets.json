@@ -1,0 +1,208 @@
+{
+  "version": "2026-07-07",
+  "status": "initial",
+  "source_font_catalog": "internal/svglide/font_catalog/slide_supported_fonts.json",
+  "principles": [
+    "Only use canonical Slide font_family values from slide_supported_fonts.json.",
+    "Do not emit arbitrary CSS font stacks for online Slide creation.",
+    "Choose by deck topic, visual mood, language, and text role instead of by topic alone.",
+    "A preset is a ranked candidate pool, not a hard one-font mapping.",
+    "Chinese decks should prefer zh-capable display/body candidates unless the page is intentionally Latin-led."
+  ],
+  "role_definitions": {
+    "display": "Cover title, section title, editorial headline, hero phrase.",
+    "body": "Readable paragraph and bullets.",
+    "number": "Financial numbers, scores, tables, axes, labels with numeric density.",
+    "label": "Tags, captions, source notes, chart labels, small annotations."
+  },
+  "visual_mood_presets": {
+    "corporate_neutral": {
+      "themes": ["business report", "strategy", "organization", "operations", "meeting summary"],
+      "intent": "稳健、中性、清晰，避免强烈装饰。",
+      "roles": {
+        "display": ["Montserrat", "Inter", "Lato", "Noto Sans SC", "SimHei"],
+        "body": ["Inter", "Lato", "Open Sans", "Noto Sans SC", "Arial"],
+        "number": ["Roboto Mono", "Inconsolata", "Source Code Pro", "Roboto"],
+        "label": ["Inter", "Roboto", "Noto Sans SC", "Arial"]
+      }
+    },
+    "finance_institutional": {
+      "themes": ["financial report", "earnings", "investor update", "audit", "valuation"],
+      "intent": "机构化、可信、数字清晰，弱装饰、强层级。",
+      "roles": {
+        "display": ["IBM Plex Sans", "Montserrat", "Libre Franklin", "Noto Sans SC", "SimHei"],
+        "body": ["IBM Plex Sans", "Inter", "Roboto", "Noto Sans SC"],
+        "number": ["Roboto Mono", "Source Code Pro", "Inconsolata"],
+        "label": ["IBM Plex Sans", "Roboto Condensed", "Noto Sans SC"]
+      }
+    },
+    "tech_ai_precision": {
+      "themes": ["AI", "chip", "cloud", "engineering", "developer platform", "cybersecurity"],
+      "intent": "精密、现代、工程感，适合深色和高对比图表。",
+      "roles": {
+        "display": ["Exo 2", "Rajdhani SemiBold", "Titillium Web SemiBold", "LogoSC Unbounded Sans", "ChillDINGothic SemiBold"],
+        "body": ["IBM Plex Sans", "Inter", "Roboto", "Noto Sans SC"],
+        "number": ["Roboto Mono", "Source Code Pro", "Inconsolata"],
+        "label": ["Rajdhani SemiBold", "Roboto Condensed", "Noto Sans SC"]
+      }
+    },
+    "data_scientific": {
+      "themes": ["research", "science", "lab", "data analysis", "methodology", "benchmark"],
+      "intent": "理性、克制、可读，强调图表和注释。",
+      "roles": {
+        "display": ["IBM Plex Sans", "Source Code Pro", "Roboto Slab", "Noto Serif SC"],
+        "body": ["IBM Plex Sans", "Noto Sans", "Noto Sans SC", "Open Sans"],
+        "number": ["Source Code Pro", "Roboto Mono", "Inconsolata"],
+        "label": ["IBM Plex Sans", "Noto Sans", "Noto Sans SC"]
+      }
+    },
+    "luxury_editorial": {
+      "themes": ["luxury", "premium brand", "jewelry", "eyewear", "watch", "gallery", "boutique"],
+      "intent": "高级、克制、留白、杂志感，标题与正文需明显分化。",
+      "roles": {
+        "display": ["Playfair Display", "EB Garamond", "Libre Baskerville", "ChillJinshuSongMedium", "Songti SC"],
+        "body": ["Lora", "Libre Baskerville", "Noto Serif SC", "Songti SC", "Alegreya"],
+        "number": ["Montserrat", "Lato", "Roboto"],
+        "label": ["Josefin Sans", "Montserrat", "ChillDINGothic SemiBold", "Noto Sans SC"]
+      }
+    },
+    "fashion_high_contrast": {
+      "themes": ["fashion", "lookbook", "art direction", "campaign", "magazine"],
+      "intent": "高反差、大片感、强标题，适合图文融合。",
+      "roles": {
+        "display": ["Abril Fatface", "Playfair Display", "Bebas Neue", "Poiret One", "ChillJinshuSongMedium"],
+        "body": ["Raleway", "Lato", "Lora", "Noto Serif SC"],
+        "number": ["Bebas Neue", "Montserrat", "Roboto Condensed"],
+        "label": ["Raleway", "Josefin Sans", "Montserrat"]
+      }
+    },
+    "culture_heritage": {
+      "themes": ["tea", "museum", "heritage", "history", "traditional craft", "architecture"],
+      "intent": "文化感、书卷气、东方审美，但正文仍要可读。",
+      "roles": {
+        "display": ["ChillJinshuSongMedium", "Noto Serif SC", "Songti SC", "ZCOOL XiaoWei", "Kaiti SC"],
+        "body": ["Noto Serif SC", "Songti SC", "Noto Sans SC"],
+        "number": ["Noto Sans SC", "SimHei", "Roboto"],
+        "label": ["ChillDuanHeiSong_CompactRegular", "Noto Sans SC", "Songti SC"]
+      }
+    },
+    "calligraphy_poetic": {
+      "themes": ["poetry", "calligraphy", "literature", "festival", "ceremony", "classical culture"],
+      "intent": "诗性、手写、仪式感；只适合少量标题或视觉锚点，不适合长正文。",
+      "roles": {
+        "display": ["Ma Shan Zheng", "Liu Jian Mao Cao", "Long Cang", "Zhi Mang Xing", "Kaiti SC"],
+        "body": ["Noto Serif SC", "Songti SC", "Kaiti SC"],
+        "number": ["Noto Sans SC", "SimHei"],
+        "label": ["Kaiti SC", "Songti SC", "Noto Sans SC"]
+      }
+    },
+    "sports_broadcast": {
+      "themes": ["sports", "football", "basketball", "athlete profile", "match report", "tournament"],
+      "intent": "转播感、速度、冲击、比分清晰。",
+      "roles": {
+        "display": ["Anton", "Bebas Neue", "Oswald", "Teko", "Fjalla One"],
+        "body": ["Barlow Condensed", "Roboto Condensed", "Noto Sans SC", "ChillDuanSans WideSemiBold"],
+        "number": ["Anton", "Bebas Neue", "Teko", "Roboto Condensed"],
+        "label": ["Oswald", "Barlow Condensed", "ChillDuanSans WideSemiBold"]
+      }
+    },
+    "youth_pop": {
+      "themes": ["youth", "social media", "entertainment", "creator economy", "consumer brand", "music"],
+      "intent": "年轻、活泼、强识别，允许更高饱和度和圆润字体。",
+      "roles": {
+        "display": ["DouyinSans", "ZCOOL KuaiLe", "Righteous", "Comfortaa", "ChillRoundF"],
+        "body": ["Nunito Sans", "Quicksand", "Noto Sans SC", "Resource Han Rounded CN"],
+        "number": ["DouyinSans", "Montserrat", "Roboto"],
+        "label": ["DouyinSans", "Comfortaa", "Resource Han Rounded CN"]
+      }
+    },
+    "warm_lifestyle": {
+      "themes": ["travel", "food", "home", "wellness", "coffee", "daily life", "local guide"],
+      "intent": "温暖、轻松、有亲和力，正文要舒适。",
+      "roles": {
+        "display": ["Quicksand", "Nunito", "Lora", "975Maru SC", "Resource Han Rounded CN"],
+        "body": ["Nunito Sans", "Lora", "Noto Sans SC", "Songti SC"],
+        "number": ["Nunito Sans", "Roboto", "Montserrat"],
+        "label": ["Quicksand", "Nunito Sans", "Resource Han Rounded CN"]
+      }
+    },
+    "education_readable": {
+      "themes": ["course", "training", "explainer", "knowledge base", "tutorial", "school"],
+      "intent": "高可读、低噪声、层级明确。",
+      "roles": {
+        "display": ["Nunito Sans", "Source Code Pro", "Noto Sans SC", "SimHei"],
+        "body": ["Noto Sans SC", "Open Sans", "Roboto", "Arial"],
+        "number": ["Roboto Mono", "Roboto", "Source Code Pro"],
+        "label": ["Noto Sans SC", "Roboto", "Arial"]
+      }
+    },
+    "government_formal": {
+      "themes": ["policy", "government", "public affairs", "official report", "regulation"],
+      "intent": "正式、稳重、低风险，避免娱乐化。",
+      "roles": {
+        "display": ["Songti SC Black", "Noto Serif SC", "SimHei"],
+        "body": ["Songti SC", "Noto Serif SC", "Noto Sans SC"],
+        "number": ["SimHei", "Noto Sans SC", "Roboto"],
+        "label": ["SimHei", "Noto Sans SC", "Songti SC"]
+      }
+    },
+    "medical_clean": {
+      "themes": ["medical", "healthcare", "biotech", "clinical", "pharma", "public health"],
+      "intent": "清洁、可信、轻科技，避免过强装饰。",
+      "roles": {
+        "display": ["IBM Plex Sans", "Lato", "Noto Sans SC", "Source Code Pro"],
+        "body": ["IBM Plex Sans", "Open Sans", "Noto Sans SC", "Roboto"],
+        "number": ["Roboto Mono", "Source Code Pro", "Roboto"],
+        "label": ["IBM Plex Sans", "Noto Sans SC", "Roboto"]
+      }
+    },
+    "industrial_engineering": {
+      "themes": ["manufacturing", "automotive", "energy", "infrastructure", "supply chain", "construction"],
+      "intent": "硬朗、工程、结构感，适合流程图和技术剖面。",
+      "roles": {
+        "display": ["Barlow Condensed", "Archivo Narrow", "Roboto Condensed", "ChillDuanSans WideSemiBold"],
+        "body": ["Barlow", "Roboto", "Noto Sans SC", "ChillReunion_Sans"],
+        "number": ["Roboto Mono", "Teko", "Source Code Pro"],
+        "label": ["Archivo Narrow", "Roboto Condensed", "ChillDINGothic SemiBold"]
+      }
+    },
+    "startup_product": {
+      "themes": ["product launch", "SaaS", "growth", "startup pitch", "mobile app", "platform"],
+      "intent": "现代、清爽、产品化，适合界面截图和指标叙事。",
+      "roles": {
+        "display": ["Poppins", "Montserrat", "DM Sans 9pt", "DouyinSans", "Noto Sans SC"],
+        "body": ["DM Sans 9pt", "Inter", "Noto Sans SC", "Open Sans"],
+        "number": ["Roboto Mono", "DM Sans 9pt", "Montserrat"],
+        "label": ["DM Sans 9pt", "Inter", "Noto Sans SC"]
+      }
+    },
+    "gaming_sci_fi": {
+      "themes": ["gaming", "esports", "sci-fi", "future city", "metaverse", "virtual event"],
+      "intent": "未来、竞技、强风格；需要避免全页难读。",
+      "roles": {
+        "display": ["Exo", "Exo 2", "Play", "Rajdhani SemiBold", "LogoSC Unbounded Sans"],
+        "body": ["Exo 2", "Rajdhani SemiBold", "Noto Sans SC", "Roboto"],
+        "number": ["Rajdhani SemiBold", "Roboto Mono", "Teko"],
+        "label": ["Exo 2", "Rajdhani SemiBold", "LogoSC Unbounded Sans"]
+      },
+      "notes": ["Orbitron would be a strong sci-fi candidate, but it is not currently present in slide_supported_fonts.json; gate should reject it until the font catalog contains it."]
+    }
+  },
+  "topic_to_mood_examples": {
+    "NVIDIA Q4 financial report": ["finance_institutional", "tech_ai_precision"],
+    "Kaneko Optical brand introduction": ["luxury_editorial", "culture_heritage"],
+    "2026 World Cup Germany or Norway Haaland": ["sports_broadcast", "youth_pop"],
+    "Chinese tea introduction": ["culture_heritage", "calligraphy_poetic", "warm_lifestyle"],
+    "Apple product strategy": ["startup_product", "tech_ai_precision", "corporate_neutral"],
+    "public policy explainer": ["government_formal", "education_readable"],
+    "biotech market report": ["medical_clean", "finance_institutional", "data_scientific"]
+  },
+  "draft_quality_rules": [
+    "At least two different font families should be used across display/body/number/label unless the deck is a plain operational report.",
+    "Decorative script fonts are display-only by default and should not be used for body text.",
+    "Numeric-heavy decks should select number fonts from monospace, condensed, or tabular-looking candidates.",
+    "Chinese body text should prefer Noto Sans SC, Noto Serif SC, Songti SC, SimHei, or Resource Han Rounded CN depending on mood.",
+    "A generated deck should include the chosen mood preset names and role-level font choices in typography_contract.json.",
+    "If any selected font_family is not present in slide_supported_fonts.json, the run should fail before online Slide creation."
+  ]
+}

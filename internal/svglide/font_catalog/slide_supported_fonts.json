@@ -1,0 +1,3704 @@
+{
+  "generated_at": "2026-07-07",
+  "description": "Slide supported font families extracted from slide packages/font-configs. font_family is the canonical value stored on slide records.",
+  "source": {
+    "repo": "slide",
+    "worktree": "/Users/bytedance/bd-projects/workspaces/SVGlide/.worktrees/feat-svg-parser-module-to-master",
+    "branch": "feat/svg-parser-module-to-master",
+    "commit": "20ca3cdf4d2dba71b821b349e60ba3498d3c474d",
+    "files": [
+      "packages/font-configs/src/web-fonts-config.ts",
+      "packages/font-configs/src/system-fonts-config.ts"
+    ],
+    "extraction_note": "Keys of WEB_FONTS_CONFIG and SYSTEM_FONTS_CONFIG are treated as canonical record font_family values per source comments."
+  },
+  "counts": {
+    "total": 139,
+    "web": 118,
+    "system": 21,
+    "font_panel_visible": 134,
+    "font_panel_invisible": 5,
+    "variable_web_fonts": 49,
+    "duplicate_font_families": 0,
+    "by_lang": {
+      "en": 109,
+      "ja": 2,
+      "zh": 28
+    }
+  },
+  "duplicate_font_families": [],
+  "fonts": [
+    {
+      "font_family": "Abel",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Abel"
+      },
+      "local_font_family": {
+        "en": "Abel"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/abel/Abel-Regular.woff2",
+      "image": {
+        "path": "slide-font/abel/Abel.svg",
+        "rate": 1.2744140625
+      },
+      "size_bytes": 11632,
+      "version": "1.003"
+    },
+    {
+      "font_family": "Abril Fatface",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Abril Fatface"
+      },
+      "local_font_family": {
+        "en": "Abril Fatface"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/abrilfatface/AbrilFatface-Regular.woff2",
+      "image": {
+        "path": "slide-font/abrilfatface/AbrilFatface.svg",
+        "rate": 1.349
+      },
+      "size_bytes": 20756,
+      "version": "1.001"
+    },
+    {
+      "font_family": "Acme",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Acme"
+      },
+      "local_font_family": {
+        "en": "Acme"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/acme/Acme-Regular.woff2",
+      "image": {
+        "path": "slide-font/acme/Acme.svg",
+        "rate": 1.266
+      },
+      "size_bytes": 9592,
+      "version": "1.002"
+    },
+    {
+      "font_family": "Alegreya",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Alegreya"
+      },
+      "local_font_family": {
+        "en": "Alegreya"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/alegreya/Alegreya[wght].woff2",
+      "image": {
+        "path": "slide-font/alegreya/Alegreya.svg",
+        "rate": 1.3610000000000002
+      },
+      "size_bytes": 161308,
+      "version": "2.009"
+    },
+    {
+      "font_family": "Alegreya Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Alegreya Sans"
+      },
+      "local_font_family": {
+        "en": "Alegreya Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/alegreyasans/AlegreyaSans-Regular.woff2",
+      "image": {
+        "path": "slide-font/alegreyasans/AlegreyaSans.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 88664,
+      "version": "2.004"
+    },
+    {
+      "font_family": "Amatic SC",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Amatic SC"
+      },
+      "local_font_family": {
+        "en": "Amatic SC"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/amaticsc/AmaticSC-Regular.woff2",
+      "image": {
+        "path": "slide-font/amaticsc/AmaticSC.svg",
+        "rate": 1.2610000000000001
+      },
+      "size_bytes": 66756,
+      "version": "2.505"
+    },
+    {
+      "font_family": "Anton",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Anton"
+      },
+      "local_font_family": {
+        "en": "Anton"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/anton/Anton-Regular.woff2",
+      "image": {
+        "path": "slide-font/anton/Anton.svg",
+        "rate": 1.50537109375
+      },
+      "size_bytes": 57400,
+      "version": "2.116"
+    },
+    {
+      "font_family": "Archivo Narrow",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Archivo Narrow"
+      },
+      "local_font_family": {
+        "en": "Archivo Narrow"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/archivonarrow/ArchivoNarrow[wght].woff2",
+      "image": {
+        "path": "slide-font/archivonarrow/ArchivoNarrow.svg",
+        "rate": 1.3470000000000002
+      },
+      "size_bytes": 36196,
+      "version": "3.002"
+    },
+    {
+      "font_family": "Arial",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Arial"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Arial"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"San Francisco\", Arial"
+      }
+    },
+    {
+      "font_family": "Arial Black",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Arial Black"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Arial Black"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Arial Black\", Roboto"
+      }
+    },
+    {
+      "font_family": "Arial Narrow",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Arial Narrow"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Arial Narrow"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": false,
+      "font_family_style": {
+        "fontFamily": "\"Arial Narrow\", Roboto"
+      }
+    },
+    {
+      "font_family": "Arimo",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Arimo"
+      },
+      "local_font_family": {
+        "en": "Arimo"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/arimo/Arimo[wght].woff2",
+      "image": {
+        "path": "slide-font/arimo/Arimo.svg",
+        "rate": 1.1171875
+      },
+      "size_bytes": 222668,
+      "version": "1.33"
+    },
+    {
+      "font_family": "Arvo",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Arvo"
+      },
+      "local_font_family": {
+        "en": "Arvo"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/arvo/Arvo-Regular.woff2",
+      "image": {
+        "path": "slide-font/arvo/Arvo.svg",
+        "rate": 1.2080078125
+      },
+      "size_bytes": 17808,
+      "version": "1.006"
+    },
+    {
+      "font_family": "Asap",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Asap"
+      },
+      "local_font_family": {
+        "en": "Asap"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/asap/Asap[wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/asap/Asap.svg",
+        "rate": 1.146
+      },
+      "size_bytes": 154992,
+      "version": "3.001"
+    },
+    {
+      "font_family": "Barlow",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Barlow"
+      },
+      "local_font_family": {
+        "en": "Barlow"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/barlow/Barlow-Regular.woff2",
+      "image": {
+        "path": "slide-font/barlow/Barlow.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 38540,
+      "version": "1.408"
+    },
+    {
+      "font_family": "Barlow Condensed",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Barlow Condensed"
+      },
+      "local_font_family": {
+        "en": "Barlow Condensed"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/barlowcondensed/BarlowCondensed-Regular.woff2",
+      "image": {
+        "path": "slide-font/barlowcondensed/BarlowCondensed.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 37360,
+      "version": "1.408"
+    },
+    {
+      "font_family": "Bebas Neue",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Bebas Neue"
+      },
+      "local_font_family": {
+        "en": "Bebas Neue"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/bebasneue/BebasNeue-Regular.woff2",
+      "image": {
+        "path": "slide-font/bebasneue/BebasNeue.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 21536,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Bitter",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Bitter"
+      },
+      "local_font_family": {
+        "en": "Bitter"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/bitter/Bitter[wght].woff2",
+      "image": {
+        "path": "slide-font/bitter/Bitter.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 111236,
+      "version": "2.002"
+    },
+    {
+      "font_family": "Bree Serif",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Bree Serif"
+      },
+      "local_font_family": {
+        "en": "Bree Serif"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/breeserif/BreeSerif-Regular.woff2",
+      "image": {
+        "path": "slide-font/breeserif/BreeSerif.svg",
+        "rate": 1.358
+      },
+      "size_bytes": 15884,
+      "version": "1.002"
+    },
+    {
+      "font_family": "Cabin",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Cabin"
+      },
+      "local_font_family": {
+        "en": "Cabin"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/cabin/Cabin[wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/cabin/Cabin.svg",
+        "rate": 1.215
+      },
+      "size_bytes": 68848,
+      "version": "3.001"
+    },
+    {
+      "font_family": "Cairo",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Cairo"
+      },
+      "local_font_family": {
+        "en": "Cairo"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/cairo/Cairo[slnt,wght].woff2",
+      "image": {
+        "path": "slide-font/cairo/Cairo.svg",
+        "rate": 1.8740000000000003
+      },
+      "size_bytes": 177284,
+      "version": "3.130"
+    },
+    {
+      "font_family": "Calibri",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Calibri"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Calibri"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Calibri\", Lato"
+      }
+    },
+    {
+      "font_family": "Calibri Light",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Calibri Light"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Calibri Light"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": false,
+      "font_family_style": {
+        "fontFamily": "\"Calibri Light\", Lato"
+      }
+    },
+    {
+      "font_family": "Catamaran",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Catamaran"
+      },
+      "local_font_family": {
+        "en": "Catamaran"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/catamaran/Catamaran[wght].woff2",
+      "image": {
+        "path": "slide-font/catamaran/Catamaran.svg",
+        "rate": 1.6400000000000001
+      },
+      "size_bytes": 84684,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Comfortaa",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Comfortaa"
+      },
+      "local_font_family": {
+        "en": "Comfortaa"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/comfortaa/Comfortaa[wght].woff2",
+      "image": {
+        "path": "slide-font/comfortaa/Comfortaa.svg",
+        "rate": 1.1150000000000002
+      },
+      "size_bytes": 79824,
+      "version": "3.105"
+    },
+    {
+      "font_family": "Comic Sans Ms",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Comic Sans Ms"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Comic Sans Ms"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": null
+    },
+    {
+      "font_family": "Crimson Text",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Crimson Text"
+      },
+      "local_font_family": {
+        "en": "Crimson Text"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/crimsontext/CrimsonText-Regular.woff2",
+      "image": {
+        "path": "slide-font/crimsontext/CrimsonText.svg",
+        "rate": 1.2998046875
+      },
+      "size_bytes": 42912,
+      "version": "1.100"
+    },
+    {
+      "font_family": "Cuprum",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Cuprum"
+      },
+      "local_font_family": {
+        "en": "Cuprum"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/cuprum/Cuprum[wght].woff2",
+      "image": {
+        "path": "slide-font/cuprum/Cuprum.svg",
+        "rate": 1.1550000000000002
+      },
+      "size_bytes": 29984,
+      "version": "3.000"
+    },
+    {
+      "font_family": "Dancing Script",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Dancing Script"
+      },
+      "local_font_family": {
+        "en": "Dancing Script"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/dancingscript/DancingScript[wght].woff2",
+      "image": {
+        "path": "slide-font/dancingscript/DancingScript.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 59888,
+      "version": "2.001"
+    },
+    {
+      "font_family": "DM Sans 9pt",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "DM Sans"
+      },
+      "local_font_family": {
+        "en": "DM Sans 9pt"
+      },
+      "local_font_name": {
+        "en": "DM Sans"
+      },
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/dmsans/DMSans[opsz,wght].woff2",
+      "image": {
+        "path": "slide-font/dmsans/DMSans.svg",
+        "rate": 1.3020000000000003
+      },
+      "size_bytes": 89116,
+      "version": "4.004"
+    },
+    {
+      "font_family": "Dosis",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Dosis"
+      },
+      "local_font_family": {
+        "en": "Dosis"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/dosis/Dosis[wght].woff2",
+      "image": {
+        "path": "slide-font/dosis/Dosis.svg",
+        "rate": 1.2640000000000002
+      },
+      "size_bytes": 47368,
+      "version": "3.002"
+    },
+    {
+      "font_family": "EB Garamond",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "EB Garamond"
+      },
+      "local_font_family": {
+        "en": "EB Garamond"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/ebgaramond/EBGaramond[wght].woff2",
+      "image": {
+        "path": "slide-font/ebgaramond/EBGaramond.svg",
+        "rate": 1.3050000000000002
+      },
+      "size_bytes": 304188,
+      "version": "1.001"
+    },
+    {
+      "font_family": "Exo",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Exo"
+      },
+      "local_font_family": {
+        "en": "Exo"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/exo/Exo[wght].woff2",
+      "image": {
+        "path": "slide-font/exo/Exo.svg",
+        "rate": 1.3290000000000002
+      },
+      "size_bytes": 64136,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Exo 2",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Exo 2"
+      },
+      "local_font_family": {
+        "en": "Exo 2"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/exo2/Exo2-Regular.ttf",
+      "image": {
+        "path": "slide-font/exo2/Exo2.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 132348,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Fira Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Fira Sans"
+      },
+      "local_font_family": {
+        "en": "Fira Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/firasans/FiraSans-Regular.woff2",
+      "image": {
+        "path": "slide-font/firasans/FiraSans.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 137680,
+      "version": "4.203"
+    },
+    {
+      "font_family": "Fjalla One",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Fjalla One"
+      },
+      "local_font_family": {
+        "en": "Fjalla One"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/fjallaone/FjallaOne-Regular.woff2",
+      "image": {
+        "path": "slide-font/fjallaone/FjallaOne.svg",
+        "rate": 1.2568359375
+      },
+      "size_bytes": 84684,
+      "version": "1.002"
+    },
+    {
+      "font_family": "Francois One",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Francois One"
+      },
+      "local_font_family": {
+        "en": "Francois One"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/francoisone/FrancoisOne-Regular.woff2",
+      "image": {
+        "path": "slide-font/francoisone/FrancoisOne.svg",
+        "rate": 1.4180000000000001
+      },
+      "size_bytes": 32060,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Garamond",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Garamond"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Garamond"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Garamond\",  Noto Sans"
+      }
+    },
+    {
+      "font_family": "Georgia",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Georgia"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Georgia"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": null
+    },
+    {
+      "font_family": "Heebo",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Heebo"
+      },
+      "local_font_family": {
+        "en": "Heebo"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "Light",
+        "Regular",
+        "Medium",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/heebo/Heebo[wght].woff2",
+      "image": {
+        "path": "slide-font/heebo/Heebo.svg",
+        "rate": 1.46875
+      },
+      "size_bytes": 54516,
+      "version": "3.001"
+    },
+    {
+      "font_family": "Hind SemiBold",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Hind"
+      },
+      "local_font_family": {
+        "en": "Hind SemiBold"
+      },
+      "local_font_name": {
+        "en": "Hind"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/hind/Hind-SemiBold.woff2",
+      "image": {
+        "path": "slide-font/hind/Hind.svg",
+        "rate": 1.6010000000000002
+      },
+      "size_bytes": 94500,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Hind Siliguri SemiBold",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Hind Siliguri"
+      },
+      "local_font_family": {
+        "en": "Hind Siliguri SemiBold"
+      },
+      "local_font_name": {
+        "en": "Hind Siliguri"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/hindsiliguri/HindSiliguri-SemiBold.woff2",
+      "image": {
+        "path": "slide-font/hindsiliguri/HindSiliguri.svg",
+        "rate": 1.617
+      },
+      "size_bytes": 92984,
+      "version": "1.001"
+    },
+    {
+      "font_family": "IBM Plex Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "IBM Plex Sans"
+      },
+      "local_font_family": {
+        "en": "IBM Plex Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ibmplexsans/IBMPlexSans-Regular.woff2",
+      "image": {
+        "path": "slide-font/ibmplexsans/IBMPlexSans.svg",
+        "rate": 1.3
+      },
+      "size_bytes": 56100,
+      "version": "3.2"
+    },
+    {
+      "font_family": "Inconsolata",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Inconsolata"
+      },
+      "local_font_family": {
+        "en": "Inconsolata"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "UltraCondensed ExtraLight",
+        "ExtraCondensed ExtraLight",
+        "Condensed ExtraLight",
+        "SemiCondensed ExtraLight",
+        "ExtraLight",
+        "SemiExpanded ExtraLight",
+        "Expanded ExtraLight",
+        "ExtraExpanded ExtraLight",
+        "UltraExpanded ExtraLight",
+        "UltraCondensed Light",
+        "ExtraCondensed Light",
+        "Condensed Light",
+        "SemiCondensed Light",
+        "Light",
+        "SemiExpanded Light",
+        "Expanded Light",
+        "ExtraExpanded Light",
+        "UltraExpanded Light",
+        "UltraCondensed Regular",
+        "ExtraCondensed Regular",
+        "Condensed Regular",
+        "SemiCondensed Regular",
+        "Regular",
+        "SemiExpanded Regular",
+        "Expanded Regular",
+        "ExtraExpanded Regular",
+        "UltraExpanded Regular",
+        "UltraCondensed Medium",
+        "ExtraCondensed Medium",
+        "Condensed Medium",
+        "SemiCondensed Medium",
+        "Medium",
+        "SemiExpanded Medium",
+        "Expanded Medium",
+        "ExtraExpanded Medium",
+        "UltraExpanded Medium",
+        "UltraCondensed SemiBold",
+        "ExtraCondensed SemiBold",
+        "Condensed SemiBold",
+        "SemiCondensed SemiBold",
+        "SemiBold",
+        "SemiExpanded SemiBold",
+        "Expanded SemiBold",
+        "ExtraExpanded SemiBold",
+        "UltraExpanded SemiBold",
+        "UltraCondensed Bold",
+        "ExtraCondensed Bold",
+        "Condensed Bold",
+        "SemiCondensed Bold",
+        "Bold",
+        "SemiExpanded Bold",
+        "Expanded Bold",
+        "ExtraExpanded Bold",
+        "UltraExpanded Bold",
+        "UltraCondensed ExtraBold",
+        "ExtraCondensed ExtraBold",
+        "Condensed ExtraBold",
+        "SemiCondensed ExtraBold",
+        "ExtraBold",
+        "SemiExpanded ExtraBold",
+        "Expanded ExtraBold",
+        "ExtraExpanded ExtraBold",
+        "UltraExpanded ExtraBold",
+        "UltraCondensed Black",
+        "ExtraCondensed Black",
+        "Condensed Black",
+        "SemiCondensed Black",
+        "Black",
+        "SemiExpanded Black",
+        "Expanded Black",
+        "ExtraExpanded Black",
+        "UltraExpanded Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/inconsolata/Inconsolata[wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/inconsolata/Inconsolata.svg",
+        "rate": 1.0490000000000002
+      },
+      "size_bytes": 151708,
+      "version": "3.001"
+    },
+    {
+      "font_family": "Indie Flower",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Indie Flower"
+      },
+      "local_font_family": {
+        "en": "Indie Flower"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/indieflower/IndieFlower-Regular.woff2",
+      "image": {
+        "path": "slide-font/indieflower/IndieFlower.svg",
+        "rate": 1.459
+      },
+      "size_bytes": 43344,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Inter",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Inter"
+      },
+      "local_font_family": {
+        "en": "Inter"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "Thin Italic",
+        "ExtraLight",
+        "ExtraLight Italic",
+        "Light",
+        "Light Italic",
+        "Regular",
+        "Italic",
+        "Medium",
+        "Medium Italic",
+        "SemiBold",
+        "SemiBold Italic",
+        "Bold",
+        "Bold Italic",
+        "ExtraBold",
+        "ExtraBold Italic",
+        "Black",
+        "Black Italic"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/inter/Inter[slnt,wght].woff2",
+      "image": {
+        "path": "slide-font/inter/Inter.svg",
+        "rate": 1.2102272727272727
+      },
+      "size_bytes": 324576,
+      "version": "3.019"
+    },
+    {
+      "font_family": "Josefin Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Josefin Sans"
+      },
+      "local_font_family": {
+        "en": "Josefin Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/josefinsans/JosefinSans[wght].woff2",
+      "image": {
+        "path": "slide-font/josefinsans/JosefinSans.svg",
+        "rate": 1.0000000000000002
+      },
+      "size_bytes": 47728,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Kanit",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Kanit"
+      },
+      "local_font_family": {
+        "en": "Kanit"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/kanit/Kanit-Regular.woff2",
+      "image": {
+        "path": "slide-font/kanit/Kanit.svg",
+        "rate": 1.495
+      },
+      "size_bytes": 50172,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Karla",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Karla"
+      },
+      "local_font_family": {
+        "en": "Karla"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/karla/Karla[wght].woff2",
+      "image": {
+        "path": "slide-font/karla/Karla.svg",
+        "rate": 1.169
+      },
+      "size_bytes": 47672,
+      "version": "2.004"
+    },
+    {
+      "font_family": "Lato",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Lato"
+      },
+      "local_font_family": {
+        "en": "Lato"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/lato/Lato-Regular.woff2",
+      "image": {
+        "path": "slide-font/lato/Lato.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 211908,
+      "version": "2.015"
+    },
+    {
+      "font_family": "Libre Baskerville",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Libre Baskerville"
+      },
+      "local_font_family": {
+        "en": "Libre Baskerville"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/librebaskerville/LibreBaskerville-Regular.woff2",
+      "image": {
+        "path": "slide-font/librebaskerville/LibreBaskerville.svg",
+        "rate": 1.24
+      },
+      "size_bytes": 44496,
+      "version": "1.000"
+    },
+    {
+      "font_family": "Libre Franklin",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Libre Franklin"
+      },
+      "local_font_family": {
+        "en": "Libre Franklin"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/librefranklin/LibreFranklin[wght].woff2",
+      "image": {
+        "path": "slide-font/librefranklin/LibreFranklin.svg",
+        "rate": 1.2120000000000002
+      },
+      "size_bytes": 44264,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Lobster",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Lobster"
+      },
+      "local_font_family": {
+        "en": "Lobster"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/lobster/Lobster-Regular.woff2",
+      "image": {
+        "path": "slide-font/lobster/Lobster.svg",
+        "rate": 1.2500000000000002
+      },
+      "size_bytes": 103088,
+      "version": "2.100"
+    },
+    {
+      "font_family": "Lora",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Lora"
+      },
+      "local_font_family": {
+        "en": "Lora"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/lora/Lora[wght].woff2",
+      "image": {
+        "path": "slide-font/lora/Lora.svg",
+        "rate": 1.28
+      },
+      "size_bytes": 84004,
+      "version": "3.004"
+    },
+    {
+      "font_family": "Maven Pro",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Maven Pro"
+      },
+      "local_font_family": {
+        "en": "Maven Pro"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/mavenpro/MavenPro[wght].woff2",
+      "image": {
+        "path": "slide-font/mavenpro/MavenPro.svg",
+        "rate": 1.175
+      },
+      "size_bytes": 38464,
+      "version": "2.102"
+    },
+    {
+      "font_family": "Merriweather",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Merriweather"
+      },
+      "local_font_family": {
+        "en": "Merriweather"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/merriweather/Merriweather-Regular.woff2",
+      "image": {
+        "path": "slide-font/merriweather/Merriweather.svg",
+        "rate": 1.2570000000000003
+      },
+      "size_bytes": 62480,
+      "version": "2.002"
+    },
+    {
+      "font_family": "Merriweather Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Merriweather Sans"
+      },
+      "local_font_family": {
+        "en": "Merriweather Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Regular",
+        "Bold",
+        "ExtraBold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/merriweathersans/MerriweatherSans[wght].woff2",
+      "image": {
+        "path": "slide-font/merriweathersans/MerriweatherSans.svg",
+        "rate": 1.2570000000000003
+      },
+      "size_bytes": 93352,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Microsoft Sans Serif",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Microsoft Sans Serif"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Microsoft Sans Serif"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Microsoft Sans Serif\", \"MS Reference Sans Serif\""
+      }
+    },
+    {
+      "font_family": "Montserrat",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Montserrat"
+      },
+      "local_font_family": {
+        "en": "Montserrat"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/montserrat/Montserrat[wght].woff2",
+      "image": {
+        "path": "slide-font/montserrat/Montserrat.svg",
+        "rate": 1.2190000000000003
+      },
+      "size_bytes": 129712,
+      "version": "8.000"
+    },
+    {
+      "font_family": "Mukta SemiBold",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Mukta"
+      },
+      "local_font_family": {
+        "en": "Mukta SemiBold"
+      },
+      "local_font_name": {
+        "en": "Mukta"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/mukta/Mukta-SemiBold.woff2",
+      "image": {
+        "path": "slide-font/mukta/Mukta.svg",
+        "rate": 1.6620000000000001
+      },
+      "size_bytes": 141740,
+      "version": "2.538"
+    },
+    {
+      "font_family": "Mulish",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Mulish"
+      },
+      "local_font_family": {
+        "en": "Mulish"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black",
+        "ExtraBlack"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/mulish/Mulish[wght].woff2",
+      "image": {
+        "path": "slide-font/mulish/Mulish.svg",
+        "rate": 1.2550000000000001
+      },
+      "size_bytes": 77388,
+      "version": "3.603"
+    },
+    {
+      "font_family": "NanumGothic",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Nanum Gothic"
+      },
+      "local_font_family": {
+        "en": "NanumGothic",
+        "ko": "나눔고딕"
+      },
+      "local_font_name": {
+        "en": "Nanum Gothic"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/nanumgothic/NanumGothic-Regular.woff2",
+      "image": {
+        "path": "slide-font/nanumgothic/NanumGothic.svg",
+        "rate": 1.0000000000000002
+      },
+      "size_bytes": 364088,
+      "version": "3.020"
+    },
+    {
+      "font_family": "Noto Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Noto Sans"
+      },
+      "local_font_family": {
+        "en": "Noto Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/notosans/NotoSans-Regular.woff2",
+      "image": {
+        "path": "slide-font/notosans/NotoSans.svg",
+        "rate": 1.362
+      },
+      "size_bytes": 180932,
+      "version": "2.007"
+    },
+    {
+      "font_family": "Noto Sans KR",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "본고딕"
+      },
+      "local_font_family": {
+        "en": "Noto Sans KR"
+      },
+      "local_font_name": {
+        "en": "본고딕"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/notosanskr/NotoSansKR-Regular.woff2",
+      "image": {
+        "path": "slide-font/notosanskr/NotoSansKR.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 2061528,
+      "version": "2.004"
+    },
+    {
+      "font_family": "Noto Serif",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Noto Serif"
+      },
+      "local_font_family": {
+        "en": "Noto Serif"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/notoserif/NotoSerif[wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/notoserif/NotoSerif.svg",
+        "rate": 1.362
+      },
+      "size_bytes": 957484,
+      "version": "2.013"
+    },
+    {
+      "font_family": "Nunito",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Nunito"
+      },
+      "local_font_family": {
+        "en": "Nunito"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/nunito/Nunito[wght].woff2",
+      "image": {
+        "path": "slide-font/nunito/Nunito.svg",
+        "rate": 1.3639999999999999
+      },
+      "size_bytes": 101068,
+      "version": "3.602"
+    },
+    {
+      "font_family": "Nunito Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Nunito Sans"
+      },
+      "local_font_family": {
+        "en": "Nunito Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/nunitosans/NunitoSans[YTLC,opsz,wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/nunitosans/NunitoSans.svg",
+        "rate": 1.3639999999999999
+      },
+      "size_bytes": 209180,
+      "version": "3.101"
+    },
+    {
+      "font_family": "Open Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Open Sans"
+      },
+      "local_font_family": {
+        "en": "Open Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Condensed Light",
+        "Regular",
+        "Condensed Regular",
+        "SemiBold",
+        "Condensed SemiBold",
+        "Bold",
+        "Condensed Bold",
+        "ExtraBold",
+        "Condensed ExtraBold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/opensans/OpenSans[wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/opensans/OpenSans.svg",
+        "rate": 1.36181640625
+      },
+      "size_bytes": 280296,
+      "version": "3.000"
+    },
+    {
+      "font_family": "Oswald",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Oswald"
+      },
+      "local_font_family": {
+        "en": "Oswald"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/oswald/Oswald[wght].woff2",
+      "image": {
+        "path": "slide-font/oswald/Oswald.svg",
+        "rate": 1.4820000000000002
+      },
+      "size_bytes": 71904,
+      "version": "4.103"
+    },
+    {
+      "font_family": "Overpass",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Overpass"
+      },
+      "local_font_family": {
+        "en": "Overpass"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/overpass/Overpass[wght].woff2",
+      "image": {
+        "path": "slide-font/overpass/Overpass.svg",
+        "rate": 1.2660000000000002
+      },
+      "size_bytes": 129852,
+      "version": "4.000"
+    },
+    {
+      "font_family": "Oxygen",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Oxygen"
+      },
+      "local_font_family": {
+        "en": "Oxygen"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/oxygen/Oxygen-Regular.woff2",
+      "image": {
+        "path": "slide-font/oxygen/Oxygen.svg",
+        "rate": 1.2626953125
+      },
+      "size_bytes": 21712,
+      "version": "0.2"
+    },
+    {
+      "font_family": "Pacifico",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Pacifico"
+      },
+      "local_font_family": {
+        "en": "Pacifico"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/pacifico/Pacifico-Regular.woff2",
+      "image": {
+        "path": "slide-font/pacifico/Pacifico.svg",
+        "rate": 1.7560000000000002
+      },
+      "size_bytes": 105204,
+      "version": "3.001"
+    },
+    {
+      "font_family": "Play",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Play"
+      },
+      "local_font_family": {
+        "en": "Play"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/play/Play-Regular.woff2",
+      "image": {
+        "path": "slide-font/play/Play.svg",
+        "rate": 1.1570000000000003
+      },
+      "size_bytes": 59568,
+      "version": "2.101"
+    },
+    {
+      "font_family": "Playfair Display",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Playfair Display"
+      },
+      "local_font_family": {
+        "en": "Playfair Display"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/playfairdisplay/PlayfairDisplay[wght].woff2",
+      "image": {
+        "path": "slide-font/playfairdisplay/PlayfairDisplay.svg",
+        "rate": 1.3330000000000002
+      },
+      "size_bytes": 106696,
+      "version": "1.203"
+    },
+    {
+      "font_family": "Poiret One",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Poiret One"
+      },
+      "local_font_family": {
+        "en": "Poiret One"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/poiretone/PoiretOne-Regular.woff2",
+      "image": {
+        "path": "slide-font/poiretone/PoiretOne.svg",
+        "rate": 1.1700000000000002
+      },
+      "size_bytes": 46088,
+      "version": "1.101"
+    },
+    {
+      "font_family": "Poppins",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Poppins"
+      },
+      "local_font_family": {
+        "en": "Poppins"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/poppins/Poppins-Regular.woff2",
+      "image": {
+        "path": "slide-font/poppins/Poppins.svg",
+        "rate": 1.4000000000000001
+      },
+      "size_bytes": 51528,
+      "version": "4.004"
+    },
+    {
+      "font_family": "Prompt",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Prompt"
+      },
+      "local_font_family": {
+        "en": "Prompt"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/prompt/Prompt-Regular.woff2",
+      "image": {
+        "path": "slide-font/prompt/Prompt.svg",
+        "rate": 1.512
+      },
+      "size_bytes": 50852,
+      "version": "1.001"
+    },
+    {
+      "font_family": "PT Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "PT Sans"
+      },
+      "local_font_family": {
+        "en": "PT Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ptsans/PT_Sans-Web-Regular.woff2",
+      "image": {
+        "path": "slide-font/ptsans/PTSans.svg",
+        "rate": 1.294
+      },
+      "size_bytes": 132512,
+      "version": "2.003"
+    },
+    {
+      "font_family": "PT Sans Caption",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "PT Sans Caption"
+      },
+      "local_font_family": {
+        "en": "PT Sans Caption"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ptsanscaption/PT_Sans-Caption-Web-Regular.woff2",
+      "image": {
+        "path": "slide-font/ptsanscaption/PTSansCaption.svg",
+        "rate": 1.294
+      },
+      "size_bytes": 112572,
+      "version": "2.004"
+    },
+    {
+      "font_family": "PT Sans Narrow",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "PT Sans Narrow"
+      },
+      "local_font_family": {
+        "en": "PT Sans Narrow"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ptsansnarrow/PT_Sans-Narrow-Web-Regular.woff2",
+      "image": {
+        "path": "slide-font/ptsansnarrow/PTSansNarrow.svg",
+        "rate": 1.294
+      },
+      "size_bytes": 109728,
+      "version": "2.003"
+    },
+    {
+      "font_family": "PT Serif",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "PT Serif"
+      },
+      "local_font_family": {
+        "en": "PT Serif"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ptserif/PT_Serif-Web-Regular.woff2",
+      "image": {
+        "path": "slide-font/ptserif/PTSerif.svg",
+        "rate": 1.3250000000000002
+      },
+      "size_bytes": 102636,
+      "version": "1.000"
+    },
+    {
+      "font_family": "Questrial",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Questrial"
+      },
+      "local_font_family": {
+        "en": "Questrial"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/questrial/Questrial-Regular.woff2",
+      "image": {
+        "path": "slide-font/questrial/Questrial.svg",
+        "rate": 1.0300000000000002
+      },
+      "size_bytes": 65308,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Quicksand",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Quicksand"
+      },
+      "local_font_family": {
+        "en": "Quicksand"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/quicksand/Quicksand[wght].woff2",
+      "image": {
+        "path": "slide-font/quicksand/Quicksand.svg",
+        "rate": 1.2500000000000002
+      },
+      "size_bytes": 52728,
+      "version": "3.006"
+    },
+    {
+      "font_family": "Rajdhani SemiBold",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Rajdhani"
+      },
+      "local_font_family": {
+        "en": "Rajdhani SemiBold"
+      },
+      "local_font_name": {
+        "en": "Rajdhani"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/rajdhani/Rajdhani-SemiBold.woff2",
+      "image": {
+        "path": "slide-font/rajdhani/Rajdhani.svg",
+        "rate": 1.2760000000000002
+      },
+      "size_bytes": 107248,
+      "version": "1.201"
+    },
+    {
+      "font_family": "Raleway",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Raleway"
+      },
+      "local_font_family": {
+        "en": "Raleway"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/raleway/Raleway[wght].woff2",
+      "image": {
+        "path": "slide-font/raleway/Raleway.svg",
+        "rate": 1.1740000000000002
+      },
+      "size_bytes": 129596,
+      "version": "4.026"
+    },
+    {
+      "font_family": "Righteous",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Righteous"
+      },
+      "local_font_family": {
+        "en": "Righteous"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/righteous/Righteous-Regular.woff2",
+      "image": {
+        "path": "slide-font/righteous/Righteous.svg",
+        "rate": 1.24169921875
+      },
+      "size_bytes": 16832,
+      "version": "1.000"
+    },
+    {
+      "font_family": "Roboto",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Roboto"
+      },
+      "local_font_family": {
+        "en": "Roboto"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "Condensed Thin",
+        "ExtraLight",
+        "Condensed ExtraLight",
+        "Light",
+        "Condensed Light",
+        "Regular",
+        "Condensed Regular",
+        "Medium",
+        "Condensed Medium",
+        "SemiBold",
+        "Condensed SemiBold",
+        "Bold",
+        "Condensed Bold",
+        "ExtraBold",
+        "Condensed ExtraBold",
+        "Black",
+        "Condensed Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/roboto/Roboto[wdth,wght].woff2",
+      "image": {
+        "path": "slide-font/roboto/Roboto.svg",
+        "rate": 1.171875
+      },
+      "size_bytes": 209192,
+      "version": "3.005"
+    },
+    {
+      "font_family": "Roboto Condensed",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Roboto Condensed"
+      },
+      "local_font_family": {
+        "en": "Roboto Condensed"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/robotocondensed/RobotoCondensed[wght].woff2",
+      "image": {
+        "path": "slide-font/robotocondensed/RobotoCondensed.svg",
+        "rate": 1.171875
+      },
+      "size_bytes": 169424,
+      "version": "3.008"
+    },
+    {
+      "font_family": "Roboto Mono",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Roboto Mono"
+      },
+      "local_font_family": {
+        "en": "Roboto Mono"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "Light",
+        "Regular",
+        "Medium",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/robotomono/RobotoMono[wght].woff2",
+      "image": {
+        "path": "slide-font/robotomono/RobotoMono.svg",
+        "rate": 1.31884765625
+      },
+      "size_bytes": 105328,
+      "version": "3.000"
+    },
+    {
+      "font_family": "Roboto Slab",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Roboto Slab"
+      },
+      "local_font_family": {
+        "en": "Roboto Slab"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/robotoslab/RobotoSlab[wght].woff2",
+      "image": {
+        "path": "slide-font/robotoslab/RobotoSlab.svg",
+        "rate": 1.31884765625
+      },
+      "size_bytes": 118360,
+      "version": "2.002"
+    },
+    {
+      "font_family": "Rokkitt",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Rokkitt"
+      },
+      "local_font_family": {
+        "en": "Rokkitt"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/rokkitt/Rokkitt[wght].woff2",
+      "image": {
+        "path": "slide-font/rokkitt/Rokkitt.svg",
+        "rate": 1.137
+      },
+      "size_bytes": 52588,
+      "version": "3.103"
+    },
+    {
+      "font_family": "Rubik",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Rubik"
+      },
+      "local_font_family": {
+        "en": "Rubik"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/rubik/Rubik[wght].woff2",
+      "image": {
+        "path": "slide-font/rubik/Rubik.svg",
+        "rate": 1.185
+      },
+      "size_bytes": 112552,
+      "version": "2.300"
+    },
+    {
+      "font_family": "Serif",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Serif"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Serif"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "Serif, \"MS Sans Serif\""
+      }
+    },
+    {
+      "font_family": "Shadows Into Light",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Shadows Into Light"
+      },
+      "local_font_family": {
+        "en": "Shadows Into Light"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/shadowsintolight/ShadowsIntoLight.woff2",
+      "image": {
+        "path": "slide-font/shadowsintolight/ShadowsIntoLight.svg",
+        "rate": 1.6064453125
+      },
+      "size_bytes": 23432,
+      "version": "001.000"
+    },
+    {
+      "font_family": "Signika",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Signika"
+      },
+      "local_font_family": {
+        "en": "Signika"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/signika/Signika[GRAD,wght].woff2",
+      "image": {
+        "path": "slide-font/signika/Signika.svg",
+        "rate": 1.2320000000000002
+      },
+      "size_bytes": 260452,
+      "version": "2.003"
+    },
+    {
+      "font_family": "Slabo 27px",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Slabo 27px"
+      },
+      "local_font_family": {
+        "en": "Slabo 27px"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/slabo27px/Slabo27px-Regular.woff2",
+      "image": {
+        "path": "slide-font/slabo27px/Slabo27px.svg",
+        "rate": 1.2222222222222223
+      },
+      "size_bytes": 20312,
+      "version": "1.02"
+    },
+    {
+      "font_family": "Source Code Pro",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Source Code Pro"
+      },
+      "local_font_family": {
+        "en": "Source Code Pro"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/sourcecodepro/SourceCodePro[wght].woff2",
+      "image": {
+        "path": "slide-font/sourcecodepro/SourceCodePro.svg",
+        "rate": 1.2570000000000003
+      },
+      "size_bytes": 85924,
+      "version": "1.018"
+    },
+    {
+      "font_family": "Tahoma",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Tahoma"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Tahoma"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": null
+    },
+    {
+      "font_family": "Teko",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Teko"
+      },
+      "local_font_family": {
+        "en": "Teko"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/teko/Teko[wght].woff2",
+      "image": {
+        "path": "slide-font/teko/Teko.svg",
+        "rate": 1.4330000000000003
+      },
+      "size_bytes": 85960,
+      "version": "2.000"
+    },
+    {
+      "font_family": "Times New Roman",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Times New Roman"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Times New Roman"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": null
+    },
+    {
+      "font_family": "Titillium Web SemiBold",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Titillium Web"
+      },
+      "local_font_family": {
+        "en": "Titillium Web SemiBold"
+      },
+      "local_font_name": {
+        "en": "Titillium Web"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/titilliumweb/TitilliumWeb-SemiBoldItalic.woff2",
+      "image": {
+        "path": "slide-font/titilliumweb/TitilliumWeb.svg",
+        "rate": 1.5210000000000001
+      },
+      "size_bytes": 25220,
+      "version": "1.002"
+    },
+    {
+      "font_family": "Trebuchet MS",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Trebuchet MS"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Trebuchet MS"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": null
+    },
+    {
+      "font_family": "Ubuntu",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Ubuntu"
+      },
+      "local_font_family": {
+        "en": "Ubuntu"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ubuntu/Ubuntu-Regular.woff2",
+      "image": {
+        "path": "slide-font/ubuntu/Ubuntu.svg",
+        "rate": 1.1210000000000002
+      },
+      "size_bytes": 126860,
+      "version": "0.83"
+    },
+    {
+      "font_family": "Ubuntu Condensed",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Ubuntu Condensed"
+      },
+      "local_font_family": {
+        "en": "Ubuntu Condensed"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ubuntucondensed/UbuntuCondensed-Regular.woff2",
+      "image": {
+        "path": "slide-font/ubuntucondensed/UbuntuCondensed.svg",
+        "rate": 1.1210000000000002
+      },
+      "size_bytes": 118316,
+      "version": "0.83"
+    },
+    {
+      "font_family": "Varela Round",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Varela Round"
+      },
+      "local_font_family": {
+        "en": "Varela Round"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/varelaround/VarelaRound-Regular.woff2",
+      "image": {
+        "path": "slide-font/varelaround/VarelaRound.svg",
+        "rate": 1.204
+      },
+      "size_bytes": 44260,
+      "version": "3.010"
+    },
+    {
+      "font_family": "Verdana",
+      "source": "system",
+      "lang": "en",
+      "display_name": {
+        "en": "Verdana"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Verdana"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": null
+    },
+    {
+      "font_family": "Vollkorn",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Vollkorn"
+      },
+      "local_font_family": {
+        "en": "Vollkorn"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/vollkorn/Vollkorn[wght].woff2",
+      "image": {
+        "path": "slide-font/vollkorn/Vollkorn.svg",
+        "rate": 1.3930000000000002
+      },
+      "size_bytes": 198388,
+      "version": "5.001"
+    },
+    {
+      "font_family": "Work Sans",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Work Sans"
+      },
+      "local_font_family": {
+        "en": "Work Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/worksans/WorkSans[wght].woff2",
+      "image": {
+        "path": "slide-font/worksans/WorkSans.svg",
+        "rate": 1.1730000000000003
+      },
+      "size_bytes": 131484,
+      "version": "2.012"
+    },
+    {
+      "font_family": "Yanone Kaffeesatz",
+      "source": "web",
+      "lang": "en",
+      "display_name": {
+        "en": "Yanone Kaffeesatz"
+      },
+      "local_font_family": {
+        "en": "Yanone Kaffeesatz"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": null,
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/yanonekaffeesatz/YanoneKaffeesatz[wght].woff2",
+      "image": {
+        "path": "slide-font/yanonekaffeesatz/YanoneKaffeesatz.svg",
+        "rate": 0.935
+      },
+      "size_bytes": 53632,
+      "version": "2.002"
+    },
+    {
+      "font_family": "Hiragino Mincho",
+      "source": "system",
+      "lang": "ja",
+      "display_name": {
+        "en": "Hiragino Mincho"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "en": "Hiragino Mincho"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Hiragino Mincho\",  Noto Sans"
+      }
+    },
+    {
+      "font_family": "Noto Sans JP",
+      "source": "web",
+      "lang": "ja",
+      "display_name": {
+        "ja": "源ノ角ゴシック"
+      },
+      "local_font_family": {
+        "en": "Noto Sans JP"
+      },
+      "local_font_name": {
+        "ja": "源ノ角ゴシック"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/notosansjp/NotoSansJP-Regular.woff2",
+      "image": {
+        "path": "slide-font/notosansjp/NotoSansJP.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 2294996,
+      "version": "2.004"
+    },
+    {
+      "font_family": "975Maru SC",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "霞鹜 975 圆体",
+        "en": "XiaWu957-Yuan"
+      },
+      "local_font_family": {
+        "zh": "975 圆体",
+        "en": "975Maru SC"
+      },
+      "local_font_name": {
+        "zh": "霞鹜 975 圆体",
+        "en": "XiaWu957-Yuan"
+      },
+      "font_name_pinyin": "975 yuanti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/XiaWu957-Yuan.ttf",
+      "image": {
+        "path": "slide-font/ai-slide-font/XiaWu957-Yuan.svg",
+        "rate": 1.1840000000000002
+      },
+      "size_bytes": 15419368,
+      "version": "2.001"
+    },
+    {
+      "font_family": "ChillDINGothic SemiBold",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉德黑体",
+        "en": "ChillDINGothic"
+      },
+      "local_font_family": {
+        "zh": "寒蝉德黑体 SemiBold",
+        "en": "ChillDINGothic SemiBold"
+      },
+      "local_font_name": {
+        "zh": "寒蝉德黑体",
+        "en": "ChillDINGothic"
+      },
+      "font_name_pinyin": "hanchandeheiti SemiBold",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanDeHei.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanDeHei.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 7401920,
+      "version": "1.200"
+    },
+    {
+      "font_family": "ChillDuanHeiSong_CompactRegular",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉端黑宋",
+        "zh-TW": "寒蟬端黑宋"
+      },
+      "local_font_family": {
+        "en": "ChillDuanHeiSong_CompactRegular",
+        "zh": "寒蝉端黑宋 Compact",
+        "zh-TW": "寒蟬端黑宋 Compact"
+      },
+      "local_font_name": {
+        "zh": "寒蝉端黑宋",
+        "zh-TW": "寒蟬端黑宋"
+      },
+      "font_name_pinyin": "hanchanduanheisong Compact",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanDuanHeiSong.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanDuanHeiSong.svg",
+        "rate": 1.4370000000000003
+      },
+      "size_bytes": 12937740,
+      "version": "1.200"
+    },
+    {
+      "font_family": "ChillDuanSans WideSemiBold",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉端黑体",
+        "en": "ChillDuanSans"
+      },
+      "local_font_family": {
+        "zh": "ChillDuanSans WideSemiBold"
+      },
+      "local_font_name": {
+        "zh": "寒蝉端黑体",
+        "en": "ChillDuanSans"
+      },
+      "font_name_pinyin": "ChillDuanSans WideSemiBold",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanDuanHei.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanDuanHei.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 8809224,
+      "version": "1.010"
+    },
+    {
+      "font_family": "ChillJinshuSongMedium",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉锦书宋",
+        "zh-TW": "寒蟬錦書宋"
+      },
+      "local_font_family": {
+        "en": "ChillJinshuSongMedium",
+        "zh": "寒蝉锦书宋 Medium",
+        "zh-TW": "寒蟬錦書宋 Medium"
+      },
+      "local_font_name": {
+        "zh": "寒蝉锦书宋",
+        "zh-TW": "寒蟬錦書宋"
+      },
+      "font_name_pinyin": "hanchanjinshusong Medium",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanJinShuSong.woff",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanJinShuSong.svg",
+        "rate": 1.4370000000000003
+      },
+      "size_bytes": 9654048,
+      "version": "2.000"
+    },
+    {
+      "font_family": "ChillReunion_Round",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉团圆体 圆体"
+      },
+      "local_font_family": {
+        "en": "ChillReunion_Round",
+        "zh": "寒蝉团圆体 Round"
+      },
+      "local_font_name": {
+        "zh": "寒蝉团圆体 圆体"
+      },
+      "font_name_pinyin": "hanchantuanyuanti Round",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanTuanYuanTi-Yuan.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanTuanYuanTi-Yuan.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 2807976,
+      "version": "2.700"
+    },
+    {
+      "font_family": "ChillReunion_Sans",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉团圆体 黑体"
+      },
+      "local_font_family": {
+        "en": "ChillReunion_Sans",
+        "zh": "寒蝉团圆体 Sans"
+      },
+      "local_font_name": {
+        "zh": "寒蝉团圆体 黑体"
+      },
+      "font_name_pinyin": "hanchantuanyuanti Sans",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanTuanYuanHei.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanTuanYuanHei.svg",
+        "rate": 1.2000000000000002
+      },
+      "size_bytes": 2191796,
+      "version": "2.700"
+    },
+    {
+      "font_family": "ChillRoundF",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "en": "ChillRoundF",
+        "zh": "寒蝉全圆体"
+      },
+      "local_font_family": {
+        "en": "ChillRoundF",
+        "zh": "寒蝉全圆体"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "hanchanquanyuanti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanQuanYuan.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanQuanYuan.svg",
+        "rate": 1.0000000000000002
+      },
+      "size_bytes": 6178580,
+      "version": "3.200"
+    },
+    {
+      "font_family": "ChillYunmoGothicBold",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "寒蝉云墨黑",
+        "en": "ChillYunmoGothicBold"
+      },
+      "local_font_family": {
+        "zh": "寒蝉云墨黑",
+        "en": "ChillYunmoGothicBold"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "hanchanyunmohei",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/HanChanYunMoHei.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/HanChanYunMoHei.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 14705564,
+      "version": "2.000"
+    },
+    {
+      "font_family": "DouyinSans",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "抖音美好体",
+        "en": "DouyinSans"
+      },
+      "local_font_family": {
+        "zh": "抖音美好体",
+        "en": "DouyinSans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "douyinmeihaoti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/DouyinSansBold.ttf",
+      "image": {
+        "path": "slide-font/ai-slide-font/DouyinSansBold.svg",
+        "rate": 1
+      },
+      "size_bytes": 1919404,
+      "version": "1.01"
+    },
+    {
+      "font_family": "Kaiti SC",
+      "source": "system",
+      "lang": "zh",
+      "display_name": {
+        "zh": "楷体",
+        "en": "KaiTi"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "zh": "楷体",
+        "en": "KaiTi"
+      },
+      "font_name_pinyin": "kaiti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Kaiti SC\", \"Kaiti TC\", Kaiti"
+      }
+    },
+    {
+      "font_family": "Kaiti SC Black",
+      "source": "system",
+      "lang": "zh",
+      "display_name": {
+        "zh": "楷体 黑体",
+        "en": "KaiTi Black"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "zh": "楷体 黑体",
+        "en": "KaiTi Black"
+      },
+      "font_name_pinyin": "kaiti heiti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": false,
+      "font_family_style": {
+        "fontFamily": "\"Kaiti SC\", \"Kaiti TC\", Kaiti",
+        "fontWeight": 900
+      }
+    },
+    {
+      "font_family": "Kingnamype Yuanmo SC",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "荆南缘默体",
+        "en": "Kingnamype Yuanmo SC"
+      },
+      "local_font_family": {
+        "zh": "荆南缘默体",
+        "en": "Kingnamype Yuanmo SC"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "jingnanyuanmoti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/JinNanYuanMoTi.otf",
+      "image": {
+        "path": "slide-font/ai-slide-font/JinNanYuanMoTi.svg",
+        "rate": 1.032
+      },
+      "size_bytes": 2589104,
+      "version": "0.16"
+    },
+    {
+      "font_family": "Liu Jian Mao Cao",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "钟齐流江毛笔草体",
+        "en": "Liu Jian Mao Cao"
+      },
+      "local_font_family": {
+        "zh": "钟齐流江毛笔草体",
+        "en": "Liu Jian Mao Cao"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "zhongqiliujiangmaobicaoti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/liujianmaocao/LiuJianMaoCao-Regular.woff2",
+      "image": {
+        "path": "slide-font/liujianmaocao/LiuJianMaoCao.svg",
+        "rate": 1
+      },
+      "size_bytes": 2340612,
+      "version": "1.003"
+    },
+    {
+      "font_family": "LogoSC Unbounded Sans",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "标小智无界黑",
+        "en": "LogoSC Unbounded Sans"
+      },
+      "local_font_family": {
+        "zh": "标小智无界黑",
+        "en": "LogoSC Unbounded Sans"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "biaoxiaozhiwujiehei",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/BiaoXiaoZhi-WJH.ttf",
+      "image": {
+        "path": "slide-font/ai-slide-font/BiaoXiaoZhi-WJH.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 2836736,
+      "version": "1.100"
+    },
+    {
+      "font_family": "Long Cang",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "有字库龙藏体",
+        "en": "Long Cang"
+      },
+      "local_font_family": {
+        "zh": "有字库龙藏体",
+        "en": "Long Cang"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "youzikulongcangti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/longcang/LongCang-Regular.woff2",
+      "image": {
+        "path": "slide-font/longcang/LongCang.svg",
+        "rate": 1
+      },
+      "size_bytes": 2945352,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Ma Shan Zheng",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "钟齐马善政毛笔楷书",
+        "en": "Ma Shan Zheng"
+      },
+      "local_font_family": {
+        "zh": "钟齐马善政毛笔楷书",
+        "en": "Ma Shan Zheng"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "zhongqimashanzhengmaobikaishu",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/mashanzheng/MaShanZheng-Regular.woff2",
+      "image": {
+        "path": "slide-font/mashanzheng/MaShanZheng.svg",
+        "rate": 1
+      },
+      "size_bytes": 3248708,
+      "version": "2.001"
+    },
+    {
+      "font_family": "Noto Sans SC",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "en": "Noto Sans SC",
+        "zh": "思源黑体"
+      },
+      "local_font_family": {
+        "en": "Noto Sans SC",
+        "zh": "思源黑体"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "siyuanheiti",
+      "variable_font": true,
+      "variations": [
+        "Thin",
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/notosanssc/NotoSansSC-VariableFont_wght.woff2",
+      "image": {
+        "path": "slide-font/notosanssc/NotoSansSC.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 7799708,
+      "version": "2.004"
+    },
+    {
+      "font_family": "Noto Serif SC",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "en": "Noto Serif SC",
+        "zh": "思源宋体"
+      },
+      "local_font_family": {
+        "en": "Noto Serif SC",
+        "zh": "思源宋体"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "siyuansongti",
+      "variable_font": true,
+      "variations": [
+        "ExtraLight",
+        "Light",
+        "Regular",
+        "Medium",
+        "SemiBold",
+        "Bold",
+        "ExtraBold",
+        "Black"
+      ],
+      "font_panel_visible": true,
+      "path": "slide-font/notoserifsc/NotoSerifSC[wght].woff2",
+      "image": {
+        "path": "slide-font/notoserifsc/NotoSerifSC.svg",
+        "rate": 1.4370000000000003
+      },
+      "size_bytes": 11023092,
+      "version": "2.002"
+    },
+    {
+      "font_family": "Resource Han Rounded CN",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "资源圆体"
+      },
+      "local_font_family": {
+        "en": "Resource Han Rounded CN"
+      },
+      "local_font_name": {
+        "zh": "资源圆体"
+      },
+      "font_name_pinyin": null,
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/ai-slide-font/ZiYuanYuanTi.ttf",
+      "image": {
+        "path": "slide-font/ai-slide-font/ZiYuanYuanTi.svg",
+        "rate": 1.4480000000000002
+      },
+      "size_bytes": 14663464,
+      "version": "0.990"
+    },
+    {
+      "font_family": "SimHei",
+      "source": "system",
+      "lang": "zh",
+      "display_name": {
+        "zh": "黑体",
+        "en": "SimHei"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "zh": "黑体",
+        "en": "SimHei"
+      },
+      "font_name_pinyin": "heiti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "STHeiti, SimHei"
+      }
+    },
+    {
+      "font_family": "Songti SC",
+      "source": "system",
+      "lang": "zh",
+      "display_name": {
+        "zh": "宋体",
+        "en": "Songti SC"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "zh": "宋体",
+        "en": "Songti SC"
+      },
+      "font_name_pinyin": "songti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "font_family_style": {
+        "fontFamily": "\"Songti SC\", SimSun"
+      }
+    },
+    {
+      "font_family": "Songti SC Black",
+      "source": "system",
+      "lang": "zh",
+      "display_name": {
+        "zh": "宋体 黑体",
+        "en": "Songti SC Black"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "zh": "宋体 黑体",
+        "en": "Songti SC Black"
+      },
+      "font_name_pinyin": "songti heiti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": false,
+      "font_family_style": {
+        "fontFamily": "\"Songti SC\", SimSun",
+        "fontWeight": 900
+      }
+    },
+    {
+      "font_family": "Songti SC Light",
+      "source": "system",
+      "lang": "zh",
+      "display_name": {
+        "zh": "宋体 细体",
+        "en": "Songti SC Light"
+      },
+      "local_font_family": null,
+      "local_font_name": {
+        "zh": "宋体 细体",
+        "en": "Songti SC Light"
+      },
+      "font_name_pinyin": "songti xiti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": false,
+      "font_family_style": {
+        "fontFamily": "\"Songti SC\", SimSun",
+        "fontWeight": 300
+      }
+    },
+    {
+      "font_family": "ZCOOL KuaiLe",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "站酷快乐体",
+        "en": "ZCOOL KuaiLe"
+      },
+      "local_font_family": {
+        "zh": "站酷快乐体",
+        "en": "ZCOOL KuaiLe"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "zhankukuaileti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/zcoolkuaile/ZCOOLKuaiLe-Regular.woff2",
+      "image": {
+        "path": "slide-font/zcoolkuaile/ZCOOLKuaiLe.svg",
+        "rate": 1
+      },
+      "size_bytes": 1418788,
+      "version": "2.000"
+    },
+    {
+      "font_family": "ZCOOL QingKe HuangYou",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "站酷庆科黄油体",
+        "en": "ZCOOL QingKe HuangYou"
+      },
+      "local_font_family": {
+        "zh": "站酷庆科黄油体",
+        "en": "ZCOOL QingKe HuangYou"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "zhankuqingkehuangyouti",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/zcoolqingkehuangyou/ZCOOLQingKeHuangYou-Regular.woff2",
+      "image": {
+        "path": "slide-font/zcoolqingkehuangyou/ZCOOLQingKeHuangYou.svg",
+        "rate": 1
+      },
+      "size_bytes": 2469452,
+      "version": "1.000"
+    },
+    {
+      "font_family": "ZCOOL XiaoWei",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "站酷小薇体",
+        "en": "ZCOOL XiaoWei"
+      },
+      "local_font_family": {
+        "zh": "站酷小薇体",
+        "en": "ZCOOL XiaoWei"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "zhankuxiaoweiti changgui",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/zcoolxiaowei/ZCOOLXiaoWei-Regular.woff2",
+      "image": {
+        "path": "slide-font/zcoolxiaowei/ZCOOLXiaoWei.svg",
+        "rate": 1
+      },
+      "size_bytes": 2633064,
+      "version": "1.000"
+    },
+    {
+      "font_family": "Zhi Mang Xing",
+      "source": "web",
+      "lang": "zh",
+      "display_name": {
+        "zh": "钟齐志莽行书",
+        "en": "Zhi Mang Xing"
+      },
+      "local_font_family": {
+        "zh": "钟齐志莽行书",
+        "en": "Zhi Mang Xing"
+      },
+      "local_font_name": null,
+      "font_name_pinyin": "zhongqizhimangxingshu",
+      "variable_font": false,
+      "variations": [],
+      "font_panel_visible": true,
+      "path": "slide-font/zhimangxing/ZhiMangXing-Regular.woff2",
+      "image": {
+        "path": "slide-font/zhimangxing/ZhiMangXing.svg",
+        "rate": 1
+      },
+      "size_bytes": 2300464,
+      "version": "2.001"
+    }
+  ]
+}
