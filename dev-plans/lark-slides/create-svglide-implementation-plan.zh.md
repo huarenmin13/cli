@@ -90,7 +90,7 @@ These findings come from the SVGlide workspace docs and read-only source review 
   - `func validateSVGlidePagePayload(page svglideManifestPage, content []byte) error`
   - `func xmlRootName(raw []byte) (local string, namespace string, err error)`
   - `func sha256Hex(raw []byte) string`
-  - `func rejectUnsupportedSVGlideImagePlaceholders(page svglideManifestPage, content string) error`
+  - `func rejectUnsupportedSVGlideImageResources(page svglideManifestPage, content string) error`
 
 - [ ] **Step 1: Write failing manifest tests**
 
@@ -228,10 +228,10 @@ func TestPrepareSVGlidePublishSpecValidationErrors(t *testing.T) {
 			wantMessage: "--manifest page file must be raw SVG",
 		},
 		{
-			name:        "local image placeholder deferred",
+			name:        "svg image resource deferred",
 			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
-			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><image href="@assets/a.png"/></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
-			wantMessage: "--manifest page file uses local SVG image placeholder @path, which is not supported in MVP-A: page.svg",
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><image href="assets/a.png"/></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
+			wantMessage: "--manifest page file uses SVG image resources, which require Phase B FileMetaMap proof: page.svg",
 		},
 	}
 
@@ -319,7 +319,7 @@ const (
 	svglideSVGNamespace    = "http://www.w3.org/2000/svg"
 )
 
-var svglideUnsupportedLocalImageRefRegex = regexp.MustCompile(`(?s)<image\b[^>]*?\b(?:href|xlink:href)\s*=\s*["']@`)
+var svglideUnsupportedImageHrefRegex = regexp.MustCompile(`(?is)<image\b[^>]*?\b(?:href|xlink:href)\s*=`)
 
 type svglideManifest struct {
 	Version      string                   `json:"version"`
@@ -499,15 +499,15 @@ func validateSVGlidePagePayload(page svglideManifestPage, content []byte) error 
 	if rootName != "svg" || rootNamespace != svglideSVGNamespace {
 		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file root must be <svg> in the SVG namespace: %s", page.File).WithParam("--manifest")
 	}
-	if err := rejectUnsupportedSVGlideImagePlaceholders(page, string(content)); err != nil {
+	if err := rejectUnsupportedSVGlideImageResources(page, string(content)); err != nil {
 		return err
 	}
 	return nil
 }
 
-func rejectUnsupportedSVGlideImagePlaceholders(page svglideManifestPage, content string) error {
-	if svglideUnsupportedLocalImageRefRegex.MatchString(content) {
-		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file uses local SVG image placeholder @path, which is not supported in MVP-A: %s", page.File).WithParam("--manifest")
+func rejectUnsupportedSVGlideImageResources(page svglideManifestPage, content string) error {
+	if svglideUnsupportedImageHrefRegex.MatchString(content) {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file uses SVG image resources, which require Phase B FileMetaMap proof: %s", page.File).WithParam("--manifest")
 	}
 	return nil
 }
