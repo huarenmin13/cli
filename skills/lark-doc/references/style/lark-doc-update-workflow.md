@@ -24,7 +24,7 @@
    - 用户只给了模糊关键词 → `docs +fetch --scope keyword --keyword xxx --context-before 1 --context-after 1 --detail with-ids`
    - 用户明确要改整篇 → `docs +fetch --detail with-ids`
    - 详见 [`lark-doc-fetch.md`](../lark-doc-fetch.md) 中「选 `--scope`（读取范围）」小节
-2. 系统性评估：用户想改什么、现有文档风格是什么、哪些内容需要保留、哪些问题影响理解
+2. 系统性评估：用户想改什么、现有文档风格是什么、哪些内容需要保留、哪些问题影响理解。若任务命中某垂类写作类型，先查 [`../../writing-types/README.md`](../../writing-types/README.md) 索引（中文类型名→英文文件），再读对应 `writing-types/<文件>` 取写作知识（写作类型只定"写什么"，飞书格式/组件仍按 [`lark-doc-style.md`](lark-doc-style.md)；公文等 Word 类型不在本模块）
 3. **画板识别**：逐章节扫描，判断是否有段落用图明显比文字更易懂（流程 / 架构 / 时间线 / 对比 / 占比等，见 `lark-doc-style.md` 的画板原则）。默认用文字，只有确需图示才记录需要插图的章节（block ID）、推荐画板类型、mermaid/SVG路径和源内容片段
 4. 向用户简要说明改进计划（包含识别出的画板机会）
 
