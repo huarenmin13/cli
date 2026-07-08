@@ -1,34 +1,53 @@
 # Slides +create-svglide Implementation Plan
 
-> Status: publish-layer plan. Endpoint/body/response contract for live SVGlide publishing is not confirmed yet. Execute `svg-slides-local-generation-action-plan.zh.md` first to build the 960x540 SVG Slides generation and validation bundle that this publish layer will consume. Do not execute this plan as-is until the live contract resolves payload format, canvas size, response fields, and readback evidence.
+> Status: publish-layer implementation plan. The endpoint/body shape is confirmed by `docs/current/slide-engine-svg-content-handoff.md`: create an XML presentation, then add each page with raw SVG in `slide.content`. Live support still requires PPE/live smoke proof, response-field proof, and readback evidence before claiming end-to-end SVGlide publishing.
 
-> Canvas decision: current local SVG Slides artifacts use `viewBox="0 0 960 540"`, aligned with the existing Lark Slides canvas size while keeping SVG Slides as a separate `slide:*` SVG protocol. The eventual publish layer must still wait for the confirmed backend endpoint, body, response fields, and readback evidence.
+> Canvas decision: local SVG Slides artifacts use `viewBox="0 0 960 540"`, aligned with the existing Lark Slides canvas size while keeping SVG Slides as a separate `slide:*` SVG protocol. Preserve `source/full.debranded.md` as the original snapshot; generated bundles and publish fixtures follow the CLI 960x540 adaptation.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 新增 `slides +create-svglide`，发布已经生成好的 SVGlide manifest/page payload 到飞书/Lark Slides，边界与 `slides +create` 同构：只负责创建演示文稿、上传本地图片占位符、逐页提交、输出收据。
+**Goal:** 新增 `slides +create-svglide`，发布已经由 SVG Slides 本地生成/校验层产出的 SVGlide manifest/page payload 到飞书/Lark Slides，边界与 `slides +create` 同构：只负责创建演示文稿、逐页提交 raw SVG、输出收据。
 
-**Architecture:** `+create-svglide` 读取一个本地 manifest，按 manifest 顺序读取每页 SVGlide payload，复用现有 `+create` 的 presentation create、media upload、slide create、bot auto-grant 模式。它不生成内容、不做视觉预览/修复、不默认 readback、不把 PPE 路由写进命令语义；若后端不接受 SVGlide payload，功能必须失败并暴露后端错误，不允许自动降级为图片或普通 slide XML 生成器。
+**Architecture:** `+create-svglide` 读取一个本地 manifest，按 manifest 顺序读取每页 SVGlide payload，复用现有 `+create` 的 presentation create、slide create、bot auto-grant 模式。它不生成内容、不做视觉预览/修复、不默认 readback、不把 PPE 路由写进命令语义；若后端不接受 SVGlide payload，功能必须失败并暴露后端错误，不允许自动降级为图片或普通 slide XML 生成器。
 
-**Tech Stack:** Go shortcut framework (`shortcuts/common`), `errs` structured errors, `internal/validate.SafeInputPath`, `internal/vfs`, existing slides APIs `/open-apis/slides_ai/v1/xml_presentations` and `/open-apis/slides_ai/v1/xml_presentations/{id}/slide`, existing `uploadSlidesMedia` helper, Go unit tests, CLI dry-run E2E, gated live E2E.
+**Tech Stack:** Go shortcut framework (`shortcuts/common`), `errs` structured errors, `internal/validate.SafeInputPath`, `internal/vfs`, existing slides APIs `/open-apis/slides_ai/v1/xml_presentations` and `/open-apis/slides_ai/v1/xml_presentations/{id}/slide`, Go unit tests, CLI dry-run E2E, gated live E2E.
 
 ## Global Constraints
 
 - 所有对用户可见的 shortcut error 必须返回 `errs.NewValidationError` / `errs.NewInternalError` / 现有 API error，不使用裸 `fmt.Errorf`。
 - stdout 只输出 JSON envelope；上传进度写入 `runtime.IO().ErrOut`。
 - 所有用户输入路径先过 `validate.SafeInputPath`；生产代码读文件使用 `internal/vfs.ReadFile`，不直接使用 `os.ReadFile`。
-- `--manifest` 路径必须相对当前工作目录；manifest 内的 page 路径和 SVGlide page 内的 `@asset` 路径都相对 manifest 所在目录；manifest 子路径不得是绝对路径，不得包含 `..` 段。
+- `--manifest` 路径必须相对当前工作目录；manifest 内的 page 路径都相对 manifest 所在目录；manifest 子路径不得是绝对路径，不得包含 `..` 段。Phase B 的 `@asset` 图片路径也必须沿用同一相对路径规则。
 - MVP 只支持 960x540，最多 10 页，和 `slides +create --slides` 的创建期批量追加边界保持一致。
+- MVP-A 只证明纯 SVG raw payload（shape/text/group/chart placeholder 等不依赖本地图片上传的页面）发布。`<image href="@...">` / `<image xlink:href="@...">` 本地图片资源闭环属于 Phase B，必须等纯 SVG live proof 后再做。
+- live smoke content 必须来自 SVG Slides 本地生成/校验层产出的 publish-ready bundle。不要在 live E2E 中手写临时 SVG，也不要用绕过 `validate_svg_deck.mjs` 的 fixture。
 - `+create-svglide` 不负责 research、outline、content planning、SVG/SVGlide authoring、preview、visual lint、repair loop、readback 默认验收、PPE/Whistle 配置。
 - 命令名固定为 `slides +create-svglide`；不新增 `+create-svg`。
 - 不新增第三方依赖。
+
+## Decisions Filled From `origin/feat-svglide-07`
+
+These decisions are imported from the 07 branch's raw SVG publish guardrail. They do not add a new publish responsibility to `+create-svglide`; they only define what can be checked locally before the existing create/add-slide calls.
+
+- Bundle integrity is mandatory: the manifest consumed by `+create-svglide` must declare `protocol == "svg-slides.v1"`, `publish_ready == true`, and `receipts.validate_svg_deck`; that receipt must exist and report `totalErrors == 0`.
+- `pages[].sha256` is mandatory. `+create-svglide` must read each SVG file, compute sha256 immediately before building the request body, and require it to match the manifest entry. This prevents publishing files that changed after validation.
+- `published` is not a precondition. The command must not block because `published` is `true` or `false`, and MVP-A must not write publish state back into the source manifest.
+- SVG root validation must use `encoding/xml` to inspect the real root element. A substring check such as `strings.Contains("<svg")` is not acceptable.
+- Each page payload must be raw SVG: root local name `svg`, SVG namespace `http://www.w3.org/2000/svg`, no `<slide>`, `<presentation>`, `<sxsd>`, `<document>`, HTML root/doctype, raster bytes, or `data:image` fallback.
+- `slide.content` must be the raw SVG string. Do not wrap it in `<slide>`, do not CDATA-wrap it, and do not XML-escape the whole SVG payload.
+- Dry-run must not print full SVG payloads. It must keep `slide.content` as a string placeholder and include `content_sha256`, `content_bytes`, and `content_omitted=true`.
+- Page order is manifest order. If `pages[].index` is present, it must be `1..N` and match the manifest array order.
+- Page id must be non-empty and unique. MVP-A does not require it to match the SVG root `id` or filename, but the output receipt must preserve a page-id to slide-id mapping.
+- `--title` overrides manifest `title`; otherwise use manifest `title`; if both are empty use the same `Untitled` fallback as `+create`.
+- Unknown manifest fields are ignored for forward compatibility. Required fields are `version`, `protocol`, `title`, `size`, `publish_ready`, `pages`, `receipts.validate_svg_deck`, and `pages[].sha256`.
+- MVP-A rejects local `@path` image placeholders. Non-`@` href values remain part of the raw SVG payload, but MVP-A must not claim image-resource availability from that alone.
+- Partial failure does not roll back a created presentation. The error hint must include presentation id, failed page ordinal, page id, and count of pages already added.
 
 ---
 
 ## File Structure
 
 - Create `shortcuts/slides/slides_create_svglide_manifest.go`: manifest schema、路径解析、page payload 读取、publish spec 构建。
-- Create `shortcuts/slides/slides_create_svglide_assets.go`: `<image href="@path">` / `<image xlink:href="@path">` 占位符提取与替换。
 - Create `shortcuts/slides/slides_create_svglide.go`: shortcut 注册体、Validate、DryRun、Execute。
 - Create `shortcuts/slides/slides_create_svglide_test.go`: unit tests covering parser、validation、dry-run、execute、partial failure hints。
 - Modify `shortcuts/slides/shortcuts.go`: 注册 `SlidesCreateSVGlide`。
@@ -36,6 +55,7 @@
 - Create `tests/cli_e2e/slides_create_svglide_live_test.go`: gated live E2E，未配置真实凭证时跳过。
 - Modify `skills/lark-slides/SKILL.md`: command 存在后加入入口说明。
 - Create `skills/lark-slides/references/lark-slides-create-svglide.md`: 用户文档和 manifest 示例。
+- Phase B only, after pure SVG live proof: create `shortcuts/slides/slides_create_svglide_assets.go` for `<image href="@path">` / `<image xlink:href="@path">` upload and replacement, plus a separate live proof for image resources.
 
 ---
 
@@ -49,26 +69,41 @@
 - Consumes: `validate.SafeInputPath(path string) (string, error)`, `vfs.ReadFile(path string) ([]byte, error)`, `defaultPresentationWidth`, `defaultPresentationHeight`, `maxSlidesPerCreate`
 - Produces:
   - `const svglideManifestVersion = "svglide.manifest.v1"`
+  - `const svglideBundleProtocol = "svg-slides.v1"`
   - `type svglideManifest struct`
+  - `type svglideManifestReceipts struct`
   - `type svglidePublishSpec struct`
   - `type svglidePublishPage struct`
   - `func prepareSVGlidePublishSpec(manifestPath string, overrideTitle string) (*svglidePublishSpec, error)`
+  - `func validateSVGlideBundleReceipt(baseDir string, receipts svglideManifestReceipts) error`
+  - `func validateSVGlidePagePayload(page svglideManifestPage, content []byte) error`
+  - `func xmlRootName(raw []byte) (local string, namespace string, err error)`
+  - `func sha256Hex(raw []byte) string`
+  - `func rejectUnsupportedSVGlideImagePlaceholders(page svglideManifestPage, content string) error`
 
 - [ ] **Step 1: Write failing manifest tests**
 
 Add these tests to `shortcuts/slides/slides_create_svglide_test.go`:
 
+Use a test helper for valid bundles so every fixture writes the same required fields: `version`, `protocol`, `title`, `size`, `publish_ready`, `published`, `pages[].id`, `pages[].index`, `pages[].file`, `pages[].sha256`, and `receipts.validate_svg_deck`. The helper must also write `receipts/validate_svg_deck.json` with `{"totalErrors":0}`. Validation-error cases should mutate one field at a time from that valid base so the expected failure is not hidden by an earlier missing-field error.
+
 ```go
 func TestPrepareSVGlidePublishSpecReadsManifestAndPages(t *testing.T) {
 	dir := t.TempDir()
 	withSlidesTestWorkingDir(t, dir)
-	mustWriteFile(t, "pages/page-001.svg", `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><text>one</text></svg>`)
-	mustWriteFile(t, "manifest.json", `{
+	page := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="page-001" viewBox="0 0 960 540"><rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/></svg>`
+	mustWriteFile(t, "pages/page-001.svg", page)
+	mustWriteFile(t, "receipts/validate_svg_deck.json", `{"totalErrors":0}`)
+	mustWriteFile(t, "manifest.json", fmt.Sprintf(`{
 	  "version": "svglide.manifest.v1",
+	  "protocol": "svg-slides.v1",
 	  "title": "Manifest Title",
 	  "size": {"width": 960, "height": 540},
-	  "pages": [{"id": "page-001", "file": "pages/page-001.svg"}]
-	}`)
+	  "publish_ready": true,
+	  "published": false,
+	  "pages": [{"id": "page-001", "index": 1, "file": "pages/page-001.svg", "sha256": %q}],
+	  "receipts": {"validate_svg_deck": "receipts/validate_svg_deck.json"}
+	}`, sha256Hex([]byte(page))))
 
 	spec, err := prepareSVGlidePublishSpec("manifest.json", "")
 	if err != nil {
@@ -91,13 +126,19 @@ func TestPrepareSVGlidePublishSpecReadsManifestAndPages(t *testing.T) {
 func TestPrepareSVGlidePublishSpecTitleOverride(t *testing.T) {
 	dir := t.TempDir()
 	withSlidesTestWorkingDir(t, dir)
-	mustWriteFile(t, "page.svg", `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`)
-	mustWriteFile(t, "manifest.json", `{
+	page := `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`
+	mustWriteFile(t, "page.svg", page)
+	mustWriteFile(t, "receipts/validate_svg_deck.json", `{"totalErrors":0}`)
+	mustWriteFile(t, "manifest.json", fmt.Sprintf(`{
 	  "version": "svglide.manifest.v1",
+	  "protocol": "svg-slides.v1",
 	  "title": "Manifest Title",
 	  "size": {"width": 960, "height": 540},
-	  "pages": [{"id": "p1", "file": "page.svg"}]
-	}`)
+	  "publish_ready": true,
+	  "published": false,
+	  "pages": [{"id": "p1", "index": 1, "file": "page.svg", "sha256": %q}],
+	  "receipts": {"validate_svg_deck": "receipts/validate_svg_deck.json"}
+	}`, sha256Hex([]byte(page))))
 
 	spec, err := prepareSVGlidePublishSpec("manifest.json", "CLI Title")
 	if err != nil {
@@ -117,33 +158,69 @@ func TestPrepareSVGlidePublishSpecValidationErrors(t *testing.T) {
 	}{
 		{
 			name:        "wrong version",
-			manifest:    `{"version":"wrong","title":"x","size":{"width":960,"height":540},"pages":[{"id":"p1","file":"page.svg"}]}`,
-			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`},
+			manifest:    `{"version":"wrong","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
 			wantMessage: "--manifest version must be svglide.manifest.v1",
 		},
 		{
 			name:        "wrong size",
-			manifest:    `{"version":"svglide.manifest.v1","title":"x","size":{"width":1920,"height":1080},"pages":[{"id":"p1","file":"page.svg"}]}`,
-			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`},
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":1920,"height":1080},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
 			wantMessage: "--manifest size must be 960x540",
 		},
 		{
 			name:        "no pages",
-			manifest:    `{"version":"svglide.manifest.v1","title":"x","size":{"width":960,"height":540},"pages":[]}`,
-			pageFiles:   map[string]string{},
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[]}`,
+			pageFiles:   map[string]string{"receipts/validate_svg_deck.json": `{"totalErrors":0}`},
 			wantMessage: "--manifest pages must contain 1 to 10 entries",
 		},
 		{
 			name:        "unsafe child path",
-			manifest:    `{"version":"svglide.manifest.v1","title":"x","size":{"width":960,"height":540},"pages":[{"id":"p1","file":"../page.svg"}]}`,
-			pageFiles:   map[string]string{},
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"../page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"receipts/validate_svg_deck.json": `{"totalErrors":0}`},
 			wantMessage: "--manifest page file must be relative to the manifest directory and cannot contain '..': ../page.svg",
 		},
 		{
 			name:        "duplicate page id",
-			manifest:    `{"version":"svglide.manifest.v1","title":"x","size":{"width":960,"height":540},"pages":[{"id":"p1","file":"a.svg"},{"id":"p1","file":"b.svg"}]}`,
-			pageFiles:   map[string]string{"a.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "b.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`},
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"a.svg","sha256":"<valid-sha-a>"},{"id":"p1","index":2,"file":"b.svg","sha256":"<valid-sha-b>"}]}`,
+			pageFiles:   map[string]string{"a.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "b.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
 			wantMessage: "--manifest duplicate page id: p1",
+		},
+		{
+			name:        "wrong protocol",
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"wrong","title":"x","size":{"width":960,"height":540},"publish_ready":true,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
+			wantMessage: "--manifest protocol must be svg-slides.v1",
+		},
+		{
+			name:        "not publish ready",
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
+			wantMessage: "--manifest publish_ready must be true",
+		},
+		{
+			name:        "validate receipt has errors",
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":1}`},
+			wantMessage: "--manifest validate_svg_deck receipt must have totalErrors=0",
+		},
+		{
+			name:        "sha mismatch",
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"bad"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
+			wantMessage: "--manifest page file sha256 mismatch: page.svg",
+		},
+		{
+			name:        "non svg root",
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<slide xmlns="http://www.larkoffice.com/sml/2.0"></slide>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
+			wantMessage: "--manifest page file must be raw SVG",
+		},
+		{
+			name:        "local image placeholder deferred",
+			manifest:    `{"version":"svglide.manifest.v1","protocol":"svg-slides.v1","title":"x","size":{"width":960,"height":540},"publish_ready":true,"published":false,"receipts":{"validate_svg_deck":"receipts/validate_svg_deck.json"},"pages":[{"id":"p1","index":1,"file":"page.svg","sha256":"<valid-sha>"}]}`,
+			pageFiles:   map[string]string{"page.svg": `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><image href="@assets/a.png"/></svg>`, "receipts/validate_svg_deck.json": `{"totalErrors":0}`},
+			wantMessage: "--manifest page file uses local SVG image placeholder @path, which is not supported in MVP-A: page.svg",
 		},
 	}
 
@@ -153,6 +230,15 @@ func TestPrepareSVGlidePublishSpecValidationErrors(t *testing.T) {
 			withSlidesTestWorkingDir(t, dir)
 			for path, body := range tt.pageFiles {
 				mustWriteFile(t, path, body)
+			}
+			if body, ok := tt.pageFiles["page.svg"]; ok {
+				tt.manifest = strings.ReplaceAll(tt.manifest, "<valid-sha>", sha256Hex([]byte(body)))
+			}
+			if body, ok := tt.pageFiles["a.svg"]; ok {
+				tt.manifest = strings.ReplaceAll(tt.manifest, "<valid-sha-a>", sha256Hex([]byte(body)))
+			}
+			if body, ok := tt.pageFiles["b.svg"]; ok {
+				tt.manifest = strings.ReplaceAll(tt.manifest, "<valid-sha-b>", sha256Hex([]byte(body)))
 			}
 			mustWriteFile(t, "manifest.json", tt.manifest)
 
@@ -201,8 +287,14 @@ Create `shortcuts/slides/slides_create_svglide_manifest.go` with:
 package slides
 
 import (
+	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
+	"encoding/xml"
+	"io"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/larksuite/cli/errs"
@@ -210,13 +302,23 @@ import (
 	"github.com/larksuite/cli/internal/vfs"
 )
 
-const svglideManifestVersion = "svglide.manifest.v1"
+const (
+	svglideManifestVersion = "svglide.manifest.v1"
+	svglideBundleProtocol  = "svg-slides.v1"
+	svglideSVGNamespace    = "http://www.w3.org/2000/svg"
+)
+
+var svglideUnsupportedLocalImageRefRegex = regexp.MustCompile(`(?s)<image\b[^>]*?\b(?:href|xlink:href)\s*=\s*["']@`)
 
 type svglideManifest struct {
-	Version string                 `json:"version"`
-	Title   string                 `json:"title"`
-	Size    svglideManifestSize    `json:"size"`
-	Pages   []svglideManifestPage  `json:"pages"`
+	Version      string                   `json:"version"`
+	Protocol     string                   `json:"protocol"`
+	Title        string                   `json:"title"`
+	Size         svglideManifestSize      `json:"size"`
+	PublishReady bool                     `json:"publish_ready"`
+	Published    bool                     `json:"published"`
+	Pages        []svglideManifestPage    `json:"pages"`
+	Receipts     svglideManifestReceipts  `json:"receipts"`
 }
 
 type svglideManifestSize struct {
@@ -224,9 +326,15 @@ type svglideManifestSize struct {
 	Height int `json:"height"`
 }
 
+type svglideManifestReceipts struct {
+	ValidateSVGDeck string `json:"validate_svg_deck"`
+}
+
 type svglideManifestPage struct {
-	ID   string `json:"id"`
-	File string `json:"file"`
+	ID     string `json:"id"`
+	Index  int    `json:"index"`
+	File   string `json:"file"`
+	SHA256 string `json:"sha256"`
 }
 
 type svglidePublishSpec struct {
@@ -237,9 +345,12 @@ type svglidePublishSpec struct {
 }
 
 type svglidePublishPage struct {
-	ID      string
-	File    string
-	Content string
+	ID           string
+	Index        int
+	File         string
+	SHA256       string
+	ContentBytes int
+	Content      string
 }
 
 func prepareSVGlidePublishSpec(manifestPath string, overrideTitle string) (*svglidePublishSpec, error) {
@@ -262,6 +373,12 @@ func prepareSVGlidePublishSpec(manifestPath string, overrideTitle string) (*svgl
 	if manifest.Version != svglideManifestVersion {
 		return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest version must be %s", svglideManifestVersion).WithParam("--manifest")
 	}
+	if manifest.Protocol != svglideBundleProtocol {
+		return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest protocol must be %s", svglideBundleProtocol).WithParam("--manifest")
+	}
+	if !manifest.PublishReady {
+		return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest publish_ready must be true").WithParam("--manifest")
+	}
 	if manifest.Size.Width != defaultPresentationWidth || manifest.Size.Height != defaultPresentationHeight {
 		return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest size must be %dx%d", defaultPresentationWidth, defaultPresentationHeight).WithParam("--manifest")
 	}
@@ -269,25 +386,31 @@ func prepareSVGlidePublishSpec(manifestPath string, overrideTitle string) (*svgl
 		return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest pages must contain 1 to %d entries", maxSlidesPerCreate).WithParam("--manifest")
 	}
 
+	baseDir := filepath.Dir(filepath.Clean(manifestPath))
+	if baseDir == "." {
+		baseDir = ""
+	}
+	if err := validateSVGlideBundleReceipt(baseDir, manifest.Receipts); err != nil {
+		return nil, err
+	}
+
 	title := strings.TrimSpace(overrideTitle)
 	if title == "" {
 		title = effectiveTitle(strings.TrimSpace(manifest.Title))
 	}
 
-	baseDir := filepath.Dir(filepath.Clean(manifestPath))
-	if baseDir == "." {
-		baseDir = ""
-	}
-
 	seenIDs := map[string]bool{}
 	pages := make([]svglidePublishPage, 0, len(manifest.Pages))
-	for _, page := range manifest.Pages {
+	for i, page := range manifest.Pages {
 		id := strings.TrimSpace(page.ID)
 		if id == "" {
 			return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page id is required").WithParam("--manifest")
 		}
 		if seenIDs[id] {
 			return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest duplicate page id: %s", id).WithParam("--manifest")
+		}
+		if page.Index != i+1 {
+			return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page index must be %d for page %s", i+1, id).WithParam("--manifest")
 		}
 		seenIDs[id] = true
 
@@ -303,10 +426,17 @@ func prepareSVGlidePublishSpec(manifestPath string, overrideTitle string) (*svgl
 		if err != nil {
 			return nil, errs.NewValidationError(errs.SubtypeFileIO, "--manifest page file not found: %s", page.File).WithParam("--manifest")
 		}
-		if !strings.Contains(string(content), "<svg") {
-			return nil, errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file must contain an <svg> root payload: %s", page.File).WithParam("--manifest")
+		if err := validateSVGlidePagePayload(page, content); err != nil {
+			return nil, err
 		}
-		pages = append(pages, svglidePublishPage{ID: id, File: joined, Content: string(content)})
+		pages = append(pages, svglidePublishPage{
+			ID:           id,
+			Index:        page.Index,
+			File:         joined,
+			SHA256:       page.SHA256,
+			ContentBytes: len(content),
+			Content:      string(content),
+		})
 	}
 
 	return &svglidePublishSpec{
@@ -315,6 +445,101 @@ func prepareSVGlidePublishSpec(manifestPath string, overrideTitle string) (*svgl
 		Title:        title,
 		Pages:        pages,
 	}, nil
+}
+
+type svglideValidateSVGDeckReceipt struct {
+	TotalErrors *int `json:"totalErrors"`
+}
+
+func validateSVGlideBundleReceipt(baseDir string, receipts svglideManifestReceipts) error {
+	receiptPath, err := svglideManifestChildPath("receipts.validate_svg_deck", baseDir, receipts.ValidateSVGDeck)
+	if err != nil {
+		return err
+	}
+	raw, err := vfs.ReadFile(receiptPath)
+	if err != nil {
+		return errs.NewValidationError(errs.SubtypeFileIO, "--manifest validate_svg_deck receipt not found: %s", receipts.ValidateSVGDeck).WithParam("--manifest")
+	}
+	var receipt svglideValidateSVGDeckReceipt
+	if err := json.Unmarshal(raw, &receipt); err != nil {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest validate_svg_deck receipt invalid JSON: %v", err).WithParam("--manifest")
+	}
+	if receipt.TotalErrors == nil || *receipt.TotalErrors != 0 {
+		return errs.NewValidationError(errs.SubtypeFailedPrecondition, "--manifest validate_svg_deck receipt must have totalErrors=0").WithParam("--manifest")
+	}
+	return nil
+}
+
+func validateSVGlidePagePayload(page svglideManifestPage, content []byte) error {
+	wantSHA := strings.TrimSpace(page.SHA256)
+	if wantSHA == "" {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page sha256 is required: %s", page.File).WithParam("--manifest")
+	}
+	if gotSHA := sha256Hex(content); gotSHA != wantSHA {
+		return errs.NewValidationError(errs.SubtypeFailedPrecondition, "--manifest page file sha256 mismatch: %s", page.File).WithParam("--manifest")
+	}
+	rootName, rootNamespace, err := xmlRootName(content)
+	if err != nil {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file invalid XML: %s: %v", page.File, err).WithParam("--manifest")
+	}
+	if detectForbiddenSVGlidePublishFormat(content, rootName) {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file must be raw SVG, not Slides XML/SXSD/HTML/raster/data URL fallback: %s", page.File).WithParam("--manifest")
+	}
+	if rootName != "svg" || rootNamespace != svglideSVGNamespace {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file root must be <svg> in the SVG namespace: %s", page.File).WithParam("--manifest")
+	}
+	if err := rejectUnsupportedSVGlideImagePlaceholders(page, string(content)); err != nil {
+		return err
+	}
+	return nil
+}
+
+func rejectUnsupportedSVGlideImagePlaceholders(page svglideManifestPage, content string) error {
+	if svglideUnsupportedLocalImageRefRegex.MatchString(content) {
+		return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest page file uses local SVG image placeholder @path, which is not supported in MVP-A: %s", page.File).WithParam("--manifest")
+	}
+	return nil
+}
+
+func xmlRootName(raw []byte) (string, string, error) {
+	decoder := xml.NewDecoder(bytes.NewReader(raw))
+	for {
+		token, err := decoder.Token()
+		if err == io.EOF {
+			return "", "", errs.NewValidationError(errs.SubtypeInvalidArgument, "missing XML root element")
+		}
+		if err != nil {
+			return "", "", err
+		}
+		if start, ok := token.(xml.StartElement); ok {
+			return start.Name.Local, start.Name.Space, nil
+		}
+	}
+}
+
+func detectForbiddenSVGlidePublishFormat(raw []byte, rootName string) bool {
+	trimmed := strings.TrimSpace(string(raw))
+	lower := strings.ToLower(trimmed)
+	if strings.HasPrefix(lower, "<!doctype html") || strings.HasPrefix(lower, "<html") || strings.HasPrefix(lower, "data:image/") {
+		return true
+	}
+	if len(raw) >= 8 && bytes.Equal(raw[:8], []byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}) {
+		return true
+	}
+	if len(raw) >= 3 && raw[0] == 0xff && raw[1] == 0xd8 && raw[2] == 0xff {
+		return true
+	}
+	switch rootName {
+	case "slide", "presentation", "sxsd", "document", "html":
+		return true
+	default:
+		return false
+	}
+}
+
+func sha256Hex(raw []byte) string {
+	sum := sha256.Sum256(raw)
+	return hex.EncodeToString(sum[:])
 }
 
 func svglideManifestChildPath(label, baseDir, child string) (string, error) {
@@ -362,11 +587,19 @@ git commit -m "feat: add svglide manifest reader"
 
 ---
 
-### Task 2: SVGlide Image Placeholder Upload Helpers
+### Task 2: Phase B SVGlide Image Placeholder Upload Helpers
 
 **Files:**
 - Create: `shortcuts/slides/slides_create_svglide_assets.go`
 - Modify: `shortcuts/slides/slides_create_svglide_test.go`
+
+**Status:** Deferred. Do not execute this task as part of MVP-A. First prove pure SVG raw payload publish with Task 5. Only then add SVG image resource handling and a separate live proof that `<image href="...">` survives the full `cli -> slide_engine -> slide` path.
+
+MVP-A behavior for local image placeholders:
+
+- If a page contains `<image href="@...">` or `<image xlink:href="@...">`, return a structured validation error.
+- Do not request `docs:document.media:upload` scope in MVP-A.
+- Do not claim SVG image support in docs until Phase B has a live proof.
 
 **Interfaces:**
 - Consumes: `uploadSlidesMedia(runtime, filePath, fileName string, fileSize int64, presentationID string) (string, error)`
@@ -558,7 +791,7 @@ git commit -m "feat: add svglide asset placeholders"
 - Modify: `shortcuts/slides/shortcuts.go`
 
 **Interfaces:**
-- Consumes: `prepareSVGlidePublishSpec`, `extractSVGlideImagePlaceholders`, `uploadSVGlidePlaceholders`, `replaceSVGlideImagePlaceholders`, `buildPresentationXML`, `effectiveTitle`, `appendSlidesUploadDryRun`, `appendSlidesProgressHint`, `common.AutoGrantCurrentUserDrivePermission`
+- Consumes: `prepareSVGlidePublishSpec`, `buildPresentationXML`, `effectiveTitle`, `appendSlidesProgressHint`, `common.AutoGrantCurrentUserDrivePermission`
 - Produces: `var SlidesCreateSVGlide common.Shortcut`
 
 - [ ] **Step 1: Write failing execute and dry-run tests**
@@ -569,13 +802,19 @@ Add:
 func TestSlidesCreateSVGlideExecute(t *testing.T) {
 	dir := t.TempDir()
 	withSlidesTestWorkingDir(t, dir)
-	mustWriteFile(t, "pages/page-001.svg", `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><text>one</text></svg>`)
-	mustWriteFile(t, "manifest.json", `{
+	page := `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="page-001" viewBox="0 0 960 540"><rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/></svg>`
+	mustWriteFile(t, "pages/page-001.svg", page)
+	mustWriteFile(t, "receipts/validate_svg_deck.json", `{"totalErrors":0}`)
+	mustWriteFile(t, "manifest.json", fmt.Sprintf(`{
 	  "version": "svglide.manifest.v1",
+	  "protocol": "svg-slides.v1",
 	  "title": "SVGlide Deck",
 	  "size": {"width": 960, "height": 540},
-	  "pages": [{"id": "page-001", "file": "pages/page-001.svg"}]
-	}`)
+	  "publish_ready": true,
+	  "published": false,
+	  "pages": [{"id": "page-001", "index": 1, "file": "pages/page-001.svg", "sha256": %q}],
+	  "receipts": {"validate_svg_deck": "receipts/validate_svg_deck.json"}
+	}`, sha256Hex([]byte(page))))
 
 	f, stdout, _, reg := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
 	reg.Register(&httpmock.Stub{
@@ -630,14 +869,19 @@ func TestSlidesCreateSVGlideExecute(t *testing.T) {
 func TestSlidesCreateSVGlideDryRun(t *testing.T) {
 	dir := t.TempDir()
 	withSlidesTestWorkingDir(t, dir)
-	mustWriteFile(t, "pages/page-001.svg", `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><image href="@assets/a.png"/></svg>`)
-	mustWriteFile(t, "assets/a.png", "img")
-	mustWriteFile(t, "manifest.json", `{
+	page := `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><rect/></svg>`
+	mustWriteFile(t, "pages/page-001.svg", page)
+	mustWriteFile(t, "receipts/validate_svg_deck.json", `{"totalErrors":0}`)
+	mustWriteFile(t, "manifest.json", fmt.Sprintf(`{
 	  "version": "svglide.manifest.v1",
+	  "protocol": "svg-slides.v1",
 	  "title": "SVGlide Deck",
 	  "size": {"width": 960, "height": 540},
-	  "pages": [{"id": "page-001", "file": "pages/page-001.svg"}]
-	}`)
+	  "publish_ready": true,
+	  "published": false,
+	  "pages": [{"id": "page-001", "index": 1, "file": "pages/page-001.svg", "sha256": %q}],
+	  "receipts": {"validate_svg_deck": "receipts/validate_svg_deck.json"}
+	}`, sha256Hex([]byte(page))))
 
 	f, stdout, _, _ := cmdutil.TestFactory(t, slidesTestConfig(t, ""))
 	err := runSlidesCreateSVGlideShortcut(t, f, stdout, []string{
@@ -650,10 +894,13 @@ func TestSlidesCreateSVGlideDryRun(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	out := stdout.String()
-	for _, want := range []string{"Create SVGlide presentation", "upload_all", "Add SVGlide page 1", "/open-apis/slides_ai/v1/xml_presentations/<xml_presentation_id>/slide"} {
+	for _, want := range []string{"Create SVGlide presentation", "Add SVGlide page 1", "content_sha256", "/open-apis/slides_ai/v1/xml_presentations/<xml_presentation_id>/slide"} {
 		if !strings.Contains(out, want) {
 			t.Fatalf("dry-run missing %q: %s", want, out)
 		}
+	}
+	if strings.Contains(out, "<svg") {
+		t.Fatalf("dry-run must summarize SVG content instead of printing full payload: %s", out)
 	}
 }
 
@@ -708,45 +955,21 @@ var SlidesCreateSVGlide = common.Shortcut{
 	Description: "Create a Lark Slides presentation from an existing SVGlide manifest",
 	Risk:        "write",
 	AuthTypes:   []string{"user", "bot"},
-	Scopes:      []string{"slides:presentation:create", "slides:presentation:write_only", "docs:document.media:upload"},
+	Scopes:      []string{"slides:presentation:create", "slides:presentation:write_only"},
 	Flags: []common.Flag{
 		{Name: "manifest", Desc: "SVGlide manifest JSON file; version=svglide.manifest.v1, max 10 pages", Required: true},
 		{Name: "title", Desc: "presentation title override; defaults to manifest.title, then Untitled"},
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {
-		spec, err := prepareSVGlidePublishSpec(runtime.Str("manifest"), runtime.Str("title"))
-		if err != nil {
-			return err
-		}
-		placeholders, err := extractSVGlideImagePlaceholders(spec)
-		if err != nil {
-			return err
-		}
-		for _, placeholder := range placeholders {
-			stat, err := runtime.FileIO().Stat(placeholder.File)
-			if err != nil {
-				return slidesInputStatError(err, "--manifest", fmt.Sprintf("--manifest @%s: file not found", placeholder.Placeholder))
-			}
-			if !stat.Mode().IsRegular() {
-				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest @%s: must be a regular file", placeholder.Placeholder).WithParam("--manifest")
-			}
-			if stat.Size() > common.MaxDriveMediaUploadSinglePartSize {
-				return errs.NewValidationError(errs.SubtypeInvalidArgument, "--manifest @%s: file size %s exceeds 20 MB limit for slides image upload",
-					placeholder.Placeholder, common.FormatSize(stat.Size())).WithParam("--manifest")
-			}
-		}
-		return nil
+		_, err := prepareSVGlidePublishSpec(runtime.Str("manifest"), runtime.Str("title"))
+		return err
 	},
 	DryRun: func(ctx context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
 		spec, err := prepareSVGlidePublishSpec(runtime.Str("manifest"), runtime.Str("title"))
 		if err != nil {
 			return common.NewDryRunAPI().Set("error", err.Error())
 		}
-		placeholders, err := extractSVGlideImagePlaceholders(spec)
-		if err != nil {
-			return common.NewDryRunAPI().Set("error", err.Error())
-		}
-		total := 1 + len(placeholders) + len(spec.Pages)
+		total := 1 + len(spec.Pages)
 		dry := common.NewDryRunAPI()
 		dry.Desc(fmt.Sprintf("Create SVGlide presentation + add %d page(s)", len(spec.Pages))).
 			POST("/open-apis/slides_ai/v1/xml_presentations").
@@ -754,16 +977,19 @@ var SlidesCreateSVGlide = common.Shortcut{
 			Body(map[string]interface{}{
 				"xml_presentation": map[string]interface{}{"content": buildPresentationXML(spec.Title)},
 			})
-		for i, placeholder := range placeholders {
-			appendSlidesUploadDryRun(dry, placeholder.File, "<xml_presentation_id>", i+2)
-		}
-		pageStepStart := 2 + len(placeholders)
+		pageStepStart := 2
 		for i, page := range spec.Pages {
 			dry.POST("/open-apis/slides_ai/v1/xml_presentations/<xml_presentation_id>/slide").
 				Desc(fmt.Sprintf("[%d/%d] Add SVGlide page %d (%s)", pageStepStart+i, total, i+1, page.ID)).
 				Params(map[string]interface{}{"revision_id": -1}).
 				Body(map[string]interface{}{
-					"slide": map[string]interface{}{"content": page.Content},
+					"slide": map[string]interface{}{
+						"content":         fmt.Sprintf("<raw SVG omitted: sha256=%s bytes=%d>", page.SHA256, page.ContentBytes),
+						"content_type":    "svg",
+						"content_bytes":   page.ContentBytes,
+						"content_sha256":  page.SHA256,
+						"content_omitted": true,
+					},
 				})
 		}
 		if runtime.IsBot() {
@@ -802,21 +1028,6 @@ var SlidesCreateSVGlide = common.Shortcut{
 			result["revision_id"] = int(revisionID)
 		}
 
-		placeholders, err := extractSVGlideImagePlaceholders(spec)
-		if err != nil {
-			return err
-		}
-		if len(placeholders) > 0 {
-			tokens, uploaded, err := uploadSVGlidePlaceholders(runtime, presentationID, placeholders)
-			if err != nil {
-				return appendSlidesProgressHint(err, fmt.Sprintf("presentation %s was created; %d SVGlide image(s) uploaded before failure", presentationID, uploaded))
-			}
-			for i := range spec.Pages {
-				spec.Pages[i].Content = replaceSVGlideImagePlaceholders(spec.Pages[i].Content, tokens)
-			}
-			result["images_uploaded"] = uploaded
-		}
-
 		slideURL := fmt.Sprintf("/open-apis/slides_ai/v1/xml_presentations/%s/slide", validate.EncodePathSegment(presentationID))
 		slideIDs := make([]string, 0, len(spec.Pages))
 		pageResults := make([]map[string]interface{}, 0, len(spec.Pages))
@@ -837,9 +1048,12 @@ var SlidesCreateSVGlide = common.Shortcut{
 				slideIDs = append(slideIDs, slideID)
 			}
 			pageResults = append(pageResults, map[string]interface{}{
-				"id":       page.ID,
-				"file":     page.File,
-				"slide_id": slideID,
+				"id":            page.ID,
+				"index":         page.Index,
+				"file":          page.File,
+				"sha256":        page.SHA256,
+				"content_bytes": page.ContentBytes,
+				"slide_id":      slideID,
 			})
 		}
 
@@ -882,7 +1096,7 @@ Run:
 
 ```bash
 gofmt -w shortcuts/slides/slides_create_svglide.go shortcuts/slides/slides_create_svglide_test.go shortcuts/slides/shortcuts.go
-go test ./shortcuts/slides -run 'TestSlidesCreateSVGlide|TestPrepareSVGlidePublishSpec|TestExtractAndReplaceSVGlideImagePlaceholders' -count=1
+go test ./shortcuts/slides -run 'TestSlidesCreateSVGlide|TestPrepareSVGlidePublishSpec' -count=1
 ```
 
 Expected result:
@@ -921,6 +1135,7 @@ package clie2e
 import (
 	"context"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -931,15 +1146,7 @@ import (
 
 func TestSlidesCreateSVGlideDryRunE2E(t *testing.T) {
 	setDryRunConfigEnv(t)
-	dir := t.TempDir()
-	require.NoError(t, os.MkdirAll(filepath.Join(dir, "pages"), 0o755))
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "pages", "page-001.svg"), []byte(`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"><text>dry</text></svg>`), 0o644))
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "manifest.json"), []byte(`{
-	  "version": "svglide.manifest.v1",
-	  "title": "Dry SVGlide",
-	  "size": {"width": 960, "height": 540},
-	  "pages": [{"id": "page-001", "file": "pages/page-001.svg"}]
-	}`), 0o644))
+	dir := prepareSVGlideSmokeBundle(t, "Dry SVGlide")
 
 	result, err := RunCmd(context.Background(), Request{
 		Args: []string{
@@ -959,6 +1166,32 @@ func TestSlidesCreateSVGlideDryRunE2E(t *testing.T) {
 	assert.Contains(t, result.Stdout, "/open-apis/slides_ai/v1/xml_presentations/<xml_presentation_id>/slide")
 	assert.Contains(t, result.Stdout, "Create SVGlide presentation")
 	assert.Contains(t, result.Stdout, "page-001")
+}
+
+func prepareSVGlideSmokeBundle(t *testing.T, title string) string {
+	t.Helper()
+	root, err := findProjectRootDir()
+	require.NoError(t, err)
+
+	dir := t.TempDir()
+	require.NoError(t, os.MkdirAll(filepath.Join(dir, "pages"), 0o755))
+
+	fixture := filepath.Join(root, "skills/lark-slides/references/svg-slides/examples/minimal-slide.svg")
+	raw, err := os.ReadFile(fixture)
+	require.NoError(t, err)
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "pages", "page-001.svg"), raw, 0o644))
+
+	runNodeTool(t, root, "skills/lark-slides/scripts/validate_svg_deck.mjs", dir, "--json")
+	runNodeTool(t, root, "skills/lark-slides/scripts/svg_slides_bundle.mjs", dir, "--title", title)
+	return dir
+}
+
+func runNodeTool(t *testing.T, root string, args ...string) {
+	t.Helper()
+	cmd := exec.Command("node", args...)
+	cmd.Dir = root
+	out, err := cmd.CombinedOutput()
+	require.NoErrorf(t, err, "node %v failed:\n%s", args, string(out))
 }
 ```
 
@@ -994,7 +1227,14 @@ git commit -m "test: add create-svglide dry-run e2e"
 
 **Interfaces:**
 - Consumes: built CLI E2E harness and real Lark credentials from environment
-- Produces: live proof that backend accepts SVGlide page payload through the same publish surface
+- Produces: live proof that backend accepts a validator-passing, pure SVG SVGlide page payload through the same publish surface
+
+Smoke content source:
+
+- Copy `skills/lark-slides/references/svg-slides/examples/minimal-slide.svg`.
+- Run `node skills/lark-slides/scripts/validate_svg_deck.mjs <dir> --json`.
+- Run `node skills/lark-slides/scripts/svg_slides_bundle.mjs <dir> --title "<title>"`.
+- Publish the resulting `manifest.json`; do not handwrite a test-only SVG in this live E2E.
 
 - [ ] **Step 1: Add live E2E test**
 
@@ -1007,7 +1247,6 @@ import (
 	"context"
 	"encoding/json"
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -1020,15 +1259,7 @@ func TestSlidesCreateSVGlideLiveE2E(t *testing.T) {
 	require.NotEmpty(t, os.Getenv("LARKSUITE_CLI_APP_ID"))
 	require.NotEmpty(t, os.Getenv("LARKSUITE_CLI_APP_SECRET"))
 
-	dir := t.TempDir()
-	require.NoError(t, os.MkdirAll(filepath.Join(dir, "pages"), 0o755))
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "pages", "page-001.svg"), []byte(`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540"><rect x="0" y="0" width="960" height="540" fill="#ffffff"/><text x="80" y="120" font-size="44" fill="#111111">SVGlide live smoke</text></svg>`), 0o644))
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "manifest.json"), []byte(`{
-	  "version": "svglide.manifest.v1",
-	  "title": "SVGlide Live Smoke",
-	  "size": {"width": 960, "height": 540},
-	  "pages": [{"id": "page-001", "file": "pages/page-001.svg"}]
-	}`), 0o644))
+	dir := prepareSVGlideSmokeBundle(t, "SVGlide Live Smoke")
 
 	result, err := RunCmd(context.Background(), Request{
 		Args: []string{
@@ -1081,6 +1312,8 @@ ok  	github.com/larksuite/cli/tests/cli_e2e
 
 Backend rejection of raw SVGlide payload is a stop condition for this feature. The fix is to align the target publish API or payload contract; do not add raster fallback, HTML screenshot fallback, prompt generation, or slide XML generation inside `+create-svglide`.
 
+Passing this live E2E proves that the create surface accepted validator-passing raw SVG. It does not by itself prove rendered/readback correctness. Before claiming end-to-end SVGlide publishing, capture a separate readback or screenshot proof for the created presentation.
+
 - [ ] **Step 3: Commit Task 5**
 
 Run:
@@ -1116,11 +1349,12 @@ It is a publisher, not a generator.
 ## What It Owns
 
 - Read `svglide.manifest.v1`.
-- Validate page order, page count, 960x540 size, and local file paths.
+- Validate `protocol == "svg-slides.v1"`, `publish_ready == true`, `receipts.validate_svg_deck.totalErrors == 0`, page order, page count, 960x540 size, local file paths, and `pages[].sha256`.
+- Verify each page is still raw SVG by re-reading the file, checking sha256, checking the XML root with an XML decoder, and rejecting Slides XML/SXSD/HTML/raster/data URL fallback.
+- Reject local SVG image placeholders in MVP-A; image resource support requires Phase B live proof.
 - Create the presentation shell.
-- Upload local `<image href="@path">` and `<image xlink:href="@path">` placeholders.
 - Submit each page payload in manifest order.
-- Return `xml_presentation_id`, URL, slide IDs, page mapping, and upload count.
+- Return `xml_presentation_id`, URL, slide IDs, and page mapping.
 
 ## What It Does Not Own
 
@@ -1130,21 +1364,35 @@ It is a publisher, not a generator.
 - Visual repair.
 - Readback as the default success criterion.
 - PPE routing or Whistle setup.
+- SVG image resource upload in MVP-A.
 
 ## Manifest
 
 ```json
 {
   "version": "svglide.manifest.v1",
+  "protocol": "svg-slides.v1",
   "title": "SVGlide Deck",
   "size": {"width": 960, "height": 540},
+  "publish_ready": true,
+  "published": false,
   "pages": [
-    {"id": "page-001", "file": "pages/page-001.svg"}
-  ]
+    {
+      "id": "page-001",
+      "index": 1,
+      "file": "pages/page-001.svg",
+      "sha256": "..."
+    }
+  ],
+  "receipts": {
+    "validate_svg_deck": "receipts/validate_svg_deck.json"
+  }
 }
 ```
 
-All page files and `@asset` image placeholders are relative to the manifest directory. Absolute paths and `..` paths are rejected.
+All page files and receipt paths are relative to the manifest directory. Absolute paths and `..` paths are rejected. Unknown manifest fields are ignored for forward compatibility. `published` is bundle state and is not used as a blocker by `+create-svglide`.
+
+In MVP-A, pages that contain `<image href="@...">` or `<image xlink:href="@...">` are rejected until Phase B proves SVG image resources end to end.
 
 ## Usage
 
@@ -1227,7 +1475,7 @@ Expected result:
 Run:
 
 ```bash
-go test ./shortcuts/slides -run 'TestSlidesCreateSVGlide|TestPrepareSVGlidePublishSpec|TestExtractAndReplaceSVGlideImagePlaceholders' -count=1
+go test ./shortcuts/slides -run 'TestSlidesCreateSVGlide|TestPrepareSVGlidePublishSpec' -count=1
 ```
 
 Expected result:
@@ -1271,7 +1519,7 @@ go mod tidy leaves go.mod/go.sum unchanged
 golangci-lint exits 0
 ```
 
-- [ ] **Step 5: Live proof or explicit stop**
+- [ ] **Step 5: Live create proof, readback proof, or explicit stop**
 
 Run:
 
@@ -1286,6 +1534,8 @@ ok  	github.com/larksuite/cli/tests/cli_e2e
 ```
 
 If this fails because the backend rejects SVG/SVGlide page payload in `slide.content`, stop the implementation. The branch can keep unit and dry-run work, but the PR must not claim live SVGlide publish support until the target API contract is corrected.
+
+If live create passes but no readback/screenshot proof has been captured yet, the PR may claim only "raw SVG create accepted by live/PPE backend"; it must not claim full rendered SVGlide publish support.
 
 - [ ] **Step 6: Final diff review**
 
@@ -1329,16 +1579,23 @@ One final commit exists only if Task 7 found fixes not already committed by earl
 `slides +create-svglide` mirrors that shape:
 
 - caller provides SVGlide manifest/page payload;
-- CLI validates only publish-blocking structure and paths;
+- CLI validates only publish-blocking structure, paths, receipt, sha, raw-SVG root, and forbidden fallback formats;
 - CLI creates the presentation shell;
-- CLI uploads local image placeholders;
 - CLI appends pages;
 - CLI returns a receipt.
 
+MVP-A deliberately does not mirror `+create`'s image upload helper yet: SVG `<image href="@...">` resources are rejected until Phase B proves the image resource path with a live fixture.
+
 The responsibilities intentionally excluded from `+create-svglide` are the same responsibilities excluded from `+create`: generation strategy, rendering quality, repair loops, and readback validation. Those belong in a skill/runner/E2E layer above the shortcut or in the backend contract below it.
+
+## Remaining Missing Knowledge
+
+For the no-request MVP-A submission layer, no additional knowledge is required after this update. The plan now has local decisions for bundle integrity, sha guard, `published` handling, XML-root validation, raw payload shape, manifest path/order/id/title rules, image placeholder policy, unknown manifest fields, dry-run summary, partial-failure semantics, unit coverage, and docs boundary.
+
+Request-dependent evidence remains intentionally outside this local list: live/PPE create proof, backend response-field proof, and readback/rendering proof.
 
 ## Self-Review
 
-- Spec coverage: command naming, manifest input, thin-publisher boundary, asset upload, dry-run, live proof, skill docs, and quality gates are each mapped to Tasks 1-7.
-- Completion marker scan: the plan contains no unfinished implementation markers.
-- Type consistency: `svglidePublishSpec`, `svglidePublishPage`, `prepareSVGlidePublishSpec`, `extractSVGlideImagePlaceholders`, `replaceSVGlideImagePlaceholders`, and `uploadSVGlidePlaceholders` are defined before use and reused consistently.
+- Spec coverage: command naming, publish-ready manifest input, sha guard, XML-root guard, raw SVG payload, dry-run summary, live proof, skill docs, and quality gates are each mapped to MVP-A tasks; image asset upload is isolated in deferred Phase B.
+- Completion marker scan: no local MVP-A knowledge gaps remain in the plan. Request-dependent/live evidence remains outside this document's local executable scope.
+- Type consistency: `svglidePublishSpec`, `svglidePublishPage`, `prepareSVGlidePublishSpec`, and `rejectUnsupportedSVGlideImagePlaceholders` are defined before use and reused consistently. Phase B image helper types are scoped to the deferred image task.
