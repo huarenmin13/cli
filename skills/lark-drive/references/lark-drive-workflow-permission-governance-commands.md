@@ -23,17 +23,17 @@ lark-cli drive +inspect --url '<url>' --as user --format json
 
 ```bash
 lark-cli wiki +node-list \
-  --space-id '<space_id>' --page-size 50 \
+  --space-id 6946843325487912356 --page-size 50 \
   --page-all --page-limit 0 \
   --as user --format json
 
 lark-cli wiki +node-list \
-  --space-id '<space_id>' --parent-node-token '<node_token>' --page-size 50 \
+  --space-id 6946843325487912356 --parent-node-token '<node_token>' --page-size 50 \
   --page-all --page-limit 0 \
   --as user --format json
 
 lark-cli wiki +node-list \
-  --space-id '<space_id>' --page-token '<PAGE_TOKEN>' --page-size 50 \
+  --space-id 6946843325487912356 --page-token '<PAGE_TOKEN>' --page-size 50 \
   --as user --format json
 ```
 
@@ -172,9 +172,9 @@ lark-cli drive +secure-label-list \
 ```bash
 lark-cli drive +secure-label-update \
   --token '<url>' \
-  --label-id '<label-id>' --as user --format json
+  --label-id 7217780879644737539 --as user --format json
 
 lark-cli drive +secure-label-update \
   --token '<bare-token>' --type '<type>' \
-  --label-id '<label-id>' --as user --format json
+  --label-id 7217780879644737539 --as user --format json
 ```
