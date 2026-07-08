@@ -49,7 +49,7 @@
 - Create `skills/lark-slides/scripts/svg_slides_source_coverage_check_test.mjs`: source coverage 检查器测试。
 - Create `skills/lark-slides/scripts/svg_slides_browser_text_bounds.mjs`: 可选浏览器文本边界检查。
 - Modify `skills/lark-slides/SKILL.md`: 加入 SVG Slides 本地生成与校验入口。
-- Modify `skills/lark-slides/references/create-svglide-implementation-plan.zh.md`: 标注发布层计划依赖后端合同，先执行本计划。
+- Modify `dev-plans/lark-slides/create-svglide-implementation-plan.zh.md`: 标注发布层计划依赖后端合同，先执行本计划。
 
 ---
 
@@ -1235,7 +1235,7 @@ git commit -m "feat: add svg slides browser text bounds check"
 
 **Files:**
 - Modify: `skills/lark-slides/SKILL.md`
-- Modify: `skills/lark-slides/references/create-svglide-implementation-plan.zh.md`
+- Modify: `dev-plans/lark-slides/create-svglide-implementation-plan.zh.md`
 
 **Interfaces:**
 - Consumes: new `references/svg-slides/README.md`
@@ -1259,7 +1259,7 @@ In `skills/lark-slides/SKILL.md`, add below the XML critical notes:
 
 - [ ] **Step 3: Mark the publish plan as blocked by live contract**
 
-At the top of `skills/lark-slides/references/create-svglide-implementation-plan.zh.md`, immediately after the title, add:
+At the top of `dev-plans/lark-slides/create-svglide-implementation-plan.zh.md`, immediately after the title, add:
 
 ```markdown
 > Status: publish-layer plan. Endpoint/body/response contract for live SVGlide publishing is not confirmed yet. Execute `svg-slides-local-generation-action-plan.zh.md` first to build the generation and validation bundle that this publish layer will consume.
@@ -1270,7 +1270,7 @@ At the top of `skills/lark-slides/references/create-svglide-implementation-plan.
 Run:
 
 ```bash
-rg -n "SVG Slides|svg-slides|960x540|960x540|publish-layer plan" skills/lark-slides/SKILL.md skills/lark-slides/references/create-svglide-implementation-plan.zh.md
+rg -n "SVG Slides|svg-slides|960x540|960x540|publish-layer plan" skills/lark-slides/SKILL.md dev-plans/lark-slides/create-svglide-implementation-plan.zh.md
 ```
 
 Expected result:
@@ -1286,7 +1286,7 @@ Run:
 
 ```bash
 git add skills/lark-slides/SKILL.md \
-  skills/lark-slides/references/create-svglide-implementation-plan.zh.md
+  dev-plans/lark-slides/create-svglide-implementation-plan.zh.md
 git commit -m "docs: route svg slides local generation"
 ```
 

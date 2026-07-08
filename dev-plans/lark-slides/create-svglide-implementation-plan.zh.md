@@ -17,9 +17,9 @@
 - 所有对用户可见的 shortcut error 必须返回 `errs.NewValidationError` / `errs.NewInternalError` / 现有 API error，不使用裸 `fmt.Errorf`。
 - stdout 只输出 JSON envelope；上传进度写入 `runtime.IO().ErrOut`。
 - 所有用户输入路径先过 `validate.SafeInputPath`；生产代码读文件使用 `internal/vfs.ReadFile`，不直接使用 `os.ReadFile`。
-- `--manifest` 路径必须相对当前工作目录；manifest 内的 page 路径都相对 manifest 所在目录；manifest 子路径不得是绝对路径，不得包含 `..` 段。Phase B 的 `@asset` 图片路径也必须沿用同一相对路径规则。
+- `--manifest` 路径必须相对当前工作目录；manifest 内的 page 路径都相对 manifest 所在目录；manifest 子路径不得是绝对路径，不得包含 `..` 段。后续 Phase B 如果支持本地图片资源，也必须沿用同一相对路径规则。
 - MVP 只支持 960x540，最多 10 页，和 `slides +create --slides` 的创建期批量追加边界保持一致。
-- MVP-A 只证明纯 SVG raw payload（shape/text/group/chart placeholder 等不依赖本地图片上传的页面）发布。`<image href="@...">` / `<image xlink:href="@...">` 本地图片资源闭环属于 Phase B，必须等纯 SVG live proof 后再做。
+- MVP-A 只证明不含外部图片资源的纯 SVG raw payload（shape/text/group/chart placeholder 等不依赖 FileMetaMap 的页面）发布。任何 `<image href="...">` / `<image xlink:href="...">` SVG 图片资源都属于 Phase B，必须等纯 SVG live proof 和 FileMetaMap 链路 proof 后再做。
 - live smoke content 必须来自 SVG Slides 本地生成/校验层产出的 publish-ready bundle。不要在 live E2E 中手写临时 SVG，也不要用绕过 `validate_svg_deck.mjs` 的 fixture。
 - `+create-svglide` 不负责 research、outline、content planning、SVG/SVGlide authoring、preview、visual lint、repair loop、readback 默认验收、PPE/Whistle 配置。
 - 命令名固定为 `slides +create-svglide`；不新增 `+create-svg`。
@@ -40,8 +40,19 @@ These decisions are imported from the 07 branch's raw SVG publish guardrail. The
 - Page id must be non-empty and unique. MVP-A does not require it to match the SVG root `id` or filename, but the output receipt must preserve a page-id to slide-id mapping.
 - `--title` overrides manifest `title`; otherwise use manifest `title`; if both are empty use the same `Untitled` fallback as `+create`.
 - Unknown manifest fields are ignored for forward compatibility. Required fields are `version`, `protocol`, `title`, `size`, `publish_ready`, `pages`, `receipts.validate_svg_deck`, and `pages[].sha256`.
-- MVP-A rejects local `@path` image placeholders. Non-`@` href values remain part of the raw SVG payload, but MVP-A must not claim image-resource availability from that alone.
+- MVP-A rejects SVG image resource hrefs, not just local `@path` placeholders. `<image href>` / `<image xlink:href>` requires a Phase B FileMetaMap contract proof before the CLI may publish it. MVP-A must fail closed instead of passing unknown image resources through and implying they will render.
 - Partial failure does not roll back a created presentation. The error hint must include presentation id, failed page ordinal, page id, and count of pages already added.
+
+## Server Parser Findings For Phase B Images
+
+These findings come from the SVGlide workspace docs and read-only source review of `slide` target branch `feat/svg-parser-module-to-master@20ca3cdf4d2dba71b821b349e60ba3498d3c474d`, plus the current `slide_engine` branch state. They update only the Phase B design boundary; MVP-A remains pure-SVG publishing.
+
+- `slide` has SVG parser/server partial support, but it is not proven as `slide_engine -> slide` end-to-end SVG support. Current tests mostly prove parser units and wrapper forwarding; they do not prove full render/editability/readback.
+- The image block parser consumes flat SVG such as `<image slide:role="image" href="...">`. The `href` value is a key into `svgParserContext.fileMetaMap`; missing image meta is a parser error for normal image blocks, while image page background degrades to non-rendering.
+- `SVGService.GetClientVarsBySVG` accepts optional `FileMetaMap`. The server maps each FileMetaMap key to token/name/size/width/height/mimeType before invoking `BlockSVGParserService`.
+- SXSD-named RPCs also carry optional `FileMetaMap`, because the legacy OpenAPI image path expects upstream service metadata for inserted media.
+- Current `slide_engine` file-meta discovery scans SXSD/XML `//img/@src` and `//fillImg/@src`; it does not scan SVG `<image href>` or `<image xlink:href>`. Therefore Phase B is not solved by simply uploading an image and replacing SVG `href` with a token.
+- The required Phase B proof is a real image/FileMetaMap bridge through the exact publish surface used by `+create-svglide`, followed by readback/render/editability evidence for an `image-crop-filemeta` fixture.
 
 ---
 
@@ -55,7 +66,7 @@ These decisions are imported from the 07 branch's raw SVG publish guardrail. The
 - Create `tests/cli_e2e/slides_create_svglide_live_test.go`: gated live E2E，未配置真实凭证时跳过。
 - Modify `skills/lark-slides/SKILL.md`: command 存在后加入入口说明。
 - Create `skills/lark-slides/references/lark-slides-create-svglide.md`: 用户文档和 manifest 示例。
-- Phase B only, after pure SVG live proof: create `shortcuts/slides/slides_create_svglide_assets.go` for `<image href="@path">` / `<image xlink:href="@path">` upload and replacement, plus a separate live proof for image resources.
+- Phase B only, after pure SVG live proof and FileMetaMap bridge proof: create `shortcuts/slides/slides_create_svglide_assets.go` for ordinary local SVG image href resolution, upload, FileMetaMap evidence, and backend contract integration. Do not implement `@path` placeholder replacement as the Phase B contract.
 
 ---
 
