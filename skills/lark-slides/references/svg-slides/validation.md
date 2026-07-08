@@ -13,7 +13,7 @@ The validator checks hard protocol rules:
 - standalone SVG root;
 - `slide:role="slide"`;
 - required namespaces;
-- `viewBox="0 0 1280 720"`;
+- `viewBox="0 0 960 540"`;
 - background order;
 - forbidden style blocks and CSS classes;
 - forbidden text wrappers;
@@ -90,7 +90,7 @@ The manifest uses:
 {
   "version": "svglide.manifest.v1",
   "protocol": "svg-slides.v1",
-  "size": {"width": 1280, "height": 720},
+  "size": {"width": 960, "height": 540},
   "publish_ready": true,
   "published": false
 }

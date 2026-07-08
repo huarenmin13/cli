@@ -23,6 +23,12 @@ A future SVG Slides publisher consumes this bundle. That publishing path is inte
 
 A local bundle may set `publish_ready=true`; it must not claim it is published.
 
+## Canvas Decision
+
+This CLI adaptation uses a 960x540 SVG canvas: `viewBox="0 0 960 540"`.
+
+The source snapshot is preserved for provenance and coverage audit. Where the source describes a different default canvas, the CLI adaptation layer intentionally normalizes generated SVG Slides to 960x540.
+
 ## Required Local Gates
 
 1. `node skills/lark-slides/scripts/validate_svg_deck.mjs <deck-dir> --json`

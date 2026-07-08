@@ -30,7 +30,7 @@ metadata:
 
 **CRITICAL — 生成任何 XML 之前，MUST 先用 Read 工具读取 [xml-schema-quick-ref.md](references/xml-schema-quick-ref.md)，禁止凭记忆猜测 XML 结构。**
 
-**CRITICAL — SVG Slides / SVGlide 与当前 XML/SXSD 工作流是不同协议。SVG Slides 使用 `viewBox="0 0 1280 720"` 和 `slide:*` SVG 语义；当前 XML/SXSD 生成仍使用 960x540。处理 SVG Slides 生成或校验时，先读 [`references/svg-slides/README.md`](references/svg-slides/README.md)，不要把 SVG 规则写进 `xml-schema-quick-ref.md`。**
+**CRITICAL — SVG Slides / SVGlide 与当前 XML/SXSD 工作流是不同协议。两者都使用 960x540 画布，但 SVG Slides 使用 `viewBox="0 0 960 540"` 和 `slide:*` SVG 语义，XML/SXSD 使用 SML XML。处理 SVG Slides 生成或校验时，先读 [`references/svg-slides/README.md`](references/svg-slides/README.md)，不要把 SVG 规则写进 `xml-schema-quick-ref.md`。**
 
 **CRITICAL — PPT 生成与模板编辑硬约束：PPT 的尺寸是 960x540，确保主体内容在页面边界内。多用生图，辅助搜图，必须要图文并茂。不要为了画出一个具象物体而堆叠 3 个以上仅用于拟形的 shape。生成背景图时必须在 prompt 中明确要求不要出现任何文字。用户指定 PPT 模板时，用 lark-drive 技能导入成 lark slides，回读理解每页版式后，直接在该 slides 上编辑，可以填改文字和图片、按需增删模板页，必须严格沿用原版式和字体，只改内容不做设计，完成后回读并微调，凝练文字或缩减字号消除文字溢出，调整 shape 顺序或位置避免文字遮挡。**
 

@@ -35,7 +35,7 @@ if (!slideFiles.length) {
 }
 
 const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });
+const page = await browser.newPage({ viewport: { width: 960, height: 540 }, deviceScaleFactor: 1 });
 const results = [];
 
 for (const file of slideFiles) {

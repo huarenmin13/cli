@@ -15,7 +15,7 @@
 - `source/full.debranded.md` 必须是去品牌原文的字节级快照；拆分文档可以重组表达，但不能把原文中的规范、约束、流程门禁、工具语义摘要到不可执行。
 - 每个 `references/svg-slides/*.md` 拆分文档都必须包含 `## Source Coverage` 小节，列出覆盖的 `split-manifest.json` section id。
 - `split-manifest.json` 中每个 section id 必须被且只被一个拆分文档的 `## Source Coverage` 声明覆盖；允许 `README.md` 只覆盖 `title` 并承担路由职责。
-- SVG Slides 画布固定为 `viewBox="0 0 1280 720"`；不要沿用 SML XML 的 `960x540`。
+- SVG Slides 画布固定为 `viewBox="0 0 960 540"`；它与现有 Lark Slides XML 共用 960x540 尺寸，但协议仍是 `slide:*` SVG，不是 SML XML。
 - 每页必须是独立 `<svg slide:role="slide" xmlns:slide="https://slides.bytedance.com/ns">` 文件。
 - 颜色只允许 `rgb(...)`、`rgba(...)`、`url(#id)`；禁止 hex、named color、`none` 作为 `fill` / `stroke` 值。
 - 文本使用 `foreignObject slide:role="shape" slide:shape-type="text"`；直接子节点只允许 `p`、`ul`、`ol`、`h1`、`h2`、`h3`、`small`。
@@ -273,7 +273,7 @@ Create `protocol.md` with these exact rules:
 - Root must contain `xmlns:slide="https://slides.bytedance.com/ns"`.
 - Root must contain `slide:role="slide"`.
 - Root must contain an `id`.
-- Root must contain `viewBox="0 0 1280 720"`.
+- Root must contain `viewBox="0 0 960 540"`.
 
 ## Background
 
@@ -312,7 +312,7 @@ Create `protocol.md` with these exact rules:
 ## Source Coverage
 
 - Covers manifest sections: svg_reference, svg_document_rules
-- Coverage mode: preserve all hard SVG protocol requirements from the source; visual guidance belongs in `visual-design.md`, not here.
+- Coverage mode: preserve hard SVG protocol requirements from the source while applying the CLI canvas adaptation to 960x540; visual guidance belongs in `visual-design.md`, not here.
 ```
 
 - [ ] **Step 4: Write the remaining reference docs**
@@ -579,12 +579,12 @@ Run:
 node --test skills/lark-slides/scripts/svg_slides_source_coverage_check_test.mjs
 node skills/lark-slides/scripts/svg_slides_source_coverage_check.mjs skills/lark-slides/references/svg-slides
 if find skills/lark-slides/references/svg-slides -maxdepth 1 -type f -name '*.md' -print0 | \
-  xargs -0 rg -n "960x540|SML|xml-schema-quick-ref|slides \\+create-svglide.*published|published=true"; then
+  xargs -0 rg -n "SML|xml-schema-quick-ref|slides \\+create-svglide.*published|published=true"; then
   echo "unexpected XML or publish-layer wording in SVG Slides references" >&2
   exit 1
 fi
 find skills/lark-slides/references/svg-slides -maxdepth 1 -type f -name '*.md' -print0 | \
-  xargs -0 rg -n "viewBox=\"0 0 1280 720\"|validate_svg_deck|publish-ready|not published|slide:role=\"slide\""
+  xargs -0 rg -n "viewBox=\"0 0 960 540\"|validate_svg_deck|publish-ready|not published|slide:role=\"slide\""
 ```
 
 Expected result:
@@ -633,9 +633,9 @@ mkdir -p skills/lark-slides/references/svg-slides/examples
 Create `minimal-slide.svg`:
 
 ```xml
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="minimal_slide" viewBox="0 0 1280 720">
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(248,250,252,1)"/>
-  <foreignObject slide:role="shape" slide:shape-type="text" x="96" y="88" width="880" height="92" style="font-size:42px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);font-weight:800;line-height:1.12;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="minimal_slide" viewBox="0 0 960 540">
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(248,250,252,1)"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="80" width="760" height="92" style="font-size:42px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);font-weight:800;line-height:1.12;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
     <h1 xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:42px;line-height:1.12;color:rgba(15,23,42,1);letter-spacing:0px">One protocol-compliant SVG slide</h1>
   </foreignObject>
 </svg>
@@ -646,14 +646,14 @@ Create `minimal-slide.svg`:
 Create `group-card.svg`:
 
 ```xml
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="group_card" viewBox="0 0 1280 720">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="group_card" viewBox="0 0 960 540">
   <defs>
     <linearGradient id="card_grad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(255,255,255,1)"/>
       <stop offset="100%" stop-color="rgba(226,232,240,1)"/>
     </linearGradient>
   </defs>
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(241,245,249,1)"/>
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(241,245,249,1)"/>
   <g slide:role="group" id="card_primary">
     <rect slide:role="shape" slide:shape-type="round-rect" x="120" y="140" width="520" height="300" rx="24" ry="24" fill="url(#card_grad)" stroke="rgba(148,163,184,1)" stroke-width="1"/>
     <circle slide:role="shape" slide:shape-type="circle" cx="180" cy="206" r="26" fill="rgba(37,99,235,1)"/>
@@ -672,13 +672,13 @@ Create `group-card.svg`:
 Create `chart-embed.svg`:
 
 ```xml
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="chart_embed" viewBox="0 0 1280 720">
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(255,255,255,1)"/>
-  <foreignObject slide:role="shape" slide:shape-type="text" x="96" y="72" width="720" height="72" style="font-size:36px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(17,24,39,1);font-weight:800;line-height:1.15;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="chart_embed" viewBox="0 0 960 540">
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="56" width="680" height="72" style="font-size:36px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(17,24,39,1);font-weight:800;line-height:1.15;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
     <h2 xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:36px;line-height:1.15;color:rgba(17,24,39,1);letter-spacing:0px">Chart is a referenced sidecar</h2>
   </foreignObject>
-  <rect slide:role="chart" href="resources/charts/example_bar.svg" x="120" y="184" width="760" height="475"/>
-  <foreignObject slide:role="shape" slide:shape-type="text" x="930" y="216" width="220" height="118" style="font-size:19px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(55,65,81,1);font-weight:500;line-height:1.38;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+  <rect slide:role="chart" href="resources/charts/example_bar.svg" x="80" y="160" width="560" height="350"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="690" y="190" width="190" height="118" style="font-size:19px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(55,65,81,1);font-weight:500;line-height:1.38;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
     <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:19px;line-height:1.38;color:rgba(55,65,81,1);letter-spacing:0px">The chart payload lives outside the slide and is referenced by href.</p>
   </foreignObject>
 </svg>
@@ -771,8 +771,8 @@ function writeSlide(root, name, body) {
   fs.writeFileSync(path.join(root, "slides", name), body);
 }
 
-const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="valid" viewBox="0 0 1280 720">
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(255,255,255,1)"/>
+const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="valid" viewBox="0 0 960 540">
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/>
   <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="80" width="600" height="80" style="font-size:32px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);line-height:1.2;letter-spacing:0px;padding:0px">
     <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:32px;color:rgba(15,23,42,1)">Valid</p>
   </foreignObject>
@@ -818,7 +818,6 @@ Run:
 ```bash
 node --test skills/lark-slides/scripts/validate_svg_deck_test.mjs
 node skills/lark-slides/scripts/validate_svg_deck.mjs skills/lark-slides/references/svg-slides/examples
-node skills/lark-slides/scripts/validate_svg_deck.mjs /Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/deepseek_v4_svg_ppt_strict
 ```
 
 Expected result:
@@ -826,7 +825,6 @@ Expected result:
 ```text
 node --test exits 0
 examples: Errors: 0
-strict deck: Errors: 0
 ```
 
 - [ ] **Step 5: Verify old deck still fails**
@@ -834,8 +832,8 @@ strict deck: Errors: 0
 Run:
 
 ```bash
-node skills/lark-slides/scripts/validate_svg_deck.mjs /Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/deepseek_v4_svg_ppt --json > /tmp/svg-slides-old-validation.json
-node -e 'const r=require("/tmp/svg-slides-old-validation.json"); if (r.totalErrors !== 919) { console.error(r.totalErrors); process.exit(1) } console.log("old deck fails as expected")'
+node skills/lark-slides/scripts/validate_svg_deck.mjs /Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/deepseek_v4_svg_ppt --json > /tmp/svg-slides-old-validation.json || true
+node -e 'const r=require("/tmp/svg-slides-old-validation.json"); if (r.totalErrors <= 0) { console.error(r.totalErrors); process.exit(1) } console.log("old deck fails as expected", r.totalErrors)'
 ```
 
 Expected result:
@@ -936,7 +934,7 @@ const manifest = {
   version: "svglide.manifest.v1",
   protocol: "svg-slides.v1",
   title,
-  size: { width: 1280, height: 720 },
+  size: { width: 960, height: 540 },
   publish_ready: true,
   published: false,
   pages,
@@ -969,8 +967,8 @@ function tempDeck() {
   return root;
 }
 
-const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="bundle_slide" viewBox="0 0 1280 720">
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(255,255,255,1)"/>
+const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="bundle_slide" viewBox="0 0 960 540">
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/>
   <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="80" width="600" height="80" style="font-size:32px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);line-height:1.2;letter-spacing:0px;padding:0px">
     <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:32px;color:rgba(15,23,42,1)">Bundle</p>
   </foreignObject>
@@ -985,7 +983,7 @@ test("bundle builder writes manifest and validation receipt", () => {
   assert.equal(manifest.version, "svglide.manifest.v1");
   assert.equal(manifest.protocol, "svg-slides.v1");
   assert.equal(manifest.title, "Bundle Test");
-  assert.deepEqual(manifest.size, { width: 1280, height: 720 });
+  assert.deepEqual(manifest.size, { width: 960, height: 540 });
   assert.equal(manifest.publish_ready, true);
   assert.equal(manifest.published, false);
   assert.equal(manifest.pages.length, 1);
@@ -1029,7 +1027,7 @@ The manifest uses:
 {
   "version": "svglide.manifest.v1",
   "protocol": "svg-slides.v1",
-  "size": {"width": 1280, "height": 720},
+  "size": {"width": 960, "height": 540},
   "publish_ready": true,
   "published": false
 }
@@ -1133,7 +1131,7 @@ if (!slideFiles.length) {
 }
 
 const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });
+const page = await browser.newPage({ viewport: { width: 960, height: 540 }, deviceScaleFactor: 1 });
 const results = [];
 
 for (const file of slideFiles) {
@@ -1256,7 +1254,7 @@ In `skills/lark-slides/SKILL.md`, add this row after the "新建 PPT" row:
 In `skills/lark-slides/SKILL.md`, add below the XML critical notes:
 
 ```markdown
-**CRITICAL — SVG Slides / SVGlide 与当前 XML/SXSD 工作流是不同协议。SVG Slides 使用 `viewBox="0 0 1280 720"` 和 `slide:*` SVG 语义；当前 XML/SXSD 生成仍使用 960x540 SML。处理 SVG Slides 生成或校验时，先读 [`references/svg-slides/README.md`](references/svg-slides/README.md)，不要把 SVG 规则写进 `xml-schema-quick-ref.md`。**
+**CRITICAL — SVG Slides / SVGlide 与当前 XML/SXSD 工作流是不同协议。两者都使用 960x540 画布，但 SVG Slides 使用 `viewBox="0 0 960 540"` 和 `slide:*` SVG 语义，XML/SXSD 使用 SML XML。处理 SVG Slides 生成或校验时，先读 [`references/svg-slides/README.md`](references/svg-slides/README.md)，不要把 SVG 规则写进 `xml-schema-quick-ref.md`。**
 ```
 
 - [ ] **Step 3: Mark the publish plan as blocked by live contract**
@@ -1272,7 +1270,7 @@ At the top of `skills/lark-slides/references/create-svglide-implementation-plan.
 Run:
 
 ```bash
-rg -n "SVG Slides|svg-slides|1280x720|960x540|publish-layer plan" skills/lark-slides/SKILL.md skills/lark-slides/references/create-svglide-implementation-plan.zh.md
+rg -n "SVG Slides|svg-slides|960x540|960x540|publish-layer plan" skills/lark-slides/SKILL.md skills/lark-slides/references/create-svglide-implementation-plan.zh.md
 ```
 
 Expected result:
@@ -1349,20 +1347,19 @@ Slides: 3
 Errors: 0
 ```
 
-- [ ] **Step 4: Re-prove old and strict deck behavior**
+- [ ] **Step 4: Verify historical non-strict deck still fails**
 
 Run:
 
 ```bash
 node skills/lark-slides/scripts/validate_svg_deck.mjs /Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/deepseek_v4_svg_ppt --json > /tmp/svg-slides-old-validation.json || true
-node skills/lark-slides/scripts/validate_svg_deck.mjs /Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/deepseek_v4_svg_ppt_strict --json > /tmp/svg-slides-strict-validation.json
-node -e 'const old=require("/tmp/svg-slides-old-validation.json"); const strict=require("/tmp/svg-slides-strict-validation.json"); if (old.totalErrors !== 919 || strict.totalErrors !== 0) { console.error({old: old.totalErrors, strict: strict.totalErrors}); process.exit(1) } console.log("old=919 strict=0")'
+node -e 'const old=require("/tmp/svg-slides-old-validation.json"); if (old.totalErrors <= 0) { console.error(old.totalErrors); process.exit(1) } console.log("old deck still fails", old.totalErrors)'
 ```
 
 Expected result:
 
 ```text
-old=919 strict=0
+old deck still fails with a positive error count
 ```
 
 - [ ] **Step 5: Build a temporary publish-ready bundle**
@@ -1466,9 +1463,9 @@ Only one final commit is created if Tasks 1-7 left uncommitted verification fixe
 - `references/svg-slides/README.md` routes SVG Slides generation tasks without loading the full source by default.
 - `source/full.debranded.md` and `source/split-manifest.json` preserve provenance and define the source coverage authority.
 - Every `split-manifest.json` section id is covered exactly once by a `## Source Coverage` block, and `svg_slides_source_coverage_check.mjs` exits 0.
-- `validate_svg_deck.mjs` passes valid examples, passes the strict historical deck, and fails the historical first deck with 919 errors.
+- `validate_svg_deck.mjs` passes valid 960x540 examples and rejects the historical first deck with a positive error count.
 - `svg_slides_bundle.mjs` writes `manifest.json` and `receipts/validate_svg_deck.json` for a valid local deck.
-- `SKILL.md` explicitly separates SVG Slides 1280x720 from current SML XML 960x540.
+- `SKILL.md` explicitly separates the SVG Slides protocol from current SML XML while documenting that both use a 960x540 canvas.
 - No publish-layer Go code or live API claim is introduced.
 
 ## Self-Review

@@ -13,8 +13,8 @@ function tempDeck() {
   return root;
 }
 
-const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="bundle_slide" viewBox="0 0 1280 720">
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(255,255,255,1)"/>
+const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="bundle_slide" viewBox="0 0 960 540">
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/>
   <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="80" width="600" height="80" style="font-size:32px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);line-height:1.2;letter-spacing:0px;padding:0px">
     <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:32px;color:rgba(15,23,42,1)">Bundle</p>
   </foreignObject>
@@ -29,7 +29,7 @@ test("bundle builder writes manifest and validation receipt", () => {
   assert.equal(manifest.version, "svglide.manifest.v1");
   assert.equal(manifest.protocol, "svg-slides.v1");
   assert.equal(manifest.title, "Bundle Test");
-  assert.deepEqual(manifest.size, { width: 1280, height: 720 });
+  assert.deepEqual(manifest.size, { width: 960, height: 540 });
   assert.equal(manifest.publish_ready, true);
   assert.equal(manifest.published, false);
   assert.equal(manifest.pages.length, 1);

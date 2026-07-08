@@ -1,8 +1,8 @@
 # Slides +create-svglide Implementation Plan
 
-> Status: publish-layer plan. Endpoint/body/response contract for live SVGlide publishing is not confirmed yet. Execute `svg-slides-local-generation-action-plan.zh.md` first to build the 1280x720 SVG Slides generation and validation bundle that this publish layer will consume. Do not execute this plan as-is until the live contract resolves payload format, canvas size, response fields, and readback evidence.
+> Status: publish-layer plan. Endpoint/body/response contract for live SVGlide publishing is not confirmed yet. Execute `svg-slides-local-generation-action-plan.zh.md` first to build the 960x540 SVG Slides generation and validation bundle that this publish layer will consume. Do not execute this plan as-is until the live contract resolves payload format, canvas size, response fields, and readback evidence.
 
-> Known stale assumptions: the body below still contains earlier 960x540 MVP examples copied from the `slides +create` XML boundary. Treat those examples as historical scaffolding, not current SVG Slides requirements. Current local SVG Slides artifacts use `viewBox="0 0 1280 720"`; the eventual publish layer must follow the confirmed backend contract.
+> Canvas decision: current local SVG Slides artifacts use `viewBox="0 0 960 540"`, aligned with the existing Lark Slides canvas size while keeping SVG Slides as a separate `slide:*` SVG protocol. The eventual publish layer must still wait for the confirmed backend endpoint, body, response fields, and readback evidence.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 

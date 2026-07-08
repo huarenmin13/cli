@@ -106,8 +106,8 @@ function checkSlide(file) {
     if (!/id="[^"]+"/.test(root)) {
       errors.push({ rule: "svg.root.id", severity: "error", message: "root must have id" });
     }
-    if (!/viewBox="0 0 1280 720"/.test(root)) {
-      errors.push({ rule: "svg.root.viewBox", severity: "error", message: "expected viewBox=\"0 0 1280 720\"" });
+    if (!/viewBox="0 0 960 540"/.test(root)) {
+      errors.push({ rule: "svg.root.viewBox", severity: "error", message: "expected viewBox=\"0 0 960 540\"" });
     }
   }
 

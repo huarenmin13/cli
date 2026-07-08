@@ -21,8 +21,8 @@ function runValidator(root) {
   return spawnSync("node", [script, root, "--json"], { encoding: "utf8" });
 }
 
-const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="valid" viewBox="0 0 1280 720">
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(255,255,255,1)"/>
+const validSlide = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="valid" viewBox="0 0 960 540">
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(255,255,255,1)"/>
   <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="80" width="600" height="80" style="font-size:32px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);line-height:1.2;letter-spacing:0px;padding:0px">
     <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:32px;color:rgba(15,23,42,1)">Valid</p>
   </foreignObject>
@@ -42,9 +42,9 @@ test("valid SVG deck passes", () => {
 
 test("invalid SVG deck reports protocol errors", () => {
   const root = tempDeck();
-  writeSlide(root, "slide_01.svg", `<svg xmlns="http://www.w3.org/2000/svg" id="bad" viewBox="0 0 1280 720">
+  writeSlide(root, "slide_01.svg", `<svg xmlns="http://www.w3.org/2000/svg" id="bad" viewBox="0 0 960 540">
     <style>.t{fill:red}</style>
-    <rect width="1280" height="720" fill="#fff"/>
+    <rect width="960" height="540" fill="#fff"/>
     <foreignObject slide:role="shape" slide:shape-type="text" x="80" y="80" width="300" height="80" style="font-size:32;color:#111">
       <div xmlns="http://www.w3.org/1999/xhtml"><p>Bad</p></div>
     </foreignObject>

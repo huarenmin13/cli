@@ -7,9 +7,10 @@
 - Root must contain `xmlns:slide="https://slides.bytedance.com/ns"`.
 - Root must contain `slide:role="slide"`.
 - Root must contain an `id`.
-- Root must contain `viewBox="0 0 1280 720"`.
+- Root must contain `viewBox="0 0 960 540"`.
 - Child coordinates are in viewBox units.
 - Do not rely on HTML document behavior. SVG nodes use SVG semantics; XHTML appears only inside approved `foreignObject` children.
+- This 960x540 canvas is the CLI adaptation target. The preserved source snapshot may mention other defaults, but generated local bundles must use 960x540.
 
 ## Background
 
@@ -90,4 +91,4 @@
 ## Source Coverage
 
 - Covers manifest sections: svg_reference, svg_document_rules
-- Coverage mode: preserve all hard SVG protocol requirements from the source; visual guidance belongs in `visual-design.md`, not here.
+- Coverage mode: preserve hard SVG protocol requirements from the source while applying the CLI canvas adaptation to 960x540; visual guidance belongs in `visual-design.md`, not here.

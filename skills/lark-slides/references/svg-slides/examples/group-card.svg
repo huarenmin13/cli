@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="group_card" viewBox="0 0 1280 720">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="group_card" viewBox="0 0 960 540">
   <defs>
     <linearGradient id="card_grad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(255,255,255,1)"/>
       <stop offset="100%" stop-color="rgba(226,232,240,1)"/>
     </linearGradient>
   </defs>
-  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(241,245,249,1)"/>
+  <rect slide:role="background" x="0" y="0" width="960" height="540" fill="rgba(241,245,249,1)"/>
   <g slide:role="group" id="card_primary">
     <rect slide:role="shape" slide:shape-type="round-rect" x="120" y="140" width="520" height="300" rx="24" ry="24" fill="url(#card_grad)" stroke="rgba(148,163,184,1)" stroke-width="1"/>
     <circle slide:role="shape" slide:shape-type="circle" cx="180" cy="206" r="26" fill="rgba(37,99,235,1)"/>

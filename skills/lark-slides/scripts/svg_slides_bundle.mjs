@@ -57,7 +57,7 @@ const manifest = {
   version: "svglide.manifest.v1",
   protocol: "svg-slides.v1",
   title,
-  size: { width: 1280, height: 720 },
+  size: { width: 960, height: 540 },
   publish_ready: true,
   published: false,
   pages,
