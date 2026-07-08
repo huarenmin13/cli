@@ -69,6 +69,18 @@ lark-cli drive permission.public get \
   --as user --format json
 ```
 
+按需读取直接协作者/授权成员列表：
+
+```bash
+lark-cli drive +member-list \
+  --token '<token_or_url>' \
+  --type '<type>' \
+  --fields 'name,type,external_label' \
+  --as user --format json
+```
+
+`--fields` 默认不传；只有需要名称、协作者类型、头像或外部标签时才显式传。该命令读取的是当前目标的直接协作者/授权成员列表，不代表完整继承链或历史权限变更审计。
+
 按需读取访问统计：
 
 ```bash
