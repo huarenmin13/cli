@@ -2,6 +2,71 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.0.66] - 2026-07-07
+
+### Features
+
+- support semantic recurring calendar operations (#1723)
+- minute wait (#1768)
+
+### Bug Fixes
+
+- guide drive import concurrency conflicts (#1751)
+- **calendar**: guide approval room booking fallback (#1637)
+- support pnpm global installs in self-update (#1705)
+- resolve schema against runtime metadata in plugin builds; gate cache overlay by version (#1764)
+
+### Documentation
+
+- tighten doc creation validation workflow (#1759)
+- clarify success envelope contract — judge success by ok, not code (#1730)
+
+### Refactoring
+
+- **envvars**: consolidate agent env value access (#1757)
+
+### Misc
+
+- Improve agent-facing error guidance for drive, markdown, and wiki (#1779)
+
+## [v1.0.65] - 2026-07-03
+
+### Features
+
+- **doc**: Add `+history-list`, `+history-revert`, and `+history-revert-status` shortcuts for document version history (#1612)
+
+### Bug Fixes
+
+- **minutes**: `+speaker-replace` no longer refetches the speaker list — `--from-speaker-id` is passed through as-is (#1731)
+
+### Documentation
+
+- **drive**: Document 30-char query limit for `+search` (#1560)
+- **doc**: Add mindnote guidance to lark-doc skill (#1581)
+- **doc**: Sync lark-doc skill content from online-doc (#1701)
+
+## [v1.0.64] - 2026-07-02
+
+### Features
+
+- **im**: Upgrade card send to Card 2.0 with full component reference (#1688)
+- **im**: Add `+chat-members-list` shortcut for member listing (#1398)
+- **okr**: Semi-plain text format with mention position preservation and `patch` shortcut (#1671)
+
+### Bug Fixes
+
+- **cli**: Point permission-apply link at official `/page/scope-apply` entry (#1722)
+- **cli**: Improve secure label error handling (#1707)
+- **cli**: Reduce public content token false positives
+- **cli**: Increase npm registry fetch timeout to 15s during update check (#1724)
+- **doc**: Align word statistics compound tokens (#1706)
+
+### Documentation
+
+- **approval**: Add detailed command-to-reference mapping for the approval skill (#1630)
+- **doc**: Support `reference_map` in docs (#1690)
+- **slides**: Refresh generation guidance — add constraints, drop template toolchain, and inline lint XML fixtures
+
 ## [v1.0.62] - 2026-07-01
 
 ### Features
@@ -1333,6 +1398,9 @@ Bundled AI agent skills for intelligent assistance:
 - Bilingual documentation (English & Chinese).
 - CI/CD pipelines: linting, testing, coverage reporting, and automated releases.
 
+[v1.0.66]: https://github.com/larksuite/cli/releases/tag/v1.0.66
+[v1.0.65]: https://github.com/larksuite/cli/releases/tag/v1.0.65
+[v1.0.64]: https://github.com/larksuite/cli/releases/tag/v1.0.64
 [v1.0.62]: https://github.com/larksuite/cli/releases/tag/v1.0.62
 [v1.0.61]: https://github.com/larksuite/cli/releases/tag/v1.0.61
 [v1.0.60]: https://github.com/larksuite/cli/releases/tag/v1.0.60
