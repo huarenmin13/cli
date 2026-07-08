@@ -56,8 +56,11 @@ Presented decks can use shorter on-slide wording because the speaker carries con
 - typography category and treatment;
 - layout grammar;
 - imagery or material direction;
+- page-role imagery defaults for cover, section divider, and closing pages;
 - decoration and motif rules;
 - constraints to avoid.
+
+Unless the user explicitly requests no images, `visual_system` must specify how cover, section divider, and closing pages use a high-impact hero image or generated visual. The brief should describe the imagery subject, treatment, crop attitude, and how foreground text stays readable.
 
 Font mapping must preserve the same category and treatment. Do not swap serif and sans, ignore uppercase treatment, or pick generic fonts when the brief calls for a distinctive style.
 

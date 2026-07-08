@@ -33,6 +33,8 @@ Every substantive slide should have a visual idea: image, chart, diagram, proces
 
 Avoid repeating title-plus-bullets. Reuse deck-level motif and style, not the exact same page layout.
 
+Cover, section divider, and closing pages are not exceptions. Unless the user explicitly requests no images, make these pages image-led with a high-impact hero image or generated visual. Text over imagery must use an intentional readability treatment, such as a translucent scrim or solid text zone, instead of relying on contrast by accident.
+
 ## Density
 
 Density comes from audience and delivery mode. Split rather than cram when a slide needs more than one central idea.

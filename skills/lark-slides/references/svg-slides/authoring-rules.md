@@ -45,7 +45,11 @@ Use images when there is a real image asset or generated visual. The SVG file re
 
 Informational images such as charts, diagrams, screenshots, and infographics must preserve their original ratio. Decorative images may be composed more freely, but should still fit the resolved design brief.
 
-Generated cover or closing images must not contain baked-in text. Render text as slide text on top of the image.
+Unless the user explicitly requests no images, cover, section divider, and closing pages should use a large hero image or generated visual. Full-bleed image backgrounds use `<image slide:role="background">`; large non-background images use `<image slide:role="image" slide:shape-type="image">`.
+
+When text sits on an image, place a semi-transparent `<rect slide:role="shape" slide:shape-type="shape">` scrim or a solid text zone after the image and before the text. Do not use SVG `<mask>` for this readability layer.
+
+Generated cover, section divider, or closing images must not contain baked-in text. Render text as slide text on top of the image.
 
 ## Chart Embeds
 

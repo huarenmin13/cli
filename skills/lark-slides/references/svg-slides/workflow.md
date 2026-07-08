@@ -62,6 +62,8 @@ Translate `visual_system` into concrete deck-level style:
 - `typography`: a stable display/body pairing that matches the brief's category and treatment.
 - `visual_assets`: per-slide image and chart needs, including aspect ratio and placement intent.
 
+Unless the user explicitly requests no images, cover, section divider, and closing pages default to a high-impact hero image or generated visual. Record the intended asset, crop/aspect ratio, placement, and text-readability overlay treatment in `visual_assets`; do not leave these page roles as text-only by default.
+
 Plan charts before writing slides. Any real quantitative series that supports a slide's point should use the chart workflow rather than a hand-drawn fake chart.
 
 ## Phase 8: Author SVG Pages
