@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="group_card" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="card_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,1)"/>
+      <stop offset="100%" stop-color="rgba(226,232,240,1)"/>
+    </linearGradient>
+  </defs>
+  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(241,245,249,1)"/>
+  <g slide:role="group" id="card_primary">
+    <rect slide:role="shape" slide:shape-type="round-rect" x="120" y="140" width="520" height="300" rx="24" ry="24" fill="url(#card_grad)" stroke="rgba(148,163,184,1)" stroke-width="1"/>
+    <circle slide:role="shape" slide:shape-type="circle" cx="180" cy="206" r="26" fill="rgba(37,99,235,1)"/>
+    <foreignObject slide:role="shape" slide:shape-type="text" x="224" y="178" width="340" height="50" style="font-size:28px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);font-weight:800;line-height:1.2;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+      <h2 xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:28px;line-height:1.2;color:rgba(15,23,42,1);letter-spacing:0px">Grouped card</h2>
+    </foreignObject>
+    <foreignObject slide:role="shape" slide:shape-type="text" x="154" y="264" width="420" height="86" style="font-size:20px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(51,65,85,1);font-weight:500;line-height:1.38;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+      <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:20px;line-height:1.38;color:rgba(51,65,85,1);letter-spacing:0px">A card is a group; every visual child still carries its own slide role.</p>
+    </foreignObject>
+  </g>
+</svg>

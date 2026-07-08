@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="minimal_slide" viewBox="0 0 1280 720">
+  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(248,250,252,1)"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="96" y="88" width="880" height="92" style="font-size:42px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(15,23,42,1);font-weight:800;line-height:1.12;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+    <h1 xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:42px;line-height:1.12;color:rgba(15,23,42,1);letter-spacing:0px">One protocol-compliant SVG slide</h1>
+  </foreignObject>
+</svg>

@@ -1,0 +1,25 @@
+{
+  "version": "svg-slides.split-manifest.v1",
+  "source": "skills/lark-slides/references/svg-slides/source/full.debranded.md",
+  "source_export": "/Users/bytedance/Documents/Codex/2026-07-01/https-bytedance-larkoffice-com-docx-kncld7xr5ohwonxhksncz3lxnvd/outputs/lark_doc_KnCLd7xr5ohWONxhKsncZ3Lxnvd/full.debranded.md",
+  "source_role": "provenance_and_coverage_authority_not_default_runtime_context",
+  "sections": [
+    {"id": "title", "lines": [1, 1], "target": "README.md"},
+    {"id": "system_prompt_workflow", "lines": [3, 196], "target": "workflow.md"},
+    {"id": "svg_reference", "lines": [198, 865], "target": "protocol.md"},
+    {"id": "resolve_design_brief", "lines": [867, 1080], "target": "design-brief.md"},
+    {"id": "deck_design_reference_catalog", "lines": [1082, 1234], "target": "visual-design.md"},
+    {"id": "slide_outline_tool", "lines": [1236, 1254], "target": "workflow.md"},
+    {"id": "activate_slides_edit_tool", "lines": [1256, 1262], "target": "workflow.md"},
+    {"id": "slides_edit_tool", "lines": [1264, 1281], "target": "authoring-rules.md"},
+    {"id": "svg_document_rules", "lines": [1283, 1287], "target": "protocol.md"},
+    {"id": "image_usage", "lines": [1289, 1291], "target": "authoring-rules.md"},
+    {"id": "incremental_processing", "lines": [1293, 1331], "target": "workflow.md"},
+    {"id": "finish_slides_edit_tool", "lines": [1333, 1339], "target": "validation.md"},
+    {"id": "slide_organize_tool", "lines": [1341, 1347], "target": "editing-existing-decks.md"},
+    {"id": "compute_custom_shape_bbox_tool", "lines": [1349, 1355], "target": "authoring-rules.md"},
+    {"id": "generate_svg_chart_tool", "lines": [1357, 2356], "target": "chart-workflow.md"},
+    {"id": "slides_convert_tool", "lines": [2358, 2395], "target": "editing-existing-decks.md"},
+    {"id": "slides_parse_template_tool", "lines": [2397, 2420], "target": "editing-existing-decks.md"}
+  ]
+}

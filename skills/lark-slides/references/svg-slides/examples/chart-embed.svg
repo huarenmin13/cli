@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:slide="https://slides.bytedance.com/ns" slide:role="slide" id="chart_embed" viewBox="0 0 1280 720">
+  <rect slide:role="background" x="0" y="0" width="1280" height="720" fill="rgba(255,255,255,1)"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="96" y="72" width="720" height="72" style="font-size:36px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(17,24,39,1);font-weight:800;line-height:1.15;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+    <h2 xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:36px;line-height:1.15;color:rgba(17,24,39,1);letter-spacing:0px">Chart is a referenced sidecar</h2>
+  </foreignObject>
+  <rect slide:role="chart" href="resources/charts/example_bar.svg" x="120" y="184" width="760" height="475"/>
+  <foreignObject slide:role="shape" slide:shape-type="text" x="930" y="216" width="220" height="118" style="font-size:19px;font-family:DM Sans,PingFang SC,Noto Sans SC,Arial,sans-serif;color:rgba(55,65,81,1);font-weight:500;line-height:1.38;text-align:left;vertical-align:top;letter-spacing:0px;padding:0px">
+    <p xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:19px;line-height:1.38;color:rgba(55,65,81,1);letter-spacing:0px">The chart payload lives outside the slide and is referenced by href.</p>
+  </foreignObject>
+</svg>
