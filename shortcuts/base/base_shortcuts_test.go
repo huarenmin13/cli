@@ -804,6 +804,9 @@ func TestBaseRecordWriteHelpGuidesAgents(t *testing.T) {
 				"does not auto-upsert by business key",
 				"use +field-list to confirm real writable fields",
 				"do not write system fields, formula, lookup, or attachment fields",
+				"Sub-record/child-record path",
+				"set that link field to the parent record ID array",
+				"do not look for parent_record_id or a separate child-record API",
 				"CellValue happy path: text/phone/url",
 				"select -> \"Todo\"",
 				"multi-select -> [\"Tag A\",\"Tag B\"]",
@@ -951,11 +954,17 @@ func TestBaseFieldUpdateHelpGuidesAgents(t *testing.T) {
 			t.Fatalf("flag help missing %q:\n%s", want, help)
 		}
 	}
+	if strings.Contains(help, "reformat-existing-records") {
+		t.Fatalf("+field-update must not expose a --reformat-existing-records flag:\n%s", help)
+	}
 
 	tips := strings.Join(cmdutil.GetTips(cmd), "\n")
 	wantTips := []string{
 		`lark-cli base +field-update --base-token <base_token> --table-id <table_id> --field-id "Status" --json '{"name":"Status","type":"text"}' --yes`,
 		`"type":"select","multiple":false,"options":[{"name":"Todo"},{"name":"Done"}]`,
+		`Example auto_number update: lark-cli base +field-update`,
+		`When --json.type is "auto_number", updating the numbering rules also reapplies them to existing numbers`,
+		"just submit the target field definition and do not add extra low-level parameters",
 		"full field-definition PUT semantics",
 		"Read the current field first with +field-get",
 		"Type conversion is allowlist-based",
@@ -967,6 +976,9 @@ func TestBaseFieldUpdateHelpGuidesAgents(t *testing.T) {
 		if !strings.Contains(tips, want) {
 			t.Fatalf("tips missing %q:\n%s", want, tips)
 		}
+	}
+	if strings.Contains(tips, "--reformat-existing-records") {
+		t.Fatalf("+field-update tips must not ask agents to pass --reformat-existing-records:\n%s", tips)
 	}
 }
 
@@ -1089,6 +1101,10 @@ func TestBaseFieldValidate(t *testing.T) {
 	}
 	if err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"f1","type":"formula"}`}, map[string]bool{"i-have-read-guide": true}, nil)); err != nil {
 		t.Fatalf("formula update validate err=%v", err)
+	}
+	autoNumberJSON := `{"name":"编号","type":"auto_number","style":{"rules":[{"type":"text","text":"TASK-"},{"type":"created_time","date_format":"yyyyMM"},{"type":"incremental_number","length":4}]}}`
+	if err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": autoNumberJSON}, nil, nil)); err != nil {
+		t.Fatalf("auto number update validate err=%v", err)
 	}
 }
 
@@ -1216,6 +1232,14 @@ func TestBaseRecordValidate(t *testing.T) {
 		nil,
 		nil,
 	)); err == nil || !strings.Contains(err.Error(), "--json is mutually exclusive") {
+		t.Fatalf("err=%v", err)
+	}
+	if err := BaseRecordSearch.Validate(ctx, newBaseTestRuntimeWithArrays(
+		map[string]string{"base-token": "b", "table-id": "tbl_1", "json": `{"keyword":"Alice","search_fields":["Name"]}`, "fields": "Name"},
+		map[string][]string{"field-id": {"fld_name"}},
+		nil,
+		nil,
+	)); err == nil || !strings.Contains(err.Error(), "--field-id is mutually exclusive with --fields") {
 		t.Fatalf("err=%v", err)
 	}
 }

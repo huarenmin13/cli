@@ -20,6 +20,13 @@ lark-cli base +field-update \
   --field-id <field_id> \
   --json '{"name":"负责人","type":"user","multiple":false,"description":"用于标记记录的直接负责人"}' \
   --yes
+
+lark-cli base +field-update \
+  --base-token <base_token> \
+  --table-id <table_id> \
+  --field-id <field_id> \
+  --json '{"name":"编号","type":"auto_number","style":{"rules":[{"type":"text","text":"TASK-"},{"type":"created_time","date_format":"yyyyMM"},{"type":"text","text":"-"},{"type":"incremental_number","length":4}]}}' \
+  --yes
 ```
 
 ## 参数
@@ -42,6 +49,8 @@ lark-cli base +field-update \
 PUT /open-apis/base/v3/bases/:base_token/tables/:table_id/fields/:field_id
 ```
 
+当 `--json.type` 是 `auto_number` 时，仍然走同一个 v3 字段更新接口：更新自动编号规则后，接口现状就会把新规则应用到已有编号（这是接口默认行为，只是 agent 通常不知道），因此**不需要**任何额外开关或参数。只需要正常提交目标自动编号字段定义即可；如果用户要求“将修改用于已有编号”，直接执行这次 `+field-update` 就能达到效果，不要在 `--json` 里额外添加任何参数去“触发”重排。
+
 ## JSON 值规范
 
 - `--json` 必须是 **JSON 对象**，顶层直接传字段定义。
@@ -51,6 +60,7 @@ PUT /open-apis/base/v3/bases/:base_token/tables/:table_id/fields/:field_id
 - `link` 更新限制：
   - 不能把非 `link` 字段改成 `link`，也不能把 `link` 改成非 `link`。
   - 现有 `link` 字段的 `bidirectional` 不能改。
+- `auto_number` 更新的 `style.rules` 支持 `text`、`created_time`、`incremental_number`；更新规则会作用到已有编号（普通 v3 更新，无需额外参数，详见上文「API 入参详情」）。
 
 **推荐更新示例**
 
@@ -81,13 +91,17 @@ PUT /open-apis/base/v3/bases/:base_token/tables/:table_id/fields/:field_id
 ## 返回重点
 
 - 返回 `field` 和 `updated: true`。
+- 如果返回 `field_get_recommended:false` 且 `next_step:"done"`，表示本次是简单字段结构更新，通常不需要重复 `+field-update`；只有用户要求精确核对额外属性时再调用 `+field-get`。
+- 如果 API 报告本次更新没有产生任何变更（no-op），命令会如实返回该错误；这通常说明目标字段已是期望状态，不要机械重试同一份 `+field-update`。需要确认当前字段完整状态时执行 `+field-get`。
+- 如果返回 `field_get_recommended:true` 或 `next_step:"field_get"`，按提示读回字段；`auto_number` 更新后还应抽样读记录值确认编号已按新规则生成。
 
 ## 工作流
 
 
 1. 建议先用 `+field-get` 拉现状，再做最小化修改。
 2. `formula/lookup` 类型更新前先阅读对应指南。
-3. 如果这次更新会改变字段 `type` 先按下方“字段类型变更规则”判断能否执行。如果不修改 `type`，大多数场景都相对安全。
+3. 如果更新 `auto_number`，理解为“更新编号规则，同时把新规则应用到已有编号”；这是普通的 `+field-update`，无需额外参数，执行后按返回提示读回字段并在必要时抽样记录值。
+4. 如果这次更新会改变字段 `type` 先按下方“字段类型变更规则”判断能否执行。如果不修改 `type`，大多数场景都相对安全。
 
 ## 字段类型变更规则
 
@@ -153,6 +167,7 @@ PUT /open-apis/base/v3/bases/:base_token/tables/:table_id/fields/:field_id
 ### 完成态验证
 
 - `FieldReadback`: 读回字段结构，确认 `type` / `multiple` / `style` / `options`
+- `NoopReadback`: `+field-update` 返回 no-op 错误时，只能说明 API 报告没有产生变更；可以跳过重复 update，但不能替代 `FieldReadback`
 - `ValueReadback`: 抽样读回转换后的单元格值
 - `DownstreamReadback`: 若涉及看板 / 分组 / 排序 / lookup / 公式，继续读回结果
 - `CompletionRule`: 结构、值、下游能力都正确，才能回复“已完成”

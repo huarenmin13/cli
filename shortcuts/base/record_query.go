@@ -174,7 +174,10 @@ func recordSearchFlagBody(runtime *common.RuntimeContext) (map[string]interface{
 	if len(searchFields) > 0 {
 		body["search_fields"] = searchFields
 	}
-	selectFields := recordListFields(runtime)
+	selectFields, err := recordListFields(runtime)
+	if err != nil {
+		return nil, err
+	}
 	if len(selectFields) > 0 {
 		body["select_fields"] = selectFields
 	}
@@ -219,10 +222,14 @@ func validateRecordSearchFlags(runtime *common.RuntimeContext) error {
 	}
 	jsonRaw := strings.TrimSpace(runtime.Str("json"))
 	if jsonRaw != "" {
-		if recordSearchHasJSONExclusiveFlagInputs(runtime) {
+		hasExclusiveInputs, err := recordSearchHasJSONExclusiveFlagInputs(runtime)
+		if err != nil {
+			return err
+		}
+		if hasExclusiveInputs {
 			return baseFlagErrorf("--json is mutually exclusive with keyword/search/projection/pagination flags; put those fields inside --json, or omit --json")
 		}
-		_, err := recordSearchJSONBody(runtime)
+		_, err = recordSearchJSONBody(runtime)
 		return err
 	}
 	if strings.TrimSpace(runtime.Str("keyword")) == "" {
@@ -245,14 +252,18 @@ func validateRecordSearchFlags(runtime *common.RuntimeContext) error {
 	return validateRecordQueryOptions(runtime)
 }
 
-func recordSearchHasJSONExclusiveFlagInputs(runtime *common.RuntimeContext) bool {
+func recordSearchHasJSONExclusiveFlagInputs(runtime *common.RuntimeContext) (bool, error) {
+	selectFields, err := recordListFields(runtime)
+	if err != nil {
+		return false, err
+	}
 	return strings.TrimSpace(runtime.Str("keyword")) != "" ||
 		len(runtime.StrArray("search-field")) > 0 ||
-		len(recordListFields(runtime)) > 0 ||
+		len(selectFields) > 0 ||
 		runtime.Str("view-id") != "" ||
 		runtime.Changed("offset") ||
 		runtime.Changed("limit") ||
-		runtime.Changed("page-size")
+		runtime.Changed("page-size"), nil
 }
 
 func formatRecordQueryPriorityTip() string {

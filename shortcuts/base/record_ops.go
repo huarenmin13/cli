@@ -211,7 +211,11 @@ func dryRunRecordList(_ context.Context, runtime *common.RuntimeContext) *common
 	params := url.Values{}
 	params.Set("offset", strconv.Itoa(offset))
 	params.Set("limit", strconv.Itoa(limit))
-	for _, field := range recordListFields(runtime) {
+	fields, err := recordListFields(runtime)
+	if err != nil {
+		return common.NewDryRunAPI()
+	}
+	for _, field := range fields {
 		params.Add("field_id", field)
 	}
 	if viewID := runtime.Str("view-id"); viewID != "" {
@@ -375,8 +379,37 @@ func validateRecordJSON(runtime *common.RuntimeContext) error {
 	return err
 }
 
-func recordListFields(runtime *common.RuntimeContext) []string {
-	return runtime.StrArray("field-id")
+func recordListFields(runtime *common.RuntimeContext) ([]string, error) {
+	fieldIDs := runtime.StrArray("field-id")
+	fieldsSet := runtime.Changed("fields")
+	fieldNamesSet := runtime.Changed("field-names")
+	if len(fieldIDs) > 0 && (fieldsSet || fieldNamesSet) {
+		return nil, baseFlagErrorf("--field-id is mutually exclusive with --fields and --field-names; use only --field-id")
+	}
+	if fieldsSet && fieldNamesSet {
+		return nil, baseFlagErrorf("--fields and --field-names are mutually exclusive; use only --field-id")
+	}
+	if fieldsSet {
+		return recordListProjectionAliasFields(runtime, "fields")
+	}
+	if fieldNamesSet {
+		return recordListProjectionAliasFields(runtime, "field-names")
+	}
+	return fieldIDs, nil
+}
+
+func recordListProjectionAliasFields(runtime *common.RuntimeContext, flagName string) ([]string, error) {
+	pc := newParseCtx(runtime)
+	values := runtime.StrArray(flagName)
+	fields := make([]string, 0, len(values))
+	for _, raw := range values {
+		parsed, err := parseStringListFlexible(pc, raw, flagName)
+		if err != nil {
+			return nil, err
+		}
+		fields = append(fields, parsed...)
+	}
+	return normalizeRecordGetSelectFields(fields)
 }
 
 func executeRecordList(runtime *common.RuntimeContext) error {
@@ -389,7 +422,10 @@ func executeRecordList(runtime *common.RuntimeContext) error {
 	}
 	limit := getPaginationLimit(runtime)
 	params := map[string]interface{}{"offset": offset, "limit": limit}
-	fields := recordListFields(runtime)
+	fields, err := recordListFields(runtime)
+	if err != nil {
+		return err
+	}
 	if len(fields) > 0 {
 		params["field_id"] = fields
 	}
