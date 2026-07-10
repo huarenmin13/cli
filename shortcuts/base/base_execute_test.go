@@ -830,6 +830,54 @@ func TestBaseFieldExecuteUpdate(t *testing.T) {
 	}
 }
 
+func TestFieldUpdateResultPrefersReturnedFieldType(t *testing.T) {
+	tests := []struct {
+		name        string
+		field       interface{}
+		submitted   map[string]interface{}
+		recommended bool
+		nextStep    string
+	}{
+		{
+			name:        "direct complex server type overrides simple submitted type",
+			field:       map[string]interface{}{"type": "auto_number"},
+			submitted:   map[string]interface{}{"type": "number"},
+			recommended: true,
+			nextStep:    "field_get",
+		},
+		{
+			name:        "nested simple server type avoids unnecessary readback",
+			field:       map[string]interface{}{"field": map[string]interface{}{"type": "number"}},
+			submitted:   map[string]interface{}{"type": "auto_number"},
+			recommended: false,
+			nextStep:    "done",
+		},
+		{
+			name:        "submitted type is fallback when response omits type",
+			field:       map[string]interface{}{"id": "fld_x"},
+			submitted:   map[string]interface{}{"type": "text"},
+			recommended: false,
+			nextStep:    "done",
+		},
+		{
+			name:        "missing type is conservative",
+			field:       map[string]interface{}{"id": "fld_x"},
+			submitted:   map[string]interface{}{"name": "Amount"},
+			recommended: true,
+			nextStep:    "field_get",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := fieldUpdateResult(map[string]interface{}{"field": tc.field, "updated": true}, tc.submitted)
+			if got["field_get_recommended"] != tc.recommended || got["next_step"] != tc.nextStep {
+				t.Fatalf("result=%#v, want recommended=%v next_step=%q", got, tc.recommended, tc.nextStep)
+			}
+		})
+	}
+}
+
 func TestBaseFieldExecuteUpdateNoopReturnsAPIError(t *testing.T) {
 	factory, stdout, reg := newExecuteFactory(t)
 	reg.Register(&httpmock.Stub{

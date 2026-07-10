@@ -246,7 +246,11 @@ func fieldCreateBatchResult(result map[string]interface{}, submitted []map[strin
 }
 
 func fieldUpdateResult(result map[string]interface{}, submitted map[string]interface{}) map[string]interface{} {
-	readbackRecommended, reason := fieldWriteReadbackRecommendation(submitted, "update")
+	fieldType := fieldResultType(result["field"])
+	if fieldType == "" {
+		fieldType = strings.ToLower(strings.TrimSpace(common.GetString(submitted, "type")))
+	}
+	readbackRecommended, reason := fieldTypeReadbackRecommendation(fieldType, "update")
 	result["field_get_recommended"] = readbackRecommended
 	if readbackRecommended {
 		result["next_step"] = "field_get"
@@ -260,14 +264,33 @@ func fieldUpdateResult(result map[string]interface{}, submitted map[string]inter
 
 func fieldWriteReadbackRecommendation(submitted map[string]interface{}, operation string) (bool, string) {
 	fieldType := strings.ToLower(strings.TrimSpace(common.GetString(submitted, "type")))
+	return fieldTypeReadbackRecommendation(fieldType, operation)
+}
+
+func fieldTypeReadbackRecommendation(fieldType, operation string) (bool, string) {
 	switch fieldType {
 	case "formula", "lookup", "auto_number", "link":
 		return true, fmt.Sprintf("computed, linked, or generated field %s should be verified with +field-get before declaring completion", operation)
-	case "text", "number", "select", "datetime", "checkbox", "user", "group_chat", "attachment", "location", "":
+	case "text", "number", "select", "datetime", "checkbox", "user", "group_chat", "attachment", "location":
 		return false, fmt.Sprintf("simple field %s returned successfully; use +field-get only when extra properties or explicit verification are needed", operation)
 	default:
 		return true, "unknown or uncommon field type; run +field-get to avoid assuming the submitted JSON fully describes server state"
 	}
+}
+
+func fieldResultType(value interface{}) string {
+	field, ok := value.(map[string]interface{})
+	if !ok {
+		return ""
+	}
+	if fieldType := strings.ToLower(strings.TrimSpace(common.GetString(field, "type"))); fieldType != "" {
+		return fieldType
+	}
+	nested, ok := field["field"].(map[string]interface{})
+	if !ok {
+		return ""
+	}
+	return strings.ToLower(strings.TrimSpace(common.GetString(nested, "type")))
 }
 
 func executeFieldDelete(runtime *common.RuntimeContext) error {
