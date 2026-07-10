@@ -210,15 +210,7 @@ func executeFieldUpdate(runtime *common.RuntimeContext) error {
 
 func fieldCreateResult(result map[string]interface{}, submitted map[string]interface{}) map[string]interface{} {
 	readbackRecommended, reason := fieldWriteReadbackRecommendation(submitted, "create")
-	result["field_get_recommended"] = readbackRecommended
-	if readbackRecommended {
-		result["next_step"] = "field_get"
-		result["verification_hint"] = reason
-	} else {
-		result["next_step"] = "done"
-		result["verification_hint"] = reason
-	}
-	return result
+	return attachFieldReadbackRecommendation(result, readbackRecommended, reason)
 }
 
 // fieldCreateBatchResult attaches the same top-level readback contract to a
@@ -235,14 +227,7 @@ func fieldCreateBatchResult(result map[string]interface{}, submitted []map[strin
 			break
 		}
 	}
-	result["field_get_recommended"] = recommend
-	if recommend {
-		result["next_step"] = "field_get"
-	} else {
-		result["next_step"] = "done"
-	}
-	result["verification_hint"] = reason
-	return result
+	return attachFieldReadbackRecommendation(result, recommend, reason)
 }
 
 func fieldUpdateResult(result map[string]interface{}, submitted map[string]interface{}) map[string]interface{} {
@@ -251,13 +236,16 @@ func fieldUpdateResult(result map[string]interface{}, submitted map[string]inter
 		fieldType = strings.ToLower(strings.TrimSpace(common.GetString(submitted, "type")))
 	}
 	readbackRecommended, reason := fieldTypeReadbackRecommendation(fieldType, "update")
+	return attachFieldReadbackRecommendation(result, readbackRecommended, reason)
+}
+
+func attachFieldReadbackRecommendation(result map[string]interface{}, readbackRecommended bool, reason string) map[string]interface{} {
 	result["field_get_recommended"] = readbackRecommended
+	result["verification_hint"] = reason
 	if readbackRecommended {
 		result["next_step"] = "field_get"
-		result["verification_hint"] = reason
 	} else {
 		result["next_step"] = "done"
-		result["verification_hint"] = reason
 	}
 	return result
 }

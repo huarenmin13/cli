@@ -892,8 +892,16 @@ func TestBaseFieldExecuteUpdateNoopReturnsAPIError(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected the API no-op response to surface as an error, got nil")
 	}
-	if _, ok := errs.ProblemOf(err); !ok {
+	p, ok := errs.ProblemOf(err)
+	if !ok {
 		t.Fatalf("expected a typed API error, got %T %v", err, err)
+	}
+	if p.Category != errs.CategoryAPI || p.Subtype != errs.SubtypeUnknown || p.Code != 800070003 {
+		t.Fatalf("category/subtype/code=%s/%s/%d", p.Category, p.Subtype, p.Code)
+	}
+	var apiErr *errs.APIError
+	if !errors.As(err, &apiErr) {
+		t.Fatalf("expected APIError, got %T %v", err, err)
 	}
 	if got := stdout.String(); strings.TrimSpace(got) != "" {
 		t.Fatalf("no success envelope should be emitted on a no-op API error:\n%s", got)
@@ -1864,8 +1872,19 @@ func TestBaseRecordExecuteReadCreateDelete(t *testing.T) {
 	t.Run("list projection aliases reject ambiguous inputs", func(t *testing.T) {
 		factory, stdout, _ := newExecuteFactory(t)
 		err := runShortcut(t, BaseRecordList, []string{"+record-list", "--base-token", "app_x", "--table-id", "tbl_x", "--field-id", "Name", "--fields", `["Age"]`}, factory, stdout)
-		if err == nil || !strings.Contains(err.Error(), "mutually exclusive") {
+		if err == nil {
 			t.Fatalf("err=%v", err)
+		}
+		p, ok := errs.ProblemOf(err)
+		if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeInvalidArgument {
+			t.Fatalf("expected invalid-argument validation problem, got %T %v", err, err)
+		}
+		var validationErr *errs.ValidationError
+		if !errors.As(err, &validationErr) {
+			t.Fatalf("expected ValidationError, got %T %v", err, err)
+		}
+		if validationErr.Param != "--field-id" {
+			t.Fatalf("param=%q, want --field-id", validationErr.Param)
 		}
 	})
 

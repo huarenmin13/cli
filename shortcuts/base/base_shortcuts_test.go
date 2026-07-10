@@ -1234,13 +1234,25 @@ func TestBaseRecordValidate(t *testing.T) {
 	)); err == nil || !strings.Contains(err.Error(), "--json is mutually exclusive") {
 		t.Fatalf("err=%v", err)
 	}
-	if err := BaseRecordSearch.Validate(ctx, newBaseTestRuntimeWithArrays(
+	err := BaseRecordSearch.Validate(ctx, newBaseTestRuntimeWithArrays(
 		map[string]string{"base-token": "b", "table-id": "tbl_1", "json": `{"keyword":"Alice","search_fields":["Name"]}`, "fields": "Name"},
 		map[string][]string{"field-id": {"fld_name"}},
 		nil,
 		nil,
-	)); err == nil || !strings.Contains(err.Error(), "--field-id is mutually exclusive with --fields") {
+	))
+	if err == nil {
 		t.Fatalf("err=%v", err)
+	}
+	p, ok := errs.ProblemOf(err)
+	if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeInvalidArgument {
+		t.Fatalf("expected invalid-argument validation problem, got %T %v", err, err)
+	}
+	var validationErr *errs.ValidationError
+	if !errors.As(err, &validationErr) {
+		t.Fatalf("expected ValidationError, got %T %v", err, err)
+	}
+	if validationErr.Param != "--field-id" {
+		t.Fatalf("param=%q, want --field-id", validationErr.Param)
 	}
 }
 
