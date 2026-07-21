@@ -4,35 +4,21 @@
 package base
 
 import (
-	"context"
 	"testing"
-	"time"
 
-	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 )
 
 func TestBaseFieldUpdateAutoNumberDryRun(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+field-update",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-id", "fld_x",
-			"--json", `{"name":"编号","type":"auto_number","style":{"rules":[{"type":"text","text":"TASK-"},{"type":"created_time","date_format":"yyyyMM"},{"type":"text","text":"-"},{"type":"incremental_number","length":4}]}}`,
-			"--yes",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+field-update",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--field-id", "fld_x",
+		"--json", `{"name":"编号","type":"auto_number","style":{"rules":[{"type":"text","text":"TASK-"},{"type":"created_time","date_format":"yyyyMM"},{"type":"text","text":"-"},{"type":"incremental_number","length":4}]}}`,
+		"--yes",
+	)
 
 	out := result.Stdout
 	require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields/fld_x", gjson.Get(out, "data.api.0.url").String(), out)
@@ -48,25 +34,14 @@ func TestBaseFieldUpdateAutoNumberDryRun(t *testing.T) {
 }
 
 func TestBaseFieldUpdateDryRunAllowsRatingMaxAboveLimit(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+field-update",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-id", "fld_x",
-			"--json", `{"name":"评分","type":"number","style":{"type":"rating","icon":"star","min":0,"max":20}}`,
-			"--yes",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+field-update",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--field-id", "fld_x",
+		"--json", `{"name":"评分","type":"number","style":{"type":"rating","icon":"star","min":0,"max":20}}`,
+		"--yes",
+	)
 
 	out := result.Stdout
 	require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields/fld_x", gjson.Get(out, "data.api.0.url").String(), out)

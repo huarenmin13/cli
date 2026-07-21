@@ -4,34 +4,20 @@
 package base
 
 import (
-	"context"
 	"testing"
-	"time"
 
-	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 )
 
 func TestBaseRecordListDryRunAcceptsFieldsAlias(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-list",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--fields", `["Name","Age"]`,
-			"--limit", "3",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-list",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--fields", `["Name","Age"]`,
+		"--limit", "3",
+	)
 
 	out := result.Stdout
 	require.Equal(t, "GET", gjson.Get(out, "data.api.0.method").String(), out)
@@ -39,25 +25,14 @@ func TestBaseRecordListDryRunAcceptsFieldsAlias(t *testing.T) {
 }
 
 func TestBaseRecordSearchDryRunAcceptsFieldsAlias(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-search",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--keyword", "Alice",
-			"--search-field", "Name",
-			"--fields", `["Name","Age"]`,
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-search",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--keyword", "Alice",
+		"--search-field", "Name",
+		"--fields", `["Name","Age"]`,
+	)
 
 	out := result.Stdout
 	require.Equal(t, "POST", gjson.Get(out, "data.api.0.method").String(), out)
@@ -67,25 +42,14 @@ func TestBaseRecordSearchDryRunAcceptsFieldsAlias(t *testing.T) {
 }
 
 func TestBaseRecordGetDryRunAcceptsFieldNamesAlias(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-get",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--record-id", "rec_1",
-			"--field-names", "Name",
-			"--field-names", "Age",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-get",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--record-id", "rec_1",
+		"--field-names", "Name",
+		"--field-names", "Age",
+	)
 
 	out := result.Stdout
 	require.Equal(t, "POST", gjson.Get(out, "data.api.0.method").String(), out)
@@ -96,23 +60,12 @@ func TestBaseRecordGetDryRunAcceptsFieldNamesAlias(t *testing.T) {
 }
 
 func TestBaseRecordGetDryRunTreatsNullProjectionAsOmitted(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-get",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--json", `{"record_id_list":["rec_1"],"select_fields":null}`,
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-get",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--json", `{"record_id_list":["rec_1"],"select_fields":null}`,
+	)
 
 	out := result.Stdout
 	require.Equal(t, "POST", gjson.Get(out, "data.api.0.method").String(), out)
@@ -122,24 +75,13 @@ func TestBaseRecordGetDryRunTreatsNullProjectionAsOmitted(t *testing.T) {
 }
 
 func TestBaseRecordGetDryRunUsesFlagProjectionWhenJSONProjectionIsNull(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-get",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--json", `{"record_id_list":["rec_1"],"select_fields":null}`,
-			"--field-id", "Name",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-get",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--json", `{"record_id_list":["rec_1"],"select_fields":null}`,
+		"--field-id", "Name",
+	)
 
 	out := result.Stdout
 	require.Equal(t, "POST", gjson.Get(out, "data.api.0.method").String(), out)
@@ -149,24 +91,13 @@ func TestBaseRecordGetDryRunUsesFlagProjectionWhenJSONProjectionIsNull(t *testin
 }
 
 func TestBaseRecordListDryRunPreservesFieldNamesCSVSemantics(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-list",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-names", `"A,B",@Owner`,
-			"--limit", "3",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-list",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--field-names", `"A,B",@Owner`,
+		"--limit", "3",
+	)
 
 	out := result.Stdout
 	require.Equal(t, "GET", gjson.Get(out, "data.api.0.method").String(), out)
@@ -174,46 +105,24 @@ func TestBaseRecordListDryRunPreservesFieldNamesCSVSemantics(t *testing.T) {
 }
 
 func TestBaseRecordListDryRunTreatsLeadingAtFieldNameLiterally(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-list",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-names", "@Owner",
-			"--limit", "3",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+record-list",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--field-names", "@Owner",
+		"--limit", "3",
+	)
 	require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/records?field_id=%40Owner&limit=3&offset=0", gjson.Get(result.Stdout, "data.api.0.url").String(), result.Stdout)
 }
 
 func TestBaseRecordSearchDryRunJSONConflictReportsActualParams(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+record-search",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--json", `{"keyword":"Alice","search_fields":["Name"]}`,
-			"--field-names", "Age",
-			"--dry-run",
-		},
-		DefaultAs: "user",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 2)
+	result := runBaseDryRun(t, 2,
+		"base", "+record-search",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--json", `{"keyword":"Alice","search_fields":["Name"]}`,
+		"--field-names", "Age",
+	)
 	require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
 	require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
 	require.Equal(t, "--json", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
@@ -234,7 +143,7 @@ func TestBaseRecordProjectionDryRunKeepsActiveParamForFlagLikeFieldNames(t *test
 			name: "canonical",
 			args: []string{
 				"base", "+record-list", "--base-token", "app_x", "--table-id", "tbl_x",
-				"--field-id", "Cost--USD", "--field-id", "Cost--USD", "--dry-run",
+				"--field-id", "Cost--USD", "--field-id", "Cost--USD",
 			},
 			wantParam: "--field-id",
 		},
@@ -242,7 +151,7 @@ func TestBaseRecordProjectionDryRunKeepsActiveParamForFlagLikeFieldNames(t *test
 			name: "fields alias",
 			args: []string{
 				"base", "+record-list", "--base-token", "app_x", "--table-id", "tbl_x",
-				"--fields", `["Cost--USD","Cost--USD"]`, "--dry-run",
+				"--fields", `["Cost--USD","Cost--USD"]`,
 			},
 			wantParam: "--fields",
 		},
@@ -250,7 +159,7 @@ func TestBaseRecordProjectionDryRunKeepsActiveParamForFlagLikeFieldNames(t *test
 			name: "field names alias",
 			args: []string{
 				"base", "+record-list", "--base-token", "app_x", "--table-id", "tbl_x",
-				"--field-names", "Cost--USD", "--field-names", "Cost--USD", "--dry-run",
+				"--field-names", "Cost--USD", "--field-names", "Cost--USD",
 			},
 			wantParam: "--field-names",
 		},
@@ -259,7 +168,6 @@ func TestBaseRecordProjectionDryRunKeepsActiveParamForFlagLikeFieldNames(t *test
 			args: []string{
 				"base", "+record-search", "--base-token", "app_x", "--table-id", "tbl_x",
 				"--json", `{"keyword":"cost","search_fields":["Name"],"select_fields":["Cost--USD","Cost--USD"]}`,
-				"--dry-run",
 			},
 			wantParam: "--json",
 		},
@@ -267,13 +175,7 @@ func TestBaseRecordProjectionDryRunKeepsActiveParamForFlagLikeFieldNames(t *test
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			setBaseDryRunConfigEnv(t)
-			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-			t.Cleanup(cancel)
-
-			result, err := clie2e.RunCmd(ctx, clie2e.Request{Args: tc.args, DefaultAs: "user"})
-			require.NoError(t, err)
-			result.AssertExitCode(t, 2)
+			result := runBaseDryRun(t, 2, tc.args...)
 			require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
 			require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
 			require.Equal(t, tc.wantParam, gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
