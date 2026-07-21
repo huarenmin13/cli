@@ -95,6 +95,59 @@ func TestBaseRecordGetDryRunAcceptsFieldNamesAlias(t *testing.T) {
 	require.Equal(t, "Age", gjson.Get(out, "data.api.0.body.select_fields.1").String(), out)
 }
 
+func TestBaseRecordGetDryRunTreatsNullProjectionAsOmitted(t *testing.T) {
+	setBaseDryRunConfigEnv(t)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	t.Cleanup(cancel)
+
+	result, err := clie2e.RunCmd(ctx, clie2e.Request{
+		Args: []string{
+			"base", "+record-get",
+			"--base-token", "app_x",
+			"--table-id", "tbl_x",
+			"--json", `{"record_id_list":["rec_1"],"select_fields":null}`,
+			"--dry-run",
+		},
+		DefaultAs: "user",
+	})
+	require.NoError(t, err)
+	result.AssertExitCode(t, 0)
+
+	out := result.Stdout
+	require.Equal(t, "POST", gjson.Get(out, "data.api.0.method").String(), out)
+	require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/records/batch_get", gjson.Get(out, "data.api.0.url").String(), out)
+	require.Equal(t, "rec_1", gjson.Get(out, "data.api.0.body.record_id_list.0").String(), out)
+	require.False(t, gjson.Get(out, "data.api.0.body.select_fields").Exists(), out)
+}
+
+func TestBaseRecordGetDryRunUsesFlagProjectionWhenJSONProjectionIsNull(t *testing.T) {
+	setBaseDryRunConfigEnv(t)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	t.Cleanup(cancel)
+
+	result, err := clie2e.RunCmd(ctx, clie2e.Request{
+		Args: []string{
+			"base", "+record-get",
+			"--base-token", "app_x",
+			"--table-id", "tbl_x",
+			"--json", `{"record_id_list":["rec_1"],"select_fields":null}`,
+			"--field-id", "Name",
+			"--dry-run",
+		},
+		DefaultAs: "user",
+	})
+	require.NoError(t, err)
+	result.AssertExitCode(t, 0)
+
+	out := result.Stdout
+	require.Equal(t, "POST", gjson.Get(out, "data.api.0.method").String(), out)
+	require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/records/batch_get", gjson.Get(out, "data.api.0.url").String(), out)
+	require.Equal(t, "rec_1", gjson.Get(out, "data.api.0.body.record_id_list.0").String(), out)
+	require.Equal(t, "Name", gjson.Get(out, "data.api.0.body.select_fields.0").String(), out)
+}
+
 func TestBaseRecordListDryRunPreservesFieldNamesCSVSemantics(t *testing.T) {
 	setBaseDryRunConfigEnv(t)
 

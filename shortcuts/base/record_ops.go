@@ -123,7 +123,7 @@ func resolveRecordGetSelectFields(flagFields []string, projectionParam string, b
 		return fromFlags, nil
 	}
 	rawJSONFields, ok := body["select_fields"]
-	if !ok {
+	if !ok || rawJSONFields == nil {
 		return fromFlags, nil
 	}
 	if len(fromFlags) > 0 {
