@@ -5,6 +5,7 @@ package base
 
 import (
 	"errors"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -258,8 +259,11 @@ func TestBaseURLResolveValidationErrors(t *testing.T) {
 				t.Fatalf("param=%q, want --url", validationErr.Param)
 			}
 			cause := errors.Unwrap(err)
-			if tc.wantCause && cause == nil {
-				t.Fatal("malformed URL error must preserve its parsing cause")
+			if tc.wantCause {
+				var urlErr *url.Error
+				if cause == nil || !errors.As(cause, &urlErr) {
+					t.Fatalf("malformed URL error must preserve *url.Error cause, got %T %v", cause, cause)
+				}
 			}
 			if !tc.wantCause && cause != nil {
 				t.Fatalf("semantic URL validation must not invent a cause: %v", cause)
@@ -412,9 +416,16 @@ func TestBaseTitleResolve(t *testing.T) {
 		if err == nil || !strings.Contains(err.Error(), "No Base matched") {
 			t.Fatalf("err=%v, want no result validation", err)
 		}
+		p, ok := errs.ProblemOf(err)
+		if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeInvalidArgument {
+			t.Fatalf("err=%v, want validation/invalid_argument problem", err)
+		}
 		var validationErr *errs.ValidationError
 		if !errors.As(err, &validationErr) || validationErr.Param != "--title" {
 			t.Fatalf("err=%v, want title validation param", err)
+		}
+		if errors.Unwrap(err) != nil {
+			t.Fatalf("semantic title validation must not invent a cause: %v", errors.Unwrap(err))
 		}
 	})
 
@@ -426,9 +437,16 @@ func TestBaseTitleResolve(t *testing.T) {
 		if err == nil || !strings.Contains(err.Error(), "30 characters or fewer") {
 			t.Fatalf("err=%v, want query length validation", err)
 		}
+		p, ok := errs.ProblemOf(err)
+		if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeInvalidArgument {
+			t.Fatalf("err=%v, want validation/invalid_argument problem", err)
+		}
 		var validationErr *errs.ValidationError
 		if !errors.As(err, &validationErr) || validationErr.Param != "--title" {
 			t.Fatalf("err=%v, want title validation param", err)
+		}
+		if errors.Unwrap(err) != nil {
+			t.Fatalf("semantic title validation must not invent a cause: %v", errors.Unwrap(err))
 		}
 	})
 }
