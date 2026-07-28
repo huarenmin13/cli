@@ -627,6 +627,10 @@ func TestBaseDashboardHelpGuidesAgents(t *testing.T) {
 }
 
 func TestBaseWorkflowHelpGuidesAgents(t *testing.T) {
+	if got, want := BaseWorkflowUpdate.Description, "Replace a workflow's full definition (title and steps) in a base"; got != want {
+		t.Fatalf("workflow update description=%q, want %q", got, want)
+	}
+
 	tests := []struct {
 		name     string
 		shortcut common.Shortcut
@@ -670,6 +674,9 @@ func TestBaseWorkflowHelpGuidesAgents(t *testing.T) {
 			wantTips: []string{
 				"lark-cli base +workflow-update --base-token <base_token> --workflow-id <workflow_id> --json @workflow.json",
 				"PUT uses full replacement semantics",
+				"title and steps are both required",
+				"explicitly send \"steps\":[]",
+				"do not omit steps",
 				"Use +workflow-get first",
 				"returned title and steps",
 				"empty LarkMessageAction data.btn_list",

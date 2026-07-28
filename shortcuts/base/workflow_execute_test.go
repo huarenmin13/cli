@@ -200,7 +200,7 @@ func TestBaseWorkflowExecuteUpdatePreservesValidRequests(t *testing.T) {
 		}
 		reg.Register(updateStub)
 
-		body := `{"steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}]}}]}`
+		body := `{"title":"My Workflow","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}]}}]}`
 		if err := runShortcut(t, BaseWorkflowUpdate, []string{
 			"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", body,
 		}, factory, stdout); err != nil {
@@ -222,7 +222,7 @@ func TestBaseWorkflowExecuteUpdatePreservesValidRequests(t *testing.T) {
 		}
 		reg.Register(updateStub)
 
-		body := `{"steps":[]}`
+		body := `{"title":"My Workflow","steps":[]}`
 		if err := runShortcut(t, BaseWorkflowUpdate, []string{
 			"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", body,
 		}, factory, stdout); err != nil {

@@ -13,7 +13,7 @@ import (
 var BaseWorkflowUpdate = common.Shortcut{
 	Service:     "base",
 	Command:     "+workflow-update",
-	Description: "Replace a workflow's full definition (title and/or steps) in a base",
+	Description: "Replace a workflow's full definition (title and steps) in a base",
 	Risk:        "write",
 	Scopes:      []string{"base:workflow:update"},
 	AuthTypes:   []string{"user", "bot"},
@@ -24,7 +24,7 @@ var BaseWorkflowUpdate = common.Shortcut{
 	},
 	Tips: []string{
 		"lark-cli base +workflow-update --base-token <base_token> --workflow-id <workflow_id> --json @workflow.json",
-		"PUT uses full replacement semantics; omitting steps clears the existing workflow steps.",
+		"PUT uses full replacement semantics; title and steps are both required. To clear all steps, keep the current title and explicitly send \"steps\":[]; do not omit steps.",
 		"Use +workflow-get first, then build the update body from the returned title and steps; preserve every step field you do not intend to change.",
 		"The API may omit optional action fields such as an empty LarkMessageAction data.btn_list; keep those fields omitted unless you intend to set them.",
 		"workflow-id must start with wkf; do not pass a tbl table ID.",
