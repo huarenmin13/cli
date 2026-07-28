@@ -30,6 +30,8 @@ metadata:
 
 - Base 业务操作只使用 `lark-cli base +...` shortcut，不使用旧聚合式 `+table / +field / +record / +view / +history / +workspace`。
 - 执行 update 前必须先查当前 shortcut 的 `--help` 或对应 reference。若命令要求完整配置，首次请求必须基于可信的当前配置执行 read-modify-write：只修改用户明确指定的内容，保留其他仍适用的可写配置，并按命令要求的结构提交。若命令支持局部／delta update，按其契约提交最小合法 payload；不得以不完整请求试错补参。
+- 本 Skill 已明确列出的 `+...` shortcut 可直接调用，不必先运行 `lark-cli base --help`。发现其他 Base 命令时才以当前 help 为准，不要猜测 `lark-cli base workflow` 等分组式命令。调用已列出的命令若返回 unknown command / unknown subcommand，说明运行中的 CLI 暂不支持：停止并建议用户运行 `lark-cli update`，不要尝试 `go run`、重新构建或搜索源码来临时获得该命令。
+- 本轮 Base 不依赖 `lark-cli schema`。SKILL 只保留路由、风险和复杂 JSON/DSL；简单命令由命令自身的参数、tips 和错误恢复承接。
 - 用户要把 Excel / CSV / `.base` 导入成 Base 时，先转 `lark-cli drive +import --type bitable`，导入完成后再回到 Base 命令。
 - 认证、初始化、scope、身份切换、权限不足恢复属于 `lark-shared`；Base 文档只保留会影响 Base 路径选择的权限规则。
 
@@ -37,7 +39,8 @@ metadata:
 
 进入任何需要目标 Base 的 shortcut 前，必须先拿到可用的 `base_token`，以及当前任务需要的 `table_id` / `view_id` / `record_id` / `form_id` / `dashboard_id` / `workflow_id` 等真实 ID；不要把完整 URL、wiki token、workspace token 或孤立 raw token 直接当作 `--base-token`。
 
-- 用户输入 URL 或分享链接：先运行 `lark-cli base +url-resolve --url "<url>" --as user`，用返回的 `base_token` 和相关 ID 继续后续命令。
+- 用户输入普通 Base URL，且 URL path 恰好是 `/base/<base_token>`（可有末尾 `/`）、URL 不含 query 参数或 fragment 时，直接使用该 path segment 作为 `base_token`，再用首个只读 Base 请求核验；不要把完整 URL 传给 `--base-token`，也不要为这个无歧义路径调用 `+url-resolve`。
+- 用户输入 Wiki、record-share、form、带 query/fragment 的 Base URL 或其他分享链接时，直接调用 `lark-cli base +url-resolve --url "<url>" --as user`，不要先运行 `lark-cli base --help`。带 `table` / `view` / `record` 等 query 坐标的 Base URL 必须走 resolver，以保留用户指定的目标坐标，不得只取 path token。若 resolver 返回 unknown command / unknown subcommand，停止并建议用户运行 `lark-cli update`；不要把 wiki/share/form token 猜成 `base_token`，也不要通过本地构建或源码探索绕过缺失命令。
 - 用户输入 Base 标题、关键词或不确定名称：先运行 `lark-cli base +title-resolve --title "<keyword>" --as user`；`--title` 传入标题中的短关键词，不超过 30 个字符；过长标题先取最有区分度的短关键词；多候选时先让用户消歧，不要猜。
 - 文档嵌入 Base 标签：直接读取 `<bitable>` / `<base_refer>` 的 `token` 作为 `--base-token`，`table-id` 作为 `--table-id`，`view-id` 作为 `--view-id`；孤立 raw token 不走 `+url-resolve`。
 - 仍无法定位且用户不是要新建 Base 时，先反问用户要操作哪一个 Base；用户要新建时才用 `+base-create`。

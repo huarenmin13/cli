@@ -25,7 +25,8 @@ var BaseWorkflowUpdate = common.Shortcut{
 	Tips: []string{
 		"lark-cli base +workflow-update --base-token <base_token> --workflow-id <workflow_id> --json @workflow.json",
 		"PUT uses full replacement semantics; omitting steps clears the existing workflow steps.",
-		"Use +workflow-get first, then edit the returned definition and keep title/status/steps fields you do not intend to change.",
+		"Use +workflow-get first, then build the update body from the returned title and steps; preserve every step field you do not intend to change.",
+		"The API may omit optional action fields such as an empty LarkMessageAction data.btn_list; keep those fields omitted unless you intend to set them.",
 		"workflow-id must start with wkf; do not pass a tbl table ID.",
 		"Step ids must be unique, and every next/children link must reference an existing step id.",
 		"Updating does not enable or disable a workflow; call +workflow-enable or +workflow-disable separately.",
@@ -39,10 +40,11 @@ var BaseWorkflowUpdate = common.Shortcut{
 			return baseFlagErrorf("--workflow-id must not be blank")
 		}
 		pc := newParseCtx(runtime)
-		if _, err := parseJSONObject(pc, runtime.Str("json"), "json"); err != nil {
+		body, err := parseJSONObject(pc, runtime.Str("json"), "json")
+		if err != nil {
 			return err
 		}
-		return nil
+		return validateWorkflowMessageActions(body)
 	},
 	DryRun: func(ctx context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
 		pc := newParseCtx(runtime)

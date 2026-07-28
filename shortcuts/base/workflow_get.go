@@ -25,7 +25,8 @@ var BaseWorkflowGet = common.Shortcut{
 	Tips: []string{
 		"workflow-id must start with wkf; use +workflow-list if the ID is unknown.",
 		"steps may be an empty array; that is valid for an unconfigured workflow.",
-		"Use +workflow-get before +workflow-update, then edit the returned definition and keep fields you do not intend to change.",
+		"Use +workflow-get before +workflow-update; build the update body from the returned title and steps, preserving step fields you do not intend to change.",
+		"The API may omit optional action fields such as an empty LarkMessageAction data.btn_list; keep those fields omitted unless you intend to set them.",
 		"Read lark-base-workflow-schema.md when interpreting or reusing returned steps.",
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {

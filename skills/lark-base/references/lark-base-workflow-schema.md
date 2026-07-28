@@ -101,6 +101,14 @@
 | `ButtonTrigger` | 按钮点击触发 |
 | `LarkMessageTrigger` | 接收飞书消息触发 |
 
+> HELP-GAP: 当前服务支持的 StepType 无法由 `lark-cli base +workflow-create --help` 或 `--dry-run` 完整校验；CLI 增加服务端能力校验后删除本段。
+>
+> **不支持记录物理删除触发。** 当前 workflow 不支持 `DeleteRecordTrigger`，不要构造或提交该 type。`--dry-run` 只预览最终请求，不能证明服务端支持某个 StepType。
+>
+> **原语义无法满足时，先报告不支持并停止写入。** “软删除”（用状态字段和 `SetRecordTrigger` 监听“已删除”“已离职”或“已归档”）会改变业务语义和表结构，只能作为备选方案提出，不能静默代替物理删除触发。只有用户已在当前请求或既有上下文中**明确选择**软删除/状态触发方案后，才可创建或修改状态字段，以及创建、更新或启用替代 workflow；在明确选择前，不得执行这些写入。用户说“不用询问，直接执行”或保持沉默，不代表同意替代方案：此时应说明当前不支持并停止，不要把不追问解释为扩大授权。
+>
+> 用户明确选择软删除后，可先更新状态字段，用 `SetRecordTrigger` 执行所需 action。若 action 后还要物理删除记录，删除本身需要独立的明确授权；不要用 `TimerTrigger`、`Delay` 或其他 step 猜测替代删除事件。
+
 > 所有 Trigger 节点**请勿设置** `children` ，通过 `next` 串联后继。
 
 ### 触发器选型指南
@@ -442,11 +450,11 @@
 
 | 字段 | 必填 | 说明 |
 |------|------|------|
-| `receiver` | 是 | ValueInfo[] |
-| `send_to_everyone` | 是 | 是否发送给所有人 |
+| `receiver` | 是 | 非空 ValueInfo[] |
+| `send_to_everyone` | 否 | 是否发送给所有人；省略时按 `false` 处理 |
 | `title` | 否 | TextRefItem[] 消息标题 |
-| `content` | 是 | TextRefItem[] 消息内容 |
-| `btn_list` | 是 | 按钮列表，不需要时为空数组 |
+| `content` | 是 | 非空 TextRefItem[] 消息内容 |
+| `btn_list` | 否 | 按钮列表；不需要时可省略（`+workflow-get` 会省略空列表） |
 
 `ButtonConfig`：
 
