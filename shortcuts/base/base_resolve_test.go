@@ -4,6 +4,7 @@
 package base
 
 import (
+	"errors"
 	"strings"
 	"testing"
 
@@ -215,24 +216,26 @@ func TestBaseURLResolveFormShareURL(t *testing.T) {
 		t.Fatalf("err=%v", err)
 	}
 	data := decodeBaseEnvelope(t, stdout)
-	if data["input_type"] != "form_share_url" || data["share_token"] != "shrform" {
+	if data["input_type"] != "form_share_url" || data["resource_type"] != "bitable_form" || data["share_token"] != "shrform" {
 		t.Fatalf("unexpected output: %#v", data)
 	}
 }
 
 func TestBaseURLResolveValidationErrors(t *testing.T) {
 	tests := []struct {
-		name     string
-		rawURL   string
-		wantText string
-		wantHint string
+		name      string
+		rawURL    string
+		wantText  string
+		wantHint  string
+		wantCause bool
 	}{
-		{"dashboard share", "https://example.larkoffice.com/share/base/dashboard/shr1", "CLI does not support resolving Base dashboard share URLs", "provide the URL of the Base itself"},
-		{"view share", "https://example.larkoffice.com/share/base/view/shr1", "CLI does not support resolving Base view share URLs", "provide the URL of the Base itself"},
-		{"workspace", "https://example.larkoffice.com/base/workspace/ws1", "CLI does not support resolving Base workspace URLs", "provide the URL of the Base itself"},
-		{"add record", "https://example.larkoffice.com/base/add/addtoken", "CLI does not support resolving Base add-record URLs", "provide the URL of the Base itself"},
-		{"unrelated", "https://example.larkoffice.com/docx/doc1", "not a supported Base URL pattern", "/share/base/form/"},
-		{"not url", "bas123", "only accepts full URLs", ""},
+		{"dashboard share", "https://example.larkoffice.com/share/base/dashboard/shr1", "CLI does not support resolving Base dashboard share URLs", "provide the URL of the Base itself", false},
+		{"view share", "https://example.larkoffice.com/share/base/view/shr1", "CLI does not support resolving Base view share URLs", "provide the URL of the Base itself", false},
+		{"workspace", "https://example.larkoffice.com/base/workspace/ws1", "CLI does not support resolving Base workspace URLs", "provide the URL of the Base itself", false},
+		{"add record", "https://example.larkoffice.com/base/add/addtoken", "CLI does not support resolving Base add-record URLs", "provide the URL of the Base itself", false},
+		{"unrelated", "https://example.larkoffice.com/docx/doc1", "not a supported Base URL pattern", "/share/base/form/", false},
+		{"not url", "bas123", "only accepts full URLs", "", false},
+		{"malformed url", "https://example.larkoffice.com/%zz", "only accepts full URLs", "", true},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
@@ -244,8 +247,22 @@ func TestBaseURLResolveValidationErrors(t *testing.T) {
 				t.Fatalf("err=%v, want contains %q", err, tc.wantText)
 			}
 			p, ok := errs.ProblemOf(err)
-			if !ok || p.Hint == "" {
-				t.Fatalf("err=%v, want typed error with hint", err)
+			if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeInvalidArgument || p.Hint == "" {
+				t.Fatalf("err=%v, want validation/invalid_argument error with hint", err)
+			}
+			var validationErr *errs.ValidationError
+			if !errors.As(err, &validationErr) {
+				t.Fatalf("err=%v, want *errs.ValidationError", err)
+			}
+			if validationErr.Param != "--url" {
+				t.Fatalf("param=%q, want --url", validationErr.Param)
+			}
+			cause := errors.Unwrap(err)
+			if tc.wantCause && cause == nil {
+				t.Fatal("malformed URL error must preserve its parsing cause")
+			}
+			if !tc.wantCause && cause != nil {
+				t.Fatalf("semantic URL validation must not invent a cause: %v", cause)
 			}
 			if tc.wantHint != "" && !strings.Contains(p.Hint, tc.wantHint) {
 				t.Fatalf("hint=%q, want contains %q", p.Hint, tc.wantHint)
@@ -395,6 +412,10 @@ func TestBaseTitleResolve(t *testing.T) {
 		if err == nil || !strings.Contains(err.Error(), "No Base matched") {
 			t.Fatalf("err=%v, want no result validation", err)
 		}
+		var validationErr *errs.ValidationError
+		if !errors.As(err, &validationErr) || validationErr.Param != "--title" {
+			t.Fatalf("err=%v, want title validation param", err)
+		}
 	})
 
 	t.Run("query too long", func(t *testing.T) {
@@ -404,6 +425,10 @@ func TestBaseTitleResolve(t *testing.T) {
 		}, factory, stdout)
 		if err == nil || !strings.Contains(err.Error(), "30 characters or fewer") {
 			t.Fatalf("err=%v, want query length validation", err)
+		}
+		var validationErr *errs.ValidationError
+		if !errors.As(err, &validationErr) || validationErr.Param != "--title" {
+			t.Fatalf("err=%v, want title validation param", err)
 		}
 	})
 }

@@ -150,6 +150,7 @@ func readTitleResolveQuery(runtime *common.RuntimeContext) (string, error) {
 	}
 	if len([]rune(pickedValue)) > titleResolveQueryMaxLen {
 		return "", resolveValidationError(
+			"--title",
 			fmt.Sprintf("base +title-resolve title keyword must be %d characters or fewer.", titleResolveQueryMaxLen),
 			"Use a shorter keyword from the Base title, or provide a /base/ URL and use base +url-resolve.",
 		)
@@ -192,36 +193,44 @@ func executeBaseURLResolve(runtime *common.RuntimeContext) error {
 		return nil
 	case "view_share_url":
 		return resolveValidationError(
+			"--url",
 			"This is a Base view share URL. CLI does not support resolving Base view share URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	case "dashboard_share_url":
 		return resolveValidationError(
+			"--url",
 			"This is a Base dashboard share URL. CLI does not support resolving Base dashboard share URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	case "workspace_url":
 		return resolveValidationError(
+			"--url",
 			"This is a Base workspace URL. CLI does not support resolving Base workspace URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	case "add_record_url":
 		return resolveValidationError(
+			"--url",
 			"This is a Base add-record URL. CLI does not support resolving Base add-record URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	default:
-		return resolveValidationError("This URL is not a supported Base URL pattern.", baseURLResolveHintGeneric)
+		return resolveValidationError("--url", "This URL is not a supported Base URL pattern.", baseURLResolveHintGeneric)
 	}
 }
 
 func parseResolveURL(raw string) (*url.URL, error) {
 	parsed, err := url.Parse(strings.TrimSpace(raw))
-	if err != nil || parsed.Scheme == "" || parsed.Host == "" {
-		return nil, resolveValidationError("base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.")
+	if err != nil {
+		return nil, resolveValidationError("--url", "base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.").
+			WithCause(err)
+	}
+	if parsed.Scheme == "" || parsed.Host == "" {
+		return nil, resolveValidationError("--url", "base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.")
 	}
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return nil, resolveValidationError("base +url-resolve only accepts HTTP or HTTPS URLs.", baseURLResolveHintGeneric)
+		return nil, resolveValidationError("--url", "base +url-resolve only accepts HTTP or HTTPS URLs.", baseURLResolveHintGeneric)
 	}
 	return parsed, nil
 }
@@ -233,14 +242,14 @@ func classifyBaseURL(u *url.URL) string {
 		return "workspace_url"
 	case pathSegmentExists(path, "/base/add/"):
 		return "add_record_url"
+	case pathSegmentExists(path, "/share/base/form/"):
+		return "form_share_url"
 	case pathSegmentExists(path, "/base/"):
 		return "base_url"
 	case pathSegmentExists(path, "/wiki/"):
 		return "wiki_url"
 	case pathSegmentExists(path, "/record/"):
 		return "record_share_url"
-	case pathSegmentExists(path, "/share/base/form/"):
-		return "form_share_url"
 	case pathSegmentExists(path, "/share/base/view/"):
 		return "view_share_url"
 	case pathSegmentExists(path, "/share/base/dashboard/"):
@@ -279,6 +288,7 @@ func resolveWikiBaseURL(runtime *common.RuntimeContext, u *url.URL) (map[string]
 	objType := strings.TrimSpace(common.GetString(node, "obj_type"))
 	if objType != "bitable" {
 		return nil, resolveValidationError(
+			"--url",
 			fmt.Sprintf("This Wiki URL resolves to %s, not Base.", valueOrUnknown(objType)),
 			"Use the corresponding skill for that resource, or provide a Base URL.",
 		)
@@ -339,6 +349,7 @@ func executeBaseTitleResolve(runtime *common.RuntimeContext) error {
 	switch len(candidates) {
 	case 0:
 		return resolveValidationError(
+			"--title",
 			"No Base matched this title or keyword.",
 			"Try a more specific Base title, or provide a /base/ URL and use base +url-resolve.",
 		)
@@ -498,8 +509,10 @@ func stripSearchHighlight(s string) string {
 	return strings.TrimSpace(searchHighlightTagRe.ReplaceAllString(s, ""))
 }
 
-func resolveValidationError(message, hint string) error {
-	return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s", message).WithHint("%s", hint)
+func resolveValidationError(param, message, hint string) *errs.ValidationError {
+	return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s", message).
+		WithParam(param).
+		WithHint("%s", hint)
 }
 
 func normalizeResolvePath(path string) string {

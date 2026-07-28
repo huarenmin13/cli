@@ -70,17 +70,24 @@ func TestBaseWorkflowExecuteGetValidate(t *testing.T) {
 
 func TestBaseWorkflowExecuteCreate(t *testing.T) {
 	factory, stdout, reg := newExecuteFactory(t)
-	reg.Register(&httpmock.Stub{
+	createStub := &httpmock.Stub{
 		Method: "POST",
 		URL:    "/open-apis/base/v3/bases/app_x/workflows",
 		Body: map[string]interface{}{
 			"code": 0,
 			"data": map[string]interface{}{"workflow_id": "wkf_new", "title": "My Workflow"},
 		},
-	})
-	if err := runShortcut(t, BaseWorkflowCreate, []string{"+workflow-create", "--base-token", "app_x", "--json", `{"title":"My Workflow","steps":[]}`}, factory, stdout); err != nil {
+	}
+	reg.Register(createStub)
+
+	body := `{"title":"My Workflow","client_token":"create_1","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}]}}]}`
+	if err := runShortcut(t, BaseWorkflowCreate, []string{
+		"+workflow-create", "--base-token", "app_x", "--json", body,
+	}, factory, stdout); err != nil {
 		t.Fatalf("err=%v", err)
 	}
+	reg.Verify(t)
+	assertCapturedJSONBody(t, createStub, body)
 	if got := stdout.String(); !strings.Contains(got, `"wkf_new"`) {
 		t.Fatalf("stdout=%s", got)
 	}
