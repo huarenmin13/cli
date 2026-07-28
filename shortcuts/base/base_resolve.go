@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	baseURLResolveHintGeneric = "Provide a /base/, /wiki/, or /record/ URL, or use base +title-resolve --title if you only know the Base title."
+	baseURLResolveHintGeneric = "Provide a /base/, /wiki/, /record/, or /share/base/form/ URL, or use base +title-resolve --title if you only know the Base title."
 	baseTitleResolveHint      = "choose one candidate, then use +base-block-list to list tables, dashboards, workflows, and other Base blocks"
 	nextStepBaseBlockList     = "use +base-block-list to list tables, dashboards, workflows, and other Base blocks"
 	nextStepRecordList        = "use +record-list to list records in the resolved table"
@@ -25,7 +25,7 @@ const (
 var BaseURLResolve = common.Shortcut{
 	Service:     "base",
 	Command:     "+url-resolve",
-	Description: "Resolve a Base-related URL into Base coordinates",
+	Description: "Resolve a Base, Wiki, record-share, or form-share URL into usable tokens and coordinates",
 	Risk:        "read",
 	Scopes:      []string{},
 	ConditionalScopes: []string{
@@ -36,7 +36,7 @@ var BaseURLResolve = common.Shortcut{
 	AuthTypes: authTypes(),
 	HasFormat: true,
 	Flags: []common.Flag{
-		{Name: "url", Desc: "Base/Wiki/record-share URL to resolve"},
+		{Name: "url", Desc: "Base/Wiki/record-share/form-share URL to resolve"},
 		{Name: "query", Hidden: true, Desc: "Alias for --url; accepted to recover from AI routing mistakes"},
 	},
 	Tips: []string{

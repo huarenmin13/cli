@@ -231,7 +231,7 @@ func TestBaseURLResolveValidationErrors(t *testing.T) {
 		{"view share", "https://example.larkoffice.com/share/base/view/shr1", "CLI does not support resolving Base view share URLs", "provide the URL of the Base itself"},
 		{"workspace", "https://example.larkoffice.com/base/workspace/ws1", "CLI does not support resolving Base workspace URLs", "provide the URL of the Base itself"},
 		{"add record", "https://example.larkoffice.com/base/add/addtoken", "CLI does not support resolving Base add-record URLs", "provide the URL of the Base itself"},
-		{"unrelated", "https://example.larkoffice.com/docx/doc1", "not a supported Base URL pattern", ""},
+		{"unrelated", "https://example.larkoffice.com/docx/doc1", "not a supported Base URL pattern", "/share/base/form/"},
 		{"not url", "bas123", "only accepts full URLs", ""},
 	}
 	for _, tc := range tests {
@@ -280,6 +280,10 @@ func TestBaseResolveInputXOR(t *testing.T) {
 }
 
 func TestBaseResolveHelpFlags(t *testing.T) {
+	if !strings.Contains(BaseURLResolve.Description, "form-share") {
+		t.Fatalf("url resolver description=%q, want form-share support", BaseURLResolve.Description)
+	}
+
 	for _, tc := range []struct {
 		shortcut    string
 		definition  common.Shortcut
@@ -291,7 +295,7 @@ func TestBaseResolveHelpFlags(t *testing.T) {
 			shortcut:    "+url-resolve",
 			definition:  BaseURLResolve,
 			primaryFlag: "url",
-			primaryDesc: "Base/Wiki/record-share URL to resolve",
+			primaryDesc: "Base/Wiki/record-share/form-share URL to resolve",
 			aliasFlags:  []string{"query"},
 		},
 		{

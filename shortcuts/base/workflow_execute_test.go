@@ -4,7 +4,9 @@
 package base
 
 import (
+	"encoding/json"
 	"errors"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -166,6 +168,18 @@ func TestBaseWorkflowExecuteMessageActionValidation(t *testing.T) {
 	}
 }
 
+func assertCapturedJSONBody(t *testing.T, stub *httpmock.Stub, wantJSON string) {
+	t.Helper()
+
+	var want map[string]interface{}
+	if err := json.Unmarshal([]byte(wantJSON), &want); err != nil {
+		t.Fatalf("failed to decode expected request body: %v\nraw=%s", err, wantJSON)
+	}
+	if got := decodeCapturedJSONBody(t, stub); !reflect.DeepEqual(got, want) {
+		t.Fatalf("request body=%#v, want %#v", got, want)
+	}
+}
+
 func TestBaseWorkflowExecuteUpdatePreservesValidRequests(t *testing.T) {
 	t.Run("valid message action", func(t *testing.T) {
 		factory, stdout, reg := newExecuteFactory(t)
@@ -186,9 +200,7 @@ func TestBaseWorkflowExecuteUpdatePreservesValidRequests(t *testing.T) {
 			t.Fatalf("err=%v", err)
 		}
 		reg.Verify(t)
-		if got := decodeCapturedJSONBody(t, updateStub); len(got["steps"].([]interface{})) != 1 {
-			t.Fatalf("request body=%#v", got)
-		}
+		assertCapturedJSONBody(t, updateStub, body)
 	})
 
 	t.Run("empty steps", func(t *testing.T) {
@@ -203,12 +215,14 @@ func TestBaseWorkflowExecuteUpdatePreservesValidRequests(t *testing.T) {
 		}
 		reg.Register(updateStub)
 
+		body := `{"steps":[]}`
 		if err := runShortcut(t, BaseWorkflowUpdate, []string{
-			"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", `{"steps":[]}`,
+			"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", body,
 		}, factory, stdout); err != nil {
 			t.Fatalf("err=%v", err)
 		}
 		reg.Verify(t)
+		assertCapturedJSONBody(t, updateStub, body)
 	})
 }
 

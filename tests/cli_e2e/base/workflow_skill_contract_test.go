@@ -12,7 +12,7 @@ import (
 	"github.com/larksuite/cli/internal/vfs"
 )
 
-func TestWorkflowSchemaDocumentsUnsupportedDeleteTrigger(t *testing.T) {
+func TestWorkflowSchemaDocumentsAgentContracts(t *testing.T) {
 	_, testFile, _, ok := runtime.Caller(0)
 	if !ok {
 		t.Fatal("runtime.Caller could not locate the test file")
@@ -33,6 +33,10 @@ func TestWorkflowSchemaDocumentsUnsupportedDeleteTrigger(t *testing.T) {
 		name string
 		text string
 	}{
+		{name: "message receiver required", text: "| `receiver` | 是 | 非空 ValueInfo[] |"},
+		{name: "send to everyone optional", text: "| `send_to_everyone` | 否 | 是否发送给所有人；省略时按 `false` 处理 |"},
+		{name: "message content required", text: "| `content` | 是 | 非空 TextRefItem[] 消息内容 |"},
+		{name: "button list optional", text: "| `btn_list` | 否 | 按钮列表；不需要时可省略"},
 		{name: "unsupported step type", text: "workflow 不支持 `DeleteRecordTrigger`"},
 		{name: "dry-run limitation", text: "`--dry-run` 只预览最终请求，不能证明服务端支持"},
 		{name: "stop before mutation", text: "先报告不支持并停止写入"},
