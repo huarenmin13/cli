@@ -48,11 +48,11 @@ var BaseURLResolve = common.Shortcut{
 		return err
 	},
 	DryRun: func(ctx context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
-		raw, err := readURLResolveInput(runtime)
+		input, err := readURLResolveInput(runtime)
 		if err != nil {
 			return common.NewDryRunAPI().Set("error", err.Error())
 		}
-		parsed, err := parseResolveURL(raw)
+		parsed, err := parseResolveURL(input.value, input.param)
 		if err != nil {
 			return common.NewDryRunAPI().Set("error", err.Error())
 		}
@@ -66,7 +66,7 @@ var BaseURLResolve = common.Shortcut{
 				GET("/open-apis/base/v3/record_share/:record_share_token/meta").
 				Set("record_share_token", firstPathSegmentAfter(parsed.Path, "/record/"))
 		default:
-			return common.NewDryRunAPI().Set("url", raw).Set("resolution", "local")
+			return common.NewDryRunAPI().Set("url", input.value).Set("resolution", "local")
 		}
 	},
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
@@ -96,36 +96,40 @@ var BaseTitleResolve = common.Shortcut{
 		return err
 	},
 	DryRun: func(ctx context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
-		query, err := readTitleResolveQuery(runtime)
+		input, err := readTitleResolveQuery(runtime)
 		if err != nil {
 			return common.NewDryRunAPI().Set("error", err.Error())
 		}
 		return common.NewDryRunAPI().
 			POST("/open-apis/search/v2/doc_wiki/search").
-			Body(buildTitleResolveSearchBody(query))
+			Body(buildTitleResolveSearchBody(input.value))
 	},
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeBaseTitleResolve(runtime)
 	},
 }
 
-func readURLResolveInput(runtime *common.RuntimeContext) (string, error) {
+type baseResolveInput struct {
+	value string
+	param string
+}
+
+func readURLResolveInput(runtime *common.RuntimeContext) (baseResolveInput, error) {
 	urlValue := strings.TrimSpace(runtime.Str("url"))
 	queryValue := strings.TrimSpace(runtime.Str("query"))
 	if urlValue != "" && queryValue != "" {
-		return "", baseFlagErrorf("--url and --query are mutually exclusive")
+		return baseResolveInput{}, baseFlagErrorf("--url and --query are mutually exclusive")
 	}
-	value := urlValue
-	if value == "" {
-		value = queryValue
+	if urlValue != "" {
+		return baseResolveInput{value: urlValue, param: "--url"}, nil
 	}
-	if value == "" {
-		return "", baseFlagErrorf("specify --url")
+	if queryValue != "" {
+		return baseResolveInput{value: queryValue, param: "--query"}, nil
 	}
-	return value, nil
+	return baseResolveInput{}, baseFlagErrorf("specify --url")
 }
 
-func readTitleResolveQuery(runtime *common.RuntimeContext) (string, error) {
+func readTitleResolveQuery(runtime *common.RuntimeContext) (baseResolveInput, error) {
 	values := []struct {
 		name  string
 		value string
@@ -140,30 +144,31 @@ func readTitleResolveQuery(runtime *common.RuntimeContext) (string, error) {
 			continue
 		}
 		if pickedValue != "" {
-			return "", baseFlagErrorf("--%s and --%s are mutually exclusive", pickedName, v.name)
+			return baseResolveInput{}, baseFlagErrorf("--%s and --%s are mutually exclusive", pickedName, v.name)
 		}
 		pickedName = v.name
 		pickedValue = v.value
 	}
 	if pickedValue == "" {
-		return "", baseFlagErrorf("specify --title")
+		return baseResolveInput{}, baseFlagErrorf("specify --title")
 	}
+	input := baseResolveInput{value: pickedValue, param: "--" + pickedName}
 	if len([]rune(pickedValue)) > titleResolveQueryMaxLen {
-		return "", resolveValidationError(
-			"--title",
+		return baseResolveInput{}, resolveValidationError(
+			input.param,
 			fmt.Sprintf("base +title-resolve title keyword must be %d characters or fewer.", titleResolveQueryMaxLen),
 			"Use a shorter keyword from the Base title, or provide a /base/ URL and use base +url-resolve.",
 		)
 	}
-	return pickedValue, nil
+	return input, nil
 }
 
 func executeBaseURLResolve(runtime *common.RuntimeContext) error {
-	raw, err := readURLResolveInput(runtime)
+	input, err := readURLResolveInput(runtime)
 	if err != nil {
 		return err
 	}
-	parsed, err := parseResolveURL(raw)
+	parsed, err := parseResolveURL(input.value, input.param)
 	if err != nil {
 		return err
 	}
@@ -175,7 +180,7 @@ func executeBaseURLResolve(runtime *common.RuntimeContext) error {
 		runtime.OutFormat(out, nil, nil)
 		return nil
 	case "wiki_url":
-		out, err := resolveWikiBaseURL(runtime, parsed)
+		out, err := resolveWikiBaseURL(runtime, parsed, input.param)
 		if err != nil {
 			return err
 		}
@@ -193,44 +198,44 @@ func executeBaseURLResolve(runtime *common.RuntimeContext) error {
 		return nil
 	case "view_share_url":
 		return resolveValidationError(
-			"--url",
+			input.param,
 			"This is a Base view share URL. CLI does not support resolving Base view share URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	case "dashboard_share_url":
 		return resolveValidationError(
-			"--url",
+			input.param,
 			"This is a Base dashboard share URL. CLI does not support resolving Base dashboard share URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	case "workspace_url":
 		return resolveValidationError(
-			"--url",
+			input.param,
 			"This is a Base workspace URL. CLI does not support resolving Base workspace URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	case "add_record_url":
 		return resolveValidationError(
-			"--url",
+			input.param,
 			"This is a Base add-record URL. CLI does not support resolving Base add-record URLs.",
 			"Open it in the browser, or provide the URL of the Base itself, such as its Wiki URL or Base URL.",
 		)
 	default:
-		return resolveValidationError("--url", "This URL is not a supported Base URL pattern.", baseURLResolveHintGeneric)
+		return resolveValidationError(input.param, "This URL is not a supported Base URL pattern.", baseURLResolveHintGeneric)
 	}
 }
 
-func parseResolveURL(raw string) (*url.URL, error) {
+func parseResolveURL(raw, param string) (*url.URL, error) {
 	parsed, err := url.Parse(strings.TrimSpace(raw))
 	if err != nil {
-		return nil, resolveValidationError("--url", "base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.").
+		return nil, resolveValidationError(param, "base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.").
 			WithCause(err)
 	}
 	if parsed.Scheme == "" || parsed.Host == "" {
-		return nil, resolveValidationError("--url", "base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.")
+		return nil, resolveValidationError(param, "base +url-resolve only accepts full URLs.", "For a Base title or keyword, use base +title-resolve --title.")
 	}
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return nil, resolveValidationError("--url", "base +url-resolve only accepts HTTP or HTTPS URLs.", baseURLResolveHintGeneric)
+		return nil, resolveValidationError(param, "base +url-resolve only accepts HTTP or HTTPS URLs.", baseURLResolveHintGeneric)
 	}
 	return parsed, nil
 }
@@ -278,7 +283,7 @@ func resolveBaseURL(u *url.URL) map[string]interface{} {
 	return out
 }
 
-func resolveWikiBaseURL(runtime *common.RuntimeContext, u *url.URL) (map[string]interface{}, error) {
+func resolveWikiBaseURL(runtime *common.RuntimeContext, u *url.URL, param string) (map[string]interface{}, error) {
 	token := firstPathSegmentAfter(u.Path, "/wiki/")
 	data, err := runtime.CallAPITyped("GET", "/open-apis/wiki/v2/spaces/get_node", map[string]interface{}{"token": token}, nil)
 	if err != nil {
@@ -288,7 +293,7 @@ func resolveWikiBaseURL(runtime *common.RuntimeContext, u *url.URL) (map[string]
 	objType := strings.TrimSpace(common.GetString(node, "obj_type"))
 	if objType != "bitable" {
 		return nil, resolveValidationError(
-			"--url",
+			param,
 			fmt.Sprintf("This Wiki URL resolves to %s, not Base.", valueOrUnknown(objType)),
 			"Use the corresponding skill for that resource, or provide a Base URL.",
 		)
@@ -337,11 +342,11 @@ func resolveFormShareURL(u *url.URL) map[string]interface{} {
 }
 
 func executeBaseTitleResolve(runtime *common.RuntimeContext) error {
-	query, err := readTitleResolveQuery(runtime)
+	input, err := readTitleResolveQuery(runtime)
 	if err != nil {
 		return err
 	}
-	data, err := runtime.CallAPITyped("POST", "/open-apis/search/v2/doc_wiki/search", nil, buildTitleResolveSearchBody(query))
+	data, err := runtime.CallAPITyped("POST", "/open-apis/search/v2/doc_wiki/search", nil, buildTitleResolveSearchBody(input.value))
 	if err != nil {
 		return err
 	}
@@ -349,7 +354,7 @@ func executeBaseTitleResolve(runtime *common.RuntimeContext) error {
 	switch len(candidates) {
 	case 0:
 		return resolveValidationError(
-			"--title",
+			input.param,
 			"No Base matched this title or keyword.",
 			"Try a more specific Base title, or provide a /base/ URL and use base +url-resolve.",
 		)

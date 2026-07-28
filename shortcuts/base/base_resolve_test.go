@@ -300,6 +300,40 @@ func TestBaseResolveInputXOR(t *testing.T) {
 	})
 }
 
+func TestBaseResolveAliasValidationParam(t *testing.T) {
+	tests := []struct {
+		name      string
+		shortcut  common.Shortcut
+		authTypes []string
+		args      []string
+	}{
+		{
+			name:      "url resolve query alias",
+			shortcut:  BaseURLResolve,
+			authTypes: authTypes(),
+			args:      []string{"+url-resolve", "--query", "bas123", "--as", "user"},
+		},
+		{
+			name:     "title resolve query alias",
+			shortcut: BaseTitleResolve,
+			args: []string{
+				"+title-resolve", "--query", strings.Repeat("x", titleResolveQueryMaxLen+1), "--as", "user",
+			},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			factory, stdout, _ := newExecuteFactory(t)
+			err := runShortcutWithAuthTypes(t, tc.shortcut, tc.authTypes, tc.args, factory, stdout)
+			assertInvalidArgumentValidation(t, err, "--query", nil, "")
+			if errors.Unwrap(err) != nil {
+				t.Fatalf("semantic alias validation must not invent a cause: %v", errors.Unwrap(err))
+			}
+		})
+	}
+}
+
 func TestBaseResolveHelpFlags(t *testing.T) {
 	if !strings.Contains(BaseURLResolve.Description, "form-share") {
 		t.Fatalf("url resolver description=%q, want form-share support", BaseURLResolve.Description)
