@@ -59,9 +59,9 @@ func validateWorkflowDefinition(body map[string]interface{}, operation workflowO
 		return nil
 	}
 
-	steps, stepsAreArray := workflowSteps(definition.Steps)
-	if !stepsAreArray {
-		return workflowFieldError("--json.steps must be an array")
+	steps, err := workflowSteps(definition.Steps)
+	if err != nil {
+		return err
 	}
 
 	for index, step := range steps {
@@ -105,22 +105,26 @@ func isWorkflowJSONObject(raw json.RawMessage) bool {
 	return json.Unmarshal(raw, &object) == nil && object != nil
 }
 
-func workflowSteps(raw json.RawMessage) ([]workflowStep, bool) {
+func workflowSteps(raw json.RawMessage) ([]workflowStep, error) {
 	var rawSteps []json.RawMessage
 	if err := json.Unmarshal(raw, &rawSteps); err != nil || rawSteps == nil {
-		return nil, false
+		return nil, workflowFieldError("--json.steps must be an array")
 	}
 
 	steps := make([]workflowStep, len(rawSteps))
 	for index, rawStep := range rawSteps {
-		if !isWorkflowJSONObject(rawStep) {
-			continue
+		var fields map[string]json.RawMessage
+		if err := json.Unmarshal(rawStep, &fields); err != nil || fields == nil {
+			return nil, workflowFieldError("--json.steps[%d] must be a JSON object", index)
 		}
-		if err := json.Unmarshal(rawStep, &steps[index]); err != nil {
-			steps[index] = workflowStep{}
+		steps[index].Data = fields["data"]
+		if rawType, ok := fields["type"]; ok {
+			if err := json.Unmarshal(rawType, &steps[index].Type); err != nil || strings.TrimSpace(string(rawType)) == "null" {
+				return nil, workflowFieldError("--json.steps[%d].type must be a string when provided", index)
+			}
 		}
 	}
-	return steps, true
+	return steps, nil
 }
 
 func workflowNonBlankJSONString(raw json.RawMessage) bool {
