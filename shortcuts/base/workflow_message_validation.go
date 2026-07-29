@@ -21,21 +21,9 @@ var unsupportedWorkflowStepTypes = map[string]string{
 	"DeleteRecordTrigger": "record deletion events are not available as Base workflow triggers",
 }
 
-type workflowDefinition struct {
-	Title json.RawMessage `json:"title"`
-	Steps json.RawMessage `json:"steps"`
-}
-
 type workflowStep struct {
 	Type string          `json:"type"`
 	Data json.RawMessage `json:"data"`
-}
-
-type workflowMessageActionData struct {
-	Receiver       json.RawMessage `json:"receiver"`
-	Content        json.RawMessage `json:"content"`
-	SendToEveryone json.RawMessage `json:"send_to_everyone"`
-	ButtonList     json.RawMessage `json:"btn_list"`
 }
 
 func validateWorkflowDefinition(body map[string]interface{}, operation workflowOperation) error {
@@ -44,22 +32,27 @@ func validateWorkflowDefinition(body map[string]interface{}, operation workflowO
 		return errs.NewInternalError(errs.SubtypeUnknown, "failed to inspect --json workflow body").WithCause(err)
 	}
 
-	var definition workflowDefinition
+	var definition map[string]json.RawMessage
 	if err := json.Unmarshal(raw, &definition); err != nil {
 		return errs.NewInternalError(errs.SubtypeUnknown, "failed to inspect --json workflow body").WithCause(err)
 	}
+	if field := workflowMisCasedJSONField(definition, "title", "steps"); field != "" {
+		return workflowFieldError("--json.%s must use the exact JSON field name %q", field, field)
+	}
 
-	if operation == workflowUpdateOperation && !workflowNonBlankJSONString(definition.Title) {
+	title := definition["title"]
+	if operation == workflowUpdateOperation && !workflowNonBlankJSONString(title) {
 		return workflowFieldError("--json.title for workflow update must be a non-empty string")
 	}
-	if len(definition.Steps) == 0 || string(definition.Steps) == "null" {
+	rawSteps := definition["steps"]
+	if len(rawSteps) == 0 || string(rawSteps) == "null" {
 		if operation == workflowUpdateOperation {
 			return workflowFieldError("--json.steps for workflow update must be an array; use an empty array to clear all steps")
 		}
 		return nil
 	}
 
-	steps, err := workflowSteps(definition.Steps)
+	steps, err := workflowSteps(rawSteps)
 	if err != nil {
 		return err
 	}
@@ -71,25 +64,30 @@ func validateWorkflowDefinition(body map[string]interface{}, operation workflowO
 		if step.Type != "LarkMessageAction" {
 			continue
 		}
-		if !isWorkflowJSONObject(step.Data) {
+
+		var data map[string]json.RawMessage
+		if err := json.Unmarshal(step.Data, &data); err != nil || data == nil {
 			return workflowFieldError("--json.steps[%d].data for LarkMessageAction must be a JSON object", index)
+		}
+		if field := workflowMisCasedJSONField(data, "receiver", "content", "send_to_everyone", "btn_list"); field != "" {
+			return workflowFieldError("--json.steps[%d].data.%s must use the exact JSON field name %q", index, field, field)
 		}
 
-		var data workflowMessageActionData
-		if err := json.Unmarshal(step.Data, &data); err != nil {
-			return workflowFieldError("--json.steps[%d].data for LarkMessageAction must be a JSON object", index)
-		}
-		if receiverLength, receiverIsArray := workflowJSONArrayLength(data.Receiver); !receiverIsArray || receiverLength == 0 {
+		receiver := data["receiver"]
+		if receiverLength, receiverIsArray := workflowJSONArrayLength(receiver); !receiverIsArray || receiverLength == 0 {
 			return workflowFieldError("--json.steps[%d].data.receiver for LarkMessageAction must be a non-empty array", index)
 		}
-		if contentLength, contentIsArray := workflowJSONArrayLength(data.Content); !contentIsArray || contentLength == 0 {
+		content := data["content"]
+		if contentLength, contentIsArray := workflowJSONArrayLength(content); !contentIsArray || contentLength == 0 {
 			return workflowFieldError("--json.steps[%d].data.content for LarkMessageAction must be a non-empty array", index)
 		}
-		if len(data.SendToEveryone) > 0 && !workflowJSONBoolean(data.SendToEveryone) {
+		sendToEveryone := data["send_to_everyone"]
+		if len(sendToEveryone) > 0 && !workflowJSONBoolean(sendToEveryone) {
 			return workflowFieldError("--json.steps[%d].data.send_to_everyone for LarkMessageAction must be a boolean when provided", index)
 		}
-		if len(data.ButtonList) > 0 {
-			if _, buttonListIsArray := workflowJSONArrayLength(data.ButtonList); !buttonListIsArray {
+		buttonList := data["btn_list"]
+		if len(buttonList) > 0 {
+			if _, buttonListIsArray := workflowJSONArrayLength(buttonList); !buttonListIsArray {
 				return workflowFieldError("--json.steps[%d].data.btn_list for LarkMessageAction must be an array when provided", index)
 			}
 		}
@@ -97,12 +95,15 @@ func validateWorkflowDefinition(body map[string]interface{}, operation workflowO
 	return nil
 }
 
-func isWorkflowJSONObject(raw json.RawMessage) bool {
-	if len(raw) == 0 {
-		return false
+func workflowMisCasedJSONField(fields map[string]json.RawMessage, expectedFields ...string) string {
+	for _, expected := range expectedFields {
+		for actual := range fields {
+			if actual != expected && strings.EqualFold(actual, expected) {
+				return expected
+			}
+		}
 	}
-	var object map[string]json.RawMessage
-	return json.Unmarshal(raw, &object) == nil && object != nil
+	return ""
 }
 
 func workflowSteps(raw json.RawMessage) ([]workflowStep, error) {

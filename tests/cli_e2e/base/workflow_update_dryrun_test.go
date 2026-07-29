@@ -73,6 +73,27 @@ func TestBaseWorkflowDryRunRejectsInvalidDefinitions(t *testing.T) {
 			wantSubtype: "invalid_argument",
 			wantPath:    "send_to_everyone",
 		},
+		{
+			name: "mis-cased update field",
+			args: []string{
+				"base", "+workflow-update",
+				"--base-token", "app_x",
+				"--workflow-id", "wkf_x",
+				"--json", `{"title":"Reminder","Steps":[]}`,
+			},
+			wantSubtype: "invalid_argument",
+			wantPath:    "steps",
+		},
+		{
+			name: "mis-cased optional message field",
+			args: []string{
+				"base", "+workflow-create",
+				"--base-token", "app_x",
+				"--json", `{"title":"Reminder","client_token":"create_1","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Review the request"}],"Send_To_Everyone":false}}]}`,
+			},
+			wantSubtype: "invalid_argument",
+			wantPath:    "send_to_everyone",
+		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			result := runBaseDryRun(t, 2, tt.args...)
