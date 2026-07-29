@@ -5,11 +5,24 @@ package base
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/larksuite/cli/errs"
 )
 
+type workflowOperation uint8
+
+const (
+	workflowCreateOperation workflowOperation = iota
+	workflowUpdateOperation
+)
+
+var unsupportedWorkflowStepTypes = map[string]string{
+	"DeleteRecordTrigger": "record deletion events are not available as Base workflow triggers",
+}
+
 type workflowDefinition struct {
+	Title json.RawMessage `json:"title"`
 	Steps json.RawMessage `json:"steps"`
 }
 
@@ -19,11 +32,13 @@ type workflowStep struct {
 }
 
 type workflowMessageActionData struct {
-	Receiver json.RawMessage `json:"receiver"`
-	Content  json.RawMessage `json:"content"`
+	Receiver       json.RawMessage `json:"receiver"`
+	Content        json.RawMessage `json:"content"`
+	SendToEveryone json.RawMessage `json:"send_to_everyone"`
+	ButtonList     json.RawMessage `json:"btn_list"`
 }
 
-func validateWorkflowMessageActions(body map[string]interface{}) error {
+func validateWorkflowDefinition(body map[string]interface{}, operation workflowOperation) error {
 	raw, err := json.Marshal(body)
 	if err != nil {
 		return errs.NewInternalError(errs.SubtypeUnknown, "failed to inspect --json workflow body").WithCause(err)
@@ -33,34 +48,50 @@ func validateWorkflowMessageActions(body map[string]interface{}) error {
 	if err := json.Unmarshal(raw, &definition); err != nil {
 		return errs.NewInternalError(errs.SubtypeUnknown, "failed to inspect --json workflow body").WithCause(err)
 	}
+
+	if operation == workflowUpdateOperation && !workflowNonBlankJSONString(definition.Title) {
+		return workflowFieldError("--json.title for workflow update must be a non-empty string")
+	}
 	if len(definition.Steps) == 0 || string(definition.Steps) == "null" {
+		if operation == workflowUpdateOperation {
+			return workflowFieldError("--json.steps for workflow update must be an array; use an empty array to clear all steps")
+		}
 		return nil
 	}
 
 	steps, stepsAreArray := workflowSteps(definition.Steps)
 	if !stepsAreArray {
-		// The API retains responsibility for all non-array and non-step shapes.
-		// This preflight only recognizes an otherwise valid message action.
-		return nil
+		return workflowFieldError("--json.steps must be an array")
 	}
 
 	for index, step := range steps {
+		if reason, unsupported := unsupportedWorkflowStepTypes[step.Type]; unsupported {
+			return workflowUnsupportedStepError(index, step.Type, reason)
+		}
 		if step.Type != "LarkMessageAction" {
 			continue
 		}
 		if !isWorkflowJSONObject(step.Data) {
-			return workflowMessageActionError("--json.steps[%d].data for LarkMessageAction must be a JSON object", index)
+			return workflowFieldError("--json.steps[%d].data for LarkMessageAction must be a JSON object", index)
 		}
 
 		var data workflowMessageActionData
 		if err := json.Unmarshal(step.Data, &data); err != nil {
-			return workflowMessageActionError("--json.steps[%d].data for LarkMessageAction must be a JSON object", index)
+			return workflowFieldError("--json.steps[%d].data for LarkMessageAction must be a JSON object", index)
 		}
 		if receiverLength, receiverIsArray := workflowJSONArrayLength(data.Receiver); !receiverIsArray || receiverLength == 0 {
-			return workflowMessageActionError("--json.steps[%d].data.receiver for LarkMessageAction must be a non-empty array", index)
+			return workflowFieldError("--json.steps[%d].data.receiver for LarkMessageAction must be a non-empty array", index)
 		}
 		if contentLength, contentIsArray := workflowJSONArrayLength(data.Content); !contentIsArray || contentLength == 0 {
-			return workflowMessageActionError("--json.steps[%d].data.content for LarkMessageAction must be a non-empty array", index)
+			return workflowFieldError("--json.steps[%d].data.content for LarkMessageAction must be a non-empty array", index)
+		}
+		if len(data.SendToEveryone) > 0 && !workflowJSONBoolean(data.SendToEveryone) {
+			return workflowFieldError("--json.steps[%d].data.send_to_everyone for LarkMessageAction must be a boolean when provided", index)
+		}
+		if len(data.ButtonList) > 0 {
+			if _, buttonListIsArray := workflowJSONArrayLength(data.ButtonList); !buttonListIsArray {
+				return workflowFieldError("--json.steps[%d].data.btn_list for LarkMessageAction must be an array when provided", index)
+			}
 		}
 	}
 	return nil
@@ -75,11 +106,37 @@ func isWorkflowJSONObject(raw json.RawMessage) bool {
 }
 
 func workflowSteps(raw json.RawMessage) ([]workflowStep, bool) {
-	var steps []workflowStep
-	if err := json.Unmarshal(raw, &steps); err != nil || steps == nil {
+	var rawSteps []json.RawMessage
+	if err := json.Unmarshal(raw, &rawSteps); err != nil || rawSteps == nil {
 		return nil, false
 	}
+
+	steps := make([]workflowStep, len(rawSteps))
+	for index, rawStep := range rawSteps {
+		if !isWorkflowJSONObject(rawStep) {
+			continue
+		}
+		if err := json.Unmarshal(rawStep, &steps[index]); err != nil {
+			steps[index] = workflowStep{}
+		}
+	}
 	return steps, true
+}
+
+func workflowNonBlankJSONString(raw json.RawMessage) bool {
+	if len(raw) == 0 || string(raw) == "null" {
+		return false
+	}
+	var value string
+	return json.Unmarshal(raw, &value) == nil && strings.TrimSpace(value) != ""
+}
+
+func workflowJSONBoolean(raw json.RawMessage) bool {
+	if len(raw) == 0 || string(raw) == "null" {
+		return false
+	}
+	var value bool
+	return json.Unmarshal(raw, &value) == nil
 }
 
 func workflowJSONArrayLength(raw json.RawMessage) (int, bool) {
@@ -93,8 +150,20 @@ func workflowJSONArrayLength(raw json.RawMessage) (int, bool) {
 	return len(values), true
 }
 
-func workflowMessageActionError(format string, args ...any) error {
+func workflowFieldError(format string, args ...any) error {
 	return errs.NewValidationError(errs.SubtypeInvalidArgument, format, args...).
 		WithParam("--json").
-		WithHint("LarkMessageAction requires non-empty data.receiver and data.content arrays; data.send_to_everyone and data.btn_list may be omitted when unused.")
+		WithHint("Fix the reported field without inferring values or rewriting unrelated workflow data.")
+}
+
+func workflowUnsupportedStepError(index int, stepType, reason string) error {
+	return errs.NewValidationError(
+		errs.SubtypeFailedPrecondition,
+		"--json.steps[%d].type %q is not supported: %s",
+		index,
+		stepType,
+		reason,
+	).
+		WithParam("--json").
+		WithHint("No workflow request was sent. Keep the requested semantics unchanged; propose alternatives and write only after the user explicitly selects one.")
 }

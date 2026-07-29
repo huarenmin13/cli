@@ -118,23 +118,43 @@ func TestBaseWorkflowExecuteMessageActionValidation(t *testing.T) {
 	}{
 		{
 			name:    "missing receiver",
-			body:    `{"steps":[{"type":"LarkMessageAction","data":{"content":[{"value_type":"text","value":"Reminder"}]}}]}`,
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"content":[{"value_type":"text","value":"Reminder"}]}}]}`,
 			message: "receiver",
 		},
 		{
 			name:    "empty receiver",
-			body:    `{"steps":[{"type":"LarkMessageAction","data":{"receiver":[],"content":[{"value_type":"text","value":"Reminder"}]}}]}`,
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[],"content":[{"value_type":"text","value":"Reminder"}]}}]}`,
 			message: "receiver",
 		},
 		{
 			name:    "missing content",
-			body:    `{"steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}]}}]}`,
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}]}}]}`,
 			message: "content",
 		},
 		{
 			name:    "empty content",
-			body:    `{"steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[]}}]}`,
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[]}}]}`,
 			message: "content",
+		},
+		{
+			name:    "send to everyone has wrong type",
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}],"send_to_everyone":"false"}}]}`,
+			message: "send_to_everyone",
+		},
+		{
+			name:    "send to everyone is null",
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}],"send_to_everyone":null}}]}`,
+			message: "send_to_everyone",
+		},
+		{
+			name:    "button list has wrong type",
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}],"btn_list":{}}}]}`,
+			message: "btn_list",
+		},
+		{
+			name:    "button list is null",
+			body:    `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}],"btn_list":null}}]}`,
+			message: "btn_list",
 		},
 	} {
 		for _, command := range []struct {
@@ -167,11 +187,88 @@ func TestBaseWorkflowExecuteMessageActionValidation(t *testing.T) {
 				if !strings.Contains(validationErr.Message, tt.message) {
 					t.Fatalf("message=%q, want %q", validationErr.Message, tt.message)
 				}
-				if !strings.Contains(validationErr.Hint, "send_to_everyone") || !strings.Contains(validationErr.Hint, "btn_list") {
-					t.Fatalf("hint=%q, want optional field guidance", validationErr.Hint)
+				if !strings.Contains(validationErr.Hint, "reported field") {
+					t.Fatalf("hint=%q, want field-specific recovery guidance", validationErr.Hint)
 				}
 			})
 		}
+	}
+}
+
+func TestBaseWorkflowExecuteRejectsUnsupportedStepBeforeRequest(t *testing.T) {
+	body := `{"title":"Archive workflow","steps":[{"type":"FutureTrigger","data":{"opaque":true}},{"type":"DeleteRecordTrigger","data":{"table_id":"tbl_x"}}]}`
+
+	for _, command := range []struct {
+		name     string
+		shortcut common.Shortcut
+		args     []string
+	}{
+		{
+			name:     "create",
+			shortcut: BaseWorkflowCreate,
+			args:     []string{"+workflow-create", "--base-token", "app_x", "--json", body},
+		},
+		{
+			name:     "update",
+			shortcut: BaseWorkflowUpdate,
+			args:     []string{"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", body},
+		},
+	} {
+		t.Run(command.name, func(t *testing.T) {
+			factory, stdout, _ := newExecuteFactory(t)
+			err := runShortcut(t, command.shortcut, command.args, factory, stdout)
+
+			p, ok := errs.ProblemOf(err)
+			if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeFailedPrecondition {
+				t.Fatalf("expected validation/failed_precondition problem, got %T %v", err, err)
+			}
+			var validationErr *errs.ValidationError
+			if !errors.As(err, &validationErr) || validationErr.Param != "--json" {
+				t.Fatalf("expected validation error for --json, got %T %v", err, err)
+			}
+			if !strings.Contains(validationErr.Message, "steps[1].type") ||
+				!strings.Contains(validationErr.Message, "DeleteRecordTrigger") {
+				t.Fatalf("message=%q, want indexed unsupported type", validationErr.Message)
+			}
+			if !strings.Contains(validationErr.Hint, "No workflow request was sent") ||
+				!strings.Contains(validationErr.Hint, "explicitly selects") {
+				t.Fatalf("hint=%q, want stop-before-write guidance", validationErr.Hint)
+			}
+		})
+	}
+}
+
+func TestBaseWorkflowExecuteUpdateRequiresFullDefinition(t *testing.T) {
+	for _, tt := range []struct {
+		name    string
+		body    string
+		message string
+	}{
+		{name: "missing title", body: `{"steps":[]}`, message: "title"},
+		{name: "blank title", body: `{"title":" ","steps":[]}`, message: "title"},
+		{name: "title has wrong type", body: `{"title":42,"steps":[]}`, message: "title"},
+		{name: "missing steps", body: `{"title":"Reminder"}`, message: "steps"},
+		{name: "null steps", body: `{"title":"Reminder","steps":null}`, message: "steps"},
+		{name: "steps has wrong type", body: `{"title":"Reminder","steps":{}}`, message: "steps"},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			factory, stdout, _ := newExecuteFactory(t)
+			err := runShortcut(t, BaseWorkflowUpdate, []string{
+				"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", tt.body,
+			}, factory, stdout)
+
+			p, ok := errs.ProblemOf(err)
+			if !ok || p.Category != errs.CategoryValidation || p.Subtype != errs.SubtypeInvalidArgument {
+				t.Fatalf("expected validation/invalid_argument problem, got %T %v", err, err)
+			}
+			var validationErr *errs.ValidationError
+			if !errors.As(err, &validationErr) || validationErr.Param != "--json" {
+				t.Fatalf("expected validation error for --json, got %T %v", err, err)
+			}
+			if !strings.Contains(validationErr.Message, tt.message) {
+				t.Fatalf("message=%q, want %q", validationErr.Message, tt.message)
+			}
+		})
 	}
 }
 
@@ -200,7 +297,29 @@ func TestBaseWorkflowExecuteUpdatePreservesValidRequests(t *testing.T) {
 		}
 		reg.Register(updateStub)
 
-		body := `{"title":"My Workflow","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}]}}]}`
+		body := `{"title":"My Workflow","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Reminder"}],"send_to_everyone":false,"btn_list":[]}}]}`
+		if err := runShortcut(t, BaseWorkflowUpdate, []string{
+			"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", body,
+		}, factory, stdout); err != nil {
+			t.Fatalf("err=%v", err)
+		}
+		reg.Verify(t)
+		assertCapturedJSONBody(t, updateStub, body)
+	})
+
+	t.Run("unknown step type", func(t *testing.T) {
+		factory, stdout, reg := newExecuteFactory(t)
+		updateStub := &httpmock.Stub{
+			Method: "PUT",
+			URL:    "/open-apis/base/v3/bases/app_x/workflows/wkf_1",
+			Body: map[string]interface{}{
+				"code": 0,
+				"data": map[string]interface{}{"workflow_id": "wkf_1"},
+			},
+		}
+		reg.Register(updateStub)
+
+		body := `{"title":"My Workflow","steps":[{"type":"FutureTrigger","data":{"opaque":true}}]}`
 		if err := runShortcut(t, BaseWorkflowUpdate, []string{
 			"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", body,
 		}, factory, stdout); err != nil {
