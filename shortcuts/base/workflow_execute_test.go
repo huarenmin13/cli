@@ -139,45 +139,32 @@ func assertWorkflowValidation(
 func TestValidateWorkflowDefinition(t *testing.T) {
 	for _, tt := range []struct {
 		name        string
-		operation   workflowOperation
 		body        string
 		wantSubtype errs.Subtype
 		wantMessage string
 	}{
-		{name: "missing title", operation: workflowUpdateOperation, body: `{"steps":[]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "title"},
-		{name: "mis-cased title", operation: workflowUpdateOperation, body: `{"Title":"Reminder","steps":[]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "title"},
-		{name: "blank title", operation: workflowUpdateOperation, body: `{"title":" ","steps":[]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "title"},
-		{name: "title has wrong type", operation: workflowUpdateOperation, body: `{"title":42,"steps":[]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "title"},
-		{name: "missing steps", operation: workflowUpdateOperation, body: `{"title":"Reminder"}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps"},
-		{name: "mis-cased steps", operation: workflowUpdateOperation, body: `{"title":"Reminder","Steps":[]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps"},
-		{name: "null steps", operation: workflowUpdateOperation, body: `{"title":"Reminder","steps":null}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps"},
-		{name: "steps has wrong type", operation: workflowUpdateOperation, body: `{"title":"Reminder","steps":{}}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps"},
-		{name: "step is not an object", operation: workflowCreateOperation, body: `{"steps":[2]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps[0]"},
-		{name: "step type has wrong type", operation: workflowCreateOperation, body: `{"steps":[{"type":1}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps[0].type"},
-		{name: "step type is null", operation: workflowCreateOperation, body: `{"steps":[{"type":null}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps[0].type"},
-		{name: "step type is missing", operation: workflowCreateOperation, body: `{"steps":[{}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps[0].type"},
-		{name: "step type is empty", operation: workflowCreateOperation, body: `{"steps":[{"type":""}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps[0].type"},
-		{name: "step type is blank", operation: workflowCreateOperation, body: `{"steps":[{"type":" \t"}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "steps[0].type"},
-		{name: "missing receiver", operation: workflowCreateOperation, body: workflowMessageBody(`{"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
-		{name: "mis-cased receiver", operation: workflowCreateOperation, body: workflowMessageBody(`{"Receiver":[1],"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
-		{name: "empty receiver", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[],"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
-		{name: "missing content", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
-		{name: "mis-cased content", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"Content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
-		{name: "empty content", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
-		{name: "mis-cased send to everyone", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[1],"Send_To_Everyone":false}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "send_to_everyone"},
-		{name: "send to everyone has wrong type", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[1],"send_to_everyone":"false"}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "send_to_everyone"},
-		{name: "send to everyone is null", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[1],"send_to_everyone":null}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "send_to_everyone"},
-		{name: "mis-cased button list", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[1],"Btn_List":[]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
-		{name: "button list has wrong type", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[1],"btn_list":{}}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
-		{name: "button list is null", operation: workflowCreateOperation, body: workflowMessageBody(`{"receiver":[1],"content":[1],"btn_list":null}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
-		{name: "unsupported trigger", operation: workflowCreateOperation, body: `{"steps":[{"type":"FutureTrigger"},{"type":"DeleteRecordTrigger"}]}`, wantSubtype: errs.SubtypeFailedPrecondition, wantMessage: "steps[1].type"},
+		{name: "message data is missing", body: `{"steps":[{"type":"LarkMessageAction"}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "data"},
+		{name: "message data is not an object", body: `{"steps":[{"type":"LarkMessageAction","data":[]}]}`, wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "data"},
+		{name: "missing receiver", body: workflowMessageBody(`{"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
+		{name: "mis-cased receiver", body: workflowMessageBody(`{"Receiver":[1],"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
+		{name: "empty receiver", body: workflowMessageBody(`{"receiver":[],"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
+		{name: "receiver has wrong type", body: workflowMessageBody(`{"receiver":{},"content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "receiver"},
+		{name: "missing content", body: workflowMessageBody(`{"receiver":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
+		{name: "mis-cased content", body: workflowMessageBody(`{"receiver":[1],"Content":[1]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
+		{name: "empty content", body: workflowMessageBody(`{"receiver":[1],"content":[]}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
+		{name: "content has wrong type", body: workflowMessageBody(`{"receiver":[1],"content":{}}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "content"},
+		{name: "send to everyone has wrong type", body: workflowMessageBody(`{"receiver":[1],"content":[1],"send_to_everyone":"false"}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "send_to_everyone"},
+		{name: "send to everyone is null", body: workflowMessageBody(`{"receiver":[1],"content":[1],"send_to_everyone":null}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "send_to_everyone"},
+		{name: "button list has wrong type", body: workflowMessageBody(`{"receiver":[1],"content":[1],"btn_list":{}}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
+		{name: "button list is null", body: workflowMessageBody(`{"receiver":[1],"content":[1],"btn_list":null}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
+		{name: "unsupported trigger", body: `{"steps":[{"type":"FutureTrigger"},{"type":"DeleteRecordTrigger"}]}`, wantSubtype: errs.SubtypeFailedPrecondition, wantMessage: "steps[1].type"},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			var body map[string]interface{}
 			if err := json.Unmarshal([]byte(tt.body), &body); err != nil {
 				t.Fatalf("decode body: %v", err)
 			}
-			assertWorkflowValidation(t, validateWorkflowDefinition(body, tt.operation), tt.wantSubtype, tt.wantMessage)
+			assertWorkflowValidation(t, validateWorkflowDefinition(body), tt.wantSubtype, tt.wantMessage)
 		})
 	}
 }

@@ -42,7 +42,7 @@ var BaseWorkflowCreate = common.Shortcut{
 		if err != nil {
 			return err
 		}
-		return validateWorkflowDefinition(body, workflowCreateOperation)
+		return validateWorkflowDefinition(body)
 	},
 	DryRun: func(ctx context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
 		pc := newParseCtx(runtime)

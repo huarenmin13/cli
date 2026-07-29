@@ -2,8 +2,8 @@
 
 ## Metrics
 - Denominator: 78 leaf commands
-- Covered: 24
-- Coverage: 30.8%
+- Covered: 22
+- Coverage: 28.2%
 
 ## Summary
 - TestBase_BasicWorkflow: proves `+base-create`, `+base-get`, `+table-create`, `+table-get`, and `+table-list`; key `t.Run(...)` proof points are `get base as bot`, `get table as bot`, and `list tables and find created table as bot`.
@@ -12,9 +12,8 @@
 - TestBaseRecordBatchUpdatePerRecordDryRun: proves `+record-batch-update` preserves the per-record `update_records` request shape.
 - TestBaseRecordBatchUpdatePerRecordWorkflow: creates two records, updates different field types in one request, asserts the minimal response contract, reads both records back, verifies a missing record ID is not prevalidated, and cleans up the temporary Base.
 - TestBase_RoleWorkflow: proves `+advperm-enable`, `+role-create`, `+role-list`, `+role-get`, and `+role-update`; key `t.Run(...)` proof points are `list as bot`, `get as bot`, and `update as bot`.
-- TestBaseWorkflowCreateDryRun, TestBaseWorkflowUpdateDryRun, and TestBaseWorkflowDryRunRejectsInvalidDefinitions: prove `+workflow-create` and `+workflow-update` request shapes and preflight validation without touching live workflows.
 - Cleanup note: `+table-delete` and `+role-delete` only run in cleanup and are intentionally left uncovered.
-- Blocked area: dashboard, most field and record operations, form, view, and workflow list/get/enable/disable still lack deterministic create/read/update workflows in this suite.
+- Blocked area: dashboard, field, most record operations, form, view, and workflow operations still lack deterministic create/read/update workflows in this suite.
 
 ## Command Table
 
@@ -95,9 +94,9 @@
 | ✕ | base +view-set-sort | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-set-timebar | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-set-visible-fields | shortcut |  | none | view workflows not covered |
-| ✓ | base +workflow-create | shortcut | workflow_update_dryrun_test.go::TestBaseWorkflowCreateDryRun; workflow_update_dryrun_test.go::TestBaseWorkflowDryRunRejectsInvalidDefinitions | `--base-token`; `--json.title`; `--json.client_token`; `--json.steps`; dry-run only | request shape and preflight validation |
+| ✕ | base +workflow-create | shortcut |  | none | workflow CRUD not covered |
 | ✕ | base +workflow-disable | shortcut |  | none | workflow CRUD not covered |
 | ✕ | base +workflow-enable | shortcut |  | none | workflow CRUD not covered |
 | ✕ | base +workflow-get | shortcut |  | none | workflow CRUD not covered |
 | ✕ | base +workflow-list | shortcut |  | none | workflow CRUD not covered |
-| ✓ | base +workflow-update | shortcut | workflow_update_dryrun_test.go::TestBaseWorkflowUpdateDryRun; workflow_update_dryrun_test.go::TestBaseWorkflowDryRunRejectsInvalidDefinitions | `--base-token`; `--workflow-id`; `--json.title`; `--json.steps`; dry-run only | full-replacement request shape and preflight validation |
+| ✕ | base +workflow-update | shortcut |  | none | workflow CRUD not covered |
