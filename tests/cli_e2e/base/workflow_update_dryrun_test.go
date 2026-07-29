@@ -4,9 +4,7 @@
 package base
 
 import (
-	"context"
 	"testing"
-	"time"
 
 	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
@@ -14,23 +12,12 @@ import (
 )
 
 func TestBaseWorkflowUpdateDryRun(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+workflow-update",
-			"--base-token", "app_x",
-			"--workflow-id", "wkf_x",
-			"--json", `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Review the request"}]}}]}`,
-			"--dry-run",
-		},
-		DefaultAs: "bot",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+workflow-update",
+		"--base-token", "app_x",
+		"--workflow-id", "wkf_x",
+		"--json", `{"title":"Reminder","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Review the request"}]}}]}`,
+	)
 
 	out := result.Stdout
 	require.Equal(t, "/open-apis/base/v3/bases/app_x/workflows/wkf_x", clie2e.DryRunGet(out, "api.0.url").String(), out)
@@ -43,22 +30,11 @@ func TestBaseWorkflowUpdateDryRun(t *testing.T) {
 }
 
 func TestBaseWorkflowCreateDryRun(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{
-			"base", "+workflow-create",
-			"--base-token", "app_x",
-			"--json", `{"title":"Reminder","client_token":"create_1","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Review the request"}]}}]}`,
-			"--dry-run",
-		},
-		DefaultAs: "bot",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
+	result := runBaseDryRun(t, 0,
+		"base", "+workflow-create",
+		"--base-token", "app_x",
+		"--json", `{"title":"Reminder","client_token":"create_1","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Review the request"}]}}]}`,
+	)
 
 	out := result.Stdout
 	require.Equal(t, "/open-apis/base/v3/bases/app_x/workflows", clie2e.DryRunGet(out, "api.0.url").String(), out)
@@ -70,8 +46,6 @@ func TestBaseWorkflowCreateDryRun(t *testing.T) {
 }
 
 func TestBaseWorkflowDryRunRejectsInvalidDefinitions(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
 	for _, tt := range []struct {
 		name        string
 		args        []string
@@ -85,7 +59,6 @@ func TestBaseWorkflowDryRunRejectsInvalidDefinitions(t *testing.T) {
 				"--base-token", "app_x",
 				"--workflow-id", "wkf_x",
 				"--json", `{"title":"Archive workflow","steps":[{"type":"DeleteRecordTrigger","data":{"table_id":"tbl_x"}}]}`,
-				"--dry-run",
 			},
 			wantSubtype: "failed_precondition",
 			wantPath:    "steps[0].type",
@@ -96,22 +69,13 @@ func TestBaseWorkflowDryRunRejectsInvalidDefinitions(t *testing.T) {
 				"base", "+workflow-create",
 				"--base-token", "app_x",
 				"--json", `{"title":"Reminder","client_token":"create_1","steps":[{"type":"LarkMessageAction","data":{"receiver":[{"value_type":"user","value":{"id":"ou_x"}}],"content":[{"value_type":"text","value":"Review the request"}],"send_to_everyone":"yes"}}]}`,
-				"--dry-run",
 			},
 			wantSubtype: "invalid_argument",
 			wantPath:    "send_to_everyone",
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-			t.Cleanup(cancel)
-
-			result, err := clie2e.RunCmd(ctx, clie2e.Request{
-				Args:      tt.args,
-				DefaultAs: "bot",
-			})
-			require.NoError(t, err)
-			result.AssertExitCode(t, 2)
+			result := runBaseDryRun(t, 2, tt.args...)
 			require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
 			require.Equal(t, tt.wantSubtype, gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
 			require.Equal(t, "--json", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)

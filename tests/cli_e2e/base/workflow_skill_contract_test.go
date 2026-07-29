@@ -12,43 +12,39 @@ import (
 	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 )
 
-func TestWorkflowSkillDeliveryRegression(t *testing.T) {
+func readWorkflowReference(t *testing.T, name string) string {
+	t.Helper()
+
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
+	t.Cleanup(cancel)
 
 	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{"skills", "read", "lark-base", "references/lark-base-workflow-guide.md"},
+		Args: []string{"skills", "read", "lark-base", "references/" + name},
 	})
 	if err != nil {
-		t.Fatalf("read embedded workflow guide: %v", err)
+		t.Fatalf("read embedded workflow reference %s: %v", name, err)
 	}
 	result.AssertExitCode(t, 0)
+	return result.Stdout
+}
 
+func TestWorkflowSkillDeliveryRegression(t *testing.T) {
+	guide := readWorkflowReference(t, "lark-base-workflow-guide.md")
 	for _, contract := range []string{
 		"创建/更新时重点构造 `title` 和 `steps`",
 		"`status` 通过 `+workflow-enable` 或 `+workflow-disable` 单独管理",
 	} {
-		if !strings.Contains(result.Stdout, contract) {
+		if !strings.Contains(guide, contract) {
 			t.Errorf("embedded workflow guide must contain %q", contract)
 		}
 	}
-	if strings.Contains(result.Stdout, "创建/更新时重点构造 `title`、`status` 和 `steps`") {
+	if strings.Contains(guide, "创建/更新时重点构造 `title`、`status` 和 `steps`") {
 		t.Error("embedded workflow guide must not include status in the create/update body contract")
 	}
 }
 
 func TestWorkflowSchemaDeliveryRegression(t *testing.T) {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args: []string{"skills", "read", "lark-base", "references/lark-base-workflow-schema.md"},
-	})
-	if err != nil {
-		t.Fatalf("read embedded workflow schema: %v", err)
-	}
-	result.AssertExitCode(t, 0)
-
+	schema := readWorkflowReference(t, "lark-base-workflow-schema.md")
 	contracts := []struct {
 		name string
 		text string
@@ -63,7 +59,7 @@ func TestWorkflowSchemaDeliveryRegression(t *testing.T) {
 
 	for _, contract := range contracts {
 		t.Run(contract.name, func(t *testing.T) {
-			if !strings.Contains(result.Stdout, contract.text) {
+			if !strings.Contains(schema, contract.text) {
 				t.Errorf("embedded workflow schema must contain %q", contract.text)
 			}
 		})
