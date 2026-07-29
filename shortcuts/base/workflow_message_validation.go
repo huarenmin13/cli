@@ -118,10 +118,12 @@ func workflowSteps(raw json.RawMessage) ([]workflowStep, error) {
 			return nil, workflowFieldError("--json.steps[%d] must be a JSON object", index)
 		}
 		steps[index].Data = fields["data"]
-		if rawType, ok := fields["type"]; ok {
-			if err := json.Unmarshal(rawType, &steps[index].Type); err != nil || strings.TrimSpace(string(rawType)) == "null" {
-				return nil, workflowFieldError("--json.steps[%d].type must be a string when provided", index)
-			}
+		rawType, ok := fields["type"]
+		if !ok {
+			return nil, workflowFieldError("--json.steps[%d].type must be a non-empty string", index)
+		}
+		if err := json.Unmarshal(rawType, &steps[index].Type); err != nil || strings.TrimSpace(steps[index].Type) == "" {
+			return nil, workflowFieldError("--json.steps[%d].type must be a non-empty string", index)
 		}
 	}
 	return steps, nil
