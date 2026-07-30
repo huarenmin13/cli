@@ -7,32 +7,30 @@ import (
 	"github.com/larksuite/cli/internal/vfs"
 )
 
-func TestDataQueryQuickGuideCoversCommonFiltersWithoutBecomingFullReference(t *testing.T) {
+func TestDataQueryQuickGuideCoversConditionValueShapesWithoutScenarioTemplate(t *testing.T) {
 	const guidePath = "../../skills/lark-base/references/lark-base-data-query-guide.md"
 	content, err := vfs.ReadFile(guidePath)
 	if err != nil {
 		t.Fatalf("read data-query quick guide: %v", err)
 	}
 	guide := string(content)
+	normalizedGuide := strings.Join(strings.Fields(guide), " ")
 
 	for _, want := range []string{
-		`"type":1`,
-		`"conjunction":"and"`,
-		`"conditions"`,
-		"`is`, `isNot`",
+		"Common `Condition.value` shapes",
+		"`is` / `isNot`",
+		"exactly one option name",
+		"`isGreater`",
 		"`isLess`",
 		"`isEmpty`",
 		"`isNotEmpty`",
-		`"value":[]`,
+		"uses `[]`",
 		`["Today"]`,
 		`["ExactDate","<epoch_ms>"]`,
-		`["<status_value>"]`,
-		`"<date_field>"`,
-		`"<status_field>"`,
-		`"<status_value>"`,
+		"Use relative date keywords only for relative requests",
 		"[lark-base-data-query.md](lark-base-data-query.md)",
 	} {
-		if !strings.Contains(guide, want) {
+		if !strings.Contains(normalizedGuide, want) {
 			t.Fatalf("quick guide missing %q", want)
 		}
 	}
@@ -44,9 +42,13 @@ func TestDataQueryQuickGuideCoversCommonFiltersWithoutBecomingFullReference(t *t
 	for _, forbidden := range []string{
 		"base_table_",
 		"bytedance.larkoffice.com/base/",
+		"Combine a date boundary and a status exclusion",
+		`"<date_field>"`,
+		`"<status_field>"`,
+		`"<status_value>"`,
 	} {
 		if strings.Contains(guide, forbidden) {
-			t.Fatalf("quick guide must use generic placeholders, found %q", forbidden)
+			t.Fatalf("quick guide must remain generic, found %q", forbidden)
 		}
 	}
 }
