@@ -16,10 +16,17 @@ func TestDataQueryQuickGuideCoversCommonFiltersWithoutBecomingFullReference(t *t
 	guide := string(content)
 
 	for _, want := range []string{
+		`"type":1`,
 		`"conjunction":"and"`,
+		`"conditions"`,
 		"`is`, `isNot`",
+		"`isLess`",
+		"`isEmpty`",
+		"`isNotEmpty`",
+		`"value":[]`,
 		`["Today"]`,
 		`["ExactDate","<epoch_ms>"]`,
+		`["<status_value>"]`,
 		`"<date_field>"`,
 		`"<status_field>"`,
 		`"<status_value>"`,

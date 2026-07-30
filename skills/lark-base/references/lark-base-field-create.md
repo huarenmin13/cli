@@ -44,6 +44,7 @@ lark-cli base +field-create \
 | `--base-token <token>` | 是 | Base Token |
 | `--table-id <id_or_name>` | 是 | 表 ID 或表名 |
 | `--json <body>` | 是 | 单个字段 JSON 对象，或多个字段对象组成的非空数组 |
+
 ## API 入参详情
 
 **HTTP 方法和路径：**
