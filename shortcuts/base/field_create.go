@@ -25,7 +25,8 @@ var BaseFieldCreate = common.Shortcut{
 	Tips: []string{
 		`Example text: lark-cli base +field-create --base-token <base_token> --table-id <table_id> --json '{"name":"Status","type":"text"}'`,
 		`Example select: lark-cli base +field-create --base-token <base_token> --table-id <table_id> --json '{"name":"Status","type":"select","multiple":false,"options":[{"name":"Todo"},{"name":"Done"}]}'`,
-		`Choose a supported field type from the value being stored, not from the field name or business purpose; use style only to format that type, and explore formula, lookup, link, workflow, or automation only for explicitly requested derived, related, or automatically maintained behavior.`,
+		`+field-create defines storage schema only: choose a documented field type from the value being stored, never from the field name or business purpose, and use style only to format that type.`,
+		`Do not probe source code, web search, or raw OpenAPI for a purpose-named field type. Explore formula, lookup, link, workflow, or automation only when the user explicitly requests derived, related, automatically populated, synchronized, or backfilled values.`,
 		"Agent hint: use the lark-base skill's field-create guide for usage and limits.",
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {

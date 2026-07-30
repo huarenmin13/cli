@@ -249,20 +249,29 @@ func TestBaseHighRiskShortcutsTipsGuideAgents(t *testing.T) {
 func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
 	tips := strings.Join(BaseFieldCreate.Tips, "\n")
 	for _, want := range []string{
+		"+field-create defines storage schema only",
+		"a documented field type",
 		"value being stored",
-		"not from the field name or business purpose",
+		"never from the field name or business purpose",
 		"use style only to format that type",
+		"Do not probe source code, web search, or raw OpenAPI",
 		"formula, lookup, link, workflow, or automation",
-		"derived, related, or automatically maintained behavior",
+		"only when the user explicitly requests",
+		"automatically populated, synchronized, or backfilled values",
 	} {
 		if !strings.Contains(tips, want) {
 			t.Fatalf("field-create tips should contain %q, got:\n%s", want, tips)
 		}
 	}
 	lowerTips := strings.ToLower(tips)
-	for _, purposeExample := range []string{"translation field", "phone field", "email field"} {
-		if strings.Contains(lowerTips, purposeExample) {
-			t.Fatalf("field-create tips should express a general rule instead of enumerating %q, got:\n%s", purposeExample, tips)
+	for _, caseArtifact := range []string{
+		"base_table_",
+		"larkoffice.com/base/",
+		"grading_pass_rate",
+		"benchmark",
+	} {
+		if strings.Contains(lowerTips, caseArtifact) {
+			t.Fatalf("field-create tips should remain generic, found %q:\n%s", caseArtifact, tips)
 		}
 	}
 }
