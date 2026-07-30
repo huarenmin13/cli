@@ -175,15 +175,12 @@ func TestWorkflowSchemaDeliveryRegression(t *testing.T) {
 		"| `content` | 是 | 非空 TextRefItem[] 消息内容 |",
 		"| `send_to_everyone` | 否 | boolean；",
 		"| `btn_list` | 否 | ButtonConfig[]；",
-		"新增节点的 `type` 只能使用本 Schema 或官方服务文档明确记录的值",
-		"不得根据自然语言发明或试探",
-		"`+workflow-get` 返回的未知 `type` 在 read-modify-write 中必须原样保留",
-		"无法确认能力时，说明边界并停止写入",
-		"`--dry-run` 只预览请求，不证明服务端支持",
-		"`DeleteRecordTrigger` 当前不可用，不要构造或提交",
-		"改变触发条件、数据结构或业务结果的方案只能先建议",
-		"用户明确选择后才能执行",
-		"请求失败、沉默或要求减少追问均不构成授权",
+		"`DeleteRecordTrigger` 当前不可用，不要构造或提交该 type",
+		"`--dry-run` 只预览最终请求，不能证明服务端支持",
+		"先说明能力边界并停止写入",
+		"任何会改变触发条件、数据结构或业务结果的替代方案都只能作为建议",
+		"只有用户明确选择该替代方案后才能执行相关写入",
+		"先前请求失败、用户保持沉默，或要求减少追问，都不构成改变原始语义的授权",
 	} {
 		require.Contains(t, schema, contract)
 	}
