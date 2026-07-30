@@ -5,6 +5,7 @@ package base
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -217,6 +218,18 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 			failed["troubleshooter"] = problem.Troubleshooter
 		}
 	}
+	var permissionError *errs.PermissionError
+	if errors.As(err, &permissionError) {
+		if len(permissionError.MissingScopes) > 0 {
+			failed["missing_scopes"] = permissionError.MissingScopes
+		}
+		if permissionError.Identity != "" {
+			failed["identity"] = permissionError.Identity
+		}
+		if permissionError.ConsoleURL != "" {
+			failed["console_url"] = permissionError.ConsoleURL
+		}
+	}
 	items = append(items, failed)
 
 	for idx := failedIndex + 1; idx < len(bodies); idx++ {
@@ -238,6 +251,7 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 		"items": items,
 		"hint":  "Some fields were already created and were not rolled back. Do not retry failed items unless retryable is true; submit not_attempted items separately.",
 	}, bodies[:len(createdFields)])
+	result["next_step"] = "inspect_items"
 	return runtime.OutPartialFailure(result, nil)
 }
 

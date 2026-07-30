@@ -1388,67 +1388,56 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		fieldCreateBatchDelay = 0
 		t.Cleanup(func() { fieldCreateBatchDelay = oldDelay })
 
-		factory, stdout, reg := newExecuteFactory(t)
-		reg.Register(&httpmock.Stub{
-			Method: "POST",
-			URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
-			BodyFilter: func(body []byte) bool {
-				return strings.Contains(string(body), `"name":"A"`)
-			},
-			Body: map[string]interface{}{
-				"code": 0,
-				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": "auto_number"},
-			},
-		})
-		reg.Register(&httpmock.Stub{
-			Method: "POST",
-			URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
-			BodyFilter: func(body []byte) bool {
-				return strings.Contains(string(body), `"name":"B"`)
-			},
-			Body: map[string]interface{}{
-				"code": 1254090,
-				"msg":  "field already exists",
-				"error": map[string]interface{}{
-					"log_id":         "202607300001",
-					"troubleshooter": "https://open.feishu.cn/document/troubleshoot/field-exists",
-					"details": []interface{}{
-						map[string]interface{}{"value": "choose a different field name"},
-					},
-				},
-			},
-		})
-
-		err := runShortcut(t, BaseFieldCreate, []string{
-			"+field-create",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--json", `[{"name":"A","type":"auto_number"},{"name":"B","type":"text"},{"name":"C","type":"text"}]`,
-		}, factory, stdout)
-		var partialErr *output.PartialFailureError
-		if !errors.As(err, &partialErr) {
-			t.Fatalf("expected partial failure error, got %T: %v", err, err)
-		}
-
-		var envelope map[string]interface{}
-		if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
-			t.Fatalf("decode partial failure output: %v\nstdout=%s", err, stdout.String())
-		}
-		if envelope["ok"] != false {
-			t.Fatalf("ok=%#v, want false; envelope=%#v", envelope["ok"], envelope)
-		}
-		data, _ := envelope["data"].(map[string]interface{})
-		summary, _ := data["summary"].(map[string]interface{})
-		for key, want := range map[string]float64{
-			"requested":     3,
-			"attempted":     2,
-			"created":       1,
-			"failed":        1,
-			"not_attempted": 1,
-		} {
-			if summary[key] != want {
-				t.Fatalf("summary[%q]=%#v, want %v; data=%#v", key, summary[key], want, data)
+		runPartial := func(input, createdType, failedName string, failedResponse map[string]interface{}) map[string]interface{} {
+			t.Helper()
+			factory, stdout, reg := newExecuteFactory(t)
+			register := func(name string, response map[string]interface{}) {
+				reg.Register(&httpmock.Stub{
+					Method:     "POST",
+					URL:        "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
+					BodyFilter: func(body []byte) bool { return strings.Contains(string(body), `"name":"`+name+`"`) },
+					Body:       response,
+				})
 			}
+			register("A", map[string]interface{}{
+				"code": 0,
+				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": createdType},
+			})
+			register(failedName, failedResponse)
+			err := runShortcut(t, BaseFieldCreate, []string{
+				"+field-create", "--base-token", "app_x", "--table-id", "tbl_x", "--json", input,
+			}, factory, stdout)
+			var partialErr *output.PartialFailureError
+			if !errors.As(err, &partialErr) {
+				t.Fatalf("expected partial failure error, got %T: %v", err, err)
+			}
+			var envelope struct {
+				OK   bool                   `json:"ok"`
+				Data map[string]interface{} `json:"data"`
+			}
+			if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+				t.Fatalf("decode partial failure output: %v\nstdout=%s", err, stdout.String())
+			}
+			if envelope.OK || envelope.Data == nil {
+				t.Fatalf("unexpected partial failure envelope: %#v", envelope)
+			}
+			return envelope.Data
+		}
+
+		conflictResponse := map[string]interface{}{
+			"code": 1254090,
+			"msg":  "field already exists",
+			"error": map[string]interface{}{
+				"log_id":         "202607300001",
+				"troubleshooter": "https://open.feishu.cn/document/troubleshoot/field-exists",
+				"details":        []interface{}{map[string]interface{}{"value": "choose a different field name"}},
+			},
+		}
+		data := runPartial(`[{"name":"A","type":"auto_number"},{"name":"B","type":"text"},{"name":"C","type":"text"}]`, "auto_number", "B", conflictResponse)
+		summary, _ := data["summary"].(map[string]interface{})
+		if summary["requested"] != float64(3) || summary["attempted"] != float64(2) ||
+			summary["created"] != float64(1) || summary["failed"] != float64(1) || summary["not_attempted"] != float64(1) {
+			t.Fatalf("unexpected summary: %#v", summary)
 		}
 
 		items, _ := data["items"].([]interface{})
@@ -1457,15 +1446,16 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		}
 		created, _ := items[0].(map[string]interface{})
 		createdField, _ := created["field"].(map[string]interface{})
-		if created["status"] != "created" || createdField["id"] != "fld_a" {
-			t.Fatalf("created item=%#v", created)
-		}
 		failed, _ := items[1].(map[string]interface{})
 		failedField, _ := failed["field"].(map[string]interface{})
-		if failed["status"] != "failed" || failed["index"] != float64(1) || failedField["name"] != "B" {
-			t.Fatalf("failed item=%#v", failed)
+		notAttempted, _ := items[2].(map[string]interface{})
+		notAttemptedField, _ := notAttempted["field"].(map[string]interface{})
+		if created["status"] != "created" || createdField["id"] != "fld_a" ||
+			failed["status"] != "failed" || failed["index"] != float64(1) || failedField["name"] != "B" ||
+			notAttempted["status"] != "not_attempted" || notAttemptedField["name"] != "C" {
+			t.Fatalf("unexpected item outcomes: %#v", items)
 		}
-		if !strings.Contains(failed["error"].(string), "field already exists") {
+		if !strings.Contains(common.GetString(failed, "error"), "field already exists") {
 			t.Fatalf("failed item must include the API error: %#v", failed)
 		}
 		for key, want := range map[string]interface{}{
@@ -1484,16 +1474,31 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		if _, ok := failed["error_type"]; ok {
 			t.Fatalf("failed item must use canonical type/subtype fields: %#v", failed)
 		}
-		notAttempted, _ := items[2].(map[string]interface{})
-		notAttemptedField, _ := notAttempted["field"].(map[string]interface{})
-		if notAttempted["status"] != "not_attempted" || notAttemptedField["name"] != "C" {
-			t.Fatalf("not-attempted item=%#v", notAttempted)
-		}
 		if !strings.Contains(data["hint"].(string), "Do not retry failed items unless retryable is true") {
 			t.Fatalf("hint=%#v", data["hint"])
 		}
-		if data["field_get_recommended"] != true || data["next_step"] != "field_get" || data["verification_hint"] == nil {
+		if data["field_get_recommended"] != true || data["next_step"] != "inspect_items" || data["verification_hint"] == nil {
 			t.Fatalf("partial success with auto_number must recommend readback: %#v", data)
+		}
+
+		simpleData := runPartial(`[{"name":"A","type":"text"},{"name":"B","type":"text"},{"name":"C","type":"text"}]`, "text", "B", conflictResponse)
+		if simpleData["field_get_recommended"] != false || simpleData["next_step"] != "inspect_items" {
+			t.Fatalf("simple-field partial failure must inspect items, not report done: %#v", simpleData)
+		}
+
+		permissionData := runPartial(`[{"name":"A","type":"text"},{"name":"P","type":"text"}]`, "text", "P", map[string]interface{}{
+			"code": 99991672,
+			"msg":  "app scope not applied",
+			"error": map[string]interface{}{
+				"permission_violations": []interface{}{map[string]interface{}{"subject": "base:field:create"}},
+			},
+		})
+		items, _ = permissionData["items"].([]interface{})
+		permissionFailure, _ := items[1].(map[string]interface{})
+		missingScopes, _ := permissionFailure["missing_scopes"].([]interface{})
+		if len(missingScopes) != 1 || missingScopes[0] != "base:field:create" ||
+			permissionFailure["identity"] != "bot" || common.GetString(permissionFailure, "console_url") == "" {
+			t.Fatalf("permission failure must retain typed extensions: %#v", permissionFailure)
 		}
 	})
 

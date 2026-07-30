@@ -85,6 +85,8 @@ func TestFieldCreateBatchContractStaysConsistentAcrossSkillAndReferences(t *test
 		"部分失败返回 `ok:false`",
 		"`summary`",
 		"`items`",
+		"`next_step:\"inspect_items\"`",
+		"`missing_scopes`、`identity`、`console_url`",
 		"只有 `retryable:true` 的 `failed` 项可重试",
 		"`not_attempted` 项应单独继续",
 	} {
