@@ -85,6 +85,8 @@ func TestFieldCreateBatchContractStaysConsistentAcrossSkillAndReferences(t *test
 		"部分失败返回 `ok:false`",
 		"`summary`",
 		"`items`",
+		"只有 `retryable:true` 的 `failed` 项可重试",
+		"`not_attempted` 项应单独继续",
 	} {
 		if !strings.Contains(fieldCreate, want) {
 			t.Fatalf("field-create reference missing %q", want)

@@ -1397,7 +1397,7 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			},
 			Body: map[string]interface{}{
 				"code": 0,
-				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": "text"},
+				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": "auto_number"},
 			},
 		})
 		reg.Register(&httpmock.Stub{
@@ -1407,9 +1407,15 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 				return strings.Contains(string(body), `"name":"B"`)
 			},
 			Body: map[string]interface{}{
-				"code":   1254090,
-				"msg":    "field already exists",
-				"log_id": "202607300001",
+				"code": 1254090,
+				"msg":  "field already exists",
+				"error": map[string]interface{}{
+					"log_id":         "202607300001",
+					"troubleshooter": "https://open.feishu.cn/document/troubleshoot/field-exists",
+					"details": []interface{}{
+						map[string]interface{}{"value": "choose a different field name"},
+					},
+				},
 			},
 		})
 
@@ -1417,7 +1423,7 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			"+field-create",
 			"--base-token", "app_x",
 			"--table-id", "tbl_x",
-			"--json", `[{"name":"A","type":"text"},{"name":"B","type":"text"},{"name":"C","type":"text"}]`,
+			"--json", `[{"name":"A","type":"auto_number"},{"name":"B","type":"text"},{"name":"C","type":"text"}]`,
 		}, factory, stdout)
 		var partialErr *output.PartialFailureError
 		if !errors.As(err, &partialErr) {
@@ -1462,13 +1468,32 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		if !strings.Contains(failed["error"].(string), "field already exists") {
 			t.Fatalf("failed item must include the API error: %#v", failed)
 		}
+		for key, want := range map[string]interface{}{
+			"type":           "api",
+			"subtype":        "unknown",
+			"code":           float64(1254090),
+			"hint":           "choose a different field name",
+			"retryable":      false,
+			"log_id":         "202607300001",
+			"troubleshooter": "https://open.feishu.cn/document/troubleshoot/field-exists",
+		} {
+			if failed[key] != want {
+				t.Fatalf("failed[%q]=%#v, want %#v; failed=%#v", key, failed[key], want, failed)
+			}
+		}
+		if _, ok := failed["error_type"]; ok {
+			t.Fatalf("failed item must use canonical type/subtype fields: %#v", failed)
+		}
 		notAttempted, _ := items[2].(map[string]interface{})
 		notAttemptedField, _ := notAttempted["field"].(map[string]interface{})
 		if notAttempted["status"] != "not_attempted" || notAttemptedField["name"] != "C" {
 			t.Fatalf("not-attempted item=%#v", notAttempted)
 		}
-		if !strings.Contains(data["hint"].(string), "retry only failed or not_attempted") {
+		if !strings.Contains(data["hint"].(string), "Do not retry failed items unless retryable is true") {
 			t.Fatalf("hint=%#v", data["hint"])
+		}
+		if data["field_get_recommended"] != true || data["next_step"] != "field_get" || data["verification_hint"] == nil {
+			t.Fatalf("partial success with auto_number must recommend readback: %#v", data)
 		}
 	})
 

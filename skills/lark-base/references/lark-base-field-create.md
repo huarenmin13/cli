@@ -95,7 +95,7 @@ POST /open-apis/base/v3/bases/:base_token/tables/:table_id/fields
 ## 返回重点
 
 - 单字段返回 `field` 和 `created: true`；多字段返回 `fields`、`total` 和 `created: true`。
-- 数组创建中若已有字段成功、后续字段失败，部分失败返回 `ok:false`；`summary` 给出已创建、失败和未执行数量，`items` 按输入顺序保留已创建字段及 ID、失败字段和未执行字段。只重试 `failed` / `not_attempted` 项。
+- 数组创建中若已有字段成功、后续字段失败，部分失败返回 `ok:false`；`summary` 给出已创建、失败和未执行数量，`items` 按输入顺序保留已创建字段及 ID、失败字段和未执行字段。`failed` 项保留 `type`、`subtype`、`code`、`hint`、`retryable`、`log_id`、`troubleshooter`；只有 `retryable:true` 的 `failed` 项可重试，`not_attempted` 项应单独继续。
 - 如果返回 `field_get_recommended:false` 且 `next_step:"done"`，表示本次是简单字段创建，通常不需要立刻执行 `+field-get`。
 - 如果返回 `field_get_recommended:true` 或 `next_step:"field_get"`，按 `verification_hint` 读回字段；`formula`、`lookup`、`link`、`auto_number` 等计算、关联或生成型字段更适合读回确认服务端最终结构。
 

@@ -201,13 +201,20 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 		"error":  err.Error(),
 	}
 	if problem, ok := errs.ProblemOf(err); ok {
-		failed["error_type"] = string(problem.Category)
-		failed["error_subtype"] = string(problem.Subtype)
+		failed["type"] = string(problem.Category)
+		failed["subtype"] = string(problem.Subtype)
+		failed["retryable"] = problem.Retryable
 		if problem.Code != 0 {
 			failed["code"] = problem.Code
 		}
+		if problem.Hint != "" {
+			failed["hint"] = problem.Hint
+		}
 		if problem.LogID != "" {
 			failed["log_id"] = problem.LogID
+		}
+		if problem.Troubleshooter != "" {
+			failed["troubleshooter"] = problem.Troubleshooter
 		}
 	}
 	items = append(items, failed)
@@ -220,7 +227,7 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 		})
 	}
 
-	return runtime.OutPartialFailure(map[string]interface{}{
+	result := fieldCreateBatchResult(map[string]interface{}{
 		"summary": map[string]interface{}{
 			"requested":     len(bodies),
 			"attempted":     failedIndex + 1,
@@ -229,8 +236,9 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 			"not_attempted": len(bodies) - failedIndex - 1,
 		},
 		"items": items,
-		"hint":  "Some fields were already created and were not rolled back. Inspect items and retry only failed or not_attempted fields.",
-	}, nil)
+		"hint":  "Some fields were already created and were not rolled back. Do not retry failed items unless retryable is true; submit not_attempted items separately.",
+	}, bodies[:len(createdFields)])
+	return runtime.OutPartialFailure(result, nil)
 }
 
 func fieldCreateInputIdentity(body map[string]interface{}) map[string]interface{} {
