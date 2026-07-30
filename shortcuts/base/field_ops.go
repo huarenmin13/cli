@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -168,6 +169,9 @@ func executeFieldCreate(runtime *common.RuntimeContext) error {
 		}
 		data, err := baseV3Call(runtime, "POST", baseV3Path("bases", runtime.Str("base-token"), "tables", baseTableID(runtime), "fields"), nil, body)
 		if err != nil {
+			if len(fields) > 0 {
+				return fieldCreatePartialFailure(runtime, bodies, fields, idx, err)
+			}
 			return err
 		}
 		fields = append(fields, data)
@@ -178,6 +182,62 @@ func executeFieldCreate(runtime *common.RuntimeContext) error {
 	}
 	runtime.Out(fieldCreateBatchResult(map[string]interface{}{"fields": fields, "created": true, "total": len(fields)}, bodies), nil)
 	return nil
+}
+
+func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[string]interface{}, createdFields []interface{}, failedIndex int, err error) error {
+	items := make([]map[string]interface{}, 0, len(bodies))
+	for idx, field := range createdFields {
+		items = append(items, map[string]interface{}{
+			"index":  idx,
+			"status": "created",
+			"field":  field,
+		})
+	}
+
+	failed := map[string]interface{}{
+		"index":  failedIndex,
+		"status": "failed",
+		"field":  fieldCreateInputIdentity(bodies[failedIndex]),
+		"error":  err.Error(),
+	}
+	if problem, ok := errs.ProblemOf(err); ok {
+		failed["error_type"] = string(problem.Category)
+		failed["error_subtype"] = string(problem.Subtype)
+		if problem.Code != 0 {
+			failed["code"] = problem.Code
+		}
+		if problem.LogID != "" {
+			failed["log_id"] = problem.LogID
+		}
+	}
+	items = append(items, failed)
+
+	for idx := failedIndex + 1; idx < len(bodies); idx++ {
+		items = append(items, map[string]interface{}{
+			"index":  idx,
+			"status": "not_attempted",
+			"field":  fieldCreateInputIdentity(bodies[idx]),
+		})
+	}
+
+	return runtime.OutPartialFailure(map[string]interface{}{
+		"summary": map[string]interface{}{
+			"requested":     len(bodies),
+			"attempted":     failedIndex + 1,
+			"created":       len(createdFields),
+			"failed":        1,
+			"not_attempted": len(bodies) - failedIndex - 1,
+		},
+		"items": items,
+		"hint":  "Some fields were already created and were not rolled back. Inspect items and retry only failed or not_attempted fields.",
+	}, nil)
+}
+
+func fieldCreateInputIdentity(body map[string]interface{}) map[string]interface{} {
+	return map[string]interface{}{
+		"name": body["name"],
+		"type": body["type"],
+	}
 }
 
 func parseFieldCreateBodies(pc *parseCtx, raw string) ([]map[string]interface{}, error) {

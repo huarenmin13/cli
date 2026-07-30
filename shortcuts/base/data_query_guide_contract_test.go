@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Lark Technologies Pte. Ltd.
+// SPDX-License-Identifier: MIT
+
 package base
 
 import (
@@ -47,7 +50,7 @@ func TestDataQueryQuickGuideCoversConditionValueShapesWithoutScenarioTemplate(t 
 		`"<status_field>"`,
 		`"<status_value>"`,
 	} {
-		if strings.Contains(guide, forbidden) {
+		if strings.Contains(normalizedGuide, forbidden) {
 			t.Fatalf("quick guide must remain generic, found %q", forbidden)
 		}
 	}

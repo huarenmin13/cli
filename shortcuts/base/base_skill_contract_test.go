@@ -26,7 +26,7 @@ func TestBaseSkillKeepsCreateSemanticsLiteralAndGeneric(t *testing.T) {
 		"不能把已有资源算作本轮新增",
 		"不能静默复用或更新",
 		"对每类资源只做一次必要盘点",
-		"支持批量时使用批量创建",
+		"只有命令明确返回逐项结果时才优先使用批量创建",
 		"继续配置本轮返回的 ID",
 		"明确要求确保存在、复用或更新",
 	} {
@@ -42,6 +42,52 @@ func TestBaseSkillKeepsCreateSemanticsLiteralAndGeneric(t *testing.T) {
 	} {
 		if strings.Contains(skill, forbidden) {
 			t.Fatalf("lark-base skill must remain generic, found %q", forbidden)
+		}
+	}
+}
+
+func TestFieldCreateBatchContractStaysConsistentAcrossSkillAndReferences(t *testing.T) {
+	readNormalized := func(path string) string {
+		t.Helper()
+		content, err := vfs.ReadFile(path)
+		if err != nil {
+			t.Fatalf("read %s: %v", path, err)
+		}
+		return strings.Join(strings.Fields(string(content)), " ")
+	}
+
+	skill := readNormalized("../../skills/lark-base/SKILL.md")
+	fieldJSON := readNormalized("../../skills/lark-base/references/lark-base-field-json.md")
+	fieldCreate := readNormalized("../../skills/lark-base/references/lark-base-field-create.md")
+
+	for _, want := range []string{
+		"同一表创建多个字段时，一次向 `+field-create --json` 传字段对象数组",
+		"只有命令明确返回逐项结果时才优先使用批量创建",
+	} {
+		if !strings.Contains(skill, want) {
+			t.Fatalf("lark-base skill missing %q", want)
+		}
+	}
+	for _, want := range []string{
+		"单个字段定义始终是 JSON 对象",
+		"`+field-create --json` 接受一个字段对象或非空字段对象数组",
+		"`+field-update --json` 只接受一个字段对象",
+	} {
+		if !strings.Contains(fieldJSON, want) {
+			t.Fatalf("field JSON SSOT missing %q", want)
+		}
+	}
+	if strings.Contains(fieldJSON, "`--json` 必须是 JSON 对象") {
+		t.Fatal("field JSON SSOT must not apply the update-only top-level object rule to field-create")
+	}
+	for _, want := range []string{
+		"遇到首个失败即停止且不自动回滚已创建字段",
+		"部分失败返回 `ok:false`",
+		"`summary`",
+		"`items`",
+	} {
+		if !strings.Contains(fieldCreate, want) {
+			t.Fatalf("field-create reference missing %q", want)
 		}
 	}
 }

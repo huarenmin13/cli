@@ -1383,6 +1383,95 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		}
 	})
 
+	t.Run("create array reports progress when a later field fails", func(t *testing.T) {
+		oldDelay := fieldCreateBatchDelay
+		fieldCreateBatchDelay = 0
+		t.Cleanup(func() { fieldCreateBatchDelay = oldDelay })
+
+		factory, stdout, reg := newExecuteFactory(t)
+		reg.Register(&httpmock.Stub{
+			Method: "POST",
+			URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
+			BodyFilter: func(body []byte) bool {
+				return strings.Contains(string(body), `"name":"A"`)
+			},
+			Body: map[string]interface{}{
+				"code": 0,
+				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": "text"},
+			},
+		})
+		reg.Register(&httpmock.Stub{
+			Method: "POST",
+			URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
+			BodyFilter: func(body []byte) bool {
+				return strings.Contains(string(body), `"name":"B"`)
+			},
+			Body: map[string]interface{}{
+				"code":   1254090,
+				"msg":    "field already exists",
+				"log_id": "202607300001",
+			},
+		})
+
+		err := runShortcut(t, BaseFieldCreate, []string{
+			"+field-create",
+			"--base-token", "app_x",
+			"--table-id", "tbl_x",
+			"--json", `[{"name":"A","type":"text"},{"name":"B","type":"text"},{"name":"C","type":"text"}]`,
+		}, factory, stdout)
+		var partialErr *output.PartialFailureError
+		if !errors.As(err, &partialErr) {
+			t.Fatalf("expected partial failure error, got %T: %v", err, err)
+		}
+
+		var envelope map[string]interface{}
+		if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+			t.Fatalf("decode partial failure output: %v\nstdout=%s", err, stdout.String())
+		}
+		if envelope["ok"] != false {
+			t.Fatalf("ok=%#v, want false; envelope=%#v", envelope["ok"], envelope)
+		}
+		data, _ := envelope["data"].(map[string]interface{})
+		summary, _ := data["summary"].(map[string]interface{})
+		for key, want := range map[string]float64{
+			"requested":     3,
+			"attempted":     2,
+			"created":       1,
+			"failed":        1,
+			"not_attempted": 1,
+		} {
+			if summary[key] != want {
+				t.Fatalf("summary[%q]=%#v, want %v; data=%#v", key, summary[key], want, data)
+			}
+		}
+
+		items, _ := data["items"].([]interface{})
+		if len(items) != 3 {
+			t.Fatalf("items=%#v, want three outcomes", items)
+		}
+		created, _ := items[0].(map[string]interface{})
+		createdField, _ := created["field"].(map[string]interface{})
+		if created["status"] != "created" || createdField["id"] != "fld_a" {
+			t.Fatalf("created item=%#v", created)
+		}
+		failed, _ := items[1].(map[string]interface{})
+		failedField, _ := failed["field"].(map[string]interface{})
+		if failed["status"] != "failed" || failed["index"] != float64(1) || failedField["name"] != "B" {
+			t.Fatalf("failed item=%#v", failed)
+		}
+		if !strings.Contains(failed["error"].(string), "field already exists") {
+			t.Fatalf("failed item must include the API error: %#v", failed)
+		}
+		notAttempted, _ := items[2].(map[string]interface{})
+		notAttemptedField, _ := notAttempted["field"].(map[string]interface{})
+		if notAttempted["status"] != "not_attempted" || notAttemptedField["name"] != "C" {
+			t.Fatalf("not-attempted item=%#v", notAttempted)
+		}
+		if !strings.Contains(data["hint"].(string), "retry only failed or not_attempted") {
+			t.Fatalf("hint=%#v", data["hint"])
+		}
+	})
+
 	t.Run("create array with generated field recommends readback", func(t *testing.T) {
 		oldDelay := fieldCreateBatchDelay
 		fieldCreateBatchDelay = 0
