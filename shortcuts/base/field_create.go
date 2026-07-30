@@ -12,19 +12,20 @@ import (
 var BaseFieldCreate = common.Shortcut{
 	Service:     "base",
 	Command:     "+field-create",
-	Description: "Create a field",
+	Description: "Create one or more fields",
 	Risk:        "write",
 	Scopes:      []string{"base:field:create"},
 	AuthTypes:   authTypes(),
 	Flags: []common.Flag{
 		baseTokenFlag(true),
 		tableRefFlag(true),
-		{Name: "json", Desc: "field property JSON object", Required: true},
+		{Name: "json", Desc: "field property JSON object or non-empty array of field objects", Required: true},
 		{Name: "i-have-read-guide", Type: "bool", Desc: "set only after you have read the formula/lookup guide for those field types", Hidden: true},
 	},
 	Tips: []string{
 		`Example text: lark-cli base +field-create --base-token <base_token> --table-id <table_id> --json '{"name":"Status","type":"text"}'`,
 		`Example select: lark-cli base +field-create --base-token <base_token> --table-id <table_id> --json '{"name":"Status","type":"select","multiple":false,"options":[{"name":"Todo"},{"name":"Done"}]}'`,
+		`Choose a supported field type from the value being stored, not from the field name or business purpose; use style only to format that type, and explore formula, lookup, link, workflow, or automation only for explicitly requested derived, related, or automatically maintained behavior.`,
 		"Agent hint: use the lark-base skill's field-create guide for usage and limits.",
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {

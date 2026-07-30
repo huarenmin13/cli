@@ -42,6 +42,32 @@ lark-cli base +data-query \
   --dsl '{"datasource":{"type":"table","table":{"tableId":"<table_id>"}},"dimensions":[{"field_name":"Owner","alias":"owner"}],"measures":[{"field_name":"Amount","aggregation":"sum","alias":"total_amount"}],"filters":{"type":1,"conjunction":"and","conditions":[{"field_name":"Status","operator":"is","value":["Done"]}]},"shaper":{"format":"flat"}}'
 ```
 
+## Common filter values
+
+Use a flat filter group with `"type":1`, `"conjunction":"and"` or `"or"`, and a `conditions` array.
+
+| Field type | Common operators | `value` shape |
+|---|---|---|
+| select | `is`, `isNot` | exactly one option name, e.g. `["<status_value>"]` |
+| datetime / created_at / updated_at | `is`, `isGreater`, `isLess` | relative date, e.g. `["Today"]`, or exact date, e.g. `["ExactDate","<epoch_ms>"]` |
+
+For `isEmpty` / `isNotEmpty`, pass an empty array: `"value":[]`.
+
+Combine a date boundary and a status exclusion:
+
+```json
+{
+  "filters": {
+    "type": 1,
+    "conjunction": "and",
+    "conditions": [
+      {"field_name": "<date_field>", "operator": "isLess", "value": ["Today"]},
+      {"field_name": "<status_field>", "operator": "isNot", "value": ["<status_value>"]}
+    ]
+  }
+}
+```
+
 Use `tableName` when the table ID is unavailable but the table name is known:
 
 ```bash

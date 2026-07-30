@@ -246,10 +246,41 @@ func TestBaseHighRiskShortcutsTipsGuideAgents(t *testing.T) {
 	}
 }
 
-func TestBaseFieldCreateHelpHidesReadGuideFlag(t *testing.T) {
+func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
+	tips := strings.Join(BaseFieldCreate.Tips, "\n")
+	for _, want := range []string{
+		"value being stored",
+		"not from the field name or business purpose",
+		"use style only to format that type",
+		"formula, lookup, link, workflow, or automation",
+		"derived, related, or automatically maintained behavior",
+	} {
+		if !strings.Contains(tips, want) {
+			t.Fatalf("field-create tips should contain %q, got:\n%s", want, tips)
+		}
+	}
+	lowerTips := strings.ToLower(tips)
+	for _, purposeExample := range []string{"translation field", "phone field", "email field"} {
+		if strings.Contains(lowerTips, purposeExample) {
+			t.Fatalf("field-create tips should express a general rule instead of enumerating %q, got:\n%s", purposeExample, tips)
+		}
+	}
+}
+
+func TestBaseFieldCreateHelpDocumentsBatchAndHidesReadGuideFlag(t *testing.T) {
 	parent := &cobra.Command{Use: "base"}
 	BaseFieldCreate.Mount(parent, &cmdutil.Factory{})
 	cmd := parent.Commands()[0]
+	if !strings.Contains(cmd.Short, "one or more fields") {
+		t.Fatalf("help should describe creating one or more fields, got %q", cmd.Short)
+	}
+	jsonFlag := cmd.Flags().Lookup("json")
+	if jsonFlag == nil {
+		t.Fatal("flag json must exist")
+	}
+	if !strings.Contains(jsonFlag.Usage, "JSON object or non-empty array") {
+		t.Fatalf("json flag help should document object and array input, got %q", jsonFlag.Usage)
+	}
 	if cmd.Flags().Lookup("i-have-read-guide") == nil {
 		t.Fatalf("flag i-have-read-guide must exist for runtime validation")
 	}
