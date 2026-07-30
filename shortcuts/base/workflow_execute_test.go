@@ -157,7 +157,6 @@ func TestValidateWorkflowDefinition(t *testing.T) {
 		{name: "send to everyone is null", body: workflowMessageBody(`{"receiver":[1],"content":[1],"send_to_everyone":null}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "send_to_everyone"},
 		{name: "button list has wrong type", body: workflowMessageBody(`{"receiver":[1],"content":[1],"btn_list":{}}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
 		{name: "button list is null", body: workflowMessageBody(`{"receiver":[1],"content":[1],"btn_list":null}`), wantSubtype: errs.SubtypeInvalidArgument, wantMessage: "btn_list"},
-		{name: "unsupported trigger", body: `{"steps":[{"type":"FutureTrigger"},{"type":"DeleteRecordTrigger"}]}`, wantSubtype: errs.SubtypeFailedPrecondition, wantMessage: "steps[1].type"},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			var body map[string]interface{}
@@ -185,14 +184,6 @@ func TestBaseWorkflowExecuteValidationWiring(t *testing.T) {
 			wantSubtype: errs.SubtypeInvalidArgument,
 			wantMessage: "receiver",
 			wantHint:    "reported field",
-		},
-		{
-			name:        "update unsupported trigger",
-			shortcut:    BaseWorkflowUpdate,
-			args:        []string{"+workflow-update", "--base-token", "app_x", "--workflow-id", "wkf_1", "--json", `{"title":"Archive workflow","steps":[{"type":"DeleteRecordTrigger"}]}`},
-			wantSubtype: errs.SubtypeFailedPrecondition,
-			wantMessage: "DeleteRecordTrigger",
-			wantHint:    "No workflow request was sent",
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {

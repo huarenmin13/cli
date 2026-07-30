@@ -89,20 +89,11 @@ func validateWorkflowDefinition(body map[string]interface{}) error {
 			continue
 		}
 		stepType, _ := step["type"].(string)
-		switch stepType {
-		case "DeleteRecordTrigger":
-			return errs.NewValidationError(
-				errs.SubtypeFailedPrecondition,
-				"--json.steps[%d].type %q is not supported: record deletion events are not available as Base workflow triggers",
-				index,
-				stepType,
-			).
-				WithParam("--json").
-				WithHint("No workflow request was sent. Keep the requested semantics unchanged; propose alternatives and write only after the user explicitly selects one.")
-		case "LarkMessageAction":
-			if err := validateWorkflowMessageAction(index, step["data"]); err != nil {
-				return err
-			}
+		if stepType != "LarkMessageAction" {
+			continue
+		}
+		if err := validateWorkflowMessageAction(index, step["data"]); err != nil {
+			return err
 		}
 	}
 	return nil
