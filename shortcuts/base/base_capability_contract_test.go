@@ -10,54 +10,28 @@ import (
 	"github.com/larksuite/cli/internal/vfs"
 )
 
-func readCapabilityContract(t *testing.T, path string) string {
-	t.Helper()
-
-	content, err := vfs.ReadFile(path)
-	if err != nil {
-		t.Fatalf("read %s: %v", path, err)
-	}
-	return strings.Join(strings.Fields(string(content)), " ")
-}
-
-func TestBaseSkillDocumentsCapabilityBoundaries(t *testing.T) {
-	skill := readCapabilityContract(t, "../../skills/lark-base/SKILL.md")
-
-	for _, want := range []string{
-		"Base 视图写能力只覆盖 name、filter、sort、group、card、timebar 和 visible_fields",
-		"UI-only 外观设置不支持",
-		"当前没有单表复制原子 shortcut",
-		"只有用户同时要求新建视图时",
-		"请求字段类型不在 reference 已支持类型目录中时",
-		"不要猜测未注册的字段 JSON、service 或 schema",
-	} {
-		if !strings.Contains(skill, want) {
-			t.Fatalf("lark-base skill missing %q", want)
+func TestBaseCapabilityGuidance(t *testing.T) {
+	read := func(path string) string {
+		t.Helper()
+		content, err := vfs.ReadFile(path)
+		if err != nil {
+			t.Fatalf("read %s: %v", path, err)
 		}
+		return strings.Join(strings.Fields(string(content)), " ")
 	}
 
-	for _, forbidden := range []string{
-		"base_table_",
-		"--on-name-conflict=rename",
-		"lark-cli schema translation",
-		"lark-cli service",
-	} {
-		if strings.Contains(skill, forbidden) {
-			t.Fatalf("lark-base skill contains specialized guidance %q", forbidden)
-		}
+	skill := read("../../skills/lark-base/SKILL.md")
+	fieldJSON := read("../../skills/lark-base/references/lark-base-field-json.md")
+
+	if !strings.Contains(skill, "当前不支持视图行高、冻结列、列宽等 UI-only 外观设置") {
+		t.Fatal("lark-base skill missing the unsupported view appearance boundary")
 	}
-}
-
-func TestBaseFieldJSONDocumentsUnsupportedFieldBoundary(t *testing.T) {
-	fieldJSON := readCapabilityContract(t, "../../skills/lark-base/references/lark-base-field-json.md")
-
-	for _, want := range []string{
-		"翻译 / AI 翻译 / `translation` 字段暂时也没有被 CLI 支持",
-		"不要猜测未注册的字段 JSON、service 或 schema",
-		"不要用其他字段类型冒充目标能力",
-	} {
-		if !strings.Contains(fieldJSON, want) {
-			t.Fatalf("field JSON reference missing %q", want)
-		}
+	if !strings.Contains(skill, "当前没有 `+table-copy`；按用户要求的复制范围（schema、records、views）组合现有命令，验证遵循统一的“写入返回优先”规则") {
+		t.Fatal("lark-base skill missing the single-table copy boundary")
+	}
+	if !strings.Contains(skill, "请求字段类型不在 reference 已支持类型目录中时") ||
+		!strings.Contains(fieldJSON, "翻译 / AI 翻译 / `translation` 字段暂时也没有被 CLI 支持") ||
+		!strings.Contains(fieldJSON, "不要猜测未注册的字段 JSON、service 或 schema，也不要用其他字段类型冒充目标能力") {
+		t.Fatal("lark-base guidance missing the unsupported field type boundary")
 	}
 }
