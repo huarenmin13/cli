@@ -30,6 +30,7 @@ metadata:
 
 - Base 业务操作只使用 `lark-cli base +...` shortcut，不使用旧聚合式 `+table / +field / +record / +view / +history / +workspace`。
 - 执行 update 前必须先查当前 shortcut 的 `--help` 或对应 reference。若命令要求完整配置，首次请求必须基于可信的当前配置执行 read-modify-write：只修改用户明确指定的内容，保留其他仍适用的可写配置，并按命令要求的结构提交。若命令支持局部／delta update，按其契约提交最小合法 payload；不得以不完整请求试错补参。
+- Base 视图写能力只覆盖 name、filter、sort、group、card、timebar 和 visible_fields；grid 行高、冻结列、列宽等 UI-only 外观设置不支持。遇到这类需求，说明当前 CLI/OpenAPI 的能力边界并停止，不要猜测未文档化参数或改走 raw API。
 - 本地文件与 Base 之间的导入/导出转 `lark-drive`，具体格式、参数、路径限制和仅结构导出规则由 `lark-drive` 负责；导入完成后再回到 Base 命令。
 - 在线复制 Base 使用 `+base-copy`，不要绕行导出/导入。
 - 认证、初始化、scope、身份切换、权限不足恢复属于 `lark-shared`；Base 文档只保留会影响 Base 路径选择的权限规则。
@@ -79,6 +80,7 @@ metadata:
 - `base-block` 只负责资源目录管理，包括创建资源、移动到 folder、重命名和删除；具体资源内容仍走 table/dashboard/workflow 命令。
 - 新建 Base 时，强烈推荐一次性执行 `lark-cli base +base-create --name "<base>" --table-name "<table>" --fields '<field-json-array>'`，同时配置新 Base 里唯一一个初始数据表的 name 和 schema；使用 `--fields` 前先读 [lark-base-field-json.md](references/lark-base-field-json.md) 或复用 `+field-create` 的字段 JSON 形状，不要猜字段属性。
 - `+base-create` 不传 `--table-name` 和 `--fields` 时，会创建一个默认 schema 的初始数据表。
+- 当前没有单表复制原子 shortcut。复制数据表时必须创建新表、返回新 `table_id` 并回读验证目标表结构和记录；只有用户同时要求新建视图时，才创建并回读视图。
 - 表、字段、视图、workflow、dashboard block 的名称和 ID 必须来自真实返回，不要凭用户口述猜。
 - 存储字段可写；系统字段、`formula`、`lookup` 只读；附件字段走专用 attachment 命令。
 - 一次性原始记录查询优先用 `+record-list` / `+record-search` 的 filter/sort；聚合分析优先用 `+data-query`；需要长期显示在表中时，才新增 `formula` / `lookup` 字段。
@@ -111,7 +113,7 @@ metadata:
 - 优先用写入返回确认结果；返回信息不足或任务明确要求核验时，再读回。
 - 写记录前先读字段结构；只写存储字段。系统字段、附件字段、`formula`、`lookup` 不作为普通记录写入目标。
 - 附件上传、下载、删除走专用 `+record-*-attachment` 命令。
-- 写字段前先读 [lark-base-field-json.md](references/lark-base-field-json.md)；涉及 `formula` / `lookup` 时必须读 [formula-field-guide.md](references/formula-field-guide.md) / [lookup-field-guide.md](references/lookup-field-guide.md)。
+- 写字段前先读 [lark-base-field-json.md](references/lark-base-field-json.md)；请求字段类型不在 reference 已支持类型目录中时，说明当前 CLI 不支持并停止，不要猜测未注册的字段 JSON、service 或 schema，也不要用其他字段类型冒充；涉及 `formula` / `lookup` 时必须读 [formula-field-guide.md](references/formula-field-guide.md) / [lookup-field-guide.md](references/lookup-field-guide.md)。
 - 表名、字段名、视图名、workflow 配置中的名称必须来自真实返回；跨表场景还要读取目标表结构。
 - 删除、角色更新、字段更新、表单提交（`+form-submit`）等高风险操作遵循 CLI 的 confirmation gate，必须带 `--yes`；目标不明确时先用 get/list 消歧。
 - 批量写入单批最多 200 条；连续写同一表时串行执行，遇到 `1254291` 按短暂等待后重试处理。
