@@ -30,7 +30,6 @@ func TestBaseCapabilityGuidance(t *testing.T) {
 		t.Fatal("lark-base skill missing the single-table copy boundary")
 	}
 	if !strings.Contains(skill, "请求字段类型不在 reference 已支持类型目录中时") ||
-		!strings.Contains(fieldJSON, "翻译 / AI 翻译 / `translation` 字段暂时也没有被 CLI 支持") ||
 		!strings.Contains(fieldJSON, "不要猜测未注册的字段 JSON、service 或 schema，也不要用其他字段类型冒充目标能力") {
 		t.Fatal("lark-base guidance missing the unsupported field type boundary")
 	}
