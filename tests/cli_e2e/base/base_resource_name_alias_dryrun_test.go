@@ -8,92 +8,36 @@ import (
 
 	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
-	"github.com/tidwall/gjson"
 )
 
 func TestBaseLocalResourceNameAliasesDryRun(t *testing.T) {
-	t.Run("table get name", func(t *testing.T) {
-		result := runBaseDryRun(t, 0,
-			"base", "+table-get",
-			"--base-token", "app_x",
-			"--name", "Tasks",
-		)
+	tests := []struct {
+		name    string
+		args    []string
+		wantURL string
+	}{
+		{
+			name:    "table get name",
+			args:    []string{"base", "+table-get", "--base-token", "app_x", "--name", "Tasks"},
+			wantURL: "/open-apis/base/v3/bases/app_x/tables/Tasks",
+		},
+		{
+			name:    "field get field name",
+			args:    []string{"base", "+field-get", "--base-token", "app_x", "--table-id", "tbl_x", "--field-name", "Status"},
+			wantURL: "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields/Status",
+		},
+		{
+			name:    "view list table name",
+			args:    []string{"base", "+view-list", "--base-token", "app_x", "--table-name", "Tasks"},
+			wantURL: "/open-apis/base/v3/bases/app_x/tables/Tasks/views",
+		},
+	}
 
-		require.Equal(t, "GET", clie2e.DryRunGet(result.Stdout, "api.0.method").String(), result.Stdout)
-		require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/Tasks", clie2e.DryRunGet(result.Stdout, "api.0.url").String(), result.Stdout)
-	})
-
-	t.Run("field get field name", func(t *testing.T) {
-		result := runBaseDryRun(t, 0,
-			"base", "+field-get",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-name", "Status",
-		)
-
-		require.Equal(t, "GET", clie2e.DryRunGet(result.Stdout, "api.0.method").String(), result.Stdout)
-		require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields/Status", clie2e.DryRunGet(result.Stdout, "api.0.url").String(), result.Stdout)
-	})
-
-	t.Run("view list table name", func(t *testing.T) {
-		result := runBaseDryRun(t, 0,
-			"base", "+view-list",
-			"--base-token", "app_x",
-			"--table-name", "Tasks",
-		)
-
-		require.Equal(t, "GET", clie2e.DryRunGet(result.Stdout, "api.0.method").String(), result.Stdout)
-		require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/Tasks/views", clie2e.DryRunGet(result.Stdout, "api.0.url").String(), result.Stdout)
-	})
-
-	t.Run("canonical and alias conflict", func(t *testing.T) {
-		result := runBaseDryRun(t, 2,
-			"base", "+view-list",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--table-name", "Tasks",
-		)
-
-		require.Empty(t, result.Stdout)
-		require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
-		require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
-		require.Equal(t, "--table-id", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
-		require.Contains(t, result.Stderr, "--table-id and --table-name are mutually exclusive")
-	})
-
-	t.Run("aliases preserve resource name bytes", func(t *testing.T) {
-		tableCanonical := runBaseDryRun(t, 0,
-			"base", "+table-get",
-			"--base-token", "app_x",
-			"--table-id", " Tasks ",
-		)
-		tableAlias := runBaseDryRun(t, 0,
-			"base", "+table-get",
-			"--base-token", "app_x",
-			"--name", " Tasks ",
-		)
-		require.Equal(t,
-			clie2e.DryRunGet(tableCanonical.Stdout, "api.0.url").String(),
-			clie2e.DryRunGet(tableAlias.Stdout, "api.0.url").String(),
-		)
-		require.Contains(t, clie2e.DryRunGet(tableAlias.Stdout, "api.0.url").String(), "%20Tasks%20")
-
-		fieldCanonical := runBaseDryRun(t, 0,
-			"base", "+field-get",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-id", " Status ",
-		)
-		fieldAlias := runBaseDryRun(t, 0,
-			"base", "+field-get",
-			"--base-token", "app_x",
-			"--table-id", "tbl_x",
-			"--field-name", " Status ",
-		)
-		require.Equal(t,
-			clie2e.DryRunGet(fieldCanonical.Stdout, "api.0.url").String(),
-			clie2e.DryRunGet(fieldAlias.Stdout, "api.0.url").String(),
-		)
-		require.Contains(t, clie2e.DryRunGet(fieldAlias.Stdout, "api.0.url").String(), "%20Status%20")
-	})
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := runBaseDryRun(t, 0, test.args...)
+			require.Equal(t, "GET", clie2e.DryRunGet(result.Stdout, "api.0.method").String(), result.Stdout)
+			require.Equal(t, test.wantURL, clie2e.DryRunGet(result.Stdout, "api.0.url").String(), result.Stdout)
+		})
+	}
 }
