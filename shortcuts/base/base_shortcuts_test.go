@@ -21,7 +21,6 @@ import (
 	"github.com/larksuite/cli/internal/cmdutil"
 	"github.com/larksuite/cli/internal/core"
 	"github.com/larksuite/cli/internal/httpmock"
-	"github.com/larksuite/cli/internal/vfs"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -1311,7 +1310,7 @@ func TestValidateCanonicalFieldType(t *testing.T) {
 }
 
 func TestCanonicalFieldTypeCatalogMatchesReference(t *testing.T) {
-	raw, err := vfs.ReadFile("../../skills/lark-base/references/lark-base-field-json.md")
+	raw, err := os.ReadFile("../../skills/lark-base/references/lark-base-field-json.md")
 	if err != nil {
 		t.Fatalf("read field JSON reference: %v", err)
 	}
