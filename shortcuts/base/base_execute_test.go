@@ -3503,11 +3503,30 @@ func TestBaseViewExecuteReadCreateDeleteAndFilter(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected second create to fail")
 		}
-		if _, ok := errs.ProblemOf(err); !ok {
-			t.Fatalf("expected typed API error, got %T: %v", err, err)
+		var partialErr *output.PartialFailureError
+		if !errors.As(err, &partialErr) {
+			t.Fatalf("expected partial failure signal, got %T: %v", err, err)
 		}
 		if !strings.Contains(string(firstStub.CapturedBody), `"name":"First"`) || !strings.Contains(string(secondStub.CapturedBody), `"name":"Second"`) {
 			t.Fatalf("expected both creates before failure: %s / %s", firstStub.CapturedBody, secondStub.CapturedBody)
+		}
+		var envelope map[string]interface{}
+		if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+			t.Fatalf("decode partial failure output: %v\nraw=%s", err, stdout.String())
+		}
+		if envelope["ok"] != false {
+			t.Fatalf("ok=%#v, want false; envelope=%#v", envelope["ok"], envelope)
+		}
+		data, _ := envelope["data"].(map[string]interface{})
+		views, _ := data["views"].([]interface{})
+		failed, _ := data["failed"].([]interface{})
+		if len(views) != 1 || len(failed) != 1 {
+			t.Fatalf("data=%#v", data)
+		}
+		view, _ := views[0].(map[string]interface{})
+		failure, _ := failed[0].(map[string]interface{})
+		if view["id"] != "vew_first" || failure["index"] != float64(2) || failure["code"] != float64(1254003) {
+			t.Fatalf("data=%#v", data)
 		}
 	})
 

@@ -10,6 +10,7 @@ import (
 
 	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
+	"github.com/tidwall/gjson"
 )
 
 func TestBaseCreateDryRun(t *testing.T) {
@@ -108,4 +109,29 @@ func TestBaseCreateDryRunFieldsOnlyUsesDefaultTableName(t *testing.T) {
 	require.Equal(t, "POST", clie2e.DryRunGet(out, "api.2.method").String(), out)
 	require.Equal(t, "Table 1", clie2e.DryRunGet(out, "api.2.body.name").String(), out)
 	require.Equal(t, "Title", clie2e.DryRunGet(out, "api.2.body.fields.0.name").String(), out)
+}
+
+func TestBaseCreateDryRunRejectsUnknownFieldType(t *testing.T) {
+	setBaseDryRunConfigEnv(t)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	t.Cleanup(cancel)
+
+	result, err := clie2e.RunCmd(ctx, clie2e.Request{
+		Args: []string{
+			"base", "+base-create",
+			"--name", "Project Tracker",
+			"--fields", `[{"name":"Generated","type":"future_generated"}]`,
+			"--dry-run",
+		},
+		DefaultAs: "bot",
+	})
+	require.NoError(t, err)
+	result.AssertExitCode(t, 2)
+
+	require.Empty(t, result.Stdout)
+	require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
+	require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
+	require.Equal(t, "--fields", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
+	require.Contains(t, result.Stderr, `--fields.type \"future_generated\" is not supported`)
 }

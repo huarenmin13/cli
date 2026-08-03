@@ -60,7 +60,7 @@ metadata:
 | 写记录 | `+record-upsert` / `+record-batch-create` / `+record-batch-update` | 必读 [lark-base-record-upsert.md](references/lark-base-record-upsert.md) / [lark-base-record-batch-create.md](references/lark-base-record-batch-create.md) / [lark-base-record-batch-update.md](references/lark-base-record-batch-update.md) 和 [lark-base-cell-value.md](references/lark-base-cell-value.md) |
 | 附件字段 | `+record-upload-attachment` / `+record-download-attachment` / `+record-remove-attachment` | 附件不要伪造成普通 CellValue；上传走本地文件，下载/删除按 file token 或字段定位 |
 | 删除记录 / 分享记录链接 / 历史 | `+record-delete` / `+record-share-link-create` / `+record-history-list` | 删除前确认 record；分享链接最多 100 条；历史读 [lark-base-record-history-list.md](references/lark-base-record-history-list.md)，只查单条记录，不做整表审计 |
-| 管理视图 | `+view-*` | 新建与能力边界读 [lark-base-view-create.md](references/lark-base-view-create.md)；`visible_fields` 只控制可见性和顺序，当前 CLI 不支持冻结列、行高或列宽，禁止猜测 raw API；filter 读 [lark-base-view-set-filter.md](references/lark-base-view-set-filter.md)（条件结构见 [lark-base-filter-condition.md](references/lark-base-filter-condition.md)） |
+| 管理视图 | `+view-*` | 新建语义读 [lark-base-view-create.md](references/lark-base-view-create.md)；filter 读 [lark-base-view-set-filter.md](references/lark-base-view-set-filter.md)（条件结构见 [lark-base-filter-condition.md](references/lark-base-filter-condition.md)） |
 | 一次性聚合统计 | `+data-query` | 必读 [lark-base-data-analysis-sop.md](references/lark-base-data-analysis-sop.md) 和入口 [lark-base-data-query-guide.md](references/lark-base-data-query-guide.md)；完整 DSL 再读 [lark-base-data-query.md](references/lark-base-data-query.md) |
 | 公式字段 | `+field-create/update --json '{"type":"formula",...}'` | 必读 [formula-field-guide.md](references/formula-field-guide.md)，读后再加隐藏确认 flag `--i-have-read-guide` |
 | Lookup 字段 | `+field-create/update --json '{"type":"lookup",...}'` | 必读 [lookup-field-guide.md](references/lookup-field-guide.md)，读后再加隐藏确认 flag `--i-have-read-guide` |
@@ -160,7 +160,7 @@ metadata:
 - [formula-field-guide.md](references/formula-field-guide.md) / [lookup-field-guide.md](references/lookup-field-guide.md)：公式与 lookup 字段
 - [lark-base-field-create.md](references/lark-base-field-create.md) / [lark-base-field-update.md](references/lark-base-field-update.md)：字段创建/更新命令级补充
 - [lark-base-record-upsert.md](references/lark-base-record-upsert.md) / [lark-base-record-batch-create.md](references/lark-base-record-batch-create.md) / [lark-base-record-batch-update.md](references/lark-base-record-batch-update.md) / [lark-base-record-history-list.md](references/lark-base-record-history-list.md)：记录写入 JSON 与历史返回解释
-- [lark-base-view-create.md](references/lark-base-view-create.md)：视图创建、同名冲突与 UI-only 能力边界
+- [lark-base-view-create.md](references/lark-base-view-create.md)：视图创建、同名冲突与批量失败语义
 - [lark-base-view-set-filter.md](references/lark-base-view-set-filter.md)：视图筛选 JSON
 - [lark-base-filter-condition.md](references/lark-base-filter-condition.md)：视图 filter、记录 `--filter-json`、表单 `visible_rule` 的 tuple 条件结构公共协议 SSOT；不适用于 `+data-query`
 - [lark-base-form-detail.md](references/lark-base-form-detail.md) / [lark-base-form-submit.md](references/lark-base-form-submit.md) / [lark-base-form-questions-create.md](references/lark-base-form-questions-create.md) / [lark-base-form-questions-update.md](references/lark-base-form-questions-update.md)：表单详情、提交和复杂 JSON

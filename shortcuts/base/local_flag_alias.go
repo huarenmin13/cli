@@ -47,28 +47,14 @@ func applyLocalFlagAliases(cmd *cobra.Command, aliases []localFlagAlias) error {
 		canonicalSet := canonicalFlag != nil && canonicalFlag.Changed
 		aliasSet := aliasFlag != nil && aliasFlag.Changed
 		if canonicalSet && aliasSet {
-			return errs.NewValidationError(
-				errs.SubtypeInvalidArgument,
-				"--%s and --%s are mutually exclusive; use only one",
-				alias.canonical,
-				alias.alias,
-			).WithParam("--"+alias.canonical).WithParams(
-				errs.InvalidParam{Name: "--" + alias.canonical, Reason: "mutually exclusive"},
-				errs.InvalidParam{Name: "--" + alias.alias, Reason: "mutually exclusive"},
-			)
+			return baseFlagErrorf("--%s and --%s are mutually exclusive; use only one", alias.canonical, alias.alias)
 		}
 		if !aliasSet {
 			continue
 		}
 		value, _ := cmd.Flags().GetString(alias.alias)
 		if strings.TrimSpace(value) == "" {
-			return errs.NewValidationError(
-				errs.SubtypeInvalidArgument,
-				"--%s cannot be empty",
-				alias.alias,
-			).WithParam("--" + alias.alias).WithParams(
-				errs.InvalidParam{Name: "--" + alias.alias, Reason: "cannot be empty"},
-			)
+			return baseFlagErrorf("--%s cannot be empty", alias.alias)
 		}
 		if canonicalFlag == nil {
 			return errs.NewInternalError(errs.SubtypeUnknown, "alias --%s has no canonical --%s flag", alias.alias, alias.canonical)

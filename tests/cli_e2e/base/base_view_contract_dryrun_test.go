@@ -8,39 +8,37 @@ import (
 
 	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
+	"github.com/tidwall/gjson"
 )
 
-func TestBaseViewContractDryRun(t *testing.T) {
-	t.Run("create gantt view", func(t *testing.T) {
+func TestBaseViewCreateDryRun(t *testing.T) {
+	t.Run("create view", func(t *testing.T) {
 		result := runBaseDryRun(t, 0,
 			"base", "+view-create",
 			"--base-token", "app_x",
 			"--table-id", "tbl_new",
-			"--json", `{"name":"Schedule","type":"gantt"}`,
+			"--json", `{"name":"New view","type":"grid"}`,
 		)
 
 		out := result.Stdout
 		require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_new/views", clie2e.DryRunGet(out, "api.0.url").String(), out)
 		require.Equal(t, "POST", clie2e.DryRunGet(out, "api.0.method").String(), out)
-		require.Equal(t, "Schedule", clie2e.DryRunGet(out, "api.0.body.name").String(), out)
-		require.Equal(t, "gantt", clie2e.DryRunGet(out, "api.0.body.type").String(), out)
+		require.Equal(t, "New view", clie2e.DryRunGet(out, "api.0.body.name").String(), out)
+		require.Equal(t, "grid", clie2e.DryRunGet(out, "api.0.body.type").String(), out)
 	})
 
-	t.Run("set visible fields", func(t *testing.T) {
-		result := runBaseDryRun(t, 0,
-			"base", "+view-set-visible-fields",
+	t.Run("reject empty batch", func(t *testing.T) {
+		result := runBaseDryRun(t, 2,
+			"base", "+view-create",
 			"--base-token", "app_x",
 			"--table-id", "tbl_new",
-			"--view-id", "vew_new",
-			"--json", `{"visible_fields":["Title","Status"]}`,
+			"--json", `[]`,
 		)
 
-		out := result.Stdout
-		require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_new/views/vew_new/visible_fields", clie2e.DryRunGet(out, "api.0.url").String(), out)
-		require.Equal(t, "PUT", clie2e.DryRunGet(out, "api.0.method").String(), out)
-		require.Equal(t, "Title", clie2e.DryRunGet(out, "api.0.body.visible_fields.0").String(), out)
-		require.Equal(t, "Status", clie2e.DryRunGet(out, "api.0.body.visible_fields.1").String(), out)
-		require.False(t, clie2e.DryRunGet(out, "api.0.body.freeze").Exists(), out)
-		require.False(t, clie2e.DryRunGet(out, "api.0.body.frozen").Exists(), out)
+		require.Empty(t, result.Stdout)
+		require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
+		require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
+		require.Equal(t, "--json", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
+		require.Contains(t, result.Stderr, "at least one view")
 	})
 }

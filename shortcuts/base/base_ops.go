@@ -69,7 +69,7 @@ func dryRunBaseCreate(_ context.Context, runtime *common.RuntimeContext) *common
 }
 
 func validateBaseCreate(runtime *common.RuntimeContext) error {
-	return nil
+	return validateFieldDefinitions("+base-create", "--fields", runtime)
 }
 
 func executeBaseGet(runtime *common.RuntimeContext) error {

@@ -54,7 +54,7 @@ func dryRunTableDelete(_ context.Context, runtime *common.RuntimeContext) *commo
 }
 
 func validateTableCreate(runtime *common.RuntimeContext) error {
-	return nil
+	return validateFieldDefinitions("+table-create", "--fields", runtime)
 }
 
 func executeTableList(runtime *common.RuntimeContext) error {

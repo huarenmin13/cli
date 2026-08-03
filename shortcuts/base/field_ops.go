@@ -147,30 +147,55 @@ func validateFormulaLookupGuideAck(runtime *common.RuntimeContext, command strin
 	return nil
 }
 
-func validateCanonicalFieldType(command string, body map[string]interface{}, required bool) error {
+func validateCanonicalFieldType(command, flagName string, body map[string]interface{}, required bool) error {
 	raw, exists := body["type"]
 	if !exists {
 		if !required {
 			return nil
 		}
-		return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s --json.type is required", command).
-			WithParam("--json").
+		return canonicalFieldTypeValidationError(flagName, "%s %s.type is required", command, flagName).
 			WithHint("Use one of the documented field types: %s.", strings.Join(canonicalFieldTypeNames(), ", "))
 	}
 
 	fieldType, ok := raw.(string)
 	if !ok || fieldType == "" || strings.TrimSpace(fieldType) != fieldType {
-		return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s --json.type must be a canonical field type string", command).
-			WithParam("--json").
+		return canonicalFieldTypeValidationError(flagName, "%s %s.type must be a canonical field type string", command, flagName).
 			WithHint("Use one of the documented field types: %s.", strings.Join(canonicalFieldTypeNames(), ", "))
 	}
 	if _, ok := canonicalFieldTypeCatalog[fieldType]; ok {
 		return nil
 	}
 
-	return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s --json.type %q is not supported", command, fieldType).
-		WithParam("--json").
+	return canonicalFieldTypeValidationError(flagName, "%s %s.type %q is not supported", command, flagName, fieldType).
 		WithHint("Allowed field types: %s. If the requested capability has no matching type, report it as unsupported; do not substitute another field type or perform a different action without explicit user approval.", strings.Join(canonicalFieldTypeNames(), ", "))
+}
+
+func canonicalFieldTypeValidationError(flagName, format string, args ...interface{}) *errs.ValidationError {
+	message := fmt.Sprintf(format, args...)
+	return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s", message).
+		WithParam(flagName).
+		WithParams(errs.InvalidParam{Name: flagName, Reason: message})
+}
+
+func validateFieldDefinitions(command, flagName string, runtime *common.RuntimeContext) error {
+	raw := strings.TrimSpace(runtime.Str(strings.TrimPrefix(flagName, "--")))
+	if raw == "" {
+		return nil
+	}
+	items, err := parseJSONArray(newParseCtx(runtime), raw, strings.TrimPrefix(flagName, "--"))
+	if err != nil {
+		return err
+	}
+	for index, item := range items {
+		body, ok := item.(map[string]interface{})
+		if !ok {
+			return baseFlagErrorf("%s item %d must be an object", flagName, index+1)
+		}
+		if err := validateCanonicalFieldType(command, flagName, body, true); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func validateFieldCreate(runtime *common.RuntimeContext) error {
@@ -179,7 +204,7 @@ func validateFieldCreate(runtime *common.RuntimeContext) error {
 		return err
 	}
 	for _, body := range bodies {
-		if err := validateCanonicalFieldType("+field-create", body, true); err != nil {
+		if err := validateCanonicalFieldType("+field-create", "--json", body, true); err != nil {
 			return err
 		}
 		if err := validateFormulaLookupGuideAck(runtime, "+field-create", body); err != nil {
@@ -194,7 +219,7 @@ func validateFieldUpdate(runtime *common.RuntimeContext) error {
 	if err != nil {
 		return err
 	}
-	if err := validateCanonicalFieldType("+field-update", body, false); err != nil {
+	if err := validateCanonicalFieldType("+field-update", "--json", body, false); err != nil {
 		return err
 	}
 	return validateFormulaLookupGuideAck(runtime, "+field-update", body)
