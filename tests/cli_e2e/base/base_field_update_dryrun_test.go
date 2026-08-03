@@ -50,3 +50,55 @@ func TestBaseFieldUpdateDryRunAllowsRatingMaxAboveLimit(t *testing.T) {
 	require.Equal(t, "rating", gjson.Get(out, "data.api.0.body.style.type").String(), out)
 	require.Equal(t, int64(20), gjson.Get(out, "data.api.0.body.style.max").Int(), out)
 }
+
+func TestBaseFieldUpdateDryRunTypeValidation(t *testing.T) {
+	t.Run("partial update may omit type", func(t *testing.T) {
+		result := runBaseDryRun(t, 0,
+			"base", "+field-update",
+			"--base-token", "app_x",
+			"--table-id", "tbl_x",
+			"--field-id", "fld_x",
+			"--json", `{"name":"Renamed"}`,
+			"--yes",
+		)
+
+		out := result.Stdout
+		require.Equal(t, "PUT", gjson.Get(out, "data.api.0.method").String(), out)
+		require.Equal(t, "Renamed", gjson.Get(out, "data.api.0.body.name").String(), out)
+		require.False(t, gjson.Get(out, "data.api.0.body.type").Exists(), out)
+	})
+
+	t.Run("explicit unknown type is rejected", func(t *testing.T) {
+		result := runBaseDryRun(t, 2,
+			"base", "+field-update",
+			"--base-token", "app_x",
+			"--table-id", "tbl_x",
+			"--field-id", "fld_x",
+			"--json", `{"name":"Generated","type":"future_generated"}`,
+			"--yes",
+		)
+
+		require.Empty(t, result.Stdout)
+		require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
+		require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
+		require.Equal(t, "--json", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
+		require.Contains(t, result.Stderr, "report it as unsupported")
+	})
+
+	t.Run("explicit null type is rejected", func(t *testing.T) {
+		result := runBaseDryRun(t, 2,
+			"base", "+field-update",
+			"--base-token", "app_x",
+			"--table-id", "tbl_x",
+			"--field-id", "fld_x",
+			"--json", `{"name":"Generated","type":null}`,
+			"--yes",
+		)
+
+		require.Empty(t, result.Stdout)
+		require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
+		require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
+		require.Equal(t, "--json", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
+		require.Contains(t, result.Stderr, "--json.type must be a canonical field type string")
+	})
+}

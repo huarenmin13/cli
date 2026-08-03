@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -20,6 +21,7 @@ import (
 	"github.com/larksuite/cli/internal/cmdutil"
 	"github.com/larksuite/cli/internal/core"
 	"github.com/larksuite/cli/internal/httpmock"
+	"github.com/larksuite/cli/internal/vfs"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -497,6 +499,78 @@ func TestBaseRecordProjectionAliasesAreHidden(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestBaseLocalResourceNameAliasesAreHiddenAndScoped(t *testing.T) {
+	tests := []struct {
+		name     string
+		shortcut common.Shortcut
+		alias    string
+	}{
+		{name: "table get", shortcut: BaseTableGet, alias: "name"},
+		{name: "field get", shortcut: BaseFieldGet, alias: "field-name"},
+		{name: "view list", shortcut: BaseViewList, alias: "table-name"},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			for _, flag := range tc.shortcut.Flags {
+				if flag.Name == tc.alias {
+					t.Fatalf("alias --%s must not enter Shortcut.Flags metadata", tc.alias)
+				}
+			}
+			parent := &cobra.Command{Use: "base"}
+			tc.shortcut.Mount(parent, &cmdutil.Factory{})
+			cmd := parent.Commands()[0]
+			alias := cmd.Flags().Lookup(tc.alias)
+			if alias == nil || !alias.Hidden {
+				t.Fatalf("alias --%s must exist and be hidden: %#v", tc.alias, alias)
+			}
+			if strings.Contains(cmd.Flags().FlagUsages(), "--"+tc.alias) {
+				t.Fatalf("help must hide --%s:\n%s", tc.alias, cmd.Flags().FlagUsages())
+			}
+		})
+	}
+
+	for _, tc := range []struct {
+		name     string
+		shortcut common.Shortcut
+		aliases  []string
+	}{
+		{name: "table list", shortcut: BaseTableList, aliases: []string{"name", "table-name"}},
+		{name: "field list", shortcut: BaseFieldList, aliases: []string{"field-name"}},
+		{name: "view get", shortcut: BaseViewGet, aliases: []string{"table-name"}},
+		{name: "record search", shortcut: BaseRecordSearch, aliases: []string{"field-name", "table-name"}},
+	} {
+		t.Run(tc.name+" has no local aliases", func(t *testing.T) {
+			parent := &cobra.Command{Use: "base"}
+			tc.shortcut.Mount(parent, &cmdutil.Factory{})
+			cmd := parent.Commands()[0]
+			for _, aliasName := range tc.aliases {
+				if alias := cmd.Flags().Lookup(aliasName); alias != nil {
+					t.Fatalf("%s must not expose --%s: %#v", tc.name, aliasName, alias)
+				}
+			}
+		})
+	}
+}
+
+func TestBaseLocalResourceNameAliasesRejectInvalidInput(t *testing.T) {
+	t.Run("canonical and alias conflict", func(t *testing.T) {
+		factory, stdout, _ := newExecuteFactory(t)
+		err := runShortcut(t, BaseFieldGet, []string{
+			"+field-get", "--base-token", "app_x", "--table-id", "tbl_x",
+			"--field-id", "fld_status", "--field-name", "Status",
+		}, factory, stdout)
+		assertInvalidArgumentValidation(t, err, "--field-id", []string{"--field-id", "--field-name"}, "mutually exclusive")
+	})
+
+	t.Run("empty alias", func(t *testing.T) {
+		factory, stdout, _ := newExecuteFactory(t)
+		err := runShortcut(t, BaseTableGet, []string{
+			"+table-get", "--base-token", "app_x", "--name", " ",
+		}, factory, stdout)
+		assertInvalidArgumentValidation(t, err, "--name", []string{"--name"}, "cannot be empty")
+	})
 }
 
 func TestBaseDashboardHelpGuidesAgents(t *testing.T) {
@@ -1165,6 +1239,16 @@ func TestBaseFieldValidate(t *testing.T) {
 	if err := BaseFieldCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "json": "{"}, nil, nil)); err == nil || !strings.Contains(err.Error(), "--json invalid JSON object") {
 		t.Fatalf("err=%v", err)
 	}
+	for _, fieldType := range canonicalFieldTypeNames() {
+		runtime := newBaseTestRuntime(
+			map[string]string{"base-token": "b", "table-id": "t", "json": fmt.Sprintf(`{"name":"f1","type":%q}`, fieldType)},
+			map[string]bool{"i-have-read-guide": true},
+			nil,
+		)
+		if err := BaseFieldCreate.Validate(ctx, runtime); err != nil {
+			t.Fatalf("canonical field type %q rejected: %v", fieldType, err)
+		}
+	}
 	if err := BaseFieldCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "json": `[{"name":"a","type":"text"},{"name":"b","type":"text"}]`}, nil, nil)); err != nil {
 		t.Fatalf("array create validate err=%v", err)
 	}
@@ -1198,6 +1282,101 @@ func TestBaseFieldValidate(t *testing.T) {
 	autoNumberJSON := `{"name":"编号","type":"auto_number","style":{"rules":[{"type":"text","text":"TASK-"},{"type":"created_time","date_format":"yyyyMM"},{"type":"incremental_number","length":4}]}}`
 	if err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": autoNumberJSON}, nil, nil)); err != nil {
 		t.Fatalf("auto number update validate err=%v", err)
+	}
+}
+
+func TestValidateCanonicalFieldType(t *testing.T) {
+	t.Run("unknown type", func(t *testing.T) {
+		err := validateCanonicalFieldType("+field-create", map[string]interface{}{"type": "future_generated"}, true)
+		var validationErr *errs.ValidationError
+		if !errors.As(err, &validationErr) {
+			t.Fatalf("expected ValidationError, got %T: %v", err, err)
+		}
+		problem, ok := errs.ProblemOf(err)
+		if !ok || problem.Category != errs.CategoryValidation || problem.Subtype != errs.SubtypeInvalidArgument {
+			t.Fatalf("problem=%+v err=%v", problem, err)
+		}
+		if validationErr.Param != "--json" {
+			t.Fatalf("param=%q, want --json", validationErr.Param)
+		}
+		for _, want := range []string{"future_generated", "Allowed field types", "auto_number", "report it as unsupported", "do not substitute another field type", "explicit user approval"} {
+			if !strings.Contains(validationErr.Message+"\n"+validationErr.Hint, want) {
+				t.Fatalf("field type error missing %q: %+v", want, validationErr)
+			}
+		}
+	})
+
+	t.Run("create requires type", func(t *testing.T) {
+		err := validateCanonicalFieldType("+field-create", map[string]interface{}{"name": "Status"}, true)
+		var validationErr *errs.ValidationError
+		if !errors.As(err, &validationErr) || validationErr.Param != "--json" || !strings.Contains(validationErr.Message, "type is required") {
+			t.Fatalf("validationErr=%+v err=%v", validationErr, err)
+		}
+	})
+
+	t.Run("update may omit type", func(t *testing.T) {
+		if err := validateCanonicalFieldType("+field-update", map[string]interface{}{"name": "Status"}, false); err != nil {
+			t.Fatalf("partial update type omission rejected: %v", err)
+		}
+	})
+
+	t.Run("type must be canonical", func(t *testing.T) {
+		for _, value := range []interface{}{nil, " Text ", "TEXT", 1} {
+			if err := validateCanonicalFieldType("+field-create", map[string]interface{}{"type": value}, true); err == nil {
+				t.Fatalf("expected non-canonical create type %v to fail", value)
+			}
+			if err := validateCanonicalFieldType("+field-update", map[string]interface{}{"type": value}, false); err == nil {
+				t.Fatalf("expected explicit non-canonical update type %v to fail", value)
+			}
+		}
+	})
+}
+
+func TestCanonicalFieldTypeCatalogMatchesReference(t *testing.T) {
+	raw, err := vfs.ReadFile("../../skills/lark-base/references/lark-base-field-json.md")
+	if err != nil {
+		t.Fatalf("read field JSON reference: %v", err)
+	}
+	doc := string(raw)
+	start := strings.Index(doc, "## 2. 字段速查")
+	end := strings.Index(doc, "## 3. 各类型写法")
+	if start < 0 || end <= start {
+		t.Fatalf("field JSON reference is missing its type catalog section")
+	}
+
+	documented := map[string]struct{}{}
+	for _, line := range strings.Split(doc[start:end], "\n") {
+		columns := strings.Split(line, "|")
+		if len(columns) < 3 {
+			continue
+		}
+		cell := columns[1]
+		for {
+			open := strings.IndexByte(cell, '`')
+			if open < 0 {
+				break
+			}
+			cell = cell[open+1:]
+			close := strings.IndexByte(cell, '`')
+			if close < 0 {
+				t.Fatalf("unclosed field type marker in catalog row %q", line)
+			}
+			fieldType := cell[:close]
+			if _, duplicate := documented[fieldType]; duplicate {
+				t.Fatalf("duplicate field type %q in reference catalog", fieldType)
+			}
+			documented[fieldType] = struct{}{}
+			cell = cell[close+1:]
+		}
+	}
+
+	if len(documented) != len(canonicalFieldTypeCatalog) {
+		t.Fatalf("documented field types=%v, runtime catalog=%v", documented, canonicalFieldTypeNames())
+	}
+	for fieldType := range canonicalFieldTypeCatalog {
+		if _, ok := documented[fieldType]; !ok {
+			t.Fatalf("runtime field type %q is missing from the field JSON reference", fieldType)
+		}
 	}
 }
 

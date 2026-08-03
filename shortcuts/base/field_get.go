@@ -9,7 +9,7 @@ import (
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
-var BaseFieldGet = common.Shortcut{
+var BaseFieldGet = withLocalFlagAliases(common.Shortcut{
 	Service:     "base",
 	Command:     "+field-get",
 	Description: "Get a field by ID or name",
@@ -26,4 +26,4 @@ var BaseFieldGet = common.Shortcut{
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeFieldGet(runtime)
 	},
-}
+}, localFlagAlias{canonical: "field-id", alias: "field-name"})

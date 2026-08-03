@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -192,6 +193,14 @@ func executeViewCreate(runtime *common.RuntimeContext) error {
 		if err != nil {
 			return err
 		}
+		newViewID := viewID(data)
+		if newViewID == "" {
+			return errs.NewValidationError(errs.SubtypeFailedPrecondition, "view create response omitted the new view ID; creation state is unknown").
+				WithHint("Do not retry or configure a same-name view. If verification is required and read permission is available, run +view-list to reconcile the view IDs.")
+		}
+		// Normalize the alternate API response key so callers can always use
+		// views[].id without a second lookup.
+		data["id"] = newViewID
 		created = append(created, data)
 	}
 	runtime.Out(map[string]interface{}{"views": created}, nil)

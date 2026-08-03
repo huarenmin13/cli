@@ -9,7 +9,7 @@ import (
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
-var BaseViewList = common.Shortcut{
+var BaseViewList = withLocalFlagAliases(common.Shortcut{
 	Service:     "base",
 	Command:     "+view-list",
 	Description: "List views in a table",
@@ -41,4 +41,4 @@ var BaseViewList = common.Shortcut{
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeViewList(runtime)
 	},
-}
+}, localFlagAlias{canonical: "table-id", alias: "table-name"})

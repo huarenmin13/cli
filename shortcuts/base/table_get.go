@@ -9,7 +9,7 @@ import (
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
-var BaseTableGet = common.Shortcut{
+var BaseTableGet = withLocalFlagAliases(common.Shortcut{
 	Service:     "base",
 	Command:     "+table-get",
 	Description: "Get a table by ID or name",
@@ -25,4 +25,4 @@ var BaseTableGet = common.Shortcut{
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeTableGet(runtime)
 	},
-}
+}, localFlagAlias{canonical: "table-id", alias: "name"})

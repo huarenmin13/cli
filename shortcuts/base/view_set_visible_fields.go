@@ -26,6 +26,7 @@ var BaseViewSetVisibleFields = common.Shortcut{
 		"Supported view types: grid, kanban, gallery, calendar, gantt.",
 		"Use a JSON object, not a bare array; primary field may be forced to the first position by the API.",
 		"visible_fields controls both visibility and order; include every field that should remain visible.",
+		"visible_fields does not set frozen columns, row height, or column width; do not use it as a substitute for unsupported UI layout properties.",
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return validateViewJSONObject(runtime)
