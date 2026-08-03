@@ -22,5 +22,5 @@ func TestBaseTableCreateDryRunRejectsUnknownFieldType(t *testing.T) {
 	require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
 	require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
 	require.Equal(t, "--fields", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
-	require.Contains(t, result.Stderr, `--fields.type \"future_generated\" is not supported`)
+	require.Contains(t, gjson.Get(result.Stderr, "error.message").String(), `--fields.type "future_generated" is not supported`)
 }
