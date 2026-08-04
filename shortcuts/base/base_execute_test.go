@@ -1159,6 +1159,46 @@ func TestBaseTableExecuteCreate(t *testing.T) {
 	}
 }
 
+func TestBaseTableExecuteCreateFailsClosedWithoutTableID(t *testing.T) {
+	factory, stdout, reg := newExecuteFactory(t)
+	reg.Register(&httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/base/v3/bases/app_x/tables",
+		Body: map[string]interface{}{
+			"code": 0,
+			"data": map[string]interface{}{"name": "Orders"},
+		},
+	})
+
+	err := runShortcut(t, BaseTableCreate, []string{
+		"+table-create", "--base-token", "app_x", "--name", "Orders",
+		"--view", `{"name":"Main","type":"grid"}`,
+	}, factory, stdout)
+	var partialErr *output.PartialFailureError
+	if !errors.As(err, &partialErr) {
+		t.Fatalf("expected partial failure signal, got %T: %v", err, err)
+	}
+
+	var envelope map[string]interface{}
+	if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+		t.Fatalf("decode partial failure output: %v\nraw=%s", err, stdout.String())
+	}
+	if envelope["ok"] != false {
+		t.Fatalf("ok=%#v, want false; envelope=%#v", envelope["ok"], envelope)
+	}
+	data, _ := envelope["data"].(map[string]interface{})
+	table, _ := data["table"].(map[string]interface{})
+	if table["name"] != "Orders" {
+		t.Fatalf("data=%#v", data)
+	}
+	if !strings.Contains(data["message"].(string), "omitted the new table ID") {
+		t.Fatalf("message=%#v", data["message"])
+	}
+	if !strings.Contains(data["hint"].(string), "Do not retry it blindly") {
+		t.Fatalf("hint=%#v", data["hint"])
+	}
+}
+
 func TestBaseTableExecuteCreatePreservesViewProgress(t *testing.T) {
 	factory, stdout, reg := newExecuteFactory(t)
 	reg.Register(&httpmock.Stub{

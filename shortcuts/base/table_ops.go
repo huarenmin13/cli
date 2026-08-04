@@ -31,11 +31,21 @@ func dryRunTableGet(_ context.Context, runtime *common.RuntimeContext) *common.D
 }
 
 func dryRunTableCreate(_ context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
+	viewItems, err := parseObjectList(newParseCtx(runtime), runtime.Str("view"), "view")
+	if err != nil {
+		return common.NewDryRunAPI().Desc(fmt.Sprintf("dry-run validation failed: %v", err))
+	}
 	body := dryRunTableCreateBody(runtime, runtime.Str("name"))
 	d := common.NewDryRunAPI().
 		POST("/open-apis/base/v3/bases/:base_token/tables").
 		Body(body).
 		Set("base_token", runtime.Str("base-token"))
+	if len(viewItems) > 0 {
+		d.Set("created_table_id", "<created_table_id>")
+		for _, view := range viewItems {
+			d.POST("/open-apis/base/v3/bases/:base_token/tables/:created_table_id/views").Body(view)
+		}
+	}
 	return d
 }
 
@@ -119,12 +129,17 @@ func executeTableCreate(runtime *common.RuntimeContext) error {
 	}
 	result := map[string]interface{}{"table": created}
 	tableIDValue := tableID(created)
-	if tableIDValue != "" && runtime.Str("fields") != "" {
+	if tableIDValue == "" {
+		result["message"] = "table create response omitted the new table ID; creation state is unknown"
+		result["hint"] = "The table may have been created. Do not retry it blindly; use +table-list to reconcile the result before retrying or creating views."
+		return runtime.OutPartialFailure(result, nil)
+	}
+	if runtime.Str("fields") != "" {
 		if fields, ok := created["fields"]; ok {
 			result["fields"] = fields
 		}
 	}
-	if tableIDValue != "" && len(viewItems) > 0 {
+	if len(viewItems) > 0 {
 		createdViews, failedIndex, err := createViews(runtime, baseToken, tableIDValue, viewItems)
 		result["views"] = createdViews
 		if err != nil {

@@ -159,12 +159,22 @@ func validateCanonicalFieldType(command, flagName string, body map[string]interf
 		return canonicalFieldTypeValidationError(flagName, "%s %s.type must be a canonical field type string", command, flagName).
 			WithHint("Use one of the documented field types: %s.", strings.Join(canonicalFieldTypeNames(), ", "))
 	}
-	if _, ok := canonicalFieldTypeCatalog[fieldType]; ok {
-		return nil
+	if _, ok := canonicalFieldTypeCatalog[fieldType]; !ok {
+		return canonicalFieldTypeValidationError(flagName, "%s %s.type %q is not supported", command, flagName, fieldType).
+			WithHint("Allowed field types: %s. If the requested capability has no matching type, report it as unsupported; do not substitute another field type or perform a different action without explicit user approval.", strings.Join(canonicalFieldTypeNames(), ", "))
 	}
 
-	return canonicalFieldTypeValidationError(flagName, "%s %s.type %q is not supported", command, flagName, fieldType).
-		WithHint("Allowed field types: %s. If the requested capability has no matching type, report it as unsupported; do not substitute another field type or perform a different action without explicit user approval.", strings.Join(canonicalFieldTypeNames(), ", "))
+	rawName, exists := body["name"]
+	if !exists {
+		return canonicalFieldTypeValidationError(flagName, "%s %s.name is required", command, flagName).
+			WithHint("Provide the intended field name as a non-empty string together with its canonical type.")
+	}
+	name, ok := rawName.(string)
+	if !ok || strings.TrimSpace(name) == "" {
+		return canonicalFieldTypeValidationError(flagName, "%s %s.name must be a non-empty string", command, flagName).
+			WithHint("Provide the intended field name as a non-empty string together with its canonical type.")
+	}
+	return nil
 }
 
 func canonicalFieldTypeValidationError(flagName, format string, args ...interface{}) *errs.ValidationError {

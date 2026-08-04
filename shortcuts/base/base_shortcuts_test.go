@@ -11,6 +11,8 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"runtime"
+	"sort"
 	"strconv"
 	"strings"
 	"testing"
@@ -21,6 +23,7 @@ import (
 	"github.com/larksuite/cli/internal/cmdutil"
 	"github.com/larksuite/cli/internal/core"
 	"github.com/larksuite/cli/internal/httpmock"
+	"github.com/larksuite/cli/internal/vfs"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -1194,8 +1197,12 @@ func TestBaseFieldValidate(t *testing.T) {
 	if err := BaseFieldCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "json": `{"name":"f1","type":"formula"}`}, map[string]bool{"i-have-read-guide": true}, nil)); err != nil {
 		t.Fatalf("formula create validate err=%v", err)
 	}
-	err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"Amount"}`}, nil, nil))
+	err := BaseFieldCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "json": `{"type":"text"}`}, nil, nil))
+	assertInvalidArgumentValidation(t, err, "--json", []string{"--json"}, "name is required")
+	err = BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"Amount"}`}, nil, nil))
 	assertInvalidArgumentValidation(t, err, "--json", []string{"--json"}, "type is required")
+	err = BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"type":"text"}`}, nil, nil))
+	assertInvalidArgumentValidation(t, err, "--json", []string{"--json"}, "name is required")
 	if err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"f1","type":"formula"}`}, nil, nil)); err == nil || !strings.Contains(err.Error(), "--i-have-read-guide is required") {
 		t.Fatalf("err=%v", err)
 	}
@@ -1250,6 +1257,73 @@ func TestValidateCanonicalFieldType(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("name must be nonblank string", func(t *testing.T) {
+		for _, value := range []interface{}{nil, "", "   ", 1} {
+			body := map[string]interface{}{"type": "text"}
+			if value != nil {
+				body["name"] = value
+			}
+			for _, command := range []string{"+field-create", "+field-update"} {
+				if err := validateCanonicalFieldType(command, "--json", body); err == nil {
+					t.Fatalf("expected %s name %v to fail", command, value)
+				}
+			}
+		}
+	})
+}
+
+func TestBaseFieldTypeReferenceMatchesRuntimeCatalog(t *testing.T) {
+	_, currentFile, _, ok := runtime.Caller(0)
+	if !ok {
+		t.Fatal("could not locate base shortcut test file")
+	}
+	docPath := filepath.Join(filepath.Dir(currentFile), "..", "..", "skills", "lark-base", "references", "lark-base-field-json.md")
+	content, err := vfs.ReadFile(docPath)
+	if err != nil {
+		t.Fatalf("read field JSON reference: %v", err)
+	}
+	doc := string(content)
+	start := strings.Index(doc, "## 2. 字段速查")
+	end := strings.Index(doc, "## 3. 各类型写法")
+	if start < 0 || end <= start {
+		t.Fatal("field JSON reference is missing its type catalog section")
+	}
+
+	documented := make(map[string]struct{})
+	for _, line := range strings.Split(doc[start:end], "\n") {
+		columns := strings.Split(line, "|")
+		if len(columns) < 3 {
+			continue
+		}
+		cell := columns[1]
+		for {
+			open := strings.IndexByte(cell, '`')
+			if open < 0 {
+				break
+			}
+			cell = cell[open+1:]
+			close := strings.IndexByte(cell, '`')
+			if close < 0 {
+				t.Fatalf("unclosed field type marker in catalog row %q", line)
+			}
+			fieldType := cell[:close]
+			if _, duplicate := documented[fieldType]; duplicate {
+				t.Fatalf("duplicate field type %q in reference catalog", fieldType)
+			}
+			documented[fieldType] = struct{}{}
+			cell = cell[close+1:]
+		}
+	}
+	documentedTypes := make([]string, 0, len(documented))
+	for fieldType := range documented {
+		documentedTypes = append(documentedTypes, fieldType)
+	}
+	sort.Strings(documentedTypes)
+
+	if got := canonicalFieldTypeNames(); !reflect.DeepEqual(got, documentedTypes) {
+		t.Fatalf("runtime field types = %v, documented field types = %v", got, documentedTypes)
+	}
 }
 
 func TestBaseTableValidate(t *testing.T) {
@@ -1264,6 +1338,8 @@ func TestBaseTableValidate(t *testing.T) {
 	}
 	err = BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "fields": `[{"name":"Generated","type":"future_generated"}]`}, nil, nil))
 	assertInvalidArgumentValidation(t, err, "--fields", []string{"--fields"}, "future_generated")
+	err = BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "fields": `[{"type":"text"}]`}, nil, nil))
+	assertInvalidArgumentValidation(t, err, "--fields", []string{"--fields"}, "name is required")
 }
 
 func TestBaseCreateValidate(t *testing.T) {
@@ -1279,6 +1355,8 @@ func TestBaseCreateValidate(t *testing.T) {
 	}
 	err := BaseBaseCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"name": "Demo", "table-name": "Tasks", "fields": `[{"name":"Generated","type":"future_generated"}]`}, nil, nil))
 	assertInvalidArgumentValidation(t, err, "--fields", []string{"--fields"}, "future_generated")
+	err = BaseBaseCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"name": "Demo", "table-name": "Tasks", "fields": `[{"type":"text"}]`}, nil, nil))
+	assertInvalidArgumentValidation(t, err, "--fields", []string{"--fields"}, "name is required")
 }
 
 func TestBaseCreateTipsGuideFieldSchema(t *testing.T) {
