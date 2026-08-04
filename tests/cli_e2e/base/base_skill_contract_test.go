@@ -33,3 +33,11 @@ func TestBaseSkillRoutesFileImportExportToDrive(t *testing.T) {
 	require.NotContains(t, skill, "--output-dir")
 	require.NotContains(t, skill, "/tmp/")
 }
+
+func TestBaseSkillRequiresFreshViewCreateEvidence(t *testing.T) {
+	skill := readBaseSkillFile(t, "SKILL.md")
+	require.Contains(t, skill, "已有同名视图不能替代本次创建")
+	require.Contains(t, skill, "只使用本次响应中的 `views[].id`")
+	require.Contains(t, skill, "批量创建部分失败时保留 `views` 中已成功的项")
+	require.Contains(t, skill, "仅当用户表达“确保存在/若不存在则创建”时")
+}

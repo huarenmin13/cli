@@ -2,15 +2,13 @@
 
 ## Metrics
 - Denominator: 87 leaf commands
-- Covered: 31
-- Coverage: 35.6%
+- Covered: 29
+- Coverage: 33.3%
 
 ## Summary
 - TestBase_BasicWorkflow: proves `+base-create`, `+base-get`, `+table-create`, `+table-get`, and `+table-list`; key `t.Run(...)` proof points are `get base as bot`, `get table as bot`, and `list tables and find created table as bot`.
 - TestBaseBlockDryRun: proves the five `+base-block-*` shortcuts request shapes without touching live data.
 - TestBaseFieldCreateDryRunArrayCompat: proves `+field-create` dry-run request shape for the internal JSON-array compatibility path.
-- TestBaseFieldUpdateAutoNumberDryRun / TestBaseFieldUpdateDryRunTypeValidation: prove `+field-update` request shape and canonical type validation.
-- TestBaseFieldGetDryRun: proves the canonical `+field-get --field-id` request shape.
 - TestBaseViewCreateDryRun: proves `+view-create` request shape and empty-batch validation.
 - TestBaseFormQuestionsCreateDryRun: proves `+form-questions-create` preserves its POST body and renders the existing-question guard in command help.
 - TestBaseFormDetailDryRun / TestBaseFormSubmitDryRun: prove shared-form detail and submission request shapes.
@@ -21,7 +19,7 @@
 - TestBaseFormListDryRun_UsesBaseAndTableIdentifiers: proves `+form-list` dry-run request shape uses Base and table identifiers in the endpoint.
 - TestBaseFormQuestionsCreateVisibleRuleDryRun / TestBaseFormQuestionsUpdateVisibleRuleDryRun: prove `+form-questions-create` / `+form-questions-update` dry-run request shape and that the optional `visible_rule` display condition is transcribed verbatim into the request body.
 - Cleanup note: `+table-delete` and `+role-delete` only run in cleanup and are intentionally left uncovered.
-- Blocked area: dashboard, remaining field operations, most record operations, form, remaining view operations, and workflow operations still lack deterministic create/read/update workflows in this suite.
+- Blocked area: dashboard, field, most record operations, form, remaining view operations, and workflow operations still lack deterministic create/read/update workflows in this suite.
 
 ## Command Table
 
@@ -52,10 +50,10 @@
 | ✕ | base +data-query | shortcut |  | none | no data-query assertions yet |
 | ✓ | base +field-create | shortcut | base_field_dryrun_test.go::TestBaseFieldCreateDryRunArrayCompat | `--base-token`; `--table-id`; `--json`; dry-run only | request shape only |
 | ✕ | base +field-delete | shortcut |  | none | field workflows not covered |
-| ✓ | base +field-get | shortcut | base_field_dryrun_test.go::TestBaseFieldGetDryRun | `--base-token`; `--table-id`; `--field-id`; dry-run only | canonical request shape |
+| ✕ | base +field-get | shortcut |  | none | field workflows not covered |
 | ✕ | base +field-list | shortcut |  | none | field workflows not covered |
 | ✕ | base +field-search-options | shortcut |  | none | field workflows not covered |
-| ✓ | base +field-update | shortcut | base_field_update_dryrun_test.go::TestBaseFieldUpdateAutoNumberDryRun; TestBaseFieldUpdateDryRunTypeValidation | `--base-token`; `--table-id`; `--field-id`; `--json`; dry-run only | request shape and canonical type validation |
+| ✕ | base +field-update | shortcut |  | none | field workflows not covered |
 | ✕ | base +form-create | shortcut |  | none | form workflows not covered |
 | ✕ | base +form-delete | shortcut |  | none | form workflows not covered |
 | ✓ | base +form-detail | shortcut | base_form_detail_dryrun_test.go::TestBaseFormDetailDryRun | `--share-token`; dry-run only | shared-form request shape |

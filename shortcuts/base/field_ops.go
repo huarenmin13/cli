@@ -6,54 +6,13 @@ package base
 import (
 	"context"
 	"fmt"
-	"sort"
 	"strings"
 	"time"
 
-	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
 var fieldCreateBatchDelay = time.Second
-
-type fieldReadbackMode uint8
-
-const (
-	fieldReadbackOptional fieldReadbackMode = iota
-	fieldReadbackRequired
-)
-
-// canonicalFieldTypeCatalog is the executable source of truth for field type
-// names accepted by the base/v3 field JSON contract. The value is also used by
-// write-result guidance so validation and readback behavior cannot drift.
-var canonicalFieldTypeCatalog = map[string]fieldReadbackMode{
-	"attachment":  fieldReadbackOptional,
-	"auto_number": fieldReadbackRequired,
-	"checkbox":    fieldReadbackOptional,
-	"created_at":  fieldReadbackRequired,
-	"created_by":  fieldReadbackRequired,
-	"datetime":    fieldReadbackOptional,
-	"formula":     fieldReadbackRequired,
-	"group_chat":  fieldReadbackOptional,
-	"link":        fieldReadbackRequired,
-	"location":    fieldReadbackOptional,
-	"lookup":      fieldReadbackRequired,
-	"number":      fieldReadbackOptional,
-	"select":      fieldReadbackOptional,
-	"text":        fieldReadbackOptional,
-	"updated_at":  fieldReadbackRequired,
-	"updated_by":  fieldReadbackRequired,
-	"user":        fieldReadbackOptional,
-}
-
-func canonicalFieldTypeNames() []string {
-	names := make([]string, 0, len(canonicalFieldTypeCatalog))
-	for name := range canonicalFieldTypeCatalog {
-		names = append(names, name)
-	}
-	sort.Strings(names)
-	return names
-}
 
 func dryRunFieldList(_ context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
 	offset := runtime.Int("offset")
@@ -147,73 +106,12 @@ func validateFormulaLookupGuideAck(runtime *common.RuntimeContext, command strin
 	return nil
 }
 
-func validateCanonicalFieldType(command, flagName string, body map[string]interface{}) error {
-	raw, exists := body["type"]
-	if !exists {
-		return canonicalFieldTypeValidationError(flagName, "%s %s.type is required", command, flagName).
-			WithHint("Use one of the documented field types: %s.", strings.Join(canonicalFieldTypeNames(), ", "))
-	}
-
-	fieldType, ok := raw.(string)
-	if !ok || fieldType == "" || strings.TrimSpace(fieldType) != fieldType {
-		return canonicalFieldTypeValidationError(flagName, "%s %s.type must be a canonical field type string", command, flagName).
-			WithHint("Use one of the documented field types: %s.", strings.Join(canonicalFieldTypeNames(), ", "))
-	}
-	if _, ok := canonicalFieldTypeCatalog[fieldType]; !ok {
-		return canonicalFieldTypeValidationError(flagName, "%s %s.type %q is not supported", command, flagName, fieldType).
-			WithHint("Allowed field types: %s. If the requested capability has no matching type, report it as unsupported; do not substitute another field type or perform a different action without explicit user approval.", strings.Join(canonicalFieldTypeNames(), ", "))
-	}
-
-	rawName, exists := body["name"]
-	if !exists {
-		return canonicalFieldTypeValidationError(flagName, "%s %s.name is required", command, flagName).
-			WithHint("Provide the intended field name as a non-empty string together with its canonical type.")
-	}
-	name, ok := rawName.(string)
-	if !ok || strings.TrimSpace(name) == "" {
-		return canonicalFieldTypeValidationError(flagName, "%s %s.name must be a non-empty string", command, flagName).
-			WithHint("Provide the intended field name as a non-empty string together with its canonical type.")
-	}
-	return nil
-}
-
-func canonicalFieldTypeValidationError(flagName, format string, args ...interface{}) *errs.ValidationError {
-	message := fmt.Sprintf(format, args...)
-	return errs.NewValidationError(errs.SubtypeInvalidArgument, "%s", message).
-		WithParam(flagName).
-		WithParams(errs.InvalidParam{Name: flagName, Reason: message})
-}
-
-func validateFieldDefinitions(command, flagName string, runtime *common.RuntimeContext) error {
-	raw := strings.TrimSpace(runtime.Str(strings.TrimPrefix(flagName, "--")))
-	if raw == "" {
-		return nil
-	}
-	items, err := parseJSONArray(newParseCtx(runtime), raw, strings.TrimPrefix(flagName, "--"))
-	if err != nil {
-		return err
-	}
-	for index, item := range items {
-		body, ok := item.(map[string]interface{})
-		if !ok {
-			return baseFlagErrorf("%s item %d must be an object", flagName, index+1)
-		}
-		if err := validateCanonicalFieldType(command, flagName, body); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 func validateFieldCreate(runtime *common.RuntimeContext) error {
 	bodies, err := parseFieldCreateBodies(newParseCtx(runtime), runtime.Str("json"))
 	if err != nil {
 		return err
 	}
 	for _, body := range bodies {
-		if err := validateCanonicalFieldType("+field-create", "--json", body); err != nil {
-			return err
-		}
 		if err := validateFormulaLookupGuideAck(runtime, "+field-create", body); err != nil {
 			return err
 		}
@@ -224,9 +122,6 @@ func validateFieldCreate(runtime *common.RuntimeContext) error {
 func validateFieldUpdate(runtime *common.RuntimeContext) error {
 	body, err := validateFieldJSON(runtime)
 	if err != nil {
-		return err
-	}
-	if err := validateCanonicalFieldType("+field-update", "--json", body); err != nil {
 		return err
 	}
 	return validateFormulaLookupGuideAck(runtime, "+field-update", body)
@@ -375,14 +270,14 @@ func fieldWriteReadbackRecommendation(submitted map[string]interface{}, operatio
 
 func fieldTypeReadbackRecommendation(fieldType, operation string) (bool, string) {
 	fieldType = normalizeFieldType(fieldType)
-	mode, ok := canonicalFieldTypeCatalog[fieldType]
-	if !ok {
+	switch fieldType {
+	case "formula", "lookup", "auto_number", "link":
+		return true, fmt.Sprintf("computed, linked, or generated field %s should be verified with +field-get before declaring completion", operation)
+	case "text", "number", "select", "datetime", "checkbox", "user", "group_chat", "attachment", "location":
+		return false, fmt.Sprintf("simple field %s returned successfully; use +field-get only when extra properties or explicit verification are needed", operation)
+	default:
 		return true, "unknown or uncommon field type; run +field-get to avoid assuming the submitted JSON fully describes server state"
 	}
-	if mode == fieldReadbackOptional {
-		return false, fmt.Sprintf("simple field %s returned successfully; use +field-get only when extra properties or explicit verification are needed", operation)
-	}
-	return true, fmt.Sprintf("computed, linked, generated, or system field %s should be verified with +field-get before declaring completion", operation)
 }
 
 func normalizeFieldType(fieldType string) string {

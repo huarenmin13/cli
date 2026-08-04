@@ -65,9 +65,6 @@ func dryRunTableDelete(_ context.Context, runtime *common.RuntimeContext) *commo
 }
 
 func validateTableCreate(runtime *common.RuntimeContext) error {
-	if err := validateFieldDefinitions("+table-create", "--fields", runtime); err != nil {
-		return err
-	}
 	_, err := parseObjectList(newParseCtx(runtime), runtime.Str("view"), "view")
 	return err
 }
