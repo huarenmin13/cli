@@ -501,46 +501,33 @@ func TestBaseRecordProjectionAliasesAreHidden(t *testing.T) {
 	}
 }
 
-func TestBaseLocalResourceNameAliasesNormalizeWithoutMetadata(t *testing.T) {
-	tests := []struct {
-		name      string
-		shortcut  common.Shortcut
-		canonical string
-		alias     string
-		value     string
-	}{
-		{name: "table get", shortcut: BaseTableGet, canonical: "table-id", alias: "name", value: "Tasks"},
-		{name: "field get", shortcut: BaseFieldGet, canonical: "field-id", alias: "field-name", value: "Status"},
-		{name: "view list", shortcut: BaseViewList, canonical: "table-id", alias: "table-name", value: "Tasks"},
+func TestBaseFieldNameAliasNormalizesWithoutMetadata(t *testing.T) {
+	const alias = "field-name"
+	for _, flag := range BaseFieldGet.Flags {
+		if flag.Name == alias {
+			t.Fatalf("alias --%s must not enter Shortcut.Flags metadata", alias)
+		}
 	}
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			for _, flag := range tc.shortcut.Flags {
-				if flag.Name == tc.alias {
-					t.Fatalf("alias --%s must not enter Shortcut.Flags metadata", tc.alias)
-				}
-			}
-			parent := &cobra.Command{Use: "base"}
-			tc.shortcut.Mount(parent, &cmdutil.Factory{})
-			cmd := parent.Commands()[0]
-			aliasRegistered := false
-			cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-				aliasRegistered = aliasRegistered || flag.Name == tc.alias
-			})
-			if aliasRegistered {
-				t.Fatalf("alias --%s must not be registered as a separate flag", tc.alias)
-			}
-			if strings.Contains(cmd.Flags().FlagUsages(), "--"+tc.alias) {
-				t.Fatalf("help must hide --%s:\n%s", tc.alias, cmd.Flags().FlagUsages())
-			}
-			if err := cmd.Flags().Parse([]string{"--" + tc.alias, tc.value}); err != nil {
-				t.Fatalf("parse --%s: %v", tc.alias, err)
-			}
-			value, err := cmd.Flags().GetString(tc.canonical)
-			if err != nil || value != tc.value {
-				t.Fatalf("--%s normalized to --%s value=%q err=%v", tc.alias, tc.canonical, value, err)
-			}
-		})
+
+	parent := &cobra.Command{Use: "base"}
+	BaseFieldGet.Mount(parent, &cmdutil.Factory{})
+	cmd := parent.Commands()[0]
+	aliasRegistered := false
+	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+		aliasRegistered = aliasRegistered || flag.Name == alias
+	})
+	if aliasRegistered {
+		t.Fatalf("alias --%s must not be registered as a separate flag", alias)
+	}
+	if strings.Contains(cmd.Flags().FlagUsages(), "--"+alias) {
+		t.Fatalf("help must hide --%s:\n%s", alias, cmd.Flags().FlagUsages())
+	}
+	if err := cmd.Flags().Parse([]string{"--" + alias, "Status"}); err != nil {
+		t.Fatalf("parse --%s: %v", alias, err)
+	}
+	value, err := cmd.Flags().GetString("field-id")
+	if err != nil || value != "Status" {
+		t.Fatalf("--%s normalized to --field-id value=%q err=%v", alias, value, err)
 	}
 }
 

@@ -2,15 +2,15 @@
 
 ## Metrics
 - Denominator: 87 leaf commands
-- Covered: 32
-- Coverage: 36.8%
+- Covered: 31
+- Coverage: 35.6%
 
 ## Summary
 - TestBase_BasicWorkflow: proves `+base-create`, `+base-get`, `+table-create`, `+table-get`, and `+table-list`; key `t.Run(...)` proof points are `get base as bot`, `get table as bot`, and `list tables and find created table as bot`.
 - TestBaseBlockDryRun: proves the five `+base-block-*` shortcuts request shapes without touching live data.
 - TestBaseFieldCreateDryRunArrayCompat: proves `+field-create` dry-run request shape for the internal JSON-array compatibility path.
 - TestBaseFieldUpdateAutoNumberDryRun / TestBaseFieldUpdateDryRunTypeValidation: prove `+field-update` request shape and canonical type validation.
-- TestBaseLocalResourceNameAliasesDryRun: proves parse-time resource-name aliases for `+table-get`, `+field-get`, and `+view-list` without changing their request shapes.
+- TestBaseFieldNameAliasDryRun: proves the parse-time `--field-name` alias for `+field-get` without changing its request shape.
 - TestBaseViewCreateDryRun: proves `+view-create` request shape and empty-batch validation.
 - TestBaseFormQuestionsCreateDryRun: proves `+form-questions-create` preserves its POST body and renders the existing-question guard in command help.
 - TestBaseFormDetailDryRun / TestBaseFormSubmitDryRun: prove shared-form detail and submission request shapes.
@@ -52,7 +52,7 @@
 | ✕ | base +data-query | shortcut |  | none | no data-query assertions yet |
 | ✓ | base +field-create | shortcut | base_field_dryrun_test.go::TestBaseFieldCreateDryRunArrayCompat | `--base-token`; `--table-id`; `--json`; dry-run only | request shape only |
 | ✕ | base +field-delete | shortcut |  | none | field workflows not covered |
-| ✓ | base +field-get | shortcut | base_resource_name_alias_dryrun_test.go::TestBaseLocalResourceNameAliasesDryRun/field get field name | `--base-token`; `--table-id`; `--field-name`; dry-run only | request shape through parse-time alias |
+| ✓ | base +field-get | shortcut | base_field_dryrun_test.go::TestBaseFieldNameAliasDryRun | `--base-token`; `--table-id`; `--field-name`; dry-run only | request shape through parse-time alias |
 | ✕ | base +field-list | shortcut |  | none | field workflows not covered |
 | ✕ | base +field-search-options | shortcut |  | none | field workflows not covered |
 | ✓ | base +field-update | shortcut | base_field_update_dryrun_test.go::TestBaseFieldUpdateAutoNumberDryRun; TestBaseFieldUpdateDryRunTypeValidation | `--base-token`; `--table-id`; `--field-id`; `--json`; dry-run only | request shape and canonical type validation |
@@ -100,7 +100,7 @@
 | ✕ | base +view-get-sort | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-get-timebar | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-get-visible-fields | shortcut |  | none | view workflows not covered |
-| ✓ | base +view-list | shortcut | base_resource_name_alias_dryrun_test.go::TestBaseLocalResourceNameAliasesDryRun/view list table name | `--base-token`; `--table-name`; dry-run only | request shape through parse-time alias |
+| ✕ | base +view-list | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-rename | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-set-card | shortcut |  | none | view workflows not covered |
 | ✕ | base +view-set-filter | shortcut |  | none | view workflows not covered |

@@ -38,9 +38,6 @@ var BaseViewList = common.Shortcut{
 		return nil
 	},
 	DryRun: dryRunViewList,
-	PostMount: withLocalFlagAliases(nil,
-		localFlagAlias{canonical: "table-id", alias: "table-name"},
-	),
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeViewList(runtime)
 	},

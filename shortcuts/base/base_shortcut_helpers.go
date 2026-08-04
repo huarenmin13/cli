@@ -12,8 +12,6 @@ import (
 
 	"github.com/larksuite/cli/extension/fileio"
 	"github.com/larksuite/cli/shortcuts/common"
-	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 )
 
 // parseCtx carries file I/O dependency for JSON/file parsing helpers.
@@ -27,27 +25,6 @@ func newParseCtx(runtime *common.RuntimeContext) *parseCtx {
 
 func baseTableID(runtime *common.RuntimeContext) string {
 	return strings.TrimSpace(runtime.Str("table-id"))
-}
-
-type localFlagAlias struct {
-	canonical string
-	alias     string
-}
-
-func withLocalFlagAliases(prev func(*cobra.Command), aliases ...localFlagAlias) func(*cobra.Command) {
-	return func(cmd *cobra.Command) {
-		if prev != nil {
-			prev(cmd)
-		}
-		cmd.Flags().SetNormalizeFunc(func(_ *pflag.FlagSet, name string) pflag.NormalizedName {
-			for _, alias := range aliases {
-				if name == alias.alias {
-					return pflag.NormalizedName(alias.canonical)
-				}
-			}
-			return pflag.NormalizedName(name)
-		})
-	}
 }
 
 func pageSizeLimitAliasFlag() common.Flag {

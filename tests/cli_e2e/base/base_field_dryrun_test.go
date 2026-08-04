@@ -44,6 +44,17 @@ func TestBaseFieldCreateDryRunArrayCompat(t *testing.T) {
 	require.Equal(t, "text", clie2e.DryRunGet(out, "api.1.body.type").String(), out)
 }
 
+func TestBaseFieldNameAliasDryRun(t *testing.T) {
+	result := runBaseDryRun(t, 0,
+		"base", "+field-get",
+		"--base-token", "app_x",
+		"--table-id", "tbl_x",
+		"--field-name", "Status",
+	)
+	require.Equal(t, "GET", clie2e.DryRunGet(result.Stdout, "api.0.method").String(), result.Stdout)
+	require.Equal(t, "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields/Status", clie2e.DryRunGet(result.Stdout, "api.0.url").String(), result.Stdout)
+}
+
 func TestBaseFieldCreateDryRunRejectsUnknownType(t *testing.T) {
 	setBaseDryRunConfigEnv(t)
 
