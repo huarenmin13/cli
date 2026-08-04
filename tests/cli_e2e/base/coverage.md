@@ -10,7 +10,7 @@
 - TestBaseBlockDryRun: proves the five `+base-block-*` shortcuts request shapes without touching live data.
 - TestBaseFieldCreateDryRunArrayCompat: proves `+field-create` dry-run request shape for the internal JSON-array compatibility path.
 - TestBaseFieldUpdateAutoNumberDryRun / TestBaseFieldUpdateDryRunTypeValidation: prove `+field-update` request shape and canonical type validation.
-- TestBaseFieldNameAliasDryRun: proves the parse-time `--field-name` alias for `+field-get` without changing its request shape.
+- TestBaseFieldGetDryRun: proves the canonical `+field-get --field-id` request shape.
 - TestBaseViewCreateDryRun: proves `+view-create` request shape and empty-batch validation.
 - TestBaseFormQuestionsCreateDryRun: proves `+form-questions-create` preserves its POST body and renders the existing-question guard in command help.
 - TestBaseFormDetailDryRun / TestBaseFormSubmitDryRun: prove shared-form detail and submission request shapes.
@@ -52,7 +52,7 @@
 | ✕ | base +data-query | shortcut |  | none | no data-query assertions yet |
 | ✓ | base +field-create | shortcut | base_field_dryrun_test.go::TestBaseFieldCreateDryRunArrayCompat | `--base-token`; `--table-id`; `--json`; dry-run only | request shape only |
 | ✕ | base +field-delete | shortcut |  | none | field workflows not covered |
-| ✓ | base +field-get | shortcut | base_field_dryrun_test.go::TestBaseFieldNameAliasDryRun | `--base-token`; `--table-id`; `--field-name`; dry-run only | request shape through parse-time alias |
+| ✓ | base +field-get | shortcut | base_field_dryrun_test.go::TestBaseFieldGetDryRun | `--base-token`; `--table-id`; `--field-id`; dry-run only | canonical request shape |
 | ✕ | base +field-list | shortcut |  | none | field workflows not covered |
 | ✕ | base +field-search-options | shortcut |  | none | field workflows not covered |
 | ✓ | base +field-update | shortcut | base_field_update_dryrun_test.go::TestBaseFieldUpdateAutoNumberDryRun; TestBaseFieldUpdateDryRunTypeValidation | `--base-token`; `--table-id`; `--field-id`; `--json`; dry-run only | request shape and canonical type validation |

@@ -1133,7 +1133,7 @@ func TestBaseTableExecuteCreate(t *testing.T) {
 		URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_new/views",
 		Body: map[string]interface{}{
 			"code": 0,
-			"data": map[string]interface{}{"id": "vew_main", "name": "Main", "type": "grid"},
+			"data": map[string]interface{}{"view_id": "vew_main", "name": "Main", "type": "grid"},
 		},
 	})
 	args := []string{"+table-create", "--base-token", "app_x", "--name", "Orders", "--fields", `[{"name":"OrderNo","type":"text"}]`, "--view", `{"name":"Main","type":"grid"}`}
@@ -1143,10 +1143,90 @@ func TestBaseTableExecuteCreate(t *testing.T) {
 	if got := stdout.String(); !strings.Contains(got, `"table"`) || !strings.Contains(got, `"vew_main"`) {
 		t.Fatalf("stdout=%s", got)
 	}
+	data := decodeBaseEnvelope(t, stdout)
+	views, _ := data["views"].([]interface{})
+	if len(views) != 1 {
+		t.Fatalf("views=%#v, want one created view", data["views"])
+	}
+	view, _ := views[0].(map[string]interface{})
+	if view["id"] != "vew_main" || view["view_id"] != "vew_main" {
+		t.Fatalf("view=%#v, want canonical and original IDs", view)
+	}
 	body := decodeCapturedJSONBody(t, createTableStub)
 	fieldsBody, _ := body["fields"].([]interface{})
 	if body["name"] != "Orders" || len(fieldsBody) != 1 {
 		t.Fatalf("create table body = %#v", body)
+	}
+}
+
+func TestBaseTableExecuteCreatePreservesViewProgress(t *testing.T) {
+	factory, stdout, reg := newExecuteFactory(t)
+	reg.Register(&httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/base/v3/bases/app_x/tables",
+		Body: map[string]interface{}{
+			"code": 0,
+			"data": map[string]interface{}{"id": "tbl_new", "name": "Orders"},
+		},
+	})
+	firstStub := &httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_new/views",
+		BodyFilter: func(body []byte) bool {
+			return strings.Contains(string(body), `"name":"First"`)
+		},
+		Body: map[string]interface{}{
+			"code": 0,
+			"data": map[string]interface{}{"id": "vew_first", "name": "First", "type": "grid"},
+		},
+	}
+	secondStub := &httpmock.Stub{
+		Method: "POST",
+		URL:    "/open-apis/base/v3/bases/app_x/tables/tbl_new/views",
+		BodyFilter: func(body []byte) bool {
+			return strings.Contains(string(body), `"name":"Second"`)
+		},
+		Body: map[string]interface{}{
+			"code": 1254003,
+			"msg":  "view name already exists",
+		},
+	}
+	reg.Register(firstStub)
+	reg.Register(secondStub)
+
+	err := runShortcut(t, BaseTableCreate, []string{
+		"+table-create", "--base-token", "app_x", "--name", "Orders",
+		"--view", `[{"name":"First","type":"grid"},{"name":"Second","type":"grid"}]`,
+	}, factory, stdout)
+	var partialErr *output.PartialFailureError
+	if !errors.As(err, &partialErr) {
+		t.Fatalf("expected partial failure signal, got %T: %v", err, err)
+	}
+	if !strings.Contains(string(firstStub.CapturedBody), `"name":"First"`) || !strings.Contains(string(secondStub.CapturedBody), `"name":"Second"`) {
+		t.Fatalf("expected both creates before failure: %s / %s", firstStub.CapturedBody, secondStub.CapturedBody)
+	}
+
+	var envelope map[string]interface{}
+	if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+		t.Fatalf("decode partial failure output: %v\nraw=%s", err, stdout.String())
+	}
+	if envelope["ok"] != false {
+		t.Fatalf("ok=%#v, want false; envelope=%#v", envelope["ok"], envelope)
+	}
+	data, _ := envelope["data"].(map[string]interface{})
+	table, _ := data["table"].(map[string]interface{})
+	views, _ := data["views"].([]interface{})
+	failed, _ := data["failed"].([]interface{})
+	if table["id"] != "tbl_new" || len(views) != 1 || len(failed) != 1 {
+		t.Fatalf("data=%#v", data)
+	}
+	view, _ := views[0].(map[string]interface{})
+	failure, _ := failed[0].(map[string]interface{})
+	if view["id"] != "vew_first" || failure["index"] != float64(2) || failure["code"] != float64(1254003) {
+		t.Fatalf("data=%#v", data)
+	}
+	if !strings.Contains(data["hint"].(string), "Do not retry the table") {
+		t.Fatalf("hint=%#v", data["hint"])
 	}
 }
 

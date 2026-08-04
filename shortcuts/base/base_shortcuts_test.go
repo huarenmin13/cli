@@ -16,7 +16,6 @@ import (
 	"testing"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 
 	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/internal/cmdutil"
@@ -498,36 +497,6 @@ func TestBaseRecordProjectionAliasesAreHidden(t *testing.T) {
 				}
 			}
 		})
-	}
-}
-
-func TestBaseFieldNameAliasNormalizesWithoutMetadata(t *testing.T) {
-	const alias = "field-name"
-	for _, flag := range BaseFieldGet.Flags {
-		if flag.Name == alias {
-			t.Fatalf("alias --%s must not enter Shortcut.Flags metadata", alias)
-		}
-	}
-
-	parent := &cobra.Command{Use: "base"}
-	BaseFieldGet.Mount(parent, &cmdutil.Factory{})
-	cmd := parent.Commands()[0]
-	aliasRegistered := false
-	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-		aliasRegistered = aliasRegistered || flag.Name == alias
-	})
-	if aliasRegistered {
-		t.Fatalf("alias --%s must not be registered as a separate flag", alias)
-	}
-	if strings.Contains(cmd.Flags().FlagUsages(), "--"+alias) {
-		t.Fatalf("help must hide --%s:\n%s", alias, cmd.Flags().FlagUsages())
-	}
-	if err := cmd.Flags().Parse([]string{"--" + alias, "Status"}); err != nil {
-		t.Fatalf("parse --%s: %v", alias, err)
-	}
-	value, err := cmd.Flags().GetString("field-id")
-	if err != nil || value != "Status" {
-		t.Fatalf("--%s normalized to --field-id value=%q err=%v", alias, value, err)
 	}
 }
 
@@ -1225,9 +1194,8 @@ func TestBaseFieldValidate(t *testing.T) {
 	if err := BaseFieldCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "json": `{"name":"f1","type":"formula"}`}, map[string]bool{"i-have-read-guide": true}, nil)); err != nil {
 		t.Fatalf("formula create validate err=%v", err)
 	}
-	if err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"Amount"}`}, nil, nil)); err != nil {
-		t.Fatalf("update validate err=%v", err)
-	}
+	err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"Amount"}`}, nil, nil))
+	assertInvalidArgumentValidation(t, err, "--json", []string{"--json"}, "type is required")
 	if err := BaseFieldUpdate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "table-id": "t", "field-id": "fld_1", "json": `{"name":"f1","type":"formula"}`}, nil, nil)); err == nil || !strings.Contains(err.Error(), "--i-have-read-guide is required") {
 		t.Fatalf("err=%v", err)
 	}
@@ -1245,7 +1213,7 @@ func TestBaseFieldValidate(t *testing.T) {
 
 func TestValidateCanonicalFieldType(t *testing.T) {
 	t.Run("unknown type", func(t *testing.T) {
-		err := validateCanonicalFieldType("+field-create", "--json", map[string]interface{}{"type": "future_generated"}, true)
+		err := validateCanonicalFieldType("+field-create", "--json", map[string]interface{}{"type": "future_generated"})
 		var validationErr *errs.ValidationError
 		if !errors.As(err, &validationErr) {
 			t.Fatalf("expected ValidationError, got %T: %v", err, err)
@@ -1265,25 +1233,19 @@ func TestValidateCanonicalFieldType(t *testing.T) {
 	})
 
 	t.Run("create requires type", func(t *testing.T) {
-		err := validateCanonicalFieldType("+field-create", "--json", map[string]interface{}{"name": "Status"}, true)
+		err := validateCanonicalFieldType("+field-create", "--json", map[string]interface{}{"name": "Status"})
 		var validationErr *errs.ValidationError
 		if !errors.As(err, &validationErr) || validationErr.Param != "--json" || !strings.Contains(validationErr.Message, "type is required") {
 			t.Fatalf("validationErr=%+v err=%v", validationErr, err)
 		}
 	})
 
-	t.Run("update may omit type", func(t *testing.T) {
-		if err := validateCanonicalFieldType("+field-update", "--json", map[string]interface{}{"name": "Status"}, false); err != nil {
-			t.Fatalf("partial update type omission rejected: %v", err)
-		}
-	})
-
 	t.Run("type must be canonical", func(t *testing.T) {
 		for _, value := range []interface{}{nil, " Text ", "TEXT", 1} {
-			if err := validateCanonicalFieldType("+field-create", "--json", map[string]interface{}{"type": value}, true); err == nil {
+			if err := validateCanonicalFieldType("+field-create", "--json", map[string]interface{}{"type": value}); err == nil {
 				t.Fatalf("expected non-canonical create type %v to fail", value)
 			}
-			if err := validateCanonicalFieldType("+field-update", "--json", map[string]interface{}{"type": value}, false); err == nil {
+			if err := validateCanonicalFieldType("+field-update", "--json", map[string]interface{}{"type": value}); err == nil {
 				t.Fatalf("expected explicit non-canonical update type %v to fail", value)
 			}
 		}
@@ -1295,13 +1257,12 @@ func TestBaseTableValidate(t *testing.T) {
 	if err := BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "fields": "{"}, nil, nil)); err == nil || !strings.Contains(err.Error(), "--fields invalid JSON array") {
 		t.Fatalf("invalid fields json should be rejected, err=%v", err)
 	}
-	if err := BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "view": `[1]`}, nil, nil)); err != nil {
-		t.Fatalf("invalid view json should bypass CLI validate, err=%v", err)
-	}
+	err := BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "view": `[1]`}, nil, nil))
+	assertInvalidArgumentValidation(t, err, "--view", []string{"--view"}, "item 1 must be an object")
 	if err := BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "fields": `[{"name":"Name","type":"text"}]`, "view": `{"name":"Main"}`}, nil, nil)); err != nil {
 		t.Fatalf("create validate err=%v", err)
 	}
-	err := BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "fields": `[{"name":"Generated","type":"future_generated"}]`}, nil, nil))
+	err = BaseTableCreate.Validate(ctx, newBaseTestRuntime(map[string]string{"base-token": "b", "name": "Orders", "fields": `[{"name":"Generated","type":"future_generated"}]`}, nil, nil))
 	assertInvalidArgumentValidation(t, err, "--fields", []string{"--fields"}, "future_generated")
 }
 

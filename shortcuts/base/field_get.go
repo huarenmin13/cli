@@ -7,8 +7,6 @@ import (
 	"context"
 
 	"github.com/larksuite/cli/shortcuts/common"
-	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 )
 
 var BaseFieldGet = common.Shortcut{
@@ -25,14 +23,6 @@ var BaseFieldGet = common.Shortcut{
 		"Returns full field configuration; use it as the baseline before +field-update.",
 	},
 	DryRun: dryRunFieldGet,
-	PostMount: func(cmd *cobra.Command) {
-		cmd.Flags().SetNormalizeFunc(func(_ *pflag.FlagSet, name string) pflag.NormalizedName {
-			if name == "field-name" {
-				return pflag.NormalizedName("field-id")
-			}
-			return pflag.NormalizedName(name)
-		})
-	},
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeFieldGet(runtime)
 	},

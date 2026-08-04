@@ -52,8 +52,8 @@ func TestBaseFieldUpdateDryRunAllowsRatingMaxAboveLimit(t *testing.T) {
 }
 
 func TestBaseFieldUpdateDryRunTypeValidation(t *testing.T) {
-	t.Run("partial update may omit type", func(t *testing.T) {
-		result := runBaseDryRun(t, 0,
+	t.Run("complete update requires type", func(t *testing.T) {
+		result := runBaseDryRun(t, 2,
 			"base", "+field-update",
 			"--base-token", "app_x",
 			"--table-id", "tbl_x",
@@ -62,10 +62,12 @@ func TestBaseFieldUpdateDryRunTypeValidation(t *testing.T) {
 			"--yes",
 		)
 
-		out := result.Stdout
-		require.Equal(t, "PUT", gjson.Get(out, "data.api.0.method").String(), out)
-		require.Equal(t, "Renamed", gjson.Get(out, "data.api.0.body.name").String(), out)
-		require.False(t, gjson.Get(out, "data.api.0.body.type").Exists(), out)
+		require.Empty(t, result.Stdout)
+		require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
+		require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
+		require.Equal(t, "--json", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
+		require.Contains(t, result.Stderr, "+field-update --json.type is required")
+		require.Contains(t, result.Stderr, "documented field types")
 	})
 
 	t.Run("explicit unknown type is rejected", func(t *testing.T) {

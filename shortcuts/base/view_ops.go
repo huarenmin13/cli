@@ -193,34 +193,43 @@ func executeViewCreate(runtime *common.RuntimeContext) error {
 	if err != nil {
 		return err
 	}
+	created, failedIndex, err := createViews(runtime, baseToken, tableIDValue, viewItems)
+	if err != nil {
+		if len(created) > 0 {
+			return viewCreateProgressError(runtime, err, created, failedIndex)
+		}
+		return err
+	}
+	runtime.Out(map[string]interface{}{"views": created}, nil)
+	return nil
+}
+
+func createViews(runtime *common.RuntimeContext, baseToken, tableIDValue string, viewItems []map[string]interface{}) ([]interface{}, int, error) {
 	created := []interface{}{}
 	for index, body := range viewItems {
 		data, err := baseV3Call(runtime, "POST", baseV3Path("bases", baseToken, "tables", tableIDValue, "views"), nil, body)
 		if err != nil {
-			if len(created) > 0 {
-				return viewCreateProgressError(runtime, err, created, index+1)
-			}
-			return err
+			return created, index + 1, err
 		}
 		newViewID := viewID(data)
 		if newViewID == "" {
 			err := errs.NewValidationError(errs.SubtypeFailedPrecondition, "view create response omitted the new view ID; creation state is unknown").
 				WithHint("Do not retry or configure a same-name view. If verification is required and read permission is available, run +view-list to reconcile the view IDs.")
-			if len(created) > 0 {
-				return viewCreateProgressError(runtime, err, created, index+1)
-			}
-			return err
+			return created, index + 1, err
 		}
 		// Normalize the alternate API response key so callers can always use
 		// views[].id without a second lookup.
 		data["id"] = newViewID
 		created = append(created, data)
 	}
-	runtime.Out(map[string]interface{}{"views": created}, nil)
-	return nil
+	return created, 0, nil
 }
 
 func viewCreateProgressError(runtime *common.RuntimeContext, err error, created []interface{}, failedIndex int) error {
+	return runtime.OutPartialFailure(viewCreateProgressPayload(err, created, failedIndex), nil)
+}
+
+func viewCreateProgressPayload(err error, created []interface{}, failedIndex int) map[string]interface{} {
 	failure := map[string]interface{}{
 		"index": failedIndex,
 		"error": err.Error(),
@@ -250,7 +259,7 @@ func viewCreateProgressError(runtime *common.RuntimeContext, err error, created 
 		"failed":  []map[string]interface{}{failure},
 		"hint":    "Earlier views were created. Do not retry them; inspect the failed item before deciding whether to retry it.",
 	}
-	return runtime.OutPartialFailure(payload, nil)
+	return payload
 }
 
 func executeViewDelete(runtime *common.RuntimeContext) error {

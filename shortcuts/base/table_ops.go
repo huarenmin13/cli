@@ -5,6 +5,7 @@ package base
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/larksuite/cli/shortcuts/common"
@@ -54,7 +55,11 @@ func dryRunTableDelete(_ context.Context, runtime *common.RuntimeContext) *commo
 }
 
 func validateTableCreate(runtime *common.RuntimeContext) error {
-	return validateFieldDefinitions("+table-create", "--fields", runtime)
+	if err := validateFieldDefinitions("+table-create", "--fields", runtime); err != nil {
+		return err
+	}
+	_, err := parseObjectList(newParseCtx(runtime), runtime.Str("view"), "view")
+	return err
 }
 
 func executeTableList(runtime *common.RuntimeContext) error {
@@ -104,6 +109,10 @@ func executeTableCreate(runtime *common.RuntimeContext) error {
 	if err != nil {
 		return err
 	}
+	viewItems, err := parseObjectList(pc, runtime.Str("view"), "view")
+	if err != nil {
+		return err
+	}
 	created, err := baseV3Call(runtime, "POST", baseV3Path("bases", baseToken, "tables"), nil, body)
 	if err != nil {
 		return err
@@ -115,20 +124,18 @@ func executeTableCreate(runtime *common.RuntimeContext) error {
 			result["fields"] = fields
 		}
 	}
-	if tableIDValue != "" && runtime.Str("view") != "" {
-		viewItems, err := parseObjectList(pc, runtime.Str("view"), "view")
-		if err != nil {
-			return err
-		}
-		createdViews := []interface{}{}
-		for _, body := range viewItems {
-			viewData, err := baseV3Call(runtime, "POST", baseV3Path("bases", baseToken, "tables", tableIDValue, "views"), nil, body)
-			if err != nil {
-				return err
-			}
-			createdViews = append(createdViews, viewData)
-		}
+	if tableIDValue != "" && len(viewItems) > 0 {
+		createdViews, failedIndex, err := createViews(runtime, baseToken, tableIDValue, viewItems)
 		result["views"] = createdViews
+		if err != nil {
+			payload := viewCreateProgressPayload(err, createdViews, failedIndex)
+			for key, value := range result {
+				payload[key] = value
+			}
+			payload["message"] = fmt.Sprintf("table was created, but view creation failed at item %d after %d view(s) succeeded: %v", failedIndex, len(createdViews), err)
+			payload["hint"] = "The table and any earlier views were created. Do not retry the table or successful views; inspect the failed view item before deciding whether to retry it."
+			return runtime.OutPartialFailure(payload, nil)
+		}
 	}
 	runtime.Out(result, nil)
 	return nil

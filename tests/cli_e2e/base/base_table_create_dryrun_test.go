@@ -24,3 +24,18 @@ func TestBaseTableCreateDryRunRejectsUnknownFieldType(t *testing.T) {
 	require.Equal(t, "--fields", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
 	require.Contains(t, gjson.Get(result.Stderr, "error.message").String(), `--fields.type "future_generated" is not supported`)
 }
+
+func TestBaseTableCreateDryRunRejectsInvalidView(t *testing.T) {
+	result := runBaseDryRun(t, 2,
+		"base", "+table-create",
+		"--base-token", "app_x",
+		"--name", "Tasks",
+		"--view", `[1]`,
+	)
+
+	require.Empty(t, result.Stdout)
+	require.Equal(t, "validation", gjson.Get(result.Stderr, "error.type").String(), result.Stderr)
+	require.Equal(t, "invalid_argument", gjson.Get(result.Stderr, "error.subtype").String(), result.Stderr)
+	require.Equal(t, "--view", gjson.Get(result.Stderr, "error.param").String(), result.Stderr)
+	require.Contains(t, gjson.Get(result.Stderr, "error.message").String(), "--view item 1 must be an object")
+}
