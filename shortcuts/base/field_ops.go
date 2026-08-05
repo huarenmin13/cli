@@ -212,13 +212,14 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 		})
 	}
 
+	presented := runtime.PresentError(err)
 	failed := map[string]interface{}{
 		"index":  failedIndex,
 		"status": "failed",
 		"field":  fieldCreateInputIdentity(bodies[failedIndex]),
-		"error":  err.Error(),
+		"error":  presented.Error(),
 	}
-	if problem, ok := errs.ProblemOf(err); ok {
+	if problem, ok := errs.ProblemOf(presented); ok {
 		failed["type"] = string(problem.Category)
 		failed["subtype"] = string(problem.Subtype)
 		failed["retryable"] = problem.Retryable
@@ -236,7 +237,7 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 		}
 	}
 	var permissionError *errs.PermissionError
-	if errors.As(err, &permissionError) {
+	if errors.As(presented, &permissionError) {
 		if len(permissionError.MissingScopes) > 0 {
 			failed["missing_scopes"] = permissionError.MissingScopes
 		}

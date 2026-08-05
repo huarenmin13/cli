@@ -22,8 +22,11 @@ import (
 	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/internal/cmdutil"
 	"github.com/larksuite/cli/internal/core"
+	"github.com/larksuite/cli/internal/errclass"
 	"github.com/larksuite/cli/internal/httpmock"
 	"github.com/larksuite/cli/internal/output"
+	"github.com/larksuite/cli/internal/recovery"
+	"github.com/larksuite/cli/internal/surface"
 	"github.com/larksuite/cli/shortcuts/common"
 	"github.com/spf13/cobra"
 )
@@ -1564,6 +1567,91 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		if len(missingScopes) != 1 || missingScopes[0] != "base:field:create" ||
 			permissionFailure["identity"] != "bot" || common.GetString(permissionFailure, "console_url") == "" {
 			t.Fatalf("permission failure must retain typed extensions: %#v", permissionFailure)
+		}
+	})
+
+	t.Run("create array presents partial failure recovery", func(t *testing.T) {
+		oldDelay := fieldCreateBatchDelay
+		fieldCreateBatchDelay = 0
+		t.Cleanup(func() { fieldCreateBatchDelay = oldDelay })
+
+		tests := []struct {
+			name string
+			plan *surface.Plan
+		}{
+			{name: "visible"},
+			{
+				name: "concealed",
+				plan: surface.NewPlan(map[surface.CommandID]surface.CommandState{
+					surface.CommandAuthLogin: surface.CommandConcealed,
+				}),
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				factory, stdout, reg := newExecuteFactory(t)
+				factory.Recovery = recovery.NewProjector(func() *surface.Plan { return tt.plan })
+				reg.Register(&httpmock.Stub{
+					Method:     "POST",
+					URL:        "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
+					BodyFilter: func(body []byte) bool { return strings.Contains(string(body), `"name":"A"`) },
+					Body: map[string]interface{}{
+						"code": 0,
+						"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": "text"},
+					},
+				})
+				reg.Register(&httpmock.Stub{
+					Method:     "POST",
+					URL:        "/open-apis/base/v3/bases/app_x/tables/tbl_x/fields",
+					BodyFilter: func(body []byte) bool { return strings.Contains(string(body), `"name":"B"`) },
+					Body:       map[string]interface{}{"code": 230027, "msg": "operation unauthorized"},
+				})
+
+				err := runShortcutWithAuthTypes(t, BaseFieldCreate, []string{"bot", "user"}, []string{
+					"+field-create", "--base-token", "app_x", "--table-id", "tbl_x", "--as", "user",
+					"--json", `[{"name":"A","type":"text"},{"name":"B","type":"text"}]`,
+				}, factory, stdout)
+				var partialErr *output.PartialFailureError
+				if !errors.As(err, &partialErr) {
+					t.Fatalf("expected partial failure error, got %T: %v", err, err)
+				}
+
+				var envelope struct {
+					OK   bool `json:"ok"`
+					Data struct {
+						Items []map[string]interface{} `json:"items"`
+					} `json:"data"`
+				}
+				if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+					t.Fatalf("decode partial failure output: %v\nstdout=%s", err, stdout.String())
+				}
+				if envelope.OK || len(envelope.Data.Items) != 2 {
+					t.Fatalf("unexpected partial failure envelope: %#v", envelope)
+				}
+
+				failed := envelope.Data.Items[1]
+				wantHint := errclass.PermissionRecovery(
+					[]string{"base:field:create"}, "user", errs.SubtypeUserUnauthorized, "",
+				).Render(tt.plan)
+				gotHint := common.GetString(failed, "hint")
+				if gotHint != wantHint {
+					t.Errorf("failed hint = %q, want %q", gotHint, wantHint)
+				}
+				if failed["type"] != "authorization" || failed["subtype"] != "user_unauthorized" || failed["identity"] != "user" {
+					t.Errorf("failed typed metadata = %#v", failed)
+				}
+				if _, ok := failed["missing_scopes"]; ok {
+					t.Errorf("presentation must not fabricate missing_scopes: %#v", failed)
+				}
+				if tt.plan == nil {
+					if !strings.Contains(gotHint, `auth login --scope "base:field:create"`) {
+						t.Errorf("visible recovery lost precise auth path: %q", gotHint)
+					}
+				} else if strings.Contains(gotHint, "auth login") || !strings.Contains(gotHint, "base:field:create") {
+					t.Errorf("concealed recovery leaked command or lost scope: %q", gotHint)
+				}
+			})
 		}
 	})
 
