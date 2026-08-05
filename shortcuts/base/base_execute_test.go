@@ -1414,8 +1414,15 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			t.Fatalf("fields len=%d output=%#v", len(fields), data)
 		}
 		firstField, _ := fields[0].(map[string]interface{})
-		if len(firstField) != 3 || firstField["id"] != "fld_a" || firstField["name"] != "A" || firstField["type"] != "text" {
-			t.Fatalf("batch output should keep only compact field identity, got %#v", firstField)
+		if firstField["id"] != "fld_a" || firstField["name"] != "A" || firstField["type"] != "text" {
+			t.Fatalf("batch output should preserve field identity, got %#v", firstField)
+		}
+		if firstField["description"] != "verbose server field metadata" || firstField["default_value"] != nil {
+			t.Fatalf("batch output should preserve server field metadata, got %#v", firstField)
+		}
+		style, _ := firstField["style"].(map[string]interface{})
+		if style["type"] != "plain" {
+			t.Fatalf("batch output should preserve server field style, got %#v", firstField)
 		}
 		if data["field_get_recommended"] != false || data["next_step"] != "done" || data["verification_hint"] == nil {
 			t.Fatalf("simple batch create must carry field_get_recommended:false + next_step:done + verification_hint: %#v", data)
@@ -1449,7 +1456,14 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			}
 			register("A", map[string]interface{}{
 				"code": 0,
-				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": createdType},
+				"data": map[string]interface{}{
+					"id":            "fld_a",
+					"name":          "A",
+					"type":          createdType,
+					"default_value": nil,
+					"description":   "verbose server field metadata",
+					"style":         map[string]interface{}{"type": "plain"},
+				},
 			})
 			register(failedName, failedResponse)
 			err := runShortcut(t, BaseFieldCreate, []string{
@@ -1502,6 +1516,9 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			failed["status"] != "failed" || failed["index"] != float64(1) || failedField["name"] != "B" ||
 			notAttempted["status"] != "not_attempted" || notAttemptedField["name"] != "C" {
 			t.Fatalf("unexpected item outcomes: %#v", items)
+		}
+		if len(createdField) != 3 {
+			t.Fatalf("partial failure should keep only compact created-field identity, got %#v", createdField)
 		}
 		if !strings.Contains(common.GetString(failed, "error"), "field already exists") {
 			t.Fatalf("failed item must include the API error: %#v", failed)

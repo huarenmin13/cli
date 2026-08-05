@@ -198,11 +198,7 @@ func executeFieldCreate(runtime *common.RuntimeContext) error {
 		runtime.Out(fieldCreateResult(map[string]interface{}{"field": fields[0], "created": true}, bodies[0]), nil)
 		return nil
 	}
-	compactFields := make([]map[string]interface{}, 0, len(fields))
-	for idx, field := range fields {
-		compactFields = append(compactFields, fieldCreateOutputIdentity(field, bodies[idx]))
-	}
-	runtime.Out(fieldCreateBatchResult(map[string]interface{}{"fields": compactFields, "created": true, "total": len(fields)}, bodies), nil)
+	runtime.Out(fieldCreateBatchResult(map[string]interface{}{"fields": fields, "created": true, "total": len(fields)}, bodies), nil)
 	return nil
 }
 

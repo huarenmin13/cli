@@ -94,7 +94,7 @@ POST /open-apis/base/v3/bases/:base_token/tables/:table_id/fields
 
 ## 返回重点
 
-- 单字段返回 `field` 和 `created: true`；多字段返回精简为 `id` / `name` / `type` 的 `fields`、`total` 和 `created: true`。
+- 单字段返回 `field` 和 `created: true`；多字段完整返回服务端 `fields`、`total` 和 `created: true`。
 - 大数组成功时若不需要逐字段 ID，可追加 `--jq 'if .ok then (.data | {created,total,field_get_recommended,next_step,verification_hint}) else . end'` 控制 stdout 大小；失败分支仍保留完整部分失败明细。需要逐字段 ID 时不要使用该投影。
 - 数组部分失败返回 `ok:false`、`summary` 和有序 `items`，保留已创建字段及 ID、失败项和未执行项。`failed` 项保留 `type`、`subtype`、`code`、`hint`、`retryable`、`log_id`、`troubleshooter`；权限错误还保留原错误已有的 `missing_scopes`、`identity`、`console_url`。
 - 部分失败统一返回 `next_step:"inspect_items"`；`field_get_recommended` 仅表示已创建字段是否建议读回。只有 `retryable:true` 的 `failed` 项可重试，`not_attempted` 项应单独继续。
