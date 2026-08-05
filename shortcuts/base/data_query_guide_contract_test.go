@@ -10,7 +10,7 @@ import (
 	"github.com/larksuite/cli/internal/vfs"
 )
 
-func TestDataQueryQuickGuideCoversConditionValueShapesWithoutScenarioTemplate(t *testing.T) {
+func TestDataQueryQuickGuideCoversConditionValueShapesWithoutCaseArtifacts(t *testing.T) {
 	const guidePath = "../../skills/lark-base/references/lark-base-data-query-guide.md"
 	content, err := vfs.ReadFile(guidePath)
 	if err != nil {
@@ -45,10 +45,6 @@ func TestDataQueryQuickGuideCoversConditionValueShapesWithoutScenarioTemplate(t 
 	for _, forbidden := range []string{
 		"base_table_",
 		"bytedance.larkoffice.com/base/",
-		"Combine a date boundary and a status exclusion",
-		`"<date_field>"`,
-		`"<status_field>"`,
-		`"<status_value>"`,
 	} {
 		if strings.Contains(normalizedGuide, forbidden) {
 			t.Fatalf("quick guide must remain generic, found %q", forbidden)

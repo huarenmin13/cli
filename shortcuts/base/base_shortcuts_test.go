@@ -254,10 +254,11 @@ func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
 		"value being stored",
 		"never from the field name or business purpose",
 		"use style only to format that type",
-		"Do not probe source code, web search, or raw OpenAPI",
+		"explicitly requested derived, automatic, synchronized, or backfilled behavior",
+		"use documented formula, lookup, link, workflow, or automation only",
 		"formula, lookup, link, workflow, or automation",
-		"only when the user explicitly requests",
-		"automatically populated, synchronized, or backfilled values",
+		"If unsupported, do not probe code/web/OpenAPI, create a storage placeholder, or claim completion",
+		"report the boundary and alternatives",
 	} {
 		if !strings.Contains(tips, want) {
 			t.Fatalf("field-create tips should contain %q, got:\n%s", want, tips)
