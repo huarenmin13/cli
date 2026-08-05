@@ -89,7 +89,8 @@ func TestFieldCreateBatchContractStaysConsistentAcrossSkillAndReferences(t *test
 		"`items`",
 		"`next_step:\"inspect_items\"`",
 		"`missing_scopes`、`identity`、`console_url`",
-		"只有 `retryable:true` 的 `failed` 项可重试",
+		"`retryable:true` 只表示该 `failed` 项可原样自动重试",
+		"否则先按该项 `hint` 完成授权或修正输入，再重新提交该项",
 		"`not_attempted` 项应单独继续",
 	} {
 		if !strings.Contains(fieldCreate, want) {

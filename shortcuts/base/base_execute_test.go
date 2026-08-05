@@ -1542,7 +1542,17 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		if _, ok := failed["error_type"]; ok {
 			t.Fatalf("failed item must use canonical type/subtype fields: %#v", failed)
 		}
-		if !strings.Contains(data["hint"].(string), "Do not retry failed items unless retryable is true") {
+		writeConflictData := runPartial(`[{"name":"A","type":"text"},{"name":"W","type":"text"}]`, "text", "W", map[string]interface{}{
+			"code": 1254291,
+			"msg":  "write conflict",
+		})
+		items, _ = writeConflictData["items"].([]interface{})
+		writeConflict, _ := items[1].(map[string]interface{})
+		if writeConflict["type"] != "api" || writeConflict["subtype"] != "conflict" || writeConflict["retryable"] != true ||
+			!strings.Contains(common.GetString(writeConflict, "hint"), "retry later") {
+			t.Fatalf("1254291 must remain a retryable conflict with wait guidance: %#v", writeConflict)
+		}
+		if !strings.Contains(data["hint"].(string), "Automatically retry a failed item unchanged only when retryable is true") {
 			t.Fatalf("hint=%#v", data["hint"])
 		}
 		if data["field_get_recommended"] != true || data["next_step"] != "inspect_items" || data["verification_hint"] == nil {
@@ -1621,6 +1631,7 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 					OK   bool `json:"ok"`
 					Data struct {
 						Items []map[string]interface{} `json:"items"`
+						Hint  string                   `json:"hint"`
 					} `json:"data"`
 				}
 				if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
@@ -1638,8 +1649,19 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 				if gotHint != wantHint {
 					t.Errorf("failed hint = %q, want %q", gotHint, wantHint)
 				}
-				if failed["type"] != "authorization" || failed["subtype"] != "user_unauthorized" || failed["identity"] != "user" {
+				if failed["type"] != "authorization" || failed["subtype"] != "user_unauthorized" || failed["identity"] != "user" || failed["retryable"] != false {
 					t.Errorf("failed typed metadata = %#v", failed)
+				}
+				for _, want := range []string{
+					"Automatically retry a failed item unchanged only when retryable is true",
+					"otherwise follow its hint to authorize or correct the input before resubmitting it",
+				} {
+					if !strings.Contains(envelope.Data.Hint, want) {
+						t.Errorf("partial failure hint = %q, want %q", envelope.Data.Hint, want)
+					}
+				}
+				if strings.Contains(envelope.Data.Hint, "Do not retry failed items") {
+					t.Errorf("partial failure hint must allow recovery before resubmission: %q", envelope.Data.Hint)
 				}
 				if _, ok := failed["missing_scopes"]; ok {
 					t.Errorf("presentation must not fabricate missing_scopes: %#v", failed)

@@ -267,7 +267,7 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 			"not_attempted": len(bodies) - failedIndex - 1,
 		},
 		"items": items,
-		"hint":  "Some fields were already created and were not rolled back. Do not retry failed items unless retryable is true; submit not_attempted items separately.",
+		"hint":  "Some fields were already created and were not rolled back. Automatically retry a failed item unchanged only when retryable is true; otherwise follow its hint to authorize or correct the input before resubmitting it. Submit not_attempted items separately.",
 	}, bodies[:len(createdFields)])
 	result["next_step"] = "inspect_items"
 	return runtime.OutPartialFailure(result, nil)
