@@ -14,7 +14,22 @@ import (
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
-var fieldCreateBatchDelay = time.Second
+// Keep field writes sequential and use the lower bound of the documented
+// 0.5-1s write-conflict guidance as the minimum interval between request starts.
+// Request latency counts toward the interval, so successful calls do not incur
+// an unconditional sleep.
+var fieldCreateBatchDelay = 500 * time.Millisecond
+
+func fieldCreateThrottleDelay(previousStartedAt, now time.Time) time.Duration {
+	if previousStartedAt.IsZero() || fieldCreateBatchDelay <= 0 {
+		return 0
+	}
+	wait := previousStartedAt.Add(fieldCreateBatchDelay).Sub(now)
+	if wait > 0 {
+		return wait
+	}
+	return 0
+}
 
 func dryRunFieldList(_ context.Context, runtime *common.RuntimeContext) *common.DryRunAPI {
 	offset := runtime.Int("offset")
@@ -164,10 +179,12 @@ func executeFieldCreate(runtime *common.RuntimeContext) error {
 		return err
 	}
 	fields := make([]interface{}, 0, len(bodies))
+	var previousStartedAt time.Time
 	for idx, body := range bodies {
-		if idx > 0 && fieldCreateBatchDelay > 0 {
-			time.Sleep(fieldCreateBatchDelay)
+		if wait := fieldCreateThrottleDelay(previousStartedAt, time.Now()); wait > 0 {
+			time.Sleep(wait)
 		}
+		previousStartedAt = time.Now()
 		data, err := baseV3Call(runtime, "POST", baseV3Path("bases", runtime.Str("base-token"), "tables", baseTableID(runtime), "fields"), nil, body)
 		if err != nil {
 			if len(fields) > 0 {

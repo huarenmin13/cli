@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/larksuite/cli/errs"
 	"github.com/larksuite/cli/internal/cmdutil"
@@ -1249,6 +1250,36 @@ func TestBaseViewExecutePropertyActions(t *testing.T) {
 		}
 	})
 
+}
+
+func TestFieldCreateBatchDelayUsesLowerBoundOfWriteConflictGuidance(t *testing.T) {
+	want := 500 * time.Millisecond
+	if fieldCreateBatchDelay != want {
+		t.Fatalf("fieldCreateBatchDelay=%s, want %s", fieldCreateBatchDelay, want)
+	}
+}
+
+func TestFieldCreateThrottleDelayCountsRequestTime(t *testing.T) {
+	startedAt := time.Unix(0, 0)
+	for _, tc := range []struct {
+		name string
+		now  time.Time
+		want time.Duration
+	}{
+		{name: "first request", want: 0},
+		{name: "fast response waits only for remainder", now: startedAt.Add(200 * time.Millisecond), want: 300 * time.Millisecond},
+		{name: "slow response needs no extra wait", now: startedAt.Add(600 * time.Millisecond), want: 0},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			previousStartedAt := startedAt
+			if tc.name == "first request" {
+				previousStartedAt = time.Time{}
+			}
+			if got := fieldCreateThrottleDelay(previousStartedAt, tc.now); got != tc.want {
+				t.Fatalf("fieldCreateThrottleDelay()=%s, want %s", got, tc.want)
+			}
+		})
+	}
 }
 
 func TestBaseFieldExecuteCRUD(t *testing.T) {
