@@ -259,6 +259,10 @@ func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
 		"formula, lookup, link, workflow, or automation",
 		"If unsupported, do not probe code/web/OpenAPI, create a storage placeholder, or claim completion",
 		"report the boundary and alternatives",
+		"arrays remain sequential per-field requests",
+		"split only for timeout bounds, not a fixed chunk size",
+		"prefer --json @file or an argv-safe subprocess call",
+		"do not double-escape JSON inside shell command substitution",
 	} {
 		if !strings.Contains(tips, want) {
 			t.Fatalf("field-create tips should contain %q, got:\n%s", want, tips)
@@ -288,7 +292,7 @@ func TestBaseFieldCreateHelpDocumentsBatchAndHidesReadGuideFlag(t *testing.T) {
 	if jsonFlag == nil {
 		t.Fatal("flag json must exist")
 	}
-	if !strings.Contains(jsonFlag.Usage, "JSON object or non-empty array") {
+	if !strings.Contains(jsonFlag.Usage, "JSON object or non-empty array") || !strings.Contains(jsonFlag.Usage, "supports @file") {
 		t.Fatalf("json flag help should document object and array input, got %q", jsonFlag.Usage)
 	}
 	if cmd.Flags().Lookup("i-have-read-guide") == nil {
@@ -436,7 +440,7 @@ func TestBasePaginationHelpShowsDefaults(t *testing.T) {
 		help       string
 	}{
 		{name: "table list", shortcut: BaseTableList, flag: "limit", defaultVal: "50", help: "pagination size, range 1-100"},
-		{name: "field list", shortcut: BaseFieldList, flag: "limit", defaultVal: "100", help: "pagination size, range 1-200"},
+		{name: "field list", shortcut: BaseFieldList, flag: "limit", defaultVal: "200", help: "pagination size, range 1-200"},
 		{name: "field search options", shortcut: BaseFieldSearchOptions, flag: "limit", defaultVal: "30", help: "pagination size, range 1-200"},
 		{name: "record list", shortcut: BaseRecordList, flag: "limit", defaultVal: "100", help: "pagination size, range 1-200"},
 		{name: "record search", shortcut: BaseRecordSearch, flag: "limit", defaultVal: "10", help: "pagination size, range 1-200"},

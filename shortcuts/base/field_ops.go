@@ -198,7 +198,11 @@ func executeFieldCreate(runtime *common.RuntimeContext) error {
 		runtime.Out(fieldCreateResult(map[string]interface{}{"field": fields[0], "created": true}, bodies[0]), nil)
 		return nil
 	}
-	runtime.Out(fieldCreateBatchResult(map[string]interface{}{"fields": fields, "created": true, "total": len(fields)}, bodies), nil)
+	compactFields := make([]map[string]interface{}, 0, len(fields))
+	for idx, field := range fields {
+		compactFields = append(compactFields, fieldCreateOutputIdentity(field, bodies[idx]))
+	}
+	runtime.Out(fieldCreateBatchResult(map[string]interface{}{"fields": compactFields, "created": true, "total": len(fields)}, bodies), nil)
 	return nil
 }
 
@@ -208,7 +212,7 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 		items = append(items, map[string]interface{}{
 			"index":  idx,
 			"status": "created",
-			"field":  field,
+			"field":  fieldCreateOutputIdentity(field, bodies[idx]),
 		})
 	}
 
@@ -277,6 +281,20 @@ func fieldCreateInputIdentity(body map[string]interface{}) map[string]interface{
 		"name": body["name"],
 		"type": body["type"],
 	}
+}
+
+func fieldCreateOutputIdentity(field interface{}, submitted map[string]interface{}) map[string]interface{} {
+	identity := fieldCreateInputIdentity(submitted)
+	returned, ok := field.(map[string]interface{})
+	if !ok {
+		return identity
+	}
+	for _, key := range []string{"id", "name", "type"} {
+		if value, exists := returned[key]; exists {
+			identity[key] = value
+		}
+	}
+	return identity
 }
 
 func parseFieldCreateBodies(pc *parseCtx, raw string) ([]map[string]interface{}, error) {

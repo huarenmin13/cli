@@ -1377,7 +1377,14 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			},
 			Body: map[string]interface{}{
 				"code": 0,
-				"data": map[string]interface{}{"id": "fld_a", "name": "A", "type": "text"},
+				"data": map[string]interface{}{
+					"id":            "fld_a",
+					"name":          "A",
+					"type":          "text",
+					"default_value": nil,
+					"description":   "verbose server field metadata",
+					"style":         map[string]interface{}{"type": "plain"},
+				},
 			},
 		}
 		secondStub := &httpmock.Stub{
@@ -1405,6 +1412,10 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		fields, _ := data["fields"].([]interface{})
 		if len(fields) != 2 {
 			t.Fatalf("fields len=%d output=%#v", len(fields), data)
+		}
+		firstField, _ := fields[0].(map[string]interface{})
+		if len(firstField) != 3 || firstField["id"] != "fld_a" || firstField["name"] != "A" || firstField["type"] != "text" {
+			t.Fatalf("batch output should keep only compact field identity, got %#v", firstField)
 		}
 		if data["field_get_recommended"] != false || data["next_step"] != "done" || data["verification_hint"] == nil {
 			t.Fatalf("simple batch create must carry field_get_recommended:false + next_step:done + verification_hint: %#v", data)
