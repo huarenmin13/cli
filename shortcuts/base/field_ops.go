@@ -336,7 +336,7 @@ func fieldCreateResult(result map[string]interface{}, submitted map[string]inter
 // server state without breaking the existing fields/total structure.
 func fieldCreateBatchResult(result map[string]interface{}, submitted []map[string]interface{}) map[string]interface{} {
 	recommend := false
-	reason := "simple fields created successfully; use +field-get only when extra properties or explicit verification are needed"
+	reason := "simple fields created successfully; next_step:done means stop: do not list or get fields unless the user explicitly requests readback or extra properties; if verification is required, filter +field-list with --jq"
 	for _, body := range submitted {
 		if rec, r := fieldWriteReadbackRecommendation(body, "create"); rec {
 			recommend = true
@@ -391,7 +391,7 @@ func fieldTypeReadbackRecommendation(fieldType, operation string) (bool, string)
 	case "formula", "lookup", "auto_number", "link":
 		return true, fmt.Sprintf("computed, linked, or generated field %s should be verified with +field-get before declaring completion", operation)
 	case "text", "number", "select", "datetime", "checkbox", "user", "group_chat", "attachment", "location":
-		return false, fmt.Sprintf("simple field %s returned successfully; use +field-get only when extra properties or explicit verification are needed", operation)
+		return false, fmt.Sprintf("simple field %s succeeded; next_step:done means stop: do not list or get fields unless the user explicitly requests readback or extra properties; if verification is required, filter +field-list with --jq", operation)
 	default:
 		return true, "unknown or uncommon field type; run +field-get to avoid assuming the submitted JSON fully describes server state"
 	}

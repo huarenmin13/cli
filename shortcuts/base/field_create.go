@@ -29,6 +29,8 @@ var BaseFieldCreate = common.Shortcut{
 		`For explicitly requested derived, automatic, synchronized, or backfilled behavior, use documented formula, lookup, link, workflow, or automation only. If unsupported, do not probe code/web/OpenAPI, create a storage placeholder, or claim completion; report the boundary and alternatives.`,
 		"Agent hint: arrays remain sequential per-field requests; use one array per table when its estimated runtime fits the caller timeout, and split only for timeout bounds, not a fixed chunk size.",
 		"For generated arrays, prefer --json @file or an argv-safe subprocess call; do not double-escape JSON inside shell command substitution.",
+		`For large arrays, bound successful stdout with --jq 'if .ok then (.data | {created,total,field_get_recommended,next_step,verification_hint}) else . end'; this preserves the full partial-failure envelope. Omit the projection when individual field IDs are needed.`,
+		"On successful simple fields, next_step:done means stop: do not list/get fields unless readback is explicitly requested; if needed, filter +field-list with --jq instead of printing every field.",
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return validateFieldCreate(runtime)

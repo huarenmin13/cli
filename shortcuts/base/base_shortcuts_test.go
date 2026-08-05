@@ -263,6 +263,11 @@ func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
 		"split only for timeout bounds, not a fixed chunk size",
 		"prefer --json @file or an argv-safe subprocess call",
 		"do not double-escape JSON inside shell command substitution",
+		"For large arrays, bound successful stdout with --jq",
+		"if .ok then (.data | {created,total,field_get_recommended,next_step,verification_hint}) else . end",
+		"preserves the full partial-failure envelope",
+		"next_step:done means stop",
+		"filter +field-list with --jq",
 	} {
 		if !strings.Contains(tips, want) {
 			t.Fatalf("field-create tips should contain %q, got:\n%s", want, tips)

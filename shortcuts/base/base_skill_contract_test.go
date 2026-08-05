@@ -62,6 +62,8 @@ func TestFieldCreateBatchContractStaysConsistentAcrossSkillAndReferences(t *test
 
 	for _, want := range []string{
 		"同一表创建多个字段时，一次向 `+field-create --json` 传字段对象数组",
+		"仅创建一个或多个只含 `name` + `type:text` 的简单字段时按 `+field-create --help` 即可",
+		"其他类型或属性必读",
 		"只有命令明确返回逐项结果时才优先使用批量创建",
 	} {
 		if !strings.Contains(skill, want) {

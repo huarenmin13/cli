@@ -1420,6 +1420,12 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 		if data["field_get_recommended"] != false || data["next_step"] != "done" || data["verification_hint"] == nil {
 			t.Fatalf("simple batch create must carry field_get_recommended:false + next_step:done + verification_hint: %#v", data)
 		}
+		hint := common.GetString(data, "verification_hint")
+		for _, want := range []string{"do not list or get fields", "filter +field-list with --jq"} {
+			if !strings.Contains(hint, want) {
+				t.Fatalf("verification_hint=%q, want %q", hint, want)
+			}
+		}
 		if !strings.Contains(string(firstStub.CapturedBody), `"name":"A"`) || !strings.Contains(string(secondStub.CapturedBody), `"name":"B"`) {
 			t.Fatalf("unexpected request bodies: %s / %s", firstStub.CapturedBody, secondStub.CapturedBody)
 		}
