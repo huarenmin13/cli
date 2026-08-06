@@ -2,7 +2,7 @@
 
 > **前置条件：** 先阅读 [`../lark-shared/SKILL.md`](../../lark-shared/SKILL.md) 了解认证、全局参数和安全规则。
 
-创建一个或多个字段；同一表的多个字段用一次 JSON 数组输入，不要逐字段调用。
+创建一个或多个字段；同一表的多个字段默认使用一次 JSON 数组输入。预计串行运行时间超过 caller/tool timeout 时按时间预算拆分，不按固定条数切块。
 
 ## Agent 最小工作流
 
@@ -96,8 +96,9 @@ POST /open-apis/base/v3/bases/:base_token/tables/:table_id/fields
 
 - 单字段返回 `field` 和 `created: true`；多字段完整返回服务端 `fields`、`total` 和 `created: true`。
 - 大数组成功时若不需要逐字段 ID，可追加 `--jq 'if .ok then (.data | {created,total,field_get_recommended,next_step,verification_hint}) else . end'` 控制 stdout 大小；失败分支仍保留完整部分失败明细。需要逐字段 ID 时不要使用该投影。
-- 数组部分失败返回 `ok:false`、`summary` 和有序 `items`，保留已创建字段及 ID、失败项和未执行项。`failed` 项保留 `type`、`subtype`、`code`、`hint`、`retryable`、`log_id`、`troubleshooter`；权限错误还保留原错误已有的 `missing_scopes`、`identity`、`console_url`。
+- 数组部分失败返回 `ok:false`、`summary` 和有序 `items`，保留已创建字段及 ID、失败项和未执行项。`failed` 项保留 `type`、`subtype`、`code`、`hint`、`retryable`、`log_id`、`troubleshooter`，以及原 typed error 已有的扩展字段，例如权限错误的 `missing_scopes`、`identity`、`console_url` 或安全策略错误的 `challenge_url`；扩展键与部分失败账本的 `index`、`status`、`field`、`error` 冲突时，以带 `error_` 前缀的无冲突别名输出（例如 `field` → `error_field`）。
 - 部分失败统一返回 `next_step:"inspect_items"`；`field_get_recommended` 仅表示已创建字段是否建议读回。`retryable:true` 只表示该 `failed` 项可原样自动重试；否则先按该项 `hint` 完成授权或修正输入，再重新提交该项。`not_attempted` 项应单独继续。
+- 调用方超时且未收到命令终态输出时，不要重投整个数组；先按本次提交的字段名定向读回，再只提交缺失项。没有写前快照时，读回命中的同名项只能标记为 `ambiguous`，不得计作本轮 `created`。
 - 完整成功且返回 `field_get_recommended:false`、`next_step:"done"` 时直接结束；除非用户明确要求读回或额外属性，否则不要再执行 `+field-list/get`。确需核验时用 `--jq` 过滤 `+field-list`，不要把全部字段打印进上下文。
 - `field_get_recommended:true` 表示完成当前 `next_step` 后按 `verification_hint` 读回；完整成功时 `next_step:"field_get"` 表示可直接读回。`formula`、`lookup`、`link`、`auto_number` 等字段更适合读回确认服务端最终结构。
 

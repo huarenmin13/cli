@@ -5,7 +5,7 @@ package base
 
 import (
 	"context"
-	"errors"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -236,17 +236,8 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 			failed["troubleshooter"] = problem.Troubleshooter
 		}
 	}
-	var permissionError *errs.PermissionError
-	if errors.As(presented, &permissionError) {
-		if len(permissionError.MissingScopes) > 0 {
-			failed["missing_scopes"] = permissionError.MissingScopes
-		}
-		if permissionError.Identity != "" {
-			failed["identity"] = permissionError.Identity
-		}
-		if permissionError.ConsoleURL != "" {
-			failed["console_url"] = permissionError.ConsoleURL
-		}
+	for key, value := range fieldCreateTypedErrorExtensions(presented) {
+		failed[key] = value
 	}
 	items = append(items, failed)
 
@@ -271,6 +262,46 @@ func fieldCreatePartialFailure(runtime *common.RuntimeContext, bodies []map[stri
 	}, bodies[:len(createdFields)])
 	result["next_step"] = "inspect_items"
 	return runtime.OutPartialFailure(result, nil)
+}
+
+func fieldCreateTypedErrorExtensions(err error) map[string]interface{} {
+	typed, ok := errs.UnwrapTypedError(err)
+	if !ok {
+		return nil
+	}
+	// Built-in typed errors expose JSON-safe extension fields. Keep this
+	// projection best-effort so an encoding failure cannot replace the more
+	// useful partial-success envelope.
+	raw, marshalErr := json.Marshal(typed)
+	if marshalErr != nil {
+		return nil
+	}
+	var fields map[string]interface{}
+	if unmarshalErr := json.Unmarshal(raw, &fields); unmarshalErr != nil {
+		return nil
+	}
+	for _, key := range []string{"type", "subtype", "code", "message", "hint", "log_id", "troubleshooter", "retryable"} {
+		delete(fields, key)
+	}
+	// These keys belong to the partial-failure ledger. Preserve colliding
+	// extension values under a non-conflicting error_ alias instead of letting
+	// an extension rewrite the submitted item identity or status.
+	for _, key := range []string{"index", "status", "field", "error"} {
+		value, exists := fields[key]
+		if !exists {
+			continue
+		}
+		alias := "error_" + key
+		for {
+			if _, conflict := fields[alias]; !conflict {
+				break
+			}
+			alias = "error_" + alias
+		}
+		fields[alias] = value
+		delete(fields, key)
+	}
+	return fields
 }
 
 func fieldCreateInputIdentity(body map[string]interface{}) map[string]interface{} {

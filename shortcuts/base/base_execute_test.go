@@ -1578,6 +1578,23 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			permissionFailure["identity"] != "bot" || common.GetString(permissionFailure, "console_url") == "" {
 			t.Fatalf("permission failure must retain typed extensions: %#v", permissionFailure)
 		}
+
+		policyData := runPartial(`[{"name":"A","type":"text"},{"name":"S","type":"text"}]`, "text", "S", map[string]interface{}{
+			"code": 21000,
+			"msg":  "challenge required",
+			"data": map[string]interface{}{
+				"challenge_url": "https://passport.feishu.cn/challenge/field-create",
+				"hint":          "complete MFA in the browser, then retry",
+			},
+		})
+		items, _ = policyData["items"].([]interface{})
+		policyFailure, _ := items[1].(map[string]interface{})
+		if policyFailure["type"] != "policy" || policyFailure["subtype"] != "challenge_required" ||
+			policyFailure["code"] != float64(21000) || policyFailure["retryable"] != false ||
+			policyFailure["challenge_url"] != "https://passport.feishu.cn/challenge/field-create" ||
+			common.GetString(policyFailure, "hint") != "complete MFA in the browser, then retry" {
+			t.Fatalf("policy failure must retain typed extensions: %#v", policyFailure)
+		}
 	})
 
 	t.Run("create array presents partial failure recovery", func(t *testing.T) {
@@ -1735,6 +1752,44 @@ func TestBaseFieldExecuteCRUD(t *testing.T) {
 			t.Fatalf("stdout=%s", got)
 		}
 	})
+}
+
+type fieldCreateCollidingTypedError struct {
+	errs.Problem
+	Index     int    `json:"index"`
+	Status    string `json:"status"`
+	Field     string `json:"field"`
+	ErrorText string `json:"error"`
+}
+
+func TestFieldCreateTypedErrorExtensionsAliasLedgerCollisions(t *testing.T) {
+	extensions := fieldCreateTypedErrorExtensions(&fieldCreateCollidingTypedError{
+		Problem: errs.Problem{
+			Category: errs.CategoryConfig,
+			Subtype:  errs.SubtypeInvalidConfig,
+			Message:  "invalid config",
+		},
+		Index:     0,
+		Status:    "created",
+		Field:     "app_id",
+		ErrorText: "masked failure",
+	})
+
+	for key, want := range map[string]interface{}{
+		"error_index":  float64(0),
+		"error_status": "created",
+		"error_field":  "app_id",
+		"error_error":  "masked failure",
+	} {
+		if extensions[key] != want {
+			t.Errorf("%s=%#v, want %#v", key, extensions[key], want)
+		}
+	}
+	for _, key := range []string{"index", "status", "field", "error"} {
+		if _, exists := extensions[key]; exists {
+			t.Errorf("ledger key %q must not be exposed by typed extensions: %#v", key, extensions)
+		}
+	}
 }
 
 func TestBaseTableExecuteReadAndDelete(t *testing.T) {

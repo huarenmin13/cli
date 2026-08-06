@@ -251,9 +251,10 @@ func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
 	for _, want := range []string{
 		"+field-create defines storage schema only",
 		"a documented field type",
-		"value being stored",
-		"never from the field name or business purpose",
-		"use style only to format that type",
+		"explicit stored-value requirements and the user's semantics",
+		"field name or business purpose only as a clue to confirm",
+		"do not use it to invent derived behavior",
+		"Use style only to format the chosen type",
 		"explicitly requested derived, automatic, synchronized, or backfilled behavior",
 		"use documented formula, lookup, link, workflow, or automation only",
 		"formula, lookup, link, workflow, or automation",
