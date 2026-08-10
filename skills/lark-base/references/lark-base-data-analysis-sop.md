@@ -150,6 +150,13 @@ lark-cli base +data-query \
   --dsl '{"datasource":{"type":"table","table":{"tableId":"<table_id>"}},"dimensions":[{"field_name":"Owner","alias":"owner"}],"measures":[{"field_name":"Amount","aggregation":"sum","alias":"total_amount"}],"filters":{"type":1,"conjunction":"and","conditions":[{"field_name":"Status","operator":"is","value":["Done"]}]},"sort":[{"field_name":"total_amount","order":"desc"}],"pagination":{"limit":10},"shaper":{"format":"flat"}}'
 ```
 
+构造聚合前先固定统计口径：
+
+- 明确统计总体、时间轴、分子、分母和排除条件；同一回答中的查询、关联和派生计算必须复用同一口径。
+- 用户指定时间字段时严格使用。未指定时，记录规模和转化率按记录进入统计总体的创建／录入时间分桶，事件发生量按对应的实际事件时间分桶；缺少实际事件时间时，不得用计划、预计或截止日期代替，可退回创建／录入时间的 cohort 口径并明确说明。
+- 用户未定义比率分母时，以同一时间桶、同一筛选条件下的全部统计总体为分母；不得自行排除未完成记录而改成另一种口径。分母为 0 时输出“无数据”，不要计算成有效百分比。
+- 聚合金额、数量等事实前，检查作废、取消、冲销、退款、退货等状态或标记，并按业务语义先过滤无效或逆向记录；不要假设原始数值已经净额化。多表场景先在各表的云端查询中应用各自筛选，再关联查询结果。
+
 ### 2.4 视图化与复用
 
 一次性查询先用 `+record-list` / `+record-search` 的 filter/sort 验证。需要用户长期打开、共享或复用时，再把同一套 filter/sort 沉淀为视图。
