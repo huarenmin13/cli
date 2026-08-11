@@ -40,7 +40,7 @@ metadata:
 进入任何需要目标 Base 的 shortcut 前，必须先拿到可用的 `base_token`，以及当前任务需要的 `table_id` / `view_id` / `record_id` / `form_id` / `dashboard_id` / `workflow_id` 等真实 ID；不要把完整 URL、wiki token、workspace token 或孤立 raw token 直接当作 `--base-token`。
 
 - 用户输入 URL 或分享链接：先运行 `lark-cli base +url-resolve --url "<url>" --as user`，用返回的 `base_token` 和相关 ID 继续后续命令。
-- Base/Wiki URL 的 `table=` query 参数实际表示当前选中的顶层 block，可能是数据表、仪表盘或 workflow；不要按参数名自行当成 `table_id`。以 `+url-resolve` 返回的 `block_type` 以及 `table_id` / `dashboard_id` / `workflow_id` 为准；`selection_source=url_query` 只说明 URL 当前选中了该 block，不代表它覆盖用户明确点名的目标。若用户点名的业务对象与 `block_name` 不一致，先按真实名称定位目标：类型未明时用 `+base-block-list`，数据表用 `+table-list`，仪表盘用 `+dashboard-list`，workflow 用 `+workflow-list`；若只返回中性 `block_id`，按 hint 用 `+base-block-list` 确认类型。
+- Base/Wiki URL 的 `table=` query 参数实际表示当前选中的顶层 block，可能是数据表、仪表盘或 workflow；不要按参数名自行当成 `table_id`。以 `+url-resolve` 返回的 `block_type` 以及 `table_id` / `dashboard_id` / `workflow_id` 为准；`selection_source=url_query` 只说明 URL 当前选中了该 block，不代表它覆盖用户明确点名的目标。若用户点名的 dashboard 与 `block_name` 不一致，先用 `+dashboard-list` 按名称匹配；若只返回中性 `block_id`，按 hint 用 `+base-block-list` 确认类型。
 - 用户输入 Base 标题、关键词或不确定名称：先运行 `lark-cli base +title-resolve --title "<keyword>" --as user`；`--title` 传入标题中的短关键词，不超过 30 个字符；过长标题先取最有区分度的短关键词；多候选时先让用户消歧，不要猜。
 - 文档嵌入 Base 标签：直接读取 `<bitable>` / `<base_refer>` 的 `token` 作为 `--base-token`，`table-id` 作为 `--table-id`，`view-id` 作为 `--view-id`；孤立 raw token 不走 `+url-resolve`。
 - 仍无法定位且用户不是要新建 Base 时，先反问用户要操作哪一个 Base；用户要新建时才用 `+base-create`。
@@ -106,7 +106,7 @@ metadata:
 2. 能由 Base 表达的筛选、排序、投影、聚合、分组和限制，应在 Base 云端查询能力中执行；不要先拉原始记录到本地上下文再手工筛选排序。
 3. `has_more=true` 或等价分页信号表示当前结果不是全量；除非用户只要样例/前 N 条，不能基于该页回答全局问题。
 4. 多表查询必须先确认关系字段和连接键；link 单元格里的 `record_id` 是关系键，不是用户可读答案。
-5. 最终答案必须能追溯到真实表、真实字段、查询范围、筛选/排序/聚合条件、比例分母和必要的连接键；涉及日期筛选、时间维度或自然时间范围时还必须说明时间字段，非时间分析则说明未使用时间条件；没有读到真实结果时不要编造统计值。
+5. 最终答案必须能追溯到真实表、真实字段、查询范围、筛选/排序/聚合条件和必要的连接键。
 6. 一次性原始记录查询优先用 `+record-list` / `+record-search` 的 filter/sort；聚合分析优先用 `+data-query`；要把结果长期显示在表里，才考虑新增 `formula` / `lookup` 字段。
 7. `+data-query` 可返回聚合结果或维度字段行，但维度行按字段组合去重且不返回 `record_id`；需要逐条记录、记录定位或完整行级字段时，再用 `+record-list` / `+record-search` / `+record-get` 回查。
 8. 同一请求同时要求按时间桶的某结果数量、该结果占比和趋势时，除非用户明确给出另一公式，三者必须使用同一时间字段和同一桶内总体：占比 = 命中数量 / 桶内全部记录。计划／预计日期、已完成子集或其他派生 KPI 不得替代主结果；用户未要求多口径时不要输出第二套比率。
