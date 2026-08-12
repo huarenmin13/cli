@@ -1245,6 +1245,93 @@ func TestBaseHistoryExecute(t *testing.T) {
 	}
 }
 
+func TestBaseHistoryRecordFormatsUseStandardFormatter(t *testing.T) {
+	for _, format := range []string{"table", "csv", "ndjson"} {
+		t.Run(format, func(t *testing.T) {
+			factory, stdout, reg := newExecuteFactory(t)
+			reg.Register(&httpmock.Stub{
+				Method: "GET",
+				URL:    "/open-apis/base/v3/bases/app_x/record_history",
+				Body: map[string]interface{}{
+					"code": 0,
+					"data": map[string]interface{}{
+						"items": []interface{}{map[string]interface{}{
+							"activity_type": "update",
+							"operator":      "Operator",
+						}},
+					},
+				},
+			})
+			if err := runShortcut(t, BaseRecordHistoryList, []string{
+				"+record-history-list", "--base-token", "app_x", "--table-id", "tbl_x",
+				"--record-id", "rec_x", "--format", format,
+			}, factory, stdout); err != nil {
+				t.Fatalf("err=%v", err)
+			}
+
+			got := stdout.String()
+			if strings.Contains(got, `"ok"`) || !strings.Contains(got, "activity_type") || !strings.Contains(got, "Operator") {
+				t.Fatalf("history %s output did not use the standard formatter:\n%s", format, got)
+			}
+		})
+	}
+}
+
+func TestBaseHistoryPrettyExecute(t *testing.T) {
+	factory, stdout, reg := newExecuteFactory(t)
+	reg.Register(&httpmock.Stub{
+		Method: "GET",
+		URL:    "/open-apis/base/v3/bases/app_x/record_history",
+		Body: map[string]interface{}{
+			"code": 0,
+			"data": map[string]interface{}{
+				"has_more":         true,
+				"next_max_version": 7,
+				"items": []interface{}{
+					map[string]interface{}{
+						"activity_type": "update",
+						"create_time":   int64(1774196856),
+						"operator":      "Operator\nName",
+						"field_changes": []interface{}{map[string]interface{}{
+							"field_name": "Status",
+							"before":     "",
+							"after":      "done\nvalue",
+						}},
+					},
+					map[string]interface{}{
+						"activity_type": "create",
+						"create_time":   int64(1774196857),
+						"operator":      "Creator",
+						"field_changes": nil,
+					},
+				},
+			},
+		},
+	})
+	if err := runShortcut(t, BaseRecordHistoryList, []string{
+		"+record-history-list", "--base-token", "app_x", "--table-id", "tbl_x",
+		"--record-id", "rec_x", "--page-size", "2", "--format", "pretty",
+	}, factory, stdout); err != nil {
+		t.Fatalf("err=%v", err)
+	}
+
+	wantTime := time.Unix(1774196856, 0).Local().Format("2006-01-02 15:04:05 -07:00")
+	got := stdout.String()
+	for _, want := range []string{
+		"1. " + wantTime + " — Operator Name — Status: - -> done value",
+		"2. ",
+		"— Creator — create",
+		"More history is available; continue with --max-version 7.",
+	} {
+		if !strings.Contains(got, want) {
+			t.Fatalf("pretty history output missing %q:\n%s", want, got)
+		}
+	}
+	if strings.Contains(got, `"create_time"`) || strings.Contains(got, `"ok"`) {
+		t.Fatalf("pretty history output leaked JSON envelope:\n%s", got)
+	}
+}
+
 func TestBaseFieldExecuteUpdate(t *testing.T) {
 	factory, stdout, reg := newExecuteFactory(t)
 	reg.Register(&httpmock.Stub{
