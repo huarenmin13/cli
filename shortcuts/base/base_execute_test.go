@@ -1332,6 +1332,53 @@ func TestBaseHistoryPrettyExecute(t *testing.T) {
 	}
 }
 
+func TestFormatRecordHistoryPrettyValidatesNextMaxVersion(t *testing.T) {
+	page := func(cursor interface{}, includeCursor bool) map[string]interface{} {
+		data := map[string]interface{}{
+			"has_more": true,
+			"items": []interface{}{map[string]interface{}{
+				"activity_type": "update",
+			}},
+		}
+		if includeCursor {
+			data["next_max_version"] = cursor
+		}
+		return data
+	}
+
+	got, err := formatRecordHistoryPretty(page(7, true), time.UTC)
+	if err != nil {
+		t.Fatalf("valid cursor: %v", err)
+	}
+	if !strings.Contains(got, "continue with --max-version 7.") {
+		t.Fatalf("valid cursor guidance missing:\n%s", got)
+	}
+
+	for _, test := range []struct {
+		name          string
+		cursor        interface{}
+		includeCursor bool
+	}{
+		{name: "missing"},
+		{name: "zero", cursor: 0, includeCursor: true},
+		{name: "negative", cursor: -1, includeCursor: true},
+		{name: "fractional", cursor: 1.5, includeCursor: true},
+		{name: "string", cursor: "7", includeCursor: true},
+		{name: "object", cursor: map[string]interface{}{"value": 7}, includeCursor: true},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			_, err := formatRecordHistoryPretty(page(test.cursor, test.includeCursor), time.UTC)
+			if err == nil {
+				t.Fatal("expected invalid-response error")
+			}
+			problem, ok := errs.ProblemOf(err)
+			if !ok || problem.Category != errs.CategoryInternal || problem.Subtype != errs.SubtypeInvalidResponse {
+				t.Fatalf("expected internal invalid-response error, got %T %v", err, err)
+			}
+		})
+	}
+}
+
 func TestBaseFieldExecuteUpdate(t *testing.T) {
 	factory, stdout, reg := newExecuteFactory(t)
 	reg.Register(&httpmock.Stub{

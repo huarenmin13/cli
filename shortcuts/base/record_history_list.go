@@ -169,17 +169,28 @@ func formatRecordHistoryPretty(data map[string]interface{}, location *time.Locat
 		fmt.Fprintf(&output, "%d. %s — %s — %s\n", index+1, timestamp, operator, strings.Join(changes, "; "))
 	}
 	if page.HasMore {
-		cursor, err := formatRecordHistoryPrettyValue(page.NextMaxVersion)
+		cursor, err := recordHistoryPrettyNextMaxVersion(page.NextMaxVersion)
 		if err != nil {
 			return "", err
 		}
-		if cursor == "-" {
-			output.WriteString("More history is available; continue with the returned next_max_version.\n")
-		} else {
-			fmt.Fprintf(&output, "More history is available; continue with --max-version %s.\n", cursor)
-		}
+		fmt.Fprintf(&output, "More history is available; continue with --max-version %d.\n", cursor)
 	}
 	return output.String(), nil
+}
+
+func recordHistoryPrettyNextMaxVersion(value interface{}) (int64, error) {
+	number, ok := value.(json.Number)
+	if !ok {
+		return 0, errs.NewInternalError(errs.SubtypeInvalidResponse, "record history next_max_version must be a positive integer")
+	}
+	cursor, err := number.Int64()
+	if err != nil {
+		return 0, errs.NewInternalError(errs.SubtypeInvalidResponse, "record history next_max_version must be a positive integer").WithCause(err)
+	}
+	if cursor <= 0 {
+		return 0, errs.NewInternalError(errs.SubtypeInvalidResponse, "record history next_max_version must be a positive integer")
+	}
+	return cursor, nil
 }
 
 func formatRecordHistoryPrettyValue(value interface{}) (string, error) {

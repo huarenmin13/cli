@@ -203,7 +203,7 @@ func TestBaseRecordSearchDryRunNDJSONCapsFirstPageAndKeepsQuery(t *testing.T) {
 		"--keyword", "Alice",
 		"--search-field", "Name",
 		"--offset", "25",
-		"--limit", "500",
+		"--limit", "2000",
 		"--output", "search.ndjson",
 	)
 
@@ -212,7 +212,8 @@ func TestBaseRecordSearchDryRunNDJSONCapsFirstPageAndKeepsQuery(t *testing.T) {
 	require.Equal(t, int64(500), gjson.Get(out, "data.api.0.body.limit").Int(), out)
 	require.Equal(t, "Alice", gjson.Get(out, "data.api.0.body.keyword").String(), out)
 	require.Equal(t, "ndjson", gjson.Get(out, "data.export_format").String(), out)
-	require.Equal(t, int64(500), gjson.Get(out, "data.requested_limit").Int(), out)
+	require.Equal(t, int64(2000), gjson.Get(out, "data.requested_limit").Int(), out)
+	require.Equal(t, "search.ndjson", gjson.Get(out, "data.output").String(), out)
 }
 
 func TestBaseRecordGetDryRunInfersNDJSON(t *testing.T) {
