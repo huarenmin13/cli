@@ -47,7 +47,6 @@ var BaseRecordList = common.Shortcut{
 		formatRecordQueryPriorityTip(),
 		recordAnalysisOutputTip,
 		"Use --field-id repeatedly to keep output small and aligned with the task.",
-		"If a field name contains spaces, quote the whole value: --field-id \"Project Owner\".",
 	},
 	Normalize: common.ChainNormalizers(normalizeRecordReadOutput, normalizeRecordNDJSONLimit),
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {

@@ -381,7 +381,6 @@ func TestBaseRecordReadHelpGuidesAgents(t *testing.T) {
 				"process the records file with Python or another data analysis engine",
 				"Follow the lark-base data analysis SOP",
 				"Use --field-id repeatedly to keep output small",
-				`If a field name contains spaces, quote the whole value: --field-id "Project Owner"`,
 			},
 		},
 		{
@@ -465,6 +464,12 @@ func TestBaseRecordReadHelpGuidesAgents(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestBaseRecordHistoryGuidanceLivesInAffordance(t *testing.T) {
+	if len(BaseRecordHistoryList.Tips) != 0 {
+		t.Fatalf("record history Go Tips = %q; keep command guidance in affordance/base.md", BaseRecordHistoryList.Tips)
 	}
 }
 

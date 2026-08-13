@@ -15,7 +15,7 @@
 - TestBaseDashboardBlockGetDataDryRun: proves dashboard block data request shapes and identifier handling.
 - TestBaseRecordBatchUpdatePerRecordDryRun: proves `+record-batch-update` preserves the per-record `update_records` request shape.
 - TestBaseRecordBatchUpdatePerRecordWorkflow: creates two records, updates different field types in one request, asserts the minimal response contract, reads both records back, verifies a missing record ID is not prevalidated, and cleans up the temporary Base.
-- TestBaseRecordHistoryListDryRunUsesExplicitRecordID / TestBaseRecordHistoryListHelpShowsConfirmedRowGuard: prove the history request keeps the explicit record ID and that command help requires a user-confirmed row, provides candidate recovery guidance, and exposes opt-in `--format pretty` output.
+- TestBaseRecordHistoryListDryRunUsesExplicitRecordID / TestBaseRecordHistoryListHelpShowsSelectionGuidance: prove the history request keeps the explicit record ID and that command help points to the record-selection workflow without claiming runtime confirmation, while exposing opt-in `--format pretty` output.
 - TestBase_RoleWorkflow: proves `+advperm-enable`, `+role-create`, `+role-list`, `+role-get`, and `+role-update`; key `t.Run(...)` proof points are `list as bot`, `get as bot`, and `update as bot`.
 - TestBaseFormListDryRun_UsesBaseAndTableIdentifiers: proves `+form-list` dry-run request shape uses Base and table identifiers in the endpoint.
 - TestBaseFormQuestionsCreateVisibleRuleDryRun / TestBaseFormQuestionsUpdateVisibleRuleDryRun: prove `+form-questions-create` / `+form-questions-update` dry-run request shape and that the optional `visible_rule` display condition is transcribed verbatim into the request body.
@@ -72,7 +72,7 @@
 | ✓ | base +record-batch-update | shortcut | base_record_batch_update_dryrun_test.go::TestBaseRecordBatchUpdatePerRecordDryRun; base_record_batch_update_workflow_test.go::TestBaseRecordBatchUpdatePerRecordWorkflow | `--base-token`; `--table-id`; `--json.update_records`; dry-run + live | heterogeneous select/number update with write-back verification |
 | ✕ | base +record-delete | shortcut |  | none | record workflows not covered |
 | ✓ | base +record-get | shortcut | base_record_batch_update_workflow_test.go::TestBaseRecordBatchUpdatePerRecordWorkflow | `--record-id`; repeated `--field-id`; `--format json` | reads back select and number values after batch update |
-| ✓ | base +record-history-list | shortcut | base_record_history_dryrun_test.go::TestBaseRecordHistoryListDryRunUsesExplicitRecordID; TestBaseRecordHistoryListHelpShowsConfirmedRowGuard | `--base-token`; `--table-id`; `--record-id`; `--page-size`; `--format pretty`; dry-run + help | request shape, confirmed-row recovery guidance, and pretty-output discoverability |
+| ✓ | base +record-history-list | shortcut | base_record_history_dryrun_test.go::TestBaseRecordHistoryListDryRunUsesExplicitRecordID; TestBaseRecordHistoryListHelpShowsSelectionGuidance | `--base-token`; `--table-id`; `--record-id`; `--page-size`; `--format pretty`; dry-run + help | request shape, selection-workflow guidance, and pretty-output discoverability |
 | ✕ | base +record-list | shortcut |  | none | record workflows not covered |
 | ✕ | base +record-search | shortcut |  | none | record workflows not covered |
 | ✕ | base +record-share-link-create | shortcut |  | none | record workflows not covered |

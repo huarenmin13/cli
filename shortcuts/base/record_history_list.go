@@ -27,16 +27,9 @@ var BaseRecordHistoryList = common.Shortcut{
 	Flags: []common.Flag{
 		baseTokenFlag(true),
 		tableRefFlag(true),
-		recordHistoryRecordIDFlag(),
+		recordRefFlag(true),
 		{Name: "max-version", Type: "int", Desc: "max version for next page"},
 		{Name: "page-size", Type: "int", Default: "30", Desc: "pagination size, range 1-50"},
-	},
-	Tips: []string{
-		`Example: lark-cli base +record-history-list --base-token <base_token> --table-id <table_id> --record-id <record_id>`,
-		"Provide the record ID for one user-confirmed row; this command never infers a row from list order.",
-		"If the user explicitly names row N in a view, resolve it first with +record-list --view-id <view_id> --offset N-1 --limit 1, take the top-level _record_id metadata, then pass that record ID.",
-		"If no row selector or explicit view position is provided, use +record-list with a minimal projection to show candidates and ask the user to confirm before retrying; never expand a single-record request into a multi-record scan.",
-		"Use --format pretty for human-readable local timestamps (including the UTC offset), operators, and field changes; the default JSON output remains unchanged for machine processing.",
 	},
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		if _, err := common.ValidatePageSizeTyped(runtime, "page-size", 30, 1, 50); err != nil {
@@ -76,14 +69,6 @@ var BaseRecordHistoryList = common.Shortcut{
 		})
 		return nil
 	},
-}
-
-func recordHistoryRecordIDFlag() common.Flag {
-	return common.Flag{
-		Name:     "record-id",
-		Desc:     "record ID for one user-confirmed row; never infer it from list order",
-		Required: true,
-	}
 }
 
 type recordHistoryPrettyPage struct {
