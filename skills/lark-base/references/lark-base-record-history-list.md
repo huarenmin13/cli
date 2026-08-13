@@ -8,6 +8,8 @@
 
 如果当前信息无法唯一确定目标记录，先向用户确认，必要时用 `+record-list` 辅助定位；不得自行选择记录，也不得扩展为批量或整表扫描。需要查询多条记录时，先确认范围，再逐条调用。
 
+用 `+record-list` 展示候选时，可重复传入 `--field-id` 做最小投影。字段名包含空格时，需要给完整值加引号，例如 `--field-id "Project Owner"`。
+
 用户明确指定某个视图的第 N 行时，先用同一 `view_id` 调用 `+record-list`，并将 `--offset` 设为 N-1、`--limit` 设为 1。默认 Markdown 输出从 `_record_id` 列读取唯一记录 ID；显式使用 `--format json` 时从 `.data.record_id_list[0]` 读取。`_record_id` 不是 JSON 顶层字段；视图或排序上下文不明确时仍需先确认。
 
 ## 推荐命令

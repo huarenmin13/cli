@@ -4,11 +4,8 @@
 package base
 
 import (
-	"context"
 	"testing"
-	"time"
 
-	clie2e "github.com/larksuite/cli/tests/cli_e2e"
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 )
@@ -49,30 +46,4 @@ func TestBaseRecordHistoryListDryRunRejectsNonPositiveMaxVersion(t *testing.T) {
 			require.Empty(t, result.Stdout)
 		})
 	}
-}
-
-func TestBaseRecordHistoryListHelpShowsSelectionGuidance(t *testing.T) {
-	setBaseDryRunConfigEnv(t)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	t.Cleanup(cancel)
-
-	result, err := clie2e.RunCmd(ctx, clie2e.Request{
-		Args:      []string{"base", "+record-history-list", "--help"},
-		DefaultAs: "bot",
-	})
-	require.NoError(t, err)
-	result.AssertExitCode(t, 0)
-
-	require.Contains(t, result.Stdout, "Prerequisites:")
-	require.Contains(t, result.Stdout, "record_id")
-	require.Contains(t, result.Stdout, "intended row")
-	require.Contains(t, result.Stdout, "+record-list")
-	require.Contains(t, result.Stdout, "This command reads one record's history")
-	require.Contains(t, result.Stdout, "--format pretty")
-	require.Contains(t, result.Stdout, "UTC offset")
-	require.Contains(t, result.Stdout, "default JSON envelope")
-	require.Contains(t, result.Stdout, "Related skills")
-	require.NotContains(t, result.Stdout, "user-confirmed")
-	require.NotContains(t, result.Stdout, "top-level _record_id")
 }

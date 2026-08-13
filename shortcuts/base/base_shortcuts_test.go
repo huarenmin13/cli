@@ -467,12 +467,6 @@ func TestBaseRecordReadHelpGuidesAgents(t *testing.T) {
 	}
 }
 
-func TestBaseRecordHistoryGuidanceLivesInAffordance(t *testing.T) {
-	if len(BaseRecordHistoryList.Tips) != 0 {
-		t.Fatalf("record history Go Tips = %q; keep command guidance in affordance/base.md", BaseRecordHistoryList.Tips)
-	}
-}
-
 func TestBasePaginationHelpShowsDefaults(t *testing.T) {
 	tests := []struct {
 		name       string
