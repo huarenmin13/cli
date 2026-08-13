@@ -109,6 +109,7 @@ metadata:
 5. 最终答案必须能追溯到真实表、真实字段、查询范围、筛选/排序/聚合条件和必要的连接键。
 6. 一次性原始记录查询优先用 `+record-list` / `+record-search` 的 filter/sort；聚合分析优先用 `+data-query`；要把结果长期显示在表里，才考虑新增 `formula` / `lookup` 字段。
 7. `+data-query` 可返回聚合结果或维度字段行，但维度行按字段组合去重且不返回 `record_id`；需要逐条记录、记录定位或完整行级字段时，再用 `+record-list` / `+record-search` / `+record-get` 回查。
+
 ## 写入前置规则
 
 - 优先用写入返回确认结果；返回信息不足或任务明确要求核验时，再读回。
