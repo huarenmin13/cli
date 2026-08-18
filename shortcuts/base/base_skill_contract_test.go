@@ -6,17 +6,10 @@ package base
 import (
 	"strings"
 	"testing"
-
-	"github.com/larksuite/cli/internal/vfs"
 )
 
 func TestBaseWorkflowSkillDistinguishesOperationalIntent(t *testing.T) {
-	content, err := vfs.ReadFile(larkBaseSkillDoc)
-	if err != nil {
-		t.Fatalf("read lark-base workflow contract: %v", err)
-	}
-
-	normalizedSkill := strings.Join(strings.Fields(string(content)), " ")
+	normalizedSkill := strings.Join(strings.Fields(readSkillContractFile(t, larkBaseSkillDoc)), " ")
 	for _, want := range []string{
 		"Workflow 定义与运行状态",
 		"create 返回 `status=disabled`",
@@ -50,12 +43,7 @@ func TestBaseWorkflowSkillDistinguishesOperationalIntent(t *testing.T) {
 }
 
 func TestBaseSkillKeepsDeleteTargetIdentityStable(t *testing.T) {
-	content, err := vfs.ReadFile(larkBaseSkillDoc)
-	if err != nil {
-		t.Fatalf("read lark-base delete contract: %v", err)
-	}
-
-	normalizedSkill := strings.Join(strings.Fields(string(content)), " ")
+	normalizedSkill := strings.Join(strings.Fields(readSkillContractFile(t, larkBaseSkillDoc)), " ")
 	for _, want := range []string{
 		"删除前把每个请求目标绑定到用户表达的资源类型和 list/get 返回的真实 ID",
 		"从发现、消歧到 delete 始终保持同一类型",
@@ -83,12 +71,7 @@ func TestBaseSkillKeepsDeleteTargetIdentityStable(t *testing.T) {
 }
 
 func TestRecordBatchCreateReferenceRequiresIncrementalKeyDiff(t *testing.T) {
-	content, err := vfs.ReadFile("../../skills/lark-base/references/lark-base-record-batch-create.md")
-	if err != nil {
-		t.Fatalf("read record batch create reference: %v", err)
-	}
-
-	normalizedReference := strings.Join(strings.Fields(string(content)), " ")
+	normalizedReference := strings.Join(strings.Fields(readSkillContractFile(t, "../../skills/lark-base/references/lark-base-record-batch-create.md")), " ")
 	for _, want := range []string{
 		"`+record-batch-create` 只创建，不会按业务字段自动查重",
 		"全新导入且每个输入行都应成为独立记录时可直接创建",
@@ -97,10 +80,18 @@ func TestRecordBatchCreateReferenceRequiresIncrementalKeyDiff(t *testing.T) {
 		"没有可靠唯一键时停止猜测",
 		"限定本次目标范围",
 		"范围内有分页时读完全部页",
-		"对候选键去重后求差集",
+		"没有规则时按原始类型和值精确比较",
+		"候选键缺失、空值或无法规范化时将该行标记为 `blocked`",
+		"不得放入 `create_records`",
+		"现有记录存在无效键时停止写入并报告对应 `record_id`",
+		"各字段值一致的重复候选才能去重为一条",
+		"字段值不一致时停止并报告冲突",
+		"多个现有记录共享同一键时视为已存在",
+		"若用户要求更新，先报告冲突",
+		"对有效候选键去重后求与现有键的差集",
 		"`create_records` 只放差集中的缺失键",
 		"已有键默认跳过",
-		"先取得对应 `record_id`",
+		"先取得唯一对应的 `record_id`",
 		"不要把已有键再次交给 batch-create",
 	} {
 		if !strings.Contains(normalizedReference, want) {
@@ -115,11 +106,7 @@ func TestRecordBatchCreateReferenceRequiresIncrementalKeyDiff(t *testing.T) {
 func TestDashboardConfigVerificationIsScopedAndUsesMetadata(t *testing.T) {
 	readNormalized := func(path string) string {
 		t.Helper()
-		content, err := vfs.ReadFile(path)
-		if err != nil {
-			t.Fatalf("read %s: %v", path, err)
-		}
-		return strings.Join(strings.Fields(string(content)), " ")
+		return strings.Join(strings.Fields(readSkillContractFile(t, path)), " ")
 	}
 
 	skill := readNormalized(larkBaseSkillDoc)
