@@ -135,6 +135,10 @@ Workflow 本身是 Base Block，其内部是一张由 `next` / `children` 连接
 2. **写入配置：** `+workflow-create` 创建完整定义，`+workflow-update` 更新完整定义；构造或修改配置前读取 [Workflow](references/lark-base-workflow.md)，由该入口继续路由 step 类型和 schema。
 3. **运行状态控制：** `+workflow-enable` / `+workflow-disable` 启用或停用已有 Workflow，不修改 steps 执行图。
 
+### Workflow 运行意图与完成门禁
+
+新建供实际使用的提醒、通知等自动化时，除非用户明确只要草稿或保持停用，否则 create 返回 `status=disabled` 后调用 `+workflow-enable`。更新既有 workflow 前先用 `+workflow-get` 读取状态并默认保持该状态；不能仅因修改定义就把 disabled 改为 enabled，只有用户明确要求启用、恢复运行，或明确要求该 workflow 立即开始或继续发送、触发、运行时才启用。用户要求不改 workflow 或保持现有启停状态时不得改变状态。需要启用时，调用 `+workflow-enable` 后再用 `+workflow-get` 核验 `status=enabled`，核验前不得报告自动化已生效；若已 enabled，不重复启用。
+
 ## Advanced Permission（AdvPerm）
 
 AdvPerm 为 Base 开启细粒度权限模式；Role 在此基础上配置 Base、Table、View、Field、Record、Dashboard 和 Docx 等资源的访问能力，适合按团队或职责限制可见范围、编辑能力、复制下载和数据访问规则。
@@ -156,6 +160,12 @@ Folder Block 只承担 Base 目录分组和层级组织。用 `+base-block-list 
 - Update 先确认命令是完整替换还是 delta：完整替换使用可信当前配置做 read-modify-write，delta 只提交目标变更。
 - 优先用写入返回确认结果；返回不足以确认或任务明确要求核验时再读回目标。
 - 命令具有 confirmation gate 时，确认目标和影响后使用 `--yes`。
+
+### 删除目标身份门禁
+
+- 用户明确对象类型时，list/get、ID 获取和 delete 命令必须保持同一类型；完整列表中没有精确匹配就报告目标不存在，不得改删相似名称、筛选命中的记录、关联内容或其他类型资源。用户未明确类型时可以只读列出候选，但无法唯一确认就停止删除。`--yes` 只确认已定位对象的破坏性后果，不授权更换对象或对象类型。
+- 删除完成态必须区分 `deleted`、`already_absent`、`blocked`：完整 list/get 零精确匹配时记录 `already_absent`，不要再调用 delete；API `not_found` 也不能写成删除成功或发生了变更。最终答复列出每个目标的状态和对应发现证据。
+- 用户要求移除“可见入口 / 名单 / 明细”等但未明确资源类型时，只在任务点名的表内盘点 views、fields、forms，并用 dashboard 摘要盘点该 Base 的 blocks；先按名称定位，只有名称可能相关的 block 才读取详情确认表数据源。不要读取记录内容来猜入口，不要扩展到无关表或应用模式。没有匹配时报告实际检查范围和 `already_absent`，不能把未执行的删除标为完成变更。
 
 ## 不在本 Skill 范围
 
