@@ -13,7 +13,7 @@
 ### 增量补齐：只创建缺失业务键
 
 1. 从业务语义确定稳定唯一键；它可以是一个字段，也可以是多个字段的组合。没有可靠唯一键时停止猜测，不要批量创建。
-2. 用 `+record-list --filter-json` 或 `+record-search --filter-json` 限定本次目标范围，读取唯一键所需字段；范围内有分页时读完全部页。
+2. 用 `+record-list --filter-json` 限定本次目标范围，读取唯一键所需字段；范围内有分页时读完全部页。
 3. 分别计算候选键和现有键，对候选键去重后求差集；`create_records` 只放差集中的缺失键。
 4. 已有键默认跳过；用户要求修改已有记录时，先取得对应 `record_id`，再改用 `+record-upsert --record-id` 或 `+record-batch-update`。不要把已有键再次交给 batch-create。
 

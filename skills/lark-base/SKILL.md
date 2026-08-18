@@ -110,6 +110,8 @@ Dashboard Block 是 Base Block 树中的仪表盘容器，负责承载页面主�
 2. **写入配置：** `+dashboard-block-create` / `+dashboard-block-update` / `+dashboard-block-delete` 管理组件，`data_config` 定义数据源、维度、指标、聚合或文本内容。
 3. **读取内容：** `+dashboard-block-get-data` 读取图表、指标卡等数据组件的计算结果。
 
+Dashboard 配置核验只在用户要求创建、更新或验证图表/看板，要求在 Base 中长期展示统计口径，或本轮 Table/Field 的重命名、删除、类型变化可能影响既有 Dashboard 依赖时触发；一次性统计和仅读取已知 Block 结果不触发。只核验相关组件。目录、名称和 `+dashboard-block-get-data` 的计算结果都不能证明 `data_config` 正确；详细步骤见 [Dashboard](references/lark-base-dashboard.md)。
+
 操作内部 Block 前先读 [Dashboard](references/lark-base-dashboard.md)，由该入口继续路由组件配置和结果协议。
 
 ## 应用模式与 Workspace 心智模型
@@ -135,9 +137,9 @@ Workflow 本身是 Base Block，其内部是一张由 `next` / `children` 连接
 2. **写入配置：** `+workflow-create` 创建完整定义，`+workflow-update` 更新完整定义；构造或修改配置前读取 [Workflow](references/lark-base-workflow.md)，由该入口继续路由 step 类型和 schema。
 3. **运行状态控制：** `+workflow-enable` / `+workflow-disable` 启用或停用已有 Workflow，不修改 steps 执行图。
 
-### Workflow 运行意图与完成门禁
+### Workflow 定义与运行状态
 
-新建供实际使用的提醒、通知等自动化时，除非用户明确只要草稿或保持停用，否则 create 返回 `status=disabled` 后调用 `+workflow-enable`。更新既有 workflow 前先用 `+workflow-get` 读取状态并默认保持该状态；不能仅因修改定义就把 disabled 改为 enabled，只有用户明确要求启用、恢复运行，或明确要求该 workflow 立即开始或继续发送、触发、运行时才启用。用户要求不改 workflow 或保持现有启停状态时不得改变状态。需要启用时，调用 `+workflow-enable` 后再用 `+workflow-get` 核验 `status=enabled`，核验前不得报告自动化已生效；若已 enabled，不重复启用。
+Workflow 定义与运行状态分开：create 返回 `status=disabled`。只有用户明确要求启用或恢复，或请求本身明确要求产生运行效果（例如“每周提醒我”“到期通知负责人”“满足条件自动更新”）时才调用 `+workflow-enable`；仅创建或修改定义、草稿或模板，以及用户要求不改 Workflow 时，都不授权改变运行状态。更新既有 Workflow 前先用 `+workflow-get` 读取并默认保持现有状态。需要启用时，调用 `+workflow-enable` 后再用 `+workflow-get` 核验 `status=enabled`，核验前不得报告自动化已生效；若已 enabled，不重复启用。
 
 ## Advanced Permission（AdvPerm）
 
@@ -163,9 +165,9 @@ Folder Block 只承担 Base 目录分组和层级组织。用 `+base-block-list 
 
 ### 删除目标身份门禁
 
-- 用户明确对象类型时，list/get、ID 获取和 delete 命令必须保持同一类型；完整列表中没有精确匹配就报告目标不存在，不得改删相似名称、筛选命中的记录、关联内容或其他类型资源。用户未明确类型时可以只读列出候选，但无法唯一确认就停止删除。`--yes` 只确认已定位对象的破坏性后果，不授权更换对象或对象类型。
-- 删除完成态必须区分 `deleted`、`already_absent`、`blocked`：完整 list/get 零精确匹配时记录 `already_absent`，不要再调用 delete；API `not_found` 也不能写成删除成功或发生了变更。最终答复列出每个目标的状态和对应发现证据。
-- 用户要求移除“可见入口 / 名单 / 明细”等但未明确资源类型时，只在任务点名的表内盘点 views、fields、forms，并用 dashboard 摘要盘点该 Base 的 blocks；先按名称定位，只有名称可能相关的 block 才读取详情确认表数据源。不要读取记录内容来猜入口，不要扩展到无关表或应用模式。没有匹配时报告实际检查范围和 `already_absent`，不能把未执行的删除标为完成变更。
+- 删除前把每个请求目标绑定到用户表达的资源类型和 list/get 返回的真实 ID；从发现、消歧到 delete 始终保持同一类型。未唯一命中时停止，不得用相似名称、筛选命中的记录、关联内容或其他类型资源替代。`--yes` 只确认已绑定目标的破坏性后果。
+- “入口 / 页面 / 列表 / 明细”等 UI 或展示语义只用于对 View、Form、Dashboard、Dashboard 内部 Block、Docx 等展示资源做只读候选发现；除非用户明确说 Field/列、Record/数据，否则 Field 和 Record 不得作为删除候选。候选类型或名称不唯一时将该目标报告为 `blocked`，不执行 delete。
+- 最终答复按请求目标报告操作结果 `deleted` / `already_absent` / `blocked` 和发现证据。只有对应 list 已遍历全部分页且零精确匹配，或精确 get/delete 返回 `not_found`，才能报告 `already_absent`；它表示本轮未发生变更，不得写成删除成功。
 
 ## 不在本 Skill 范围
 

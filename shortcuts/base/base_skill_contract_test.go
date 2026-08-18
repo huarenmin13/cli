@@ -18,15 +18,16 @@ func TestBaseWorkflowSkillDistinguishesOperationalIntent(t *testing.T) {
 
 	normalizedSkill := strings.Join(strings.Fields(string(content)), " ")
 	for _, want := range []string{
-		"Workflow 运行意图与完成门禁",
-		"新建供实际使用的提醒、通知等自动化",
-		"明确只要草稿或保持停用",
-		"status=disabled",
-		"更新既有 workflow 前先用 `+workflow-get` 读取状态并默认保持该状态",
-		"不能仅因修改定义就把 disabled 改为 enabled",
-		"明确要求启用、恢复运行",
-		"立即开始或继续发送、触发、运行",
-		"用户要求不改 workflow 或保持现有启停状态时不得改变状态",
+		"Workflow 定义与运行状态",
+		"create 返回 `status=disabled`",
+		"明确要求启用或恢复",
+		"请求本身明确要求产生运行效果",
+		"每周提醒我",
+		"到期通知负责人",
+		"满足条件自动更新",
+		"仅创建或修改定义、草稿或模板",
+		"不授权改变运行状态",
+		"更新既有 Workflow 前先用 `+workflow-get` 读取并默认保持现有状态",
 		"+workflow-enable",
 		"+workflow-get",
 		"status=enabled",
@@ -39,7 +40,7 @@ func TestBaseWorkflowSkillDistinguishesOperationalIntent(t *testing.T) {
 	}
 
 	for _, forbidden := range []string{
-		"只有明确要求“启用/开启/恢复/运行”才调用",
+		"新建供实际使用",
 		"默认视为需要生效",
 	} {
 		if strings.Contains(normalizedSkill, forbidden) {
@@ -56,33 +57,28 @@ func TestBaseSkillKeepsDeleteTargetIdentityStable(t *testing.T) {
 
 	normalizedSkill := strings.Join(strings.Fields(string(content)), " ")
 	for _, want := range []string{
-		"删除目标身份门禁",
-		"用户明确对象类型时",
-		"list/get、ID 获取和 delete 命令必须保持同一类型",
-		"完整列表中没有精确匹配就报告目标不存在",
-		"不得改删相似名称、筛选命中的记录、关联内容或其他类型资源",
-		"用户未明确类型时可以只读列出候选",
-		"无法唯一确认就停止删除",
-		"`--yes` 只确认已定位对象的破坏性后果",
-		"不授权更换对象或对象类型",
-		"删除完成态必须区分 `deleted`、`already_absent`、`blocked`",
-		"完整 list/get 零精确匹配时记录 `already_absent`",
-		"不要再调用 delete",
-		"API `not_found` 也不能写成删除成功或发生了变更",
-		"最终答复列出每个目标的状态和对应发现证据",
-		"未明确资源类型时",
-		"任务点名的表内盘点 views、fields、forms",
-		"用 dashboard 摘要盘点该 Base 的 blocks",
-		"先按名称定位",
-		"只有名称可能相关的 block 才读取详情确认表数据源",
-		"不要读取记录内容来猜入口",
-		"不要扩展到无关表或应用模式",
-		"报告实际检查范围和 `already_absent`",
-		"不能把未执行的删除标为完成变更",
+		"删除前把每个请求目标绑定到用户表达的资源类型和 list/get 返回的真实 ID",
+		"从发现、消歧到 delete 始终保持同一类型",
+		"未唯一命中时停止",
+		"不得用相似名称、筛选命中的记录、关联内容或其他类型资源替代",
+		"`--yes` 只确认已绑定目标的破坏性后果",
+		"UI 或展示语义只用于对 View、Form、Dashboard、Dashboard 内部 Block、Docx 等展示资源做只读候选发现",
+		"除非用户明确说 Field/列、Record/数据",
+		"Field 和 Record 不得作为删除候选",
+		"候选类型或名称不唯一时将该目标报告为 `blocked`",
+		"最终答复按请求目标报告操作结果 `deleted` / `already_absent` / `blocked`",
+		"对应 list 已遍历全部分页且零精确匹配",
+		"精确 get/delete 返回 `not_found`",
+		"本轮未发生变更",
+		"不得写成删除成功",
 	} {
 		if !strings.Contains(normalizedSkill, want) {
 			t.Fatalf("lark-base skill missing delete target identity contract %q", want)
 		}
+	}
+
+	if strings.Contains(normalizedSkill, "views、fields、forms") {
+		t.Fatal("ambiguous UI nouns must not make fields a default deletion candidate")
 	}
 }
 
@@ -109,6 +105,49 @@ func TestRecordBatchCreateReferenceRequiresIncrementalKeyDiff(t *testing.T) {
 	} {
 		if !strings.Contains(normalizedReference, want) {
 			t.Fatalf("record batch create reference missing incremental key contract %q", want)
+		}
+	}
+	if strings.Contains(normalizedReference, "+record-search --filter-json") {
+		t.Fatal("record-search requires keyword and search-field; do not document filter-json alone")
+	}
+}
+
+func TestDashboardConfigVerificationIsScopedAndUsesMetadata(t *testing.T) {
+	readNormalized := func(path string) string {
+		t.Helper()
+		content, err := vfs.ReadFile(path)
+		if err != nil {
+			t.Fatalf("read %s: %v", path, err)
+		}
+		return strings.Join(strings.Fields(string(content)), " ")
+	}
+
+	skill := readNormalized(larkBaseSkillDoc)
+	for _, want := range []string{
+		"用户要求创建、更新或验证图表/看板",
+		"在 Base 中长期展示统计口径",
+		"Table/Field 的重命名、删除、类型变化可能影响既有 Dashboard 依赖",
+		"一次性统计和仅读取已知 Block 结果不触发",
+		"只核验相关组件",
+		"目录、名称和 `+dashboard-block-get-data` 的计算结果都不能证明 `data_config` 正确",
+	} {
+		if !strings.Contains(skill, want) {
+			t.Fatalf("lark-base skill missing dashboard verification contract %q", want)
+		}
+	}
+
+	reference := readNormalized("../../skills/lark-base/references/lark-base-dashboard.md")
+	for _, want := range []string{
+		"不要扫描无关 Dashboard 或 Base 资源",
+		"一次性统计时优先用 `+data-query`",
+		"不自动触发配置盘点",
+		"`has_more=true` 时携带 `page_token` 继续",
+		"直到 `has_more=false`",
+		"与用户目标或 schema 变更直接相关的组件",
+		"没有读取 `data_config` 的相关组件只能标记为“未核验”",
+	} {
+		if !strings.Contains(reference, want) {
+			t.Fatalf("dashboard guide missing scoped verification contract %q", want)
 		}
 	}
 }
