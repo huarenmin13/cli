@@ -12,6 +12,12 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 **All cross-table references, aggregations, and computed fields should use Formula fields by default.** Do NOT use Lookup fields unless the user explicitly requests it. Formula is a strict superset of Lookup — anything Lookup can do, Formula can do with a single expression.
 
+When field types are unspecified, apply this Formula default to every field in a derived-field chain, including downstream fields that consume earlier computed results.
+
+When the user specifies field types, target expressions, or a derived-field chain, preserve each requested type, function, operator, branch, precision, and range boundary. Do not add cleanup, formatting, fallback, or coercion semantics that the user did not request.
+
+After writing, read back the field definition and compare its type and expression with the request. Invalid references or non-equivalent definitions remain incomplete even when current sample values look correct.
+
 ## Usage
 
 When creating a formula field, the Agent should:

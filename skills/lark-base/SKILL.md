@@ -74,6 +74,8 @@ Block 的 `id` 按类型直接作为对应模块坐标：
 
 Table 本身是 Base Block，也是 Base 的核心数据存储层；Field、Record、View 和 Form 是 Table 内部对象，不是 Base Block。业务数据查询、写入、关联、统计和分析都从 Table 开始。先用 `+table-list` 定位 Table；字段名和目标已知的普通读取可直接进入 Record 命令，只有写入、筛选或关联等依赖字段类型/schema 的任务才补 `+field-list`。多表的 `+field-list` 可以并发执行。基础的 Record / CellValue 读写直接按下方路径；reference 只承载高级分析、完整协议和边界细节。
 
+已知目标是 Table 或只需 Table 内的 schema / records 时，从 `+table-list` / `+field-list` 进入；`+base-block-list` 保留给 Base Block 目录浏览和非 Table Block 定位。
+
 **读取 Table：** `+table-list` 定位表，`+table-get` 读取详情。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
 
 Table 下的大多数更新通过异步链路生效，接口成功返回后立即读取可能暂时看不到最新状态。优先以写入成功响应作为操作结果；任务必须确认最终状态时，先完成本轮相关变更，再统一读取验收，避免逐项写后立即读回。
@@ -273,6 +275,7 @@ Folder Block 只承担 Base 目录分组和层级组织。用 `+base-block-list 
 
 ## 通用执行契约
 
+- 当用户提供 Base 目标并要求新增、创建、修改、删除、设置、启用或停用对象时，默认执行对应的 `lark-cli base` 写操作并报告结果；只有用户明确只要说明、示例或命令时才不写入。
 - Update 先确认命令是完整替换还是 delta：完整替换使用可信当前配置做 read-modify-write，delta 只提交目标变更。
 - 优先用写入返回确认结果；返回不足以确认或任务明确要求核验时再读回目标。
 - 命令具有 confirmation gate 时，确认目标和影响后使用 `--yes`。

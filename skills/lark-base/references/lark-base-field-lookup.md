@@ -22,6 +22,10 @@ When creating a lookup field, the Agent should:
 4. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation)
 5. Construct the Lookup field JSON and submit it to create or update the field
 
+Before writing, map `from`, `select`, `aggregate`, and every `where` predicate from the user request and live schema. Treat the requested source-field/current-field pair and operator as one contract: keep both sides even when another or reverse relation returns similar sample values. Additional filters must not replace the row-level correspondence.
+
+After writing, read back and compare the returned definition with that contract. Matching sample values do not prove that a different field, operator, predicate, or aggregate is equivalent.
+
 **Key constraints**:
 
 - Table names and field names must **exactly match** those returned by `+table-list` / `+table-get`
@@ -178,6 +182,8 @@ When using `{ "type": "field_ref", "field": "..." }`, values from both sides are
 - **`==`**: Sets are exactly equal (strict matching)
 - **`intersects`**: Sets have a non-empty intersection (most commonly used)
 
+Choose the operator from the requested relation and live field cardinality: exact equality uses `==`; membership, overlap, or containment involving a multi-value or Link field uses `intersects`. Field names and matching sample values do not determine operator semantics.
+
 **Conversion rules by field type**:
 
 | Field type | Converted to |
@@ -224,7 +230,7 @@ When using `{ "type": "field_ref", "field": "..." }`, values from both sides are
 | `average` | "average" / "mean" | `number` field | Number |
 | `max` | "maximum" / "latest" / "most recent" | `number` / `datetime` field | Same as source |
 | `min` | "minimum" / "earliest" | `number` / `datetime` field | Same as source |
-| `counta` | "count" / "how many" / "total number" | Any field | Number |
+| `counta` | "count" / "how many" / "total number" | Stable ID/code/primary field for object counts; otherwise the explicitly requested field | Number |
 | `unique_counta` | "count distinct" / "how many different" | Field to deduplicate | Number |
 | `unique` | "list distinct" / "which ones" / "show different" | Field to display | List |
 | `raw_value` | "list all" / "show all values" (default) | Field to display | List |
