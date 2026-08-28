@@ -182,7 +182,7 @@ When using `{ "type": "field_ref", "field": "..." }`, values from both sides are
 - **`==`**: Sets are exactly equal (strict matching)
 - **`intersects`**: Sets have a non-empty intersection (most commonly used)
 
-Choose the operator from the requested relation and live field cardinality: exact equality uses `==`; membership, overlap, or containment involving a multi-value or Link field uses `intersects`. Field names and matching sample values do not determine operator semantics.
+Choose the operator from the requested relation and live field cardinality: exact equality uses `==`; single-value membership or non-empty overlap involving a multi-value or Link field uses `intersects`. `intersects` cannot express that one multi-value set contains all values of another; report that relation as unsupported by Lookup predicates. Field names and matching sample values do not determine operator semantics.
 
 **Conversion rules by field type**:
 
