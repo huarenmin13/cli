@@ -76,7 +76,7 @@ Table 本身是 Base Block，也是 Base 的核心数据存储层；Field、Reco
 
 已知目标是 Table 或只需 Table 内的 schema / records 时，从 `+table-list` / `+field-list` 进入；`+base-block-list` 保留给 Base Block 目录浏览和非 Table Block 定位。
 
-**读取 Table：** `+table-list` 定位表，`+table-get` 读取详情。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
+**读取 Table：** `+table-list` 定位表；只需字段列表或字段 schema 时使用 `+field-list`，需要 Table 元信息时使用 `+table-get`；例如判断 Link / Lookup 的主字段对应关系时读取 `table.primary_field`。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
 
 Table 下的大多数更新通过异步链路生效，接口成功返回后立即读取可能暂时看不到最新状态。优先以写入成功响应作为操作结果；任务必须确认最终状态时，先完成本轮相关变更，再统一读取验收，避免逐项写后立即读回。
 
