@@ -72,11 +72,11 @@ Block 的 `id` 按类型直接作为对应模块坐标：
 
 ## Table Block（The Core）
 
-Table 本身是 Base Block，也是 Base 的核心数据存储层；Field、Record、View 和 Form 是 Table 内部对象，不是 Base Block。业务数据查询、写入、关联、统计和分析都从 Table 开始。先用 `+table-list` 定位 Table；字段名和目标已知的普通读取可直接进入 Record 命令，只有写入、筛选或关联等依赖字段类型/schema 的任务才补 `+field-list`。多表的 `+field-list` 可以并发执行。基础的 Record / CellValue 读写直接按下方路径；reference 只承载高级分析、完整协议和边界细节。
+Table 本身是 Base Block，也是 Base 的核心数据存储层；Field、Record、View 和 Form 是 Table 内部对象，不是 Base Block。业务数据查询、写入、关联、统计和分析都从 Table 开始。精确表名已知时，直接把名称作为 `--table-id` 传给所需的 Table / Field / Record 命令；只有需要发现、模糊匹配或消歧时才用 `+table-list`。字段名和目标已知的普通读取可直接进入 Record 命令，只有写入、筛选或关联等依赖字段类型/schema 的任务才补 `+field-list`。多表的 `+field-list` 可以并发执行。基础的 Record / CellValue 读写直接按下方路径；reference 只承载高级分析、完整协议和边界细节。
 
-已知目标是 Table 或只需 Table 内的 schema / records 时，从 `+table-list` / `+field-list` 进入；`+base-block-list` 保留给 Base Block 目录浏览和非 Table Block 定位。
+`+base-block-list` 用于 Base Block 目录浏览和非 Table Block 定位。
 
-**读取 Table：** `+table-list` 定位表；只需字段列表或字段 schema 时使用 `+field-list`，需要 Table 元信息时使用 `+table-get`；例如判断 Link / Lookup 的主字段对应关系时读取 `table.primary_field`。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
+**读取 Table：** 分页读取字段列表时使用 `+field-list`；需要一次取得完整字段 schema 或 Table 元信息时使用 `+table-get`，例如判断 Link / Lookup 的主字段对应关系时读取 `table.primary_field`。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
 
 Table 下的大多数更新通过异步链路生效，接口成功返回后立即读取可能暂时看不到最新状态。优先以写入成功响应作为操作结果；任务必须确认最终状态时，先完成本轮相关变更，再统一读取验收，避免逐项写后立即读回。
 

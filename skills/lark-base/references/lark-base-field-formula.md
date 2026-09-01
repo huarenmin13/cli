@@ -22,16 +22,16 @@ After writing, read back the field definition and compare its type and expressio
 
 When creating a formula field, the Agent should:
 
-1. Get all table names: `lark-cli base +table-list --base-token <base>` — returns `items[].table_name`
-2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
-3. If the formula references other tables, also get those tables' structures
+1. Identify the current table and every table referenced by the requested formula
+2. When a user-provided or previously resolved exact table name is available, get its complete structure directly: `lark-cli base +table-get --base-token <base> --table-id "<exact table name>"` — returns `data.table` and the complete `data.fields[]` schema
+3. Only when a table name is unknown, fuzzy, or ambiguous, discover tables with `lark-cli base +table-list --base-token <base>` — names are in `data.tables[].name`. If more discovery is needed while `meta.pagination.complete=false`, pass the decimal `meta.pagination.next_token` value to `--offset` and continue
 4. Write the formula expression following this guide
 5. Construct the Formula field JSON and submit it to create or update the field
 
 **Key constraints**:
 
 - The JSON must include `"type": "formula"` — this field is required
-- Table names and field names in the formula must **exactly match** those returned by `+table-list` / `+table-get`
+- Table names must **exactly match** a user-provided or previously resolved exact name, or `data.tables[].name` returned by `+table-list`; field names must exactly match `data.fields[].name` returned by `+table-get`
 - The `expression` value is a string containing the formula expression; double quotes inside the expression must be properly escaped in JSON (e.g. `\"text\"`)
 
 ---
@@ -224,7 +224,7 @@ After the result column, it's recommended to flatten with `.LISTCOMBINE()` first
 
 2. **Function whitelist**: Only use functions listed in Section 8. No unlisted functions.
 
-3. **Exact name matching**: Table names and field names in formulas must **exactly match** those returned by `+table-get` — no renaming or adding spaces.
+3. **Exact name matching**: Table names must exactly match a user-provided or previously resolved exact name, or `data.tables[].name` from discovery; field names must exactly match `data.fields[].name` returned by `+table-get` — no renaming or adding spaces.
 
 4. **Operator whitelist**: Only use operators listed in Section 4.
 
@@ -736,7 +736,7 @@ When the user describes their formula need in natural language, follow these rul
 - Only use functions and operators listed in this document
 - FILTER/SUMIF/COUNTIF/MAP must not be nested inside each other's conditions (chained calls are not nesting)
 - Do not use LOOKUP — use FILTER exclusively
-- Table and field names must exactly match `+table-get` output
+- Table names must match a user-provided or previously resolved exact name, or `+table-list` discovery output; field names must exactly match `+table-get` output
 - Strings must use double quotes `"`
 - Format dates with TEXT before concatenating, to control output format
 - SORTBY can only be chained and must include an output column

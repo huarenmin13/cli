@@ -16,9 +16,9 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 When creating a lookup field, the Agent should:
 
-1. Get all table names: `lark-cli base +table-list --base-token <base>` — returns `items[].table_name`
-2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
-3. If the lookup references other tables, also get those tables' structures
+1. Identify the current table and every table referenced by the requested lookup
+2. When a user-provided or previously resolved exact table name is available, get its complete structure directly: `lark-cli base +table-get --base-token <base> --table-id "<exact table name>"` — returns `data.table` and the complete `data.fields[]` schema, including the Table metadata needed to determine primary-field correspondence for Link / Lookup fields
+3. Only when a table name is unknown, fuzzy, or ambiguous, discover tables with `lark-cli base +table-list --base-token <base>` — names are in `data.tables[].name`. If more discovery is needed while `meta.pagination.complete=false`, pass the decimal `meta.pagination.next_token` value to `--offset` and continue
 4. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation)
 5. Construct the Lookup field JSON and submit it to create or update the field
 
@@ -28,7 +28,7 @@ After writing, read back and compare the returned definition with that contract.
 
 **Key constraints**:
 
-- Table names and field names must **exactly match** those returned by `+table-list` / `+table-get`
+- Table names must **exactly match** a user-provided or previously resolved exact name, or `data.tables[].name` returned by `+table-list`; field names must exactly match `data.fields[].name` returned by `+table-get`
 - The `from` table must be in the same Base
 
 ---
@@ -512,7 +512,7 @@ The user says "aggregate order amounts" — use Lookup, not Link. Link establish
 - Where supports only one level of and/or — no nesting
 - Aggregate values are snake_case lowercase: `sum`, `counta`, `unique_counta` (NOT `count`)
 - Operators: `==`, `!=`, `>`, `>=`, `<`, `<=`, `intersects`, `disjoint`, `empty`, `non_empty`
-- Table and field names must exactly match `+table-get` output
+- Table names must match a user-provided or previously resolved exact name, or `+table-list` discovery output; field names must exactly match `+table-get` output
 - `datetime` constant values use string format: `ExactDate(YYYY-MM-DD)` / `ExactDate(YYYY-MM-DD HH:mm)` / `Today` / `Yesterday` / `Tomorrow`
 - `select` constant values use option names;
 - `link` / `user` constant values use `{id}` object arrays
