@@ -19,8 +19,9 @@ When creating a lookup field, the Agent should:
 1. Identify the current table and every table referenced by the requested lookup
 2. When a user-provided or previously resolved exact table name is available, get its complete structure directly: `lark-cli base +table-get --base-token <base> --table-id "<exact table name>"` — returns `data.table` and the complete `data.fields[]` schema, including the Table metadata needed to determine primary-field correspondence for Link / Lookup fields
 3. Only when a table name is unknown, fuzzy, or ambiguous, discover tables with `lark-cli base +table-list --base-token <base>` — names are in `data.tables[].name`. If more discovery is needed while `meta.pagination.complete=false`, pass the decimal `meta.pagination.next_token` value to `--offset` and continue
-4. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation)
-5. Construct the Lookup field JSON and submit it to create or update the field
+4. After discovery, call `+table-get` for the current table and every referenced table whose structure has not already been fetched; `+table-list` identifies tables but does not replace schema lookup
+5. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation)
+6. Construct the Lookup field JSON and submit it to create or update the field
 
 Before writing, map `from`, `select`, `aggregate`, and every `where` predicate from the user request and live schema. Treat the requested source-field/current-field pair and operator as one contract: keep both sides even when another or reverse relation returns similar sample values. Additional filters must not replace the row-level correspondence.
 

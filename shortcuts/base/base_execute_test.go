@@ -2750,6 +2750,16 @@ func TestBaseTableExecuteListPaginationMetadata(t *testing.T) {
 			wantNext:     "50",
 		},
 		{
+			name:         "zero total full page exposes the next offset",
+			args:         []string{"+table-list", "--base-token", "app_x"},
+			url:          "limit=50&offset=0",
+			data:         map[string]interface{}{"tables": tables(50), "total": 0},
+			wantItems:    50,
+			wantTotal:    50,
+			wantComplete: false,
+			wantNext:     "50",
+		},
+		{
 			name:        "empty page before known total is invalid",
 			args:        []string{"+table-list", "--base-token", "app_x", "--offset", "50"},
 			url:         "limit=50&offset=50",

@@ -25,8 +25,9 @@ When creating a formula field, the Agent should:
 1. Identify the current table and every table referenced by the requested formula
 2. When a user-provided or previously resolved exact table name is available, get its complete structure directly: `lark-cli base +table-get --base-token <base> --table-id "<exact table name>"` — returns `data.table` and the complete `data.fields[]` schema
 3. Only when a table name is unknown, fuzzy, or ambiguous, discover tables with `lark-cli base +table-list --base-token <base>` — names are in `data.tables[].name`. If more discovery is needed while `meta.pagination.complete=false`, pass the decimal `meta.pagination.next_token` value to `--offset` and continue
-4. Write the formula expression following this guide
-5. Construct the Formula field JSON and submit it to create or update the field
+4. After discovery, call `+table-get` for the current table and every referenced table whose structure has not already been fetched; `+table-list` identifies tables but does not replace schema lookup
+5. Write the formula expression following this guide
+6. Construct the Formula field JSON and submit it to create or update the field
 
 **Key constraints**:
 

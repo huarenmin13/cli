@@ -601,6 +601,9 @@ func listAllTables(runtime *common.RuntimeContext, baseToken string, offset, lim
 	total, totalKnown := toIntStrict(data["total"])
 	if total == 0 {
 		total = len(items)
+		if len(items) > 0 {
+			totalKnown = false
+		}
 	}
 	return items, total, totalKnown, nil
 }
