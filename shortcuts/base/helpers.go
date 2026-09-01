@@ -599,6 +599,14 @@ func listAllTables(runtime *common.RuntimeContext, baseToken string, offset, lim
 		}
 	}
 	total, totalKnown := toIntStrict(data["total"])
+	if !totalKnown {
+		if rawTotal, ok := data["total"].(string); ok {
+			if parsed, parseErr := strconv.Atoi(strings.TrimSpace(rawTotal)); parseErr == nil {
+				total = parsed
+				totalKnown = true
+			}
+		}
+	}
 	if total == 0 {
 		total = len(items)
 		if len(items) > 0 {
