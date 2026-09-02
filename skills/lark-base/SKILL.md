@@ -30,7 +30,7 @@ metadata:
 
 **读取 Base：** Base 信息用 `+base-get`，资源目录按下方 Base Block 资源模型读取。
 
-**写入 Base：** 创建新 Base 使用一次 `+base-create --name <base-name> --table-name <table-name> --fields '<field-array>'` 同时创建 Base、首表和 fields；`+base-copy` 复制整个 Base；Base 内资源统一按下方 Block 生命周期管理。
+**写入 Base：** 新建 Base 的名称、用途和初始结构均缺失且上下文无法唯一确定时，创建前先一次性询问名称、用途和初始结构。创建新 Base 使用一次 `+base-create --name <base-name> --table-name <table-name> --fields '<field-array>'` 同时创建 Base、首表和 fields；`+base-copy` 复制整个 Base；Base 内资源统一按下方 Block 生命周期管理。
 
 ## Base 模板中心
 
@@ -275,6 +275,7 @@ Folder Block 只承担 Base 目录分组和层级组织。用 `+base-block-list 
 
 - Update 先确认命令是完整替换还是 delta：完整替换使用可信当前配置做 read-modify-write，delta 只提交目标变更。
 - 优先用写入返回确认结果；返回不足以确认或任务明确要求核验时再读回目标。
+- 创建或复制作为任务交付物的新资源时，最终答复单独列出成功响应实际提供、可用于后续定位或继续操作的主标识；响应同时提供访问入口时也一并列出。批量创建内部对象时，除非用户明确要求，默认只汇总数量和后续操作所需的定位信息，不逐项罗列标识。
 - 命令具有 confirmation gate 时，确认目标和影响后使用 `--yes`。
 
 ## 不在本 Skill 范围
