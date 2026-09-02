@@ -661,6 +661,20 @@ func TestBasePaginationHelpShowsDefaults(t *testing.T) {
 	}
 }
 
+func TestBaseTableListTipsExposeResumeContract(t *testing.T) {
+	tips := strings.Join(BaseTableList.Tips, "\n")
+	for _, want := range []string{
+		"meta.pagination.complete is false",
+		"decimal next_token value",
+		"--offset",
+		"until complete is true",
+	} {
+		if !strings.Contains(tips, want) {
+			t.Fatalf("table-list tips missing %q:\n%s", want, tips)
+		}
+	}
+}
+
 func TestBaseRecordSearchLimitHasNoStaticDefault(t *testing.T) {
 	parent := &cobra.Command{Use: "base"}
 	BaseRecordSearch.Mount(parent, &cmdutil.Factory{})
