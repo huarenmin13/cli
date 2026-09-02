@@ -199,3 +199,53 @@ func TestBaseSkillContract_ConcreteMutationCannotStopAtPreparation(t *testing.T)
 		}
 	}
 }
+
+func TestBaseSkillContract_ExplicitLookupPreservesTypeAndValidatesDependencies(t *testing.T) {
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	start := strings.Index(skill, "### Field")
+	end := strings.Index(skill, "### Record")
+	if start < 0 || end <= start {
+		t.Fatalf("missing Field routing section in %s", larkBaseSkillDoc)
+	}
+	fieldSection := skill[start:end]
+	for _, contract := range []string{
+		"[Lookup guide](references/lark-base-field-lookup.md)",
+		"明确请求 Lookup 时",
+		"`type=lookup` 是输出契约",
+		"除非用户明确批准变更字段类型",
+		"空值、暂未计算或配置错误只触发排查",
+		"不得改用 Formula、Link 或其他字段类型",
+	} {
+		if !strings.Contains(fieldSection, contract) {
+			t.Fatalf("Lookup routing must contain %q:\n%s", contract, fieldSection)
+		}
+	}
+
+	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
+	for _, contract := range []string{
+		"returns `tables[].name`",
+		"`meta.pagination.complete` is `false`",
+		"pass its decimal `next_token` to `--offset`",
+		"`type=lookup` is an invariant",
+		"empty or temporarily uncomputed result",
+		"diagnose the requested Lookup",
+		"topological order",
+		"Use a separate command for each dependency layer",
+		"only independent fields in the same layer may be batched",
+		"read-modify-write",
+		"confirm `type`, `from`, `select`, `where`, and `aggregate`",
+		"before creating or updating any dependent Lookup",
+		"read every requested field again with `+field-get`",
+		"read representative computed values with `+record-list`",
+		"`[无效引用]`",
+		"`Invalid Reference`",
+		"blocks completion",
+	} {
+		if !strings.Contains(lookupGuide, contract) {
+			t.Fatalf("Lookup guide must contain %q", contract)
+		}
+	}
+	if strings.Contains(lookupGuide, "items[].table_name") {
+		t.Fatalf("Lookup guide must not advertise the obsolete +table-list response shape")
+	}
+}

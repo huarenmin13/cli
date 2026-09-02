@@ -10,17 +10,19 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 ## Default strategy
 
-**Use Formula fields by default for cross-table references and aggregations.** Only use Lookup fields when the user explicitly requests a Lookup field. Formula is a strict superset of Lookup — anything Lookup can do, Formula can do with a single expression.
+**Use Formula fields by default for cross-table references and aggregations only when the user did not specify a field type.** When the user explicitly requests a Lookup field, `type=lookup` is an invariant unless the user explicitly approves a type change. An empty or temporarily uncomputed result, or a configuration error, means diagnose the requested Lookup; it does not authorize fallback to Formula, Link, or another field type.
 
 ## Usage
 
 When creating a lookup field, the Agent should:
 
-1. Get all table names: `lark-cli base +table-list --base-token <base>` — returns `items[].table_name`
-2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
-3. If the lookup references other tables, also get those tables' structures
-4. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation)
-5. Construct the Lookup field JSON and submit it to create or update the field
+1. Get all table names: `lark-cli base +table-list --base-token <base>` — returns `tables[].name`. When `meta.pagination.complete` is `false`, pass its decimal `next_token` to `--offset` and repeat until `complete` is `true`.
+2. Get the destination table structure with `+table-get`; also get every referenced source table structure before constructing the Lookup.
+3. Determine the four elements — `from` (source table), `select` (source field), `where` (filter), and `aggregate` (aggregation) — plus dependencies among all requested Lookup fields.
+4. Create or update independent fields before their dependents, in topological order. Use a separate command for each dependency layer; only independent fields in the same layer may be batched. For `+field-update`, first use `+field-get` and read-modify-write the complete full-PUT definition so unrelated properties are preserved.
+5. After each mutation, use `+field-get` to confirm `type`, `from`, `select`, `where`, and `aggregate` before creating or updating any dependent Lookup.
+6. After the final mutation, read every requested field again with `+field-get`, then read representative computed values with `+record-list` when applicable.
+7. `[无效引用]`, `Invalid Reference`, or an equivalent invalid-reference marker blocks completion. Diagnose the original Lookup configuration and dependencies; do not change its type as a fallback.
 
 **Key constraints**:
 
