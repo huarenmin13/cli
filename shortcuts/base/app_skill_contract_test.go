@@ -78,3 +78,32 @@ func TestBaseSkillContract_AppModeConceptsAndDataConfigRelationship(t *testing.T
 		}
 	}
 }
+
+func TestBaseSkillContract_FormulaGuideBeforeUnsupportedFallback(t *testing.T) {
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	start := strings.Index(skill, "### Field")
+	end := strings.Index(skill, "### Record")
+	if start < 0 || end <= start {
+		t.Fatalf("missing Field routing section in %s", larkBaseSkillDoc)
+	}
+	fieldSection := skill[start:end]
+	for _, contract := range []string{
+		"[Formula guide](references/lark-base-field-formula.md)",
+		"明确请求 Formula 创建或更新时",
+		"说明不支持或改用其他字段类型前",
+		"`[SourceTable].[NumericField]` 是 List",
+		"`SUM([SourceTable].[NumericField])`",
+	} {
+		if !strings.Contains(fieldSection, contract) {
+			t.Fatalf("Formula routing must contain %q:\n%s", contract, fieldSection)
+		}
+	}
+
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	if !strings.Contains(formulaGuide, "returns `tables[].name`") {
+		t.Fatalf("Formula guide must describe the actual +table-list response shape")
+	}
+	if strings.Contains(formulaGuide, "items[].table_name") {
+		t.Fatalf("Formula guide must not advertise the obsolete +table-list response shape")
+	}
+}
