@@ -105,11 +105,21 @@ filter condition:
 
 ### How to find the matching field pair
 
-**With a Link field (most common)**: The match is between the **Link field** and the **target table's primary field**.
+When multiple schema-valid field pairs exist, derive the correlation from the user's relationship and the entity represented by the current row:
+
+1. An explicitly requested alternate relationship or key wins.
+2. For a list or aggregate computed per current entity, prefer a schema-confirmed source identifier or Link to that entity, matched against the current row's identity. Use a Link from the current row to a source entity only when that is the relationship the user requested.
+3. `select` controls the returned value; it is not the join key merely because both tables expose it or sample values happen to coincide.
+4. Names alone are insufficient. Verify semantic meaning, Link targets, and comparison compatibility from both schemas.
+5. If the request, schemas, and dependent Lookups still leave multiple plausible relationships, ask one targeted clarification before writing.
+
+Back-translate the final `where` into the relationship it expresses and confirm that it matches the request. Sample values are secondary evidence, after schema and relationship semantics.
+
+After choosing the relationship, encode it in the source-to-current direction required by `where`:
 
 ```
-Link is in the source table   → source.linkField matches current.primaryField
-Link is in the current table  → source.primaryField matches current.linkField
+Source links to current entity → source.linkField matches current.primaryField
+Current row links to source    → source.primaryField matches current.linkField
 ```
 
 **Without a Link field**: Two tables share a field with the same meaning — match directly.

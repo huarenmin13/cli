@@ -276,3 +276,34 @@ func TestBaseSkillContract_LookupAggregateRequiresExplicitDeduplication(t *testi
 		t.Fatal("Lookup guide must not route plain references to a null aggregate")
 	}
 }
+
+func TestBaseSkillContract_LookupCorrelationFollowsCurrentRowSemantics(t *testing.T) {
+	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
+	start := strings.Index(lookupGuide, "### How to find the matching field pair")
+	end := strings.Index(lookupGuide, "### Where condition structure")
+	if start < 0 || end <= start {
+		t.Fatal("missing Lookup row-correlation section")
+	}
+	section := lookupGuide[start:end]
+	for _, contract := range []string{
+		"When multiple schema-valid field pairs exist",
+		"derive the correlation from the user's relationship and the entity represented by the current row",
+		"For a list or aggregate computed per current entity",
+		"prefer a schema-confirmed source identifier or Link to that entity",
+		"`select` controls the returned value; it is not the join key",
+		"both tables expose it or sample values happen to coincide",
+		"An explicitly requested alternate relationship or key wins",
+		"Names alone are insufficient",
+		"semantic meaning, Link targets, and comparison compatibility",
+		"request, schemas, and dependent Lookups",
+		"ask one targeted clarification before writing",
+		"Back-translate the final `where`",
+		"Sample values are secondary",
+		"Source links to current entity → source.linkField matches current.primaryField",
+		"Current row links to source    → source.primaryField matches current.linkField",
+	} {
+		if !strings.Contains(section, contract) {
+			t.Fatalf("Lookup row-correlation rules must contain %q:\n%s", contract, section)
+		}
+	}
+}
