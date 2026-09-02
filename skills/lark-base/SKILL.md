@@ -86,6 +86,8 @@ Field 定义列 schema。`field_id` 是稳定列标识，`name` 是可修改的�
 
 明确请求 Formula 创建或更新时，在说明不支持或改用其他字段类型前，必须先阅读 [Formula guide](references/lark-base-field-formula.md)。跨表整列引用 `[SourceTable].[NumericField]` 是 List；对数值列可用 `SUM([SourceTable].[NumericField])` 聚合。
 
+用户已提供 Base 并明确要求创建或更新 Formula 字段时，或用户已提供 Base、指定结果写入的目标表并要求用 Formula 产出结果时，即使未使用“创建/更新”字样，除非用户明确只要解释，否则按执行请求处理：先完整阅读 [Formula guide](references/lark-base-field-formula.md)，完成表/字段发现后，按用户语句中的语法角色区分写入目标和引用来源，执行 `+field-create` / `+field-update`；再用 `+field-get` 读回最终类型和表达式，有适用记录时用 `+record-list` 读回代表性计算值。只给公式建议不算完成。
+
 ### Record
 
 Record 是 Table 中的一行数据，包含该记录在各个 Field 下的 CellValue。系统 `record_id` 是表内稳定、非空且唯一的主键，Table 的主字段只是展示字段。

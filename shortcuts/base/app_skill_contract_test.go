@@ -107,3 +107,46 @@ func TestBaseSkillContract_FormulaGuideBeforeUnsupportedFallback(t *testing.T) {
 		t.Fatalf("Formula guide must not advertise the obsolete +table-list response shape")
 	}
 }
+
+func TestBaseSkillContract_FormulaActionRequestsExecuteAndReadBack(t *testing.T) {
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	start := strings.Index(skill, "### Field")
+	end := strings.Index(skill, "### Record")
+	if start < 0 || end <= start {
+		t.Fatalf("missing Field routing section in %s", larkBaseSkillDoc)
+	}
+	fieldSection := skill[start:end]
+	for _, contract := range []string{
+		"用户已提供 Base 并明确要求创建或更新 Formula 字段时",
+		"指定结果写入的目标表并要求用 Formula 产出结果时",
+		"即使未使用“创建/更新”字样",
+		"除非用户明确只要解释",
+		"先完整阅读 [Formula guide](references/lark-base-field-formula.md)",
+		"完成表/字段发现后",
+		"按用户语句中的语法角色区分写入目标和引用来源",
+		"`+field-create` / `+field-update`",
+		"`+field-get`",
+		"`+record-list`",
+		"只给公式建议不算完成",
+	} {
+		if !strings.Contains(fieldSection, contract) {
+			t.Fatalf("Formula action routing must contain %q:\n%s", contract, fieldSection)
+		}
+	}
+
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	for _, contract := range []string{
+		"## Action requests and operand roles",
+		"names the destination table and asks Formula to produce a result",
+		"even if the request does not literally say create or update",
+		"destination table",
+		"source table and field",
+		"Do not swap these roles",
+		"read back the final Formula field with `+field-get`",
+		"read a representative computed value with `+record-list`",
+	} {
+		if !strings.Contains(formulaGuide, contract) {
+			t.Fatalf("Formula guide must contain %q", contract)
+		}
+	}
+}

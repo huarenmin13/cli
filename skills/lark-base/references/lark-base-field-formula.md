@@ -12,6 +12,18 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 **All cross-table references, aggregations, and computed fields should use Formula fields by default.** Do NOT use Lookup fields unless the user explicitly requests it. Formula is a strict superset of Lookup — anything Lookup can do, Formula can do with a single expression.
 
+## Action requests and operand roles
+
+When a user supplies a Base and explicitly asks to create or update a Formula field, treat it as an action request unless the user explicitly asks for explanation only. The same applies when the user supplies a Base, names the destination table and asks Formula to produce a result, even if the request does not literally say create or update. Read this guide, discover the actual table and field names, and execute the requested `+field-create` or `+field-update`; an advisory expression alone does not complete the request.
+
+Resolve operands from the grammatical roles in the user's request:
+
+- The **destination table** is where the Formula field must be created or updated; its ID belongs in `--table-id`.
+- The **source table and field** supply the values; their discovered names belong in the formula `expression`.
+- Do not swap these roles. For whole-column numeric aggregation, the destination receives a Formula whose expression follows `SUM([SourceTable].[NumericField])`.
+
+After the mutation, read back the final Formula field with `+field-get` and confirm its `type` and `expression`. When applicable destination records exist, also read a representative computed value with `+record-list` before reporting completion.
+
 ## Usage
 
 When creating a formula field, the Agent should:
