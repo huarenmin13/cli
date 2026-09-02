@@ -12,6 +12,12 @@ metadata:
 
 普通 Base 是数据容器，由一棵 Base Block 资源树和 Base 级配置组成。`folder`、`table`、`docx`、`dashboard`、`workflow` 都是 Block 类型；Advanced Permission / Role 是 Base 级配置，不属于 Block。Table 是其中承载业务数据的核心 Block。Workspace 是组织 Base 与 BaseApp 的外层容器；BaseApp（AppMode）通过 Page 和组件组织 Base 数据，不是 Base 的别名。
 
+## 行动请求（优先）
+
+已提供具体 Base 或 BaseApp 目标，且用户要求在其中创建、更新、删除、复制、移动、配置、提交或生成在线对象/数据时，先按对应对象协议确认请求能力受支持。对受支持的行动请求，除非用户明确只要解释、示例、命令或 JSON 文本，或明确要求不执行，否则必须执行相应的 `lark-cli` 命令。上述非执行请求保持非变更：只返回用户要求的内容，不得执行写命令。
+
+对需要执行的请求，读取 guide、构造表达式、JSON 或命令都只是准备步骤，不能作为成功终态；命令返回后按对象协议检查操作结果和必要的最终状态，未执行所需写命令且未证明目标当前已满足时不得报告完成。协议不支持的请求按对应 reference 的能力边界停止，不得用其他对象或写入冒充。
+
 ## 身份选择（优先）
 
 操作 Base 优先使用 `--as user`；用户明确要求应用身份时使用 `--as bot`。权限失败按 `lark-shared` 以原身份修复 scope 或资源 ACL；只有用户明确同意更换操作者时才切换身份。

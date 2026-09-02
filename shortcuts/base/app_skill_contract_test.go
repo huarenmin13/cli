@@ -173,3 +173,29 @@ func TestBaseSkillContract_BaseURLsStayOnCLIAuthBoundary(t *testing.T) {
 		}
 	}
 }
+
+func TestBaseSkillContract_ConcreteMutationCannotStopAtPreparation(t *testing.T) {
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	start := strings.Index(skill, "# Base")
+	end := strings.Index(skill, "## 身份选择（优先）")
+	if start < 0 || end <= start {
+		t.Fatalf("missing early Base execution contract in %s", larkBaseSkillDoc)
+	}
+	section := skill[start:end]
+	for _, contract := range []string{
+		"## 行动请求（优先）",
+		"已提供具体 Base 或 BaseApp 目标",
+		"创建、更新、删除、复制、移动、配置、提交或生成在线对象/数据",
+		"先按对应对象协议确认请求能力受支持",
+		"对受支持的行动请求，除非用户明确只要解释、示例、命令或 JSON 文本，或明确要求不执行，否则必须执行相应的 `lark-cli` 命令",
+		"上述非执行请求保持非变更：只返回用户要求的内容，不得执行写命令",
+		"对需要执行的请求，读取 guide、构造表达式、JSON 或命令都只是准备步骤，不能作为成功终态",
+		"按对象协议检查操作结果和必要的最终状态",
+		"未执行所需写命令且未证明目标当前已满足时不得报告完成",
+		"协议不支持的请求按对应 reference 的能力边界停止，不得用其他对象或写入冒充",
+	} {
+		if !strings.Contains(section, contract) {
+			t.Fatalf("early Base execution contract must contain %q:\n%s", contract, section)
+		}
+	}
+}
