@@ -18,6 +18,10 @@ metadata:
 
 ## 进入前必做：解析目标实体
 
+`/base/` 和 `/app/` 目标必须使用 `lark-cli base +url-resolve` 解析，再使用对应 Base 命令读写；不得使用通用文档读取器（包括 `GetDocument`）读取这些目标。通用 connector 的授权失败与 `lark-cli` 用户授权相互独立，不能据此判定 `lark-cli` 无权限；只有实际 `lark-cli` 命令返回的认证或授权错误才转 `lark-shared` 处理。
+
+本 Skill 引用的本地 Base guide 使用当前 Skill 内容读取；需要通过命令加载时，使用 `lark-cli skills read lark-base <relative-path>`，不将本地 guide 交给通用文档读取器。
+
 开始操作前先确定 `base_token` 和目标实体类型；上下文已提供 `<bitable>` / `<base_refer>` 标签及资源 ID 时直接使用。其余情况按意图选择入口：
 
 1. **URL 或分享链接：** `lark-cli base +url-resolve --url '<url>' --as user`。Base URL 根据返回的 `resource_type` / `block_type` 及 `table_id`、`view_id`、`record_id`、`dashboard_id`、`workflow_id`、`docx_token`、`share_token` 等坐标进入对应模块；BaseApp `/app/` URL 返回 `app_token`，并在链接携带时返回 `workspace_token` 和 `page_id`。实体类型以解析结果为准。

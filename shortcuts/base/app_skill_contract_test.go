@@ -150,3 +150,26 @@ func TestBaseSkillContract_FormulaActionRequestsExecuteAndReadBack(t *testing.T)
 		}
 	}
 }
+
+func TestBaseSkillContract_BaseURLsStayOnCLIAuthBoundary(t *testing.T) {
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	start := strings.Index(skill, "## 进入前必做：解析目标实体")
+	end := strings.Index(skill, "## Base 模板中心")
+	if start < 0 || end <= start {
+		t.Fatalf("missing Base target resolution section in %s", larkBaseSkillDoc)
+	}
+	section := skill[start:end]
+	for _, contract := range []string{
+		"`/base/` 和 `/app/` 目标",
+		"`lark-cli base +url-resolve`",
+		"不得使用通用文档读取器（包括 `GetDocument`）",
+		"通用 connector 的授权失败与 `lark-cli` 用户授权相互独立",
+		"不能据此判定 `lark-cli` 无权限",
+		"只有实际 `lark-cli` 命令返回的认证或授权错误",
+		"`lark-cli skills read lark-base <relative-path>`",
+	} {
+		if !strings.Contains(section, contract) {
+			t.Fatalf("Base routing must contain %q:\n%s", contract, section)
+		}
+	}
+}
