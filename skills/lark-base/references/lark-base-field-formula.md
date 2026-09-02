@@ -10,7 +10,7 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 ## Default strategy
 
-**All cross-table references, aggregations, and computed fields should use Formula fields by default.** Do NOT use Lookup fields unless the user explicitly requests it. Formula is a strict superset of Lookup — anything Lookup can do, Formula can do with a single expression.
+**Use Formula fields by default for cross-table references, aggregations, and computed fields only when the user did not specify a field type.** When the user explicitly requests a Formula field, `type=formula` is an invariant unless the user explicitly requests conversion to another type. Technical convertibility to Lookup does not authorize a type change.
 
 ## Action requests and operand roles
 
@@ -22,13 +22,13 @@ Resolve operands from the grammatical roles in the user's request:
 - The **source table and field** supply the values; their discovered names belong in the formula `expression`.
 - Do not swap these roles. For whole-column numeric aggregation, the destination receives a Formula whose expression follows `SUM([SourceTable].[NumericField])`.
 
-After the mutation, read back the final Formula field with `+field-get` and confirm its `type` and `expression`. When applicable destination records exist, also read a representative computed value with `+record-list` before reporting completion.
+After a successful mutation response, verification may be eventually consistent. Poll read-only commands only against the same Base, table, and field, using bounded retries with backoff and a hard deadline. Keep the original Base token, table ID, and field ID fixed; read back the final Formula field with `+field-get` to confirm its `type` and `expression`, and, when applicable, read a representative computed value with `+record-list` on the same destination. A stale read must never trigger replay of `+field-create` or `+field-update`. If the deadline expires, verification has failed; report the timeout instead of claiming completion.
 
 ## Usage
 
 When creating a formula field, the Agent should:
 
-1. Get all table names: `lark-cli base +table-list --base-token <base>` — returns `tables[].name`
+1. Get all table names: `lark-cli base +table-list --base-token <base>` — returns `tables[].name`. When `meta.pagination.complete` is `false`, pass its decimal `next_token` to `--offset` and repeat until `complete` is `true`. Do not assume the default first page contains the destination or source table.
 2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
 3. If the formula references other tables, also get those tables' structures
 4. Write the formula expression following this guide

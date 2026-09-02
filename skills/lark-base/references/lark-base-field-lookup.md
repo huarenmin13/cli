@@ -10,7 +10,7 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 ## Default strategy
 
-**Use Formula fields by default for cross-table references and aggregations only when the user did not specify a field type.** When the user explicitly requests a Lookup field, `type=lookup` is an invariant unless the user explicitly approves a type change. An empty or temporarily uncomputed result, or a configuration error, means diagnose the requested Lookup; it does not authorize fallback to Formula, Link, or another field type.
+**Use Formula fields by default for cross-table references and aggregations only when the user did not specify a field type.** When the user explicitly requests a Lookup field, `type=lookup` is an invariant unless the user explicitly requests conversion to another type. Technical convertibility to Formula does not authorize a type change. An empty or temporarily uncomputed result, or a configuration error, means diagnose the requested Lookup; it does not authorize fallback to Formula, Link, or another field type.
 
 ## Usage
 
@@ -23,6 +23,8 @@ When creating a lookup field, the Agent should:
 5. After each mutation, use `+field-get` to confirm `type`, `from`, `select`, `where`, and `aggregate` before creating or updating any dependent Lookup.
 6. After the final mutation, read every requested field again with `+field-get`, then read representative computed values with `+record-list` when applicable.
 7. `[无效引用]`, `Invalid Reference`, or an equivalent invalid-reference marker blocks completion. Diagnose the original Lookup configuration and dependencies; do not change its type as a fallback.
+
+After a successful mutation response, verification may be eventually consistent. Poll read-only commands only against the same Base, table, and field, using bounded retries with backoff and a hard deadline. Keep the original Base token, table ID, and field ID fixed; use `+field-get` for the requested Lookup definition and `+record-list` on the same destination when a representative computed value is applicable. A stale read must never trigger replay of `+field-create` or `+field-update`. If the deadline expires, verification has failed; report the timeout instead of claiming completion.
 
 **Key constraints**:
 

@@ -307,3 +307,94 @@ func TestBaseSkillContract_LookupCorrelationFollowsCurrentRowSemantics(t *testin
 		}
 	}
 }
+
+func TestBaseSkillContract_ComputedFieldConvertibilityDoesNotOverrideExplicitType(t *testing.T) {
+	updateGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-update.md")
+	for _, contract := range []string{
+		"转换白名单只描述技术可转换性，不授权改变用户明确要求的字段类型",
+		"用户明确要求 Formula 或 Lookup 语义时，必须保留该类型",
+		"除非用户明确要求转换",
+	} {
+		if !strings.Contains(updateGuide, contract) {
+			t.Fatalf("field-update guide must contain %q", contract)
+		}
+	}
+	if strings.Contains(updateGuide, "无状态字段可直接转换") {
+		t.Fatal("field-update guide must not present computed-field convertibility as unconditional authorization")
+	}
+
+	guides := []struct {
+		name          string
+		path          string
+		invariant     string
+		conversionBan string
+	}{
+		{
+			name:          "formula",
+			path:          "../../skills/lark-base/references/lark-base-field-formula.md",
+			invariant:     "`type=formula` is an invariant",
+			conversionBan: "Technical convertibility to Lookup does not authorize a type change",
+		},
+		{
+			name:          "lookup",
+			path:          "../../skills/lark-base/references/lark-base-field-lookup.md",
+			invariant:     "`type=lookup` is an invariant",
+			conversionBan: "Technical convertibility to Formula does not authorize a type change",
+		},
+	}
+	for _, guide := range guides {
+		t.Run(guide.name, func(t *testing.T) {
+			doc := readSkillContractFile(t, guide.path)
+			for _, contract := range []string{
+				guide.invariant,
+				guide.conversionBan,
+				"unless the user explicitly requests conversion",
+			} {
+				if !strings.Contains(doc, contract) {
+					t.Fatalf("%s guide must contain %q", guide.name, contract)
+				}
+			}
+		})
+	}
+}
+
+func TestBaseSkillContract_ComputedFieldVerificationPollsWithoutReplayingMutation(t *testing.T) {
+	guides := []struct {
+		name string
+		path string
+	}{
+		{name: "formula", path: "../../skills/lark-base/references/lark-base-field-formula.md"},
+		{name: "lookup", path: "../../skills/lark-base/references/lark-base-field-lookup.md"},
+	}
+	for _, guide := range guides {
+		t.Run(guide.name, func(t *testing.T) {
+			doc := readSkillContractFile(t, guide.path)
+			for _, contract := range []string{
+				"Poll read-only commands only",
+				"same Base, table, and field",
+				"bounded retries with backoff and a hard deadline",
+				"A stale read must never trigger replay",
+				"`+field-create` or `+field-update`",
+				"deadline expires, verification has failed",
+			} {
+				if !strings.Contains(doc, contract) {
+					t.Fatalf("%s guide must contain %q", guide.name, contract)
+				}
+			}
+		})
+	}
+}
+
+func TestBaseSkillContract_FormulaTableDiscoveryConsumesAllPages(t *testing.T) {
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	for _, contract := range []string{
+		"When `meta.pagination.complete` is `false`",
+		"pass its decimal `next_token` to `--offset`",
+		"repeat until `complete` is `true`",
+		"Do not assume the default first page contains the destination or source table",
+	} {
+		if !strings.Contains(formulaGuide, contract) {
+			t.Fatalf("Formula table discovery must contain %q", contract)
+		}
+	}
+}
