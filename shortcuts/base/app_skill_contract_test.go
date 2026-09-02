@@ -249,3 +249,30 @@ func TestBaseSkillContract_ExplicitLookupPreservesTypeAndValidatesDependencies(t
 		t.Fatalf("Lookup guide must not advertise the obsolete +table-list response shape")
 	}
 }
+
+func TestBaseSkillContract_LookupAggregateRequiresExplicitDeduplication(t *testing.T) {
+	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
+	start := strings.Index(lookupGuide, "## Section 4: Aggregate Rules")
+	end := strings.Index(lookupGuide, "## Section 5: Hard Constraints")
+	if start < 0 || end <= start {
+		t.Fatal("missing Lookup aggregate rules section")
+	}
+	section := lookupGuide[start:end]
+	for _, contract := range []string{
+		"Use `raw_value` for list, reference, or bring-through intent",
+		"unless the user explicitly asks to deduplicate",
+		"`unique` is allowed only for explicit deduplicate, distinct, or unique intent",
+		"collection, list, set, or similar nouns in a destination label do not authorize `unique`",
+		"Preserve an explicitly requested `sum`, `average`, `max`, `min`, `counta`, or `unique_counta`",
+	} {
+		if !strings.Contains(section, contract) {
+			t.Fatalf("Lookup aggregate rules must contain %q:\n%s", contract, section)
+		}
+	}
+	if !strings.Contains(lookupGuide, "Just reference matching values? → Lookup (aggregate = raw_value)") {
+		t.Fatal("Lookup decision tree must keep plain references on raw_value")
+	}
+	if strings.Contains(lookupGuide, "aggregate = null") {
+		t.Fatal("Lookup guide must not route plain references to a null aggregate")
+	}
+}

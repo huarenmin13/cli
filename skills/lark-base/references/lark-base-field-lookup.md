@@ -84,7 +84,7 @@ What does the user need?
 ├─ "Link"/"associate"/"bind" records between tables → Link
 ├─ "Look up"/"reference"/"aggregate"/"count" from another table → Lookup
 │   ├─ Needs aggregation (sum/count/average)? → Lookup + aggregate
-│   └─ Just reference a value? → Lookup (aggregate = null)
+│   └─ Just reference matching values? → Lookup (aggregate = raw_value)
 ├─ Calculations/text manipulation within current table → Formula
 └─ Access linked record's field → Prefer Lookup (more intuitive), or Formula chain access
 ```
@@ -227,11 +227,13 @@ When using `{ "type": "field_ref", "field": "..." }`, values from both sides are
 | `max` | "maximum" / "latest" / "most recent" | `number` / `datetime` field | Same as source |
 | `min` | "minimum" / "earliest" | `number` / `datetime` field | Same as source |
 | `counta` | "count" / "how many" / "total number" | Any field | Number |
-| `unique_counta` | "count distinct" / "how many different" | Field to deduplicate | Number |
-| `unique` | "list distinct" / "which ones" / "show different" | Field to display | List |
-| `raw_value` | "list all" / "show all values" (default) | Field to display | List |
+| `unique_counta` | "count distinct" / "unique count" | Field to deduplicate | Number |
+| `unique` | "deduplicate" / "distinct values" / "unique values" | Field to display | List |
+| `raw_value` | "list" / "reference" / "bring through" / "show matching values" (default) | Field to display | List |
 
-**Common confusion**: `unique` returns a **deduplicated list**, `unique_counta` returns a **count**. "Which categories are involved" → `unique`; "How many categories" → `unique_counta`.
+Use `raw_value` for list, reference, or bring-through intent unless the user explicitly asks to deduplicate. `unique` is allowed only for explicit deduplicate, distinct, or unique intent. Words such as collection, list, set, or similar nouns in a destination label do not authorize `unique`; select the aggregate from the requested result semantics, not the label. Preserve an explicitly requested `sum`, `average`, `max`, `min`, `counta`, or `unique_counta`.
+
+**Common confusion**: `unique` returns a **deduplicated list**, while `unique_counta` returns a **count**. "Show distinct values" → `unique`; "Count distinct values" → `unique_counta`; a plain request to bring matching values through → `raw_value`.
 
 **Important**:
 - Enum values are **snake_case lowercase**: `sum` not `Sum`, `average` not `Average`
