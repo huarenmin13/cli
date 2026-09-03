@@ -24,6 +24,12 @@ Resolve operands from the grammatical roles in the user's request:
 
 After a successful mutation response, verification may be eventually consistent. Poll read-only commands only against the same Base, table, and field, using bounded retries with backoff and a hard deadline. Keep the original Base token, table ID, and field ID fixed; read back the final Formula field with `+field-get` to confirm its `type` and `expression`, and, when applicable, read a representative computed value with `+record-list` on the same destination. A stale read must never trigger replay of `+field-create` or `+field-update`. If the deadline expires, verification has failed; report the timeout instead of claiming completion.
 
+## Preserve requested predicate semantics
+
+Translate the user's comparison words before choosing helper functions. Treat `equals`, `is`, and `is one of` as exact comparisons by default. Do not add `TRIM`, `LOWER`, `UPPER`, `CONTAINTEXT`, `CONTAIN`, regex, fuzzy matching, or synonym expansion merely to make the formula more permissive.
+
+Only normalize case or whitespace when the user explicitly requests it. Only use containment when the user requests contains or membership semantics, or when the schema proves that the searched operand is a list; in that case, keep the list and scalar roles explicit. Compare the candidate expression back to the requested predicate before mutation, and remove any unrequested normalization or broadening. After mutation, readback proves what was stored, but readback does not make a semantically broader expression acceptable.
+
 ## Usage
 
 When creating a formula field, the Agent should:

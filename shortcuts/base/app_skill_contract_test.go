@@ -151,6 +151,24 @@ func TestBaseSkillContract_FormulaActionRequestsExecuteAndReadBack(t *testing.T)
 	}
 }
 
+func TestBaseSkillContract_FormulaPredicatesPreserveRequestedSemantics(t *testing.T) {
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	for _, contract := range []string{
+		"## Preserve requested predicate semantics",
+		"Treat `equals`, `is`, and `is one of` as exact comparisons by default",
+		"Do not add `TRIM`, `LOWER`, `UPPER`, `CONTAINTEXT`, `CONTAIN`, regex, fuzzy matching, or synonym expansion",
+		"Only normalize case or whitespace when the user explicitly requests it",
+		"Only use containment when the user requests contains or membership semantics",
+		"the schema proves that the searched operand is a list",
+		"Compare the candidate expression back to the requested predicate before mutation",
+		"readback does not make a semantically broader expression acceptable",
+	} {
+		if !strings.Contains(formulaGuide, contract) {
+			t.Fatalf("Formula predicate preservation must contain %q", contract)
+		}
+	}
+}
+
 func TestBaseSkillContract_BaseURLsStayOnCLIAuthBoundary(t *testing.T) {
 	skill := readSkillContractFile(t, larkBaseSkillDoc)
 	start := strings.Index(skill, "## 进入前必做：解析目标实体")
