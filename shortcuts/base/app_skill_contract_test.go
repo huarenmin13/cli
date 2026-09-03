@@ -364,6 +364,33 @@ func TestBaseSkillContract_LookupCountPreservesCountedOperand(t *testing.T) {
 	}
 }
 
+func TestBaseSkillContract_LookupNamedCountedFieldCannotBecomeRecordCount(t *testing.T) {
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	for _, contract := range []string{
+		"查找引用计数必须先绑定“被统计对象”",
+		"用户点名某个来源字段的出现次数时，`select` 必须是该字段且 `aggregate=counta`",
+		"只有明确统计记录/实体且未点名被统计字段时",
+		"匹配字段和 `select` 可以是同一字段",
+		"不能为了“数记录”改选其他非空字段",
+	} {
+		if !strings.Contains(skill, contract) {
+			t.Fatalf("Base skill Lookup count invariant must contain %q", contract)
+		}
+	}
+
+	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
+	for _, contract := range []string{
+		"Do not reframe a named field-occurrence request as a record count",
+		"The filter field and `select` may be the same source field",
+		"An identifier fallback is allowed only for an entity or record count with no named counted field",
+		"State the mapping as `counted operand -> select -> aggregate` before mutation",
+	} {
+		if !strings.Contains(lookupGuide, contract) {
+			t.Fatalf("Lookup named-counted-field rules must contain %q", contract)
+		}
+	}
+}
+
 func TestBaseSkillContract_LookupCorrelationFollowsCurrentRowSemantics(t *testing.T) {
 	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
 	start := strings.Index(lookupGuide, "### How to find the matching field pair")

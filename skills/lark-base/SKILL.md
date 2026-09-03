@@ -100,6 +100,8 @@ Field 定义列 schema。`field_id` 是稳定列标识，`name` 是可修改的�
 
 明确请求 Lookup 时，`type=lookup` 是输出契约；除非用户明确批准变更字段类型，空值、暂未计算或配置错误只触发排查，不得改用 Formula、Link 或其他字段类型。创建、更新和验收前完整阅读 [Lookup guide](references/lark-base-field-lookup.md)。
 
+查找引用计数必须先绑定“被统计对象”：用户点名某个来源字段的出现次数时，`select` 必须是该字段且 `aggregate=counta`；只有明确统计记录/实体且未点名被统计字段时，才可退回该实体的稳定标识字段或主字段。匹配字段和 `select` 可以是同一字段，不能为了“数记录”改选其他非空字段。
+
 ### Record
 
 Record 是 Table 中的一行数据，包含该记录在各个 Field 下的 CellValue。系统 `record_id` 是表内稳定、非空且唯一的主键，Table 的主字段只是展示字段。

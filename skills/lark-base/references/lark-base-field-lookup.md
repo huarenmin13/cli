@@ -248,13 +248,15 @@ When using `{ "type": "field_ref", "field": "..." }`, values from both sides are
 Resolve the counted noun before choosing `select` and `aggregate`. These two settings form one semantic contract: `select=F` with `aggregate=counta` counts non-empty occurrences of `F`, while `select=N` with `aggregate=sum` adds the numeric values of `N`.
 
 - For “count occurrences of field F”, select `F` and use `counta`.
+- Do not reframe a named field-occurrence request as a record count. The filter field and `select` may be the same source field; using one field to match rows does not make another non-empty field an acceptable counting operand.
 - For “how many entities” or “number of records”, prefer a schema-confirmed stable, non-empty identifier for that entity, especially an explicitly named ID or `auto_number` field, and use `counta`. Only fall back to a primary / display field when no stronger identifier exists and that field actually represents the counted entity. Use `unique_counta` only when the request also requires distinct entities.
+- An identifier fallback is allowed only for an entity or record count with no named counted field.
 - For “total quantity”, “sum of amount”, or another explicitly additive measure, select that numeric measure and use `sum`.
 - Do not replace an entity count with `sum` of a numeric measure, even when the measure sounds related to the entity.
 - A bare “total” or “total number” label does not authorize `sum`; first determine whether the noun denotes entities to count or a numeric measure to add.
 - Do not pick an arbitrary non-empty field for `counta`. `counta` ignores empty selected values, so another field is not semantically interchangeable merely because it is populated in the current rows.
 
-Back-translate the final pair into plain language before mutation: “count non-empty values of the selected field” or “add the selected numeric values”. Sample totals that happen to match do not establish semantic equivalence. If more than one field plausibly represents the counted entity and the request or schema does not resolve it, clarify the counted operand before mutation.
+State the mapping as `counted operand -> select -> aggregate` before mutation, then back-translate the final pair into plain language: “count non-empty values of the selected field” or “add the selected numeric values”. Sample totals that happen to match do not establish semantic equivalence. If more than one field plausibly represents the counted entity and the request or schema does not resolve it, clarify the counted operand before mutation.
 
 Apply the same back-translation to the final `+field-get` readback. If the stored `select` / `aggregate` pair expresses a different operation, correct the Lookup definition; representative values that happen to match do not make it acceptable.
 
