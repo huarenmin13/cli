@@ -169,6 +169,36 @@ func TestBaseSkillContract_FormulaPredicatesPreserveRequestedSemantics(t *testin
 	}
 }
 
+func TestBaseSkillContract_FormulaDateDifferenceHandlesEitherOrdering(t *testing.T) {
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	for _, contract := range []string{
+		"#### Choose a date-difference function by semantics",
+		"For a general difference in days, use `DAYS(end, start)`",
+		"For elapsed days from a date through today, use `DAYS(TODAY(), date)`",
+		"When the result must be non-negative, use `ABS(DAYS(end, start))`",
+		"Use `DATEDIF` only when the user requests whole elapsed days, months, or years",
+		"the start date is guaranteed not to be after the end date",
+		"Back-check the expression against both past and future dates",
+		"Rows that currently exercise only one date ordering do not prove the formula handles the other ordering",
+		"Apply the same semantic check to the final `+field-get` expression",
+		"### Mistake 10: Ignoring DAYS parameter order",
+		"A negative result is not inherently wrong",
+		"Choose argument order from the requested direction",
+	} {
+		if !strings.Contains(formulaGuide, contract) {
+			t.Fatalf("Formula date-difference rules must contain %q", contract)
+		}
+	}
+	for _, forbidden := range []string{
+		"Wrong:   DAYS([StartDate], [EndDate])",
+		"Correct: DAYS([EndDate], [StartDate])",
+	} {
+		if strings.Contains(formulaGuide, forbidden) {
+			t.Fatalf("Formula date-difference rules must not contain %q", forbidden)
+		}
+	}
+}
+
 func TestBaseSkillContract_BaseURLsStayOnCLIAuthBoundary(t *testing.T) {
 	skill := readSkillContractFile(t, larkBaseSkillDoc)
 	start := strings.Index(skill, "## 进入前必做：解析目标实体")

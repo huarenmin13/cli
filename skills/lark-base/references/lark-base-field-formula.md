@@ -400,6 +400,15 @@ After the result column, it's recommended to flatten with `.LISTCOMBINE()` first
 | Precision       | Includes decimals (hours/minutes/seconds as fractional days) | Integer only (whole days/months/years)    |
 | Negative values | Returns negative when start is after end                     | **Errors** when start is after end        |
 
+#### Choose a date-difference function by semantics
+
+- For a general difference in days, use `DAYS(end, start)`. It supports either date ordering and preserves direction through the sign of the result.
+- For elapsed days from a date through today, use `DAYS(TODAY(), date)`: past dates are positive and future dates are negative.
+- When the result must be non-negative, use `ABS(DAYS(end, start))`. Do not discard the sign unless the user requests an absolute difference or another non-negative result.
+- Use `DATEDIF` only when the user requests whole elapsed days, months, or years and the start date is guaranteed not to be after the end date. A few currently valid rows do not establish that guarantee.
+
+Back-check the expression against both past and future dates before mutation. Rows that currently exercise only one date ordering do not prove the formula handles the other ordering. Apply the same semantic check to the final `+field-get` expression; representative values from only one ordering cannot make an unsafe definition equivalent.
+
 ### SUM vs SUMIF
 
 |           | SUM                                            | SUMIF                                                          |
@@ -507,8 +516,9 @@ IF([Condition], "prefix" & [Field] & "suffix", "default text")
 ### Pattern 6: Date difference
 
 ```
-DATEDIF([StartDate], [EndDate], "D") & " days"
 DAYS([EndDate], [StartDate])
+ABS(DAYS([DateA], [DateB]))
+DATEDIF([StartDate], [EndDate], "D") & " days"  ← only for whole elapsed units when StartDate <= EndDate is guaranteed
 ```
 
 ### Pattern 7: List element mapping
@@ -610,14 +620,14 @@ Recommended: "Deadline: " & TEXT([DateField], "YYYY-MM-DD")
 
 Reason: Concatenating a date with `&` won't error, but uses the default format. Use TEXT to specify the format explicitly.
 
-### Mistake 10: Reversed DAYS parameter order
+### Mistake 10: Ignoring DAYS parameter order
 
 ```
-Wrong:   DAYS([StartDate], [EndDate])  → returns negative
-Correct: DAYS([EndDate], [StartDate])  → returns positive
+DAYS([EndDate], [StartDate])  → end minus start
+DAYS([StartDate], [EndDate])  → start minus end
 ```
 
-Reason: DAYS parameter order is end date first, start date second.
+Reason: DAYS always computes its first argument minus its second. A negative result is not inherently wrong; it may be the requested signed direction. Choose argument order from the requested direction, or wrap the result in `ABS` only when a non-negative difference is required.
 
 ### Mistake 11: Chaining zero-argument functions
 
