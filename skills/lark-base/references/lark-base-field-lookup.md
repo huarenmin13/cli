@@ -234,14 +234,29 @@ When using `{ "type": "field_ref", "field": "..." }`, values from both sides are
 
 | Aggregate | Common user phrasing | Select field should be | Result type |
 |-----------|---------------------|----------------------|-------------|
-| `sum` | "total" / "sum" / "cumulative amount" | `number` field (e.g., amount) | Number |
+| `sum` | "sum" / "add up" / "total amount or quantity" | Explicitly named additive `number` field | Number |
 | `average` | "average" / "mean" | `number` field | Number |
 | `max` | "maximum" / "latest" / "most recent" | `number` / `datetime` field | Same as source |
 | `min` | "minimum" / "earliest" | `number` / `datetime` field | Same as source |
-| `counta` | "count" / "how many" / "total number" | Any field | Number |
+| `counta` | "count" / "how many" / "total number" | Explicitly counted field, or the counted entity's identifier / primary field | Number |
 | `unique_counta` | "count distinct" / "unique count" | Field to deduplicate | Number |
 | `unique` | "deduplicate" / "distinct values" / "unique values" | Field to display | List |
 | `raw_value` | "list" / "reference" / "bring through" / "show matching values" (default) | Field to display | List |
+
+### Preserve the counted operand
+
+Resolve the counted noun before choosing `select` and `aggregate`. These two settings form one semantic contract: `select=F` with `aggregate=counta` counts non-empty occurrences of `F`, while `select=N` with `aggregate=sum` adds the numeric values of `N`.
+
+- For “count occurrences of field F”, select `F` and use `counta`.
+- For “how many entities” or “number of records”, prefer a schema-confirmed stable, non-empty identifier for that entity, especially an explicitly named ID or `auto_number` field, and use `counta`. Only fall back to a primary / display field when no stronger identifier exists and that field actually represents the counted entity. Use `unique_counta` only when the request also requires distinct entities.
+- For “total quantity”, “sum of amount”, or another explicitly additive measure, select that numeric measure and use `sum`.
+- Do not replace an entity count with `sum` of a numeric measure, even when the measure sounds related to the entity.
+- A bare “total” or “total number” label does not authorize `sum`; first determine whether the noun denotes entities to count or a numeric measure to add.
+- Do not pick an arbitrary non-empty field for `counta`. `counta` ignores empty selected values, so another field is not semantically interchangeable merely because it is populated in the current rows.
+
+Back-translate the final pair into plain language before mutation: “count non-empty values of the selected field” or “add the selected numeric values”. Sample totals that happen to match do not establish semantic equivalence. If more than one field plausibly represents the counted entity and the request or schema does not resolve it, clarify the counted operand before mutation.
+
+Apply the same back-translation to the final `+field-get` readback. If the stored `select` / `aggregate` pair expresses a different operation, correct the Lookup definition; representative values that happen to match do not make it acceptable.
 
 Use `raw_value` for list, reference, or bring-through intent unless the user explicitly asks to deduplicate. `unique` is allowed only for explicit deduplicate, distinct, or unique intent. Words such as collection, list, set, or similar nouns in a destination label do not authorize `unique`; select the aggregate from the requested result semantics, not the label. Preserve an explicitly requested `sum`, `average`, `max`, `min`, `counta`, or `unique_counta`.
 

@@ -295,6 +295,45 @@ func TestBaseSkillContract_LookupAggregateRequiresExplicitDeduplication(t *testi
 	}
 }
 
+func TestBaseSkillContract_LookupCountPreservesCountedOperand(t *testing.T) {
+	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
+	start := strings.Index(lookupGuide, "## Section 4: Aggregate Rules")
+	end := strings.Index(lookupGuide, "## Section 5: Hard Constraints")
+	if start < 0 || end <= start {
+		t.Fatal("missing Lookup aggregate rules section")
+	}
+	section := lookupGuide[start:end]
+	for _, contract := range []string{
+		"Resolve the counted noun before choosing `select` and `aggregate`",
+		"`select=F` with `aggregate=counta` counts non-empty occurrences of `F`",
+		"`select=N` with `aggregate=sum` adds the numeric values of `N`",
+		"Explicitly named additive `number` field",
+		"select `F` and use `counta`",
+		"prefer a schema-confirmed stable, non-empty identifier",
+		"an explicitly named ID or `auto_number` field",
+		"Only fall back to a primary / display field when no stronger identifier exists",
+		"Do not replace an entity count with `sum` of a numeric measure",
+		"A bare “total” or “total number” label does not authorize `sum`",
+		"Do not pick an arbitrary non-empty field for `counta`",
+		"Sample totals that happen to match do not establish semantic equivalence",
+		"clarify the counted operand before mutation",
+		"Apply the same back-translation to the final `+field-get` readback",
+		"representative values that happen to match do not make it acceptable",
+	} {
+		if !strings.Contains(section, contract) {
+			t.Fatalf("Lookup count rules must contain %q:\n%s", contract, section)
+		}
+	}
+	for _, forbidden := range []string{
+		"| `sum` | \"total\"",
+		"| Any field |",
+	} {
+		if strings.Contains(section, forbidden) {
+			t.Fatalf("Lookup count rules must not contain %q:\n%s", forbidden, section)
+		}
+	}
+}
+
 func TestBaseSkillContract_LookupCorrelationFollowsCurrentRowSemantics(t *testing.T) {
 	lookupGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-lookup.md")
 	start := strings.Index(lookupGuide, "### How to find the matching field pair")
