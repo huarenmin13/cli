@@ -30,6 +30,14 @@ Translate the user's comparison words before choosing helper functions. Treat `e
 
 Only normalize case or whitespace when the user explicitly requests it. Only use containment when the user requests contains or membership semantics, or when the schema proves that the searched operand is a list; in that case, keep the list and scalar roles explicit. Compare the candidate expression back to the requested predicate before mutation, and remove any unrequested normalization or broadening. After mutation, readback proves what was stored, but readback does not make a semantically broader expression acceptable.
 
+## Preserve formula operand precision
+
+A `datetime` operand includes its time component. Use the complete field value directly in date arithmetic by default. Phrasing such as “difference in days” or a result unit of days does not by itself request calendar-day truncation or an integer.
+
+Do not add `TEXT`, `TODATE`, `DATE`, `INT`, `ROUND`, `ROUNDDOWN`, or `ROUNDUP` to a date-difference expression unless the user explicitly requests calendar-day, whole-day, truncation, rounding, or formatting semantics. Field style, display formatting, and current sample rows do not authorize loss of precision. A date-only display can still contain a non-midnight stored datetime.
+
+Before mutation, back-translate direction, sign, and precision / granularity from the candidate expression into plain language and compare all three with the request. Apply the same check to the final `+field-get` expression. If the request is genuinely ambiguous between elapsed time and calendar days, clarify instead of silently discarding the time component.
+
 ## Usage
 
 When creating a formula field, the Agent should:
@@ -103,7 +111,7 @@ When using comparison operators (`>`, `>=`, `<`, `<=`, `=`, `!=`), **both sides 
 
 - `number` vs `text` → use `VALUE()` to convert text to number
 - `datetime` vs `text` → use `TEXT()` to convert date to text
-- `datetime` vs `datetime` equality → dates include time components, so direct `=` comparison may fail due to different hours/minutes/seconds. For day-level equality, convert to text first: `TEXT([DateA], "YYYY/MM/DD") = TEXT([DateB], "YYYY/MM/DD")`
+- `datetime` vs `datetime` equality → dates include time components, so direct `=` comparison may fail due to different hours/minutes/seconds. For explicit day-level equality only, convert to text first: `TEXT([DateA], "YYYY/MM/DD") = TEXT([DateB], "YYYY/MM/DD")`; this conversion is for explicit day-level equality only; do not reuse it to truncate operands in date arithmetic.
 - `select` and `user` fields can be compared with both same-type values and text
 - `text` fields in numeric aggregation (SUM/AVERAGE/MIN/MAX etc.) → convert to number with `VALUE()` first. For FILTER results, use `.MAP(VALUE(CurrentValue)).SUM()`
 

@@ -338,6 +338,18 @@ func TestBaseFieldCreateTipsGuideTypeSelectionByStoredValue(t *testing.T) {
 	}
 }
 
+func TestBaseFieldCreateTipsPreserveFormulaDatetimePrecision(t *testing.T) {
+	tips := strings.Join(BaseFieldCreate.Tips, "\n")
+	for _, want := range []string{
+		"Formula date arithmetic must preserve the user's direction, sign, and datetime precision",
+		"do not add TEXT/TODATE or rounding to force whole calendar days unless explicitly requested",
+	} {
+		if !strings.Contains(tips, want) {
+			t.Fatalf("field-create tips should contain %q, got:\n%s", want, tips)
+		}
+	}
+}
+
 func TestTemplateCenterShortcutContract(t *testing.T) {
 	ctx := context.Background()
 

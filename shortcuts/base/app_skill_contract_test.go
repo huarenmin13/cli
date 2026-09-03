@@ -172,6 +172,12 @@ func TestBaseSkillContract_FormulaPredicatesPreserveRequestedSemantics(t *testin
 func TestBaseSkillContract_FormulaDateDifferenceHandlesEitherOrdering(t *testing.T) {
 	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
 	for _, contract := range []string{
+		"## Preserve formula operand precision",
+		"A `datetime` operand includes its time component",
+		"“difference in days” or a result unit of days does not by itself request calendar-day truncation or an integer",
+		"Do not add `TEXT`, `TODATE`, `DATE`, `INT`, `ROUND`, `ROUNDDOWN`, or `ROUNDUP`",
+		"Field style, display formatting, and current sample rows do not authorize loss of precision",
+		"back-translate direction, sign, and precision / granularity",
 		"#### Choose a date-difference function by semantics",
 		"For a general difference in days, use `DAYS(end, start)`",
 		"For elapsed days from a date through today, use `DAYS(TODAY(), date)`",
@@ -195,6 +201,25 @@ func TestBaseSkillContract_FormulaDateDifferenceHandlesEitherOrdering(t *testing
 	} {
 		if strings.Contains(formulaGuide, forbidden) {
 			t.Fatalf("Formula date-difference rules must not contain %q", forbidden)
+		}
+	}
+	usage := strings.Index(formulaGuide, "## Usage")
+	precision := strings.Index(formulaGuide, "## Preserve formula operand precision")
+	if precision < 0 || usage < 0 || precision >= usage {
+		t.Fatal("Formula precision invariant must appear before Usage")
+	}
+	if !strings.Contains(formulaGuide, "for explicit day-level equality only; do not reuse it to truncate operands in date arithmetic") {
+		t.Fatal("Formula equality conversion guidance must not leak into date arithmetic")
+	}
+
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	for _, contract := range []string{
+		"Formula 日期差必须同时保留方向、符号和精度",
+		"`datetime` 字段默认以完整值直接参与日期算术",
+		"字段 style、显示格式和当前样例值不授权降精度",
+	} {
+		if !strings.Contains(skill, contract) {
+			t.Fatalf("Base skill Formula precision invariant must contain %q", contract)
 		}
 	}
 }

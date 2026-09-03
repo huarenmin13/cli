@@ -98,6 +98,8 @@ Field 定义列 schema。`field_id` 是稳定列标识，`name` 是可修改的�
 
 用户已提供 Base 并明确要求创建或更新 Formula 字段时，或用户已提供 Base、指定结果写入的目标表并要求用 Formula 产出结果时，即使未使用“创建/更新”字样，除非用户明确只要解释，否则按执行请求处理：先完整阅读 [Formula guide](references/lark-base-field-formula.md)，完成表/字段发现后，按用户语句中的语法角色区分写入目标和引用来源，执行 `+field-create` / `+field-update`；再用 `+field-get` 读回最终类型和表达式，有适用记录时用 `+record-list` 读回代表性计算值。只给公式建议不算完成。
 
+Formula 日期差必须同时保留方向、符号和精度：`datetime` 字段默认以完整值直接参与日期算术；除非用户明确要求自然日、整天、截断、舍入或格式化，否则不得添加 `TEXT`、`TODATE`、`DATE`、`INT`、`ROUND`、`ROUNDDOWN` 或 `ROUNDUP` 等有损转换。字段 style、显示格式和当前样例值不授权降精度。
+
 明确请求 Lookup 时，`type=lookup` 是输出契约；除非用户明确批准变更字段类型，空值、暂未计算或配置错误只触发排查，不得改用 Formula、Link 或其他字段类型。创建、更新和验收前完整阅读 [Lookup guide](references/lark-base-field-lookup.md)。
 
 查找引用计数必须先绑定“被统计对象”：用户点名某个来源字段的出现次数时，`select` 必须是该字段且 `aggregate=counta`；只有明确统计记录/实体且未点名被统计字段时，才可退回该实体的稳定标识字段或主字段。匹配字段和 `select` 可以是同一字段，不能为了“数记录”改选其他非空字段。
