@@ -30,6 +30,18 @@ Translate the user's comparison words before choosing helper functions. Treat `e
 
 Only normalize case or whitespace when the user explicitly requests it. Only use containment when the user requests contains or membership semantics, or when the schema proves that the searched operand is a list; in that case, keep the list and scalar roles explicit. Compare the candidate expression back to the requested predicate before mutation, and remove any unrequested normalization or broadening. After mutation, readback proves what was stored, but readback does not make a semantically broader expression acceptable.
 
+## Preserve requested transformation semantics
+
+Implement only the transformations the user requested. Do not add sorting, first-occurrence ordering, `TRIM`, case folding, whitespace cleanup, or other normalization because a nearby example or existing result column happens to use it. An unmentioned comparison column can reveal an ambiguity, but it does not authorize replacing an expression that already satisfies the request. If that evidence conflicts with the request, keep the minimal requested transformation or clarify the ambiguity before mutation.
+
+`UNIQUE` guarantees deduplication only; its output order is engine-defined and is not a first-occurrence guarantee. Use plain `UNIQUE` when the user asks only to deduplicate. Add ordering, first-occurrence preservation, or cleanup only when the user explicitly requests that behavior. Apply the same check to the final `+field-get` expression so verification cannot silently broaden the transformation.
+
+## Preserve complete branch semantics
+
+Before mutation, write a small truth table that includes every requested condition, `otherwise` / fallback result, and blank or null boundary. Current sample rows do not authorize dropping an unobserved branch. In particular, when checking duplicates for an optional identifier, a blank value means no identifier and should follow the non-duplicate or stated fallback branch unless the user explicitly asks to treat blank values as duplicate keys.
+
+After mutation, back-translate every branch of the final `+field-get` expression into the truth table. Use representative `+record-list` values where they exist, but verify branches absent from the current records from the expression structure itself; do not claim that samples covered a branch they did not exercise.
+
 ## Preserve formula operand precision
 
 A `datetime` operand includes its time component. Use the complete field value directly in date arithmetic by default. Phrasing such as “difference in days” or a result unit of days does not by itself request calendar-day truncation or an integer.
@@ -62,7 +74,7 @@ This is the foundation of formula logic. You must determine this before writing 
 
 | Syntax                | Meaning                                      | Return type            | Example                                      |
 | --------------------- | -------------------------------------------- | ---------------------- | -------------------------------------------- |
-| `[Field]`             | Value of this field in the current row       | Scalar (single value)  | `[Name]` → `"Alice"`                         |
+| `[Field]`             | Cell value of this field in the current row  | Scalar or list, according to field schema | `[Name]` → `"Alice"`              |
 | `[TableName].[Field]` | All values of this field in the target table | List (multiple values) | `[Employees].[Name]` → `["Alice","Bob",...]` |
 | `[TableName]`         | The target table (entire table)              | Table reference        | Used as data range for FILTER/COUNTIF etc.   |
 
@@ -373,7 +385,7 @@ After the result column, it's recommended to flatten with `.LISTCOMBINE()` first
 | MAP         | `data_range.MAP(mapping_expr)`                                               | List        | Apply mapping to each element. Use CurrentValue in mapping                                                                                                                                                       |
 | SORT        | `SORT(list, [ascending])`                                                    | List        | Sort; default ascending (TRUE)                                                                                                                                                                                   |
 | SORTBY      | `[Table].SORTBY([Table].[SortCol], [ascending]).[OutputCol]`                 | List        | Sort by column then extract output column. **Chain-only, must include output column**                                                                                                                            |
-| UNIQUE      | `UNIQUE(list)`                                                               | List        | Deduplicate                                                                                                                                                                                                      |
+| UNIQUE      | `UNIQUE(list)`                                                               | List        | Deduplicate; output order is engine-defined and does not guarantee first occurrence                                                                                                                              |
 | ARRAYJOIN   | `ARRAYJOIN(list, [delimiter])`                                               | Text        | Join list elements as text; default comma-separated                                                                                                                                                              |
 | LISTCOMBINE | `LISTCOMBINE(val1, [val2, ...])` or `list.LISTCOMBINE()`                     | List        | Two uses: (1) merge values/lists into one list; (2) chained call to flatten 2D array (commonly used when FILTER result column is a multi-value field)                                                            |
 | DISTANCE    | `DISTANCE(location1, location2)`                                             | Number      | Distance between two geographic locations (km)                                                                                                                                                                   |
@@ -535,6 +547,8 @@ DATEDIF([StartDate], [EndDate], "D") & " days"  ← only for whole elapsed units
 [SelectField(which multiple=true)].MAP(CurrentValue & " tag")
 SPLIT([TextField], ",").MAP(TRIM(CurrentValue))
 ```
+
+Use the `TRIM` mapping only when the user explicitly requests whitespace cleanup; splitting or deduplicating alone does not imply trimming.
 
 ### Pattern 8: Cross-table with sorting
 

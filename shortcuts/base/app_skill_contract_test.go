@@ -169,6 +169,81 @@ func TestBaseSkillContract_FormulaPredicatesPreserveRequestedSemantics(t *testin
 	}
 }
 
+func TestBaseSkillContract_FormulaTransformationsPreserveRequestedSemantics(t *testing.T) {
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	for _, contract := range []string{
+		"## Preserve requested transformation semantics",
+		"Do not add sorting, first-occurrence ordering, `TRIM`, case folding, whitespace cleanup, or other normalization",
+		"An unmentioned comparison column can reveal an ambiguity, but it does not authorize replacing an expression that already satisfies the request",
+		"`UNIQUE` guarantees deduplication only",
+		"its output order is engine-defined and is not a first-occurrence guarantee",
+		"Use plain `UNIQUE` when the user asks only to deduplicate",
+		"Use the `TRIM` mapping only when the user explicitly requests whitespace cleanup",
+		"Apply the same check to the final `+field-get` expression",
+	} {
+		if !strings.Contains(formulaGuide, contract) {
+			t.Fatalf("Formula transformation preservation must contain %q", contract)
+		}
+	}
+	usage := strings.Index(formulaGuide, "## Usage")
+	transformation := strings.Index(formulaGuide, "## Preserve requested transformation semantics")
+	if transformation < 0 || usage < 0 || transformation >= usage {
+		t.Fatal("Formula transformation invariant must appear before Usage")
+	}
+
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	for _, contract := range []string{
+		"Formula 变换必须保持用户明确要求的语义",
+		"不要自行增加排序、首次出现顺序、`TRIM` 或大小写/空格归一化",
+		"未被用户点名的样例列或结果列只能暴露歧义",
+	} {
+		if !strings.Contains(skill, contract) {
+			t.Fatalf("Base skill Formula transformation invariant must contain %q", contract)
+		}
+	}
+}
+
+func TestBaseSkillContract_FormulaBranchesPreserveFallbacks(t *testing.T) {
+	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
+	for _, contract := range []string{
+		"## Preserve complete branch semantics",
+		"truth table that includes every requested condition, `otherwise` / fallback result, and blank or null boundary",
+		"Current sample rows do not authorize dropping an unobserved branch",
+		"when checking duplicates for an optional identifier",
+		"a blank value means no identifier",
+		"unless the user explicitly asks to treat blank values as duplicate keys",
+		"back-translate every branch of the final `+field-get` expression into the truth table",
+		"verify branches absent from the current records from the expression structure itself",
+	} {
+		if !strings.Contains(formulaGuide, contract) {
+			t.Fatalf("Formula branch completeness must contain %q", contract)
+		}
+	}
+	usage := strings.Index(formulaGuide, "## Usage")
+	branches := strings.Index(formulaGuide, "## Preserve complete branch semantics")
+	if branches < 0 || usage < 0 || branches >= usage {
+		t.Fatal("Formula branch invariant must appear before Usage")
+	}
+
+	skill := readSkillContractFile(t, larkBaseSkillDoc)
+	for _, contract := range []string{
+		"Formula 条件分支必须先列出完整真值表",
+		"保留每个条件、`otherwise` / fallback 与空值边界",
+		"可选标识符为空时",
+		"走未重复或既定 fallback",
+		"从最终 `+field-get` 表达式结构确认该分支存在",
+	} {
+		if !strings.Contains(skill, contract) {
+			t.Fatalf("Base skill Formula branch invariant must contain %q", contract)
+		}
+	}
+	for _, forbidden := range []string{"base_formula_", "grading_pass_rate", "larkoffice.com/base/"} {
+		if strings.Contains(strings.ToLower(formulaGuide), forbidden) || strings.Contains(strings.ToLower(skill), forbidden) {
+			t.Fatalf("Formula branch guidance must remain generic, found %q", forbidden)
+		}
+	}
+}
+
 func TestBaseSkillContract_FormulaDateDifferenceHandlesEitherOrdering(t *testing.T) {
 	formulaGuide := readSkillContractFile(t, "../../skills/lark-base/references/lark-base-field-formula.md")
 	for _, contract := range []string{
