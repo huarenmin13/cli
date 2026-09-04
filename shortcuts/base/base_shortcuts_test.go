@@ -677,8 +677,10 @@ func TestBaseTableListTipsExposeResumeContract(t *testing.T) {
 	tips := strings.Join(BaseTableList.Tips, "\n")
 	for _, want := range []string{
 		"meta.pagination.complete is false",
-		"decimal next_token value",
-		"--offset",
+		"lark-cli base +table-list --base-token <base> --offset <next_token>",
+		"decimal next_token response value maps to canonical --offset",
+		"response keys are not flags to guess",
+		"Compatibility aliases --next-token and --page-token are also accepted",
 		"until complete is true",
 	} {
 		if !strings.Contains(tips, want) {

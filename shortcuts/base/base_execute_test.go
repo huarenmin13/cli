@@ -2740,6 +2740,24 @@ func TestBaseTableExecuteListPaginationMetadata(t *testing.T) {
 			wantComplete: true,
 		},
 		{
+			name:         "next token alias continues from the same offset",
+			args:         []string{"+table-list", "--base-token", "app_x", "--next-token", "50"},
+			url:          "limit=50&offset=50",
+			data:         map[string]interface{}{"tables": tables(32), "total": 82},
+			wantItems:    32,
+			wantTotal:    82,
+			wantComplete: true,
+		},
+		{
+			name:         "page token alias continues from the same offset",
+			args:         []string{"+table-list", "--base-token", "app_x", "--page-token", "50"},
+			url:          "limit=50&offset=50",
+			data:         map[string]interface{}{"tables": tables(32), "total": 82},
+			wantItems:    32,
+			wantTotal:    82,
+			wantComplete: true,
+		},
+		{
 			name:         "missing total keeps the item-count fallback",
 			args:         []string{"+table-list", "--base-token", "app_x"},
 			url:          "limit=50&offset=0",
@@ -2834,6 +2852,22 @@ func TestBaseTableExecuteListPaginationMetadata(t *testing.T) {
 			got := envelope.Meta.Pagination
 			if got.Complete != tt.wantComplete || got.Pages != 1 || got.Items != tt.wantItems || got.NextToken != tt.wantNext {
 				t.Fatalf("pagination=%#v, want complete=%t pages=1 items=%d next_token=%q", got, tt.wantComplete, tt.wantItems, tt.wantNext)
+			}
+		})
+	}
+}
+
+func TestBaseTableListPaginationAliasesDryRun(t *testing.T) {
+	for _, alias := range []string{"--next-token", "--page-token"} {
+		t.Run(alias, func(t *testing.T) {
+			factory, stdout, _ := newExecuteFactory(t)
+			args := []string{"+table-list", "--base-token", "app_x", alias, "50", "--dry-run", "--format", "pretty"}
+			if err := runShortcut(t, BaseTableList, args, factory, stdout); err != nil {
+				t.Fatalf("err=%v", err)
+			}
+			got := stdout.String()
+			if !strings.Contains(got, "GET /open-apis/base/v3/bases/app_x/tables") || !strings.Contains(got, "offset=50") {
+				t.Fatalf("stdout=%s", got)
 			}
 		})
 	}
