@@ -598,7 +598,11 @@ func listAllTables(runtime *common.RuntimeContext, baseToken string, offset, lim
 			items = append(items, m)
 		}
 	}
-	total, totalKnown := normalizeTableListTotal(data["total"], len(items))
+	rawTotal, totalSupplied := data["total"]
+	total, totalKnown, totalErr := normalizeTableListTotal(rawTotal, totalSupplied, len(items))
+	if totalErr != nil {
+		return nil, 0, false, totalErr
+	}
 	return items, total, totalKnown, nil
 }
 

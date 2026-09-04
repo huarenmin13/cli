@@ -80,20 +80,42 @@ func validateTableCreate(runtime *common.RuntimeContext) error {
 	return nil
 }
 
-func normalizeTableListTotal(raw interface{}, itemCount int) (int, bool) {
+func normalizeTableListTotal(raw interface{}, supplied bool, itemCount int) (int, bool, *errs.InternalError) {
+	if !supplied {
+		return itemCount, itemCount == 0, nil
+	}
 	total, known := toIntStrict(raw)
 	if !known {
 		if value, ok := raw.(string); ok {
-			if parsed, err := strconv.Atoi(strings.TrimSpace(value)); err == nil {
-				total, known = parsed, true
+			parsed, err := strconv.Atoi(strings.TrimSpace(value))
+			if err != nil {
+				return 0, false, errs.NewInternalError(
+					errs.SubtypeInvalidResponse,
+					"+table-list response contains an invalid total: %v",
+					err,
+				).WithCause(err)
 			}
+			total, known = parsed, true
+		} else {
+			return 0, false, errs.NewInternalError(
+				errs.SubtypeInvalidResponse,
+				"+table-list response total must be an integer or numeric string, got %T",
+				raw,
+			)
 		}
+	}
+	if total < 0 {
+		return 0, false, errs.NewInternalError(
+			errs.SubtypeInvalidResponse,
+			"+table-list response total must be non-negative, got %d",
+			total,
+		)
 	}
 	if total == 0 {
 		total = itemCount
 		known = itemCount == 0
 	}
-	return total, known
+	return total, known, nil
 }
 
 func executeTableList(runtime *common.RuntimeContext) error {

@@ -2709,6 +2709,7 @@ func TestBaseTableExecuteListPaginationMetadata(t *testing.T) {
 		wantComplete bool
 		wantNext     string
 		wantInvalid  bool
+		wantCause    bool
 	}{
 		{
 			name:         "first page exposes the next offset",
@@ -2794,6 +2795,14 @@ func TestBaseTableExecuteListPaginationMetadata(t *testing.T) {
 			wantInvalid: true,
 		},
 		{
+			name:        "invalid supplied total is invalid even on an empty page",
+			args:        []string{"+table-list", "--base-token", "app_x"},
+			url:         "limit=50&offset=0",
+			data:        map[string]interface{}{"tables": []interface{}{}, "total": "not-a-number"},
+			wantInvalid: true,
+			wantCause:   true,
+		},
+		{
 			name:         "empty page at known total is complete",
 			args:         []string{"+table-list", "--base-token", "app_x", "--offset", "82"},
 			url:          "limit=50&offset=82",
@@ -2815,6 +2824,9 @@ func TestBaseTableExecuteListPaginationMetadata(t *testing.T) {
 				problem, ok := errs.ProblemOf(err)
 				if !ok || problem.Category != errs.CategoryInternal || problem.Subtype != errs.SubtypeInvalidResponse {
 					t.Fatalf("err=%v problem=%#v, want internal/invalid_response", err, problem)
+				}
+				if tt.wantCause && errors.Unwrap(err) == nil {
+					t.Fatalf("err=%v, want preserved parse cause", err)
 				}
 				if stdout.Len() != 0 {
 					t.Fatalf("stdout=%s, want no success envelope", stdout.String())
