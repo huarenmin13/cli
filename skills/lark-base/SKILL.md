@@ -16,6 +16,8 @@ metadata:
 
 操作 Base 优先使用 `--as user`；用户明确要求应用身份时使用 `--as bot`。权限失败按 `lark-shared` 以原身份修复 scope 或资源 ACL；只有用户明确同意更换操作者时才切换身份。
 
+**计算字段交付：** 引用现有 Base 中尚未确认的表或字段时，先核对结构。要求新增、生成或修改计算字段时，用 `+field-create` / `+field-update` 写入并验证；仅要表达式、解释或一次性结果时，完成回答即可。链接和表名本身不授权写入，新增列也不授权转换同名普通字段。
+
 ## 进入前必做：解析目标实体
 
 开始操作前先确定 `base_token` 和目标实体类型；上下文已提供 `<bitable>` / `<base_refer>` 标签及资源 ID 时直接使用。其余情况按意图选择入口：
@@ -74,7 +76,7 @@ Block 的 `id` 按类型直接作为对应模块坐标：
 
 Table 本身是 Base Block，也是 Base 的核心数据存储层；Field、Record、View 和 Form 是 Table 内部对象，不是 Base Block。业务数据查询、写入、关联、统计和分析都从 Table 开始。先用 `+table-list` 定位 Table；字段名和目标已知的普通读取可直接进入 Record 命令，只有写入、筛选或关联等依赖字段类型/schema 的任务才补 `+field-list`。多表的 `+field-list` 可以并发执行。基础的 Record / CellValue 读写直接按下方路径；reference 只承载高级分析、完整协议和边界细节。
 
-**读取 Table：** `+table-list` 定位表，`+table-get` 读取详情。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
+**读取 Table：** `+table-list` 定位表，`+table-get` 读取详情。`+table-list` 返回当前页的 `data.tables`；目标未找到且 `meta.pagination.complete=false` 时，将 `meta.pagination.next_token` 传给 `--offset` 继续读取，分页完成后才能判断表不存在。Table 专属复制使用 `+table-copy`，异步状态用 `+table-copy-status`；schema 和 records 由下方内部对象操作。
 
 Table 下的大多数更新通过异步链路生效，接口成功返回后立即读取可能暂时看不到最新状态。优先以写入成功响应作为操作结果；任务必须确认最终状态时，先完成本轮相关变更，再统一读取验收，避免逐项写后立即读回。
 
@@ -83,6 +85,8 @@ Table 下的大多数更新通过异步链路生效，接口成功返回后立�
 Field 定义列 schema。`field_id` 是稳定列标识，`name` 是可修改的展示名称；Formula、Lookup、Link、Select 等属于 Field 类型或能力。
 
 **读取 Field：** `+field-list` / `+field-get` / `+field-search-options`。**写入 Field：** 已有 Table 中创建多个字段时，优先向一次 `+field-create --json` 传字段对象数组；单字段更新和删除用 `+field-update` / `+field-delete`。创建和更新分别读取 [field-create](references/lark-base-field-create.md) / [field-update](references/lark-base-field-update.md)，由命令文档继续路由 Field JSON、Formula 和 Lookup 协议。`字段插件` 用于扩展基础字段能力：按同一行其他字段内容触发 LLM 生成，并写回已有目标字段；当前已确认目标字段支持文本、单选、数字，配置或触发前先读 [field-extension](references/lark-base-field-extension.md)。
+
+**计算字段：** 编写公式，或在表中构建、配置、修改计算字段时，先读 [Formula](references/lark-base-field-formula.md) 再判断能力和选择实现；同一 Base 内可用 `[表名].[字段名]` 引用整列并聚合，无需预建 Link。用户明确要求查找引用字段时读 [Lookup](references/lark-base-field-lookup.md) 并保留该类型。
 
 ### Record
 

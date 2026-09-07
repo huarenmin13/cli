@@ -429,9 +429,9 @@ func validateRecordJSON(runtime *common.RuntimeContext) error {
 
 func recordProjectionFieldFlag(desc string) common.Flag {
 	flag := fieldRefFlag(false)
-	flag.Aliases = append(flag.Aliases, "field")
+	flag.Aliases = append(flag.Aliases, "field", "field-name")
 	flag.Type = "string_array"
-	flag.Desc = desc
+	flag.Desc = desc + "; one field per occurrence; commas are not split"
 	return flag
 }
 

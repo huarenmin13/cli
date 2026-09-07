@@ -5,7 +5,10 @@ package base
 
 import (
 	"context"
+	"strconv"
 
+	"github.com/larksuite/cli/errs"
+	"github.com/larksuite/cli/internal/output"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -16,6 +19,9 @@ var BaseTableList = common.Shortcut{
 	Risk:        "read",
 	Scopes:      []string{"base:table:read"},
 	AuthTypes:   authTypes(),
+	Tips: []string{
+		"Returns one page. When meta.pagination.complete is false, pass meta.pagination.next_token to --offset to fetch the next page.",
+	},
 	Flags: []common.Flag{
 		baseTokenFlag(true),
 		{Name: "offset", Type: "int", Default: "0", Desc: "pagination offset"},
@@ -29,4 +35,37 @@ var BaseTableList = common.Shortcut{
 	Execute: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		return executeTableList(runtime)
 	},
+}
+
+func tableListPagination(data map[string]interface{}, offset, limit, count int) (*output.PaginationMeta, error) {
+	hasMore := count >= limit
+	if rawTotal, exists := data["total"]; exists {
+		total, valid := toIntStrict(rawTotal)
+		if !valid || total < 0 {
+			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list total must be a non-negative integer")
+		}
+		if count > 0 && (offset > total || count > total-offset) {
+			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list total is smaller than the returned page")
+		}
+		hasMore = offset < total && count < total-offset
+	}
+	if rawMore, exists := data["has_more"]; exists {
+		more, valid := rawMore.(bool)
+		if !valid {
+			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list has_more must be a boolean")
+		}
+		if _, hasTotal := data["total"]; hasTotal && more != hasMore {
+			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list has_more conflicts with total")
+		}
+		hasMore = more
+	}
+	meta := &output.PaginationMeta{Complete: !hasMore, Pages: 1}
+	if hasMore {
+		nextOffset := offset + count
+		if nextOffset <= offset {
+			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list reports more pages but the returned page cannot advance --offset")
+		}
+		meta.NextToken = strconv.Itoa(nextOffset)
+	}
+	return meta, nil
 }

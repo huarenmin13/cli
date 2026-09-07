@@ -576,12 +576,24 @@ func toStringSlice(v interface{}) []string {
 }
 
 func listAllTables(runtime *common.RuntimeContext, baseToken string, offset, limit int) ([]map[string]interface{}, int, error) {
+	page, err := listTablePage(runtime, baseToken, offset, limit)
+	return page.tables, page.total, err
+}
+
+type tableListPage struct {
+	tables   []map[string]interface{}
+	total    int
+	rawCount int
+	data     map[string]interface{}
+}
+
+func listTablePage(runtime *common.RuntimeContext, baseToken string, offset, limit int) (tableListPage, error) {
 	if limit <= 0 {
-		return nil, 0, errs.NewInternalError(errs.SubtypeSDKError, "limit must be greater than 0")
+		return tableListPage{}, errs.NewInternalError(errs.SubtypeSDKError, "limit must be greater than 0")
 	}
 	data, err := baseV3Call(runtime, "GET", baseV3Path("bases", baseToken, "tables"), map[string]interface{}{"offset": offset, "limit": limit}, nil)
 	if err != nil {
-		return nil, 0, err
+		return tableListPage{}, err
 	}
 	rawItems, _ := data["tables"].([]interface{})
 	if len(rawItems) == 0 {
@@ -602,7 +614,7 @@ func listAllTables(runtime *common.RuntimeContext, baseToken string, offset, lim
 	if total == 0 {
 		total = len(items)
 	}
-	return items, total, nil
+	return tableListPage{tables: items, total: total, rawCount: len(rawItems), data: data}, nil
 }
 
 func listAllFields(runtime *common.RuntimeContext, baseToken, tableID string, offset, limit int) ([]map[string]interface{}, int, error) {

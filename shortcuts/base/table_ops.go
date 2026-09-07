@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/larksuite/cli/errs"
+	"github.com/larksuite/cli/internal/output"
 	"github.com/larksuite/cli/shortcuts/common"
 )
 
@@ -84,14 +85,16 @@ func executeTableList(runtime *common.RuntimeContext) error {
 		offset = 0
 	}
 	limit := runtime.Int("limit")
-	tables, total, err := listAllTables(runtime, runtime.Str("base-token"), offset, limit)
+	page, err := listTablePage(runtime, runtime.Str("base-token"), offset, limit)
 	if err != nil {
 		return err
 	}
-	if total == 0 {
-		total = len(tables)
+	pagination, err := tableListPagination(page.data, offset, limit, page.rawCount)
+	if err != nil {
+		return err
 	}
-	runtime.Out(map[string]interface{}{"tables": tables, "total": total}, nil)
+	pagination.Items = len(page.tables)
+	runtime.Out(map[string]interface{}{"tables": page.tables, "total": page.total}, &output.Meta{Pagination: pagination})
 	return nil
 }
 

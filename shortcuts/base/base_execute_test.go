@@ -1724,6 +1724,16 @@ func TestFieldUpdateResultAlwaysRecommendsReadback(t *testing.T) {
 			hintContains: []string{`type "text"`, "cannot determine the previous type"},
 		},
 		{
+			name:         "formula definition checks",
+			field:        map[string]interface{}{"type": "formula"},
+			hintContains: []string{"+field-get", "requested conditions, blank/error branches and precision"},
+		},
+		{
+			name:         "lookup definition checks",
+			field:        map[string]interface{}{"type": "lookup"},
+			hintContains: []string{"+field-get", "saved type/from/select/where/aggregate"},
+		},
+		{
 			name:         "missing type is conservative",
 			field:        map[string]interface{}{"id": "fld_x"},
 			submitted:    map[string]interface{}{"name": "Amount"},
@@ -2602,24 +2612,144 @@ func TestFieldCreateTypedErrorExtensionsAliasLedgerCollisions(t *testing.T) {
 	}
 }
 
+func TestBaseTableListPagination(t *testing.T) {
+	tests := []struct {
+		name         string
+		offset       int
+		limit        int
+		count        int
+		pagination   map[string]interface{}
+		wantComplete bool
+		wantNext     string
+		wantInvalid  bool
+	}{
+		{name: "first page", offset: 0, limit: 2, count: 2, pagination: map[string]interface{}{"total": float64(3)}, wantNext: "2"},
+		{name: "last page", offset: 2, limit: 2, count: 1, pagination: map[string]interface{}{"total": 3}, wantComplete: true},
+		{name: "full last page", offset: 2, limit: 2, count: 2, pagination: map[string]interface{}{"total": 4}, wantComplete: true},
+		{name: "explicit more on short page", offset: 2, limit: 2, count: 1, pagination: map[string]interface{}{"has_more": true}, wantNext: "3"},
+		{name: "explicit end on full page", offset: 2, limit: 2, count: 2, pagination: map[string]interface{}{"has_more": false}, wantComplete: true},
+		{name: "missing total full page", offset: 2, limit: 2, count: 2, wantNext: "4"},
+		{name: "missing total short page", offset: 2, limit: 2, count: 1, wantComplete: true},
+		{name: "empty base", offset: 0, limit: 2, pagination: map[string]interface{}{"total": 0}, wantComplete: true},
+		{name: "past last page", offset: 5, limit: 2, pagination: map[string]interface{}{"total": 3}, wantComplete: true},
+		{name: "empty page with more cannot advance", offset: 2, limit: 2, pagination: map[string]interface{}{"has_more": true}, wantInvalid: true},
+		{name: "empty page before total cannot advance", offset: 2, limit: 2, pagination: map[string]interface{}{"total": 3}, wantInvalid: true},
+		{name: "conflicting has more", offset: 0, limit: 2, count: 2, pagination: map[string]interface{}{"total": 3, "has_more": false}, wantInvalid: true},
+		{name: "negative total", offset: 0, limit: 2, pagination: map[string]interface{}{"total": -1}, wantInvalid: true},
+		{name: "fractional total", offset: 0, limit: 2, pagination: map[string]interface{}{"total": 1.5}, wantInvalid: true},
+		{name: "nonboolean has more", offset: 0, limit: 2, pagination: map[string]interface{}{"has_more": "true"}, wantInvalid: true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			page, err := tableListPagination(tt.pagination, tt.offset, tt.limit, tt.count)
+			if tt.wantInvalid {
+				problem, ok := errs.ProblemOf(err)
+				if !ok || problem.Category != errs.CategoryInternal || problem.Subtype != errs.SubtypeInvalidResponse {
+					t.Fatalf("error = %v, want internal/invalid_response", err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatal(err)
+			}
+			if page == nil || page.Complete != tt.wantComplete || page.Pages != 1 || page.NextToken != tt.wantNext {
+				t.Fatalf("pagination = %+v, want complete=%t, pages=1, next_token=%q", page, tt.wantComplete, tt.wantNext)
+			}
+		})
+	}
+}
+
+func TestListAllTablesKeepsLegacyPaginationBehavior(t *testing.T) {
+	factory, stdout, reg := newExecuteFactory(t)
+	reg.Register(&httpmock.Stub{
+		Method:   "GET",
+		URL:      "/open-apis/base/v3/bases/app_x/tables",
+		Reusable: true,
+		Body: map[string]interface{}{"code": 0, "data": map[string]interface{}{
+			"tables":   []interface{}{map[string]interface{}{"id": "tbl_x", "name": "Table"}},
+			"total":    1,
+			"has_more": true,
+		}},
+	})
+	err := runShortcut(t, BaseTableList, []string{"+table-list", "--base-token", "app_x"}, factory, stdout)
+	problem, ok := errs.ProblemOf(err)
+	if !ok || problem.Category != errs.CategoryInternal || problem.Subtype != errs.SubtypeInvalidResponse || stdout.Len() != 0 {
+		t.Fatalf("invalid pagination: error=%v, stdout=%s", err, stdout)
+	}
+	shortcut := BaseTableList
+	shortcut.Execute = func(_ context.Context, runtime *common.RuntimeContext) error {
+		tables, total, err := listAllTables(runtime, "app_x", 0, 50)
+		if err == nil && (len(tables) != 1 || tableID(tables[0]) != "tbl_x" || total != 1) {
+			t.Fatalf("legacy list result = %+v, total = %d", tables, total)
+		}
+		return err
+	}
+	if err := runShortcut(t, shortcut, []string{"+table-list", "--base-token", "app_x"}, factory, stdout); err != nil {
+		t.Fatalf("legacy callers must not gain pagination validation: %v", err)
+	}
+}
+
 func TestBaseTableExecuteReadAndDelete(t *testing.T) {
 	t.Run("list", func(t *testing.T) {
 		factory, stdout, reg := newExecuteFactory(t)
+		requests := 0
 		reg.Register(&httpmock.Stub{
 			Method: "GET",
-			URL:    "limit=1&offset=0",
+			URL:    "/open-apis/base/v3/bases/app_x/tables?limit=2&offset=0",
 			Body: map[string]interface{}{
 				"code": 0,
 				"data": map[string]interface{}{"tables": []interface{}{
 					map[string]interface{}{"id": "tbl_a", "name": "Alpha"},
-				}, "total": 2},
+				}, "total": 2, "has_more": true},
 			},
+			OnMatch: func(_ *http.Request) { requests++ },
 		})
-		if err := runShortcut(t, BaseTableList, []string{"+table-list", "--base-token", "app_x", "--limit", "1"}, factory, stdout); err != nil {
+		reg.Register(&httpmock.Stub{
+			Method: "GET",
+			URL:    "/open-apis/base/v3/bases/app_x/tables?limit=2&offset=1",
+			Body: map[string]interface{}{"code": 0, "data": map[string]interface{}{
+				"items": []interface{}{map[string]interface{}{"id": "tbl_b", "name": "Beta"}}, "total": 2, "has_more": false,
+			}},
+			OnMatch: func(_ *http.Request) { requests++ },
+		})
+		args := []string{"+table-list", "--base-token", "app_x", "--limit", "2", "--offset", "-1"}
+		if err := runShortcut(t, BaseTableList, args, factory, stdout); err != nil {
 			t.Fatalf("err=%v", err)
 		}
-		if got := stdout.String(); !strings.Contains(got, `"total": 2`) || !strings.Contains(got, `"tables"`) || !strings.Contains(got, `"name": "Alpha"`) || strings.Contains(got, `"items"`) || strings.Contains(got, `"offset"`) || strings.Contains(got, `"limit"`) || strings.Contains(got, `"count"`) || strings.Contains(got, `"table_name": "Alpha"`) {
+		if got := stdout.String(); !strings.Contains(got, `"total": 2`) || !strings.Contains(got, `"tables"`) || !strings.Contains(got, `"name": "Alpha"`) || strings.Contains(got, `"offset"`) || strings.Contains(got, `"limit"`) || strings.Contains(got, `"count"`) || strings.Contains(got, `"table_name": "Alpha"`) {
 			t.Fatalf("stdout=%s", got)
+		}
+		if _, exists := decodeBaseEnvelope(t, stdout)["items"]; exists {
+			t.Fatalf("table data must not expose items: %s", stdout)
+		}
+		var envelope output.Envelope
+		if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+			t.Fatal(err)
+		}
+		want := output.PaginationMeta{Complete: false, Pages: 1, Items: 1, NextToken: "1"}
+		if requests != 1 || envelope.Meta == nil || envelope.Meta.Pagination == nil || *envelope.Meta.Pagination != want {
+			t.Fatalf("short first page must remain resumable: requests=%d, stdout=%s", requests, stdout)
+		}
+		args = append(args, "--offset", envelope.Meta.Pagination.NextToken)
+		if err := runShortcut(t, BaseTableList, args, factory, stdout); err != nil {
+			t.Fatal(err)
+		}
+		envelope = output.Envelope{}
+		if err := json.Unmarshal(stdout.Bytes(), &envelope); err != nil {
+			t.Fatal(err)
+		}
+		want = output.PaginationMeta{Complete: true, Pages: 1, Items: 1}
+		if requests != 2 || envelope.Meta == nil || envelope.Meta.Pagination == nil || *envelope.Meta.Pagination != want {
+			t.Fatalf("resumed page must be complete: requests=%d, stdout=%s", requests, stdout)
+		}
+		data := decodeBaseEnvelope(t, stdout)
+		tables, ok := data["tables"].([]interface{})
+		if !ok || len(tables) != 1 {
+			t.Fatalf("resumed page did not expose one table: %+v", data)
+		}
+		table, ok := tables[0].(map[string]interface{})
+		if !ok || table["id"] != "tbl_b" || table["name"] != "Beta" {
+			t.Fatalf("resumed page did not expose the later table: %+v", data)
 		}
 	})
 
