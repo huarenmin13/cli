@@ -12,7 +12,7 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 **Use Formula fields by default for cross-table references and aggregations.** Only use Lookup fields when the user explicitly requests a Lookup field. Formula is a strict superset of Lookup — anything Lookup can do, Formula can do with a single expression.
 
-An explicitly requested Lookup remains `type: "lookup"` during creation and repair. If values are empty, check the source, matching field types, `field_ref` and calculation state; changing it to Formula requires the user's agreement to that type change.
+An explicitly requested Lookup remains `type: "lookup"` during creation and repair; changing it to Formula requires the user's agreement to that type change.
 
 ## Usage
 
@@ -22,8 +22,7 @@ When creating a lookup field, the Agent should:
 2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
 3. If the lookup references other tables, also get those tables' structures
 4. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation). Bind the requested counting or measurement object using the [aggregate rules](#section-4-aggregate-rules) before choosing `select` and `aggregate`.
-5. Construct the Lookup field JSON and submit it to the destination table. Create dependencies first; read their definitions before creating fields that depend on them.
-6. After related writes, compare each saved `type/from/where/select/aggregate` with the request using `+field-get`, then read representative existing values. Equal sample totals do not prove equivalent definitions. Retry pending reads with bounded backoff; report errors or untested branches, accepting legitimate empty matches.
+5. Construct the Lookup field JSON and submit it to the destination table. Create dependencies first.
 
 **Key constraints**:
 

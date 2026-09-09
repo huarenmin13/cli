@@ -416,11 +416,7 @@ func fieldWriteReadbackRecommendation(submitted map[string]interface{}, operatio
 func fieldTypeReadbackRecommendation(fieldType, operation string) (bool, string) {
 	fieldType = normalizeFieldType(fieldType)
 	switch fieldType {
-	case "formula":
-		return true, fmt.Sprintf("formula field %s: verify affected computed/linked/generated fields with +field-get; compare saved expression with requested conditions, blank/error branches and precision; check existing record values", operation)
-	case "lookup":
-		return true, fmt.Sprintf("lookup field %s: verify affected computed/linked/generated fields with +field-get; compare saved type/from/select/where/aggregate with requested membership and counting rules; matching sample values alone do not prove correctness", operation)
-	case "auto_number", "link":
+	case "formula", "lookup", "auto_number", "link":
 		return true, fmt.Sprintf("computed, linked, or generated field %s should be verified with +field-get before declaring completion", operation)
 	case "text", "number", "select", "datetime", "checkbox", "user", "group_chat", "attachment", "location":
 		return false, fmt.Sprintf("simple field %s succeeded; next_step:done means stop: do not list or get fields unless the user explicitly requests readback or extra properties; if verification is required, filter +field-list with --jq", operation)

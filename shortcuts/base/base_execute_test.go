@@ -1724,16 +1724,6 @@ func TestFieldUpdateResultAlwaysRecommendsReadback(t *testing.T) {
 			hintContains: []string{`type "text"`, "cannot determine the previous type"},
 		},
 		{
-			name:         "formula definition checks",
-			field:        map[string]interface{}{"type": "formula"},
-			hintContains: []string{"+field-get", "requested conditions, blank/error branches and precision"},
-		},
-		{
-			name:         "lookup definition checks",
-			field:        map[string]interface{}{"type": "lookup"},
-			hintContains: []string{"+field-get", "saved type/from/select/where/aggregate"},
-		},
-		{
 			name:         "missing type is conservative",
 			field:        map[string]interface{}{"id": "fld_x"},
 			submitted:    map[string]interface{}{"name": "Amount"},

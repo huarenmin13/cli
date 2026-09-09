@@ -19,9 +19,8 @@ When creating a formula field, the Agent should:
 1. Locate the destination and any source tables with `lark-cli base +table-list --base-token <base>` — returns `data.tables`; follow the [Table discovery rules](../SKILL.md#table-blockthe-core) before concluding a table is absent.
 2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
 3. If the formula references other tables, also get those tables' structures
-4. Write the formula expression using the [requirement translation rules](#section-14-translating-user-requirements-to-formulas), then check the final expression against the same requirements before submitting it.
+4. Write the formula expression following this guide
 5. Construct the Formula field JSON and submit it to the destination table. Source tables supply inputs; the requested destination owns the new field.
-6. After related writes, verify the saved type/expression with `+field-get` and representative existing values with Record commands. Retry pending reads with bounded backoff; report unresolved references, calculation errors and untested branches as verification limits.
 
 **Key constraints**:
 
@@ -726,7 +725,7 @@ When the user describes their formula need in natural language, follow these rul
 5. **Preserve calculation precision**: Do not round an intermediate value used in later arithmetic or comparisons unless the calculation requires it. Numeric rounding and fixed-decimal text formatting are different operations; apply the requested precision at the intended stage.
 6. **Apply only the requested transformations**: Trimming, case folding, sorting, deduplication, containment and custom multi-value separators change results. Use them for the requested semantics, not to make existing samples look cleaner; exact comparisons remain exact when requested.
 7. **Keep relative time dynamic**: “This year” uses the current year even when there is no matching data. “Latest year with data” is a different request. Empty or zero results alone do not justify changing a date range or predicate.
-8. **Check uncovered branches too**: Compare the final expression with all requested branches, including those absent from current records. Use existing data for readback and report remaining verification limits; adding test records to a user's Base requires their authorization.
+8. **Check uncovered branches too**: Compare the final expression with all requested branches, including those absent from current records.
 
 ---
 
