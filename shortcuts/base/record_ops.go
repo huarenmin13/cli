@@ -431,7 +431,7 @@ func recordProjectionFieldFlag(desc string) common.Flag {
 	flag := fieldRefFlag(false)
 	flag.Aliases = append(flag.Aliases, "field", "field-name")
 	flag.Type = "string_array"
-	flag.Desc = desc + "; one field per occurrence; commas are not split"
+	flag.Desc = desc
 	return flag
 }
 
