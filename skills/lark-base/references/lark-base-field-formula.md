@@ -409,7 +409,8 @@ After the result column, it's recommended to flatten with `.LISTCOMBINE()` first
 Need data from another table?
 ├─ Entire source column, without row matching → SUM/AVERAGE/MAX/MIN([SourceTable].[Field])
 ├─ Only records linked from this row → [LinkField].[TargetField]
-│   └─ Need aggregation? → .SUM() / .ARRAYJOIN(",") / .FIRST()
+│   ├─ Need aggregation or joining? → .SUM() / .ARRAYJOIN(",")
+│   └─ First element explicitly requested? → .FIRST() (single-value unwrapping: see Section 1)
 └─ Match source rows by a value or condition → [SourceTable].FILTER(CurrentValue.[MatchField] = [Value]).[OutputCol]
     └─ Only counting or summing → COUNTIF([SourceTable], condition) / FILTER+SUM
 ```
