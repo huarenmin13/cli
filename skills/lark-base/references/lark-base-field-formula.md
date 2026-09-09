@@ -16,7 +16,7 @@ When using `+field-update`, also pass `--yes`: field update is a high-risk `PUT`
 
 When creating a formula field, the Agent should:
 
-1. Locate the destination and any source tables with `lark-cli base +table-list --base-token <base>` — returns `data.tables`; follow the [Table discovery rules](../SKILL.md#table-blockthe-core) before concluding a table is absent.
+1. Locate the destination and any source tables with `lark-cli base +table-list --base-token <base>` — returns `data.tables`.
 2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
 3. If the formula references other tables, also get those tables' structures
 4. Write the formula expression following this guide

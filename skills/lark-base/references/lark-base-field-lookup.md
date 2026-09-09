@@ -18,7 +18,7 @@ An explicitly requested Lookup remains `type: "lookup"` during creation and repa
 
 When creating a lookup field, the Agent should:
 
-1. Locate the destination and source tables with `lark-cli base +table-list --base-token <base>` — returns `data.tables`; follow the [Table discovery rules](../SKILL.md#table-blockthe-core) before concluding a table is absent.
+1. Locate the destination and source tables with `lark-cli base +table-list --base-token <base>` — returns `data.tables`.
 2. Get table structure: `lark-cli base +table-get --base-token <base> --table-id <table>` — returns `fields[]`
 3. If the lookup references other tables, also get those tables' structures
 4. Determine the four elements: from (source table), select (source field), where (filter), aggregate (aggregation). Bind the requested counting or measurement object using the [aggregate rules](#section-4-aggregate-rules) before choosing `select` and `aggregate`.
