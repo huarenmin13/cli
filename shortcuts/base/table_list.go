@@ -44,18 +44,15 @@ func tableListPagination(data map[string]interface{}, offset, limit, count int) 
 		if !valid || total < 0 {
 			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list total must be a non-negative integer")
 		}
-		if count > 0 && (offset > total || count > total-offset) {
-			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list total is smaller than the returned page")
+		// Use total only when it covers this page; otherwise keep the page-size fallback.
+		if offset <= total && count <= total-offset {
+			hasMore = count < total-offset
 		}
-		hasMore = offset < total && count < total-offset
 	}
 	if rawMore, exists := data["has_more"]; exists {
 		more, valid := rawMore.(bool)
 		if !valid {
 			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list has_more must be a boolean")
-		}
-		if _, hasTotal := data["total"]; hasTotal && more != hasMore {
-			return nil, errs.NewInternalError(errs.SubtypeInvalidResponse, "table list has_more conflicts with total")
 		}
 		hasMore = more
 	}

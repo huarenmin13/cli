@@ -2616,15 +2616,17 @@ func TestBaseTableListPagination(t *testing.T) {
 		{name: "first page", offset: 0, limit: 2, count: 2, pagination: map[string]interface{}{"total": float64(3)}, wantNext: "2"},
 		{name: "last page", offset: 2, limit: 2, count: 1, pagination: map[string]interface{}{"total": 3}, wantComplete: true},
 		{name: "full last page", offset: 2, limit: 2, count: 2, pagination: map[string]interface{}{"total": 4}, wantComplete: true},
-		{name: "explicit more on short page", offset: 2, limit: 2, count: 1, pagination: map[string]interface{}{"has_more": true}, wantNext: "3"},
-		{name: "explicit end on full page", offset: 2, limit: 2, count: 2, pagination: map[string]interface{}{"has_more": false}, wantComplete: true},
+		{name: "explicit more overrides total on short page", offset: 2, limit: 2, count: 1, pagination: map[string]interface{}{"total": 3, "has_more": true}, wantNext: "3"},
+		{name: "explicit end overrides total on full page", offset: 2, limit: 2, count: 2, pagination: map[string]interface{}{"total": 5, "has_more": false}, wantComplete: true},
 		{name: "missing total full page", offset: 2, limit: 2, count: 2, wantNext: "4"},
 		{name: "missing total short page", offset: 2, limit: 2, count: 1, wantComplete: true},
 		{name: "empty base", offset: 0, limit: 2, pagination: map[string]interface{}{"total": 0}, wantComplete: true},
 		{name: "past last page", offset: 5, limit: 2, pagination: map[string]interface{}{"total": 3}, wantComplete: true},
 		{name: "empty page with more cannot advance", offset: 2, limit: 2, pagination: map[string]interface{}{"has_more": true}, wantInvalid: true},
 		{name: "empty page before total cannot advance", offset: 2, limit: 2, pagination: map[string]interface{}{"total": 3}, wantInvalid: true},
-		{name: "conflicting has more", offset: 0, limit: 2, count: 2, pagination: map[string]interface{}{"total": 3, "has_more": false}, wantInvalid: true},
+		{name: "total smaller than full page", offset: 0, limit: 2, count: 2, pagination: map[string]interface{}{"total": 1}, wantNext: "2"},
+		{name: "total smaller than short page", offset: 0, limit: 2, count: 1, pagination: map[string]interface{}{"total": 0}, wantComplete: true},
+		{name: "nonempty page beyond total", offset: 5, limit: 2, count: 2, pagination: map[string]interface{}{"total": 3}, wantNext: "7"},
 		{name: "negative total", offset: 0, limit: 2, pagination: map[string]interface{}{"total": -1}, wantInvalid: true},
 		{name: "fractional total", offset: 0, limit: 2, pagination: map[string]interface{}{"total": 1.5}, wantInvalid: true},
 		{name: "nonboolean has more", offset: 0, limit: 2, pagination: map[string]interface{}{"has_more": "true"}, wantInvalid: true},
@@ -2658,7 +2660,7 @@ func TestListAllTablesKeepsLegacyPaginationBehavior(t *testing.T) {
 		Body: map[string]interface{}{"code": 0, "data": map[string]interface{}{
 			"tables":   []interface{}{map[string]interface{}{"id": "tbl_x", "name": "Table"}},
 			"total":    1,
-			"has_more": true,
+			"has_more": "true",
 		}},
 	})
 	err := runShortcut(t, BaseTableList, []string{"+table-list", "--base-token", "app_x"}, factory, stdout)
@@ -2690,7 +2692,7 @@ func TestBaseTableExecuteReadAndDelete(t *testing.T) {
 				"code": 0,
 				"data": map[string]interface{}{"tables": []interface{}{
 					map[string]interface{}{"id": "tbl_a", "name": "Alpha"},
-				}, "total": 2, "has_more": true},
+				}, "total": 1, "has_more": true},
 			},
 			OnMatch: func(_ *http.Request) { requests++ },
 		})
@@ -2706,7 +2708,7 @@ func TestBaseTableExecuteReadAndDelete(t *testing.T) {
 		if err := runShortcut(t, BaseTableList, args, factory, stdout); err != nil {
 			t.Fatalf("err=%v", err)
 		}
-		if got := stdout.String(); !strings.Contains(got, `"total": 2`) || !strings.Contains(got, `"tables"`) || !strings.Contains(got, `"name": "Alpha"`) || strings.Contains(got, `"offset"`) || strings.Contains(got, `"limit"`) || strings.Contains(got, `"count"`) || strings.Contains(got, `"table_name": "Alpha"`) {
+		if got := stdout.String(); !strings.Contains(got, `"total": 1`) || !strings.Contains(got, `"tables"`) || !strings.Contains(got, `"name": "Alpha"`) || strings.Contains(got, `"offset"`) || strings.Contains(got, `"limit"`) || strings.Contains(got, `"count"`) || strings.Contains(got, `"table_name": "Alpha"`) {
 			t.Fatalf("stdout=%s", got)
 		}
 		if _, exists := decodeBaseEnvelope(t, stdout)["items"]; exists {
